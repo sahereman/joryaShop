@@ -111,7 +111,7 @@ php artisan ide-helper:models
 ```
 ###### 安装 Debugbar
 ```
-composer require "barryvdh/laravel-debugbar:~3.1" --dev
+composer require barryvdh/laravel-debugbar
 
 生成配置文件，存放位置 config/debugbar.php：
 php artisan vendor:publish --provider="Barryvdh\Debugbar\ServiceProvider"
@@ -129,6 +129,19 @@ config/app.php
 'locale' => 'zh-CN',
 ```
 
+###### 图片处理扩展包，支持裁剪、水印等处理
+```
+composer require "intervention/image"
+
+php artisan vendor:publish --provider="Intervention\Image\ImageServiceProviderLaravel5"
+
+config/app.php   $providers
+Intervention\Image\ImageServiceProvider::class
+
+config/app.php   $aliases
+'Image' => Intervention\Image\Facades\Image::class
+```
+
 ###### encore/laravel-admin 扩展包
 ```
 composer require encore/laravel-admin "1.5.*"
@@ -142,19 +155,6 @@ Laravel-Admin 的控制器创建方式与普通的控制器创建方式不太一
 $ php artisan admin:make UsersController --model=App\\Models\\User
 
 其中 --model=App\\Models\\User 代表新创建的这个控制器是要对 App\Models\User 这个模型做增删改查。
-```
-
-###### 图片处理扩展包，支持裁剪、水印等处理
-```
-composer require "intervention/image"
-
-php artisan vendor:publish --provider="Intervention\Image\ImageServiceProviderLaravel5"
-
-config/app.php   $providers
-Intervention\Image\ImageServiceProvider::class
-
-config/app.php   $aliases
-'Image' => Intervention\Image\Facades\Image::class
 ```
 
 ###### Horizon 是 Laravel 生态圈里的一员，为 Laravel Redis 队列提供了一个漂亮的仪表板，允许我们很方便地查看和管理 Redis 队列任务执行的情况。
