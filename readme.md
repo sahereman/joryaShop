@@ -142,6 +142,19 @@ config/app.php   $aliases
 'Image' => Intervention\Image\Facades\Image::class
 ```
 
+###### Horizon 是 Laravel 生态圈里的一员，为 Laravel Redis 队列提供了一个漂亮的仪表板，允许我们很方便地查看和管理 Redis 队列任务执行的情况。
+```
+使用 Composer 安装：
+composer require laravel/horizon
+安装完成后，使用 vendor:publish Artisan 命令发布相关文件：
+php artisan vendor:publish --provider="Laravel\Horizon\HorizonServiceProvider"
+分别是配置文件 config/horizon.php 和存放在 public/vendor/horizon 文件夹中的 CSS 、JS 等页面资源文件。
+
+Horizon 是一个监控程序，需要常驻运行，我们可以通过以下命令启动：
+php artisan horizon
+安装了 Horizon 以后，我们将使用 horizon 命令来启动队列系统和任务监控，无需使用 queue:listen。
+```
+
 ###### encore/laravel-admin 扩展包
 ```
 composer require encore/laravel-admin "1.5.*"
@@ -155,19 +168,6 @@ Laravel-Admin 的控制器创建方式与普通的控制器创建方式不太一
 $ php artisan admin:make UsersController --model=App\\Models\\User
 
 其中 --model=App\\Models\\User 代表新创建的这个控制器是要对 App\Models\User 这个模型做增删改查。
-```
-
-###### Horizon 是 Laravel 生态圈里的一员，为 Laravel Redis 队列提供了一个漂亮的仪表板，允许我们很方便地查看和管理 Redis 队列任务执行的情况。
-```
-使用 Composer 安装：
-composer require laravel/horizon
-安装完成后，使用 vendor:publish Artisan 命令发布相关文件：
-php artisan vendor:publish --provider="Laravel\Horizon\HorizonServiceProvider"
-分别是配置文件 config/horizon.php 和存放在 public/vendor/horizon 文件夹中的 CSS 、JS 等页面资源文件。
-
-Horizon 是一个监控程序，需要常驻运行，我们可以通过以下命令启动：
-php artisan horizon
-安装了 Horizon 以后，我们将使用 horizon 命令来启动队列系统和任务监控，无需使用 queue:listen。
 ```
 
 
