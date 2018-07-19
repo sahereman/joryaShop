@@ -1,4 +1,4 @@
-@extends('layouts.app.blade.php')
+@extends('layouts.app')
 @section('title', '操作成功')
 
 @section('content')

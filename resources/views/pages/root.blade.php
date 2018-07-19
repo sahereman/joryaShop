@@ -1,11 +1,13 @@
-@extends('layouts.app.blade.php')
+@extends('layouts.app')
 @section('title', '首页标题')
 
 @section('content')
 
     @include('layouts._header')
 
-    <h1>首页</h1>
+    <center>
+        <h1>首页</h1>
+    </center>
 
 @endsection
 

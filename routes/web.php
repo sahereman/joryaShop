@@ -9,7 +9,7 @@ Route::get('test', function () {
 //});
 Auth::routes();
 
-//Route::redirect('/', '/users')->name('root');/*首页*/
+//Route::redirect('/', 'login')->name('root');/*首页*/
 Route::get('/', 'PagesController@root')->name('root');/*首页*/
 
 
