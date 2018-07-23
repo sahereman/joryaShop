@@ -91,7 +91,13 @@ class AdminTablesSeeder extends Seeder
                 'slug' => 'auth.management',
                 'http_method' => '',
                 'http_path' => "/auth/roles\r\n/auth/permissions\r\n/auth/menu\r\n/auth/logs",
-            ]
+            ],
+            [
+                'name' => '系统设置',
+                'slug' => 'configs',
+                'http_method' => '',
+                'http_path' => "/configs",
+            ],
         ];
         $permissions = array_merge($permissions, $this->custom_permissions);
         Permission::insert($permissions);
@@ -110,7 +116,7 @@ class AdminTablesSeeder extends Seeder
             ],
             [
                 'parent_id' => 0,
-                'order' => 2,
+                'order' => 999,
                 'title' => '系统管理',
                 'icon' => 'fa-tasks',
                 'uri' => '',
@@ -149,6 +155,13 @@ class AdminTablesSeeder extends Seeder
                 'title' => '操作日志',
                 'icon' => 'fa-history',
                 'uri' => 'auth/logs',
+            ],
+            [
+                'parent_id' => 0,
+                'order' => 998,
+                'title' => '系统设置',
+                'icon' => 'fa-gear',
+                'uri' => '/configs',
             ],
         ];
         $menus = array_merge($menus, $this->custom_menus);

@@ -10,10 +10,13 @@ Route::group([
     'middleware' => config('admin.route.middleware'),
 ], function (Router $router) {
     $router->post('wang_editor/images', 'WangEditorController@images')->name('admin.wang_editor.images');/*WangEditor上传图片*/
-
-
     $router->get('/', 'HomeController@index')->name('admin.root');
 
+    /*系统设置*/
+    $router->get('configs', 'ConfigsController@index')->name('admin.configs.index');/*详情*/
+    $router->post('configs/submit', 'ConfigsController@submit')->name('admin.configs.submit');/*提交*/
+
+    /*用户*/
     $router->get('users', 'UsersController@index')->name('admin.users.index');
 
 

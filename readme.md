@@ -26,6 +26,7 @@ SASS_BINARY_SITE=http://npm.taobao.org/mirrors/node-sass yarn
 //生产环境数据数据迁移
 php artisan migrate:refresh
 php artisan db:seed --class=AdminTablesSeeder
+php artisan db:seed --class=ConfigsSeeder
 
 //测试环境数据数据迁移(含测试数据)
 php artisan migrate:refresh --seed
@@ -34,6 +35,10 @@ php artisan migrate:refresh --seed
 database\seeds\AdminTablesSeeder.php 中修改后
 php artisan admin:make UsersController --model=App\\Models\\User
 php artisan db:seed --class=AdminTablesSeeder
+
+//后台系统设置构建
+database\seeds\ConfigsSeeder.php 中修改后
+php artisan db:seed --class=ConfigsSeeder
 ```
 ##### 服务器后台运行的服务: 生产环境进程管理工具 Supervisor 
 - `npm run watch-poll`
