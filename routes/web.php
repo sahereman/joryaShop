@@ -4,10 +4,12 @@ Route::get('test', function () {
     dd('test');
 });
 
+
 Horizon::auth(function ($request) {
     return Auth::guard('admin')->check();
 });
 Auth::routes();
+
 
 //Route::redirect('/', 'login')->name('root');/*首页*/
 Route::get('/', 'PagesController@root')->name('root');/*首页*/
@@ -18,7 +20,9 @@ Route::get('success', 'PagesController@success')->name('success');/*成功提示
 /*需要登录的路由*/
 Route::group(['middleware' => 'auth'], function () {
 
-
+    /*用户*/
+    Route::get('users/{user}/edit', 'UsersController@edit')->name('users.edit');
+    Route::put('users/{user}', 'UsersController@update')->name('users.update');
 
 
 
