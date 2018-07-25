@@ -87,7 +87,7 @@ class UsersController extends Controller
                 $actions->disableDelete();
 
                 // 不在每一行后面展示编辑按钮
-                $actions->disableEdit();
+//                $actions->disableEdit();
             });
 
             $grid->tools(function ($tools) {
@@ -110,6 +110,8 @@ class UsersController extends Controller
         return Admin::form(User::class, function (Form $form) {
 
             $form->display('id', 'ID');
+
+            $form->image('avatar', 'avatar');
 
 
             $form->display('created_at', 'Created At');

@@ -11,8 +11,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        //后台
         $this->call(AdminTablesSeeder::class);
+        $this->call(ConfigsSeeder::class);
 
         //用户
         $this->call(UsersSeeder::class);

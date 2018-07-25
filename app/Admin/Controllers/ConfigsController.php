@@ -2,6 +2,7 @@
 
 namespace App\Admin\Controllers;
 
+use App\Handlers\ImageUploadHandler;
 use App\Models\Config;
 use Encore\Admin\Facades\Admin;
 use Encore\Admin\Layout\Content;
@@ -17,43 +18,62 @@ class ConfigsController extends Controller
 
     /**
      * Index interface.
-     *
+     * @param ImageUploadHandler $imageUploadHandler
      * @return Content
      */
-    public function index()
+    public function index(ImageUploadHandler $imageUploadHandler)
     {
-        return Admin::content(function (Content $content)
-        {
+        return Admin::content(function (Content $content) use ($imageUploadHandler) {
             $content->header('系统设置');
-            $configs = Config::where('parent_id', '>', 0)->orderBy('sort', 'desc')->get()->toArray();
-            $config_groups = Config::where('parent_id', 0)->orderBy('sort', 'desc')->get()->toArray();
+
+            $configs = Config::configs()->where('parent_id', '!=', 0)->sortBy('sort')->values()->toArray();
+            $config_groups = Config::configs()->where('parent_id', 0)->sortBy('sort')->values()->toArray();
 
             $tab = new Tab();
-
-            dd(Config::$cache_key);
 
             foreach ($config_groups as $group)
             {
                 $form = new Form();
                 $form->action('configs/submit');
 
-                foreach ($configs as $item)
+                foreach ($configs as $config)
                 {
-                    if ($item['parent_id'] == $group['id'])
+                    if ($config['parent_id'] == $group['id'])
                     {
-                        switch ($item['type'])
+                        switch ($config['type'])
                         {
                             case 'text':
-                                $form->text("$item[name_code]", $item['name'])->default($item['value'])->help($item['help']);
+                                if (!empty($config['help']))
+                                {
+                                    $form->text("$config[code]", $config['name'])->default($config['value'])->help($config['help']);
+                                } else
+                                {
+                                    $form->text("$config[code]", $config['name'])->default($config['value']);
+                                }
                                 break;
                             case 'radio':
-                                $select_range = json_decode($item['select_range'], true);
-                                $select_arr = array();
-                                foreach ($select_range as $v)
+                                $option_arr = array_pluck($config['select_range'], 'name', 'value');
+                                if (!empty($config['help']))
                                 {
-                                    $select_arr[$v['value']] = $v['name'];
+                                    $form->radio("$config[code]", $config['name'])->options($option_arr)->default($config['value'])->help($config['help']);
+                                } else
+                                {
+                                    $form->radio("$config[code]", $config['name'])->options($option_arr)->default($config['value']);
                                 }
-                                $form->radio("$item[name_code]", $item['name'])->options($select_arr)->default($item['value'])->help($item['help']);
+                                break;
+                            case 'image':
+                                if (!empty($config['help']))
+                                {
+                                    $form->image("$config[code]", $config['name'])->setWidth(4)->help($config['help']);
+                                } else
+                                {
+                                    $form->image("$config[code]", $config['name'])->setWidth(4);
+                                }
+                                if (!empty($config['value']))
+                                {
+                                    $image_url = \Storage::disk('public')->url($config['value']);
+                                    $form->display("")->setWidth(1)->default("<img width='100%' src='$image_url' />");
+                                }
                                 break;
                         }
                     }
@@ -66,19 +86,26 @@ class ConfigsController extends Controller
         });
     }
 
-    public function submit(Request $request)
+    public function submit(Request $request, ImageUploadHandler $imageUploadHandler)
     {
         $data = $request->except(['_token']);
+        $configs = Config::configs();
 
-
-        foreach ($data as $key => $item)
+        foreach ($data as $key => $value)
         {
-            if ($item != null)
+            if ($request->has($key) && $configs->where('code', $key)->first()->value != $value)
             {
-                Config::where('name_code', $key)->update(['value' => $item]);
+                if ($request->hasFile($key))
+                {
+                    $value = $imageUploadHandler->uploadOriginal($request->file($key));
+                }
+                $config = Config::where('code', $key)->first();
+                $config->value = $value;
+                $config->save();
             }
         }
 
+        admin_toastr(trans('admin.save_succeeded'));
         return redirect()->back();
     }
 }

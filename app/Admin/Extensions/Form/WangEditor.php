@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Admin\Extensions;
+namespace App\Admin\Form\Extensions;
 
 use Encore\Admin\Form\Field;
 

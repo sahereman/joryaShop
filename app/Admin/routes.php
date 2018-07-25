@@ -18,6 +18,8 @@ Route::group([
 
     /*用户*/
     $router->get('users', 'UsersController@index')->name('admin.users.index');
+    $router->get('users/{id}/edit', 'UsersController@edit')->name('admin.users.edit');
+    $router->put('users/{id}', 'UsersController@update')->name('admin.users.update');
 
 
 //    $router->resource('example', ExampleController::class);

@@ -38,4 +38,13 @@ class Config extends Model
             return Config::all();
         });
     }
+
+    public static function config($code = null)
+    {
+        if (empty($code) || !self::configs()->where('code', $code)->first())
+        {
+            return '';
+        }
+        return self::configs()->where('code', $code)->first()->value;
+    }
 }
