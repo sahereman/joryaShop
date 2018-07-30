@@ -17,7 +17,6 @@ class UsersController extends Controller
 
     /**
      * Index interface.
-     *
      * @return Content
      */
     public function index()
@@ -32,7 +31,6 @@ class UsersController extends Controller
 
     /**
      * Edit interface.
-     *
      * @param $id
      * @return Content
      */
@@ -49,7 +47,6 @@ class UsersController extends Controller
 
     /**
      * Create interface.
-     *
      * @return Content
      */
     public function create()
@@ -65,7 +62,6 @@ class UsersController extends Controller
 
     /**
      * Make a grid builder.
-     *
      * @return Grid
      */
     protected function grid()
@@ -102,7 +98,6 @@ class UsersController extends Controller
 
     /**
      * Make a form builder.
-     *
      * @return Form
      */
     protected function form()
@@ -111,8 +106,9 @@ class UsersController extends Controller
 
             $form->display('id', 'ID');
 
-            $form->image('avatar', 'avatar');
+            $form->image('avatar', 'Avatar')->uniqueName()->move('avatar/' . date('Ym', now()->timestamp))->rules('required|image');
 
+            $form->editor('name', 'Name');
 
             $form->display('created_at', 'Created At');
             $form->display('updated_at', 'Updated At');
