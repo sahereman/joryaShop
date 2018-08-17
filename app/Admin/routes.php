@@ -18,11 +18,12 @@ Route::group([
 
     /*用户*/
     $router->get('users', 'UsersController@index')->name('admin.users.index');
+    $router->get('users/{id}', 'UsersController@show')->name('admin.users.show');
     $router->get('users/{id}/edit', 'UsersController@edit')->name('admin.users.edit');
     $router->put('users/{id}', 'UsersController@update')->name('admin.users.update');
 
 
-//    $router->resource('example', ExampleController::class);
+//    $router->resource('example', ExampleController::class)->names('admin.example');
 //    $router->get('example', 'ExampleController@index')->name('admin.example.index');
 //    $router->get('example/{id}', 'ExampleController@show')->name('admin.example.show');
 //    $router->get('example/create', 'ExampleController@create')->name('admin.example.create');

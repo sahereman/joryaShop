@@ -10,6 +10,7 @@ use Encore\Admin\Facades\Admin;
 use Encore\Admin\Layout\Content;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\ModelForm;
+use Encore\Admin\Show;
 
 class UsersController extends Controller
 {
@@ -26,6 +27,32 @@ class UsersController extends Controller
             $content->header('用户列表');
 
             $content->body($this->grid());
+        });
+    }
+
+    /**
+     * Show interface.
+     * @param $id
+     * @return Content
+     */
+    public function show($id)
+    {
+        return Admin::content(function (Content $content) use ($id) {
+
+            $content->header('用户详情');
+
+            $content->body(Admin::show(User::findOrFail($id), function (Show $show) {
+
+                $show->id('ID');
+                $show->divider();
+
+                $show->avatar('头像')->image('', 120);
+                $show->email('邮箱');
+                $show->name('用户名');
+                $show->created_at('创建时间');
+                $show->updated_at('更新时间');
+
+            }));
         });
     }
 
@@ -78,12 +105,9 @@ class UsersController extends Controller
             $grid->disableCreateButton();
 
             $grid->actions(function ($actions) {
-
-                // 不在每一行后面展示删除按钮
-                $actions->disableDelete();
-
-                // 不在每一行后面展示编辑按钮
+//                $actions->disableView();
 //                $actions->disableEdit();
+                $actions->disableDelete();
             });
 
             $grid->tools(function ($tools) {
