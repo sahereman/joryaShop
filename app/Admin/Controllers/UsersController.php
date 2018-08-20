@@ -41,18 +41,7 @@ class UsersController extends Controller
 
             $content->header('用户详情');
 
-            $content->body(Admin::show(User::findOrFail($id), function (Show $show) {
-
-                $show->id('ID');
-                $show->divider();
-
-                $show->avatar('头像')->image('', 120);
-                $show->email('邮箱');
-                $show->name('用户名');
-                $show->created_at('创建时间');
-                $show->updated_at('更新时间');
-
-            }));
+            $content->body($this->view($id));
         });
     }
 
@@ -65,8 +54,8 @@ class UsersController extends Controller
     {
         return Admin::content(function (Content $content) use ($id) {
 
-            $content->header('header');
-            $content->description('description');
+            $content->header('用户编辑');
+
 
             $content->body($this->form()->edit($id));
         });
@@ -80,8 +69,7 @@ class UsersController extends Controller
     {
         return Admin::content(function (Content $content) {
 
-            $content->header('header');
-            $content->description('description');
+            $content->header('用户创建');
 
             $content->body($this->form());
         });
@@ -128,14 +116,41 @@ class UsersController extends Controller
     {
         return Admin::form(User::class, function (Form $form) {
 
+            $form->tools(function (Form\Tools $tools) {
+                $tools->disableDelete();
+            });
+
+
             $form->display('id', 'ID');
+            $form->image('avatar', '头像')->uniqueName()->move('avatar/' . date('Ym', now()->timestamp))->rules('required|image');
+            $form->editor('name', '用户名');
+            $form->display('created_at', '创建时间');
+            $form->display('updated_at', '更新时间');
+        });
+    }
 
-            $form->image('avatar', 'Avatar')->uniqueName()->move('avatar/' . date('Ym', now()->timestamp))->rules('required|image');
+    /**
+     * Make a view builder.
+     * @param $id
+     * @return Show
+     */
+    protected function view($id)
+    {
+        return Admin::show(User::findOrFail($id), function (Show $show) {
 
-            $form->editor('name', 'Name');
+            $show->panel()->tools(function ($tools) {
+                $tools->disableDelete();
+            });;
 
-            $form->display('created_at', 'Created At');
-            $form->display('updated_at', 'Updated At');
+
+            $show->id('ID');
+            $show->divider();
+            $show->avatar('头像')->image('', 120);
+            $show->email('邮箱');
+            $show->name('用户名');
+            $show->created_at('创建时间');
+            $show->updated_at('更新时间');
+
         });
     }
 }

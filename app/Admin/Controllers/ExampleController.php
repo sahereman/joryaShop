@@ -16,7 +16,6 @@ class ExampleController extends Controller
 
     /**
      * Index interface.
-     *
      * @return Content
      */
     public function index()
@@ -32,7 +31,6 @@ class ExampleController extends Controller
 
     /**
      * Show interface.
-     *
      * @param $id
      * @return Content
      */
@@ -43,19 +41,12 @@ class ExampleController extends Controller
             $content->header('Detail');
             $content->description('description');
 
-            $content->body(Admin::show(YourModel::findOrFail($id), function (Show $show) {
-
-                $show->id();
-
-                $show->created_at();
-                $show->updated_at();
-            }));
+            $content->body($this->view($id));
         });
     }
 
     /**
      * Edit interface.
-     *
      * @param $id
      * @return Content
      */
@@ -72,7 +63,6 @@ class ExampleController extends Controller
 
     /**
      * Create interface.
-     *
      * @return Content
      */
     public function create()
@@ -88,15 +78,18 @@ class ExampleController extends Controller
 
     /**
      * Make a grid builder.
-     *
      * @return Grid
      */
     protected function grid()
     {
         return Admin::grid(YourModel::class, function (Grid $grid) {
+            $grid->actions(function ($actions) {
+//                $actions->disableView();
+//                $actions->disableEdit();
+//                $actions->disableDelete();
+            });
 
             $grid->id('ID')->sortable();
-
             $grid->created_at();
             $grid->updated_at();
         });
@@ -104,17 +97,39 @@ class ExampleController extends Controller
 
     /**
      * Make a form builder.
-     *
      * @return Form
      */
     protected function form()
     {
         return Admin::form(YourModel::class, function (Form $form) {
 
-            $form->display('id', 'ID');
+            $form->tools(function (Form\Tools $tools) {
+//                $tools->disableDelete();
+//                $tools->disableList();
+//                $tools->disableView();
+            });
 
+            $form->display('id', 'ID');
             $form->display('created_at', 'Created At');
             $form->display('updated_at', 'Updated At');
+        });
+    }
+
+
+    protected function view($id)
+    {
+        Admin::show(YourModel::findOrFail($id), function (Show $show) {
+
+            $show->panel()->tools(function ($tools) {
+//                $tools->disableEdit();
+//                $tools->disableList();
+//                $tools->disableDelete();
+            });
+
+
+            $show->id('ID');
+            $show->created_at('Created At');
+            $show->updated_at('Updated At');
         });
     }
 }
