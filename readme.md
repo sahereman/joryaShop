@@ -13,7 +13,7 @@ crontab -e 添加
 crontab -u root -l   查看
 
 //配置 env
-mv .env.example .env
+cp .env.example .env
 php artisan key:generate
 
 //静态资源软链接
@@ -28,7 +28,8 @@ php artisan migrate:refresh
 php artisan db:seed --class=AdminTablesSeeder
 php artisan db:seed --class=ConfigsSeeder
 
-//测试环境数据数据迁移(含测试数据)
+//开发环境数据数据迁移(含测试数据)
+php artisan ide-helper:generate
 php artisan migrate:refresh --seed
 
 //后台菜单和权限修改
