@@ -90,7 +90,7 @@ class AdminTablesSeeder extends Seeder
                 'name' => '系统管理',
                 'slug' => 'auth.management',
                 'http_method' => '',
-                'http_path' => "/auth/roles\r\n/auth/permissions\r\n/auth/menu\r\n/auth/logs\r\n/dashboard",
+                'http_path' => "/auth/roles\r\n/auth/permissions\r\n/auth/menu\r\n/auth/logs\r\n/logs*\r\n/dashboard",
             ],
             [
                 'name' => '系统设置',
@@ -159,6 +159,13 @@ class AdminTablesSeeder extends Seeder
             [
                 'parent_id' => 2,
                 'order' => 7,
+                'title' => '系统日志',
+                'icon' => 'fa-database',
+                'uri' => 'logs',
+            ],
+            [
+                'parent_id' => 2,
+                'order' => 8,
                 'title' => '操作日志',
                 'icon' => 'fa-history',
                 'uri' => 'auth/logs',
