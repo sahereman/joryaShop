@@ -10,6 +10,8 @@ Route::group([
     'middleware' => config('admin.route.middleware'),
 ], function (Router $router) {
     $router->post('wang_editor/images', 'WangEditorController@images')->name('admin.wang_editor.images');/*WangEditor上传图片*/
+    $router->get('dashboard', 'PagesController@dashboard')->name('admin.dashboard');
+
     $router->get('/', 'PagesController@index')->name('admin.root');
 
     /*系统设置*/

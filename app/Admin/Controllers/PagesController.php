@@ -11,7 +11,17 @@ use Encore\Admin\Layout\Row;
 
 class PagesController extends Controller
 {
+
     public function index()
+    {
+        return Admin::content(function (Content $content) {
+
+            $content->body(view('admin.pages.root'));
+        });
+    }
+
+
+    public function dashboard()
     {
         return Admin::content(function (Content $content) {
 
