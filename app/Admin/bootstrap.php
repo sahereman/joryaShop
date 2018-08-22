@@ -20,5 +20,9 @@
 
 use App\Admin\Extensions\Form\WangEditor;
 
+
+
+app('view')->prependNamespace('admin', resource_path('views/admin'));
+
 Encore\Admin\Form::forget(['map', 'editor']);
 Encore\Admin\Form::extend('editor', WangEditor::class);
