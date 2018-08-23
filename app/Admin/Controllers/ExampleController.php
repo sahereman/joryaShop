@@ -3,77 +3,68 @@
 namespace App\Admin\Controllers;
 
 use App\Http\Controllers\Controller;
-use Encore\Admin\Controllers\ModelForm;
+use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
-use Encore\Admin\Facades\Admin;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
 
 class ExampleController extends Controller
 {
-    use ModelForm;
+    use HasResourceActions;
 
     /**
      * Index interface.
+     * @param Content $content
      * @return Content
      */
-    public function index()
+    public function index(Content $content)
     {
-        return Admin::content(function (Content $content) {
-
-            $content->header('Index');
-            $content->description('description');
-
-            $content->body($this->grid());
-        });
+        return $content
+            ->header('Index')
+            ->description('description')
+            ->body($this->grid());
     }
 
     /**
      * Show interface.
-     * @param $id
+     * @param mixed $id
+     * @param Content $content
      * @return Content
      */
-    public function show($id)
+    public function show($id, Content $content)
     {
-        return Admin::content(function (Content $content) use ($id) {
-
-            $content->header('Detail');
-            $content->description('description');
-
-            $content->body($this->view($id));
-        });
+        return $content
+            ->header('Detail')
+            ->description('description')
+            ->body($this->detail($id));
     }
 
     /**
      * Edit interface.
-     * @param $id
+     * @param mixed $id
+     * @param Content $content
      * @return Content
      */
-    public function edit($id)
+    public function edit($id, Content $content)
     {
-        return Admin::content(function (Content $content) use ($id) {
-
-            $content->header('Edit');
-            $content->description('description');
-
-            $content->body($this->form()->edit($id));
-        });
+        return $content
+            ->header('Edit')
+            ->description('description')
+            ->body($this->form()->edit($id));
     }
 
     /**
      * Create interface.
+     * @param Content $content
      * @return Content
      */
-    public function create()
+    public function create(Content $content)
     {
-        return Admin::content(function (Content $content) {
-
-            $content->header('Create');
-            $content->description('description');
-
-            $content->body($this->form());
-        });
+        return $content
+            ->header('Create')
+            ->description('description')
+            ->body($this->form());
     }
 
     /**
@@ -82,17 +73,42 @@ class ExampleController extends Controller
      */
     protected function grid()
     {
-        return Admin::grid(YourModel::class, function (Grid $grid) {
-            $grid->actions(function ($actions) {
+        $grid = new Grid(new YourModel);
+
+        $grid->actions(function ($actions) {
 //                $actions->disableView();
 //                $actions->disableEdit();
 //                $actions->disableDelete();
-            });
-
-            $grid->id('ID')->sortable();
-            $grid->created_at();
-            $grid->updated_at();
         });
+
+
+        $grid->id('ID')->sortable();
+        $grid->created_at('Created at');
+        $grid->updated_at('Updated at');
+
+        return $grid;
+    }
+
+    /**
+     * Make a show builder.
+     * @param mixed $id
+     * @return Show
+     */
+    protected function detail($id)
+    {
+        $show = new Show(YourModel::findOrFail($id));
+
+        $show->panel()->tools(function ($tools) {
+//                $tools->disableEdit();
+//                $tools->disableList();
+//                $tools->disableDelete();
+        });
+
+        $show->id('ID');
+        $show->created_at('Created at');
+        $show->updated_at('Updated at');
+
+        return $show;
     }
 
     /**
@@ -101,35 +117,18 @@ class ExampleController extends Controller
      */
     protected function form()
     {
-        return Admin::form(YourModel::class, function (Form $form) {
+        $form = new Form(new YourModel);
 
-            $form->tools(function (Form\Tools $tools) {
+        $form->tools(function (Form\Tools $tools) {
 //                $tools->disableDelete();
 //                $tools->disableList();
 //                $tools->disableView();
-            });
-
-            $form->display('id', 'ID');
-            $form->display('created_at', 'Created At');
-            $form->display('updated_at', 'Updated At');
         });
-    }
 
+        $form->display('id', 'ID');
+        $form->display('created_at', 'Created At');
+        $form->display('updated_at', 'Updated At');
 
-    protected function view($id)
-    {
-        Admin::show(YourModel::findOrFail($id), function (Show $show) {
-
-            $show->panel()->tools(function ($tools) {
-//                $tools->disableEdit();
-//                $tools->disableList();
-//                $tools->disableDelete();
-            });
-
-
-            $show->id('ID');
-            $show->created_at('Created At');
-            $show->updated_at('Updated At');
-        });
+        return $form;
     }
 }

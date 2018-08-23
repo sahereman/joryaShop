@@ -4,7 +4,6 @@ namespace App\Admin\Controllers;
 
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\Dashboard;
-use Encore\Admin\Facades\Admin;
 use Encore\Admin\Layout\Column;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Layout\Row;
@@ -12,25 +11,20 @@ use Encore\Admin\Layout\Row;
 class PagesController extends Controller
 {
 
-    public function index()
+    public function index(Content $content)
     {
-        return Admin::content(function (Content $content) {
-
-            $content->body(view('admin.pages.root'));
-        });
+        return $content
+            ->body(view('admin.pages.root'));
     }
 
 
-    public function dashboard()
+    public function dashboard(Content $content)
     {
-        return Admin::content(function (Content $content) {
-
-            $content->header('系统信息');
-            $content->description('信息');
-
-//            $content->row(Dashboard::title());
-
-            $content->row(function (Row $row) {
+        return $content
+            ->header('系统信息')
+            ->description('信息')
+//            ->row(Dashboard::title())l
+            ->row(function (Row $row) {
 
                 $row->column(4, function (Column $column) {
                     $column->append(Dashboard::environment());
@@ -44,6 +38,5 @@ class PagesController extends Controller
                     $column->append(Dashboard::dependencies());
                 });
             });
-        });
     }
 }

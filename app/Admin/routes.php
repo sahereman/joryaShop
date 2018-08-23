@@ -23,6 +23,7 @@ Route::group([
     $router->get('users/{id}', 'UsersController@show')->name('admin.users.show');
     $router->get('users/{id}/edit', 'UsersController@edit')->name('admin.users.edit');
     $router->put('users/{id}', 'UsersController@update')->name('admin.users.update');
+    $router->delete('users/{id}', 'UsersController@destroy')->name('admin.users.destroy');
 
 
 //    $router->resource('example', ExampleController::class)->names('admin.example');
