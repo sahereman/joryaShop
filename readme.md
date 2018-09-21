@@ -1,3 +1,10 @@
+## 项目概述
+
+- 产品名称：卓雅美发商城
+- 项目代号：joryaShop
+- 域名：`-`
+- GitHub: `https://github.com/MiracleTrue/joryaShop.git`
+
 ## 项目部署
 ```
 //Linux服务器环境要求
