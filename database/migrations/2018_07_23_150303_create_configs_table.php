@@ -8,6 +8,7 @@ class CreateConfigsTable extends Migration
 {
     /**
      * Run the migrations.
+     *
      * @return void
      */
     public function up()
@@ -32,6 +33,7 @@ class CreateConfigsTable extends Migration
 
     /**
      * Reverse the migrations.
+     *
      * @return void
      */
     public function down()
