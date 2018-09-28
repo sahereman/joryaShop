@@ -6,9 +6,19 @@ use App\Handlers\ImageUploadHandler;
 use App\Http\Requests\UserRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UsersController extends Controller
 {
+    public function show (User $user)
+    {
+        if(Auth::check()){
+            return view('users.show', []);
+        }else{
+            return redirect()->route('login');
+        }
+    }
+
     public function edit(User $user)
     {
         $this->authorize('update', $user);
@@ -40,4 +50,7 @@ class UsersController extends Controller
         return redirect()->route('users.edit', $user->id);
     }
 
+    public function logout () {
+        Auth::logout();
+    }
 }

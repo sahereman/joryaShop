@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Page;
 use Illuminate\Http\Request;
 
 class PagesController extends Controller
@@ -22,8 +23,38 @@ class PagesController extends Controller
         return view('pages.success', ['msg' => '操作成功']);
     }
 
-    public function show()
+    public function index (Request $request)
     {
-        return view('pages.show', ['msg' => '操作成功']);
+        return view('pages.index');
+    }
+
+    public function show (Page $page)
+    {
+        return view('pages.show', []);
+    }
+
+    public function create ()
+    {
+        return view('pages.create_and_edit');
+    }
+
+    public function store (Request $request)
+    {
+        // TODO ...
+    }
+
+    public function edit (Page $page)
+    {
+        return view('pages.create_and_edit', []);
+    }
+
+    public function update (Page $page)
+    {
+        // TODO ...
+    }
+
+    public function destroy (Page $page)
+    {
+        // TODO ...
     }
 }
