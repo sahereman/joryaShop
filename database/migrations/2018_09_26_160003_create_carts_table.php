@@ -13,6 +13,7 @@ class CreateCartsTable extends Migration
      */
     public function up()
     {
+        // note: unique-key: user_id-product_sku_id
         Schema::create('carts', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('user_id')->nullable(false)->comment('user-id');

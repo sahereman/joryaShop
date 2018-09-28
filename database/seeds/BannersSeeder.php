@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use App\Models\Banner;
 
 class BannersSeeder extends Seeder
 {
@@ -11,6 +12,11 @@ class BannersSeeder extends Seeder
      */
     public function run()
     {
-        //
+        Banner::truncate();
+        factory(Banner::class, 10)->create();
+        $banner = Banner::find(1);
+        $banner->type = 'index';
+        $banner->disk = 'local';
+        $banner->save();
     }
 }

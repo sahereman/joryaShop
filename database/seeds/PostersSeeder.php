@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use App\Models\Poster;
 
 class PostersSeeder extends Seeder
 {
@@ -11,6 +12,10 @@ class PostersSeeder extends Seeder
      */
     public function run()
     {
-        //
+        Poster::truncate();
+        factory(Poster::class, 10)->create();
+        $poster = Poster::find(1);
+        $poster->disk = 'local';
+        $poster->save();
     }
 }

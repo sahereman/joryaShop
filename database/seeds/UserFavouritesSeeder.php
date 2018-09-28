@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use App\Models\UserFavourite;
 
 class UserFavouritesSeeder extends Seeder
 {
@@ -11,6 +12,10 @@ class UserFavouritesSeeder extends Seeder
      */
     public function run()
     {
-        //
+        UserFavourite::truncate();
+        factory(UserFavourite::class, 10)->create();
+        $userFavourite = UserFavourite::find(1);
+        $userFavourite->product_id = 1;
+        $userFavourite->save();
     }
 }

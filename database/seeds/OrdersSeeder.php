@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use App\Models\User;
+use App\Models\Order;
 
 class OrdersSeeder extends Seeder
 {
@@ -11,6 +13,7 @@ class OrdersSeeder extends Seeder
      */
     public function run()
     {
-        //
+        Order::truncate();
+        $users = User::all();
     }
 }

@@ -21,7 +21,7 @@ class CreateProductCommentsTable extends Migration
             $table->unsignedInteger('order_id')->nullable(false)->comment('order-id');
             $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');
             $table->unsignedInteger('product_id')->nullable(false)->comment('product-id');
-            $table->foreign('product_id')->references('id')->on('product')->onDelete('cascade');
+            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
             $table->string('content')->nullable(false)->comment('comment-content');
             $table->json('photos')->nullable()->comment('图片集');
             $table->timestamp('created_at')->nullable();

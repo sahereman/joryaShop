@@ -12,7 +12,7 @@ Auth::routes();
 
 
 //Route::redirect('/', 'login')->name('root');/*首页*/
-Route::get('/', 'PagesController@root')->name('root');/*首页*/
+//Route::get('/', 'PagesController@root')->name('root');/*首页*/
 Route::get('error', 'PagesController@error')->name('error');/*错误提示页示例*/
 Route::get('success', 'PagesController@success')->name('success');/*成功提示页示例*/
 
@@ -36,3 +36,5 @@ Route::group(['middleware' => 'auth'], function () {
 //    Route::put('example/{example}', 'ExampleController@update')->name('example.update');
 //    Route::delete('example/{example}', 'ExampleController@destroy')->name('example.destroy');
 });
+
+Route::get('/', 'IndexController@root')->name('root');/*首页*/

@@ -6,10 +6,10 @@ use Illuminate\Http\Request;
 
 class PagesController extends Controller
 {
-    public function root()
+    /*public function root()
     {
         return view('pages.root');
-    }
+    }*/
 
     public function error()
     {
@@ -22,4 +22,8 @@ class PagesController extends Controller
         return view('pages.success', ['msg' => '操作成功']);
     }
 
+    public function show()
+    {
+        return view('pages.show', ['msg' => '操作成功']);
+    }
 }

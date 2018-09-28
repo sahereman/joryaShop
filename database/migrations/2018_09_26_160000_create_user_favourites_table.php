@@ -13,11 +13,12 @@ class CreateUserFavouritesTable extends Migration
      */
     public function up()
     {
+        // note: unique-key: user_id-product_id
         Schema::create('user_favourites', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('user_id')->nullable(false)->comment('user-id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->unsignedInteger('product_sku_id')->nullable(false)->comment('product-sku-id');
+            $table->unsignedInteger('product_id')->nullable(false)->comment('product-id');
             $table->timestamp('created_at')->nullable();
         });
     }

@@ -13,9 +13,10 @@ class CreateExchangeRatesTable extends Migration
      */
     public function up()
     {
+        // unique-key: currency
         Schema::create('exchange_rates', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('currency')->nullable(false)->comment('currency-type[币种]:CNY|USD|etc');
+            $table->string('currency')->nullable(false)->comment('currency-type[币种]:CNY|USD|etc')->unique();
             $table->unsignedDecimal('rate')->nullable(false)->comment('exchange-rate-to-CNY-1.00-￥');
             $table->timestamps();
         });

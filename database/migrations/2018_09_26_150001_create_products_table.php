@@ -23,8 +23,8 @@ class CreateProductsTable extends Migration
             $table->string('description_zh')->nullable()->comment('中文描述');
             $table->string('content_en')->nullable()->comment('英文内容');
             $table->string('content_zh')->nullable()->comment('中文内容');
-            $table->unsignedDecimal('shipping_fee', 8, 2)->nullable()->comment('运费');
             $table->json('photos')->nullable()->comment('图片集');
+            $table->unsignedDecimal('shipping_fee', 8, 2)->nullable()->comment('运费');
             $table->unsignedInteger('stock')->nullable(false)->default(0)->comment('库存');
             $table->boolean('on_sale')->nullable(false)->default(true)->comment('是否在售');
             $table->timestamps();

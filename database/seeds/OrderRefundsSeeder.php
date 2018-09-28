@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use App\Models\User;
+use App\Models\OrderRefund;
 
 class OrderRefundsSeeder extends Seeder
 {
@@ -11,6 +13,7 @@ class OrderRefundsSeeder extends Seeder
      */
     public function run()
     {
-        //
+        OrderRefund::truncate();
+        $users = User::all();
     }
 }

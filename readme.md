@@ -13,7 +13,11 @@ Composer | Git客户端 | crond服务 | Supervisor进程管理工具
 
 //创建数据库
 DROP DATABASE [IF EXISTS] `joryashop`;
+DROP DATABASE IF EXISTS `joryashop`;
 CREATE DATABASE [IF NOT EXISTS] `joryashop` [DEFAULT] CHARACTER SET [=] 'utf8mb4' [DEFAULT] COLLATE [=] 'utf8mb4_general_ci';
+or:
+CREATE DATABASE [IF NOT EXISTS] `joryashop` [DEFAULT] CHARSET [=] 'utf8mb4' [DEFAULT] COLLATE [=] 'utf8mb4_general_ci';
+CREATE DATABASE IF NOT EXISTS `joryashop` DEFAULT CHARSET = 'utf8mb4' DEFAULT COLLATE = 'utf8mb4_general_ci';
 
 //安装
 composer install
@@ -42,6 +46,7 @@ php artisan db:seed --class=ConfigsSeeder
 //开发环境数据数据迁移(含测试数据)
 php artisan ide-helper:generate
 php artisan migrate:refresh --seed
+Note: [设计外键添加的数据迁移务必注意数据迁移文件的执行次序!!!]
 
 //后台菜单和权限修改
 database\seeds\AdminTablesSeeder.php 中修改后

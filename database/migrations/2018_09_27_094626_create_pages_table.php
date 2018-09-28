@@ -13,6 +13,7 @@ class CreatePagesTable extends Migration
      */
     public function up()
     {
+        // unique-key: name
         Schema::create('pages', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name')->nullable()->comment('page-name-in-Chinese:仅用于后台管理展示');

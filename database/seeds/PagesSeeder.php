@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use App\Models\Page;
 
 class PagesSeeder extends Seeder
 {
@@ -11,6 +12,11 @@ class PagesSeeder extends Seeder
      */
     public function run()
     {
-        //
+        Page::truncate();
+        factory(Page::class, 10)->create();
+        $page = Page::find(1);
+        $page->content_en = 'test content';
+        $page->content_zh = '测试 内容';
+        $page->save();
     }
 }
