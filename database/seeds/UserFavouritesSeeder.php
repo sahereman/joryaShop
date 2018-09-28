@@ -12,7 +12,7 @@ class UserFavouritesSeeder extends Seeder
      */
     public function run()
     {
-        UserFavourite::truncate();
+        // UserFavourite::truncate();
         factory(UserFavourite::class, 10)->create();
         $userFavourite = UserFavourite::find(1);
         $userFavourite->product_id = 1;

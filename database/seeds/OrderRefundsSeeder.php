@@ -13,7 +13,7 @@ class OrderRefundsSeeder extends Seeder
      */
     public function run()
     {
-        OrderRefund::truncate();
+        // OrderRefund::truncate();
         $users = User::all();
     }
 }

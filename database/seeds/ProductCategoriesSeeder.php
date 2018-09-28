@@ -12,7 +12,7 @@ class ProductCategoriesSeeder extends Seeder
      */
     public function run()
     {
-        ProductCategory::truncate();
+        // ProductCategory::truncate();
         factory(ProductCategory::class, 10)->create();
         $productCategory = ProductCategory::find(1);
         $productCategory->parent_id = 0;

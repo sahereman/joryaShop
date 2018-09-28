@@ -14,7 +14,7 @@ class CartsSeeder extends Seeder
      */
     public function run()
     {
-        Cart::truncate();
+        // Cart::truncate();
         User::all()->each(function (User $user) {
             ProductSku::all()->random(5)->each(function (ProductSku $productSku) use ($user) {
                 factory(Cart::class)->create(['user_id' => $user->id, 'product_sku_id' => $productSku->id]);

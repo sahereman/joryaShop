@@ -13,7 +13,7 @@ class OrdersSeeder extends Seeder
      */
     public function run()
     {
-        Order::truncate();
+        // Order::truncate();
         $users = User::all();
     }
 }

@@ -13,7 +13,7 @@ class UserAddressesSeeder extends Seeder
      */
     public function run()
     {
-        UserAddress::truncate();
+        // UserAddress::truncate();
         User::all()->each(function (User $user) {
             factory(UserAddress::class)->create(['user_id' => $user->id, 'is_default' => true]);
         });
