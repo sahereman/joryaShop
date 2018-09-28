@@ -37,4 +37,10 @@ Route::group(['middleware' => 'auth'], function () {
 //    Route::delete('example/{example}', 'ExampleController@destroy')->name('example.destroy');
 });
 
-Route::get('/', 'IndexController@root')->name('root');/*首页*/
+/*首页*/
+Route::get('/', 'IndexController@root')->name('root');
+/*Product-Category*/
+Route::get('product_categories/{category}', 'ProductCategoriesController@index')->name('product_categories.index');
+/*Product*/
+Route::get('products', 'ProductsController@index')->name('product.index');
+/*Product-Category*/

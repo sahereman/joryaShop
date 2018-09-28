@@ -1,7 +1,14 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Administrator
- * Date: 2018/9/28
- * Time: 10:19
- */
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+
+class IndexController extends Controller
+{
+    public function root(Request $request)
+    {
+        // TODO ... 首页
+        return view('index.root');
+    }
+}
