@@ -8,14 +8,18 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'Web 标题')</title>
     <!-- 样式 -->
-    {{--<link href="{{ mix('css/app.css') }}" rel="stylesheet">--}}
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('js/swiper/css/swiper.css') }}" rel="stylesheet">
 </head>
 <body>
 <div id="app" class="{{ route_class() }}-page">
-    @yield('content')
+	@include('layouts._header')
+	@yield('content')
+	@include('layouts._footer')
 </div>
 <!-- JS 脚本 -->
-{{--<script src="{{ mix('js/app.js') }}"></script>--}}
+<script src="{{ asset('js/app.js') }}"></script>
+<script src="{{ asset('js/main.js') }}"></script>
 
 @yield('scriptsAfterJs')
 </body>
