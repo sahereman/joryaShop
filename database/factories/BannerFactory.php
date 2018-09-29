@@ -9,10 +9,14 @@ $factory->define(App\Models\Banner::class, function (Faker $faker) {
     $updated_at = $faker->dateTimeThisMonth($now);
     // 传参为生成最大时间不超过，创建时间永远比更改时间要早
     $created_at = $faker->dateTimeThisMonth($updated_at);
+
+    $prefix_path = Storage::disk('public')->getAdapter()->getPathPrefix();
+
+
     return [
-        'type' => $faker->word,
+        'type' => 'index',
         'disk' => 'public',
-        'image' => $faker->image(),
+        'image' => $faker->image($prefix_path, 640, 480, null, false),
         'created_at' => $created_at,
         'updated_at' => $updated_at,
     ];

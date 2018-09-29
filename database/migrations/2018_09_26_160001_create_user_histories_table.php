@@ -18,7 +18,7 @@ class CreateUserHistoriesTable extends Migration
             $table->unsignedInteger('user_id')->nullable(false)->comment('user-id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->unsignedInteger('product_id')->nullable(false)->comment('product-id');
-            $table->timestamp('created_at')->nullable();
+            $table->timestamps();
         });
     }
 

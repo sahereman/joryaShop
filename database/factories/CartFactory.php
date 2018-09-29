@@ -10,9 +10,7 @@ $factory->define(App\Models\Cart::class, function (Faker $faker) {
     // 传参为生成最大时间不超过，创建时间永远比更改时间要早
     $created_at = $faker->dateTimeThisMonth($updated_at);
     return [
-        'user_id' => $faker->randomDigit,
-        'product_sku_id' => $faker->randomNumber(2),
-        'number' => $faker->randomNumber(2),
+        'number' => $faker->randomNumber(1),
         'created_at' => $created_at,
         'updated_at' => $updated_at,
     ];

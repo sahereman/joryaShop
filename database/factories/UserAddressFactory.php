@@ -9,8 +9,9 @@ $factory->define(App\Models\UserAddress::class, function (Faker $faker) {
     $updated_at = $faker->dateTimeThisMonth($now);
     // 传参为生成最大时间不超过，创建时间永远比更改时间要早
     $created_at = $faker->dateTimeThisMonth($updated_at);
+
+
     return [
-        'user_id' => $faker->randomDigit,
         'address' => $faker->address,
         'is_default' => false,
         'created_at' => $created_at,

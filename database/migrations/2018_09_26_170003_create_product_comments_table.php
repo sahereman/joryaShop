@@ -8,7 +8,6 @@ class CreateProductCommentsTable extends Migration
 {
     /**
      * Run the migrations.
-     *
      * @return void
      */
     public function up()
@@ -24,13 +23,12 @@ class CreateProductCommentsTable extends Migration
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
             $table->string('content')->nullable(false)->comment('comment-content');
             $table->json('photos')->nullable()->comment('图片集');
-            $table->timestamp('created_at')->nullable();
+            $table->timestamps();
         });
     }
 
     /**
      * Reverse the migrations.
-     *
      * @return void
      */
     public function down()

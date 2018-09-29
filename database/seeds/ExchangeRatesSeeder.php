@@ -7,12 +7,23 @@ class ExchangeRatesSeeder extends Seeder
 {
     /**
      * Run the database seeds.
-     *
      * @return void
      */
     public function run()
     {
+        //        ExchangeRate::truncate();
+        //        factory(ExchangeRate::class, 10)->create();
+
+
         ExchangeRate::truncate();
-        factory(ExchangeRate::class, 10)->create();
+
+
+        ExchangeRate::create([
+            'name' => '人民币兑换美元汇率',
+            'currency' => 'USD',
+            'rate' => 0.15
+        ]);
+
+
     }
 }

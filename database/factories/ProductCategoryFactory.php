@@ -3,6 +3,8 @@
 use Faker\Generator as Faker;
 
 $factory->define(App\Models\ProductCategory::class, function (Faker $faker) {
+
+
     // 现在时间
     $now = \Carbon\Carbon::now()->toDateTimeString();
     // 随机取一个月以内的时间
@@ -11,11 +13,10 @@ $factory->define(App\Models\ProductCategory::class, function (Faker $faker) {
     $created_at = $faker->dateTimeThisMonth($updated_at);
 
     return [
-        'parent_id' => 1,
-        'name_en' => $faker->word,
-        'name_zh' => $faker->word,
-        'description_en' => $faker->sentence(10),
-        'description_zh' => $faker->sentence(10),
+        'name_en' => $faker->name.'-en',
+        'name_zh' => $faker->name.'-zh',
+        'description_en' => $faker->text(20).'-en',
+        'description_zh' => $faker->text(20).'zh',
         'created_at' => $created_at,
         'updated_at' => $updated_at,
     ];
