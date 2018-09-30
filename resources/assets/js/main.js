@@ -26,8 +26,12 @@ $(function() {
         if (screen.width > 0) {
             if (t >= 100) { 
                 $(".navbar").addClass("fixed-header");
+                $(".navbar-top").addClass("fixed-top");
+//              $(".navbar-top").slideUp();
             } else {
                 $(".navbar").removeClass("fixed-header");
+                $(".navbar-top").removeClass("fixed-top");
+//              $(".navbar-top").slideDown();
             }
         }
     })

@@ -15,7 +15,7 @@
 <div id="app" class="{{ route_class() }}-page">
 	@include('layouts._header')
 	@yield('content')
-	@include('layouts._footer')
+	{{--@include('layouts._footer')--}}
 </div>
 <!-- JS 脚本 -->
 <script src="{{ asset('js/app.js') }}"></script>

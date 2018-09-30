@@ -13,3 +13,28 @@ let mix = require('laravel-mix');
 
 mix.js('resources/assets/js/app.js', 'public/js')
    .sass('resources/assets/sass/app.scss', 'public/css');
+   
+   
+mix.copyDirectory('resources/assets/img', 'public/img');
+mix.copyDirectory('resources/assets/js/swiper', 'public/js/swiper');
+mix.copyDirectory('resources/assets/js/main.js', 'public/js/');
+
+
+// .copyDirectory('resources/assets/img', 'public/img');
+// .copyDirectory('resources/assets/js/swiper', 'public/js/swiper')
+// ;
+
+mix.browserSync({
+    proxy: 'joryashop.test',
+    open: false,
+    scrollProportionally: false,
+    watchTask: true,
+    notify: false,
+    files: [
+            'public/css/app.css', 
+		    'public/js/*.js', 
+		    'resources/views/**/*.php'
+		   ]
+//  ui: false,
+});
+

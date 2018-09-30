@@ -95,7 +95,7 @@
 							</a>
 						</li>
 						<li>
-							<a href="{{ route('login') }}" class="shop_cart">
+							<a href="{{ route('carts.index') }}" class="shop_cart">
 								<img src="{{ asset('img/header/shop_car.png') }}">
 							</a>
 						</li>
