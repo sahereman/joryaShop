@@ -15,11 +15,13 @@ class CreatePostersTable extends Migration
     {
         Schema::create('posters', function (Blueprint $table) {
             $table->increments('id');
+
             $table->string('name')->nullable()->comment('name-in-Chinese:仅用于后台管理展示');
             $table->string('slug')->nullable()->comment('调用使用时的标示位');
             $table->string('disk')->nullable()->comment('image-filesystem-disk:local|public|cloud');
             $table->string('image')->nullable(false)->comment('image-path');
             $table->string('link')->nullable(false)->comment('link-url:eg.%poster-link-url%?page_id=1');
+
             $table->timestamps();
         });
     }

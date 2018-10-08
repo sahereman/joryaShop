@@ -15,17 +15,24 @@ class CreateOrderRefundsTable extends Migration
     {
         Schema::create('order_refunds', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('user_id')->nullable(false)->comment('user-id');
-            $table->foreign('user_id')->references('id')->on('users');
+
             $table->unsignedInteger('order_id')->nullable(false)->comment('order-id');
             $table->foreign('order_id')->references('id')->on('orders');
-            $table->unsignedInteger('address_id')->nullable(false)->comment('address-id'); // seller's address
-            $table->string('order_refund_sn')->nullable(false)->comment('order-refund-sn');
+
+            $table->json('seller_info')->nullable()->comment('seller-info-data-for-reshipping-in-json-format[data:name&phone&address]'); // 卖家信息
+
             $table->string('type')->nullable(false)->comment('order-refund-type:refund_money|refund_product')->index();
-            $table->string('ps_user')->nullable()->comment('remark from user');
-            $table->string('ps_seller')->nullable()->comment('remark from seller');
-            $table->json('re_photos')->nullable()->comment('上传商品及证件图片集');
-            $table->softDeletes(); // timestamp deleted_at used for soft deletes.
+
+            $table->string('remark_by_user')->nullable()->comment('remark-by-user');
+            $table->string('remark_by_seller')->nullable()->comment('remark-by-seller');
+            $table->string('remark_by_shipment')->nullable()->comment('remark-by-shipment');
+            $table->string('shipment_sn')->nullable()->comment('refund-shipment-sn');
+            $table->string('shipment_company')->nullable()->comment('refund-shipment-company');
+            $table->json('photos_for_refund')->nullable()->comment('用户上传商品及证件图片集');
+            $table->json('photos_for_shipment')->nullable()->comment('退货物流证件图片集');
+
+            $table->timestamp('refunded_at')->nullable()->comment('卖家退款时间');
+
             $table->timestamps();
         });
     }

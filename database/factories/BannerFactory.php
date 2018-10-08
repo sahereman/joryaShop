@@ -12,7 +12,6 @@ $factory->define(App\Models\Banner::class, function (Faker $faker) {
 
     $prefix_path = Storage::disk('public')->getAdapter()->getPathPrefix();
 
-
     return [
         'type' => 'index',
         'disk' => 'public',

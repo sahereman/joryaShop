@@ -11,7 +11,6 @@ $factory->define(App\Models\ProductComment::class, function (Faker $faker) {
     // 传参为生成最大时间不超过，创建时间永远比更改时间要早
     $created_at = $faker->dateTimeThisMonth($updated_at);
 
-
     return [
 //        'parent_id' => 0,
 //        'user_id' => $faker->randomDigit,

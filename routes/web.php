@@ -4,7 +4,6 @@ Route::get('test', function () {
     dd('test');
 });
 
-
 /*// Authentication Routes...
 $this->get('login', 'Auth\LoginController@showLoginForm')->name('login');
 $this->post('login', 'Auth\LoginController@login');
@@ -29,12 +28,11 @@ $this->post('password/reset', 'Auth\ResetPasswordController@reset');*/
 //    Route::put('example/{example}', 'ExampleController@update')->name('example.update');
 //    Route::delete('example/{example}', 'ExampleController@destroy')->name('example.destroy');
 
-
 //Route::redirect('/', 'login')->name('root');/*首页*/
 //Route::get('/', 'PagesController@root')->name('root');/*首页*/
+
 Route::get('error', 'PagesController@error')->name('error');/*错误提示页示例*/
 Route::get('success', 'PagesController@success')->name('success');/*成功提示页示例*/
-
 
 Horizon::auth(function ($request) {
     return Auth::guard('admin')->check();
@@ -48,7 +46,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('users', 'UsersController@home')->name('users.home'); // 主页
     Route::get('users/{user}/edit', 'UsersController@edit')->name('users.edit'); // 编辑个人信息页面
     Route::get('users/{user}/password', 'UsersController@password')->name('users.password'); // 修改密码页面
-    Route::get('users/{user}/binding_Phone', 'UsersController@bindingPhone')->name('users.binding_phone'); // 绑定手机页面
+    Route::get('users/{user}/update_phone', 'UsersController@updatePhone')->name('users.update_phone'); // 修改手机页面
+    Route::get('users/{user}/binding_phone', 'UsersController@bindingPhone')->name('users.binding_phone'); // 绑定手机页面
     Route::put('users/{user}', 'UsersController@update')->name('users.update'); // 编辑个人信息提交 & 修改密码提交 & 绑定手机提交
 
     /*商品收藏*/
@@ -58,6 +57,8 @@ Route::group(['middleware' => 'auth'], function () {
 
     /*浏览历史*/
     Route::get('users_histories', 'UserHistoriesController@index')->name('user_histories.index'); // 列表
+    // TODO ...
+    // Route::post('users_histories', 'UserHistoriesController@store')->name('user_histories.store'); // 队列追加浏览历史
     Route::delete('users_histories/{userHistory}', 'UserHistoriesController@destroy')->name('user_histories.destroy'); // 删除
     Route::delete('users_histories', 'UserHistoriesController@flush')->name('user_histories.flush'); // 清空
 
@@ -73,8 +74,8 @@ Route::group(['middleware' => 'auth'], function () {
     /*购物车*/
     Route::get('carts', 'CartsController@index')->name('carts.index'); // 购物车
     Route::post('carts', 'CartsController@store')->name('carts.store'); // 加入购物车
-    Route::patch('carts/{cart}', 'CartsController@update')->name('carts.update'); //更新 (增减数量)
-    Route::delete('carts/{cart}', 'CartsController@destroy')->name('carts.destroy'); //删除
+    Route::patch('carts/{cart}', 'CartsController@update')->name('carts.update'); // 更新 (增减数量)
+    Route::delete('carts/{cart}', 'CartsController@destroy')->name('carts.destroy'); // 删除
     Route::delete('carts', 'CartsController@flush')->name('carts.flush'); // 清空
 
     /*订单*/
@@ -82,16 +83,23 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('orders/{order}', 'OrdersController@show')->name('orders.show'); // 订单详情
     Route::get('orders/create', 'OrdersController@create')->name('orders.create'); // 提交订单页面 (参数:购物车ids or 立即购买sku_id)
     Route::post('orders', 'OrdersController@store')->name('orders.store'); // 提交订单
-    Route::get('orders/{order}/pay_method', 'OrdersController@payMethod')->name('orders.pay_method'); // 选择支付方式页面
-    Route::patch('orders/{order}/close', 'OrdersController@close')->name('orders.close'); // 取消订单
-    Route::patch('orders/{order}/receive', 'OrdersController@receive')->name('orders.receive'); // 确认收货
+    Route::get('orders/{order}/payment_method', 'OrdersController@paymentMethod')->name('orders.payment_method'); // 选择支付方式页面
+    Route::patch('orders/{order}/close', 'OrdersController@close')->name('orders.close'); // [主动|被动]取消订单，交易关闭 [订单进入交易关闭状态:status->closed]
+    Route::patch('orders/{order}/ship', 'OrdersController@ship')->name('orders.ship'); // 卖家配送发货 [订单进入待收货状态:status->receiving]
+    Route::patch('orders/{order}/complete', 'OrdersController@complete')->name('orders.complete'); // 确认收货，交易关闭 [订单进入交易结束状态:status->completed]
     Route::delete('orders/{order}', 'OrdersController@destroy')->name('orders.destroy'); // 订单删除
+    Route::get('orders/{order}/comments', 'OrdersController@comments')->name('orders.comments'); // 订单评价 [api-for-ajax-request]
+    Route::post('orders/{order}/post_comments', 'OrdersController@postComments')->name('orders.post_comments'); // 发布评价
+    Route::post('orders/{order}/post_comments', 'OrdersController@postComments')->name('orders.post_comments'); // 发布评价
+    Route::get('orders/{order}/refund', 'OrdersController@refund')->name('orders.refund'); // 申请退单页面
+    Route::post('orders/{order}/post_refund', 'OrdersController@postRefund')->name('orders.post_refund'); // 发起退单申请 [订单进入售后状态:status->refunding]
+    Route::post('orders/{order}/update_refund', 'OrdersController@updateRefund')->name('orders.update_refund'); // 更新退单申请信息 [订单进入售后状态]
 
     /*支付*/
     Route::get('payments/{order}/alipay', 'PaymentsController@alipay')->name('payments.alipay'); // 支付宝支付
     Route::get('payments/{order}/wechat', 'PaymentsController@wechat')->name('payments.wechat'); // 微信支付
     Route::get('payments/{order}/paypal', 'PaymentsController@paypal')->name('payments.paypal'); // PayPal支付
-    Route::get('payments/{order}/success', 'PaymentsController@success')->name('payments.success'); // 支付成功页面
+    Route::get('payments/{order}/success', 'PaymentsController@success')->name('payments.success'); // 支付成功页面 [notify_url]
 
 
 });
@@ -104,14 +112,17 @@ Route::get('product_categories/{category}', 'ProductCategoriesController@index')
 Route::get('product_categories/{category}/home', 'ProductCategoriesController@home')->name('product_categories.home'); // 商品分类呈现[一|二级分类]
 
 /*商品*/
-Route::get('products', 'ProductsController@index')->name('products.search'); // 列表
+Route::get('products', 'ProductsController@index')->name('products.index'); // 列表 | 搜素结果
 Route::get('products/{product}', 'ProductsController@show')->name('products.show'); // 详情
-Route::get('products/{product}/comments', 'ProductsController@comments')->name('products.comments'); // 评价
+Route::get('products/{product}/comments', 'ProductsController@comments')->name('products.comments'); // 评价 [api-for-ajax-request]
 
 /*通用-单页展示*/
 Route::get('pages/{page}', 'PagesController@show')->name('pages.show');
 
-/*支付回调*/
-Route::post('payments/alipay/return', 'PaymentsController@alipayReturn')->name('payments.alipay.return'); // 支付宝回调
-Route::post('payments/wechat/return', 'PaymentsController@wechatReturn')->name('payments.wechat.return'); // 微信支付
-Route::post('payments/paypal/return', 'PaymentsController@paypalReturn')->name('payments.paypal.return'); // PayPal支付
+/*通用-广告展示*/
+Route::get('posters/{poster}', 'PostersController@show')->name('posters.show');
+
+/*支付回调 [return_url]*/
+Route::post('payments/alipay/callback', 'PaymentsController@alipayCallback')->name('payments.alipay.callback'); // 支付宝支付回调
+Route::post('payments/wechat/callback', 'PaymentsController@wechatCallback')->name('payments.wechat.callback'); // 微信支付回调
+Route::post('payments/paypal/callback', 'PaymentsController@paypalCallback')->name('payments.paypal.callback'); // PayPal支付回调

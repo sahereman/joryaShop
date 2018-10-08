@@ -10,15 +10,19 @@ use Illuminate\Support\Facades\Auth;
 
 class UsersController extends Controller
 {
-    public function show (User $user)
+    // GET 主页
+    public function home (User $user)
     {
         if(Auth::check()){
-            return view('users.show', []);
+            return view('users.home', [
+                'user' => $user,
+            ]);
         }else{
             return redirect()->route('login');
         }
     }
 
+    // GET 编辑个人信息页面
     public function edit(User $user)
     {
         $this->authorize('update', $user);
@@ -28,6 +32,37 @@ class UsersController extends Controller
         ]);
     }
 
+    // GET 修改密码页面
+    public function password (User $user)
+    {
+        $this->authorize('update', $user);
+
+        return view('users.password', [
+            'user' => $user,
+        ]);
+    }
+
+    // GET 修改手机页面
+    public function updatePhone (User $user)
+    {
+        $this->authorize('update', $user);
+
+        return view('users.update_phone', [
+            'user' => $user,
+        ]);
+    }
+
+    // GET 绑定手机页面
+    public function bindingPhone (User $user)
+    {
+        $this->authorize('update', $user);
+
+        return view('users.binding_phone', [
+            'user' => $user,
+        ]);
+    }
+
+    // PUT 编辑个人信息提交 & 修改密码提交 & 修改手机提交 & 绑定手机提交
     public function update(UserRequest $request, User $user, ImageUploadHandler $imageUploadHandler)
     {
 
@@ -45,11 +80,15 @@ class UsersController extends Controller
             $data['password'] = bcrypt($data['password']);
         }
 
-        $user->update($data);
+        $result = $user->update($data);
 
+        if($result){
+            return view('users.update_success');
+        }
         return redirect()->route('users.edit', $user->id);
     }
 
+    // POST logout
     public function logout () {
         Auth::logout();
     }

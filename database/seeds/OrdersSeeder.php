@@ -14,7 +14,6 @@ class OrdersSeeder extends Seeder
      */
     public function run()
     {
-
         // 创建 100 笔订单
         $user_ids = User::all()->pluck('id')->toArray();
         $orders = factory(Order::class, 100)->make();
@@ -29,20 +28,13 @@ class OrdersSeeder extends Seeder
             $items = factory(OrderItem::class, random_int(2, 4))->create();
             $items->transform(function ($item) {
 
-
                 return $item;
             });
-
 
             //交易成功,已评价
             $order->status = 'completed';
 
-
             return $order;
         });
-
-
-        // Order::truncate();
-        //        $users = User::all();
     }
 }

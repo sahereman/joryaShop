@@ -23,8 +23,9 @@ class CreateUsersTable extends Migration
             $table->string('gender')->nullable()->comment('gender');
             $table->string('qq')->nullable()->comment('QQ');
             $table->string('wechat')->nullable()->comment('WeChat');
-            $table->string('telephone')->nullable()->comment('telephone');
+            $table->string('phone')->nullable()->comment('phone');
             $table->string('facebook')->nullable()->comment('Facebook');
+            $table->string('language')->nullable()->comment('language'); // 用户常用语言
             $table->rememberToken();
             $table->timestamps();
         });

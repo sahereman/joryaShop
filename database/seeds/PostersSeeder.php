@@ -13,9 +13,12 @@ class PostersSeeder extends Seeder
     public function run()
     {
         Poster::truncate();
-        factory(Poster::class, 10)->create();
-        $poster = Poster::find(1);
-        $poster->disk = 'local';
-        $poster->save();
+        factory(Poster::class, 3)->create([
+            'slug' => 'poster'
+        ]);
+        factory(Poster::class, 3)->create([
+            'disk' => 'local',
+            'slug' => 'advertisement'
+        ]);
     }
 }

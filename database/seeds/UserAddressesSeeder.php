@@ -13,12 +13,6 @@ class UserAddressesSeeder extends Seeder
      */
     public function run()
     {
-        // UserAddress::truncate();
-        //        User::all()->each(function (User $user) {
-        //            factory(UserAddress::class)->create(['user_id' => $user->id, 'is_default' => true]);
-        //        });
-
-
         User::all()->each(function (User $user) {
 
             $products = Product::all()->random(random_int(2, 4));
@@ -33,8 +27,6 @@ class UserAddressesSeeder extends Seeder
             $address = UserAddress::where('user_id', $user->id)->first();
             $address->is_default = true;
             $address->save();
-
-
         });
     }
 }

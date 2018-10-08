@@ -13,13 +13,6 @@ class UserFavouritesSeeder extends Seeder
      */
     public function run()
     {
-        // UserFavourite::truncate();
-        //        factory(UserFavourite::class, 10)->create();
-        //        $userFavourite = UserFavourite::find(1);
-        //        $userFavourite->product_id = 1;
-        //        $userFavourite->save();
-
-
         User::all()->each(function (User $user) {
 
             $products = Product::all()->random(random_int(3, 6));

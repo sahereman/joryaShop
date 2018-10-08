@@ -16,7 +16,7 @@ $factory->define(App\Models\ProductCategory::class, function (Faker $faker) {
         'name_en' => $faker->name.'-en',
         'name_zh' => $faker->name.'-zh',
         'description_en' => $faker->text(20).'-en',
-        'description_zh' => $faker->text(20).'zh',
+        'description_zh' => $faker->text(20).'-zh',
         'created_at' => $created_at,
         'updated_at' => $updated_at,
     ];

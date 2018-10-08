@@ -30,7 +30,7 @@ class UsersSeeder extends Seeder
 
         $user = User::find(3);
         $user->name = 'ccc';
-        $user->email = 'aaccca@163.com';
+        $user->email = 'ccc@163.com';
         $user->password = bcrypt('123456');
         $user->save();
     }

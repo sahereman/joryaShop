@@ -15,9 +15,11 @@ class CreateBannersTable extends Migration
     {
         Schema::create('banners', function (Blueprint $table) {
             $table->increments('id');
+
             $table->string('type')->nullable(false)->comment('banner-type:index|etc');
             $table->string('disk')->nullable()->comment('image-filesystem-disk:local|public|cloud');
             $table->string('image')->nullable(false)->comment('image-path');
+
             $table->timestamps();
         });
     }

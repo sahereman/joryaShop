@@ -13,13 +13,6 @@ class UserHistoriesSeeder extends Seeder
      */
     public function run()
     {
-        // UserHistory::truncate();
-        //        factory(UserHistory::class, 10)->create();
-        //        $userHistory = UserHistory::find(1);
-        //        $userHistory->product_id = 1;
-        //        $userHistory->save();
-
-
         User::all()->each(function (User $user) {
 
             $products = Product::all()->random(random_int(10, 20));
