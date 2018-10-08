@@ -77,7 +77,7 @@
 						<span>/</span>
 					</li>
 					<li>
-						<a href="{{ route('root') }}">配件</a>
+						<a href="{{ route('root') }}">佩件</a>
 						<span>/</span>
 					</li>
 				</ul>
@@ -179,7 +179,7 @@
 						<span>/</span>
 					</li>
 					<li>
-						<a href="{{ route('root') }}">配件</a>
+						<a href="{{ route('root') }}">佩件</a>
 						<span>/</span>
 					</li>
 				</ul>
@@ -244,7 +244,133 @@
     </div>
     <!--猜你喜欢-->
     <div class="guess_like product-part">
-    	<div class="m-wrapper"></div>
+    	<div class="m-wrapper">
+    		<h3>猜你喜欢</h3>
+    		<ul class="guess_lists">
+    			<li>
+    				<div class="guess_list_img">
+    					<div class="guess_list_tips">
+    						<img src="{{ asset('img/guess_tips.png') }}">
+    					</div>
+    					<img src="{{ asset('img/guess_1.png') }}">
+    				</div>
+    				<h5>时尚渐变色</h5>
+					<p class="guess_price">
+						<span class="new_price">￥255.00</span>
+						<span class="old_price">￥588.00</span>
+					</p>
+					<a class="buy_now_guess" href="{{ route('root') }}">立即购买</a>
+    			</li>
+    			<li>
+    				<div class="guess_list_img">
+    					<div class="guess_list_tips">
+    						<img src="{{ asset('img/guess_tips.png') }}">
+    					</div>
+    					<img src="{{ asset('img/guess_2.png') }}">
+    				</div>
+    				<h5>时尚渐变色</h5>
+					<p class="guess_price">
+						<span class="new_price">255.00</span>
+						<span class="old_price">588.00</span>
+					</p>
+					<a class="buy_now_guess" href="{{ route('root') }}">立即购买</a>
+    			</li>
+    			<li>
+    				<div class="guess_list_img">
+    					<div class="guess_list_tips">
+    						<img src="{{ asset('img/guess_tips.png') }}">
+    					</div>
+    					<img src="{{ asset('img/guess_3.png') }}">
+    				</div>
+    				<h5>时尚渐变色</h5>
+					<p class="guess_price">
+						<span class="new_price">255.00</span>
+						<span class="old_price">588.00</span>
+					</p>
+					<a class="buy_now_guess" href="{{ route('root') }}">立即购买</a>
+    			</li>
+    			<li>
+    				<div class="guess_list_img">
+    					<img src="{{ asset('img/guess_4.png') }}">
+    				</div>
+    				<h5>时尚渐变色</h5>
+					<p class="guess_price">
+						<span class="new_price">255.00</span>
+						<span class="old_price">588.00</span>
+					</p>
+					<a class="buy_now_guess" href="{{ route('root') }}">立即购买</a>
+    			</li>
+    			<li>
+    				<div class="guess_list_img">
+    					<img src="{{ asset('img/guess_1.png') }}">
+    				</div>
+    				<h5>时尚渐变色</h5>
+					<p class="guess_price">
+						<span class="new_price">255.00</span>
+						<span class="old_price">588.00</span>
+					</p>
+					<a class="buy_now_guess" href="{{ route('root') }}">立即购买</a>
+    			</li>
+    			<li>
+    				<div class="guess_list_img">
+    					<img src="{{ asset('img/guess_2.png') }}">
+    				</div>
+    				<h5>时尚渐变色</h5>
+					<p class="guess_price">
+						<span class="new_price">255.00</span>
+						<span class="old_price">588.00</span>
+					</p>
+					<a class="buy_now_guess" href="{{ route('root') }}">立即购买</a>
+    			</li>
+    			<li>
+    				<div class="guess_list_img">
+    					<img src="{{ asset('img/guess_3.png') }}">
+    				</div>
+    				<h5>时尚渐变色</h5>
+					<p class="guess_price">
+						<span class="new_price">255.00</span>
+						<span class="old_price">588.00</span>
+					</p>
+					<a class="buy_now_guess" href="{{ route('root') }}">立即购买</a>
+    			</li>
+    			<li>
+    				<div class="guess_list_img">
+    					<img src="{{ asset('img/guess_4.png') }}">
+    				</div>
+    				<h5>时尚渐变色</h5>
+					<p class="guess_price">
+						<span class="new_price">255.00</span>
+						<span class="old_price">588.00</span>
+					</p>
+					<a class="buy_now_guess" href="{{ route('root') }}">立即购买</a>
+    			</li>
+    		</ul>
+    		<!--服务承诺-->
+    		<div class="service_commitment">
+    			<ul>
+    				<li>
+    					<img src="{{ asset('img/thumb.png') }}">
+    					<p>365正品承诺</p>
+    					<p>Cenuine purchasing</p>
+    				</li>
+    				<li>
+    					<img src="{{ asset('img/thumb.png') }}">
+    					<p>7天无理由退款</p>
+    					<p>7 days no reason to refund</p>
+    				</li>
+    				<li>
+    					<img src="{{ asset('img/thumb.png') }}">
+    					<p>满88元免邮费</p>
+    					<p>Free postage </p>
+    				</li>
+    				<li>
+    					<img src="{{ asset('img/thumb.png') }}">
+    					<p>金牌服务</p>
+    					<p>Great service</p>
+    				</li>
+    			</ul>
+    		</div>
+    	</div>
     </div>
 </div>
 @endsection

@@ -1,7 +1,7 @@
 <nav class="navbar navbar-default">
 	
 		<div class="navbar-top">
-			<div class="container">
+			<div class="m-wrapper">
 				<div class="navbar-top-left pull-left">
 				    <ul>
 				    	<li>
@@ -86,6 +86,11 @@
 						</ul>
 					</div>
 				</div>
+				<div class="header_logo">
+					<a href="{{ route('root') }}">
+						<img src="{{ asset('img/logo.png') }}">
+					</a>
+				</div>
 				<div class="pull-right header-search">
 					<ul>
 						<li>
@@ -107,7 +112,7 @@
 @section('scriptsAfterJs')
     <script type="text/javascript">
     	$(document).ready(function () {
-    		
+    	
     	})
     </script>
 @endsection
