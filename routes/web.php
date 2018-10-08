@@ -99,14 +99,14 @@ Route::group(['middleware' => 'auth'], function () {
 /*首页*/
 Route::get('/', 'IndexController@root')->name('root'); // 首页
 
-/*商品展示相关*/
-Route::get('product_categories/{product_category}', 'ProductCategoriesController@index')->name('product_categories.index'); // 商品分类列表[一级分类]
-Route::get('product_categories/{product_category}/product', 'ProductsController@getProductByCategory')->name('product_categories.get_product_by_category'); // 商品分类呈现[一|二级分类]
-Route::get('products/search', 'ProductsController@search')->name('products.search'); // 商品搜索结果
-Route::get('products/{product}', 'ProductsController@show')->name('products.show'); // 商品详情
-Route::get('products/comments/{product}', 'ProductCommentsController@index')->name('product_comments.index'); // 商品评价列表
-Route::post('products/comments', 'ProductCommentsController@store')->name('product_comments.store'); // 添加商品评价
+/*商品分类*/
+Route::get('product_categories/{category}', 'ProductCategoriesController@index')->name('product_categories.index'); // 列表
+Route::get('product_categories/{category}/home', 'ProductCategoriesController@home')->name('product_categories.home'); // 商品分类呈现[一|二级分类]
 
+/*商品*/
+Route::get('products', 'ProductsController@index')->name('products.search'); // 列表
+Route::get('products/{product}', 'ProductsController@show')->name('products.show'); // 详情
+Route::get('products/{product}/comments', 'ProductsController@comments')->name('products.comments'); // 评价
 
 /*通用-单页展示*/
 Route::get('pages/{page}', 'PagesController@show')->name('pages.show');
