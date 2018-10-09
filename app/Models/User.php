@@ -38,4 +38,14 @@ class User extends Authenticatable
         }
         return \Storage::disk('public')->url($this->attributes['avatar']);
     }
+
+    public function addresses ()
+    {
+        return $this->hasMany(UserAddress::class);
+    }
+
+    public function carts ()
+    {
+        return $this->hasMany(Cart::class);
+    }
 }

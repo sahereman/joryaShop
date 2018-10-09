@@ -22,6 +22,7 @@ $factory->define(App\Models\Product::class, function (Faker $faker) {
         'photos' => json_encode(array($faker->imageUrl(), $faker->imageUrl(), $faker->imageUrl())),
         'shipping_fee' => $faker->randomFloat(2, 0, 20),
         'stock' => $faker->randomNumber(3),
+        'price' => $faker->randomFloat(2, 10, 20),
         'on_sale' => true,
         'created_at' => $created_at,
         'updated_at' => $updated_at,

@@ -31,8 +31,8 @@ class CreateProductsTable extends Migration
             $table->unsignedDecimal('shipping_fee', 8, 2)->nullable()->comment('运费');
             $table->unsignedInteger('stock')->nullable(false)->default(0)->comment('库存');
             $table->unsignedInteger('sales')->nullable(false)->default(0)->comment('销量');
-            $table->unsignedInteger('index')->nullable(false)->default(0)->comment('综合指数');
-            $table->unsignedInteger('heat')->nullable(false)->default(0)->comment('人气|热度');
+            $table->unsignedInteger('index')->nullable(false)->default(0)->comment('综合指数'); // according to comments
+            $table->unsignedInteger('heat')->nullable(false)->default(0)->comment('人气|热度'); // according to favourites
             $table->unsignedDecimal('price', 8, 2)->nullable(false)->comment('价格:呈现为SKU最低价'); // managed by product price observer
 
             $table->boolean('on_sale')->nullable(false)->default(true)->comment('是否在售');

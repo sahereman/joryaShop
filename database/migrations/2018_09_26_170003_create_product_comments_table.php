@@ -25,6 +25,9 @@ class CreateProductCommentsTable extends Migration
             $table->unsignedInteger('product_id')->nullable(false)->comment('product-id');
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
 
+            $table->unsignedDecimal('composite_index')->nullable(false)->default(5)->comment('综合评分');
+            $table->unsignedDecimal('description_index')->nullable(false)->default(5)->comment('描述相符');
+            $table->unsignedDecimal('shipment_index')->nullable(false)->default(5)->comment('物流服务');
             $table->string('content')->nullable(false)->comment('comment-content');
             $table->json('photos')->nullable()->comment('图片集');
 
