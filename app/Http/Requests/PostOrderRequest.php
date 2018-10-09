@@ -2,16 +2,15 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
-class PostOrderRequest extends FormRequest
+class PostOrderRequest extends Request
 {
     /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
+     * Get the validation rules that apply to the request.
+     * @return array
      */
-    public function authorize()
+    public function rules()
     {
         return [
             'skus' => 'sometimes|json',
@@ -19,12 +18,7 @@ class PostOrderRequest extends FormRequest
         ];
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
-    public function rules()
+    public function attributes()
     {
         return [
             'skus' => '来自SKU的订单信息',

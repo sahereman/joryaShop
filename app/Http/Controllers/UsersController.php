@@ -10,15 +10,26 @@ use Illuminate\Support\Facades\Auth;
 
 class UsersController extends Controller
 {
-    // GET 主页
-    public function home (User $user)
+    /*public function show (User $user)
     {
         if(Auth::check()){
+            return view('users.show', []);
+        }else{
+            return redirect()->route('login');
+        }
+    }*/
+
+    // GET 主页
+    public function home(Request $request)
+    {
+        if (Auth::check()) {
+            $user = $request->user()->toArray();
             return view('users.home', [
                 'user' => $user,
             ]);
-        }else{
-            return redirect()->route('login');
+        } else {
+            // return redirect()->route('login');
+            return redirect()->back();
         }
     }
 
@@ -33,7 +44,7 @@ class UsersController extends Controller
     }
 
     // GET 修改密码页面
-    public function password (User $user)
+    public function password(User $user)
     {
         $this->authorize('update', $user);
 
@@ -43,7 +54,7 @@ class UsersController extends Controller
     }
 
     // GET 修改手机页面
-    public function updatePhone (User $user)
+    public function updatePhone(User $user)
     {
         $this->authorize('update', $user);
 
@@ -53,7 +64,7 @@ class UsersController extends Controller
     }
 
     // GET 绑定手机页面
-    public function bindingPhone (User $user)
+    public function bindingPhone(User $user)
     {
         $this->authorize('update', $user);
 
@@ -68,28 +79,27 @@ class UsersController extends Controller
 
         $this->authorize('update', $user);
 
-        $data = $request->only('name', 'avatar', 'email', 'password');
+        $data = $request->only('name', 'avatar', 'email', 'password', 'real_name', 'gender', 'qq', 'wechat', 'phone', 'facebook');
 
-        if ($request->hasFile('avatar'))
-        {
+        if ($request->hasFile('avatar')) {
             $data['avatar'] = $imageUploadHandler->uploadOriginal($request->avatar);
         }
 
-        if ($request->has('password') && $user->password != $data['password'])
-        {
+        if ($request->has('password') && $user->password != $data['password']) {
             $data['password'] = bcrypt($data['password']);
         }
 
         $result = $user->update($data);
 
-        if($result){
+        if ($result) {
             return view('users.update_success');
         }
         return redirect()->route('users.edit', $user->id);
     }
 
     // POST logout
-    public function logout () {
+    public function logout()
+    {
         Auth::logout();
     }
 }

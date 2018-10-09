@@ -51,25 +51,25 @@ Route::group(['middleware' => 'auth'], function () {
     Route::put('users/{user}', 'UsersController@update')->name('users.update'); // 编辑个人信息提交 & 修改密码提交 & 绑定手机提交
 
     /*商品收藏*/
-    Route::get('users_favourites', 'UserFavouritesController@index')->name('user_favourites.index'); // 列表
-    Route::post('users_favourites', 'UserFavouritesController@store')->name('user_favourites.store'); // 加入收藏
-    Route::delete('users_favourites/{userFavourite}', 'UserFavouritesController@destroy')->name('user_favourites.destroy'); // 删除
+    Route::get('user_favourites', 'UserFavouritesController@index')->name('user_favourites.index'); // 列表
+    Route::post('user_favourites', 'UserFavouritesController@store')->name('user_favourites.store'); // 加入收藏
+    Route::delete('user_favourites/{userFavourite}', 'UserFavouritesController@destroy')->name('user_favourites.destroy'); // 删除
 
     /*浏览历史*/
-    Route::get('users_histories', 'UserHistoriesController@index')->name('user_histories.index'); // 列表
+    Route::get('user_histories', 'UserHistoriesController@index')->name('user_histories.index'); // 列表
     // TODO ...
-    // Route::post('users_histories', 'UserHistoriesController@store')->name('user_histories.store'); // 队列追加浏览历史
-    Route::delete('users_histories/{userHistory}', 'UserHistoriesController@destroy')->name('user_histories.destroy'); // 删除
-    Route::delete('users_histories', 'UserHistoriesController@flush')->name('user_histories.flush'); // 清空
+    // Route::post('user_histories', 'UserHistoriesController@store')->name('user_histories.store'); // 队列追加浏览历史
+    Route::delete('user_histories/{userHistory}', 'UserHistoriesController@destroy')->name('user_histories.destroy'); // 删除
+    Route::delete('user_histories', 'UserHistoriesController@flush')->name('user_histories.flush'); // 清空
 
     /*收货地址*/
-    Route::get('users_addresses', 'UserAddressesController@index')->name('user_addresses.index'); // 列表
-    Route::get('users_addresses/create', 'UserAddressesController@create')->name('user_addresses.create'); // 创建
-    Route::get('users_addresses/edit', 'UserAddressesController@edit')->name('user_addresses.edit'); // 编辑
-    Route::post('users_addresses', 'UserAddressesController@store')->name('user_addresses.store'); // 提交
-    Route::put('users_addresses/{userAddress}', 'UserAddressesController@update')->name('user_addresses.update'); // 更新
-    Route::delete('users_addresses/{userAddress}', 'UserAddressesController@destroy')->name('user_addresses.destroy'); // 删除
-    Route::patch('users_addresses/{userAddress}/set_default', 'UserAddressesController@setDefault')->name('user_addresses.set_default'); // 设置默认
+    Route::get('user_addresses', 'UserAddressesController@index')->name('user_addresses.index'); // 列表
+    Route::get('user_addresses/create', 'UserAddressesController@create')->name('user_addresses.create'); // 创建
+    Route::get('user_addresses/edit', 'UserAddressesController@edit')->name('user_addresses.edit'); // 编辑
+    Route::post('user_addresses', 'UserAddressesController@store')->name('user_addresses.store'); // 提交
+    Route::put('user_addresses/{userAddress}', 'UserAddressesController@update')->name('user_addresses.update'); // 更新
+    Route::delete('user_addresses/{userAddress}', 'UserAddressesController@destroy')->name('user_addresses.destroy'); // 删除
+    Route::patch('user_addresses/{userAddress}/set_default', 'UserAddressesController@setDefault')->name('user_addresses.set_default'); // 设置默认
 
     /*购物车*/
     Route::get('carts', 'CartsController@index')->name('carts.index'); // 购物车

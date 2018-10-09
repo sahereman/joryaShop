@@ -19,13 +19,13 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique()->comment('邮箱');
             $table->string('avatar')->comment('头像');
             $table->string('password')->comment('密码');
-            $table->string('real_name')->nullable()->comment('real-name');
-            $table->string('gender')->nullable()->comment('gender');
+            $table->string('real_name')->nullable()->comment('真实姓名');
+            $table->string('gender')->nullable()->comment('性别:male|female');
             $table->string('qq')->nullable()->comment('QQ');
-            $table->string('wechat')->nullable()->comment('WeChat');
-            $table->string('phone')->nullable()->comment('phone');
+            $table->string('wechat')->nullable()->comment('微信');
+            $table->string('phone')->nullable()->comment('手机');
             $table->string('facebook')->nullable()->comment('Facebook');
-            $table->string('language')->nullable()->comment('language'); // 用户常用语言
+            $table->string('locale')->nullable(false)->default('zh_CN')->comment('用户常用语言');
             $table->rememberToken();
             $table->timestamps();
         });

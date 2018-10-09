@@ -16,6 +16,7 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name', 'avatar', 'email', 'password',
+        'real_name', 'gender', 'qq', 'wechat', 'phone', 'facebook',
     ];
 
     /**
@@ -24,27 +25,27 @@ class User extends Authenticatable
      */
     protected $hidden = [
         'password', 'remember_token',
+        'locale',
     ];
 
     protected $appends = ['avatar_url'];
 
-
+    // $this->user()->avatar_url
     public function getAvatarUrlAttribute()
     {
         // 如果 image 字段本身就已经是完整的 url 就直接返回
-        if (Str::startsWith($this->attributes['avatar'], ['http://', 'https://']))
-        {
+        if (Str::startsWith($this->attributes['avatar'], ['http://', 'https://'])) {
             return $this->attributes['avatar'];
         }
         return \Storage::disk('public')->url($this->attributes['avatar']);
     }
 
-    public function addresses ()
+    public function addresses()
     {
         return $this->hasMany(UserAddress::class);
     }
 
-    public function carts ()
+    public function carts()
     {
         return $this->hasMany(Cart::class);
     }

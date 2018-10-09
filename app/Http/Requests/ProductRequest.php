@@ -2,17 +2,15 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class ProductRequest extends FormRequest
+class ProductRequest extends Request
 {
     /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
+     * Get the validation rules that apply to the request.
+     * @return array
      */
-    public function authorize()
+    public function rules()
     {
         return [
             'query' => 'sometimes|string',
@@ -30,12 +28,7 @@ class ProductRequest extends FormRequest
         ];
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
-    public function rules()
+    public function attributes()
     {
         return [
             'query' => '搜索商品',

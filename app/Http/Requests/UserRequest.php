@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests;
 
-
 use Illuminate\Validation\Rule;
 
 class UserRequest extends Request
@@ -21,6 +20,12 @@ class UserRequest extends Request
                 'sometimes', 'required', 'string', 'email', 'max:255',
                 Rule::unique('users')->ignore($this->route()->user->id),
             ],
+            'real_name' => 'sometimes|string',
+            'gender' => 'sometimes|string',
+            'qq' => 'sometimes|string',
+            'wechat' => 'sometimes|string',
+            'phone' => 'sometimes|string',
+            'facebook' => 'sometimes|string',
         ];
     }
 
@@ -31,6 +36,12 @@ class UserRequest extends Request
             'avatar' => '头像',
             'email' => '邮箱',
             'password' => '密码',
+            'real_name' => '真实姓名',
+            'gender' => '性别:male|female',
+            'qq' => 'QQ',
+            'wechat' => '微信',
+            'phone' => '手机',
+            'facebook' => 'Facebook',
         ];
     }
 }
