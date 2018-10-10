@@ -65,7 +65,7 @@ Route::group(['middleware' => 'auth'], function () {
     /*收货地址*/
     Route::get('user_addresses', 'UserAddressesController@index')->name('user_addresses.index'); // 列表
     Route::get('user_addresses/create', 'UserAddressesController@create')->name('user_addresses.create'); // 创建
-    Route::get('user_addresses/edit', 'UserAddressesController@edit')->name('user_addresses.edit'); // 编辑
+    Route::get('user_addresses/{userAddress}', 'UserAddressesController@edit')->name('user_addresses.edit'); // 编辑
     Route::post('user_addresses', 'UserAddressesController@store')->name('user_addresses.store'); // 提交
     Route::put('user_addresses/{userAddress}', 'UserAddressesController@update')->name('user_addresses.update'); // 更新
     Route::delete('user_addresses/{userAddress}', 'UserAddressesController@destroy')->name('user_addresses.destroy'); // 删除

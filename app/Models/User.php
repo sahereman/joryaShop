@@ -25,7 +25,6 @@ class User extends Authenticatable
      */
     protected $hidden = [
         'password', 'remember_token',
-        'locale',
     ];
 
     protected $appends = ['avatar_url'];

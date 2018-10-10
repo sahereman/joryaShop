@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Validation\Rule;
 use App\Models\Product;
 
-class AddUserFavouriteRequest extends Request
+class UserFavouriteRequest extends Request
 {
     /**
      * Get the validation rules that apply to the request.

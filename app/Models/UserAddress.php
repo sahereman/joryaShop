@@ -8,10 +8,17 @@ class UserAddress extends Model
 {
     protected $fillable = [
         'address',
-        'is_default',
     ];
 
-    public function user ()
+    protected $hidden = [
+        //
+    ];
+
+    protected $dates = [
+        'last_used_at',
+    ];
+
+    public function user()
     {
         return $this->belongsTo(User::class);
     }

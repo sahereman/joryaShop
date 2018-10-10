@@ -24,27 +24,36 @@ class UserFavouritesController extends Controller
     {
         $userFavourite = new UserFavourite();
         $userFavourite->user_id = $request->user()->id;
-        $userFavourite->product_id = $request->get('product_id');
+        $userFavourite->product_id = $request->input('product_id');
         $result = $userFavourite->save();
         if ($result) {
-            die('ok');
-        } else {
-            die('fail');
+            return response()->json([
+                'code' => 200,
+                'message' => 'success',
+            ]);
+        }else{
+            return response()->json([
+                'code' => 201,
+                'message' => 'fail',
+            ]);
         }
     }
 
     // DELETE 删除
     public function destroy(Request $request, UserFavourite $userFavourite)
     {
-        if ($userFavourite->user_id == $request->user()->id) {
-            $result = $userFavourite->delete();
-            if($result){
-                die('success');
-            }else{
-                die('fail');
-            }
+        $this->authorize('delete', $userFavourite);
+        $result = $userFavourite->delete();
+        if ($result) {
+            return response()->json([
+                'code' => 200,
+                'message' => 'success',
+            ]);
         }else{
-            die('unauthorized');
+            return response()->json([
+                'code' => 201,
+                'message' => 'fail',
+            ]);
         }
     }
 }
