@@ -35,6 +35,7 @@ class CreateProductsTable extends Migration
             $table->unsignedInteger('heat')->nullable(false)->default(0)->comment('人气|热度'); // according to favourites
             $table->unsignedDecimal('price', 8, 2)->nullable(false)->comment('价格:呈现为SKU最低价'); // managed by product price observer
 
+            $table->boolean('is_index')->nullable(false)->default(false)->comment('是否为推荐商品[在首页展示]');
             $table->boolean('on_sale')->nullable(false)->default(true)->comment('是否在售');
 
             $table->timestamps();
