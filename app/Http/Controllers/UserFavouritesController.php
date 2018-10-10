@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\UserFavourite;
 use Illuminate\Http\Request;
-use App\Http\Requests\AddUserFavouriteRequest;
+use App\Http\Requests\UserFavouriteRequest;
 
 class UserFavouritesController extends Controller
 {
@@ -20,7 +20,7 @@ class UserFavouritesController extends Controller
     }
 
     // POST 加入收藏
-    public function store(AddUserFavouriteRequest $request)
+    public function store(UserFavouriteRequest $request)
     {
         $userFavourite = new UserFavourite();
         $userFavourite->user_id = $request->user()->id;
