@@ -1,5 +1,4 @@
 <nav class="navbar navbar-default">
-	
 		<div class="navbar-top">
 			<div class="m-wrapper">
 				<div class="navbar-top-left pull-left">
@@ -14,13 +13,13 @@
 					   	    </button>
 					   	    <ul class="dropdown-menu" aria-labelledby="dLabel">
 	                            <li>
-	                                <a href="{{ route('root') }}">
+	                                <a>
 	                                	<img src="{{ asset('img/header/cn_flag.png') }}">
 	                                	<span>中文</span>
 	                                </a>
 	                            </li>
 	                            <li>
-	                                <a href="{{ route('root') }}">
+	                                <a>
 	                                	<img src="{{ asset('img/header/en_flag.png') }}">
 	                                	<span>EN</span>
 	                                </a>
@@ -31,8 +30,8 @@
 				</div>
 				<div class="navbar-top-right pull-right">
 					@guest
-				        <a href="{{ route('login') }}">登录</a>
-				        <a href="{{ route('register') }}">注册</a>
+				        <a class="login">登录</a>
+				        <a class="register">注册</a>
 				        <a class="about-us" href="{{ route('root') }}">关于我们</a>
 				    @else
 				        <a href="{{ route('root') }}">首页</a>
@@ -109,10 +108,3 @@
 			</div>
 		</div>
 </nav>
-@section('scriptsAfterJs')
-    <script type="text/javascript">
-    	$(document).ready(function () {
-    	
-    	})
-    </script>
-@endsection

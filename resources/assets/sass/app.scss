@@ -85,7 +85,6 @@ a {
     height: 150px;
     margin-bottom: 0;
     border: 0;
-//  position: fixed;
     z-index: 100;
     .navbar-top {
         height: 40px;
@@ -145,6 +144,7 @@ a {
             color: #999;
             a {
                 padding: 0 8px; 
+                cursor: pointer;
                 &.about-us {
                   &:before {
                       content: "|";
@@ -221,8 +221,13 @@ a {
         }
         .header_logo {
             float: left;
-            margin-top: 35px;
+            margin-top: 20px;
             margin-left: 335px;
+            width: 216px;
+            height: 48px;
+            img {
+                width: 100%;
+            }
         }
         .header-search {
             ul {
@@ -267,7 +272,6 @@ a {
 //banner样式
 .banner {
     width: 100%;
-//  margin-top: 150px !important;
     transition: all .2s;
     .swiper-slide {
         a {
@@ -299,6 +303,333 @@ a {
         background-image: url(../img/banner/banner_right.png);
         background-size: cover;
         transition: all .2s;
+    }
+}
+
+//登陆注册弹出层
+.dialog_iframe {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: rgba(0,0,0,.3);
+    z-index: 99998;
+    display: none;
+    .login_frame {
+        width: 520px;
+        background: #fff;
+        position: fixed;
+        top: 45%;
+        left: 50%;
+        margin: -155px 0 0 -260px;
+        text-align: center;
+        padding: 30px 0 20px;
+        box-shadow: 0 2px 5px rgba(0,0,0,.3);
+        border-radius: 4px;
+        transition: 1s;
+        transform-style: preserve-3d;
+        -moz-transform-style: preserve-3d;
+        .dialog_logo {
+            width: 180px;
+            height: 40px;
+            margin: 0 auto;
+            img {
+                width: 100%;
+            }
+        }
+        .holder {
+            width: 286px;
+            margin: 0 auto;
+            position: relative;
+            margin-top: 50px;
+        }
+        .with-line {
+            font-size: 16px;
+            color: #444;
+            margin: 0 auto;
+            position: relative;
+            text-align: center;
+            margin-bottom: 25px;
+            &:before {
+                content: "";
+                border-top: 1px solid #ededed;
+                display: block;
+                position: absolute;
+                width: 50px;
+                top: 12px;
+                left: 40px;
+            }
+            &:after {
+                content: "";
+                border-top: 1px solid #ededed;
+                display: block;
+                position: absolute;
+                width: 50px;
+                top: 12px;
+                right: 40px;
+            }
+        }
+        .part_frame {
+            margin-bottom: 35px;
+            backface-visibility:hidden;
+            -webkit-backface-visibility:hidden;    /* Chrome 和 Safari */
+            -moz-backface-visibility:hidden;     /* Firefox */
+        }
+    }
+    .close {
+        width: 36px;
+        height: 36px;
+        position: absolute;
+        right: 0;
+        top: 0;
+        cursor: pointer;
+        i {
+            width: 20px;
+            height: 20px;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            margin: -10px 0 0 -10px;
+            background: url(../img/msg_close.png) 0 0 no-repeat;
+        }
+    }
+    .error_content {
+        height: 24px;
+        background-color: #fdf4ec;
+        border: 1px solid #bc8c61;
+        color: #bc8c61;
+        line-height: 24px;
+        border-radius: 2px;
+        font-size: 12px;
+        overflow: hidden;
+        margin: 5px auto;
+        display: none;
+        i {
+            width: 12px;
+            height: 12px;
+            background: url(../img/error_mark.png) 0 0 no-repeat;
+            float: left;
+            margin-left: 15px;
+            margin-top: 5px;
+        }
+        span {
+            float: left;
+            margin-left: 5px;
+            margin-top: -2px;
+        }
+    }
+    .btn_dialog {
+        display: block;
+        width: 287px;
+        height: 36px;
+        color: #fff;
+        background-color: #7ca442;
+        border-radius: 2px;
+        font-size: 16px;
+        line-height: 36px;
+    }
+    input {
+        width: 287px;
+        height: 36px;
+        border: 1px solid #eaeaea;
+        border-radius: 2px;
+        text-indent: 15px;
+        color: #444;
+        margin: 5px auto;
+        &:focus {
+            border-color: #7ca442;
+        }
+    }
+    #register-form {
+        >input {
+            &:first-of-type,
+            &:nth-of-type(2) {
+                background: url(../img/user_name.png) left no-repeat;
+                background-position-x: 10px;
+                text-indent: 35px;
+            }
+            &:nth-of-type(3),
+            &:nth-of-type(5) {
+                background: url(../img/psw.png) left no-repeat;
+                background-position-x: 10px;
+                text-indent: 35px;
+            }
+            &:nth-of-type(4) {
+                background: url(../img/email.png) left no-repeat;
+                background-position-x: 10px;
+                text-indent: 35px;
+            }
+        }
+    }
+    .verification_code {
+        width: 287px;
+        height: 36px;
+        margin: 5px auto;
+        overflow: hidden;
+        .code {
+            float: left;
+            width: 170px;
+            margin: 0;
+            margin-right: 7px;
+        }
+        .generate_code {
+            float: left;
+            width: 110px;
+            height: 36px;
+            background-color: #7ca442;
+            color: #fff;
+            border-radius: 2px;
+            margin: 0;
+            text-indent: 0;
+        }
+    }
+    .switch-back {
+            font-size: 12px;
+            color: #999;
+        .agreement_content {
+            overflow: hidden;
+            line-height: 23px;
+            margin-bottom: 35px;
+            position: relative;
+            #agreement {
+                outline: none;
+                appearance: none;
+                -webkit-appearance: none;
+                vertical-align:middle;    
+                margin-top:0;    
+                background:#fff;    
+                border:#c3c5c0 solid 1px;    
+                border-radius: 2px;    
+                height: 13px;    
+                width: 13px;
+                float: left;
+                margin-right: 5px;
+                margin-top: 5px;
+                &:checked {
+                    border-color: #7CA442;
+                    &:after {
+                        content: '';    
+                        top: 7px;    
+                        left: 2px;    
+                        position: absolute;    
+                        background: transparent;    
+                        border: #7CA442 solid 2px;    
+                        border-top: none;    
+                        border-right: none;    
+                        height: 6px;    
+                        width: 10px;    
+                        -moz-transform: rotate(-45deg);    
+                        -ms-transform: rotate(-45deg);    
+                        -webkit-transform: rotate(-45deg);     
+                        transform: rotate(-45deg);
+                    }
+                }
+            }
+            span {
+                float: left;
+            }   
+            a {
+                float: left;
+            }
+        }
+        .change_title {
+            text-align: center;
+            margin-top: 10px;
+            .login_btn {
+                color: #7ca442;
+                cursor: pointer;
+            }   
+        }
+    }
+    //登录块
+    .login_form {
+        display: none;
+        .switch-back {
+            overflow: hidden;
+            margin-bottom: 25px;
+            a {
+                cursor: pointer;
+                &:last-of-type {
+                    color: #86b147;
+                }
+                &:first-of-type {
+                    &:hover {
+                        color: #86b147;
+                    }
+                }
+            }
+        }
+        form {
+            display: none;
+            &.active {
+                display: block;
+            }
+            >input {
+                &:first-of-type,
+                &:nth-of-type(2) {
+                    background: url(../img/user_name.png) left no-repeat;
+                    background-position-x: 10px;
+                    text-indent: 35px;
+                }
+                &:nth-of-type(3){
+                    background: url(../img/psw.png) left no-repeat;
+                    background-position-x: 10px;
+                    text-indent: 35px;
+                }
+            }
+            &:last-of-type {
+                >input {
+                    &:first-of-type,
+                    &:nth-of-type(2) {
+                        background: url(../img/email.png) left no-repeat;
+                        background-position-x: 10px;
+                        text-indent: 35px;
+                    }
+                }
+            }
+        }
+        .btn_dialog {
+            display: none;
+            &.active {
+                display: block;
+            }
+        }
+    }
+    .login_type {
+        margin-bottom: 7px;
+        ul {
+            font-size: 16px;
+            border-bottom: 2px solid #eaeaea;
+            color: #bec0ba;
+            position: relative;
+            height: 40px;
+            li {
+                float: left;
+                line-height: 40px;
+                text-align: left;
+                position: relative;
+                height: 40px;
+                a {
+                    display: inline-block;
+                    height: 100%;
+                    position: absolute;
+                    cursor: pointer;
+                }
+                &:first-of-type {
+                    width: 105px;
+                }
+                &:last-of-type {
+                    width: 181px;
+                }
+                &.active {
+                    color: #444;
+                    a {
+                        border-bottom: 1px solid #86b147;
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -499,7 +830,6 @@ footer {
 //首页样式
 .home-page {
     position: relative;
-//  overflow: hidden;
     width: 100%;
     >div {
         width: 100%;

@@ -84,70 +84,16 @@
 			</div>
 			<div class="content">
 				<ul>
-					<li>
-						<a href="{{ route('root') }}">
-							<img src="{{ asset('img/trend_1.png') }}">
-							<h5>时尚渐变色</h5>
-							<span>修颜减龄，风格前卫	</span>
-							<p class="product_price">￥2556.00</p>
-						</a>
-					</li>
-					<li>
-						<a href="{{ route('root') }}">
-							<img src="{{ asset('img/trend_2.png') }}">
-							<h5>时尚渐变色</h5>
-							<span>修颜减龄，风格前卫	</span>
-							<p class="product_price">￥2556.00</p>
-						</a>
-					</li>
-					<li>
-						<a href="{{ route('root') }}">
-							<img src="{{ asset('img/trend_3.png') }}">
-							<h5>时尚渐变色</h5>
-							<span>修颜减龄，风格前卫	</span>
-							<p class="product_price">￥2556.00</p>
-						</a>
-					</li>
-					<li>
-						<a href="{{ route('root') }}">
-							<img src="{{ asset('img/trend_4.png') }}">
-							<h5>时尚渐变色</h5>
-							<span>修颜减龄，风格前卫	</span>
-							<p class="product_price">￥2556.00</p>
-						</a>
-					</li>
-					<li>
-						<a href="{{ route('root') }}">
-							<img src="{{ asset('img/trend_1.png') }}">
-							<h5>时尚渐变色</h5>
-							<span>修颜减龄，风格前卫	</span>
-							<p class="product_price">￥2556.00</p>
-						</a>
-					</li>
-					<li>
-						<a href="{{ route('root') }}">
-							<img src="{{ asset('img/trend_2.png') }}">
-							<h5>时尚渐变色</h5>
-							<span>修颜减龄，风格前卫	</span>
-							<p class="product_price">￥2556.00</p>
-						</a>
-					</li>
-					<li>
-						<a href="{{ route('root') }}">
-							<img src="{{ asset('img/trend_3.png') }}">
-							<h5>时尚渐变色</h5>
-							<span>修颜减龄，风格前卫	</span>
-							<p class="product_price">￥2556.00</p>
-						</a>
-					</li>
-					<li>
-						<a href="{{ route('root') }}">
-							<img src="{{ asset('img/trend_4.png') }}">
-							<h5>时尚渐变色</h5>
-							<span>修颜减龄，风格前卫	</span>
-							<p class="product_price">￥2556.00</p>
-						</a>
-					</li>
+					@for ($i = 0; $i < 8; $i++)
+						<li>
+							<a href="{{ route('root') }}">
+								<img src="{{ asset('img/trend_2.png') }}">
+								<h5>时尚渐变色</h5>
+								<span>修颜减龄，风格前卫	</span>
+								<p class="product_price">￥2556.00</p>
+							</a>
+						</li>
+					@endfor
 				</ul>
 			</div>
 		</div>
@@ -190,54 +136,20 @@
 			</div>
 			<div class="customization_list">
 				<ul>
-					<li>
-						<div>
-							<img src="{{ asset('img/ad_2.png') }}">
-							<a href="{{ route('root') }}">
-								<div class="list_mask"></div>
-								<img src="{{ asset('img/mask_search.png') }}">
-							</a>
-						</div>
-						<h5>时尚渐变色</h5>
-						<span>修颜减龄，风格前卫	</span>
-						<p class="product_price">￥2556.00</p>
-					</li>
-					<li>
-						<div>
-							<img src="{{ asset('img/ad_3.png') }}">
-							<a href="{{ route('root') }}">
-								<div class="list_mask"></div>
-								<img src="{{ asset('img/mask_search.png') }}">
-							</a>
-						</div>
-						<h5>时尚渐变色</h5>
-						<span>修颜减龄，风格前卫	</span>
-						<p class="product_price">￥2556.00</p>
-					</li>
-					<li>
-						<div>
-							<img src="{{ asset('img/ad_4.png') }}">
-							<a href="{{ route('root') }}">
-								<div class="list_mask"></div>
-								<img src="{{ asset('img/mask_search.png') }}">
-							</a>
-						</div>
-						<h5>时尚渐变色</h5>
-						<span>修颜减龄，风格前卫	</span>
-						<p class="product_price">￥2556.00</p>
-					</li>
-					<li>
-						<div>
-							<img src="{{ asset('img/ad_5.png') }}">
-							<a href="{{ route('root') }}">
-								<div class="list_mask"></div>
-								<img src="{{ asset('img/mask_search.png') }}">
-							</a>
-						</div>
-						<h5>时尚渐变色</h5>
-						<span>修颜减龄，风格前卫	</span>
-						<p class="product_price">￥2556.00</p>
-					</li>
+					@for ($i = 0; $i < 4; $i++)
+						<li>
+							<div>
+								<img src="{{ asset('img/ad_5.png') }}">
+								<a href="{{ route('root') }}">
+									<div class="list_mask"></div>
+									<img src="{{ asset('img/mask_search.png') }}">
+								</a>
+							</div>
+							<h5>时尚渐变色</h5>
+							<span>修颜减龄，风格前卫	</span>
+							<p class="product_price">￥2556.00</p>
+						</li>
+					@endfor
 				</ul>
 			</div>
     	</div>
@@ -247,103 +159,22 @@
     	<div class="m-wrapper">
     		<h3>猜你喜欢</h3>
     		<ul class="guess_lists">
-    			<li>
-    				<div class="guess_list_img">
-    					<div class="guess_list_tips">
-    						<img src="{{ asset('img/guess_tips.png') }}">
-    					</div>
-    					<img src="{{ asset('img/guess_1.png') }}">
-    				</div>
-    				<h5>时尚渐变色</h5>
-					<p class="guess_price">
-						<span class="new_price">￥255.00</span>
-						<span class="old_price">￥588.00</span>
-					</p>
-					<a class="buy_now_guess" href="{{ route('root') }}">立即购买</a>
-    			</li>
-    			<li>
-    				<div class="guess_list_img">
-    					<div class="guess_list_tips">
-    						<img src="{{ asset('img/guess_tips.png') }}">
-    					</div>
-    					<img src="{{ asset('img/guess_2.png') }}">
-    				</div>
-    				<h5>时尚渐变色</h5>
-					<p class="guess_price">
-						<span class="new_price">255.00</span>
-						<span class="old_price">588.00</span>
-					</p>
-					<a class="buy_now_guess" href="{{ route('root') }}">立即购买</a>
-    			</li>
-    			<li>
-    				<div class="guess_list_img">
-    					<div class="guess_list_tips">
-    						<img src="{{ asset('img/guess_tips.png') }}">
-    					</div>
-    					<img src="{{ asset('img/guess_3.png') }}">
-    				</div>
-    				<h5>时尚渐变色</h5>
-					<p class="guess_price">
-						<span class="new_price">255.00</span>
-						<span class="old_price">588.00</span>
-					</p>
-					<a class="buy_now_guess" href="{{ route('root') }}">立即购买</a>
-    			</li>
-    			<li>
-    				<div class="guess_list_img">
-    					<img src="{{ asset('img/guess_4.png') }}">
-    				</div>
-    				<h5>时尚渐变色</h5>
-					<p class="guess_price">
-						<span class="new_price">255.00</span>
-						<span class="old_price">588.00</span>
-					</p>
-					<a class="buy_now_guess" href="{{ route('root') }}">立即购买</a>
-    			</li>
-    			<li>
-    				<div class="guess_list_img">
-    					<img src="{{ asset('img/guess_1.png') }}">
-    				</div>
-    				<h5>时尚渐变色</h5>
-					<p class="guess_price">
-						<span class="new_price">255.00</span>
-						<span class="old_price">588.00</span>
-					</p>
-					<a class="buy_now_guess" href="{{ route('root') }}">立即购买</a>
-    			</li>
-    			<li>
-    				<div class="guess_list_img">
-    					<img src="{{ asset('img/guess_2.png') }}">
-    				</div>
-    				<h5>时尚渐变色</h5>
-					<p class="guess_price">
-						<span class="new_price">255.00</span>
-						<span class="old_price">588.00</span>
-					</p>
-					<a class="buy_now_guess" href="{{ route('root') }}">立即购买</a>
-    			</li>
-    			<li>
-    				<div class="guess_list_img">
-    					<img src="{{ asset('img/guess_3.png') }}">
-    				</div>
-    				<h5>时尚渐变色</h5>
-					<p class="guess_price">
-						<span class="new_price">255.00</span>
-						<span class="old_price">588.00</span>
-					</p>
-					<a class="buy_now_guess" href="{{ route('root') }}">立即购买</a>
-    			</li>
-    			<li>
-    				<div class="guess_list_img">
-    					<img src="{{ asset('img/guess_4.png') }}">
-    				</div>
-    				<h5>时尚渐变色</h5>
-					<p class="guess_price">
-						<span class="new_price">255.00</span>
-						<span class="old_price">588.00</span>
-					</p>
-					<a class="buy_now_guess" href="{{ route('root') }}">立即购买</a>
-    			</li>
+    			@for ($i = 0; $i < 8; $i++)
+					<li>
+	    				<div class="guess_list_img">
+	    					<div class="guess_list_tips">
+	    						<img src="{{ asset('img/guess_tips.png') }}">
+	    					</div>
+	    					<img src="{{ asset('img/guess_2.png') }}">
+	    				</div>
+	    				<h5>时尚渐变色</h5>
+						<p class="guess_price">
+							<span class="new_price">255.00</span>
+							<span class="old_price">588.00</span>
+						</p>
+						<a class="buy_now_guess" href="{{ route('root') }}">立即购买</a>
+	    			</li>
+				@endfor
     		</ul>
     		<!--服务承诺-->
     		<div class="service_commitment">

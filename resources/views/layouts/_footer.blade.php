@@ -17,7 +17,7 @@
 				<img src="{{ asset('img/qr_tip.png') }}">
 			</a>
 		</li>
-		<li class="backtop">
+		<li class="backtop" title="点击返回顶部">
 			<a>
 				<img src="{{ asset('img/top_tip.png') }}">
 			</a>
@@ -95,41 +95,96 @@
 	       		<li>
 	       			<p>友情链接：</p>
 	       		</li>
-	       		<li>
-	       			<a href="{{ route('root') }}">尚禾维曼</a>
-	       		</li>
-	       		<li>
-	       			<span>|</span>
-	       		</li>
-	       		<li>
-	       			<a href="{{ route('root') }}">尚禾维曼</a>
-	       		</li>
-	       		<li>
-	       			<span>|</span>
-	       		</li>
-	       		<li>
-	       			<a href="{{ route('root') }}">尚禾维曼</a>
-	       		</li>
-	       		<li>
-	       			<span>|</span>
-	       		</li>
-	       		<li>
-	       			<a href="{{ route('root') }}">尚禾维曼</a>
-	       		</li>
-	       		<li>
-	       			<span>|</span>
-	       		</li>
-	       		<li>
-	       			<a href="{{ route('root') }}">尚禾维曼</a>
-	       		</li>
-	       		<li>
-	       			<span>|</span>
-	       		</li>
-	       		<li>
-	       			<a href="{{ route('root') }}">尚禾维曼</a>
-	       		</li>
+	       		@for ($i = 0; $i < 8; $i++)
+	       			<li>
+		       			<a href="{{ route('root') }}">尚禾维曼</a>
+		       		</li>
+				@endfor
 	       	</ul>
 	       	<p>Copyright  2018  卓雅美发 版权所有</p>
    	    </div>
    </div>
 </footer>
+<!--登陆注册弹出层-->
+<div class="dialog_iframe">
+	<div class="login_frame">
+		<div class="dialog_logo">
+			<img src="{{ asset('img/logo.png') }}">
+		</div>
+		<!--注册-->
+		<div class="register_form part_frame">
+			<div class="holder">
+				<div class="with-line">新用户注册</div>
+				<p class="register_error error_content">
+					<i></i>
+					<span>请输入邮箱</span>
+				</p>
+				<form id="register-form" action="{{ route('register') }}" method="POST">
+		            {{ csrf_field() }}
+		            <input type="text" placeholder="请输入用户名">
+		            <input type="text" placeholder="请输入密码">
+		       		<input type="text" placeholder="请输入邮箱">
+		       		<div class="verification_code">  
+		       			<input type="text" id="register_code" class="code" placeholder="请输入验证码">  
+		       			<input type="button" class="generate_code" value=" 获取验证码">
+		       		</div>
+		        </form>
+		        <div class="switch-back">
+		        	<p class="agreement_content">
+		        		<input type="checkbox" id="agreement" class="agree_agreement">
+		        		<span>我已阅读并同意</span>
+		        		<a href="{{ route('root') }}">《用户服务使用协议》</a>
+		        	</p>
+		        </div>
+		        <a class="btn_dialog" href="{{ route('register') }}" onclick="event.preventDefault();document.getElementById('register-form').submit();">注册</a>
+		        <div class="switch-back">
+		        	<p class="change_title">
+		        		<span>已有账号？</span>
+		        		<a code="0" class="login_btn rotary_btn">登录>></a>
+		        	</p>
+		        </div>
+			</div>
+		</div>
+		<!--登录-->
+		<div class="login_form part_frame">
+			<div class="holder">
+				<div class="login_type">
+					<ul>
+						<li class="common_login active">
+							<a>普通登录</a>
+						</li>
+						<li class="mailbox_login">
+							<a>邮箱动态密码登录</a>
+						</li>
+					</ul>
+				</div>
+				<p class="login_error error_content">
+					<i></i>
+					<span>请输入邮箱</span>
+				</p>
+				<form id="login-form" class="active" action="{{ route('login') }}" method="POST">
+					{{ csrf_field() }}
+					<input type="text" placeholder="请输入用户名">
+		            <input type="text" placeholder="请输入密码">
+				</form>
+				<form id="mailbox_login" action="{{ route('login') }}" method="POST">
+					{{ csrf_field() }}
+					<input type="text" placeholder="请输入邮箱">
+		            <div class="verification_code">  
+		       			<input type="text" class="code" placeholder="请输入验证码">  
+		       			<input type="button" class="generate_code" value=" 获取验证码">
+		       		</div>
+				</form>
+				<div class="switch-back">
+		        	<a code="1" class="rotary_btn register_btn pull-left">新用户注册</a>
+		        	<a class="forget_psw pull-right" href="{{ route('login') }}">忘记密码？</a>
+		        </div>
+				<a class="btn_dialog commo_btn active" href="{{ route('login') }}" onclick="event.preventDefault();document.getElementById('login-form').submit();">登录</a>
+				<a class="btn_dialog mailbox_btn" href="{{ route('login') }}" onclick="event.preventDefault();document.getElementById('mailbox_login').submit();">登录</a>
+			</div>
+		</div>
+		<div class="close">
+			<i></i>
+		</div>
+	</div>
+</div>
