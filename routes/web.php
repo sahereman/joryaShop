@@ -39,6 +39,10 @@ Horizon::auth(function ($request) {
 });
 Auth::routes();
 
+/*邮箱验证码登录*/
+Route::post('login/send_email_code', 'Auth\LoginController@sendEmailCode')->name('login.send_email_code'); // 发送邮箱验证码
+Route::post('login/verify_email_code', 'Auth\LoginController@verifyEmailCode')->name('login.verify_email_code'); // 验证邮箱验证码
+
 /*需要登录的路由*/
 Route::group(['middleware' => 'auth'], function () {
 
