@@ -27,7 +27,7 @@ class EmailCodeLoginEventListener implements ShouldQueue
     /**
      * Handle the event.
      *
-     * @param  EmailCodeLoginEvent  $event
+     * @param  EmailCodeLoginEvent $event
      * @return void
      */
     public function handle(EmailCodeLoginEvent $event)

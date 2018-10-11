@@ -18,6 +18,10 @@ class UserAddress extends Model
         'last_used_at',
     ];
 
+    protected $casts = [
+        'is_default' => 'boolean',
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class);

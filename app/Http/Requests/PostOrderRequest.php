@@ -13,8 +13,8 @@ class PostOrderRequest extends Request
     public function rules()
     {
         return [
-            'skus' => 'sometimes|json',
-            'carts' => 'sometimes|json',
+            'skus' => 'sometimes|json|required_without:carts',
+            'carts' => 'sometimes|json|required_without:skus',
         ];
     }
 

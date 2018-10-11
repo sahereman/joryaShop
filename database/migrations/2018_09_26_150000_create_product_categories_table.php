@@ -21,6 +21,7 @@ class CreateProductCategoriesTable extends Migration
             $table->string('name_zh')->nullable(false)->comment('中文名称');
             $table->string('description_en')->nullable()->comment('英文描述');
             $table->string('description_zh')->nullable()->comment('中文描述');
+            $table->boolean('is_index')->nullable(false)->default(false)->comment('是否允许在首页展示推荐商品');
 
             $table->timestamps();
         });

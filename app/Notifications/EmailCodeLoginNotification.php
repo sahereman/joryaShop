@@ -44,7 +44,7 @@ class EmailCodeLoginNotification extends Notification implements ShouldQueue
     {
         $email = $notifiable->getEmail();
         $code = Str::random(6);
-        $ttl = 5;
+        $ttl = 500;
         Cache::set('email_code-' . $email, $code, $ttl);
         // 60s内不允许重复发送邮箱验证码
         Cache::set('email_code_sent-' . $email, true, 1);
