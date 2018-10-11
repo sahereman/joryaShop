@@ -17,12 +17,8 @@ mix.js('resources/assets/js/app.js', 'public/js')
    
 mix.copyDirectory('resources/assets/img', 'public/img');
 mix.copyDirectory('resources/assets/js/swiper', 'public/js/swiper');
-mix.copyDirectory('resources/assets/js/main.js', 'public/js/');
+//mix.copyDirectory('resources/assets/js/main.js', 'public/js/');
 
-
-// .copyDirectory('resources/assets/img', 'public/img');
-// .copyDirectory('resources/assets/js/swiper', 'public/js/swiper')
-// ;
 
 mix.browserSync({
     proxy: 'joryashop.test',

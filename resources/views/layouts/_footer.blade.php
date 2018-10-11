@@ -1,29 +1,3 @@
-<!--右侧导航栏-->
-<div class="right_navigation">
-	<ul>
-		<li class="show_customer">
-			<a>
-				<img src="{{ asset('img/Customer_tip.png') }}">
-			</a>
-			<div class="customer_info">
-				<p>为保证服务质量，请先登录</p>
-				<a>联系客服</a>
-				<p>客服电话：400-100-5678</p>
-				<p>早9:00-晚21:00</p>
-			</div>
-		</li>
-		<li class="show_qr">
-			<a>
-				<img src="{{ asset('img/qr_tip.png') }}">
-			</a>
-		</li>
-		<li class="backtop" title="点击返回顶部">
-			<a>
-				<img src="{{ asset('img/top_tip.png') }}">
-			</a>
-		</li>
-	</ul>
-</div>
 <footer class="footer">
    <div class="footer-top">
    	    <div class="m-wrapper">
@@ -105,6 +79,36 @@
    	    </div>
    </div>
 </footer>
+<!--右侧导航栏-->
+<div class="right_navigation">
+	<ul>
+		<li class="show_customer">
+			<a>
+				<img src="{{ asset('img/Customer_tip.png') }}">
+			</a>
+			<div class="customer_info">
+				<p>为保证服务质量，请先登录</p>
+				<a>联系客服</a>
+				<p>客服电话：400-100-5678</p>
+				<p>早9:00-晚21:00</p>
+			</div>
+		</li>
+		<li class="show_qr">
+			<a>
+				<img src="{{ asset('img/qr_tip.png') }}">
+			</a>
+			<div class="qr_info">
+				<img src="{{ asset('img/qr.png') }}">
+   	    		<p>关注公众号</p>
+			</div>
+		</li>
+		<li class="backtop" title="点击返回顶部">
+			<a>
+				<img src="{{ asset('img/top_tip.png') }}">
+			</a>
+		</li>
+	</ul>
+</div>
 <!--登陆注册弹出层-->
 <div class="dialog_iframe">
 	<div class="login_frame">
@@ -126,7 +130,7 @@
 		       		<input type="text" placeholder="请输入邮箱">
 		       		<div class="verification_code">  
 		       			<input type="text" id="register_code" class="code" placeholder="请输入验证码">  
-		       			<input type="button" class="generate_code" value=" 获取验证码">
+		       			<input type="button" class="generate_code" id="getRegister_code" value=" 获取验证码">
 		       		</div>
 		        </form>
 		        <div class="switch-back">
@@ -172,12 +176,12 @@
 					<input type="text" placeholder="请输入邮箱">
 		            <div class="verification_code">  
 		       			<input type="text" class="code" placeholder="请输入验证码">  
-		       			<input type="button" class="generate_code" value=" 获取验证码">
+		       			<input type="button" class="generate_code" id="getLogin_code" value=" 获取验证码">
 		       		</div>
 				</form>
 				<div class="switch-back">
 		        	<a code="1" class="rotary_btn register_btn pull-left">新用户注册</a>
-		        	<a class="forget_psw pull-right" href="{{ route('login') }}">忘记密码？</a>
+		        	<a class="forget_psw pull-right" href="{{ route('password.request') }}">忘记密码？</a>
 		        </div>
 				<a class="btn_dialog commo_btn active" href="{{ route('login') }}" onclick="event.preventDefault();document.getElementById('login-form').submit();">登录</a>
 				<a class="btn_dialog mailbox_btn" href="{{ route('login') }}" onclick="event.preventDefault();document.getElementById('mailbox_login').submit();">登录</a>

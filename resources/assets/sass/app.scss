@@ -822,6 +822,18 @@ footer {
                     }
                 }
             }
+            .qr_info {
+                @extend .customer_info;
+                width: 130px;
+                height: 150px;
+                &:before,
+                &:after {
+                    left: 130px;
+                }
+                img {
+                    margin-top: 15px;
+                }
+            }
         }
     }
     
@@ -1258,3 +1270,6 @@ footer {
         }
     }
 }
+
+
+@import "reset";

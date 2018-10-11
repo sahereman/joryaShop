@@ -79,6 +79,11 @@ $(function(){
     }, function() {
         $(".customer_info").stop(true, true).fadeOut();
     })
+    $(".show_qr").hover(function(){
+    	$(".qr_info").stop(true, true).fadeIn();
+    }, function() {
+        $(".qr_info").stop(true, true).fadeOut();
+    })
     $('#backtop,.backtop').click(function() {
         $("html, body").animate({
             scrollTop: 0

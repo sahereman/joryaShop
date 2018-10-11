@@ -1,0 +1,211 @@
+.reset_psw {
+    background-color: #f8f8f8;
+    .reset_content {
+        width: 830px;
+        height: 520px;
+        border-top: 2px solid $commom-color;
+        background-color: #fff;
+        margin: auto;
+        margin-top: 84px;
+        margin-bottom: 167px;
+        .reset_title {
+            font-size: 18px;
+            color: #a0a39d;
+            text-align: center;
+            margin-top: 35px;
+            img {
+                margin-top: -5px;
+                margin-right: 5px;
+            }
+        }
+        .status {
+            overflow: hidden;
+            margin-top: 45px;
+            .status_tip {
+                display: block;
+                width: 23px;
+                height: 23px;
+                border-radius: 50%;
+                color: #fff;
+                background-color: #dbdbdb;
+                float: left;
+                text-align: center;
+                line-height: 23px;
+                margin-right: 10px;
+                margin-left: 195px;
+                &.active {
+                    background-color: $commom-color;
+                }
+            }
+            div {
+                position: relative;
+                float: left;
+                &:before{
+                    content: '';
+                    width: 173px;
+                    height: 3px;
+                    border-radius: 1.5px;
+                    position: absolute;
+                    top: 50%;
+                    left: 5px;
+                    background-color: #dbdbdb;
+                }
+                &.active {
+                     &:before {
+                        background-color: $commom-color;
+                     }
+                }
+            }
+            p {
+                width: 100%;
+                float: left;
+                margin-top: 15px;
+                color: #dbdbdb;
+                font-size: 12px;
+                span {
+                    display: inline-block;
+                    &:first-of-type {
+                        margin-left: 180px;
+                    }
+                    &:nth-of-type(2),
+                    &:last-of-type {
+                        margin-left: 173px;
+                    }
+                    &.active {
+                        color: $commom-color;
+                    }
+                }
+            }
+        }
+        .panel-body {
+            margin-top: 45px;
+            .reset_email,
+            .reset_psw_new,
+            .reset_psw_sure{
+                overflow: hidden;
+                span {
+                    display: inline-block;
+                    float: left;
+                    color: #a0a39d;
+                    margin-right: 15px;
+                    margin-left: 195px;
+                    font-size: 12px;
+                    margin-top: 5px;
+                }
+                input {
+                    width: 280px;
+                    height: 28px;
+                    float: left;
+                    border: none;
+                    border-bottom: 1px solid #dbdbdb;
+                    color: #444;
+                    text-indent: 10px;
+                    font-size: 12px;
+                    line-height: 28px; 
+                    &::-webkit-input-placeholder {
+                        color: #dbdbdb;
+                        font-size: 12px;
+                    }
+                    &:-moz-placeholder {
+                        color: #dbdbdb;
+                        font-size: 12px;
+                    }
+                    &::-moz-placeholder {
+                        color: #dbdbdb;
+                        font-size: 12px;
+                    }
+                    &:-ms-input-placeholde {
+                        color: #dbdbdb;
+                        font-size: 12px;
+                    }
+                }
+                
+            }   
+            .reset_psw_new {
+                span {
+                    margin-left: 208px;
+                }
+            } 
+            .reset_code {
+                @extend .reset_email;
+                margin-top: 35px;
+                span {
+                    margin-left: 180px;
+                }
+                input {
+                    width: 160px;
+                }
+                #resetCode_get {
+                    width: 100px;
+                    height: 28px;
+                    background-color: transparent;
+                    border: 1px solid $commom-color;
+                    color: $commom-color;
+                    line-height: 15px;
+                    border-radius: 2px;
+                    margin-left: 20px;
+                    font-size: 12px;
+                    outline: none;
+                }
+            }
+            .has-error {
+                .help-block {
+                    color: #fa5b5b;
+                    font-size: 12px;
+                    float: right;
+                    margin-right: 145px;
+                }
+            }
+            .error_block {
+                float: right;
+                margin-right: 135px;
+                font-size: 12px;
+                margin-top: 10px;
+                color: #fa5b5b;
+                display: none;
+            }
+        }
+        .step_btn {
+            margin: 75px auto;
+            button {
+                display: block;
+                margin: auto;
+                width: 287px;
+                height: 36px;
+                background-color: $commom-color;
+                color: #fff;
+                border-radius: 2px;
+                font-size: 16px;
+                text-align: center;
+                border: none;
+            }
+        }
+    }
+    //密码修改成功
+    .success_content {
+        img {
+            margin-left: 48%;
+            margin-top: 55px;
+        }
+        p {
+            text-align: center;
+            color: $commom-color;
+            font-size: 14px;
+            margin-bottom: 30px;
+            margin-top: 10px;
+        }
+        a {
+            display: block;
+            margin: auto;
+            width: 287px;
+            height: 36px;
+            background-color: $commom-color;
+            color: #fff;
+            border-radius: 2px;
+            font-size: 16px;
+            text-align: center;
+            border: none;
+            line-height: 36px;
+        }
+    }
+}
