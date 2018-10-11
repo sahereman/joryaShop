@@ -19,25 +19,137 @@ class AdminTablesSeeder extends Seeder
                 'name' => '用户管理',
                 'slug' => 'users',
                 'http_method' => '',
-                'http_path' => "/users",
+                'http_path' => "/users\r\n/user_addresses\r\n/user_favourites",
+            ],
+            [
+                'name' => '产品管理',
+                'slug' => 'products',
+                'http_method' => '',
+                'http_path' => "/product_categories\r\n/products",
+            ],
+            [
+                'name' => '订单管理',
+                'slug' => 'orders',
+                'http_method' => '',
+                'http_path' => "/orders\r\n/order_refunds",
+            ],
+            [
+                'name' => '广告位管理',
+                'slug' => 'posters',
+                'http_method' => '',
+                'http_path' => "/posters",
+            ],
+            [
+                'name' => '单页管理',
+                'slug' => 'pages',
+                'http_method' => '',
+                'http_path' => "/pages",
+            ],
+            [
+                'name' => 'Banner管理',
+                'slug' => 'banners',
+                'http_method' => '',
+                'http_path' => "/banners",
+            ],
+            [
+                'name' => '汇率管理',
+                'slug' => 'exchange_rates',
+                'http_method' => '',
+                'http_path' => "/exchange_rates",
             ],
         ];
 
     /*自定义添加的菜单*/
     private $custom_menus =
         [
+            //菜单组
             [
                 'parent_id' => 0,
                 'order' => 1,
                 'title' => '用户管理',
                 'icon' => 'fa-list',
-                'uri' => '/users',
+                'uri' => 'users',
             ],
+            [
+                'parent_id' => 0,
+                'order' => 2,
+                'title' => '产品管理',
+                'icon' => 'fa-list',
+                'uri' => '',
+            ],
+            [
+                'parent_id' => 0,
+                'order' => 3,
+                'title' => '订单管理',
+                'icon' => 'fa-list',
+                'uri' => '',
+            ],
+            [
+                'parent_id' => 0,
+                'order' => 4,
+                'title' => '广告位管理',
+                'icon' => 'fa-list',
+                'uri' => 'posters',
+            ],
+            [
+                'parent_id' => 0,
+                'order' => 5,
+                'title' => '单页管理',
+                'icon' => 'fa-list',
+                'uri' => 'pages',
+            ],
+            [
+                'parent_id' => 0,
+                'order' => 9,
+                'title' => 'Banner管理',
+                'icon' => 'fa-list',
+                'uri' => 'banners',
+            ],
+            [
+                'parent_id' => 0,
+                'order' => 9,
+                'title' => '汇率管理',
+                'icon' => 'fa-list',
+                'uri' => 'exchange_rates',
+            ],
+
+
+            // 产品
+            [
+                'parent_id' => 13,
+                'order' => 1,
+                'title' => '分类',
+                'icon' => 'fa-list',
+                'uri' => 'product_categories',
+            ],
+            [
+                'parent_id' => 13,
+                'order' => 2,
+                'title' => '产品',
+                'icon' => 'fa-list',
+                'uri' => 'products',
+            ],
+
+            //订单
+            [
+                'parent_id' => 14,
+                'order' => 1,
+                'title' => '商品订单',
+                'icon' => 'fa-list',
+                'uri' => 'orders',
+            ],
+            [
+                'parent_id' => 14,
+                'order' => 2,
+                'title' => '售后订单',
+                'icon' => 'fa-list',
+                'uri' => 'order_refunds',
+            ],
+
         ];
 
     /**
      * Run the database seeds.
-     *
      * @return void
      */
     public function run()
@@ -53,7 +165,7 @@ class AdminTablesSeeder extends Seeder
         // create a role.
         Role::truncate();
         Role::create([
-            'name' => '超级管理员',
+            'name' => '超级管理组',
             'slug' => 'administrator',
         ]);
 
@@ -191,5 +303,12 @@ class AdminTablesSeeder extends Seeder
 
         // add role to menu.
         Menu::find(2)->roles()->save(Role::first());
+        Menu::find(11)->roles()->save(Role::first());
+        Menu::find(13)->roles()->save(Role::first());
+        Menu::find(14)->roles()->save(Role::first());
+        Menu::find(15)->roles()->save(Role::first());
+        Menu::find(16)->roles()->save(Role::first());
+        Menu::find(17)->roles()->save(Role::first());
+        Menu::find(18)->roles()->save(Role::first());
     }
 }

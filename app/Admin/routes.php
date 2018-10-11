@@ -20,18 +20,29 @@ Route::group([
 
     /*用户*/
     $router->get('users', 'UsersController@index')->name('admin.users.index');
+    $router->get('users/create', 'UsersController@create')->name('admin.users.create');
     $router->get('users/{id}', 'UsersController@show')->name('admin.users.show');
     $router->get('users/{id}/edit', 'UsersController@edit')->name('admin.users.edit');
     $router->put('users/{id}', 'UsersController@update')->name('admin.users.update');
     $router->delete('users/{id}', 'UsersController@destroy')->name('admin.users.destroy');
 
 
-//    $router->resource('example', ExampleController::class)->names('admin.example');
-//    $router->get('example', 'ExampleController@index')->name('admin.example.index');
-//    $router->get('example/{id}', 'ExampleController@show')->name('admin.example.show');
-//    $router->get('example/create', 'ExampleController@create')->name('admin.example.create');
-//    $router->get('example/{id}/edit', 'ExampleController@edit')->name('admin.example.edit');
-//    $router->post('example', 'ExampleController@store')->name('admin.example.store');
-//    $router->put('example/{id}', 'ExampleController@update')->name('admin.example.update');
-//    $router->delete('example/{id}', 'ExampleController@destroy')->name('admin.example.destroy');
+    /*分类*/
+    $router->get('product_categories', 'ProductCategoriesController@index')->name('admin.product_categories.index');
+    $router->get('product_categories/create', 'ProductCategoriesController@create')->name('admin.product_categories.create');
+    $router->get('product_categories/{id}', 'ProductCategoriesController@show')->name('admin.product_categories.show');
+    $router->get('product_categories/{id}/edit', 'ProductCategoriesController@edit')->name('admin.product_categories.edit');
+    $router->post('product_categories', 'ProductCategoriesController@store')->name('admin.product_categories.store');
+    $router->put('product_categories/{id}', 'ProductCategoriesController@update')->name('admin.product_categories.update');
+    $router->delete('product_categories/{id}', 'ProductCategoriesController@destroy')->name('admin.product_categories.destroy');
+
+
+    //    $router->resource('example', ExampleController::class)->names('admin.example');
+    //    $router->get('example', 'ExampleController@index')->name('admin.example.index');
+    //    $router->get('example/create', 'ExampleController@create')->name('admin.example.create');
+    //    $router->get('example/{id}', 'ExampleController@show')->name('admin.example.show');
+    //    $router->get('example/{id}/edit', 'ExampleController@edit')->name('admin.example.edit');
+    //    $router->post('example', 'ExampleController@store')->name('admin.example.store');
+    //    $router->put('example/{id}', 'ExampleController@update')->name('admin.example.update');
+    //    $router->delete('example/{id}', 'ExampleController@destroy')->name('admin.example.destroy');
 });
