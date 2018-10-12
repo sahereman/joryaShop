@@ -26,7 +26,7 @@ class LoginEmailCodeRequest extends Request
     {
         return [
             'email' => [
-                'required|email|exists:users',
+                'required',
                 'string',
                 'email',
                 'exists:users',

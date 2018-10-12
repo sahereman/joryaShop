@@ -2,10 +2,10 @@
 
 namespace App\Http\Requests;
 
-use App\Rules\ResetEmailCodeSentableRule;
+use App\Rules\LoginEmailCodeValidRule;
 use Illuminate\Validation\Rule;
 
-class ResetEmailCodeRequest extends Request
+class LoginEmailCodeValidationRequest extends Request
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -30,8 +30,9 @@ class ResetEmailCodeRequest extends Request
                 'string',
                 'email',
                 'exists:users',
-                new ResetEmailCodeSentableRule(),
+                new LoginEmailCodeValidRule($this->has('code') ? $this->input('code') : ''),
             ],
+            'code' => 'required|string',
         ];
     }
 

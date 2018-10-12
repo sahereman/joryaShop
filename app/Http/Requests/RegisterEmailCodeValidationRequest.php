@@ -2,10 +2,10 @@
 
 namespace App\Http\Requests;
 
-use App\Rules\ResetEmailCodeSentableRule;
+use App\Rules\RegisterEmailCodeValidRule;
 use Illuminate\Validation\Rule;
 
-class ResetEmailCodeRequest extends Request
+class RegisterEmailCodeValidationRequest extends Request
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -29,9 +29,10 @@ class ResetEmailCodeRequest extends Request
                 'required',
                 'string',
                 'email',
-                'exists:users',
-                new ResetEmailCodeSentableRule(),
+                'unique:users',
+                new RegisterEmailCodeValidRule($this->has('code') ? $this->input('code') : ''),
             ],
+            'code' => 'required|string',
         ];
     }
 
@@ -55,7 +56,7 @@ class ResetEmailCodeRequest extends Request
     public function messages()
     {
         return [
-            'email.exists' => '该邮箱尚未注册用户',
+            'email.unique' => '该邮箱已注册用户',
         ];
     }
 }
