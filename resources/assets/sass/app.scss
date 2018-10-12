@@ -392,6 +392,7 @@ a {
             top: 50%;
             margin: -10px 0 0 -10px;
             background: url(../img/msg_close.png) 0 0 no-repeat;
+            background-position-y: -30px;
         }
     }
     .error_content {
@@ -440,6 +441,18 @@ a {
         &:focus {
             border-color: #7ca442;
         }
+        &::-webkit-input-placeholder {
+            color: #c3c5c0;
+        }
+        &:-moz-placeholder {
+            color: #c3c5c0;
+        }
+        &::-moz-placeholder {
+            color: #c3c5c0;
+        }
+        &:-ms-input-placeholde {
+            color: #c3c5c0;
+        }
     }
     #register-form {
         >input {
@@ -447,18 +460,18 @@ a {
             &:nth-of-type(2) {
                 background: url(../img/user_name.png) left no-repeat;
                 background-position-x: 10px;
-                text-indent: 35px;
+                text-indent: 42px;
             }
             &:nth-of-type(3),
             &:nth-of-type(5) {
                 background: url(../img/psw.png) left no-repeat;
                 background-position-x: 10px;
-                text-indent: 35px;
+                text-indent: 42px;
             }
             &:nth-of-type(4) {
                 background: url(../img/email.png) left no-repeat;
                 background-position-x: 10px;
-                text-indent: 35px;
+                text-indent: 42px;
             }
         }
     }
@@ -472,6 +485,9 @@ a {
             width: 170px;
             margin: 0;
             margin-right: 7px;
+            background: url(../img/psw.png) left no-repeat;
+            background-position-x: 10px;
+            text-indent: 42px;
         }
         .generate_code {
             float: left;
@@ -570,21 +586,22 @@ a {
                 &:nth-of-type(2) {
                     background: url(../img/user_name.png) left no-repeat;
                     background-position-x: 10px;
-                    text-indent: 35px;
+                    text-indent: 42px;
                 }
                 &:nth-of-type(3){
                     background: url(../img/psw.png) left no-repeat;
                     background-position-x: 10px;
-                    text-indent: 35px;
+                    text-indent: 42px;
                 }
             }
             &:last-of-type {
                 >input {
+                    color: #c3c5c0;
                     &:first-of-type,
                     &:nth-of-type(2) {
                         background: url(../img/email.png) left no-repeat;
                         background-position-x: 10px;
-                        text-indent: 35px;
+                        text-indent: 42px;
                     }
                 }
             }
@@ -759,6 +776,38 @@ footer {
             border-radius: 2px;
             margin-bottom: 15px;
             position: relative;
+            box-shadow: 0 0 9px 0 rgba(0,0,0,0.1);
+            &.show_customer {
+                >a {
+                    background: url(../img/Customer_tip.png) center no-repeat;
+                }
+                &:hover {
+                    >a {
+                        background: url(../img/Customer_hov_tip.png) center no-repeat;
+                    }
+                }
+            }
+            &.show_qr {
+                a {
+                    background: url(../img/qr_tip.png) center no-repeat;
+                }
+                &:hover {
+                    >a {
+                        background: url(../img/qr_hov_tip.png) center no-repeat;
+                    }
+                }
+            }
+            &.backtop {
+                display: none;
+                a {
+                    background: url(../img/top_tip.png) center no-repeat;
+                }
+                &:hover {
+                    >a {
+                        background: url(../img/top_hov_tip.png) center no-repeat;
+                    }
+                }
+            }
             a {
                 display: block;
                 width: 100%;
@@ -781,6 +830,7 @@ footer {
                 background-color: #fff;
                 text-align: center;
                 transition: all .2s;
+                box-shadow: 0 0 9px 0 rgba(0,0,0,0.1);
                 &:before,
                 &:after {
                         position: absolute;
@@ -1224,7 +1274,7 @@ footer {
         .service_commitment {
             height: 120px;
             background-color: #fff;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
             ul {
                 width: 100%;
                 overflow: hidden;

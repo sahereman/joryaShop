@@ -34,7 +34,7 @@
                     <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
                         <div class="">
                             <input type="hidden" name="email" value="{{ old('email') }}" required>
-                            <input type="hidden" name="code" value="{{ $code }}" required>
+                            <input type="hidden" name="code" value="{{ old('code') }}" required>
                             {{--<input type="hidden" name="token" value="{{ $token or old('token') }}">--}}
                             <label class="reset_psw_new">
                                 <span>新密码</span>
