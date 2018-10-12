@@ -2,11 +2,16 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Models\User;
+use App\Events\EmailCodeRegisterEvent;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\RegisterEmailCodeRequest;
+use App\Http\Requests\RegisterEmailCodeValidationRequest;
+use App\Models\User;
+use Illuminate\Auth\Events\Registered;
+use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Foundation\Auth\RegistersUsers;
 
 class RegisterController extends Controller
 {
@@ -40,6 +45,11 @@ class RegisterController extends Controller
         $this->middleware('guest');
     }
 
+    public function redirectTo()
+    {
+        return redirect()->back();
+    }
+
     /**
      * Get a validator for an incoming registration request.
      *
@@ -52,7 +62,7 @@ class RegisterController extends Controller
             'name' => 'required|string|max:255|unique:users',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6',
-            'code' => 'required|string'
+            'code' => 'required|string',
         ]);
     }
 
@@ -72,13 +82,32 @@ class RegisterController extends Controller
         ]);
     }
 
-    public function sendEmailCode(Request $request)
+    public function sendEmailCode(RegisterEmailCodeRequest $request)
     {
-        //
+        $email = $request->input('email');
+
+        if (Cache::has('reset_email_code-' . $email)) {
+            Cache::forget('reset_email_code-' . $email);
+        }
+
+        event(new EmailCodeRegisterEvent($email));
+
+        return response()->json([]);
     }
 
-    public function verifyEmailCode(Request $request)
+    /**
+     * Handle a registration request for the application.
+     *
+     * @param  \App\Http\Requests\RegisterEmailCodeRequest  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function register(RegisterEmailCodeRequest $request)
     {
-        //
+        event(new Registered($user = $this->create($request->all())));
+
+        $this->guard()->login($user);
+
+        return $this->registered($request, $user)
+            ?: redirect($this->redirectPath());
     }
 }

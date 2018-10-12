@@ -25,7 +25,10 @@ class RegisterEmailCodeRequest extends Request
     public function rules()
     {
         return [
+            'name' => 'bail|required|string|max:255|unique:users',
+            'password' => 'bail|required|string|min:6',
             'email' => [
+                'bail',
                 'required',
                 'string',
                 'email',
@@ -43,6 +46,8 @@ class RegisterEmailCodeRequest extends Request
     public function attributes()
     {
         return [
+            'name' => '用户名',
+            'password' => '密码',
             'email' => '邮箱',
         ];
     }
@@ -55,6 +60,7 @@ class RegisterEmailCodeRequest extends Request
     public function messages()
     {
         return [
+            'name.unique' => '该用户名已注册用户',
             'email.unique' => '该邮箱已注册用户',
         ];
     }

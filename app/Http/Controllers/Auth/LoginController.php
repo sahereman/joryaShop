@@ -4,7 +4,10 @@ namespace App\Http\Controllers\Auth;
 
 use App\Events\EmailCodeLoginEvent;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\LoginEmailCodeRequest;
+use App\Http\Requests\LoginEmailCodeValidationRequest;
 use App\Models\User;
+use App\Rules\LoginEmailCodeSentableRule;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -59,10 +62,8 @@ class LoginController extends Controller
         if (request()->has('username')) {
             if (Validator::make(request()->all(), [
                 'username' => 'required|string|email',
-            ])->passes()
+            ])->fails()
             ) {
-                return 'email';
-            } else {
                 return 'name';
             }
         }
@@ -119,27 +120,10 @@ class LoginController extends Controller
         return redirect()->back(302);
     }
 
-    public function sendEmailCode(Request $request)
+    // POST 发送邮箱验证码 [for Ajax request]
+    public function sendEmailCode(LoginEmailCodeRequest $request)
     {
-        if (Validator::make($request->only('email'), [
-            'email' => 'required|string|email|exists:users'
-        ], [
-            'email.exists' => '该邮箱尚未注册用户',
-        ])->fails()
-        ) {
-            return response()->json([
-                'code' => 204,
-                'message' => '该邮箱尚未注册用户',
-            ]);
-        }
         $email = $request->input('email');
-
-        if (Cache::has('login_email_code_sent-' . $email)) {
-            return response()->json([
-                'code' => 201,
-                'message' => '邮箱验证码已发送',
-            ]);
-        }
 
         if (Cache::has('login_email_code-' . $email)) {
             Cache::forget('login_email_code-' . $email);
@@ -147,36 +131,23 @@ class LoginController extends Controller
 
         event(new EmailCodeLoginEvent($email));
 
-        return response()->json([
-            'code' => 200,
-            'message' => 'success',
-        ]);
+        return response()->json([]);
     }
 
-    public function verifyEmailCode(Request $request)
+    // POST 验证邮箱验证码 [for Ajax request]
+    public function verifyEmailCode(LoginEmailCodeValidationRequest $request)
     {
         $email = $request->input('email');
-        $code = $request->input('code');
-        $this->validateLogin($request);
-        if (Cache::has('login_email_code-' . $email)) {
-            if (Cache::get('login_email_code-' . $email) === $code) {
-                Cache::forget('login_email_code-' . $email);
-                $user = User::where(['email' => $email])->first();
-                if ($request->filled('remember')) {
-                    Auth::login($user, true);
-                } else {
-                    Auth::login($user);
-                }
-                return $this->sendLoginResponse($request);
-            }
-            return response()->json([
-                'code' => 203,
-                'message' => '邮箱验证码错误',
-            ]);
+        // $code = $request->input('code');
+
+        Cache::forget('login_email_code-' . $email);
+        $user = User::where(['email' => $email])->first();
+        if ($request->filled('remember')) {
+            Auth::login($user, true);
+        } else {
+            Auth::login($user);
         }
-        return response()->json([
-            'code' => 202,
-            'message' => '邮箱验证码已过期',
-        ]);
+
+        return $this->sendLoginResponse($request);
     }
 }

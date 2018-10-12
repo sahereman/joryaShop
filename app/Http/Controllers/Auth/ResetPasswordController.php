@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Auth;
 
 use App\Events\EmailCodeResetEvent;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ResetEmailCodeRequest;
+use App\Http\Requests\ResetEmailCodeValidationRequest;
 use App\Models\User;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 use Illuminate\Http\Request;
@@ -43,24 +45,10 @@ class ResetPasswordController extends Controller
         $this->middleware('guest');
     }
 
-    public function sendEmailCode(Request $request)
+    // POST 发送邮箱验证码
+    public function sendEmailCode(ResetEmailCodeRequest $request)
     {
-        $validator = Validator::make($request->only('email'), [
-            'email' => 'required|string|email|exists:users',
-        ], [
-            'email.exists' => '该邮箱尚未注册用户',
-        ]);
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator);
-        }
         $email = $request->input('email');
-
-        if (Cache::has('reset_email_code_sent-' . $email)) {
-            return response()->json([
-                'code' => 201,
-                'message' => '邮箱验证码已发送',
-            ]);
-        }
 
         if (Cache::has('reset_email_code-' . $email)) {
             Cache::forget('reset_email_code-' . $email);
@@ -73,76 +61,67 @@ class ResetPasswordController extends Controller
         );
     }
 
+    // POST 再次发送邮箱验证码 [for Ajax request]
+    public function resendEmailCode(ResetEmailCodeRequest $request)
+    {
+        $email = $request->input('email');
+
+        if (Cache::has('reset_email_code-' . $email)) {
+            Cache::forget('reset_email_code-' . $email);
+        }
+
+        event(new EmailCodeResetEvent($email));
+
+        return redirect()->route('reset.input_email_code')->withInput(
+            $request->only('email')
+        );
+    }
+
+    // GET 输入邮箱验证码页面
     public function inputEmailCode(Request $request)
     {
         return view('auth.passwords.input_email_code');
     }
 
-    public function verifyEmailCode(Request $request)
+    // POST 验证邮箱验证码
+    public function verifyEmailCode(ResetEmailCodeValidationRequest $request)
     {
         $email = $request->input('email');
         $code = $request->input('code');
-        if (Cache::has('reset_email_code-' . $email)) {
-            if (Cache::get('reset_email_code-' . $email) === $code) {
-                // Cache::forget('reset_email_code-' . $email);
-                return redirect()->route('reset.override')->withInput([
-                    'email' => $email,
-                    'code' => $code,
-                ]);
-            }
-            return response()->json([
-                'code' => 203,
-                'message' => '邮箱验证码错误',
-            ]);
-        }
-        return response()->json([
-            'code' => 202,
-            'message' => '邮箱验证码已过期',
+
+        // Cache::forget('reset_email_code-' . $email);
+        return redirect()->route('reset.override')->withInput([
+            'email' => $email,
+            'code' => $code,
         ]);
     }
 
+    // GET 重复输入新密码页面
     public function override(Request $request)
     {
         return view('auth.passwords.reset');
     }
 
-    public function overridePassword(Request $request)
+    // POST 重置密码为新密码
+    public function overridePassword(ResetEmailCodeValidationRequest $request)
     {
-        $code = $request->input('code');
         $email = $request->input('email');
+        // $code = $request->input('code');
         $password = $request->input('password');
-        if (Cache::has('reset_email_code-' . $email)) {
-            if (Cache::get('reset_email_code-' . $email) === $code) {
-                Cache::forget('reset_email_code-' . $email);
 
-                $this->validate($request, [
-                    'email' => 'required|string|email|exists:users',
-                    'password' => 'required|string|confirmed',
-                ], [
-                    'email.exists' => '该邮箱尚未注册用户',
-                ]);
+        Cache::forget('reset_email_code-' . $email);
 
-                $user = User::where(['email' => $email])->first();
-                $user->password = bcrypt($password);
-                $result = $user->save();
-                if ($result) {
-                    return redirect()->route('reset.success');
-                } else {
-                    return redirect()->route('root');
-                }
-            }
-            return response()->json([
-                'code' => 203,
-                'message' => '邮箱验证码错误',
-            ]);
+        $user = User::where(['email' => $email])->first();
+        $user->password = bcrypt($password);
+        $result = $user->save();
+        if ($result) {
+            return redirect()->route('reset.success');
         } else {
-            return response()->json([
-                'code' => 202,
-                'message' => '邮箱验证码已过期',
-            ]);
+            return redirect()->back();
         }
     }
 
+    // GET 通过邮箱验证码重置密码成功页面
     public function success(Request $request)
     {
         return view('auth.passwords.reset_success');

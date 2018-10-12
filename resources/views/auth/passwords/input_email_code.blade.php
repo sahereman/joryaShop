@@ -67,30 +67,16 @@
         $(function () {
             var countdown = 60;
             var _generate_code;
+            var myReg = /^[a-zA-Z0-9_-]+@([a-zA-Z0-9]+\.)+(com|cn|net|org)$/;
             $("#resetCode_get").on("click", function () {
                 $(".error_block").hide();
                 var disabled = $("#resetCode_get").attr("disabled");
                 _generate_code = $("#resetCode_get");
+                countdown = 60;
                 if (disabled) {
                     return false;
                 }
-                var data = {
-                	email: $("#email").val(),
-                	_toke: "{{ csrf_token() }}"
-                }
-                console.log(data);
-                $.ajax({
-                	type:"post",
-                	url:"{{ route('reset.send_email_code') }}",
-                	data: data,
-                	success:function(json){          
-						console.log(json);          
-						settime();        
-					},        
-					error:function(err){          
-						console.log(err);        
-					}              
-                });
+                settime();
             });
             function settime() {
                 if (countdown == 0) {

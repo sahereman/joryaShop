@@ -2,13 +2,13 @@
 
 namespace App\Listeners;
 
-use App\Events\EmailCodeResetEvent;
-use App\Notifications\EmailCodeResetNotification;
+use App\Events\EmailCodeRegisterEvent;
+use App\Notifications\EmailCodeRegisterNotification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Queue\InteractsWithQueue;
 
-class EmailCodeResetEventListener implements ShouldQueue
+class EmailCodeRegisterEventListener implements ShouldQueue
 {
     use Notifiable;
 
@@ -27,22 +27,22 @@ class EmailCodeResetEventListener implements ShouldQueue
     /**
      * Handle the event.
      *
-     * @param  EmailCodeResetEvent  $event
+     * @param  EmailCodeRegisterEvent $event
      * @return void
      */
-    public function handle(EmailCodeResetEvent $event)
+    public function handle(EmailCodeRegisterEvent $event)
     {
         $email = $event->getEmail();
         $this->email = $email;
-        $this->notify(new EmailCodeResetNotification());
+        $this->notify(new EmailCodeRegisterNotification());
     }
-
+    
     public function getEmail()
     {
         return $this->email;
     }
 
-    public function failed(EmailCodeResetEvent $event, $exception)
+    public function failed(EmailCodeRegisterEvent $event, $exception)
     {
         //
     }

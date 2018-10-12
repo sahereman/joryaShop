@@ -22,6 +22,9 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\EmailCodeResetEvent' => [
             'App\Listeners\EmailCodeResetEventListener',
         ],
+        'App\Events\EmailCodeRegisterEvent' => [
+            'App\Listeners\EmailCodeRegisterEventListener',
+        ],
         /*'Illuminate\Auth\Events\Authenticated' => [
             'App\Listeners\LogAuthenticatedListener'
         ],*/

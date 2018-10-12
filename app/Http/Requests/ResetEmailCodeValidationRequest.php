@@ -33,6 +33,7 @@ class ResetEmailCodeValidationRequest extends Request
                 new ResetEmailCodeValidRule($this->has('code') ? $this->input('code') : ''),
             ],
             'code' => 'required|string',
+            'password' => 'sometimes|required|string|confirmed|min:6',
         ];
     }
 
@@ -45,6 +46,8 @@ class ResetEmailCodeValidationRequest extends Request
     {
         return [
             'email' => '邮箱',
+            'code' => '邮箱验证码',
+            'password' => '密码',
         ];
     }
 
