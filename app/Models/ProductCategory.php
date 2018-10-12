@@ -8,7 +8,6 @@ class ProductCategory extends Model
 {
     /**
      * The attributes that are mass assignable.
-     *
      * @var array
      */
     protected $fillable = [
@@ -17,7 +16,6 @@ class ProductCategory extends Model
 
     /**
      * The attributes that should be hidden for serialization.
-     *
      * @var array
      */
     protected $hidden = [
@@ -26,7 +24,6 @@ class ProductCategory extends Model
 
     /**
      * The attributes that should be cast to native types.
-     *
      * @var array
      */
     protected $casts = [
@@ -35,7 +32,6 @@ class ProductCategory extends Model
 
     /**
      * The attributes that should be mutated to dates.
-     *
      * @var array
      */
     protected $dates = [
@@ -44,7 +40,6 @@ class ProductCategory extends Model
 
     /**
      * The accessors to append to the model's array form.
-     *
      * @var array
      */
     protected $appends = [
@@ -53,11 +48,23 @@ class ProductCategory extends Model
 
     public function getSubCategoriesAttribute()
     {
-        if($this->parent_id == 0){
+        if ($this->parent_id == 0)
+        {
             return self::where(['parent_id' => $this->id])->get();
-        }else{
+        } else
+        {
             return collect();
         }
+    }
+
+    public function child_categories()
+    {
+        return $this->hasMany(ProductCategory::class, 'parent_id', 'id');
+    }
+
+    public function parent_category()
+    {
+        return $this->belongsTo(ProductCategory::class, 'parent_id');
     }
 
     public function products()
