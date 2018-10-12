@@ -12,9 +12,9 @@
     <form  method="POST" action="{{ route('login') }}">
         {{ csrf_field() }}
 
-        <label for="email">E-Mail Address</label>
+        <label for="username">User Name / E-Mail Address</label>
 
-        <input id="email" type="email" name="email" value="{{ old('email') }}">
+        <input id="username" type="text" name="username" value="{{ old('username') }}">
 
 
         <label for="password">Password</label>

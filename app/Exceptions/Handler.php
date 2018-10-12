@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use Exception;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
 class Handler extends ExceptionHandler
@@ -31,7 +32,7 @@ class Handler extends ExceptionHandler
      *
      * This is a great spot to send exceptions to Sentry, Bugsnag, etc.
      *
-     * @param  \Exception  $exception
+     * @param  \Exception $exception
      * @return void
      */
     public function report(Exception $exception)
@@ -42,12 +43,33 @@ class Handler extends ExceptionHandler
     /**
      * Render an exception into an HTTP response.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Exception  $exception
+     * @param  \Illuminate\Http\Request $request
+     * @param  \Exception $exception
      * @return \Illuminate\Http\Response
      */
     public function render($request, Exception $exception)
     {
         return parent::render($request, $exception);
+    }
+
+    protected function unauthenticated($request, AuthenticationException $exception)
+    {
+        $parsedUrl = parse_url(redirect()->back()->getTargetUrl());
+        $urlArray = [];
+        if (isset($parsedUrl['query'])) {
+            parse_str($parsedUrl['query'], $urlArray);
+        }
+        $urlArray['action'] = 'login';
+        $redirectUrl = '';
+        $redirectUrl .= isset($parsedUrl['scheme']) ? $parsedUrl['scheme'] . '://' : 'http://';
+        $redirectUrl .= $parsedUrl['host'] . '?' . http_build_query($urlArray);
+        $redirectUrl .= isset($parsedUrl['path']) ? $parsedUrl['path'] : '';
+        $redirectUrl .= isset($parsedUrl['fragment']) ? '#' . $parsedUrl['fragment'] : '';
+        return $request->expectsJson()
+            ? response()->json([
+                'action' => 'login',
+                'message' => $exception->getMessage(),
+            ], 401)
+            : redirect()->intended($redirectUrl);
     }
 }

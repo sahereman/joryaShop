@@ -4,6 +4,16 @@ Route::get('test', function () {
     dd('test');
 });
 
+/*通过邮箱验证码重置密码*/
+// $this->get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request'); // 忘记密码，通过邮箱重置密码页面
+Route::post('password/reset/send_email_code', 'Auth\ResetPasswordController@sendEmailCode')->name('reset.send_email_code'); // 发送邮箱验证码
+Route::get('password/reset/input_email_code', 'Auth\ResetPasswordController@inputEmailCode')->name('reset.input_email_code'); // 输入邮箱验证码页面
+Route::post('password/reset/verify_email_code', 'Auth\ResetPasswordController@verifyEmailCode')->name('reset.verify_email_code'); // 验证邮箱验证码
+Route::get('password/reset/override', 'Auth\ResetPasswordController@override')->name('reset.override'); // 重复输入新密码
+Route::post('password/reset/override_password', 'Auth\ResetPasswordController@overridePassword')->name('reset.override_password'); // 重置密码为新密码
+Route::get('password/reset/success', 'Auth\ResetPasswordController@success')->name('reset.success'); // 通过邮箱验证码重置密码成功页面
+// $this->post('password/reset', 'Auth\ResetPasswordController@reset');
+
 /*// Authentication Routes...
 $this->get('login', 'Auth\LoginController@showLoginForm')->name('login');
 $this->post('login', 'Auth\LoginController@login');
@@ -21,8 +31,8 @@ $this->post('password/reset', 'Auth\ResetPasswordController@reset');*/
 
 //    Route::resource('example', ExampleController::class);
 //    Route::get('example', 'ExampleController@index')->name('example.index');
-//    Route::get('example/{example}', 'ExampleController@show')->name('example.show');
 //    Route::get('example/create', 'ExampleController@create')->name('example.create');
+//    Route::get('example/{example}', 'ExampleController@show')->name('example.show');
 //    Route::get('example/{example}/edit', 'ExampleController@edit')->name('example.edit');
 //    Route::post('example', 'ExampleController@store')->name('example.store');
 //    Route::put('example/{example}', 'ExampleController@update')->name('example.update');
@@ -39,7 +49,7 @@ Horizon::auth(function ($request) {
 });
 Auth::routes();
 
-/*邮箱验证码登录*/
+/*通过邮箱验证码登录*/
 Route::post('login/send_email_code', 'Auth\LoginController@sendEmailCode')->name('login.send_email_code'); // 发送邮箱验证码
 Route::post('login/verify_email_code', 'Auth\LoginController@verifyEmailCode')->name('login.verify_email_code'); // 验证邮箱验证码
 
@@ -84,8 +94,8 @@ Route::group(['middleware' => 'auth'], function () {
 
     /*订单*/
     Route::get('orders', 'OrdersController@index')->name('orders.index'); // 订单列表
-    Route::get('orders/{order}', 'OrdersController@show')->name('orders.show'); // 订单详情
     Route::get('orders/create', 'OrdersController@create')->name('orders.create'); // 提交订单页面 (参数:购物车ids or 立即购买sku_id)
+    Route::get('orders/{order}', 'OrdersController@show')->name('orders.show'); // 订单详情
     Route::post('orders', 'OrdersController@store')->name('orders.store'); // 提交订单
     Route::get('orders/{order}/payment_method', 'OrdersController@paymentMethod')->name('orders.payment_method'); // 选择支付方式页面
     Route::patch('orders/{order}/close', 'OrdersController@close')->name('orders.close'); // [主动|被动]取消订单，交易关闭 [订单进入交易关闭状态:status->closed]
