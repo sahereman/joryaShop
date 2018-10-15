@@ -23,6 +23,7 @@ $factory->define(App\Models\Product::class, function (Faker $faker) {
         'shipping_fee' => $faker->randomFloat(2, 0, 20),
         'stock' => $faker->randomNumber(3),
         'price' => $faker->randomFloat(2, 10, 20),
+        'is_index' => true,
         'on_sale' => true,
         'created_at' => $created_at,
         'updated_at' => $updated_at,

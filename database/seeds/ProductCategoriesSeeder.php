@@ -12,9 +12,10 @@ class ProductCategoriesSeeder extends Seeder
     public function run()
     {
         //一级
-        factory(ProductCategory::class, 5)->create(
-            ['parent_id' => 0]
-        );
+        factory(ProductCategory::class, 5)->create([
+            'parent_id' => 0,
+            'is_index' => 1,
+        ]);
 
         //二级
         ProductCategory::all()->each(function (ProductCategory $category) {
