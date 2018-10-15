@@ -4,6 +4,10 @@ Route::get('test', function () {
     dd('test');
 });
 
+/*通过邮箱验证码登录*/
+Route::post('login/send_email_code', 'Auth\LoginController@sendEmailCode')->name('login.send_email_code'); // 发送邮箱验证码 [for Ajax request]
+Route::post('login/verify_email_code', 'Auth\LoginController@verifyEmailCode')->name('login.verify_email_code'); // 验证邮箱验证码 [for Ajax request]
+
 /*通过邮箱验证码重置密码*/
 // $this->get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request'); // 忘记密码，通过邮箱重置密码页面
 Route::post('password/reset/send_email_code', 'Auth\ResetPasswordController@sendEmailCode')->name('reset.send_email_code'); // 发送邮箱验证码
@@ -14,6 +18,9 @@ Route::get('password/reset/override', 'Auth\ResetPasswordController@override')->
 Route::post('password/reset/override_password', 'Auth\ResetPasswordController@overridePassword')->name('reset.override_password'); // 重置密码为新密码
 Route::get('password/reset/success', 'Auth\ResetPasswordController@success')->name('reset.success'); // 通过邮箱验证码重置密码成功页面
 // $this->post('password/reset', 'Auth\ResetPasswordController@reset');
+
+/*通过邮箱验证码注册*/
+Route::post('register/send_email_code', 'Auth\RegisterController@sendEmailCode')->name('login.send_email_code'); // 发送邮箱验证码 [for Ajax request]
 
 /*// Authentication Routes...
 $this->get('login', 'Auth\LoginController@showLoginForm')->name('login');
@@ -49,10 +56,6 @@ Horizon::auth(function ($request) {
     return Auth::guard('admin')->check();
 });
 Auth::routes();
-
-/*通过邮箱验证码登录*/
-Route::post('login/send_email_code', 'Auth\LoginController@sendEmailCode')->name('login.send_email_code'); // 发送邮箱验证码 [for Ajax request]
-Route::post('login/verify_email_code', 'Auth\LoginController@verifyEmailCode')->name('login.verify_email_code'); // 验证邮箱验证码 [for Ajax request]
 
 /*需要登录的路由*/
 Route::group(['middleware' => 'auth'], function () {

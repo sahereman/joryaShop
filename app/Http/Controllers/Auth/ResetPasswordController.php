@@ -54,7 +54,7 @@ class ResetPasswordController extends Controller
             Cache::forget('reset_email_code-' . $email);
         }
 
-        event(new EmailCodeResetEvent($email));
+        // event(new EmailCodeResetEvent($email));
 
         return redirect()->route('reset.input_email_code')->withInput(
             $request->only('email')

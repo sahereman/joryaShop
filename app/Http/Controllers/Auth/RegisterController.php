@@ -86,8 +86,8 @@ class RegisterController extends Controller
     {
         $email = $request->input('email');
 
-        if (Cache::has('reset_email_code-' . $email)) {
-            Cache::forget('reset_email_code-' . $email);
+        if (Cache::has('register_email_code-' . $email)) {
+            Cache::forget('register_email_code-' . $email);
         }
 
         event(new EmailCodeRegisterEvent($email));

@@ -62,8 +62,10 @@ class Handler extends ExceptionHandler
         $urlArray['action'] = 'login';
         $redirectUrl = '';
         $redirectUrl .= isset($parsedUrl['scheme']) ? $parsedUrl['scheme'] . '://' : 'http://';
-        $redirectUrl .= $parsedUrl['host'] . '?' . http_build_query($urlArray);
+        $redirectUrl .= $parsedUrl['host'];
+        $redirectUrl .= isset($parsedUrl['port']) ? ':' . $parsedUrl['port'] : '';
         $redirectUrl .= isset($parsedUrl['path']) ? $parsedUrl['path'] : '';
+        $redirectUrl .= '?' . http_build_query($urlArray);
         $redirectUrl .= isset($parsedUrl['fragment']) ? '#' . $parsedUrl['fragment'] : '';
         return $request->expectsJson()
             ? response()->json([
