@@ -131,7 +131,7 @@
                        <div class="verification_code">  
                            <input type="text" id="register_code" class="code" name="code" placeholder="请输入验证码">  
                            <input type="button" class="generate_code" id="getRegister_code" value=" 获取验证码">
-                       </div>
+                       </div> 
                 </form>
                 <div class="switch-back">
                     <p class="agreement_content">
@@ -173,9 +173,9 @@
                 </form>
                 <form id="mailbox_login" action="{{ route('login') }}" method="POST">
                     {{ csrf_field() }}
-                    <input type="text" name="email" placeholder="请输入邮箱">
+                    <input type="text" name="email" id="login_email" placeholder="请输入邮箱" required>
                     <div class="verification_code">  
-                           <input type="text" class="code" name="code" placeholder="请输入验证码">  
+                           <input type="text" class="code" name="code" placeholder="请输入验证码" required>  
                            <input type="button" class="generate_code" id="getLogin_code" value=" 获取验证码">
                        </div>
                 </form>

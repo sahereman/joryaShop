@@ -3,14 +3,14 @@
 
 require('./bootstrap');
 
-window.Vue = require('vue');
+//window.Vue = require('vue');
 //require('./components/SelectDistrict');
 //require('./components/UserAddressesCreateAndEdit');
 //require('./components/jquery.lazyload/jquery.lazyload.min')
 
-const app = new Vue({
-    el: '#app'
-});
+//const app = new Vue({
+//  el: '#app'
+//});
 /**
  * 通用模块
  */
@@ -54,6 +54,16 @@ $(function() {
             $(".navbar-bottom").removeClass("fixed-header");
         }
     });
+    $(window).on("scroll", function() {
+        var t = document.documentElement.scrollTop || document.body.scrollTop;
+        if (screen.width > 0) {
+            if (t >= 400) { 
+                $(".backtop").css("display","block");
+            } else {
+                $(".backtop").css("display","none");
+            }
+        }
+    })
 });
 
 // placeholder
@@ -173,6 +183,7 @@ $(function(){
 	//获取验证码倒计时
 	var countdown=60;    
 	var _generate_code;
+	var myReg = /^[a-zA-Z0-9_-]+@([a-zA-Z0-9]+\.)+(com|cn|net|org)$/;
 	$("#getRegister_code").on("click",function(){      
 		var disabled = $("#getRegister_code").attr("disabled");  
 		_generate_code = $("#getRegister_code");
@@ -184,21 +195,21 @@ $(function(){
 //			alert("请填写正确的邮箱！");        
 //			return false;      
 //		}      
-//		$.ajax({        
-//			async:false,        
-//			type: "GET",        
-//			url: "{:U('User/sms')}",        
-//			data: {mobile:$("#mobile").val()},        
-//			dataType: "json",        
-//			async:false,        
-//			success:function(data){          
-//				console.log(data);          
-				settime();        
+//      var data = {
+//      	email: $("#email").val(),
+//          _toke: "{{ csrf_token() }}"
+//      }
+//      $.ajax({
+//      	type:"post",
+//      	url:"{{ route('reset.resend_email_code') }}",
+//      	data:data,
+//      	success:function(data){              
+//				settime();        
 //			},        
 //			error:function(err){          
 //				console.log(err);        
 //			}      
-//		});    
+//      });
 	});
 	$("#getLogin_code").on("click",function(){      
 		var disabled = $("#getLogin_code").attr("disabled");  
@@ -207,26 +218,26 @@ $(function(){
 		if(disabled){        
 			return false;      
 		}      
-//		if($("#mobile").val() == "" || isNaN($("#mobile").val()) || $("#mobile").val().length != 11 ){        
-//			alert("请填写正确的邮箱！");        
-//			return false;      
-//		}      
-//		$.ajax({        
-//			async:false,        
-//			type: "GET",        
-//			url: "{:U('User/sms')}",        
-//			data: {mobile:$("#mobile").val()},        
-//			dataType: "json",        
-//			async:false,        
-//			success:function(data){          
-//				console.log(data);          
+		var data = {
+        	email: $("#login_email").val(),
+            _toke: "{{ csrf_token() }}"
+        }
+        $.ajax({
+        	type:"post",
+        	url:"login/send_email_code",
+        	data:data,
+        	success:function(data){              
 				settime();        
-//			},        
-//			error:function(err){          
-//				console.log(err);        
-//			}      
-//		});    
+			},        
+			error:function(err){          
+				console.log(err);        
+			}      
+        });
 	});    
+	//邮箱验证登录
+	$(".mailbox_btn").on("click",function(){
+		
+	})
 
 	function settime() {         
 		if (countdown == 0) {        
