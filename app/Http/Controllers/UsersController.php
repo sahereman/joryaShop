@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Handlers\ImageUploadHandler;
 use App\Http\Requests\UserRequest;
 use App\Models\User;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -23,9 +24,22 @@ class UsersController extends Controller
     public function home(Request $request)
     {
         if (Auth::check()) {
-            $user = $request->user()->toArray();
+            $user = Auth::user();
+            $orders = $user->orders()
+                //->where('status', '<>', 'closed')
+                //->whereNotIn('status', ['closed'])
+                //->whereIn('status', ['paying', 'shipping', 'receiving', 'refunding', 'completed'])
+                //->where('status', 'in', ['paying', 'shipping', 'receiving', 'refunding', 'completed'])
+                //->orderByDesc('updated_at')
+                ->where('status', 'paying')
+                ->orderByDesc('created_at')
+                ->limit(3)
+                ->get();
+            $guesses = Product::where(['is_index' => true, 'on_sale' => true])->orderByDesc('heat')->limit(8)->get();
             return view('users.home', [
                 'user' => $user,
+                'orders' => $orders,
+                'guesses' => $guesses,
             ]);
         } else {
             // return redirect()->route('login');

@@ -23,7 +23,7 @@ class IndexController extends Controller
                 $products['category'][$category->id]['products'] = Product::where('is_index', true)->whereIn('product_category_id', $subCategoryIds)->orderByDesc('index')->limit(8)->get();
             }
         }
-        $products['guess'] = Product::where(['is_index' => true, 'on_sale' => true])->orderByDesc('heat')->limit(8)->get();
+        $products['guesses'] = Product::where(['is_index' => true, 'on_sale' => true])->orderByDesc('heat')->limit(8)->get();
 //        var_dump($products['category']);
         return view('index.root', [
             'products' => $products,

@@ -8,9 +8,6 @@ Route::get('test', function () {
 Route::post('login/send_email_code', 'Auth\LoginController@sendEmailCode')->name('login.send_email_code'); // 发送邮箱验证码 [for Ajax request]
 Route::post('login/verify_email_code', 'Auth\LoginController@verifyEmailCode')->name('login.verify_email_code'); // 验证邮箱验证码 [for Ajax request]
 
-/*重写原生登录接口*/
-Route::post('login', 'Auth\LoginController@login')->name('login.post'); // form表单提交数据，执行登录
-
 /*通过邮箱验证码重置密码*/
 // $this->get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request'); // 忘记密码，通过邮箱重置密码页面
 Route::post('password/reset/send_email_code', 'Auth\ResetPasswordController@sendEmailCode')->name('reset.send_email_code'); // 发送邮箱验证码
@@ -60,6 +57,9 @@ Horizon::auth(function ($request) {
 });
 Auth::routes();
 
+/*重写原生登录接口*/
+Route::post('login', 'Auth\LoginController@login')->name('login.post'); // form表单提交数据，执行登录
+
 /*需要登录的路由*/
 Route::group(['middleware' => 'auth'], function () {
 
@@ -101,6 +101,11 @@ Route::group(['middleware' => 'auth'], function () {
 
     /*订单*/
     Route::get('orders', 'OrdersController@index')->name('orders.index'); // 订单列表
+    Route::get('orders/paying', 'OrdersController@payingOrders')->name('orders.paying'); // 待付款订单列表
+    Route::get('orders/receiving', 'OrdersController@receivingOrders')->name('orders.receiving'); // 待收货订单列表
+    Route::get('orders/commenting', 'OrdersController@commentingOrders')->name('orders.commenting'); // 待评价订单列表
+    Route::get('orders/refunding', 'OrdersController@refundingOrders')->name('orders.refunding'); // 售后订单列表
+    Route::get('orders/completed', 'OrdersController@completedOrders')->name('orders.completed'); // 已完成订单列表 [成交记录]
     Route::get('orders/create', 'OrdersController@create')->name('orders.create'); // 提交订单页面 (参数:购物车ids or 立即购买sku_id)
     Route::get('orders/{order}', 'OrdersController@show')->name('orders.show'); // 订单详情
     Route::post('orders', 'OrdersController@store')->name('orders.store'); // 提交订单

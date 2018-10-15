@@ -20,7 +20,9 @@ class ProductsController extends Controller
     // 商品详情
     public function show (Request $request, Product $product)
     {
-        return view('products.show', []);
+        return view('products.show', [
+            'product' => $product,
+        ]);
     }
 
     public function comments (Request $request, Product $product)

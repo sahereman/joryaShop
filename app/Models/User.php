@@ -39,6 +39,16 @@ class User extends Authenticatable
         return \Storage::disk('public')->url($this->attributes['avatar']);
     }
 
+    public function favourites()
+    {
+        return $this->hasMany(UserFavourite::class);
+    }
+
+    public function histories()
+    {
+        return $this->hasMany(UserHistory::class);
+    }
+
     public function addresses()
     {
         return $this->hasMany(UserAddress::class);
@@ -47,5 +57,10 @@ class User extends Authenticatable
     public function carts()
     {
         return $this->hasMany(Cart::class);
+    }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
     }
 }
