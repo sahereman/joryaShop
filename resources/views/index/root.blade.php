@@ -92,13 +92,13 @@
                     <div class="m-wrapper">
                         <h3>猜你喜欢</h3>
                         <ul class="guess_lists">
-                            @foreach($products['guess'] as $guess_product)
+                            @foreach($products['guesses'] as $guess)
                                 <li>
                                     <div class="guess_list_img">
                                         <div class="guess_list_tips">
                                             <img src="{{ asset('img/guess_tips.png') }}">
                                         </div>
-                                        <img src="{{ asset('img/guess_2.png') }}">
+                                        <img src="{{ $guess->thumb }}">
                                     </div>
                                     <h5>时尚渐变色</h5>
                                     <p class="guess_price">
