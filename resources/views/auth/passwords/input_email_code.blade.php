@@ -38,6 +38,12 @@
                                     <input id="email" type="email" name="email" value="{{ old('email') }}" readonly
                                            required placeholder="请输入邮箱">
                                 </label>
+                                @if ($errors->has('email'))
+                                    <span class="help-block">
+                                    <img src="{{ asset('img/error_fork.png') }}">
+                                    <strong>{{ $errors->first('email') }}</strong>
+                                    </span>
+                                @endif
                                 <label class="reset_code">
                                     <span>验证码</span>
                                     <input id="code" type="text" name="code" value="{{ old('code') }}"
@@ -48,7 +54,7 @@
                                     <span class="help-block">
                                     <img src="{{ asset('img/error_fork.png') }}">
                                     <strong>{{ $errors->first('code') }}</strong>
-                                </span>
+                                    </span>
                                 @endif
                             </div>
                         </div>

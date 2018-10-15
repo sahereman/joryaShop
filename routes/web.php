@@ -8,6 +8,9 @@ Route::get('test', function () {
 Route::post('login/send_email_code', 'Auth\LoginController@sendEmailCode')->name('login.send_email_code'); // 发送邮箱验证码 [for Ajax request]
 Route::post('login/verify_email_code', 'Auth\LoginController@verifyEmailCode')->name('login.verify_email_code'); // 验证邮箱验证码 [for Ajax request]
 
+/*重写原生登录接口*/
+Route::post('login', 'Auth\LoginController@login')->name('login.post'); // form表单提交数据，执行登录
+
 /*通过邮箱验证码重置密码*/
 // $this->get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request'); // 忘记密码，通过邮箱重置密码页面
 Route::post('password/reset/send_email_code', 'Auth\ResetPasswordController@sendEmailCode')->name('reset.send_email_code'); // 发送邮箱验证码

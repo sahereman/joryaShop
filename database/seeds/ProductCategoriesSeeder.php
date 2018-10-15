@@ -14,7 +14,7 @@ class ProductCategoriesSeeder extends Seeder
         //一级
         factory(ProductCategory::class, 5)->create([
             'parent_id' => 0,
-            'is_index' => 1,
+            'is_index' => true,
         ]);
 
         //二级

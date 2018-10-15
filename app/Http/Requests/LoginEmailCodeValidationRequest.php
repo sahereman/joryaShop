@@ -30,9 +30,12 @@ class LoginEmailCodeValidationRequest extends Request
                 'string',
                 'email',
                 'exists:users',
-                new LoginEmailCodeValidRule($this->has('code') ? $this->input('code') : ''),
             ],
-            'code' => 'required|string',
+            'code' => [
+                'required',
+                'string',
+                new LoginEmailCodeValidRule($this->has('email') ? $this->input('email') : ''),
+            ],
         ];
     }
 

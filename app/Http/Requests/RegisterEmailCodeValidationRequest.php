@@ -33,9 +33,12 @@ class RegisterEmailCodeValidationRequest extends Request
                 'string',
                 'email',
                 'unique:users',
-                new RegisterEmailCodeValidRule($this->has('code') ? $this->input('code') : ''),
             ],
-            'code' => 'required|string',
+            'code' => [
+                'required',
+                'string',
+                new RegisterEmailCodeValidRule($this->has('email') ? $this->input('email') : ''),
+            ],
         ];
     }
 

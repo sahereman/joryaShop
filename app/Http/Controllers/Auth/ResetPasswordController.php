@@ -48,13 +48,13 @@ class ResetPasswordController extends Controller
     // POST 发送邮箱验证码
     public function sendEmailCode(ResetEmailCodeRequest $request)
     {
-        $email = $request->input('email');
+        /*$email = $request->input('email');
 
         if (Cache::has('reset_email_code-' . $email)) {
             Cache::forget('reset_email_code-' . $email);
         }
 
-        // event(new EmailCodeResetEvent($email));
+        event(new EmailCodeResetEvent($email));*/
 
         return redirect()->route('reset.input_email_code')->withInput(
             $request->only('email')
@@ -72,9 +72,9 @@ class ResetPasswordController extends Controller
 
         event(new EmailCodeResetEvent($email));
 
-        return redirect()->route('reset.input_email_code')->withInput(
+        /*return redirect()->route('reset.input_email_code')->withInput(
             $request->only('email')
-        );
+        );*/
     }
 
     // GET 输入邮箱验证码页面

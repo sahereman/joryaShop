@@ -30,9 +30,12 @@ class ResetEmailCodeValidationRequest extends Request
                 'string',
                 'email',
                 'exists:users',
-                new ResetEmailCodeValidRule($this->has('code') ? $this->input('code') : ''),
             ],
-            'code' => 'required|string',
+            'code' => [
+                'required',
+                'string',
+                new ResetEmailCodeValidRule($this->has('email') ? $this->input('email') : ''),
+            ],
             'password' => 'sometimes|required|string|confirmed|min:6',
         ];
     }

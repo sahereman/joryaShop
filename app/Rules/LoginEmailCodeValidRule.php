@@ -8,16 +8,16 @@ use Illuminate\Support\Facades\Cache;
 class LoginEmailCodeValidRule implements Rule
 {
     protected $is_expired = true;
-    protected $code = '';
+    protected $email = '';
 
     /**
      * Create a new rule instance.
      *
      * @return void
      */
-    public function __construct($code)
+    public function __construct($email)
     {
-        $this->code = $code;
+        $this->email = $email;
     }
 
     /**
@@ -29,9 +29,9 @@ class LoginEmailCodeValidRule implements Rule
      */
     public function passes($attribute, $value)
     {
-        if(Cache::has('login_email_code-'.$value)){
+        if(Cache::has('login_email_code-'.$this->email)){
             $this->is_expired = false;
-            return Cache::get('login_email_code-' . $value) == $this->code;
+            return Cache::get('login_email_code-' . $this->email) == $value;
         }
         return false;
     }
