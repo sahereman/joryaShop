@@ -27,7 +27,7 @@ Route::group([
     $router->delete('users/{id}', 'UsersController@destroy')->name('admin.users.destroy');
 
 
-    /*分类*/
+    /*产品分类*/
     $router->get('product_categories', 'ProductCategoriesController@index')->name('admin.product_categories.index');
     $router->get('product_categories/create', 'ProductCategoriesController@create')->name('admin.product_categories.create');
     $router->get('product_categories/{id}', 'ProductCategoriesController@show')->name('admin.product_categories.show');
@@ -35,6 +35,15 @@ Route::group([
     $router->post('product_categories', 'ProductCategoriesController@store')->name('admin.product_categories.store');
     $router->put('product_categories/{id}', 'ProductCategoriesController@update')->name('admin.product_categories.update');
     $router->delete('product_categories/{id}', 'ProductCategoriesController@destroy')->name('admin.product_categories.destroy');
+
+    /*产品*/
+    $router->get('products', 'ProductsController@index')->name('admin.products.index');
+    $router->get('products/create', 'ProductsController@create')->name('admin.products.create');
+    $router->get('products/{id}', 'ProductsController@show')->name('admin.products.show');
+    $router->get('products/{id}/edit', 'ProductsController@edit')->name('admin.products.edit');
+    $router->post('products', 'ProductsController@store')->name('admin.products.store');
+    $router->put('products/{id}', 'ProductsController@update')->name('admin.products.update');
+    $router->delete('products/{id}', 'ExampleController@destroy')->name('admin.products.destroy');
 
 
     //    $router->resource('example', ExampleController::class)->names('admin.example');

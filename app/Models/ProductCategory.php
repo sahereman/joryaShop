@@ -2,10 +2,24 @@
 
 namespace App\Models;
 
+use Encore\Admin\Traits\AdminBuilder;
+use Encore\Admin\Traits\ModelTree;
 use Illuminate\Database\Eloquent\Model;
 
 class ProductCategory extends Model
 {
+    use ModelTree, AdminBuilder;
+
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct();
+
+        /*初始化Tree属性*/
+        $this->setTitleColumn('name_zh');
+        $this->setOrderColumn('sort');
+    }
+
+
     /**
      * The attributes that are mass assignable.
      * @var array
@@ -57,12 +71,12 @@ class ProductCategory extends Model
         }
     }
 
-    public function child_categories()
+    public function children()
     {
         return $this->hasMany(ProductCategory::class, 'parent_id', 'id');
     }
 
-    public function parent_category()
+    public function parent()
     {
         return $this->belongsTo(ProductCategory::class, 'parent_id');
     }

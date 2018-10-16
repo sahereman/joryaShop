@@ -8,7 +8,6 @@ class CreateProductCategoriesTable extends Migration
 {
     /**
      * Run the migrations.
-     *
      * @return void
      */
     public function up()
@@ -23,13 +22,14 @@ class CreateProductCategoriesTable extends Migration
             $table->string('description_zh')->nullable()->comment('中文描述');
             $table->boolean('is_index')->nullable(false)->default(false)->comment('是否允许在首页展示推荐商品');
 
+            $table->unsignedSmallInteger('sort')->nullable(false)->default(0)->comment('排序值');
+
             $table->timestamps();
         });
     }
 
     /**
      * Reverse the migrations.
-     *
      * @return void
      */
     public function down()
