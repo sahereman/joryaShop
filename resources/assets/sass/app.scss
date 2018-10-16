@@ -75,8 +75,12 @@ a {
     color: #bc8c61;
 }
 
-
-
+//面包屑
+.Crumbs {
+    font-size: 12px;
+    color: #999;
+    margin: 10px 0;
+}
 
 //顶部样式
 .navbar {
@@ -142,6 +146,7 @@ a {
         .navbar-top-right {
             font-size: 13px;
             color: #999;
+            position: relative;
             a {
                 padding: 0 8px; 
                 cursor: pointer;
@@ -153,6 +158,64 @@ a {
                 }
                 &:hover {
                     color: #c7a07e;
+                }
+            }
+            img {
+                margin-right: 5px;
+                &.user_img {
+                   
+                }
+            }
+            .touser_center {
+                span {
+                    display: inline-block;
+                    line-height: 32px;
+                    height: 32px;  
+                    &:first-of-type {
+                        display: inline-block;
+                        width: 32px;
+                        height: 32px;
+                        border-radius: 50%;   
+                        overflow: hidden;
+                        float: left;
+                        margin-left: 10px;
+                        margin-right: 10px;
+                        img {
+                            width: 100%;
+                        }   
+                    }
+                }
+            }
+            .dropdown-menu {
+                width: 130px;
+                min-width: auto;
+                border: none;
+                top: 85%;
+                left: 0;
+                border-radius: 2px;
+                text-align: center;
+                font-size: 12px;
+                color: #999; 
+                &:after {
+                    position: absolute;
+                    display: inline-block;
+                    right: auto;
+                    left: 20px;
+                    top: -14px;
+                    border: 7px solid transparent;
+                    border-bottom-color: #fff;
+                    content: "";
+                }
+                li {
+                    margin: 5px 0;
+                    a {
+                        font-size: 12px;
+                        color: #999; 
+                        &:hover {
+                            color: $commom-color;
+                            background-color:transparent;
+                        }
+                    }
                 }
             }
         }
@@ -593,6 +656,7 @@ a {
             display: none;
             &.active {
                 display: block;
+                cursor: pointer;
             }
         }
     }
@@ -742,6 +806,57 @@ footer {
         }
     }
 }
+.commitment {
+    width: 100%;
+    background-color: #f8f8f8;
+    .service_commitment {
+        height: 120px;
+        background-color: #fff;
+        margin-bottom: 30px;
+        ul {
+            width: 100%;
+            overflow: hidden;
+            li {
+                float: left;
+                height: 100%;
+                width: 290px;
+                margin-top: 30px;
+                margin-right: 13px;
+                &:last-of-type {
+                    margin-right: 0;
+                    img {
+                        margin-left: 90px;
+                    }
+                }
+                &:nth-of-type(3) {
+                    img {
+                        margin-left: 60px;
+                    }
+                }
+                &:nth-of-type(2) {
+                    img {
+                        margin-left: 30px;
+                    }
+                }
+                img {
+                    float: left;
+                    margin-right: 15px;
+                    margin-left: 35px;
+                }
+                p {
+                    color: #666;
+                    &:first-of-type {
+                        font-size: 18px;
+                        font-weight: 500;
+                    }
+                    &:last-of-type {
+                        font-size: 13px;
+                    }
+                }
+            }
+        }
+    }
+}
 
 //右侧导航
 .right_navigation {
@@ -887,14 +1002,15 @@ footer {
         padding-bottom: 30px;
         .new_product_left {
             position: relative;
-            width: 615px;
+            width: 100%;
             >div {
-                width: 100%;
+                width: 615px;
                 background: #fff;
                 height: 310px;
                 margin-bottom: 10px;
                 position: relative;
                 transition: all .2s;
+                float: left;
                 img {
                     transition: all .2s;
                     height: 100%;
@@ -924,7 +1040,7 @@ footer {
                         }
                     }
                 }
-                &:last-of-type {
+                &:nth-last-of-type(2) {
                     div {
                         left: 15%;
                         a {
@@ -938,6 +1054,36 @@ footer {
                 &:hover {
                     img {
                         opacity: 0.8;
+                    }
+                }
+                &:last-of-type {
+                    position: relative;
+                    width: 540px;
+                    height: 630px;
+                    margin-left: 15px;
+                    transition: all .2s;
+                    float: right;
+                    margin-top: -320px;
+                    img {
+                        width: 100%;
+                    }
+                    div {
+                        position: absolute;
+                        z-index: 10;
+                        bottom: 40px;
+                        left: 30%;
+                        text-align: center;
+                        a {
+                            background-color: #78202a;
+                            &:hover {
+                                background-color: #5e1820;
+                            }
+                        }
+                    }
+                    &:hover {
+                        img {
+                            opacity: 0.8;
+                        }
                     }
                 }
             }
@@ -1221,55 +1367,9 @@ footer {
                 }
             }
         }
-        .service_commitment {
-            height: 120px;
-            background-color: #fff;
-            margin-bottom: 30px;
-            ul {
-                width: 100%;
-                overflow: hidden;
-                li {
-                    float: left;
-                    height: 100%;
-                    width: 290px;
-                    margin-top: 30px;
-                    margin-right: 13px;
-                    &:last-of-type {
-                        margin-right: 0;
-                        img {
-                            margin-left: 90px;
-                        }
-                    }
-                    &:nth-of-type(3) {
-                        img {
-                            margin-left: 60px;
-                        }
-                    }
-                    &:nth-of-type(2) {
-                        img {
-                            margin-left: 30px;
-                        }
-                    }
-                    img {
-                        float: left;
-                        margin-right: 15px;
-                        margin-left: 35px;
-                    }
-                    p {
-                        color: #666;
-                        &:first-of-type {
-                            font-size: 18px;
-                            font-weight: 500;
-                        }
-                        &:last-of-type {
-                            font-size: 13px;
-                        }
-                    }
-                }
-            }
-        }
     }
 }
 
 
 @import "reset";
+@import "userCenter";

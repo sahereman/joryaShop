@@ -1,3 +1,32 @@
+<!--服务承诺-->
+<div class="commitment">
+	<div class="m-wrapper">
+		<div class="service_commitment">
+		    <ul>
+		        <li>
+		            <img src="{{ asset('img/thumb.png') }}">
+		            <p>365正品承诺</p>
+		            <p>Genuine purchasing</p>
+		        </li>
+		        <li>
+		            <img src="{{ asset('img/refund.png') }}">
+		            <p>7天无理由退款</p>
+		            <p>7 days no reason to refund</p>
+		        </li>
+		        <li>
+		            <img src="{{ asset('img/postage.png') }}">
+		            <p>满88元免邮费</p>
+		            <p>Free postage </p>
+		        </li>
+		        <li>
+		            <img src="{{ asset('img/great_service.png') }}">
+		            <p>金牌服务</p>
+		            <p>Great service</p>
+		        </li>
+		    </ul>
+		</div>
+	</div>
+</div>
 <footer class="footer">
    <div class="footer-top">
            <div class="m-wrapper">
@@ -125,9 +154,9 @@
                 </p>
                 <form id="register-form" action="{{ route('register') }}" method="POST">
                     {{ csrf_field() }}
-                    <input type="text" name="username" placeholder="请输入用户名">
-                    <input type="text" name="password" placeholder="请输入密码">
-                       <input type="text" name="email" placeholder="请输入邮箱">
+                    <input type="text" name="username" id="register_user" placeholder="请输入用户名" required>
+                    <input type="text" name="password" id="register_psw" placeholder="请输入密码" required>
+                       <input type="text" name="email" id="register_email" placeholder="请输入邮箱" required>
                        <div class="verification_code">  
                            <input type="text" id="register_code" class="code" name="code" placeholder="请输入验证码">  
                            <input type="button" class="generate_code" id="getRegister_code" value=" 获取验证码">
@@ -166,16 +195,16 @@
                     <i></i>
                     <span>请输入邮箱</span>
                 </p>
-                <form id="login-form" class="active" action="{{ route('login') }}" method="POST">
+                <form id="login-form" class="active" action="{{ route('login.post') }}" method="POST">
                     {{ csrf_field() }}
-                    <input type="text" name="username" placeholder="请输入用户名或邮箱">
+                    <input type="text" name="username" placeholder="请输入用户名或邮箱" >
                     <input type="text" name="password" placeholder="请输入密码">
                 </form>
                 <form id="mailbox_login" action="{{ route('login') }}" method="POST">
                     {{ csrf_field() }}
                     <input type="text" name="email" id="login_email" placeholder="请输入邮箱" required>
                     <div class="verification_code">  
-                           <input type="text" class="code" name="code" placeholder="请输入验证码" required>  
+                           <input type="text" class="code" name="code" id="login_code" placeholder="请输入验证码" required>  
                            <input type="button" class="generate_code" id="getLogin_code" value=" 获取验证码">
                        </div>
                 </form>
@@ -183,8 +212,8 @@
                     <a code="1" class="rotary_btn register_btn pull-left">新用户注册</a>
                     <a class="forget_psw pull-right" href="{{ route('password.request') }}">忘记密码？</a>
                 </div>
-                <a class="btn_dialog commo_btn active" href="{{ route('login') }}" onclick="event.preventDefault();document.getElementById('login-form').submit();">登录</a>
-                <a class="btn_dialog mailbox_btn" href="{{ route('login') }}" onclick="event.preventDefault();document.getElementById('mailbox_login').submit();">登录</a>
+                <a class="btn_dialog commo_btn active"  onclick="event.preventDefault();document.getElementById('login-form').submit();">登录</a>
+                <a class="btn_dialog mailbox_btn">登录</a>
             </div>
         </div>
         <div class="close">

@@ -38,7 +38,7 @@ $(function() {
     var oTop = $(".navbar-bottom").offset().top;
     //获取导航栏的高度，此高度用于保证内容的平滑过渡
     var martop = $('.navbar-bottom').outerHeight();
-
+ 
     var sTop = 0;
     // 监听页面的滚动
     $(window).scroll(function () {
@@ -57,7 +57,7 @@ $(function() {
     $(window).on("scroll", function() {
         var t = document.documentElement.scrollTop || document.body.scrollTop;
         if (screen.width > 0) {
-            if (t >= 400) {
+            if (t >= 400) { 
                 $(".backtop").css("display","block");
             } else {
                 $(".backtop").css("display","none");
@@ -122,8 +122,8 @@ $(function(){
 			$(".register_form").hide();
 			$(".login_form").show();
 			$(".login_frame").css("transform","rotateY(180deg)");    //弹窗翻转
-			$(".login_form").css("transform","rotateY(180deg)");
-			$(".dialog_logo").css("transform","rotateY(180deg)");
+			$(".login_form").css("transform","rotateY(180deg)"); 
+			$(".dialog_logo").css("transform","rotateY(180deg)"); 
 			$(".close").css("transform","rotateY(180deg)");
 			$(".close").css("right","93%");
 		}else {
@@ -131,8 +131,8 @@ $(function(){
 			$(".login_form").hide();
 			$(".login_frame").css("transform","rotateY(360deg)");    //弹窗翻转
 			$(".register_form").css("transform","rotateY(360deg)");
-			$(".dialog_logo").css("transform","rotateY(360deg)");
-			$(".close").css("transform","rotateY(360deg)");
+			$(".dialog_logo").css("transform","rotateY(360deg)"); 
+			$(".close").css("transform","rotateY(360deg)"); 
 			$(".close").css("right","0");
 		}
 	})
@@ -141,16 +141,16 @@ $(function(){
 		$(".dialog_iframe").hide();
 		$(".login_frame").css("transform","rotateY(0deg)");    //弹窗翻转
 		$(".register_form").css("transform","rotateY(0deg)");
-	    $(".dialog_logo").css("transform","rotateY(0deg)");
-	    $(".close").css("transform","rotateY(0deg)");
+	    $(".dialog_logo").css("transform","rotateY(0deg)"); 
+	    $(".close").css("transform","rotateY(0deg)"); 
 	    $(".close").css("right","0");
 	})
 	//登陆注册按钮点击事件
 	$(".login").on("click",function(){
 		$(".login_frame").css("transform","rotateY(180deg)");    //弹窗翻转
-		$(".login_form").css("transform","rotateY(180deg)");
-		$(".dialog_logo").css("transform","rotateY(180deg)");
-		$(".close").css("transform","rotateY(180deg)");
+		$(".login_form").css("transform","rotateY(180deg)"); 
+		$(".dialog_logo").css("transform","rotateY(180deg)"); 
+		$(".close").css("transform","rotateY(180deg)"); 
 		$(".close").css("right","93%");
 		$(".dialog_iframe").show();
 		$(".register_form").hide();
@@ -161,7 +161,7 @@ $(function(){
 		$(".register_form").show();
 		$(".login_form").hide();
 	})
-
+	
 	//切换登录方式
 	$(".common_login").on("click",function(){
 		$(".login_type ul li").removeClass('active');
@@ -179,45 +179,48 @@ $(function(){
 		$(".login_form .btn_dialog").removeClass("active");
 		$(".mailbox_btn").addClass("active");
 	})
-
+	
 	//获取验证码倒计时
-	var countdown=60;
+	var countdown=60;    
 	var _generate_code;
 	var myReg = /^[a-zA-Z0-9_-]+@([a-zA-Z0-9]+\.)+(com|cn|net|org)$/;
-	$("#getRegister_code").on("click",function(){
-		var disabled = $("#getRegister_code").attr("disabled");
+	$("#getRegister_code").on("click",function(){      
+		var disabled = $("#getRegister_code").attr("disabled");  
 		_generate_code = $("#getRegister_code");
 		countdown=60;
-		if(disabled){
-			return false;
-		}
-//		if($("#mobile").val() == "" || isNaN($("#mobile").val()) || $("#mobile").val().length != 11 ){
-//			alert("请填写正确的邮箱！");
-//			return false;
-//		}
-//      var data = {
-//      	email: $("#email").val(),
-//          _toke: "{{ csrf_token() }}"
-//      }
-//      $.ajax({
-//      	type:"post",
-//      	url:"{{ route('reset.resend_email_code') }}",
-//      	data:data,
-//      	success:function(data){
-//				settime();
-//			},
-//			error:function(err){
-//				console.log(err);
-//			}
-//      });
+		if(disabled){        
+			return false;      
+		}      
+		if (!myReg.test($("#register_email").val())||$("#register_user").val()==""||$("#register_psw").val()=="") {
+			$(".register_error  span").html("请将信息填写完整!");
+			$(".register_error ").show();
+           return false;
+        }
+        var data = {
+        	email: $("#register_email").val(),
+        	name: $("#register_user").val(),
+        	password: $("#register_psw").val(),
+            _toke: "{{ csrf_token() }}"
+        }
+        $.ajax({
+        	type:"post",
+        	url:"register/send_email_code",
+        	data:data,
+        	success:function(data){              
+				settime();        
+			},        
+			error:function(err){          
+				console.log(err);        
+			}      
+        });
 	});
-	$("#getLogin_code").on("click",function(){
-		var disabled = $("#getLogin_code").attr("disabled");
+	$("#getLogin_code").on("click",function(){      
+		var disabled = $("#getLogin_code").attr("disabled");  
 		_generate_code = $("#getLogin_code");
 		countdown=60;
-		if(disabled){
-			return false;
-		}
+		if(disabled){        
+			return false;      
+		}      
 		var data = {
         	email: $("#login_email").val(),
             _toke: "{{ csrf_token() }}"
@@ -226,17 +229,41 @@ $(function(){
         	type:"post",
         	url:"login/send_email_code",
         	data:data,
-        	success:function(data){
-				settime();
-			},
-			error:function(err){
-				console.log(err);
-			}
+        	success:function(data){              
+				settime();        
+			},        
+			error:function(err){          
+				console.log(err);        
+			}      
         });
-	});
+	});    
 	//邮箱验证登录
 	$(".mailbox_btn").on("click",function(){
-
+		if (!myReg.test($("#login_email").val())||$("#login_code").val()==""||$("#login_code").val()==null) {
+			$(".error_content span").html("请输入正确的邮箱和验证码");
+			$(".error_content").show();
+           return false;
+        }
+		var data = {
+			email: $("#login_email").val(),
+			code: $("#login_code").val(),
+            _toke: "{{ csrf_token() }}"
+		}
+		console.log(data)
+		$.ajax({
+        	type:"post",
+        	url:"login/verify_email_code",
+        	data:data,
+        	success:function(json){              
+//				json = json.replace(/\s+/g, "");
+//				var dataObj = $.parseJSON(json);
+				console.log(json);
+				location.reload();
+			},        
+			error:function(err){          
+				console.log(err);        
+			}      
+        });
 	})
 
 	function settime() {         

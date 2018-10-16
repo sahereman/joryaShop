@@ -34,10 +34,23 @@
 				        <a class="register">注册</a>
 				        <a class="about-us" href="{{ route('root') }}">关于我们</a>
 				    @else
-				        <a href="{{ route('root') }}">首页</a>
-				        <a href="{{ route('users.edit',Auth::id()) }}">个人设置</a>
-				
-				        <a href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();">退出登录</a>
+				        <a id="user_info_btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="user_name">{{ Auth::user()->name }}</a>
+				        <ul class="dropdown-menu" aria-labelledby="dLabel">
+                            <li>
+                               
+                                <a class="touser_center" href="{{ route('users.home') }}">
+                                	<span>
+                                		<img class="user_img" src="{{ Auth::user()->avatar_url }}">
+                                	</span>
+                                	<span>账户信息</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();">退出登录</a>
+                            </li>
+                        </ul>
+				        <img src="{{ asset('img/header/down_arrow.png') }}">
+				        <a class="about-us" href="{{ route('root') }}">关于我们</a>
 				        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
 				            {{ csrf_field() }}
 				        </form>

@@ -23,7 +23,6 @@
         <div class="new_product product-part">
             <div class="m-wrapper">
                 <h3>新品首发</h3>
-                <a href="user_favourites"><h1>test</h1></a>
                 <div class="new_product_left pull-left">
                     @foreach($products['latest'] as $latest_product)
                         <div class="product_left_top">
@@ -37,6 +36,7 @@
                     @endforeach
                 </div>
             </div>
+        </div>
             <!--时尚趋势-->
             @foreach($products['category'] as $category_products)
                 <div class="fashion_trend product-part">
@@ -109,35 +109,9 @@
                                 </li>
                             @endforeach
                         </ul>
-                        <!--服务承诺-->
-                        <div class="service_commitment">
-                            <ul>
-                                <li>
-                                    <img src="{{ asset('img/thumb.png') }}">
-                                    <p>365正品承诺</p>
-                                    <p>Genuine purchasing</p>
-                                </li>
-                                <li>
-                                    <img src="{{ asset('img/thumb.png') }}">
-                                    <p>7天无理由退款</p>
-                                    <p>7 days no reason to refund</p>
-                                </li>
-                                <li>
-                                    <img src="{{ asset('img/thumb.png') }}">
-                                    <p>满88元免邮费</p>
-                                    <p>Free postage </p>
-                                </li>
-                                <li>
-                                    <img src="{{ asset('img/thumb.png') }}">
-                                    <p>金牌服务</p>
-                                    <p>Great service</p>
-                                </li>
-                            </ul>
-                        </div>
                     </div>
                 </div>
         </div>
-    </div>
 @endsection
 @section('scriptsAfterJs')
     <script src="{{ asset('js/swiper/js/swiper.js') }}"></script>
