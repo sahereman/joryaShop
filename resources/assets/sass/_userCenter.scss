@@ -1,0 +1,274 @@
+.User_center {
+    background-color: #f8f8f8;
+    position: relative;
+    .navigation_left {
+        position: absolute;
+        background-color: #fff;
+        width: 180px;
+        height: 595px;
+        .staircase_navigation {
+            width: 100%;
+            text-align: center;
+            font-size: 12px;
+            line-height: 35px;
+            li {
+                color: #666;
+                font-size: 12px; 
+                &:hover {
+                    color: #be9067;
+                }
+                &.navigation_title {
+                    font-size: 16px;
+                    color: #333;
+                    font-weight: 600;
+                    margin: 10px 0;
+                    &:hover {
+                        color: #333;
+                    }
+                }
+                &.active {
+                    color: #be9067;
+                }
+            }
+        }   
+    }
+    .UserInfo_content {
+        width: 1000px;
+        float: right;
+        margin-bottom: 55px;
+        .userInfo_list {
+            width: 1000px;
+            height: 160px;
+            background-color: #fff;
+            overflow: hidden;
+            li {
+                width: 98px;
+                height: 98px;
+                float: left;
+                margin: 50px 75px;
+                margin: 30px 39px;
+                text-align: center;
+                &:first-of-type {
+                    margin-left: 45px;
+                    width: 210px;
+                    text-align: left;
+                    position: relative;
+                    &:hover {
+                        box-shadow: none;
+                    }
+                    &:after{
+                        content: "";
+                        height: 100px;
+                        width: 1px;
+                        border: 0px;
+                        border-right: 1px dashed #e7e7e7;
+                        position: absolute;
+                        left: 120%;
+                    }
+                }
+                .user_img {
+                    width: 76px;
+                    height: 76px;
+                    border-radius: 50%;
+                    overflow: hidden;
+                    float: left;
+                    margin-right: 25px;
+                    margin-top: 20px;
+                    img {
+                        width: 100%;
+                        height: 100%;
+                    }
+                }
+                .user_name {
+                    float: left;
+                    a {
+                        color: $commom-color;
+                    }
+                }  
+                span {
+                    margin: 20px 0;
+                    display: block;
+                } 
+                &:hover {
+                    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+                }
+            }
+        }   
+        .order_classification {
+            height: 120px;
+            width: 100%;
+            background-color: #fff;
+            overflow: hidden;
+            margin-top: 20px;
+            li {
+                float: left;
+                margin: 20px 90px;
+                text-align: center;
+                span {
+                    display: block;
+                    margin-top: 10px;
+                }
+                img {
+                    width: 56px;
+                    height: 56px;
+                    border-radius: 50%;
+                }
+                &:hover {
+                    img {
+                        box-shadow: 0 0 10px rgba(0,0,0,0.2)
+                    }
+                }
+            }
+        }
+        .ordertable_title {
+            height: 35px;
+            width: 100%;
+            margin: 20px 0;
+            margin-bottom: 15px;
+            background-color: #f0f0f0;
+            li {
+                height: 100%;
+                float: left;
+                line-height: 35px;
+                font-size: 12px;
+                color: #333;
+                text-align: center;
+                &.order_details {
+                    width: 486px;
+                }
+                &.order_price {
+                    width: 95px;
+                }
+                &.order_num {
+                    width: 75px;
+                }
+                &.order_pay {
+                    width: 106px;
+                }
+                &.order_status {
+                    width: 113px;
+                }
+                &.order_operation {
+                    width: 108px;
+                }
+            }
+        }
+        .order_list {
+            .no_order {
+                width: 100%;
+                height: 285px;
+                background-color: #fff;
+                text-align: center;
+                display: none;
+                img {
+                    margin-top: 40px;
+                    margin-bottom: 30px;
+                }
+                p {
+                    font-size: 16px;
+                    color: #666;
+                    margin-bottom: 10px;
+                }
+                a {
+                    font-size: 12px;
+                    color: #87b53b;
+                }
+            }
+            .order-group {
+                width: 100%;
+                .order-group-item {
+                    margin-bottom: 20px;
+                    background: #fff;
+                    font-size: 12px;
+                    em {
+                        font-style: normal;
+                    }
+                    .o-info {
+                        width: 100%;
+                        height: 40px;
+                        background-color: #f0f0f0;
+                        font-size: 12px;
+                        color: #333;
+                        line-height: 40px;
+                        .col-info {
+                            margin-left: 20px;
+                        }
+                        .col-delete {
+                            margin-right: 30px;
+                            cursor: pointer;
+                        }
+                    }
+                    .o-pro {
+                        table {
+                            text-align: center;
+                            .col-pro-img {
+                                p {
+                                    width: 80px;
+                                    height: 80xp;
+                                    overflow: hidden;
+                                    margin: 10px 0;
+                                    margin-left: 20px;
+                                    margin-right: 10px;
+                                }
+                            }   
+                            .col-pro-info {
+                                width: 376px;
+                                text-align: left;
+                                p {
+                                    word-wrap:break-word;
+                                    &:hover {
+                                        color: #be9067;
+                                    }
+                                }
+                            }
+                            .col-price {
+                                width: 95px;
+                            }
+                            .col-quty {
+                                width: 75px;
+                            }
+                            .col-pay {
+                                width: 106px;
+                                color: #333;
+                                font-weight: bold;
+                                border-left: 1px solid #ebebeb;
+                            }
+                            .col-status {
+                                width: 113px;
+                                border-left: 1px solid #ebebeb;
+                            }
+                            .col-operate {
+                                width: 108px;
+                                border-left: 1px solid #ebebeb;
+                                a {
+                                    cursor: pointer;
+                                    display: inline-block;
+                                    margin: 5px 0;
+                                    width: 100%;
+                                    &.evaluate {
+                                        width: 50px;
+                                        height: 30px;
+                                        border: 1px solid #dcdcdc;
+                                        border-radius: 2px;
+                                        line-height: 30px;
+                                        text-align: center;
+                                        color: #333;
+                                        font-size: 14px;
+                                        font-weight: bold;
+                                        &:hover {
+                                            color: #be9067;
+                                            border-color: #be9067;
+                                        }
+                                    }   
+                                }
+                            }
+                            .order_top {
+                                border-top: 1px solid #ebebeb;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

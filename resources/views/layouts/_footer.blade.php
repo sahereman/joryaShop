@@ -155,7 +155,7 @@
                 <form id="register-form" action="{{ route('register') }}" method="POST">
                     {{ csrf_field() }}
                     <input type="text" name="username" id="register_user" placeholder="请输入用户名" required>
-                    <input type="text" name="password" id="register_psw" placeholder="请输入密码" required>
+                    <input type="password" name="password" id="register_psw" placeholder="请输入密码" required>
                     <input type="text" name="email" id="register_email" placeholder="请输入邮箱" required>
                     <div class="verification_code">
                         <input type="text" id="register_code" class="code" name="code" placeholder="请输入验证码">
@@ -199,7 +199,7 @@
                 <form id="login-form" class="active" action="{{ route('login.post') }}" method="POST">
                     {{ csrf_field() }}
                     <input type="text" name="username" placeholder="请输入用户名或邮箱">
-                    <input type="text" name="password" placeholder="请输入密码">
+                    <input type="password" name="password" placeholder="请输入密码">
                 </form>
                 <form id="mailbox_login" action="{{ route('login') }}" method="POST">
                     {{ csrf_field() }}

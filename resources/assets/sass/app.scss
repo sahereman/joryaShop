@@ -182,6 +182,7 @@ a {
                         margin-right: 10px;
                         img {
                             width: 100%;
+                            height: 100%;
                         }   
                     }
                 }
@@ -1002,9 +1003,9 @@ footer {
         padding-bottom: 30px;
         .new_product_left {
             position: relative;
-            width: 100%;
+            width: 615px;
             >div {
-                width: 615px;
+                width: 100%;
                 background: #fff;
                 height: 310px;
                 margin-bottom: 10px;
@@ -1040,7 +1041,7 @@ footer {
                         }
                     }
                 }
-                &:nth-last-of-type(2) {
+                &:last-of-type {
                     div {
                         left: 15%;
                         a {
@@ -1056,42 +1057,42 @@ footer {
                         opacity: 0.8;
                     }
                 }
-                &:last-of-type {
-                    position: relative;
-                    width: 540px;
-                    height: 630px;
-                    margin-left: 15px;
-                    transition: all .2s;
-                    float: right;
-                    margin-top: -320px;
-                    img {
-                        width: 100%;
-                    }
-                    div {
-                        position: absolute;
-                        z-index: 10;
-                        bottom: 40px;
-                        left: 30%;
-                        text-align: center;
-                        a {
-                            background-color: #78202a;
-                            &:hover {
-                                background-color: #5e1820;
-                            }
-                        }
-                    }
-                    &:hover {
-                        img {
-                            opacity: 0.8;
-                        }
-                    }
-                }
+//              &:last-of-type {
+//                  position: relative;
+//                  width: 540px;
+//                  height: 630px;
+//                  margin-left: 15px;
+//                  transition: all .2s;
+//                  float: right;
+//                  margin-top: -320px;
+//                  img {
+//                      width: 100%;
+//                  }
+//                  div {
+//                      position: absolute;
+//                      z-index: 10;
+//                      bottom: 40px;
+//                      left: 30%;
+//                      text-align: center;
+//                      a {
+//                          background-color: #78202a;
+//                          &:hover {
+//                              background-color: #5e1820;
+//                          }
+//                      }
+//                  }
+//                  &:hover {
+//                      img {
+//                          opacity: 0.8;
+//                      }
+//                  }
+//              }
             }
         }
         .new_product_right {
             position: relative;
             width: 540px;
-            height: 646px;
+            height: 630px;
             margin-left: 15px;
             transition: all .2s;
             div {
