@@ -19,7 +19,9 @@ class CreateUserAddressesTable extends Migration
             $table->unsignedInteger('user_id')->nullable(false)->comment('user-id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 
-            $table->string('address')->nullable(false)->comment('user-address');
+            $table->string('name')->nullable(false)->comment('收货人');
+            $table->string('phone')->nullable(false)->comment('手机号码');
+            $table->string('address')->nullable(false)->comment('详细地址');
 
             $table->boolean('is_default')->nullable(false)->default(false)->comment('是否为默认地址');
             $table->timestamp('last_used_at')->nullable()->comment('上次使用时间');

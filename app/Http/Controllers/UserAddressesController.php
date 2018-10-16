@@ -25,7 +25,7 @@ class UserAddressesController extends Controller
     }
 
     // GET 编辑页面
-    public function edit(UserAddress $userAddress)
+    public function edit(Request $request, UserAddress $userAddress)
     {
         $this->authorize('update', $userAddress);
         return view('user_addresses.create_and_edit', [
@@ -36,16 +36,25 @@ class UserAddressesController extends Controller
     // POST 创建提交
     public function store(UserAddressRequest $request)
     {
-        $address = new UserAddress();
-        $address->user_id = $request->user()->id;
-        $address->address = $request->input('address');
-        $result = $address->save();
+        $user = $request->user();
+        $userAddress = new UserAddress();
+        $userAddress->user_id = $user->id;
+        $userAddress->name = $request->input('name');
+        $userAddress->phone = $request->input('phone');
+        $userAddress->address = $request->input('address');
+        if ($request->filled('is_default')) {
+            UserAddress::where(['user_id' => $request->user()->id, 'is_default' => true])
+                ->update(['is_default' => 'false']);
+            $userAddress->is_default = true;
+        }
+        $userAddress->user()->associate($user);
+        $result = $userAddress->save();
         if ($result) {
             return response()->json([
                 'code' => 200,
                 'message' => 'success',
             ]);
-        }else{
+        } else {
             return response()->json([
                 'code' => 201,
                 'message' => 'fail',
@@ -57,21 +66,41 @@ class UserAddressesController extends Controller
     public function update(UserAddressRequest $request, UserAddress $userAddress)
     {
         $this->authorize('update', $userAddress);
-        $userAddress->update($request->only(['address']));
-        return redirect()->route('user_addresses.index');
+        $userAddress->name = $request->input('name');
+        $userAddress->phone = $request->input('phone');
+        $userAddress->address = $request->input('address');
+        if($request->filled('is_default')){
+            UserAddress::where(['user_id' => $request->user()->id, 'is_default' => true])
+                ->update(['is_default' => 'false']);
+            $userAddress->is_default = true;
+        }
+        $result = $userAddress->save();
+        if ($result) {
+            return redirect()->route('user_addresses.index');
+        } else {
+            return redirect()->back();
+        }
     }
 
     // DELETE 删除
-    public function destroy(UserAddress $userAddress)
+    public function destroy(Request $request, UserAddress $userAddress)
     {
         $this->authorize('delete', $userAddress);
+        if ($userAddress->is_default) {
+            UserAddress::where(['user_id' => $request->user()->id, 'is_default' => true])
+                ->update(['is_default' => 'false']);
+            $address = UserAddress::where('user_id', $request->user()->id)->latest('last_used_at')->first();
+            $address->is_default = true;
+            $address->save();
+        }
+        $userAddress->user()->dissociate();
         $result = $userAddress->delete();
         if ($result) {
             return response()->json([
                 'code' => 200,
                 'message' => 'success',
             ]);
-        }else{
+        } else {
             return response()->json([
                 'code' => 201,
                 'message' => 'fail',
@@ -83,16 +112,16 @@ class UserAddressesController extends Controller
     public function setDefault(Request $request, UserAddress $userAddress)
     {
         $this->authorize('update', $userAddress);
-        UserAddress::where(['user_id' => $request->user()->id, 'is_default' => true])->get()->each(function($address){
-            return $address->update(['is_default' => false]);
-        });
-        $result = $userAddress->update(['is_default' => true]);
+        UserAddress::where(['user_id' => $request->user()->id, 'is_default' => true])
+            ->update(['is_default' => 'false']);
+        $userAddress->is_default = true;
+        $result = $userAddress->save();
         if ($result) {
             return response()->json([
                 'code' => 200,
                 'message' => 'success',
             ]);
-        }else{
+        } else {
             return response()->json([
                 'code' => 201,
                 'message' => 'fail',

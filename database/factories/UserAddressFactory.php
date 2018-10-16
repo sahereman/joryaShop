@@ -12,6 +12,8 @@ $factory->define(App\Models\UserAddress::class, function (Faker $faker) {
 
 
     return [
+        'name' => $faker->name,
+        'phone' => $faker->phoneNumber,
         'address' => $faker->address,
         'is_default' => false,
         'created_at' => $created_at,

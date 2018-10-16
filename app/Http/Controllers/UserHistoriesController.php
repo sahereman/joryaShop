@@ -23,9 +23,11 @@ class UserHistoriesController extends Controller
     public function store(Request $request)
     {
         // 队列追加浏览历史
+        $user = $request->user();
         $userHistory = new UserHistory();
-        $userHistory->user_id = $request->user()->id;
+        $userHistory->user_id = $user->id;
         $userHistory->product_id = $request->input('product_id');
+        $userHistory->user()->associate($user);
         $result = $userHistory->save();
         if ($result) {
             return response()->json([
@@ -44,6 +46,7 @@ class UserHistoriesController extends Controller
     public function destroy(Request $request, UserHistory $userHistory)
     {
         $this->authorize('delete', $userHistory);
+        $userHistory->user()->dissociate();
         $result = $userHistory->delete();
         if ($result) {
             return response()->json([

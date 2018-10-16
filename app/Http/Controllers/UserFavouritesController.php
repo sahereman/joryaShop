@@ -22,9 +22,11 @@ class UserFavouritesController extends Controller
     // POST 加入收藏
     public function store(UserFavouriteRequest $request)
     {
+        $user = $request->user();
         $userFavourite = new UserFavourite();
-        $userFavourite->user_id = $request->user()->id;
+        $userFavourite->user_id = $user->id;
         $userFavourite->product_id = $request->input('product_id');
+        $userFavourite->user()->associate($user);
         $result = $userFavourite->save();
         if ($result) {
             return response()->json([
@@ -43,6 +45,7 @@ class UserFavouritesController extends Controller
     public function destroy(Request $request, UserFavourite $userFavourite)
     {
         $this->authorize('delete', $userFavourite);
+        $userFavourite->user()->dissociate();
         $result = $userFavourite->delete();
         if ($result) {
             return response()->json([

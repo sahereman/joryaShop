@@ -13,8 +13,9 @@ class UserAddressRequest extends Request
     public function rules()
     {
         return [
+            'name' => 'required|string',
+            'phone' => 'required|string',
             'address' => [
-                'sometimes',
                 'required',
                 'string',
                 Rule::unique('user_addresses')->where('user_id', $this->user()->id),
@@ -25,7 +26,9 @@ class UserAddressRequest extends Request
     public function attributes()
     {
         return [
-            'address' => '地址',
+            'name' => '收货人',
+            'phone' => '手机号码',
+            'address' => '详细地址',
         ];
     }
 }

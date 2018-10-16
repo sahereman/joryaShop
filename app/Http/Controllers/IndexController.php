@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Poster;
 use App\Models\Product;
 use App\Models\ProductCategory;
 use Illuminate\Http\Request;
@@ -11,22 +12,27 @@ class IndexController extends Controller
     public function root(Request $request)
     {
         $products = [];
-        $products['latest'] = Product::where(['is_index' => true, 'on_sale' => true])->latest()->limit(3)->get();
+        // TODO ... [投放广告页]
+        $posters = Poster::where(['slug' => 'advertisement'])->latest()->limit(3)->get();
+
         $categories = ProductCategory::where(['parent_id' => 0, 'is_index' => true])->get();
         foreach ($categories as $category) {
-            $subCategoryIds = [];
-            $category->sub_categories->each(function($subCategory) use (&$subCategoryIds) {
-                $subCategoryIds[] = $subCategory->id;
-            });
-            if($subCategoryIds !== []){
-                $products['category'][$category->id]['category'] = $category;
-                $products['category'][$category->id]['products'] = Product::where('is_index', true)->whereIn('product_category_id', $subCategoryIds)->orderByDesc('index')->limit(8)->get();
+            $child_category_ids = [];
+            if ($category->parent_id == 0) {
+                $category->child_categories->each(function ($child_category) use (&$child_category_ids) {
+                    $child_category_ids[] = $child_category->id;
+                });
+            }
+            if ($child_category_ids !== []) {
+                $products[$category->id]['category'] = $category;
+                $products[$category->id]['products'] = Product::where('is_index', true)->whereIn('product_category_id', $child_category_ids)->orderByDesc('index')->limit(8)->get();
             }
         }
-        $products['guesses'] = Product::where(['is_index' => true, 'on_sale' => true])->orderByDesc('heat')->limit(8)->get();
-//        var_dump($products['category']);
+        $guesses = Product::where(['is_index' => true, 'on_sale' => true])->orderByDesc('heat')->limit(8)->get();
         return view('index.root', [
+            'posters' => $posters,
             'products' => $products,
+            'guesses' => $guesses,
         ]);
     }
 }
