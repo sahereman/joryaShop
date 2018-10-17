@@ -11,25 +11,49 @@ class ProductSku extends Model
      * @var array
      */
     protected $fillable = [
-        'product_id',
-        'name_en',
-        'name_zh',
-        'photo',
-        'price',
-        'stock',
-        'sales'
+        'product_id', 'name_en', 'name_zh', 'photo', 'price', 'stock', 'sales'
     ];
 
-    public function product()
-    {
-        return $this->belongsTo(Product::class, 'product_id');
-    }
+
+    /**
+     * The attributes that should be hidden for serialization.
+     * @var array
+     */
+    protected $hidden = [
+        //
+    ];
+
+    /**
+     * The attributes that should be cast to native types.
+     * @var array
+     */
+    protected $casts = [
+        //        'is_index' => 'boolean',
+        //        'on_sale' => 'boolean',
+        //        'photos' => 'json',
+    ];
+
+    /**
+     * The attributes that should be mutated to dates.
+     * @var array
+     */
+    protected $dates = [
+        //
+    ];
+
+    /**
+     * The accessors to append to the model's array form.
+     * @var array
+     */
+    protected $appends = [];
 
     public function getRealShippingFeeByCurrency($currency = 'CNY')
     {
-        if ($currency == 'CNY') {
+        if ($currency == 'CNY')
+        {
             return $this->product->shipping_fee;
-        } else {
+        } else
+        {
             $exchangeRate = ExchangeRate::where('currency', $currency)->first();
             return $this->product->shipping_fee * $exchangeRate->rate;
         }
@@ -37,11 +61,19 @@ class ProductSku extends Model
 
     public function getRealPriceByCurrency($currency = 'CNY')
     {
-        if ($currency == 'CNY') {
+        if ($currency == 'CNY')
+        {
             return $this->attributes['price'];
-        } else {
+        } else
+        {
             $exchangeRate = ExchangeRate::where('currency', $currency)->first();
             return $this->attributes['price'] * $exchangeRate->rate;
         }
+    }
+
+
+    public function product()
+    {
+        return $this->belongsTo(Product::class);
     }
 }

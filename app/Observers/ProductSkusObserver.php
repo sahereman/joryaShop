@@ -3,10 +3,9 @@
 namespace App\Observers;
 
 
-use App\Models\Config;
-use Illuminate\Support\Facades\Cache;
+use App\Models\ProductSku;
 
-class ConfigObserver
+class ProductSkusObserver
 {
     /*Eloquent 的模型触发了几个事件，可以在模型的生命周期的以下几点进行监控：
     retrieved、creating、created、updating、updated、saving、saved、deleting、deleted、restoring、restored
@@ -18,19 +17,19 @@ class ConfigObserver
     saving -> creating -> created -> saved(不会触发保存操作)*/
 
 
-    public function created(Config $config)
+    public function created(ProductSku $productSku)
     {
-        Cache::forget($config::$cache_key);
+
     }
 
-    public function saved(Config $config)
+    public function saved(ProductSku $productSku)
     {
-        Cache::forget($config::$cache_key);
+
     }
 
-    public function deleted(Config $config)
+    public function deleted(ProductSku $productSku)
     {
-        Cache::forget($config::$cache_key);
+
     }
 
 }

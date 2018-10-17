@@ -31,6 +31,7 @@ class Product extends Model
     protected $casts = [
         'is_index' => 'boolean',
         'on_sale' => 'boolean',
+        'photos' => 'json',
     ];
 
     /**
@@ -46,6 +47,7 @@ class Product extends Model
      * @var array
      */
     protected $appends = [];
+
 
     public function category()
     {

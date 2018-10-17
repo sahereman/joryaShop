@@ -43,7 +43,7 @@ Route::group([
     $router->get('products/{id}/edit', 'ProductsController@edit')->name('admin.products.edit');
     $router->post('products', 'ProductsController@store')->name('admin.products.store');
     $router->put('products/{id}', 'ProductsController@update')->name('admin.products.update');
-    $router->delete('products/{id}', 'ExampleController@destroy')->name('admin.products.destroy');
+    $router->delete('products/{id}', 'ProductsController@destroy')->name('admin.products.destroy');
 
 
     //    $router->resource('example', ExampleController::class)->names('admin.example');

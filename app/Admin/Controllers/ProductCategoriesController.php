@@ -178,14 +178,7 @@ class ProductCategoriesController extends Controller
         $form->text('name_en', '名称(英文)')->rules('required');
         $form->text('description_zh', '描述(中文)')->rules('required');
         $form->text('description_en', '描述(中文)')->rules('required');
-
-
-        // 是否首页显示
-        $states = [
-            'on' => ['value' => true, 'text' => '已开启', 'color' => 'primary'],
-            'off' => ['value' => false, 'text' => '已关闭', 'color' => 'default'],
-        ];
-        $form->switch('is_index', '首页显示')->states($states);
+        $form->switch('is_index', '首页显示');
         $form->number('sort', '排序');
 
 
