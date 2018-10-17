@@ -13,7 +13,7 @@
 
 // 通用样式
 body {
-//font-family: Hiragino Sans GB, "Hiragino Sans GB", Helvetica, "Microsoft YaHei", Arial, sans-serif;
+font-family: Hiragino Sans GB, "Hiragino Sans GB", Helvetica, "Microsoft YaHei", Arial, sans-serif;
 }
 li,
 ol,
@@ -1371,6 +1371,40 @@ footer {
     }
 }
 
+//左侧导航
+.navigation_left {
+    position: absolute;
+    background-color: #fff;
+    width: 180px;
+    height: 595px;
+    .staircase_navigation {
+        width: 100%;
+        text-align: center;
+        font-size: 12px;
+        line-height: 35px;
+        li {
+            color: #666;
+            font-size: 12px; 
+            &:hover {
+                color: #be9067;
+            }
+            &.navigation_title {
+                font-size: 16px;
+                color: #333;
+                font-weight: 600;
+                margin: 10px 0;
+                &:hover {
+                    color: #333;
+                }
+            }
+            &.active {
+                color: #be9067;
+            }
+        }
+    }   
+}
+
 
 @import "reset";
 @import "userCenter";
+@import "userAddresses";

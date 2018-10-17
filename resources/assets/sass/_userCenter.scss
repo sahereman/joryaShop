@@ -1,37 +1,6 @@
 .User_center {
     background-color: #f8f8f8;
     position: relative;
-    .navigation_left {
-        position: absolute;
-        background-color: #fff;
-        width: 180px;
-        height: 595px;
-        .staircase_navigation {
-            width: 100%;
-            text-align: center;
-            font-size: 12px;
-            line-height: 35px;
-            li {
-                color: #666;
-                font-size: 12px; 
-                &:hover {
-                    color: #be9067;
-                }
-                &.navigation_title {
-                    font-size: 16px;
-                    color: #333;
-                    font-weight: 600;
-                    margin: 10px 0;
-                    &:hover {
-                        color: #333;
-                    }
-                }
-                &.active {
-                    color: #be9067;
-                }
-            }
-        }   
-    }
     .UserInfo_content {
         width: 1000px;
         float: right;
@@ -271,4 +240,238 @@
             }
         }
     }
+    .UserInfo_content_title {
+        width: 100%;
+        height: 75px;
+        border-bottom: 1px solid #ebebeb;
+        overflow: hidden;
+        p {
+            font-size: 16px;
+            color: #333;
+            margin-left: 60px;
+            margin-top: 40px;
+            float: left;
+        }
+    }
+}
+
+//修改账户信息
+.User_center_edit {
+    .UserInfo_content {
+        height: 670px;
+        background-color: #fff;
+        .edit_content {
+            form {
+                ul {
+                    li {
+                        overflow: hidden;
+                        margin: 22px 0;
+                        span {
+                            display: inline-block;
+                            float: left;
+                            width: 120px;
+                            height: 35px;
+                            line-height: 35px;
+                            margin-left: 60px;
+                            font-size: 14px;
+                            color: #333;
+                        }
+                        .user_Avatar {
+                            width: 69px;
+                            height: 69px;
+                            border-radius: 50%;
+                            overflow: hidden;
+                            cursor: pointer;
+                            img {
+                                width: 100%;
+                                height: 100%;
+                            }
+                        }
+                        input[type='text'],
+                        input[type='email']{
+                            width: 230px;
+                            height: 35px;
+                            border: 1px solid #ebebeb;
+                            border-radius: 2px;
+                            text-indent: 15px;
+                            color: #333; 
+                            &::-webkit-input-placeholder {
+                                color: #dadada;
+                                font-size: 12px;
+                            }
+                            &:-moz-placeholder {
+                                color: #dadada;
+                                font-size: 12px;
+                            }
+                            &::-moz-placeholder {
+                                color: #dadada;
+                                font-size: 12px;
+                            }
+                            &:-ms-input-placeholde {
+                                color: #dadada;
+                                font-size: 12px;
+                            }
+                        }
+                        &.user_header_img {
+                            position: relative;
+                            span {
+                                margin-top: 23px;
+                            }
+                            .photograph {
+                                position: absolute;
+                                top: 50px;
+                                left: 230px;
+                                cursor: pointer;
+                            }
+                        }
+                        &.sexChoose {
+                            div {
+                                float: left;
+                                line-height: 35px;
+                                label {
+                                    margin-right: 35px;
+                                    cursor: pointer;
+                                    position: relative;
+                                    input {
+                                        margin-right: 5px;
+                                        outline: none;
+                                        appearance: none;
+                                        -webkit-appearance: none;
+                                        vertical-align:middle;    
+                                        margin-top:0;    
+                                        background:#fff;    
+                                        border:#a3a3a3 solid 1px;    
+                                        border-radius: 50%;    
+                                        height: 15px;    
+                                        width: 15px;
+                                        margin-right: 5px;
+                                        margin-top: -4px;
+                                        &:checked {
+                                            border-color: #7CA442;
+                                            &:after {
+                                                content: '';    
+                                                top: 12px;    
+                                                left: 2px;    
+                                                position: absolute;    
+                                                background: transparent;    
+                                                border: #7CA442 solid 2px;    
+                                                border-radius: 50%;
+                                                background-color: #7CA442;
+                                                height: 11px;    
+                                                width: 11px;    
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                button {
+                    width: 140px;
+                    height: 40px;
+                    border-radius: 2px;
+                    color: #fff;
+                    text-align: center;
+                    line-height: 40px;
+                    background-color: $commom-color;
+                    margin-left: 177px;
+                    font-size: 16px;
+                }
+            }
+        }
+    }
+}
+
+//修改密码
+.User_psw_edit {
+    .UserInfo_content {
+        height: 595px;
+        background-color: #fff;
+        .psw_edit_content {
+            form {
+                ul {
+                    li {
+                        overflow: hidden;
+                        margin: 22px 0;
+                        span {
+                            display: inline-block;
+                            float: left;
+                            width: 120px;
+                            height: 35px;
+                            line-height: 35px;
+                            margin-left: 60px;
+                            font-size: 14px;
+                            color: #333;
+                        }
+                        input {
+                            width: 230px;
+                            height: 35px;
+                            border: 1px solid #ebebeb;
+                            border-radius: 2px;
+                            text-indent: 15px;
+                            color: #333; 
+                            &::-webkit-input-placeholder {
+                                color: #dadada;
+                                font-size: 12px;
+                            }
+                            &:-moz-placeholder {
+                                color: #dadada;
+                                font-size: 12px;
+                            }
+                            &::-moz-placeholder {
+                                color: #dadada;
+                                font-size: 12px;
+                            }
+                            &:-ms-input-placeholde {
+                                color: #dadada;
+                                font-size: 12px;
+                            }
+                        }
+                    }
+                }
+                button {
+                    width: 140px;
+                    height: 40px;
+                    border-radius: 2px;
+                    color: #fff;
+                    text-align: center;
+                    line-height: 40px;
+                    background-color: $commom-color;
+                    margin-left: 177px;
+                    font-size: 16px;
+                }
+            }
+        }
+        .psw_success_content {
+            width: 100%;
+            text-align: center;
+            .success_content {
+                img {
+                    margin-top: 50px;
+                    margin-bottom: 15px;
+                }
+                p {
+                    color: #7CA442;
+                    margin-bottom: 60px;
+                }
+                a {
+                    display: block;
+                    width: 145px;
+                    height: 40px;
+                    margin: auto;
+                    color: #bababa;
+                    border-radius: 2px;
+                    background-color: #e6e6e6;
+                    font-size: 16px;
+                    line-height: 40px;
+                    &:hover {
+                        background-color: #7CA442;
+                        color: #fff;
+                    }
+                }
+            }
+        }
+    }
+    
 }

@@ -12,43 +12,7 @@
 	 		</p>
 	 	</div>
 	 	<!--左侧导航栏-->
-	 	<div class="navigation_left">
-	 		<ul class="staircase_navigation">
-	 			<li class="navigation_title active">
-	 				<a href="{{ route('users.home') }}">首页</a>
-	 			</li>
-	 			<li class="navigation_title">
-	 				<a>个人中心</a>
-	 			</li>
-	 			<li>
-	 				<a href="{{ route('root') }}">账户信息</a>
-	 			</li>
-	 			<li>
-	 				<a href="{{ route('root') }}">修改密码</a>
-	 			</li>
-	 			<li>
-	 				<a href="{{ route('root') }}">收货地址</a>
-	 			</li>
-	 			<li>
-	 				<a href="{{ route('root') }}">我的收藏</a>
-	 			</li>
-	 			<li>
-	 				<a href="{{ route('root') }}">浏览历史</a>
-	 			</li>
-	 			<li class="navigation_title">
-	 				<a>交易管理</a>
-	 			</li>
-	 			<li>
-	 				<a href="{{ route('root') }}">我的订单</a>
-	 			</li>
-	 			<li class="navigation_title">
-	 				<a>服务中心</h5>
-	 			</li>
-	 			<li>
-	 				<a href="{{ route('root') }}">售后服务</a>
-	 			</li>
-	 		</ul>
-	 	</div>
+	 	@include('users._left_navigation')
 	 	<!--右侧内容-->
 	 	<div class="UserInfo_content">
 	 		<ul class="userInfo_list">
@@ -236,7 +200,8 @@
 @section('scriptsAfterJs')
     <script type="text/javascript">
         $(function () {
-            
+            $(".navigation_left ul li").removeClass("active");
+            $(".user_index").addClass("active");
         });
     </script>
 @endsection
