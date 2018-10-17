@@ -10,14 +10,14 @@ class ProductCategory extends Model
 {
     use ModelTree, AdminBuilder;
 
-    public function __construct(array $attributes = [])
-    {
-        parent::__construct();
+        public function __construct(array $attributes = [])
+        {
+            parent::__construct($attributes);
 
-        /*初始化Tree属性*/
-        $this->setTitleColumn('name_zh');
-        $this->setOrderColumn('sort');
-    }
+            /*初始化Tree属性*/
+            $this->setTitleColumn('name_zh');
+            $this->setOrderColumn('sort');
+        }
 
 
     /**
@@ -25,7 +25,7 @@ class ProductCategory extends Model
      * @var array
      */
     protected $fillable = [
-        //
+        'name_zh', 'name_en', 'description_en', 'description_zh', 'is_index', 'sort'
     ];
 
     /**
