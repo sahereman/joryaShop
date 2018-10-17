@@ -28,18 +28,8 @@ class UserHistoriesController extends Controller
         $userHistory->user_id = $user->id;
         $userHistory->product_id = $request->input('product_id');
         $userHistory->user()->associate($user);
-        $result = $userHistory->save();
-        if ($result) {
-            return response()->json([
-                'code' => 200,
-                'message' => 'success',
-            ]);
-        }else{
-            return response()->json([
-                'code' => 201,
-                'message' => 'fail',
-            ]);
-        }
+        $userHistory->save();
+        return response()->json([]);
     }
 
     // DELETE 删除
@@ -47,35 +37,15 @@ class UserHistoriesController extends Controller
     {
         $this->authorize('delete', $userHistory);
         $userHistory->user()->dissociate();
-        $result = $userHistory->delete();
-        if ($result) {
-            return response()->json([
-                'code' => 200,
-                'message' => 'success',
-            ]);
-        }else{
-            return response()->json([
-                'code' => 201,
-                'message' => 'fail',
-            ]);
-        }
+        $userHistory->delete();
+        return response()->json([]);
     }
 
     // DELETE 清空
     public function flush(Request $request)
     {
         $user = $request->user();
-        $result = UserHistory::where(['user_id' => $user->id])->delete();
-        if ($result) {
-            return response()->json([
-                'code' => 200,
-                'message' => 'success',
-            ]);
-        }else{
-            return response()->json([
-                'code' => 201,
-                'message' => 'fail',
-            ]);
-        }
+        UserHistory::where(['user_id' => $user->id])->delete();
+        return response()->json([]);
     }
 }

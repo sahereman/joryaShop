@@ -19,7 +19,7 @@ class IndexController extends Controller
         foreach ($categories as $category) {
             $child_category_ids = [];
             if ($category->parent_id == 0) {
-                $category->child_categories->each(function ($child_category) use (&$child_category_ids) {
+                $category->children->each(function ($child_category) use (&$child_category_ids) {
                     $child_category_ids[] = $child_category->id;
                 });
             }

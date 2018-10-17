@@ -14,6 +14,7 @@ class PostOrderRequest extends Request
     public function rules()
     {
         return [
+            'currency' => 'required|string|exists:exchange_rates',
             'sku_id' => [
                 'required_without:cart_ids',
                 'required_with:number',
@@ -43,21 +44,31 @@ class PostOrderRequest extends Request
                 'string',
                 'regex:/^\d(\,\d)*$/'
             ],
+            'name' => 'required|string',
+            'phone' => 'required|string',
+            'address' => 'required|string',
+            'remark' => 'sometimes|nullable|string'
         ];
     }
 
     public function attributes()
     {
         return [
+            'currency' => '币种',
             'sku_id' => '商品SKU-ID',
             'number' => '商品购买数量',
             'cart_ids' => '购物车IDs',
+            'name' => '收货人',
+            'phone' => '手机号码',
+            'address' => '详细地址',
+            'remark' => '订单备注',
         ];
     }
 
     public function messages()
     {
         return [
+            'currency.exists' => '该币种支付暂不支持',
             'sku_id.exists' => '该商品不存在',
             'cart_ids.regex' => '购物车IDs格式不正确',
         ];

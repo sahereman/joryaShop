@@ -17,6 +17,7 @@ class AuthServiceProvider extends ServiceProvider
         'App\Models\UserAddress' => 'App\Policies\UserAddressPolicy',
         'App\Models\UserFavourite' => 'App\Policies\UserFavouritePolicy',
         'App\Models\UserHistory' => 'App\Policies\UserHistoryPolicy',
+        'App\Models\Order' => 'App\Policies\OrderPolicy',
     ];
 
     /**

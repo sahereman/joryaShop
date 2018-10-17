@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\UserAddress;
 use Illuminate\Http\Request;
 use App\Http\Requests\UserAddressRequest;
@@ -48,18 +49,8 @@ class UserAddressesController extends Controller
             $userAddress->is_default = true;
         }
         $userAddress->user()->associate($user);
-        $result = $userAddress->save();
-        if ($result) {
-            return response()->json([
-                'code' => 200,
-                'message' => 'success',
-            ]);
-        } else {
-            return response()->json([
-                'code' => 201,
-                'message' => 'fail',
-            ]);
-        }
+        $userAddress->save();
+        return response()->json([]);
     }
 
     // PUT 更新
@@ -94,18 +85,8 @@ class UserAddressesController extends Controller
             $address->save();
         }
         $userAddress->user()->dissociate();
-        $result = $userAddress->delete();
-        if ($result) {
-            return response()->json([
-                'code' => 200,
-                'message' => 'success',
-            ]);
-        } else {
-            return response()->json([
-                'code' => 201,
-                'message' => 'fail',
-            ]);
-        }
+        $userAddress->delete();
+        return response()->json([]);
     }
 
     // PATCH 设置默认
@@ -115,17 +96,7 @@ class UserAddressesController extends Controller
         UserAddress::where(['user_id' => $request->user()->id, 'is_default' => true])
             ->update(['is_default' => 'false']);
         $userAddress->is_default = true;
-        $result = $userAddress->save();
-        if ($result) {
-            return response()->json([
-                'code' => 200,
-                'message' => 'success',
-            ]);
-        } else {
-            return response()->json([
-                'code' => 201,
-                'message' => 'fail',
-            ]);
-        }
+        $userAddress->save();
+        return response()->json([]);
     }
 }

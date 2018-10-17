@@ -56,4 +56,9 @@ class Product extends Model
     {
         return $this->hasMany(ProductSku::class);
     }
+
+    public function comments()
+    {
+        return $this->hasMany(ProductComment::class);
+    }
 }

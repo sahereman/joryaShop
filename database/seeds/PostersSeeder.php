@@ -7,12 +7,11 @@ class PostersSeeder extends Seeder
 {
     /**
      * Run the database seeds.
-     *
      * @return void
      */
     public function run()
     {
-        Poster::truncate();
+        // Poster::truncate();
         factory(Poster::class, 3)->create([
             'slug' => 'poster'
         ]);
