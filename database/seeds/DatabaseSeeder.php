@@ -21,9 +21,9 @@ class DatabaseSeeder extends Seeder
 
         //用户
         $this->call(UsersSeeder::class);
+        $this->call(UserAddressesSeeder::class);
         $this->call(UserFavouritesSeeder::class);
         $this->call(UserHistoriesSeeder::class);
-        $this->call(UserAddressesSeeder::class);
 
         //购物车
         $this->call(CartsSeeder::class);
@@ -36,9 +36,10 @@ class DatabaseSeeder extends Seeder
 
         //其他
         $this->call(BannersSeeder::class);
+        $this->call(CountryCodesSeeder::class);
+        $this->call(ExchangeRatesSeeder::class);
         $this->call(PagesSeeder::class);
         $this->call(PostersSeeder::class);
-        $this->call(ExchangeRatesSeeder::class);
 
         // Pertaining Order
         // $this->call(OrdersSeeder::class);
