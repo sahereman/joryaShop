@@ -23,6 +23,7 @@ class CreateUsersTable extends Migration
             $table->string('gender')->nullable()->comment('性别:male|female');
             $table->string('qq')->nullable()->comment('QQ');
             $table->string('wechat')->nullable()->comment('微信');
+            $table->string('country_code')->nullable()->comment('国家|地区码');
             $table->string('phone')->nullable()->comment('手机');
             $table->string('facebook')->nullable()->comment('Facebook');
             $table->rememberToken();
