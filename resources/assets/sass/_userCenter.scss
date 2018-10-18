@@ -17,6 +17,7 @@
                 margin: 50px 75px;
                 margin: 30px 39px;
                 text-align: center;
+                transition: all .2s;
                 &:first-of-type {
                     margin-left: 45px;
                     width: 210px;
@@ -73,6 +74,7 @@
                 float: left;
                 margin: 20px 90px;
                 text-align: center;
+                transition: all .2s;
                 span {
                     display: block;
                     margin-top: 10px;
@@ -228,7 +230,12 @@
                                             color: #be9067;
                                             border-color: #be9067;
                                         }
-                                    }   
+                                    } 
+                                    &.buy_more {
+                                        &:hover {
+                                            color: $hover-color;
+                                        }
+                                    }  
                                 }
                             }
                             .order_top {
@@ -237,6 +244,92 @@
                         }
                     }
                 }
+            }
+        }
+        .guess_like {
+            .ordertable_title {
+                p {
+                    padding-left: 20px;
+                    line-height: 35px;
+                }
+            }
+            .guess_like_content{
+                background-color: #fff;
+                ul {
+                    overflow: hidden;
+                    padding: 0 20px;
+                    margin-bottom: 20px;
+                    li {
+                        position: relative;
+                        width: 230px;
+                        margin: 25px 5px;
+                        text-align: center;
+                        float: left;
+                        .collection_shop_img {
+                            width: 230px;
+                            height: 230px;
+                            border: 1px solid #f1f1f1;
+                            position: relative;
+                            overflow: hidden;
+                            margin-bottom: 20px;
+                            img {
+                                width: 100%;
+                                height: 100%;
+                            }
+                        }
+                        .commodity_title {
+                            font-size: 13px;
+                            color: #333;
+                            font-weight: 600;
+                        }
+                        .collection_price {
+                            font-size: 12px;
+                            margin: 15px 0;
+                            .new_price {
+                                color: $hover-color;
+                            }
+                            .old_price{
+                                color: #808080;
+                                text-decoration: line-through;
+                            }
+                        }
+                        .add_to_cart {
+                            display: block;
+                            width: 175px;
+                            height: 30px;
+                            border: 1px solid $hover-color;
+                            color: $hover-color;
+                            line-height: 30px;
+                            font-size: 12px;
+                            border-radius: 4px;
+                            margin: auto;
+                            transition: all .2s;
+                            &:hover {
+                                background-color: $hover-color;
+                                color: #fff;
+                            }
+                        }
+                        .delete_mark {
+                            display: none;
+                            position: absolute;
+                            width: 24px;
+                            height: 24px;
+                            background: url(../img/delete_wrong.png) center no-repeat;
+                            top: 5px;
+                            right: 5px;
+                            cursor: pointer;
+                            &:hover {
+                                background: url(../img/delete_wrong_hov.png) center no-repeat;
+                            }
+                        }
+                        &:hover {
+                            .delete_mark {
+                                display: block;
+                            }
+                        }
+                    }
+                }
+            
             }
         }
     }

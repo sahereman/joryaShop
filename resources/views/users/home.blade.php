@@ -24,29 +24,29 @@
 					    </div>
 					    <div class="user_name">
 					    	<span>昵称：{{ Auth::user()->name }}</span>
-					    	<a href="{{ route('root') }}">修改个人信息></a>
+					    	<a href="{{ route('users.edit',['user' =>1]) }}">修改个人信息></a>
 					    </div>	
 			    	</li>
 			    	<li>
-			    		<a href="{{ route('root') }}">
+			    		<a href="{{ route('user_favourites.index') }}">
 			    			<span>我的收藏</span>
 			    		    <img src="{{ asset('img/collection.png') }}">
 			    		</a>
 			    	</li>
 			    	<li>
-			    		<a href="{{ route('root') }}">
+			    		<a href="{{ route('user_addresses.index') }}">
 				    		<span>收货地址</span>
 				    		<img src="{{ asset('img/receive_address.png') }}">
 			    	    </a>
 			    	</li>
 			    	<li>
-			    		<a href="{{ route('root') }}">
-				    		<span>成交记录</span>
+			    		<a href="{{ route('orders.index') }}">
+				    		<span>我的订单</span>
 				    		<img src="{{ asset('img/record.png') }}">
 			    		</a>
 			    	</li>
 			    	<li>
-			    		<a href="{{ route('root') }}">
+			    		<a href="{{ route('user_histories.index') }}">
 				    		<span>浏览历史</span>
 				    		<img src="{{ asset('img/history_record.png') }}">
 				    	</a>
@@ -93,10 +93,10 @@
 	 				<span>实付款</span>
 	 			</li>
 	 			<li class="order_status">
-	 				<span>交易状态</span>
+	 				<span>订单状态</span>
 	 			</li>
 	 			<li class="order_operation">
-	 				<span>交易操作</span>
+	 				<span>操作</span>
 	 			</li>
 	 		</ul>
 	 		<!--订单列表分为两部分，1、暂无订单时展现其他时候隐藏。2、存在订单时显示.需进行判断-->
@@ -159,8 +159,8 @@
 		 									</td>
 		 									<td rowspan="2" class="col-operate">
 		 										<p class="p-button">
-		 											<a class="evaluate">评价</a>
-		 											<a>再次购买</a>
+		 											<a class="evaluate" href="{{ route('users.home') }}">评价</a>
+		 											<a class="buy_more" href="{{ route('users.home') }}">再次购买</a>
 		 										</p>
 		 									</td>
 		 								</tr>
@@ -193,8 +193,54 @@
 	 				@endfor
 	 			</div>
 	 		</div>
+	 		<!--猜你喜欢-->
+	 		<div class="guess_like">
+	 			<div class="ordertable_title">
+	 				<p>猜你喜欢</p>
+	 			</div>
+	 			<div class="guess_like_content">
+	 				<ul>
+	 					@for ($i = 0; $i < 8; $i++)
+	 						<li>
+	 							<div class="collection_shop_img">
+	 								<img src="{{ asset('img/collection_history.png') }}">
+	 							</div>
+	 							<p class="commodity_title">时尚渐变色</p>
+	 							<p class="collection_price">  
+	 							    <span class="new_price">￥2556.00</span>
+                                    <span class="old_price">￥580.00</span>
+                                </p>
+                                <a class="add_to_cart" href="">加入购物车</a>
+	 						</li>
+	 					@endfor
+	 				</ul>
+	 			</div>
+	 		</div>
 	 	</div>
 	 </div>
+</div>
+<!--是否确认删除弹出层-->
+<div class="dialog_popup order_delete">
+	<div class="dialog_content">
+		<div class="close">
+            <i></i>
+        </div>
+        <div class="dialog_textarea">
+        	<div class="textarea_title">
+        		<span>提示</span>
+        	</div>
+        	<div class="textarea_content">
+        		<p>
+        			<img src="{{ asset('img/warning.png') }}">
+        			<span>确定要删除订单信息？</span>
+        		</p>
+        	</div>
+        </div>
+        <div class="btn_area">
+        	<a class="cancel">取消</a>
+        	<a class="success">确定</a>
+        </div>
+	</div>
 </div>
 @endsection
 @section('scriptsAfterJs')
@@ -202,6 +248,9 @@
         $(function () {
             $(".navigation_left ul li").removeClass("active");
             $(".user_index").addClass("active");
+            $(".order-group").on('click','.col-delete',function(){
+            	$(".order_delete").show()
+            })
         });
     </script>
 @endsection
