@@ -122,7 +122,7 @@
                                         <img src="{{ $product->thumb }}">
                                         <h5>{{ $product->name_zh }}</h5>
                                         <span>{{ $product->description_zh }}</span>
-                                        <p class="product_price">{{ $product->price }}</p>
+                                        <p class="product_price">￥{{ $product->price }}</p>
                                     </a>
                                 </li>
                             @endforeach
@@ -146,8 +146,8 @@
                                 </div>
                                 <h5>{{ $guess->name_zh }}</h5>
                                 <p class="guess_price">
-                                    <span class="new_price">{{ $guess->price }}</span>
-                                    <span class="old_price">{{ $guess->price + random_int(300, 500) }}</span>
+                                    <span class="new_price">￥{{ $guess->price }}</span>
+                                    <span class="old_price">￥{{ $guess->price + random_int(300, 500) }}</span>
                                 </p>
                                 <a class="buy_now_guess" href="{{ url('products/' . $guess->id) }}">立即购买</a>
                             </li>

@@ -98,6 +98,16 @@
                                 cursor: pointer;
                                 a {
                                     margin: 0 13px;
+                                    &.haddefault {
+                                        display: inline-block;
+                                        width: 96px;
+                                        height: 28px;
+                                        line-height: 28px;
+                                        color: #c59c79;
+                                        border: 1px solid #c59c79;
+                                        border-radius: 2px;
+                                        background-color: #fdf4ec;
+                                    }
                                 }
                             }
                             &.default_address {
@@ -110,3 +120,82 @@
         }
     }
 }
+.new_receipt_address,
+.edit_harvest_address {
+        .dialog_content {
+            .textarea_content {
+                form {
+                    ul {
+                        padding: 0 30px;
+                        li {
+                            margin: 15px 0;
+                            overflow: hidden;
+                            span {
+                                float: left;
+                                margin-right: 10px;
+                            }
+                            textarea {
+                                float: left;
+                            }
+                            p {
+                                float: left;
+                                span {
+                                    margin-right: 10px;
+                                }
+                                input {
+                                    &.user_name {
+                                        margin-left: 13px;
+                                        margin-right: 45px;
+                                    }
+                                    &.user_tel {
+                                        margin: 0;
+                                    }
+                                }
+                            }
+                            .default_address_set {
+                                overflow: hidden;
+                                line-height: 23px;
+                                margin-left: 85px;
+                                position: relative;
+                                .setas_default {
+                                    outline: none;
+                                    appearance: none;
+                                    -webkit-appearance: none;
+                                    vertical-align:middle;    
+                                    margin-top:0;    
+                                    background:#fff;    
+                                    border:#c3c5c0 solid 1px;    
+                                    border-radius: 2px;    
+                                    height: 20px;    
+                                    width: 20px;
+                                    float: left;
+                                    margin-right: 5px;
+                                    margin-top: 5px;
+                                    &:checked {
+                                        border-color: #7CA442;
+                                        &:after {
+                                            content: '';    
+                                            top: 8px;    
+                                            left: 4px;    
+                                            position: absolute;    
+                                            background: transparent;    
+                                            border: #7CA442 solid 2px;    
+                                            border-top: none;    
+                                            border-right: none;    
+                                            height: 8px;    
+                                            width: 14px;    
+                                            -moz-transform: rotate(-45deg);    
+                                            -ms-transform: rotate(-45deg);    
+                                            -webkit-transform: rotate(-45deg);     
+                                            transform: rotate(-45deg);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }   
+        }
+}
+

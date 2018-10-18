@@ -285,5 +285,15 @@ $(function(){
 	}
 })
 
+$(function(){
+	//自定义弹窗关闭
+	$(".dialog_popup").on("click",".close",function(){
+		$(".dialog_popup").hide();
+	})
+	$(".dialog_popup .btn_area").on("click",".cancel",function(){
+		$(".dialog_popup").hide();
+	})
+})
+
 
 

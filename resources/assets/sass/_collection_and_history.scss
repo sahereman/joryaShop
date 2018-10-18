@@ -1,0 +1,156 @@
+.User_collection,
+ .User_history {
+    background-color: #f8f8f8;
+    position: relative;
+    .user_collection_content {
+        min-height: 595px;
+        background-color: #fff;
+        border-radius: 2px;
+        width: 1000px;
+        float: right;
+        margin-bottom: 55px;
+        .no_collectionList {
+            width: 100%;
+            text-align: center;
+            display: none;
+            img {
+                margin-top: 110px;
+                margin-bottom: 45px;
+            }
+            p {
+                font-size: 16px;
+                color: #666;
+                margin-bottom: 10px;
+            }
+            a {
+                color: $commom-color;
+            }
+        }
+        .receive_collection {
+            .address_list {
+                ul {
+                    overflow: hidden;
+                    padding: 0 20px;
+                    margin-bottom: 20px;
+                    li {
+                        position: relative;
+                        width: 230px;
+                        margin: 25px 5px;
+                        text-align: center;
+                        float: left;
+                        .collection_shop_img {
+                            width: 230px;
+                            height: 230px;
+                            border: 1px solid #f1f1f1;
+                            position: relative;
+                            overflow: hidden;
+                            margin-bottom: 20px;
+                            img {
+                                width: 100%;
+                                height: 100%;
+                            }
+                        }
+                        .commodity_title {
+                            font-size: 13px;
+                            color: #333;
+                            font-weight: 600;
+                        }
+                        .collection_price {
+                            font-size: 12px;
+                            margin: 15px 0;
+                            .new_price {
+                                color: $hover-color;
+                            }
+                            .old_price{
+                                color: #808080;
+                                text-decoration: line-through;
+                            }
+                        }
+                        .add_to_cart {
+                            display: block;
+                            width: 175px;
+                            height: 30px;
+                            border: 1px solid $hover-color;
+                            color: $hover-color;
+                            line-height: 30px;
+                            font-size: 12px;
+                            border-radius: 4px;
+                            margin: auto;
+                            transition: all .2s;
+                            &:hover {
+                                background-color: $hover-color;
+                                color: #fff;
+                            }
+                        }
+                        .delete_mark {
+                            display: none;
+                            position: absolute;
+                            width: 24px;
+                            height: 24px;
+                            background: url(../img/delete_wrong.png) center no-repeat;
+                            top: 5px;
+                            right: 5px;
+                            cursor: pointer;
+                            &:hover {
+                                background: url(../img/delete_wrong_hov.png) center no-repeat;
+                            }
+                        }
+                        &:hover {
+                            .delete_mark {
+                                display: block;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        .history_operation_area {
+            width: 100%;
+            height: 45px;
+            background-color: #f0f0f0;
+            font-size: 14px;
+            a {
+                color: #afafaf;
+                display: block;
+                height: 100%;
+                line-height: 45px;
+                padding-right: 30px;
+                font-size: 15px;
+                font-weight: 600;
+                cursor: pointer;
+                
+            }
+        }
+        .Timeline {
+            width: 100%;
+            padding: 0 20px;
+            position: relative;
+            margin-top: 15px;
+            overflow: hidden;
+            span {
+                font-size: 22px;
+                margin-right: 15px;
+                margin-left: 30px;
+                color: $hover-color;
+                &:before {
+                    content: '';
+                    position: absolute;
+                    background: url(../img/timeline.png) center no-repeat;
+                    width: 17px;
+                    height: 17px;
+                    left: 25px;
+                    top: 8px;
+                }
+                &:after {
+                    content: '';
+                    position: absolute;
+                    width: 805px;
+                    height: 1px;
+                    border-top: 1px solid #ebebeb;
+                    right: 25px;
+                    top: 18px;
+                }
+            }
+        }
+    }
+}
