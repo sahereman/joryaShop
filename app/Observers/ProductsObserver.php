@@ -29,8 +29,8 @@ class ProductsObserver
             $product->thumb = $product->photos[0];
         } else
         {
-            $product->thumb = 'default_product.jpeg';
-            $product->photos = ['default_product.jpeg'];
+            $product->thumb = asset('defaults/default_product.jpeg');
+            $product->photos = [asset('defaults/default_product.jpeg')];
         }
 
 //        dd($product->skus()->newQuery()->where('product_id', $product->id)

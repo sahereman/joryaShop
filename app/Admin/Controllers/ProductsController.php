@@ -11,6 +11,7 @@ use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\MessageBag;
 
 class ProductsController extends Controller
@@ -123,26 +124,62 @@ class ProductsController extends Controller
     {
         $show = new Show(Product::findOrFail($id));
 
-        $show->id('Id');
-        $show->product_category_id('Product category id');
-        $show->name_en('Name en');
-        $show->name_zh('Name zh');
-        $show->description_en('Description en');
-        $show->description_zh('Description zh');
-        $show->content_en('Content en');
-        $show->content_zh('Content zh');
-        $show->thumb('Thumb');
-        $show->photos('Photos');
-        $show->shipping_fee('Shipping fee');
-        $show->stock('Stock');
-        $show->sales('Sales');
-        $show->index('Index');
-        $show->heat('Heat');
-        $show->price('Price');
-        $show->is_index('Is index');
-        $show->on_sale('On sale');
-        $show->created_at('Created at');
-        $show->updated_at('Updated at');
+
+        $show->id('ID');
+        $show->name_zh('名称(中文)');
+        $show->name_en('名称(英文)');
+        $show->description_zh('描述(中文)');
+        $show->description_en('名称(英文)');
+        $show->thumb('缩略图')->image('', 80);
+        $show->photos('相册')->as(function ($photos) {
+            $text = '';
+            foreach ($photos as $photo)
+            {
+                $url = starts_with($photo, ['http://', 'https://']) ? $photo : Storage::disk('public')->url($photo);
+                $text .= '<img src="' . $url . '" style="margin:0 12px 12px 0;max-width:120px;max-height:200px" class="img">';
+            }
+
+            return $text;
+        });
+        $show->is_index('首页推荐')->as(function ($item) {
+            return $item ? '<span class="label label-primary">YES</span>' : '<span class="label label-default">NO</span>';
+        });
+        $show->on_sale('售卖状态')->as(function ($item) {
+            return $item ? '<span class="label label-primary">YES</span>' : '<span class="label label-default">NO</span>';
+        });
+        $show->price('价格');
+        $show->shipping_fee('运费');
+        $show->stock('库存');
+        $show->sales('销量');
+        $show->index('综合指数');
+        $show->heat('人气');
+        $show->created_at('创建时间');
+        $show->updated_at('更新时间');
+        $show->divider();
+        $show->content_zh('详情介绍(中文)');
+        $show->content_en('详情介绍(英文)');
+
+        $show->category('商品分类', function ($category) {
+            $category->name_zh('名称(中文)');
+            $category->name_en('名称(英文)');
+        });
+
+        $show->skus('SKU 列表', function ($sku) {
+            /*禁用*/
+            $sku->disableActions();
+            $sku->disableRowSelector();
+            $sku->disableExport();
+            $sku->disableFilter();
+            $sku->disableCreateButton();
+            $sku->disablePagination();
+
+            /*属性*/
+            $sku->name_zh('SKU 名称(中文)');
+            $sku->name_en('SKU 名称(英文)');
+            $sku->price('单价');
+            $sku->stock('剩余库存');
+            $sku->sales('销量');
+        });
 
         return $show;
     }
@@ -162,11 +199,16 @@ class ProductsController extends Controller
             $form->text('name_en', '名称(英文)')->rules('required');
             $form->text('description_zh', '描述(中文)')->rules('required');
             $form->text('description_en', '描述(英文)')->rules('required');
-            $form->multipleImage('photos', '相册')->removable()->uniqueName()->move('original/' . date('Ym', now()->timestamp))->rules('image');
+            $form->multipleImage('photos', '相册')->uniqueName()->removable()->move('original/' . date('Ym', now()->timestamp))->rules('image');
             $form->switch('on_sale', '售卖状态');
             $form->switch('is_index', '首页推荐');
 
         })->tab('价格与库存', function ($form) {
+
+            $form->display('price', '价格')->setWidth(2);
+            $form->display('stock', '库存')->setWidth(2);
+            $form->display('sales', '销量')->setWidth(2);
+            $form->currency('shipping_fee', '运费')->symbol('￥')->rules('required');
 
             $form->hasMany('skus', 'SKU 列表', function (Form\NestedForm $form) {
                 $form->text('name_zh', 'SKU 名称(中文)')->rules('required');
@@ -175,11 +217,6 @@ class ProductsController extends Controller
                 $form->number('stock', '剩余库存')->min(0)->rules('required|integer|min:0');
                 $form->display('sales', '销量')->setWidth(2);
             });
-
-            $form->display('price', '价格')->setWidth(2);
-            $form->display('stock', '库存')->setWidth(2);
-            $form->display('sales', '销量')->setWidth(2);
-            $form->currency('shipping_fee', '运费')->symbol('￥')->rules('required');
 
         })->tab('商品详细', function ($form) {
 
@@ -190,11 +227,16 @@ class ProductsController extends Controller
             $form->editor('content_zh', '详情介绍(中文)');
             $form->editor('content_en', '详情介绍(英文)');
 
+
+            $form->hidden('_from_')->default('edit');
+            $form->ignore(['_from_']);
         });
+
 
         // 定义事件回调，当模型即将保存时会触发这个回调
         $form->saving(function (Form $form) {
-            if (collect($form->input('skus'))->where(Form::REMOVE_FLAG_NAME, 0)->isEmpty())
+
+            if (\request()->input('_from_') == 'edit' && collect($form->input('skus'))->where(Form::REMOVE_FLAG_NAME, 0)->isEmpty())
             {
                 $error = new MessageBag([
                     'title' => 'SKU 列表 必须填写',
@@ -202,11 +244,12 @@ class ProductsController extends Controller
                 return back()->withInput()->with(compact('error'));
             }
 
-            $form->model()->price = collect($form->input('skus'))->where(Form::REMOVE_FLAG_NAME, 0)->min('price');
-            $form->model()->stock = collect($form->input('skus'))->where(Form::REMOVE_FLAG_NAME, 0)->sum('stock');
+            $form->ignore(['_from_']);
+
+            $form->model()->price = collect($form->input('skus'))->where(Form::REMOVE_FLAG_NAME, 0)->min('price'); // 生成商品价格 - 最低SKU价格
+            $form->model()->stock = collect($form->input('skus'))->where(Form::REMOVE_FLAG_NAME, 0)->sum('stock'); // 生成商品库存 - 求和SKU库存
 
         });
-
         return $form;
     }
 }
