@@ -18,20 +18,6 @@ class UserHistoriesController extends Controller
         ]);
     }
 
-
-    // POST 添加浏览历史 TODO ...
-    public function store(Request $request)
-    {
-        // 队列追加浏览历史
-        $user = $request->user();
-        $userHistory = new UserHistory();
-        $userHistory->user_id = $user->id;
-        $userHistory->product_id = $request->input('product_id');
-        $userHistory->user()->associate($user);
-        $userHistory->save();
-        return response()->json([]);
-    }
-
     // DELETE 删除
     public function destroy(Request $request, UserHistory $userHistory)
     {
@@ -44,8 +30,7 @@ class UserHistoriesController extends Controller
     // DELETE 清空
     public function flush(Request $request)
     {
-        $user = $request->user();
-        UserHistory::where(['user_id' => $user->id])->delete();
+        UserHistory::where(['user_id' => $request->user()->id])->delete();
         return response()->json([]);
     }
 }

@@ -2,38 +2,59 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\CartRequest;
 use App\Models\Cart;
+use Illuminate\Http\Request;
 
 class CartsController extends Controller
 {
     // GET 购物车清单
     public function index (Request $request)
     {
-        return view('carts.index');
+        $carts = $request->user()->carts()->with('sku')->get();
+        return view('carts.index', [
+            'carts' => $carts,
+        ]);
     }
 
     // POST 加入购物车
-    public function store (Request $request)
+    public function store (CartRequest $request)
     {
-        // TODO ...
+        $user = $request->user();
+        $cart = new Cart([
+            'user_id' => $user->id,
+            'product_sku_id' => $request->input('sku_id'),
+            'number' => $request->input('number'),
+        ]);
+        $cart->user()->associate($user);
+        $cart->save();
+        return $cart;
     }
 
     // PATCH 更新 (增减数量)
-    public function update (Cart $cart)
+    public function update (CartRequest $request, Cart $cart)
     {
-        // TODO ...
+        $this->authorize('update', $cart);
+        $cart->update([
+            'product_sku_id' => $request->input('sku_id'),
+            'number' => $request->input('number'),
+        ]);
+        return response()->json([]);
     }
 
     // DELETE 删除
-    public function destroy(Cart $cart)
+    public function destroy(Request $request, Cart $cart)
     {
-        // TODO ...
+        $this->authorize('delete', $cart);
+        $cart->user()->dissociate();
+        $cart->delete();
+        return response()->json([]);
     }
 
     // DELETE 清空购物车
     public function flush (Request $request)
     {
-        // TODO ...
+        Cart::where(['user_id' => $request->user()->id])->delete();
+        return response()->json([]);
     }
 }

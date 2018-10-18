@@ -5,18 +5,28 @@ namespace App\Http\Requests;
 use App\Models\ProductSku;
 use Illuminate\Validation\Rule;
 
-class PostOrderRequest extends Request
+class CartRequest extends Request
 {
     /**
+     * Determine if the user is authorized to make this request.
+     *
+     * @return bool
+     */
+    public function authorize()
+    {
+        return true;
+    }
+
+    /**
      * Get the validation rules that apply to the request.
+     *
      * @return array
      */
     public function rules()
     {
         return [
-            'currency' => 'required|string|exists:exchange_rates',
             'sku_id' => [
-                'required_without:cart_ids',
+                'required',
                 'required_with:number',
                 'integer',
                 'exists:product_skus,id',
@@ -34,7 +44,7 @@ class PostOrderRequest extends Request
                 },
             ],
             'number' => [
-                'required_without:cart_ids',
+                'required',
                 'required_with:sku_id',
                 'integer',
                 'min:1',
@@ -45,38 +55,31 @@ class PostOrderRequest extends Request
                     }
                 },
             ],
-            'cart_ids' => [
-                'required_without_all:sku_id,number',
-                'string',
-                'regex:/^\d(\,\d)*$/'
-            ],
-            'name' => 'required|string',
-            'phone' => 'required|string',
-            'address' => 'required|string',
-            'remark' => 'sometimes|nullable|string',
         ];
     }
 
+    /**
+     * Get custom attributes for validator errors.
+     *
+     * @return array
+     */
     public function attributes()
     {
         return [
-            'currency' => '币种',
             'sku_id' => '商品SKU-ID',
             'number' => '商品购买数量',
-            'cart_ids' => '购物车IDs',
-            'name' => '收货人',
-            'phone' => '手机号码',
-            'address' => '详细地址',
-            'remark' => '订单备注',
         ];
     }
 
+    /**
+     * Get custom messages for validator errors.
+     *
+     * @return array
+     */
     public function messages()
     {
         return [
-            'currency.exists' => '该币种支付暂不支持',
             'sku_id.exists' => '该商品不存在',
-            'cart_ids.regex' => '购物车IDs格式不正确',
         ];
     }
 }

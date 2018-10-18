@@ -78,8 +78,6 @@ Route::group(['middleware' => 'auth'], function () {
 
     /*浏览历史*/
     Route::get('user_histories', 'UserHistoriesController@index')->name('user_histories.index'); // 列表
-    // TODO ...
-    // Route::post('user_histories', 'UserHistoriesController@store')->name('user_histories.store'); // 队列追加浏览历史
     Route::delete('user_histories/{userHistory}', 'UserHistoriesController@destroy')->name('user_histories.destroy'); // 删除
     Route::delete('user_histories', 'UserHistoriesController@flush')->name('user_histories.flush'); // 清空
 
@@ -121,6 +119,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('payments/{order}/wechat', 'PaymentsController@wechat')->name('payments.wechat'); // 微信支付
     Route::get('payments/{order}/paypal', 'PaymentsController@paypal')->name('payments.paypal'); // PayPal支付
     Route::get('payments/{order}/success', 'PaymentsController@success')->name('payments.success'); // 支付成功页面 [notify_url]
+    Route::get('payments/{order}/alipay/notify', 'PaymentsController@alipayNotify')->name('payments.alipay.notify'); // 支付宝支付成功页面 [notify_url]
+    Route::get('payments/{order}/wechat/notify', 'PaymentsController@wechatNotify')->name('payments.wechat.notify'); // 微信支付成功页面 [notify_url]
+    Route::get('payments/{order}/paypal/notify', 'PaymentsController@paypalNotify')->name('payments.paypal.notify'); // PayPal支付成功页面 [notify_url]
 
 
 });
@@ -144,6 +145,6 @@ Route::get('pages/{page}', 'PagesController@show')->name('pages.show');
 Route::get('posters/{poster}', 'PostersController@show')->name('posters.show');
 
 /*支付回调 [return_url]*/
-Route::post('payments/alipay/callback', 'PaymentsController@alipayCallback')->name('payments.alipay.callback'); // 支付宝支付回调
-Route::post('payments/wechat/callback', 'PaymentsController@wechatCallback')->name('payments.wechat.callback'); // 微信支付回调
-Route::post('payments/paypal/callback', 'PaymentsController@paypalCallback')->name('payments.paypal.callback'); // PayPal支付回调
+Route::post('payments/alipay/return', 'PaymentsController@alipayReturn')->name('payments.alipay.return'); // 支付宝支付回调
+Route::post('payments/wechat/return', 'PaymentsController@wechatReturn')->name('payments.wechat.return'); // 微信支付回调
+Route::post('payments/paypal/return', 'PaymentsController@paypalReturn')->name('payments.paypal.return'); // PayPal支付回调

@@ -61,8 +61,8 @@ database\seeds\ConfigsSeeder.php 中修改后
 php artisan db:seed --class=ConfigsSeeder
 ```
 ##### 服务器后台运行的服务: 生产环境进程管理工具 Supervisor 
-- `npm run watch-poll`
-- `php artisan horizon`
+- `npm run watch-poll &`
+- `php artisan horizon &`
 
 ## 常用 artisan 命令
 ```
@@ -293,6 +293,7 @@ composer require "guzzlehttp/guzzle:~6.3"
 ##### Alipay 和 WeChat 的 laravel 支付扩展包
 ```
 composer require yansongda/pay
+composer require overtrue/wechat:~4.0 -vvv
 
 wget -O config/pay.php https://github.com/yansongda/laravel-pay/raw/master/config/pay.php
 
