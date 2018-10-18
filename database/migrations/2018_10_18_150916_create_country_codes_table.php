@@ -20,8 +20,6 @@ class CreateCountryCodesTable extends Migration
             $table->string('country_name_zh')->nullable(false)->comment('国家|地区名称');
             $table->string('country_iso')->nullable(false)->comment('国家|地区代号');
             $table->string('country_code')->nullable(false)->comment('国家|地区码');
-
-            $table->timestamps();
         });
     }
 

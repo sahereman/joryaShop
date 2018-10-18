@@ -13,130 +13,194 @@ class CountryCodesSeeder extends Seeder
     {
         CountryCode::truncate();
 
-        factory(CountryCode::class, 1)->create([
-            'country_name_en' => 'Afghanistan',
-            'country_name_zh' => '阿富汗',
-            'country_iso' => 'AF',
-            'country_code' => '93',
-        ]);
-
-        factory(CountryCode::class, 1)->create([
-            'country_name_en' => 'Albania',
-            'country_name_zh' => '阿尔巴尼亚',
-            'country_iso' => 'AL',
-            'country_code' => '355',
-        ]);
-
-        factory(CountryCode::class, 1)->create([
-            'country_name_en' => 'Algeria',
-            'country_name_zh' => '阿尔及利亚',
-            'country_iso' => 'DZ',
-            'country_code' => '213',
-        ]);
-
-        factory(CountryCode::class, 1)->create([
-            'country_name_en' => 'American Samoa',
-            'country_name_zh' => '美属萨摩亚',
-            'country_iso' => 'AS',
-            'country_code' => '1684',
-        ]);
-
-        factory(CountryCode::class, 1)->create([
-            'country_name_en' => 'Andorra',
-            'country_name_zh' => '安道尔',
-            'country_iso' => 'AD',
-            'country_code' => '376',
-        ]);
-
-        factory(CountryCode::class, 1)->create([
-            'country_name_en' => 'Angola',
-            'country_name_zh' => '安哥拉',
-            'country_iso' => 'AO',
-            'country_code' => '244',
-        ]);
-
-        factory(CountryCode::class, 1)->create([
-            'country_name_en' => 'China',
-            'country_name_zh' => '中国',
-            'country_iso' => 'CHN',
-            'country_code' => '86',
-        ]);
-
-        factory(CountryCode::class, 1)->create([
-            'country_name_en' => 'Hong Kong',
-            'country_name_zh' => '香港',
-            'country_iso' => 'HK',
-            'country_code' => '852',
-        ]);
-
-        factory(CountryCode::class, 1)->create([
-            'country_name_en' => 'Macau',
-            'country_name_zh' => '澳门',
-            'country_iso' => 'MO',
-            'country_code' => '853',
-        ]);
-
-        factory(CountryCode::class, 1)->create([
-            'country_name_en' => 'Taiwan',
-            'country_name_zh' => '台湾',
-            'country_iso' => 'TW',
-            'country_code' => '886',
-        ]);
-
-        factory(CountryCode::class, 1)->create([
-            'country_name_en' => 'Greece',
-            'country_name_zh' => '希腊',
-            'country_iso' => 'GR',
-            'country_code' => '30',
-        ]);
-
-        factory(CountryCode::class, 1)->create([
-            'country_name_en' => 'France',
-            'country_name_zh' => '法国',
-            'country_iso' => 'FR',
-            'country_code' => '33',
-        ]);
-
-        factory(CountryCode::class, 1)->create([
-            'country_name_en' => 'Italy',
-            'country_name_zh' => '意大利',
-            'country_iso' => 'IT',
-            'country_code' => '39',
-        ]);
-
-        factory(CountryCode::class, 1)->create([
-            'country_name_en' => 'United Kingdom',
-            'country_name_zh' => '英国',
-            'country_iso' => 'GB',
-            'country_code' => '44',
-        ]);
-
-        factory(CountryCode::class, 1)->create([
-            'country_name_en' => 'Germany',
-            'country_name_zh' => '德国',
-            'country_iso' => 'DE',
-            'country_code' => '49',
-        ]);
-
-        factory(CountryCode::class, 1)->create([
+        /*
+         * 美国，加拿大，意大利，荷兰，迪拜，
+         * 埃及，葡萄牙，西班牙，希腊，印度，
+         * 伊朗，以色列，南非，法国，比利时，
+         * 俄罗斯，韩国，日本，德国，瑞典，
+         * 瑞士
+         * */
+        CountryCode::create([
             'country_name_en' => 'United States',
             'country_name_zh' => '美国',
             'country_iso' => 'US',
             'country_code' => '1',
         ]);
 
-        factory(CountryCode::class, 1)->create([
-            'country_name_en' => 'Zambia',
-            'country_name_zh' => '赞比亚',
-            'country_iso' => 'ZM',
-            'country_code' => '260',
+        CountryCode::create([
+            'country_name_en' => 'Canada',
+            'country_name_zh' => '加拿大',
+            'country_iso' => 'CA',
+            'country_code' => '1',
         ]);
 
-        factory(CountryCode::class, 1)->create([
-            'country_name_en' => 'Zimbabwe',
-            'country_name_zh' => '津巴布韦',
-            'country_iso' => 'ZW',
-            'country_code' => '263',
+        CountryCode::create([
+            'country_name_en' => 'Russia',
+            'country_name_zh' => '俄罗斯',
+            'country_iso' => 'RU',
+            'country_code' => '7',
+        ]);
+
+        CountryCode::create([
+            'country_name_en' => 'Egypt',
+            'country_name_zh' => '埃及',
+            'country_iso' => 'EG',
+            'country_code' => '20',
+        ]);
+
+        CountryCode::create([
+            'country_name_en' => 'South Africa',
+            'country_name_zh' => '南非',
+            'country_iso' => 'ZA',
+            'country_code' => '27',
+        ]);
+
+        CountryCode::create([
+            'country_name_en' => 'Greece',
+            'country_name_zh' => '希腊',
+            'country_iso' => 'GR',
+            'country_code' => '30',
+        ]);
+
+        CountryCode::create([
+            'country_name_en' => 'Netherlands',
+            'country_name_zh' => '荷兰',
+            'country_iso' => 'NL',
+            'country_code' => '31',
+        ]);
+
+        CountryCode::create([
+            'country_name_en' => 'Belgium',
+            'country_name_zh' => '比利时',
+            'country_iso' => 'BE',
+            'country_code' => '32',
+        ]);
+
+        CountryCode::create([
+            'country_name_en' => 'France',
+            'country_name_zh' => '法国',
+            'country_iso' => 'FR',
+            'country_code' => '33',
+        ]);
+
+        CountryCode::create([
+            'country_name_en' => 'Spain',
+            'country_name_zh' => '西班牙',
+            'country_iso' => 'ES',
+            'country_code' => '34',
+        ]);
+
+        CountryCode::create([
+            'country_name_en' => 'Portugal',
+            'country_name_zh' => '葡萄牙',
+            'country_iso' => 'PT',
+            'country_code' => '351',
+        ]);
+
+        CountryCode::create([
+            'country_name_en' => 'Italy',
+            'country_name_zh' => '意大利',
+            'country_iso' => 'IT',
+            'country_code' => '39',
+        ]);
+
+        CountryCode::create([
+            'country_name_en' => 'Switzerland',
+            'country_name_zh' => '瑞士',
+            'country_iso' => 'CH',
+            'country_code' => '41',
+        ]);
+
+        /*CountryCode::create([
+            'country_name_en' => 'United Kingdom',
+            'country_name_zh' => '英国',
+            'country_iso' => 'GB',
+            'country_code' => '44',
+        ]);*/
+
+        CountryCode::create([
+            'country_name_en' => 'Sweden',
+            'country_name_zh' => '瑞典',
+            'country_iso' => 'SE',
+            'country_code' => '46',
+        ]);
+
+        CountryCode::create([
+            'country_name_en' => 'Germany',
+            'country_name_zh' => '德国',
+            'country_iso' => 'DE',
+            'country_code' => '49',
+        ]);
+
+        CountryCode::create([
+            'country_name_en' => 'Japan',
+            'country_name_zh' => '日本',
+            'country_iso' => 'JP',
+            'country_code' => '81',
+        ]);
+
+        CountryCode::create([
+            'country_name_en' => 'South Korea',
+            'country_name_zh' => '韩国',
+            'country_iso' => 'KR',
+            'country_code' => '82',
+        ]);
+
+        CountryCode::create([
+            'country_name_en' => 'Hong Kong',
+            'country_name_zh' => '香港',
+            'country_iso' => 'HK',
+            'country_code' => '852',
+        ]);
+
+        CountryCode::create([
+            'country_name_en' => 'Macau',
+            'country_name_zh' => '澳门',
+            'country_iso' => 'MO',
+            'country_code' => '853',
+        ]);
+
+        CountryCode::create([
+            'country_name_en' => 'China',
+            'country_name_zh' => '中国',
+            'country_iso' => 'CHN',
+            'country_code' => '86',
+        ]);
+
+        CountryCode::create([
+            'country_name_en' => 'Taiwan',
+            'country_name_zh' => '台湾',
+            'country_iso' => 'TW',
+            'country_code' => '886',
+        ]);
+
+        CountryCode::create([
+            'country_name_en' => 'India',
+            'country_name_zh' => '印度',
+            'country_iso' => 'IN',
+            'country_code' => '91',
+        ]);
+
+        // 迪拜[Dubai] 属于 阿拉伯联合酋长国[United Arab Emirates].
+        CountryCode::create([
+            'country_name_en' => 'United Arab Emirates',
+            'country_name_zh' => '阿拉伯联合酋长国',
+            'country_iso' => 'AE',
+            'country_code' => '971',
+        ]);
+
+        CountryCode::create([
+            'country_name_en' => 'Israel',
+            'country_name_zh' => '以色列',
+            'country_iso' => 'IL',
+            'country_code' => '972',
+        ]);
+
+        CountryCode::create([
+            'country_name_en' => 'Iran',
+            'country_name_zh' => '伊朗',
+            'country_iso' => 'IR',
+            'country_code' => '98',
         ]);
     }
 }

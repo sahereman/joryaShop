@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Handlers\ImageUploadHandler;
 use App\Models\Poster;
 use App\Models\Product;
 use App\Models\ProductCategory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class IndexController extends Controller
 {
@@ -33,6 +35,21 @@ class IndexController extends Controller
             'posters' => $posters,
             'products' => $products,
             'guesses' => $guesses,
+        ]);
+    }
+
+    // POST 获取上传图片预览
+    public function imagePreview(Request $request, ImageUploadHandler $handler)
+    {
+        $this->validate($request, [
+            'image' => 'required|image',
+        ], [], [
+            'image' => '上传图片',
+        ]);
+        $preview_path = $handler->uploadTemp($request->image);
+        $preview_url = Storage::disk('public')->url($preview_path);
+        return response()->json([
+            'preview' => $preview_url,
         ]);
     }
 }

@@ -129,6 +129,9 @@ Route::group(['middleware' => 'auth'], function () {
 /*首页*/
 Route::get('/', 'IndexController@root')->name('root'); // 首页
 
+/*通用-获取上传图片预览*/
+Route::post('image/preview', 'IndexController@imagePreview')->name('image.preview');
+
 /*商品分类*/
 Route::get('product_categories/{category}', 'ProductCategoriesController@index')->name('product_categories.index'); // 列表
 Route::get('product_categories/{category}/home', 'ProductCategoriesController@home')->name('product_categories.home'); // 商品分类呈现[一|二级分类]
