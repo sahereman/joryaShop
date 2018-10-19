@@ -88,7 +88,8 @@ class UsersController extends Controller
 
         $this->authorize('update', $user);
 
-        $data = $request->only('name', 'avatar', 'email', 'password', 'real_name', 'gender', 'qq', 'wechat', 'phone', 'facebook');
+        $data = $request->only('avatar', 'email', 'password', 'real_name', 'gender', 'qq', 'wechat', 'phone', 'facebook');
+        // $data = $request->only('name', 'avatar', 'email', 'password', 'real_name', 'gender', 'qq', 'wechat', 'phone', 'facebook');
 
         if ($request->hasFile('avatar')) {
             $data['avatar'] = $imageUploadHandler->uploadOriginal($request->avatar);

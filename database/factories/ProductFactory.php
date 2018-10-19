@@ -21,7 +21,7 @@ $factory->define(App\Models\Product::class, function (Faker $faker) {
         'thumb' => $faker->imageUrl(),
         'photos' => json_encode(array($faker->imageUrl(), $faker->imageUrl(), $faker->imageUrl())),
         'shipping_fee' => $faker->randomFloat(2, 0, 20),
-        'stock' => $faker->randomNumber(3),
+        'stock' => $faker->randomNumber(5),
         'price' => $faker->randomFloat(2, 10, 20),
         'is_index' => true,
         'on_sale' => true,

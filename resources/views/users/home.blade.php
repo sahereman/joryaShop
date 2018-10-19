@@ -19,11 +19,11 @@
                     @auth
                     <li>
                         <div class="user_img">
-                            <img src="{{ Auth::user()->avatar_url }}">
+                            <img src="{{ $user->avatar_url }}">
                         </div>
                         <div class="user_name">
-                            <span>昵称：{{ Auth::user()->name }}</span>
-                            <a href="{{ route('users.edit', Auth::id()) }}">修改个人信息></a>
+                            <span>昵称：{{ $user->name }}</span>
+                            <a href="{{ route('users.edit', $user->id) }}">修改个人信息></a>
                         </div>
                     </li>
                     <li>

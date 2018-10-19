@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests;
 
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 
 class UserRequest extends Request
@@ -14,16 +16,35 @@ class UserRequest extends Request
     {
         return [
             'name' => ['sometimes', 'required', 'string', 'max:255'],
+            //'name' => ['sometimes', 'required', 'string', 'max:255', 'unique:users'],
             'avatar' => ['sometimes', 'image'],
+            'password_original' => [
+                'sometimes',
+                'required',
+                'string',
+                'min:6',
+                'required_with:password',
+                function ($attribute, $value, $fail) {
+                    $user = $this->user()->makeVisible('password')->toArray();
+                    if (! Hash::check($value, $user['password'])) {
+                        $fail('原密码不正确');
+                    }
+                },
+            ],
             'password' => 'sometimes|required|string|min:6|confirmed',
             'email' => [
                 'sometimes', 'required', 'string', 'email', 'max:255',
                 Rule::unique('users')->ignore($this->route()->user->id),
             ],
             'real_name' => 'sometimes|string',
-            'gender' => 'sometimes|string',
+            'gender' => [
+                'sometimes',
+                'string',
+                Rule::in(['male', 'female']),
+            ],
             'qq' => 'sometimes|string',
             'wechat' => 'sometimes|string',
+            'country_code' => 'sometimes|string',
             'phone' => 'sometimes|string',
             'facebook' => 'sometimes|string',
         ];
@@ -35,11 +56,13 @@ class UserRequest extends Request
             'name' => '用户名',
             'avatar' => '头像',
             'email' => '邮箱',
+            'password_original' => '原密码',
             'password' => '密码',
             'real_name' => '真实姓名',
             'gender' => '性别:male|female',
             'qq' => 'QQ',
             'wechat' => '微信',
+            'country_code' => '国家|地区码',
             'phone' => '手机',
             'facebook' => 'Facebook',
         ];
