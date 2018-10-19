@@ -223,7 +223,7 @@
     <script type="text/javascript">
         $(function () {
             $(".navigation_left ul li").removeClass("active");
-            $(".user_index").addClass("active");
+            $(".my_order").addClass("active");
             $(".order-group").on('click', '.col-delete', function () {
                 $(".order_delete").show();
             });
