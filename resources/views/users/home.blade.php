@@ -243,7 +243,7 @@
                 <div class="textarea_content">
                     <p>
                         <img src="{{ asset('img/warning.png') }}">
-                        <span>确定要删除订单信息？</span>
+                        <span class="tips_content">确定要删除订单信息？</span>
                     </p>
                 </div>
             </div>
@@ -260,8 +260,12 @@
             $(".navigation_left ul li").removeClass("active");
             $(".user_index").addClass("active");
             $(".order-group").on('click', '.col-delete', function () {
+            	
                 $(".order_delete").show();
             });
+            $(".success").on("click",function(){
+            	
+            })
         });
     </script>
 @endsection
