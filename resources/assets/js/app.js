@@ -121,37 +121,67 @@ $(function(){
 		if(show_code==0){
 			$(".register_form").hide();
 			$(".login_form").show();
-			$(".login_frame").css("transform","rotateY(180deg)");    //弹窗翻转
-			$(".login_form").css("transform","rotateY(180deg)"); 
-			$(".dialog_logo").css("transform","rotateY(180deg)"); 
-			$(".close").css("transform","rotateY(180deg)");
-			$(".close").css("right","93%");
+			$(".login_frame").removeClass("dialog_close_active");    //弹窗翻转
+			$(".register_form").removeClass("dialog_close_active");
+		    $(".dialog_logo").removeClass("dialog_close_active");
+		    $(".close").removeClass("dialog_close_active");
+			$(".login_frame").removeClass('register_active');
+			$(".login_form").removeClass('register_active');
+			$(".dialog_logo").removeClass('register_active');
+			$(".close").removeClass('register_active');
+			$(".login_frame").addClass('login_active');
+			$(".login_form").addClass('login_active');
+			$(".dialog_logo").addClass('login_active');
+			$(".close").addClass('login_active');
+			
 		}else {
 			$(".register_form").show();
 			$(".login_form").hide();
-			$(".login_frame").css("transform","rotateY(360deg)");    //弹窗翻转
-			$(".register_form").css("transform","rotateY(360deg)");
-			$(".dialog_logo").css("transform","rotateY(360deg)"); 
-			$(".close").css("transform","rotateY(360deg)"); 
-			$(".close").css("right","0");
+			$(".login_frame").removeClass("dialog_close_active");    //弹窗翻转
+			$(".register_form").removeClass("dialog_close_active");
+		    $(".dialog_logo").removeClass("dialog_close_active");
+		    $(".close").removeClass("dialog_close_active");
+			$(".login_frame").removeClass('login_active');
+			$(".register_form").removeClass('login_active');
+			$(".dialog_logo").removeClass('login_active');
+			$(".close").removeClass('login_active');
+			$(".login_frame").addClass('register_active');
+			$(".register_form").addClass('register_active');
+			$(".dialog_logo").addClass('register_active');
+			$(".close").addClass('register_active');
 		}
 	})
 	//弹窗关闭
 	$(".close").on("click",function(){
 		$(".dialog_iframe").hide();
-		$(".login_frame").css("transform","rotateY(0deg)");    //弹窗翻转
-		$(".register_form").css("transform","rotateY(0deg)");
-	    $(".dialog_logo").css("transform","rotateY(0deg)"); 
-	    $(".close").css("transform","rotateY(0deg)"); 
-	    $(".close").css("right","0");
+		$(".login_form").show();
+        $(".login_frame").removeClass('login_active');
+		$(".register_form").removeClass('login_active');
+		$(".dialog_logo").removeClass('login_active');
+		$(".close").removeClass('login_active');
+		$(".login_frame").removeClass('register_active');
+		$(".login_form").removeClass('register_active');
+		$(".dialog_logo").removeClass('register_active');
+		$(".close").removeClass('register_active');
+	    $(".login_frame").addClass("dialog_close_active");    //弹窗翻转
+		$(".register_form").addClass("dialog_close_active");
+	    $(".dialog_logo").addClass("dialog_close_active");
+	    $(".close").addClass("dialog_close_active");
 	})
 	//登陆注册按钮点击事件
 	$(".login").on("click",function(){
-		$(".login_frame").css("transform","rotateY(180deg)");    //弹窗翻转
-		$(".login_form").css("transform","rotateY(180deg)"); 
-		$(".dialog_logo").css("transform","rotateY(180deg)"); 
-		$(".close").css("transform","rotateY(180deg)"); 
-		$(".close").css("right","93%");
+		$(".login_frame").removeClass("dialog_close_active");    //弹窗翻转
+		$(".register_form").removeClass("dialog_close_active");
+	    $(".dialog_logo").removeClass("dialog_close_active");
+	    $(".close").removeClass("dialog_close_active");
+        $(".login_frame").removeClass('register_active');
+        $(".login_form").removeClass('register_active');
+		$(".dialog_logo").removeClass('register_active');
+		$(".close").removeClass('register_active');
+		$(".login_frame").addClass('login_active');
+		$(".login_form").addClass('login_active');
+		$(".dialog_logo").addClass('login_active');
+		$(".close").addClass('login_active');
 		$(".dialog_iframe").show();
 		$(".register_form").hide();
 		$(".login_form").show();
@@ -283,6 +313,32 @@ $(function(){
 			settime();      
 		},1000);    
 	}
+	//获取路由参数如存在参数action=login则显示登录弹窗
+	//获取url参数
+	function getUrlVars() {
+        var vars = [], hash;
+        var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+        for (var i = 0; i < hashes.length; i++) {
+            hash = hashes[i].split('=');
+            vars.push(hash[0]);
+            vars[hash[0]] = hash[1];
+        }
+        return vars["action"];
+    }
+	var action = "";
+	window.onload=function () {
+        if (getUrlVars() != undefined) {
+            action = getUrlVars()
+        }
+        console.log(action)
+        switch (action) {
+            case "login":
+                $(".login").click();
+                break;
+            default :
+                break;
+        }
+   };
 })
 
 $(function(){

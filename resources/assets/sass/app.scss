@@ -696,6 +696,24 @@ a {
             }
         }
     }
+    .login_active {
+        transform: rotateY(180deg);
+        &.close {
+            right: 93%;
+        }
+    }
+    .register_active {
+        transform: rotateY(360deg);
+        &.close {
+            right: 0;
+        }
+    }
+    .dialog_close_active {
+        transform: rotateY(0deg);
+        &.close {
+             right: 0;
+        }
+    }
 }
 
 
