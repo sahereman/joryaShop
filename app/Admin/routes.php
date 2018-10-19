@@ -45,6 +45,9 @@ Route::group([
     $router->put('products/{id}', 'ProductsController@update')->name('admin.products.update');
     $router->delete('products/{id}', 'ProductsController@destroy')->name('admin.products.destroy');
 
+    /*广告位*/
+    $router->resource('posters', PostersController::class)->names('admin.posters');
+
 
     //    $router->resource('example', ExampleController::class)->names('admin.example');
     //    $router->get('example', 'ExampleController@index')->name('admin.example.index');

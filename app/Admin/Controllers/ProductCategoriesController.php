@@ -147,7 +147,7 @@ class ProductCategoriesController extends Controller
             $show->description_zh('描述(中文)');
             $show->description_en('描述(英文)');
             $show->is_index('首页显示')->as(function ($item) {
-                return $item ? '<span class="label label-primary">YES</span>' : '<span class="label label-default">NO</span>';
+                return $item ? '<span class="label label-primary">ON</span>' : '<span class="label label-default">OFF</span>';
             });
             $show->created_at('创建时间');
             $show->updated_at('更新时间');

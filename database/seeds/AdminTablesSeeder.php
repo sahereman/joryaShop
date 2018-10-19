@@ -40,10 +40,10 @@ class AdminTablesSeeder extends Seeder
                 'http_path' => "/posters",
             ],
             [
-                'name' => '单页管理',
-                'slug' => 'pages',
+                'name' => '文章管理',
+                'slug' => 'articles',
                 'http_method' => '',
-                'http_path' => "/pages",
+                'http_path' => "/articles",
             ],
             [
                 'name' => 'Banner管理',
@@ -94,9 +94,9 @@ class AdminTablesSeeder extends Seeder
             [
                 'parent_id' => 0,
                 'order' => 5,
-                'title' => '单页管理',
+                'title' => '文章管理',
                 'icon' => 'fa-list',
-                'uri' => 'pages',
+                'uri' => 'articles',
             ],
             [
                 'parent_id' => 0,

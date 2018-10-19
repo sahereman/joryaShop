@@ -11,9 +11,19 @@ class ArticlesSeeder extends Seeder
      */
     public function run()
     {
-        factory(Article::class, 1)->create();
-        factory(Article::class, 1)->create([
-            'slug' => 'about'
-        ]);
+        $slug_arr = [
+            ['关于我们', 'about'],
+            ['新手指南', 'guide'],
+            ['常见问题', 'problem'],
+            ['用户协议', 'user_protocol'],
+        ];
+
+        foreach ($slug_arr as $item)
+        {
+            factory(Article::class)->create([
+                'name' => $item[0],
+                'slug' => $item[1]
+            ]);
+        }
     }
 }

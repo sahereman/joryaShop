@@ -142,10 +142,10 @@ class ProductsController extends Controller
             return $text;
         });
         $show->is_index('首页推荐')->as(function ($item) {
-            return $item ? '<span class="label label-primary">YES</span>' : '<span class="label label-default">NO</span>';
+            return $item ? '<span class="label label-primary">ON</span>' : '<span class="label label-default">OFF</span>';
         });
         $show->on_sale('售卖状态')->as(function ($item) {
-            return $item ? '<span class="label label-primary">YES</span>' : '<span class="label label-default">NO</span>';
+            return $item ? '<span class="label label-primary">ON</span>' : '<span class="label label-default">OFF</span>';
         });
         $show->price('价格');
         $show->shipping_fee('运费');

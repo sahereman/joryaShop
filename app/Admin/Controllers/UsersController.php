@@ -74,6 +74,12 @@ class UsersController extends Controller
     {
         $grid = new Grid(new User);
 
+        /*筛选*/
+        $grid->filter(function ($filter) {
+            $filter->disableIdFilter(); // 去掉默认的id过滤器
+            $filter->like('name', '用户名');
+        });
+
         $grid->id('ID')->sortable();
         $grid->avatar('头像')->image('', 40);
         $grid->email('邮箱');
@@ -82,19 +88,6 @@ class UsersController extends Controller
 
         // 不在页面显示 `新建` 按钮，因为我们不需要在后台新建用户
         $grid->disableCreateButton();
-        $grid->actions(function ($actions) {
-//            $actions->disableView();
-//            $actions->disableEdit();
-//            $actions->disableDelete();
-        });
-
-        $grid->tools(function ($tools) {
-
-            // 禁用批量删除按钮
-            $tools->batch(function ($batch) {
-//                $batch->disableDelete();
-            });
-        });
 
         return $grid;
     }
@@ -113,7 +106,7 @@ class UsersController extends Controller
 
         $form->display('id', 'ID');
         $form->image('avatar', '头像')->uniqueName()->move('avatar/' . date('Ym', now()->timestamp))->rules('required|image');
-        $form->editor('name', '用户名');
+        $form->display('name', '用户名');
         $form->display('created_at', '创建时间');
         $form->display('updated_at', '更新时间');
 
