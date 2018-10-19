@@ -8,6 +8,7 @@ class CreatePostersTable extends Migration
 {
     /**
      * Run the migrations.
+     *
      * @return void
      */
     public function up()
@@ -17,10 +18,9 @@ class CreatePostersTable extends Migration
 
             $table->string('name')->nullable()->comment('name-in-Chinese:仅用于后台管理展示');
             $table->string('slug')->nullable()->comment('调用使用时的标示位');
-            $table->string('disk')->nullable(false)->default('public')->comment('image-filesystem-disk:local|public|cloud');
+            $table->string('disk')->nullable()->comment('image-filesystem-disk:local|public|cloud');
             $table->string('image')->nullable(false)->comment('image-path');
             $table->string('link')->nullable(false)->comment('link-url:eg.%poster-link-url%?page_id=1');
-            $table->boolean('is_show')->nullable(false)->default(true)->comment('广告位是否显示');
 
             $table->timestamps();
         });
@@ -28,6 +28,7 @@ class CreatePostersTable extends Migration
 
     /**
      * Reverse the migrations.
+     *
      * @return void
      */
     public function down()
