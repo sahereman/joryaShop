@@ -36,9 +36,9 @@ class DatabaseSeeder extends Seeder
 
         //其他
         $this->call(BannersSeeder::class);
-        $this->call(CountryCodesSeeder::class);
+//        $this->call(CountryCodesSeeder::class);
         $this->call(ExchangeRatesSeeder::class);
-        $this->call(PagesSeeder::class);
+        $this->call(ArticlesSeeder::class);
         $this->call(PostersSeeder::class);
 
         // Pertaining Order
