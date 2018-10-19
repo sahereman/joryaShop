@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class ProductSku extends Model
 {
@@ -45,7 +47,18 @@ class ProductSku extends Model
      * The accessors to append to the model's array form.
      * @var array
      */
-    protected $appends = [];
+    protected $appends = [
+        'photo_url',
+    ];
+
+    public function getPhotoUrlAttribute()
+    {
+        // 如果 photo 字段本身就已经是完整的 url 就直接返回
+        if (Str::startsWith($this->attributes['photo'], ['http://', 'https://'])) {
+            return $this->attributes['photo'];
+        }
+        return Storage::disk($this->attributes['disk'])->url($this->attributes['photo']);
+    }
 
     public function getRealShippingFeeByCurrency($currency = 'CNY')
     {

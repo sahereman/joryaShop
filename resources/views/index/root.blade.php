@@ -26,30 +26,27 @@
                 @if(isset($posters) && $posters->isNotEmpty() && $posters->count() >= 3)
                     <div class="new_product_left pull-left">
                         <div class="product_left_top">
-                            {{ $poster = $posters->pop() }}
-                            <img src="{{ $poster->image_url }}">
+                            <img src="{{ $posters[0]->image_url }}">
                             <div>
                                 <h2>糖果色片染</h2>
                                 <p>修颜减龄，风格前卫</p>
-                                <a class="info_more" href="{{ $poster->link }}">查看更多</a>
+                                <a class="info_more" href="{{ $posters[0]->link }}">查看更多</a>
                             </div>
                         </div>
                         <div class="product_left_bottom">
-                            {{ $poster = $posters->pop() }}
-                            <img src="{{ $poster->image_url }}">
+                            <img src="{{ $posters[1]->image_url }}">
                             <div>
                                 <h2>欧式BOBO紫灰</h2>
                                 <p>修颜减龄，风格前卫</p>
-                                <a class="info_more" href="{{ $poster->link }}">查看更多</a>
+                                <a class="info_more" href="{{ $posters[1]->link }}">查看更多</a>
                             </div>
                         </div>
                     </div>
                     <div class="new_product_right pull-left">
-                        {{ $poster = $posters->pop() }}
-                        <img src="{{ $poster->image_url }}">
+                        <img src="{{ $posters[2]->image_url }}">
                         <div>
                             <h2>时尚渐变色 风格前卫</h2>
-                            <a class="info_more" href="{{ $poster->link }}">查看更多</a>
+                            <a class="info_more" href="{{ $posters[2]->link }}">查看更多</a>
                         </div>
                     </div>
                 @else
@@ -122,7 +119,7 @@
                                         <img src="{{ $product->thumb }}">
                                         <h5>{{ $product->name_zh }}</h5>
                                         <span>{{ $product->description_zh }}</span>
-                                        <p class="product_price">￥{{ $product->price }}</p>
+                                        <p class="product_price">¥{{ $product->price }}</p>
                                     </a>
                                 </li>
                             @endforeach
@@ -146,8 +143,8 @@
                                 </div>
                                 <h5>{{ $guess->name_zh }}</h5>
                                 <p class="guess_price">
-                                    <span class="new_price">￥{{ $guess->price }}</span>
-                                    <span class="old_price">￥{{ $guess->price + random_int(300, 500) }}</span>
+                                    <span class="new_price">¥{{ $guess->price }}</span>
+                                    <span class="old_price">¥{{ $guess->price + random_int(300, 500) }}</span>
                                 </p>
                                 <a class="buy_now_guess" href="{{ url('products/' . $guess->id) }}">立即购买</a>
                             </li>

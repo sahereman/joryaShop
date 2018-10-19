@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PostOrderRequest;
+use App\Http\Requests\RefundOrderRequest;
 use App\Jobs\AutoCloseOrderJob;
 use App\Models\Cart;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\OrderRefund;
+use App\Models\Product;
 use App\Models\ProductSku;
 use App\Models\User;
-use App\Http\Requests\PostOrderRequest;
-use App\Http\Requests\RefundOrderRequest;
 use App\Models\UserAddress;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -27,32 +28,56 @@ class OrdersController extends Controller
         switch ($status) {
             // 待付款订单
             case 'paying':
-                $orders = $user->orders()->where('status', 'paying')->orderByDesc('created_at')->get();
+                $orders = $user->orders()
+                    ->with('items.sku.product')
+                    ->where('status', 'paying')
+                    ->orderByDesc('created_at')
+                    ->get();
                 break;
             // 待收货订单
             case 'receiving':
-                $orders = $user->orders()->where('status', 'receiving')->orderByDesc('shipped_at')->get();
+                $orders = $user->orders()
+                    ->with('items.sku.product')
+                    ->where('status', 'receiving')
+                    ->orderByDesc('shipped_at')
+                    ->get();
                 break;
             // 待评价订单
             case 'uncommented':
-                $orders = $user->orders()->where(['status' => 'completed', 'commented_at' => null])->orderByDesc('completed_at')->get();
+                $orders = $user->orders()
+                    ->with('items.sku.product')
+                    ->where(['status' => 'completed', 'commented_at' => null])
+                    ->orderByDesc('completed_at')
+                    ->get();
                 break;
             // 售后订单
             case 'refunding':
-                $orders = $user->orders()->where('status', 'refunding')->orderByDesc('updated_at')->get();
+                $orders = $user->orders()
+                    ->with('items.sku.product')
+                    ->where('status', 'refunding')
+                    ->orderByDesc('updated_at')
+                    ->get();
                 break;
             // 已完成订单
             case 'completed':
-                $orders = $user->orders()->where('status', 'completed')->orderByDesc('completed_at')->get();
+                $orders = $user->orders()
+                    ->with('items.sku.product')
+                    ->where('status', 'completed')
+                    ->orderByDesc('completed_at')
+                    ->get();
                 break;
             // 默认：all 全部订单
             default:
-                $orders = $user->orders()->orderByDesc('updated_at')->get();
+                $orders = $user->orders()
+                    ->with('items.sku.product')
+                    ->orderByDesc('updated_at')
+                    ->get();
                 break;
         }
-        $orders = $user->orders;
+        $guesses = Product::where(['is_index' => true, 'on_sale' => true])->orderByDesc('heat')->limit(8)->get();
         return view('orders.index', [
             'orders' => $orders,
+            'guesses' => $guesses,
         ]);
     }
 

@@ -26,8 +26,7 @@ class UsersController extends Controller
         if (Auth::check()) {
             $user = Auth::user();
             $orders = $user->orders()
-                //->with('items')
-                //->where('status', 'paying')
+                ->with('items.sku.product')
                 ->where('status', '<>', 'closed')
                 ->orderByDesc('created_at')
                 ->limit(5)

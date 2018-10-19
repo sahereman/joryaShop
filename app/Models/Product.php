@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class Product extends Model
 {
@@ -46,8 +48,18 @@ class Product extends Model
      * The accessors to append to the model's array form.
      * @var array
      */
-    protected $appends = [];
+    protected $appends = [
+        'thumb_url',
+    ];
 
+    public function getThumbUrlAttribute()
+    {
+        // 如果 thumb 字段本身就已经是完整的 url 就直接返回
+        if (Str::startsWith($this->attributes['thumb'], ['http://', 'https://'])) {
+            return $this->attributes['thumb'];
+        }
+        return Storage::disk($this->attributes['disk'])->url($this->attributes['thumb']);
+    }
 
     public function category()
     {
