@@ -16,17 +16,31 @@ class Order extends Model
     use SoftDeletes;
 
     const ORDER_STATUS_PAYING = 'paying';
+    const ORDER_STATUS_CLOSED = 'closed';
+    const ORDER_STATUS_SHIPPING = 'shipping';
     const ORDER_STATUS_RECEIVING = 'receiving';
-    const ORDER_STATUS_UNCOMMENTED = 'uncommented';
     const ORDER_STATUS_REFUNDING = 'refunding';
     const ORDER_STATUS_COMPLETED = 'completed';
+    const ORDER_STATUS_UNCOMMENTED = 'uncommented';
 
     protected $orderStatusMap = [
         self::ORDER_STATUS_PAYING => '待付款',
+        self::ORDER_STATUS_CLOSED => '已取消',
+        self::ORDER_STATUS_SHIPPING => '待发货',
         self::ORDER_STATUS_RECEIVING => '待收货',
-        self::ORDER_STATUS_UNCOMMENTED => '待评价',
         self::ORDER_STATUS_REFUNDING => '售后',
         self::ORDER_STATUS_COMPLETED => '已完成',
+        self::ORDER_STATUS_UNCOMMENTED => '待评价',
+    ];
+
+    const PAYMENT_METHOD_ALIPAY = 'alipay';
+    const PAYMENT_METHOD_WECHAT = 'wechat';
+    const PAYMENT_METHOD_PAYPAL = 'paypal';
+
+    protected $paymentMethodMap = [
+        self::PAYMENT_METHOD_ALIPAY => '支付宝',
+        self::PAYMENT_METHOD_WECHAT => '微信',
+        self::PAYMENT_METHOD_PAYPAL => 'PAYPAL',
     ];
 
     /**
@@ -127,5 +141,15 @@ class Order extends Model
     public function refund()
     {
         return $this->hasOne(OrderRefund::class);
+    }
+
+    public function translateStatus($status)
+    {
+        return $this->orderStatusMap[$status];
+    }
+
+    public function translatePaymentMethod($paymentMethod)
+    {
+        return $this->paymentMethodMap[$paymentMethod];
     }
 }

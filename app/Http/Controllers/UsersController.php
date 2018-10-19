@@ -26,14 +26,11 @@ class UsersController extends Controller
         if (Auth::check()) {
             $user = Auth::user();
             $orders = $user->orders()
-                //->where('status', '<>', 'closed')
-                //->whereNotIn('status', ['closed'])
-                //->whereIn('status', ['paying', 'shipping', 'receiving', 'refunding', 'completed'])
-                //->where('status', 'in', ['paying', 'shipping', 'receiving', 'refunding', 'completed'])
-                //->orderByDesc('updated_at')
-                ->where('status', 'paying')
+                //->with('items')
+                //->where('status', 'paying')
+                ->where('status', '<>', 'closed')
                 ->orderByDesc('created_at')
-                ->limit(3)
+                ->limit(5)
                 ->get();
             $guesses = Product::where(['is_index' => true, 'on_sale' => true])->orderByDesc('heat')->limit(8)->get();
             return view('users.home', [
@@ -42,7 +39,6 @@ class UsersController extends Controller
                 'guesses' => $guesses,
             ]);
         } else {
-            // return redirect()->route('login');
             return redirect()->back();
         }
     }

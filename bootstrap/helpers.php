@@ -9,21 +9,21 @@ function route_class()
 
 /**
  * Aliyun发送短信
- * @param array $data 短信内容 ['code' => '******']
- * @param string $phone 手机号码 eg. 18888888888.
- * @param string $IDDCode 国家|地区码 eg. 86.
+ * @param array $data 短信内容 format: ['code' => '888888']
+ * @param string $phone_number 手机号码 eg. 18888888888.
+ * @param string $country_code 国家|地区码 eg. 86.
  * @return boolean
  */
-function easy_sms_send($data, $phone, $IDDCode = '86')
+function easy_sms_send($data, $phone_number, $country_code = '86')
 {
-    // get a universal number.
-    $phone = new PhoneNumber($phone, $IDDCode);
+    // get a universal phone number.
+    $universal_phone_number = new PhoneNumber($phone_number, $country_code);
 
     $config = config('easysms');
     $easy_sms = new EasySms($config);
 
     $template = $config['template'] ? : env('ALIYUN_SMS_TEMPLATE', '');
-    $response = $easy_sms->send($phone, [
+    $response = $easy_sms->send($universal_phone_number, [
         'content' => '您的验证码为：' . $data['code'],
         'template' => $template,
         'data' => $data,

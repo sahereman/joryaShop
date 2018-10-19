@@ -2,6 +2,7 @@
 
 namespace App\Observers;
 
+use App\Events\OrderSnapshotEvent;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\ProductSku;
@@ -16,26 +17,28 @@ class OrderObserver
 
     public function created(Order $order)
     {
+        $userInfo = json_decode($order->user_info, true);
+
         // 更新或创建一条用户地址信息记录
         $userAddress = UserAddress::firstOrCreate([
             'user_id' => $order->user->id,
-            'name' => $order->user_info['name'],
-            'phone' => $order->user_info['phone'],
-            'address' => $order->user_info['address'],
+            'name' => $userInfo['name'],
+            'country_code' => $userInfo['country_code'],
+            'phone' => $userInfo['phone_number'],
+            'address' => $userInfo['address'],
         ]);
         $userAddress->last_used_at = Carbon::now()->toDateTimeString();
         $userAddress->save();
 
         // 创建多条子订单OrderItem记录
-        foreach ($order->snapshot as $sku) {
-            if ($sku instanceof ProductSku) {
-                $itemData = $sku->toArray();
-            } else {
-                $itemData = $sku;
-            }
+        foreach ($order->snapshot as $item) {
             $itemData['order_id'] = $order->id;
-            $itemData['product_sku_id'] = $itemData['id'];
+            $itemData['product_sku_id'] = $item['sku_id'];
+            $itemData['price'] = $item['price'];
+            $itemData['number'] = $item['number'];
             OrderItem::create($itemData);
         }
+
+        event(new OrderSnapshotEvent($order));
     }
 }

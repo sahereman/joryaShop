@@ -7,12 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class CountryCode extends Model
 {
     /**
-     * Indicates if the model should be timestamped.
-     * @var bool
-     */
-    public $timestamps = false;
-
-    /**
      * The attributes that are mass assignable.
      * @var array
      */
@@ -22,4 +16,10 @@ class CountryCode extends Model
         'country_iso',
         'country_code',
     ];
+
+    /**
+     * Indicates if the model should be timestamped.
+     * @var bool
+     */
+    public $timestamps = false;
 }

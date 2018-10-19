@@ -11,7 +11,9 @@ class UserAddress extends Model
      * @var array
      */
     protected $fillable = [
+        'user_id',
         'name',
+        'country_code',
         'phone',
         'address',
     ];

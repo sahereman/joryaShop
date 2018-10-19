@@ -9,7 +9,6 @@ use App\Models\OrderItem;
 use App\Models\OrderRefund;
 use App\Models\ProductSku;
 use App\Models\User;
-use App\Http\Requests\OrderListRequest;
 use App\Http\Requests\PostOrderRequest;
 use App\Http\Requests\RefundOrderRequest;
 use App\Models\UserAddress;
@@ -21,7 +20,7 @@ use Illuminate\Support\Facades\DB;
 class OrdersController extends Controller
 {
     // GET 订单列表页面
-    public function index(OrderListRequest $request)
+    public function index(Request $request)
     {
         $user = Auth::user();
         $status = $request->has('status') ? $request->input('status') : 'all';
@@ -85,17 +84,22 @@ class OrdersController extends Controller
 
             // 生成子订单信息快照 snapshot
             $skuIds = [];
-            $totalAmount = 0;
+            $snapshot = [];
             $totalShippingFee = 0;
+            $totalAmount = 0;
             if ($request->has('cart_ids')) {
                 // 来自购物车的订单
                 $cartIds = explode(',', $request->input('cart_ids'));
                 foreach ($cartIds as $cartId) {
                     $cart = Cart::find($cartId);
                     $sku = $cart->sku;
+                    $price = $sku->getRealPriceByCurrency($currency);
                     $skuIds[] = $sku->id;
+                    $snapshot[]['sku_id'] = $sku->id;
+                    $snapshot[]['price'] = $price;
+                    $snapshot[]['number'] = $cart->number;
                     $totalShippingFee += $sku->getRealShippingFeeByCurrency($currency) * $cart->number;
-                    $totalAmount += $sku->getRealPriceByCurrency($currency) * $cart->number;
+                    $totalAmount += $price * $cart->number;
                 }
                 // 删除相关购物车记录
                 Cart::destroy($cartIds);
@@ -103,18 +107,21 @@ class OrdersController extends Controller
                 // 来自SKU的订单
                 $skuIds[] = $request->input('sku_id');
                 $sku = ProductSku::find($request->input('sku_id'));
+                $price = $sku->getRealPriceByCurrency($currency);
+                $snapshot[]['sku_id'] = $request->input('sku_id');
+                $snapshot[]['price'] = $price;
+                $snapshot[]['number'] = $request->input('number');
                 $totalShippingFee += $sku->getRealShippingFeeByCurrency($currency) * $request->input('number');
-                $totalAmount += $sku->getRealPriceByCurrency($currency) * $request->input('number');
+                $totalAmount += $price * $request->input('number');
             }
-            $snapshot = ProductSku::with('product')->findMany($skuIds)->toJson();
 
             // 创建一条订单记录
             $order = new Order([
                 'user_id' => $user->id,
-                'user_info' => $request->only(['name', 'phone', 'address']),
+                'user_info' => collect($request->only(['name', 'country_code', 'phone_number', 'address']))->toJson(),
                 'status' => 'paying',
                 'currency' => $request->input('currency'),
-                'snapshot' => $snapshot,
+                'snapshot' => collect($snapshot)->toJson(),
                 'total_shipping_fee' => $totalShippingFee,
                 'total_amount' => $totalAmount,
                 'remark' => $request->has('remark') ? $request->input('remark') : '',

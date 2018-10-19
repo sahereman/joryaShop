@@ -17,6 +17,12 @@ class OrderItem extends Model
         'number',
     ];
 
+    /**
+     * Indicates if the model should be timestamped.
+     * @var bool
+     */
+    public $timestamps = false;
+
     public function order()
     {
         return $this->belongsTo(Order::class);
@@ -24,6 +30,6 @@ class OrderItem extends Model
 
     public function sku()
     {
-        return $this->hasOne(ProductSku::class);
+        return $this->hasOne(ProductSku::class, 'id');
     }
 }

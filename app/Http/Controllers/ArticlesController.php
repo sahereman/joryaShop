@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Page;
+use App\Models\Article;
 use Illuminate\Http\Request;
 
-class PagesController extends Controller
+class ArticlesController extends Controller
 {
     /*public function root()
     {
@@ -25,10 +25,10 @@ class PagesController extends Controller
     }
 
     // GET 通用-单页展示
-    public function show (Page $page)
+    public function show (Article $article)
     {
         return view('pages.show', [
-            'page' => $page,
+            'article' => $article,
         ]);
     }
 }

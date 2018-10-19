@@ -25,6 +25,9 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\EmailCodeRegisterEvent' => [
             'App\Listeners\EmailCodeRegisterEventListener',
         ],
+        'App\Events\OrderSnapshotEvent' => [
+            'App\Listeners\OrderSnapshotEventListener',
+        ],
         /*'Illuminate\Auth\Events\Authenticated' => [
             'App\Listeners\LogAuthenticatedListener'
         ],*/
