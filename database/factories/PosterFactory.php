@@ -13,7 +13,7 @@ $factory->define(App\Models\Poster::class, function (Faker $faker) {
         'name' => $faker->name,
         'slug' => $faker->slug,
         'disk' => 'public',
-        'image' => $faker->imageUrl(), // Note: $faker->image() will download an image file into /tmp/ locally.
+        'image' => $faker->image(), // Note: $faker->image() will download an image file into /tmp/ locally.
         'link' => $faker->url,
         'created_at' => $created_at,
         'updated_at' => $updated_at,
