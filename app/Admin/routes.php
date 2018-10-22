@@ -28,25 +28,22 @@ Route::group([
 
 
     /*产品分类*/
-    $router->get('product_categories', 'ProductCategoriesController@index')->name('admin.product_categories.index');
-    $router->get('product_categories/create', 'ProductCategoriesController@create')->name('admin.product_categories.create');
-    $router->get('product_categories/{id}', 'ProductCategoriesController@show')->name('admin.product_categories.show');
-    $router->get('product_categories/{id}/edit', 'ProductCategoriesController@edit')->name('admin.product_categories.edit');
-    $router->post('product_categories', 'ProductCategoriesController@store')->name('admin.product_categories.store');
-    $router->put('product_categories/{id}', 'ProductCategoriesController@update')->name('admin.product_categories.update');
-    $router->delete('product_categories/{id}', 'ProductCategoriesController@destroy')->name('admin.product_categories.destroy');
+    $router->resource('product_categories', ProductCategoriesController::class)->names('admin.product_categories');
 
     /*产品*/
-    $router->get('products', 'ProductsController@index')->name('admin.products.index');
-    $router->get('products/create', 'ProductsController@create')->name('admin.products.create');
-    $router->get('products/{id}', 'ProductsController@show')->name('admin.products.show');
-    $router->get('products/{id}/edit', 'ProductsController@edit')->name('admin.products.edit');
-    $router->post('products', 'ProductsController@store')->name('admin.products.store');
-    $router->put('products/{id}', 'ProductsController@update')->name('admin.products.update');
-    $router->delete('products/{id}', 'ProductsController@destroy')->name('admin.products.destroy');
+    $router->resource('products', ProductsController::class)->names('admin.products');
 
     /*广告位*/
     $router->resource('posters', PostersController::class)->names('admin.posters');
+
+    /*文章*/
+    $router->resource('articles', ArticlesController::class)->names('admin.articles');
+
+    /*Banner图*/
+    $router->resource('banners', BannersController::class)->names('admin.banners');
+
+    /*汇率管理*/
+    $router->resource('exchange_rates', ExchangeRatesController::class)->names('admin.exchange_rates');
 
 
     //    $router->resource('example', ExampleController::class)->names('admin.example');

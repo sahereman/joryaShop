@@ -2,7 +2,7 @@
 @section('title', '个人中心-我的订单')
 @section('content')
     @include('common.error')
-    <div class="User_center">
+    <div class="User_center my_orders">
         <div class="m-wrapper">
             <div>
                 <p class="Crumbs">
@@ -17,28 +17,29 @@
             @include('users._left_navigation')
                     <!--右侧内容-->
             <div class="UserInfo_content">
-                <ul class="order_classification">
+                <ul class="myorder_classification">
+                	 <li class="active">
+                        <a href="{{ route('orders.index') . '?status=paying' }}">
+                            <span>所有订单</span>
+                        </a>
+                    </li>
                     <li>
                         <a href="{{ route('orders.index') . '?status=paying' }}">
-                            <img src="{{ asset('img/tobe_paid.png') }}">
                             <span>待付款</span>
                         </a>
                     </li>
                     <li>
                         <a href="{{ route('orders.index') . '?status=receiving' }}">
-                            <img src="{{ asset('img/tobe_received.png') }}">
                             <span>待收货</span>
                         </a>
                     </li>
                     <li>
                         <a href="{{ route('orders.index') . '?status=uncommented' }}">
-                            <img src="{{ asset('img/tobe_evaluated.png') }}">
                             <span>待评价</span>
                         </a>
                     </li>
                     <li>
                         <a href="{{ route('orders.index') . '?status=refunding' }}">
-                            <img src="{{ asset('img/after-sale.png') }}">
                             <span>售后订单</span>
                         </a>
                     </li>
@@ -131,7 +132,32 @@
                                                         <a class="evaluate"
                                                            href="{{ route('users.home') }}">评价</a>
                                                     @endif
+                                                    <!--以下按钮除再次购买并不同时展示根据订单状态进行调整-->
+                                                    <a class="reminding_shipments"
+                                                           href="{{ route('users.home') }}">提醒发货</a>
                                                     <a class="buy_more" href="{{ route('root') }}">再次购买</a>
+                                                    <!--确认收货-->
+                                                    <!--订单倒计时-->
+                                                	<span class="count_down">剩余59分48秒</span>
+                                                    <a class="confirmation_receipt"
+                                                       href="{{ route('users.home') }}">确认收货</a>
+                                                    <!--查看评价-->
+                                                   <a class="View_evaluation"
+                                                       href="{{ route('users.home') }}">查看评价</a>
+                                                       <!--删除订单-->
+                                                   <a class="Delete_order"
+                                                       href="{{ route('users.home') }}">删除订单</a>
+                                                       <!--再次购买-->
+                                                   <a class="Buy_again"
+                                                       href="{{ route('users.home') }}">再次购买</a>
+                                                           
+                                                    <!--付款是再次购买隐藏显示取消订单-->
+                                                    <!--订单倒计时-->
+                                                	<span class="count_down">剩余59分48秒</span>
+                                                    <a class="payment"
+                                                           href="{{ route('users.home') }}">付款</a>
+                                                    <a class="cancellation" href="{{ route('root') }}">取消订单</a>
+                                                    
                                                 </p>
                                             </td>
                                         </tr>
@@ -167,6 +193,11 @@
                             </div>
                         @endforeach
                     </div>
+                    <!--分页-->
+                    <div class="paging_box">
+                    	<a class="pre_page" href="{{ route('users.home') }}">上一页</a>
+                    	<a class="next_page" href="{{ route('users.home') }}">下一页</a>
+                    </div>
                     @endif
                 </div>
                 <!--猜你喜欢-->
@@ -174,10 +205,10 @@
                     <div class="ordertable_title">
                         <p>猜你喜欢</p>
                     </div>
-                    <div class="guess_like_content">
-                        <ul>
+                    <div class="guess_like_content swiper-container">
+                        <ul class="swiper-wrapper">
                             @foreach($guesses as $guess)
-                                <li>
+                                <li class="swiper-slide">
                                     <div class="collection_shop_img">
                                         <img src="{{ $guess->thumb_url }}">
                                     </div>
@@ -190,6 +221,17 @@
                                 </li>
                             @endforeach
                         </ul>
+                        <div class="swiper-pagination"></div>
+                        <!--<div class="swiper-container">
+						    <div class="swiper-wrapper">
+						        <div class="swiper-slide">Slide 1</div>
+						        <div class="swiper-slide">Slide 2</div>
+						        <div class="swiper-slide">Slide 3</div>
+						    </div>
+						    <!-- 如果需要分页器 -->
+						    
+						    
+						</div>
                     </div>
                 </div>
             </div>
@@ -220,6 +262,7 @@
     </div>
 @endsection
 @section('scriptsAfterJs')
+<script src="{{ asset('js/swiper/js/swiper.js') }}"></script>
     <script type="text/javascript">
         $(function () {
             $(".navigation_left ul li").removeClass("active");
@@ -227,6 +270,35 @@
             $(".order-group").on('click', '.col-delete', function () {
                 $(".order_delete").show();
             });
+            
+            //猜你喜欢轮播图
+//          var swiper = new Swiper('.swiper-container', {
+//          	slidesPerView : 5,
+////              slidesPerGroup : 5,
+//              spaceBetween : 20,
+//              centeredSlides: true,
+//              loop: true,
+//              speed: 1500,
+//              fadeEffect: {
+//                  crossFade: true,
+//              },
+////              autoplay: {
+////                  delay: 3000,
+////              },
+//              pagination: {
+//			      el: '.swiper-pagination',
+//			    },
+//          });
+			var swiper = new Swiper('.swiper-container', {
+		      slidesPerView: 4,
+		      spaceBetween : 15,
+//		      slidesOffsetAfter : 100,
+//            slidesOffsetBefore : 100,
+		      pagination: {
+		        el: '.swiper-pagination',
+		        clickable: true,
+		      },
+		    });
         });
     </script>
 @endsection

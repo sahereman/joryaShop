@@ -1,0 +1,121 @@
+.my_orders {
+    .UserInfo_content {
+        .myorder_classification {
+            height: 55px;
+            width: 100%;
+            background-color: #fff;
+            margin-bottom: 10px;
+            overflow: hidden;
+            li {
+                float: left;
+                font-size: 12px;
+                color: #666;
+                line-height: 55px;
+                margin: 0 10px;
+                &:first-of-type {
+                    margin-left: 20px;
+                }
+                &.active {
+                    font-size: 14px;
+                    color: $hover-color;
+                    a {
+                        display: block;
+                        border-bottom: 1px solid $hover-color;
+                        height: 45px;
+                        span {
+                            margin-bottom: 10px;
+                        }
+                    }
+                }
+            }
+        }      
+        .order_list {
+            overflow: hidden;
+            .order-group {
+                .o-pro {
+                    table {
+                        .col-status {
+                            &:hover {
+                                color: $hover-color;
+                            }
+                        }
+                        .col-operate {
+                            
+                            .reminding_shipments,
+                            .confirmation_receipt,
+                            .View_evaluation,
+                            .Delete_order ,
+                            .Buy_again {
+                                width: 85px !important;
+                                height: 30px;
+                                border: 1px solid #dcdcdc;
+                                border-radius: 2px;
+                                line-height: 30px;
+                                text-align: center;
+                                color: #333;
+                                font-size: 14px;
+                                font-weight: bold;
+                                &:hover {
+                                    color: $hover-color;
+                                    border-color: $hover-color;
+                                }   
+                            }
+                            .payment {
+                                width: 85px !important;
+                                height: 30px;
+                                border-radius: 2px;
+                                line-height: 30px;
+                                text-align: center;
+                                color: #fff;
+                                font-size: 14px;
+                                font-weight: bold;
+                                background-color: $hover-color;
+                            }
+                            .count_down {
+                                display: inline-block;
+                            }
+                        }
+                    }
+                }
+            }
+            .paging_box {
+                width: 1000px;
+                margin-top: 30px;
+                text-align: right;
+                a {
+                    display: inline-block;        
+                    width: 86px;
+                    height: 34px; 
+                    color: $hover-color;
+                    border: 1px solid $hover-color;
+                    border-radius: 2px;
+                    text-align: center;
+                    line-height: 34px;
+                    cursor: pointer;
+                    transition: all .2s;
+                    margin-left: 5px;
+                    &:hover {
+                        color: #fff;
+                        background-color: $hover-color;
+                    }
+                }
+                
+            }
+        }
+        .guess_like_content {
+            ul {
+                overflow: initial !important;
+                padding: 0 !important;
+                li {
+                    margin-left: 0 !important;
+                    .collection_shop_img {
+                        margin: auto;
+                    }
+                }
+            }
+            .swiper-pagination-bullet-active {
+                background-color: $hover-color;
+            }
+        }
+    }
+}

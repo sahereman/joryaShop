@@ -213,7 +213,7 @@
                                 border-left: 1px solid #ebebeb;
                             }
                             .col-operate {
-                                width: 108px;
+                                width: 122px;
                                 border-left: 1px solid #ebebeb;
                                 a {
                                     cursor: pointer;
@@ -248,6 +248,29 @@
                         }
                     }
                 }
+            }
+            .paging_box {
+                width: 1000px;
+                margin-top: 30px;
+                text-align: right;
+                a {
+                    display: inline-block;        
+                    width: 86px;
+                    height: 34px; 
+                    color: $hover-color;
+                    border: 1px solid $hover-color;
+                    border-radius: 2px;
+                    text-align: center;
+                    line-height: 34px;
+                    cursor: pointer;
+                    transition: all .2s;
+                    margin-left: 5px;
+                    &:hover {
+                        color: #fff;
+                        background-color: $hover-color;
+                    }
+                }
+                
             }
         }
         .guess_like {
