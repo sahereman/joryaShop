@@ -14,23 +14,8 @@ class UserAddressesController extends Controller
     {
         return view('user_addresses.index', [
             'addresses' => $request->user()->addresses,
-        ]);
-    }
-
-    // GET 创建页面
-    public function create(Request $request)
-    {
-        return view('user_addresses.create_and_edit', [
-            'address' => new UserAddress(),
-        ]);
-    }
-
-    // GET 编辑页面
-    public function edit(Request $request, UserAddress $userAddress)
-    {
-        $this->authorize('update', $userAddress);
-        return view('user_addresses.create_and_edit', [
-            'address' => $userAddress,
+            'max' => config('app.max_user_address_count'),
+            'count' => $request->user()->addresses->count(),
         ]);
     }
 
@@ -38,6 +23,14 @@ class UserAddressesController extends Controller
     public function store(UserAddressRequest $request)
     {
         $user = $request->user();
+        $userAddressCount = $user->addresses->count();
+        $this->validate($request, [
+            'address' => function($attribute, $value, $fail) use ($userAddressCount) {
+                if($userAddressCount > config('app.max_user_address_count')){
+                    $fail('用户保存收货地址数量已达上限');
+                }
+            },
+        ]);
         $userAddress = new UserAddress();
         $userAddress->user_id = $user->id;
         $userAddress->name = $request->input('name');
@@ -50,7 +43,11 @@ class UserAddressesController extends Controller
         }
         $userAddress->user()->associate($user);
         $userAddress->save();
-        return response()->json([]);
+        return view('user_addresses.index', [
+            'addresses' => $request->user()->addresses,
+            'max' => config('app.max_user_address_count'),
+            'count' => $request->user()->addresses->count(),
+        ]);
     }
 
     // PUT 更新
@@ -65,12 +62,12 @@ class UserAddressesController extends Controller
                 ->update(['is_default' => 'false']);
             $userAddress->is_default = true;
         }
-        $result = $userAddress->save();
-        if ($result) {
-            return redirect()->route('user_addresses.index');
-        } else {
-            return redirect()->back();
-        }
+        $userAddress->save();
+        return view('user_addresses.index', [
+            'addresses' => $request->user()->addresses,
+            'max' => config('app.max_user_address_count'),
+            'count' => $request->user()->addresses->count(),
+        ]);
     }
 
     // DELETE 删除
@@ -86,7 +83,11 @@ class UserAddressesController extends Controller
         }
         $userAddress->user()->dissociate();
         $userAddress->delete();
-        return response()->json([]);
+        return view('user_addresses.index', [
+            'addresses' => $request->user()->addresses,
+            'max' => config('app.max_user_address_count'),
+            'count' => $request->user()->addresses->count(),
+        ]);
     }
 
     // PATCH 设置默认
@@ -97,6 +98,10 @@ class UserAddressesController extends Controller
             ->update(['is_default' => 'false']);
         $userAddress->is_default = true;
         $userAddress->save();
-        return response()->json([]);
+        return view('user_addresses.index', [
+            'addresses' => $request->user()->addresses,
+            'max' => config('app.max_user_address_count'),
+            'count' => $request->user()->addresses->count(),
+        ]);
     }
 }

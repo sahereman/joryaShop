@@ -20,7 +20,7 @@ class CreateUserAddressesTable extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 
             $table->string('name')->nullable(false)->comment('收货人');
-            $table->string('country_code')->nullable()->comment('国家|地区码');
+            // $table->string('country_code')->nullable()->comment('国家|地区码');
             $table->string('phone')->nullable(false)->comment('手机号码');
             $table->string('address')->nullable(false)->comment('详细地址');
 
