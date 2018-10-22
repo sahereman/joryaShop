@@ -104,7 +104,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('orders/{order}', 'OrdersController@show')->name('orders.show'); // 订单详情
     Route::post('orders', 'OrdersController@store')->name('orders.store'); // 提交订单
     Route::get('orders/{order}/payment_method', 'OrdersController@paymentMethod')->name('orders.payment_method'); // 选择支付方式页面
-    Route::patch('orders/{order}/close', 'OrdersController@close')->name('orders.close'); // [主动|被动]取消订单，交易关闭 [订单进入交易关闭状态:status->closed]
+    Route::patch('orders/{order}/close', 'OrdersController@close')->name('orders.close'); // [主动]取消订单，交易关闭 [订单进入交易关闭状态:status->closed]
     Route::patch('orders/{order}/ship', 'OrdersController@ship')->name('orders.ship'); // 卖家配送发货 [订单进入待收货状态:status->receiving]
     Route::patch('orders/{order}/complete', 'OrdersController@complete')->name('orders.complete'); // 确认收货，交易关闭 [订单进入交易结束状态:status->completed]
     Route::delete('orders/{order}', 'OrdersController@destroy')->name('orders.destroy'); // 订单删除

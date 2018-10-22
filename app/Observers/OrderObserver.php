@@ -15,31 +15,23 @@ class OrderObserver
     retrieved、creating、created、updating、updated、saving、saved、deleting、deleted、restoring、restored
     事件能在每次在数据库中保存或更新特定模型类时轻松地执行代码。*/
 
+    /*当模型已存在，不是新建的时候，依次触发的顺序是:
+    saving -> updating -> updated -> saved(不会触发保存操作)
+    当模型不存在，需要新增的时候，依次触发的顺序则是:
+    saving -> creating -> created -> saved(不会触发保存操作)*/
+
     public function created(Order $order)
     {
         $userInfo = json_decode($order->user_info, true);
-
-        $userAddressCount = $order->user->addresses->count();
-        if($userAddressCount < config('app.max_user_address_count')){
+        $userInfo['user_id'] = $order->user_id;
+        if($order->user->addresses->count() < config('app.max_user_address_count')){
             // 更新或创建一条用户地址信息记录
-            $userAddress = UserAddress::firstOrCreate([
-                'user_id' => $order->user_id,
-                'name' => $userInfo['name'],
-                'country_code' => $userInfo['country_code'],
-                'phone' => $userInfo['phone_number'],
-                'address' => $userInfo['address'],
-            ]);
+            $userAddress = UserAddress::firstOrNew($userInfo);
             $userAddress->last_used_at = Carbon::now()->toDateTimeString();
             $userAddress->save();
         }else{
             // 更新一条用户地址信息记录
-            $userAddress = UserAddress::first([
-                'user_id' => $order->user_id,
-                'name' => $userInfo['name'],
-                'country_code' => $userInfo['country_code'],
-                'phone' => $userInfo['phone_number'],
-                'address' => $userInfo['address'],
-            ]);
+            $userAddress = UserAddress::first($userInfo);
             if($userAddress instanceof UserAddress){
                 $userAddress->last_used_at = Carbon::now()->toDateTimeString();
                 $userAddress->save();
@@ -49,7 +41,8 @@ class OrderObserver
         }
 
         // 创建多条子订单OrderItem记录
-        foreach ($order->snapshot as $item) {
+        $snapshot = json_decode($order->snapshot, true);
+        foreach ($snapshot as $item) {
             $itemData['order_id'] = $order->id;
             $itemData['product_sku_id'] = $item['sku_id'];
             $itemData['price'] = $item['price'];

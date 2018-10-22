@@ -29,8 +29,7 @@ class OrderSnapshotEventListener implements ShouldQueue
     {
         // override order snapshot.
         $order = $event->getOrder();
-        $snapshot = $order->items()->with('sku.product')->get();
-        $order->snapshot = $snapshot->toJson();
+        $order->snapshot = $order->items()->with('sku.product')->get()->toJson();
         $order->save();
     }
 }

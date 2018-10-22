@@ -143,7 +143,7 @@ class OrdersController extends Controller
             // 创建一条订单记录
             $order = new Order([
                 'user_id' => $user->id,
-                'user_info' => collect($request->only(['name', 'country_code', 'phone_number', 'address']))->toJson(),
+                'user_info' => collect($request->only(['name', 'phone', 'address']))->toJson(),
                 'status' => 'paying',
                 'currency' => $request->input('currency'),
                 'snapshot' => collect($snapshot)->toJson(),
@@ -173,14 +173,26 @@ class OrdersController extends Controller
         return view('orders.payment_method', []);
     }
 
-    // PATCH [主动|被动]取消订单，交易关闭 [订单进入交易关闭状态:status->closed]
+    // PATCH [主动]取消订单，交易关闭 [订单进入交易关闭状态:status->closed]
     public function close(Order $order)
     {
         $this->authorize('close', $order);
 
-        $order->status = 'closed';
-        $order->closed_at = Carbon::now()->toDateTimeString();
-        $order->save();
+        // 通过事务执行 sql
+        DB::transaction(function () use ($order) {
+            // 将订单的 status 字段标记为 closed，即关闭订单
+            $order->update([
+                'status' => 'closed',
+                'close_at' => Carbon::now()->toDateTimeString(),
+            ]);
+            // 恢复 Product & Sku +库存 & -销量
+            foreach ($order->items as $item) {
+                $item->sku->increment('stock', $item->number);
+                $item->sku->decrement('sales', $item->number);
+                $item->sku->product->increment('stock', $item->number);
+                $item->sku->product->decrement('sales', $item->number);
+            }
+        });
         return response()->json([]);
     }
 
