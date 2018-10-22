@@ -12,7 +12,7 @@ class UserHistoriesController extends Controller
     public function index(Request $request)
     {
         return view('user_histories.index', [
-            'histories' => $request->user()->histories()->with('product')->orderByDesc('create_at')->get()->groupBy(function ($item, $key) {
+            'histories' => $request->user()->histories()->with('product')->orderByDesc('created_at')->get()->groupBy(function ($item, $key) {
                 return date('Y.m.d', strtotime($item['created_at']));
             }),
         ]);
@@ -25,7 +25,7 @@ class UserHistoriesController extends Controller
         $userHistory->user()->dissociate();
         $userHistory->delete();
         return view('user_histories.index', [
-            'histories' => $request->user()->histories()->with('product')->orderByDesc('create_at')->get()->groupBy(function ($item, $key) {
+            'histories' => $request->user()->histories()->with('product')->orderByDesc('created_at')->get()->groupBy(function ($item, $key) {
                 return date('Y.m.d', strtotime($item['created_at']));
             }),
         ]);
@@ -36,7 +36,7 @@ class UserHistoriesController extends Controller
     {
         UserHistory::where(['user_id' => $request->user()->id])->delete();
         return view('user_histories.index', [
-            'histories' => $request->user()->histories()->with('product')->orderByDesc('create_at')->get()->groupBy(function ($item, $key) {
+            'histories' => $request->user()->histories()->with('product')->orderByDesc('created_at')->get()->groupBy(function ($item, $key) {
                 return date('Y.m.d', strtotime($item['created_at']));
             }),
         ]);
