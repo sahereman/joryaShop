@@ -12,10 +12,8 @@ class UserFavouritesController extends Controller
     // GET 列表
     public function index(Request $request)
     {
-        $user = $request->user();
-        $favourites = UserFavourite::where(['user_id' => $user->id])->with('product')->get();
         return view('user_favourites.index', [
-            'favourites' => $favourites,
+            'favourites' => $request->user()->favourites()->with('product')->get(),
         ]);
     }
 
@@ -37,6 +35,8 @@ class UserFavouritesController extends Controller
         $this->authorize('delete', $userFavourite);
         $userFavourite->user()->dissociate();
         $userFavourite->delete();
-        return response()->json([]);
+        return view('user_favourites.index', [
+            'favourites' => $request->user()->favourites()->with('product')->get(),
+        ]);
     }
 }
