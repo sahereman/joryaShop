@@ -46,19 +46,24 @@ class OrdersSeeder extends Seeder
         // 传参为生成最大时间不超过，创建时间永远比更改时间要早
         $former = $faker->dateTimeThisMonth($latter);
         $earlier = $faker->dateTimeThisMonth($former);
-        factory(Order::class, 10)->create();
+        factory(Order::class, 10)->create([
+            'snapshot' => $this->makeRandomSnapshot(),
+        ]);
         factory(Order::class, 10)->create([
             'status' => Order::ORDER_STATUS_CLOSED,
+            'snapshot' => $this->makeRandomSnapshot(),
             'closed_at' => $earlier,
         ]);
         factory(Order::class, 10)->create([
             'status' => Order::ORDER_STATUS_SHIPPING,
+            'snapshot' => $this->makeRandomSnapshot(),
             'payment_sn' => 'PAYMENT_SN_ALIPAY_88888888',
             'payment_method' => Order::PAYMENT_METHOD_ALIPAY,
             'paid_at' => $earlier,
         ]);
         factory(Order::class, 10)->create([
             'status' => Order::ORDER_STATUS_RECEIVING,
+            'snapshot' => $this->makeRandomSnapshot(),
             'payment_sn' => 'PAYMENT_SN_ALIPAY_88888888',
             'payment_method' => Order::PAYMENT_METHOD_ALIPAY,
             'paid_at' => $earlier,
@@ -68,6 +73,7 @@ class OrdersSeeder extends Seeder
         ]);
         factory(Order::class, 10)->create([
             'status' => Order::ORDER_STATUS_COMPLETED,
+            'snapshot' => $this->makeRandomSnapshot(),
             'payment_sn' => 'PAYMENT_SN_ALIPAY_88888888',
             'payment_method' => Order::PAYMENT_METHOD_ALIPAY,
             'paid_at' => $earlier,
@@ -78,6 +84,7 @@ class OrdersSeeder extends Seeder
         ]);
         factory(Order::class, 10)->create([
             'status' => Order::ORDER_STATUS_COMPLETED,
+            'snapshot' => $this->makeRandomSnapshot(),
             'payment_sn' => 'PAYMENT_SN_ALIPAY_88888888',
             'payment_method' => Order::PAYMENT_METHOD_ALIPAY,
             'paid_at' => $earlier,
@@ -87,5 +94,19 @@ class OrdersSeeder extends Seeder
             'completed_at' => $latter,
             'commented_at' => $latest,
         ]);
+    }
+
+    protected function makeRandomSnapshot()
+    {
+        $sku_count = ProductSku::all()->count();
+        $random_count = random_int(3, 5);
+        $random_snapshot = [];
+        for ($i = 0; $i < $random_count; $i++) {
+            $random_sku = ProductSku::find(random_int(1, $sku_count));
+            $random_snapshot[$i]['sku_id'] = $random_sku->id;
+            $random_snapshot[$i]['price'] = $random_sku->price;
+            $random_snapshot[$i]['number'] = random_int(1, 5);
+        }
+        return collect($random_snapshot)->toJson();
     }
 }

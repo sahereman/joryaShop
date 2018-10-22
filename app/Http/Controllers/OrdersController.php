@@ -143,7 +143,7 @@ class OrdersController extends Controller
             // 创建一条订单记录
             $order = new Order([
                 'user_id' => $user->id,
-                'user_info' => collect($request->only(['name', 'country_code', 'phone_number', 'address']))->toJson(),
+                'user_info' => collect($request->only(['name', 'phone', 'address']))->toJson(),
                 'status' => 'paying',
                 'currency' => $request->input('currency'),
                 'snapshot' => collect($snapshot)->toJson(),

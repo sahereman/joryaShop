@@ -12,7 +12,7 @@ $factory->define(App\Models\Order::class, function (Faker $faker) {
     return [
         'order_sn' => \App\Models\Order::generateOrderSn(),
         'user_id' => 1,
-        'user_info' => collect(["name"=>"aaa","country_code"=>"86","phone_number"=>"18888888888","address"=>"somewhere"])->toJson(),
+        'user_info' => collect(["name"=>"aaa","phone"=>"18888888888","address"=>"somewhere"])->toJson(),
         'status' => \App\Models\Order::ORDER_STATUS_PAYING,
         'currency' => 'CNY',
         'snapshot' => collect(["sku_id"=>1,"price"=>1.00,"number"=>1])->toJson(),
