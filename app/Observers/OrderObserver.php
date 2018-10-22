@@ -19,16 +19,34 @@ class OrderObserver
     {
         $userInfo = json_decode($order->user_info, true);
 
-        // 更新或创建一条用户地址信息记录
-        $userAddress = UserAddress::firstOrCreate([
-            'user_id' => $order->user->id,
-            'name' => $userInfo['name'],
-            'country_code' => $userInfo['country_code'],
-            'phone' => $userInfo['phone_number'],
-            'address' => $userInfo['address'],
-        ]);
-        $userAddress->last_used_at = Carbon::now()->toDateTimeString();
-        $userAddress->save();
+        $userAddressCount = $order->user->addresses->count();
+        if($userAddressCount < config('app.max_user_address_count')){
+            // 更新或创建一条用户地址信息记录
+            $userAddress = UserAddress::firstOrCreate([
+                'user_id' => $order->user_id,
+                'name' => $userInfo['name'],
+                'country_code' => $userInfo['country_code'],
+                'phone' => $userInfo['phone_number'],
+                'address' => $userInfo['address'],
+            ]);
+            $userAddress->last_used_at = Carbon::now()->toDateTimeString();
+            $userAddress->save();
+        }else{
+            // 更新一条用户地址信息记录
+            $userAddress = UserAddress::first([
+                'user_id' => $order->user_id,
+                'name' => $userInfo['name'],
+                'country_code' => $userInfo['country_code'],
+                'phone' => $userInfo['phone_number'],
+                'address' => $userInfo['address'],
+            ]);
+            if($userAddress instanceof UserAddress){
+                $userAddress->last_used_at = Carbon::now()->toDateTimeString();
+                $userAddress->save();
+            }/*else{
+                // Do nothing.
+            }*/
+        }
 
         // 创建多条子订单OrderItem记录
         foreach ($order->snapshot as $item) {

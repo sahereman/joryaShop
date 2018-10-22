@@ -147,14 +147,14 @@
                                             <td class="col-price">
                                                 <p class="p-price">
                                                     <em>¥</em>
-                                                    <span>{{ $item->price }}</span>
+                                                    <span>{{ number_format($item->price, 2) }}</span>
                                                 </p>
                                             </td>
                                             <td class="col-quty">1</td>
                                             <td rowspan="{{ $order->items->count() }}" class="col-pay">
                                                 <p>
                                                     <em>¥</em>
-                                                    <span>{{ $order->total_amount }}</span>
+                                                    <span>{{ number_format($order->total_amount, 2) }}</span>
                                                 </p>
                                             </td>
                                             <td rowspan="{{ $order->items->count() }}" class="col-status">
@@ -189,7 +189,7 @@
                                             <td class="col-price">
                                                 <p class="p-price">
                                                     <em>¥</em>
-                                                    <span>{{ $item->price }}</span>
+                                                    <span>{{ number_format($item->price, 2) }}</span>
                                                 </p>
                                             </td>
                                             <td class="col-quty">1</td>
@@ -218,8 +218,8 @@
                                     </div>
                                     <p class="commodity_title">{{ $guess->name_zh }}</p>
                                     <p class="collection_price">
-                                        <span class="new_price">¥ {{ $guess->price }}</span>
-                                        <span class="old_price">¥ {{ $guess->price + random_int(300, 500) }}</span>
+                                        <span class="new_price">¥ {{ number_format($guess->price, 2) }}</span>
+                                        <span class="old_price">¥ {{ number_format($guess->price + random_int(300, 500), 2) }}</span>
                                     </p>
                                     <a class="add_to_cart" href="">加入购物车</a>
                                 </li>

@@ -17,12 +17,14 @@
             @include('users._left_navigation')
                     <!--右侧内容-->
             <div class="user_addresses_content">
+                @if($addresses->isEmpty())
                 <!--当没有收获地址列表时显示,如需显示当前内容需要调整一下样式-->
                 <div class="no_addressList">
                     <img src="{{ asset('img/location.png') }}">
                     <p>您还没有收货地址</p>
                     <a class="new_address">新建收货地址</a>
                 </div>
+                @else
                 <!--存在收获地址列表-->
                 <div class="receive_address">
                     <div class="address_note">
@@ -70,6 +72,7 @@
                         </table>
                     </div>
                 </div>
+                @endif
             </div>
         </div>
     </div>

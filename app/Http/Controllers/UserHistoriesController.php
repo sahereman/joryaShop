@@ -11,10 +11,10 @@ class UserHistoriesController extends Controller
     // GET 列表
     public function index(Request $request)
     {
-        $user = $request->user();
-        $histories = UserHistory::where(['user_id' => $user->id])->with('product')->get();
         return view('user_histories.index', [
-            'histories' => $histories,
+            'histories' => $request->user()->histories()->with('product')->orderByDesc('create_at')->get()->groupBy(function ($item, $key) {
+                return date('Y.m.d', strtotime($item['created_at']));
+            }),
         ]);
     }
 
@@ -24,13 +24,21 @@ class UserHistoriesController extends Controller
         $this->authorize('delete', $userHistory);
         $userHistory->user()->dissociate();
         $userHistory->delete();
-        return response()->json([]);
+        return view('user_histories.index', [
+            'histories' => $request->user()->histories()->with('product')->orderByDesc('create_at')->get()->groupBy(function ($item, $key) {
+                return date('Y.m.d', strtotime($item['created_at']));
+            }),
+        ]);
     }
 
     // DELETE 清空
     public function flush(Request $request)
     {
         UserHistory::where(['user_id' => $request->user()->id])->delete();
-        return response()->json([]);
+        return view('user_histories.index', [
+            'histories' => $request->user()->histories()->with('product')->orderByDesc('create_at')->get()->groupBy(function ($item, $key) {
+                return date('Y.m.d', strtotime($item['created_at']));
+            }),
+        ]);
     }
 }
