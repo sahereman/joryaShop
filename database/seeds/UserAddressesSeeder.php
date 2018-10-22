@@ -15,14 +15,9 @@ class UserAddressesSeeder extends Seeder
     {
         User::all()->each(function (User $user) {
 
-            $products = Product::all()->random(random_int(2, 4));
-
-            foreach ($products as $key => $item)
-            {
-                factory(UserAddress::class)->create([
-                    'user_id' => $user->id,
-                ]);
-            }
+            factory(UserAddress::class, random_int(2, 4))->create([
+                'user_id' => $user->id,
+            ]);
 
             $address = UserAddress::where('user_id', $user->id)->first();
             $address->is_default = true;
