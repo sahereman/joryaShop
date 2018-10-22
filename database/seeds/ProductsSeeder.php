@@ -22,8 +22,8 @@ class ProductsSeeder extends Seeder
         $products->map(function ($item) use ($category_ids) {
 
             $item->product_category_id = array_random($category_ids);
-            $item->save();
 
+            Product::insert(array_except($item->toArray(), ['thumb_url']));
         });
     }
 }
