@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class UsersController extends Controller
 {
@@ -60,6 +61,37 @@ class UsersController extends Controller
         return view('users.password', [
             'user' => $user,
         ]);
+    }
+
+    // PUT 修改用户密码
+    public function updatePassword(Request $request, User $user)
+    {
+        $this->authorize('update', $user);
+
+        $this->validate($request, [
+            'password_original' => [
+                'required',
+                'string',
+                'min:6',
+                function ($attribute, $value, $fail) use ($user) {
+                    $userData = $user->makeVisible('password')->toArray();
+                    if (!Hash::check($value, $userData['password'])) {
+                        $fail('原密码不正确');
+                    }
+                },
+            ],
+            'password' => 'required|string|min:6|confirmed',
+        ], [], [
+            'password_original' => '原密码',
+            'password' => '新密码',
+        ]);
+        $result = $user->update([
+            'password' => bcrypt($request->input('password')),
+        ]);
+        if ($result) {
+            return view('users.password_success');
+        }
+        return redirect()->route('users.password', $user->id);
     }
 
     // GET 修改手机页面

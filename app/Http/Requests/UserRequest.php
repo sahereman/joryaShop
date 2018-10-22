@@ -18,7 +18,7 @@ class UserRequest extends Request
             'name' => ['sometimes', 'required', 'string', 'max:255'],
             //'name' => ['sometimes', 'required', 'string', 'max:255', 'unique:users'],
             'avatar' => ['sometimes', 'image'],
-            'password_original' => [
+            /*'password_original' => [
                 'sometimes',
                 'required',
                 'string',
@@ -30,7 +30,7 @@ class UserRequest extends Request
                         $fail('原密码不正确');
                     }
                 },
-            ],
+            ],*/
             'password' => 'sometimes|required|string|min:6|confirmed',
             'email' => [
                 'sometimes', 'required', 'string', 'email', 'max:255',
@@ -56,7 +56,7 @@ class UserRequest extends Request
             'name' => '用户名',
             'avatar' => '头像',
             'email' => '邮箱',
-            'password_original' => '原密码',
+            // 'password_original' => '原密码',
             'password' => '密码',
             'real_name' => '真实姓名',
             'gender' => '性别:male|female',

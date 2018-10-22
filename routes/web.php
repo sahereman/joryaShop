@@ -67,6 +67,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('users', 'UsersController@home')->name('users.home'); // 主页
     Route::get('users/{user}/edit', 'UsersController@edit')->name('users.edit'); // 编辑个人信息页面
     Route::get('users/{user}/password', 'UsersController@password')->name('users.password'); // 修改密码页面
+    Route::put('users/{user}/update_password', 'UsersController@updatePassword')->name('users.update_password'); // 修改密码页面
     Route::get('users/{user}/update_phone', 'UsersController@updatePhone')->name('users.update_phone'); // 修改手机页面
     Route::get('users/{user}/binding_phone', 'UsersController@bindingPhone')->name('users.binding_phone'); // 绑定手机页面
     Route::put('users/{user}', 'UsersController@update')->name('users.update'); // 编辑个人信息提交 & 修改密码提交 & 绑定手机提交

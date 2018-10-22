@@ -21,7 +21,7 @@
                     <p>修改密码</p>
                 </div>
                 <div class="psw_edit_content">
-                    <form method="POST" action="{{ route('users.update', $user->id) }}" enctype="multipart/form-data">
+                    <form method="POST" action="{{ route('users.update_password', $user->id) }}" enctype="multipart/form-data">
                         {{ csrf_field() }}
                         <input type="hidden" name="_method" value="PUT">
                         <ul>
