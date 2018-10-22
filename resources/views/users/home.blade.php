@@ -202,6 +202,11 @@
                             </div>
                         @endforeach
                     </div>
+                    <!--分页-->
+                    <div class="paging_box">
+                    	<a class="pre_page" href="{{ route('users.home') }}">上一页</a>
+                    	<a class="next_page" href="{{ route('users.home') }}">下一页</a>
+                    </div>
                     @endif
                 </div>
                 <!--猜你喜欢-->
