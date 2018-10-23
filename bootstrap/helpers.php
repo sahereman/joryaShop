@@ -38,7 +38,7 @@ function generate_order_ttl_message($datetime, $type)
     $order_ttl_message = '';
     switch ($type) {
         case \App\Models\Order::ORDER_STATUS_PAYING:
-            $ttl = \App\Models\Config::config('time_to_close_order') - $timestamp;
+            $ttl = \App\Models\Config::config('time_to_close_order') * 3600 - $timestamp;
             $minutes = floor($ttl/60);
             $seconds = $ttl%60;
             $order_ttl_message = "剩余{$minutes}分{$seconds}秒";
