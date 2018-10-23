@@ -119,8 +119,8 @@ $(function(){
 	$(".rotary_btn").on("click",function(){
 		var show_code=$(this).attr("code");//		show_code表示显示的内容，0表示登录显示，1表示注册显示
 		if(show_code==0){
-			$(".register_form").hide();
-			$(".login_form").show();
+			$(".login_form").removeClass("dis_n");
+		    $(".register_form").addClass("dis_n");
 			$(".login_frame").removeClass("dialog_close_active");    //弹窗翻转
 			$(".register_form").removeClass("dialog_close_active");
 		    $(".dialog_logo").removeClass("dialog_close_active");
@@ -135,8 +135,8 @@ $(function(){
 			$(".close").addClass('login_active');
 			
 		}else {
-			$(".register_form").show();
-			$(".login_form").hide();
+			$(".login_form").addClass("dis_n");
+	    	$(".register_form").removeClass("dis_n");
 			$(".login_frame").removeClass("dialog_close_active");    //弹窗翻转
 			$(".register_form").removeClass("dialog_close_active");
 		    $(".dialog_logo").removeClass("dialog_close_active");
@@ -153,8 +153,10 @@ $(function(){
 	})
 	//弹窗关闭
 	$(".close").on("click",function(){
-		$(".dialog_iframe").hide();
-		$(".login_form").show();
+        $(".dialog_iframe").addClass("dis_n");
+		$(".login_form").removeClass("dis_n");
+		$(".login_form").removeClass("dis_n");
+		$(".register_form").addClass("dis_n");
         $(".login_frame").removeClass('login_active');
 		$(".register_form").removeClass('login_active');
 		$(".dialog_logo").removeClass('login_active');
@@ -182,14 +184,14 @@ $(function(){
 		$(".login_form").addClass('login_active');
 		$(".dialog_logo").addClass('login_active');
 		$(".close").addClass('login_active');
-		$(".dialog_iframe").show();
-		$(".register_form").hide();
-		$(".login_form").show();
+        $(".dialog_iframe").removeClass("dis_n");
+		$(".login_form").removeClass("dis_n");
+		$(".register_form").addClass("dis_n");
 	})
 	$(".register").on("click",function(){
-		$(".dialog_iframe").show();
-		$(".register_form").show();
-		$(".login_form").hide();
+		$(".dialog_iframe").removeClass("dis_n");
+		$(".login_form").addClass("dis_n");
+		$(".register_form").removeClass("dis_n");
 	})
 	
 	//切换登录方式

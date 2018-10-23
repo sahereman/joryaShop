@@ -139,7 +139,7 @@
     </ul>
 </div>
 <!--登陆注册弹出层-->
-<div class="dialog_iframe">
+<div class="dialog_iframe dis_n">
     <div class="login_frame">
         <div class="dialog_logo">
             <img src="{{ asset('img/logo.png') }}">
@@ -180,7 +180,7 @@
             </div>
         </div>
         <!--登录-->
-        <div class="login_form part_frame">
+        <div class="login_form part_frame dis_n">
             <div class="holder">
                 <div class="login_type">
                     <ul>

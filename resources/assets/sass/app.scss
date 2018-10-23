@@ -70,6 +70,14 @@ a {
     } 
 }
 
+.dis_n {
+    display: none;
+}
+
+.dis_b {
+    display: block;
+}
+
 //价格颜色样式
 .product_price {
     color: #bc8c61;
@@ -379,7 +387,6 @@ a {
     left: 0;
     background: rgba(0,0,0,.3);
     z-index: 99998;
-    display: none;
     .login_frame {
         width: 520px;
         background: #fff;
@@ -608,7 +615,6 @@ a {
     }
     //登录块
     .login_form {
-        display: none;
         .switch-back {
             overflow: hidden;
             margin-bottom: 25px;
