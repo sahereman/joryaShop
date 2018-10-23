@@ -229,13 +229,6 @@
                             @endforeach
                         </ul>
                         <div class="swiper-pagination"></div>
-                        <!--<div class="swiper-container">
-                            <div class="swiper-wrapper">
-                                <div class="swiper-slide">Slide 1</div>
-                                <div class="swiper-slide">Slide 2</div>
-                                <div class="swiper-slide">Slide 3</div>
-                            </div>
-                            <!-- 如果需要分页器 -->
                     </div>
                 </div>
             </div>
@@ -274,31 +267,9 @@
             $(".order-group").on('click', '.col-delete', function () {
                 $(".order_delete").show();
             });
-
-            //猜你喜欢轮播图
-            /*var swiper = new Swiper('.swiper-container', {
-             slidesPerView: 5,
-             slidesPerGroup: 5,
-             spaceBetween: 20,
-             centeredSlides: true,
-             loop: true,
-             speed: 1500,
-             fadeEffect: {
-             crossFade: true,
-             },
-             autoplay: {
-             delay: 3000,
-             },
-             pagination: {
-             el: '.swiper-pagination',
-             },
-             });*/
-
             var swiper = new Swiper('.swiper-container', {
                 slidesPerView: 4,
                 spaceBetween: 15,
-                // slidesOffsetAfter: 100,
-                // slidesOffsetBefore : 100,
                 pagination: {
                     el: '.swiper-pagination',
                     clickable: true,
