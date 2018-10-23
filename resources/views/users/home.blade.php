@@ -135,7 +135,7 @@
                                             <td class="col-pro-img">
                                                 <p class="p-img">
                                                     <a href="{{ route('products.show', $item->sku->product->id) }}">
-                                                        <img src="{{ $item->sku->photo_url }}">
+                                                        <img src="{{ $item->sku->product->thumb_url }}">
                                                     </a>
                                                 </p>
                                             </td>
@@ -177,7 +177,7 @@
                                             <td class="col-pro-img">
                                                 <p class="p-img">
                                                     <a href="{{ route('products.show', $item->sku->product->id) }}">
-                                                        <img src="{{ $item->sku->photo_url }}">
+                                                        <img src="{{ $item->sku->product->thumb_url }}">
                                                     </a>
                                                 </p>
                                             </td>

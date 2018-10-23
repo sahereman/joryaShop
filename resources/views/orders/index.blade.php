@@ -18,7 +18,7 @@
                     <!--右侧内容-->
             <div class="UserInfo_content">
                 <ul class="myorder_classification">
-                	 <li class="active">
+                    <li class="active">
                         <a href="{{ route('orders.index') . '?status=paying' }}">
                             <span>所有订单</span>
                         </a>
@@ -101,7 +101,7 @@
                                             <td class="col-pro-img">
                                                 <p class="p-img">
                                                     <a href="{{ route('products.show', $item->sku->product->id) }}">
-                                                        <img src="{{ $item->sku->photo_url }}">
+                                                        <img src="{{ $item->sku->product->thumb_url }}">
                                                     </a>
                                                 </p>
                                             </td>
@@ -128,47 +128,53 @@
                                             </td>
                                             <td rowspan="{{ $order->items->count() }}" class="col-operate">
                                                 <p class="p-button">
-                                                    @if($order->status == 'completed' && $order->commented_at == null)
-                                                        <a class="evaluate"
-                                                           href="{{ route('users.home') }}">评价</a>
-                                                    @endif
                                                     <!--以下按钮除再次购买并不同时展示根据订单状态进行调整-->
+                                                    @if($order->status == \App\Models\Order::ORDER_STATUS_PAYING)
+                                                            <!--订单待支付-->
+                                                    <!--付款或再次购买隐藏显示取消订单-->
+                                                    <!--系统自动关闭订单倒计时-->
+                                                    <span class="count_down">剩余59分48秒</span>
+                                                    <a class="payment" href="{{ route('users.home') }}">付款</a>
+                                                    <a class="cancellation" href="{{ route('root') }}">取消订单</a>
+                                                    @elseif($order->status == \App\Models\Order::ORDER_STATUS_SHIPPING && $order->shipped_at == null)
+                                                            <!--订单待发货-->
                                                     <a class="reminding_shipments"
-                                                           href="{{ route('users.home') }}">提醒发货</a>
+                                                       href="{{ route('users.home') }}">提醒发货</a>
                                                     <a class="buy_more" href="{{ route('root') }}">再次购买</a>
+                                                    @elseif($order->status == \App\Models\Order::ORDER_STATUS_RECEIVING && $order->received_at == null)
+                                                            <!--订单待收货-->
                                                     <!--确认收货-->
-                                                    <!--订单倒计时-->
-                                                	<span class="count_down">剩余59分48秒</span>
+                                                    <!--系统自动确认订单倒计时-->
+                                                    <span class="count_down">剩余59分48秒</span>
                                                     <a class="confirmation_receipt"
                                                        href="{{ route('users.home') }}">确认收货</a>
+                                                    @elseif($order->status == \App\Models\Order::ORDER_STATUS_COMPLETED && $order->commented_at == null)
+                                                            <!--订单待评价-->
+                                                    <a class="evaluate" href="{{ route('users.home') }}">评价</a>
+                                                    @elseif($order->status == \App\Models\Order::ORDER_STATUS_COMPLETED && $order->commented_at != null)
+                                                            <!--订单已评价-->
                                                     <!--查看评价-->
-                                                   <a class="View_evaluation"
+                                                    <a class="View_evaluation"
                                                        href="{{ route('users.home') }}">查看评价</a>
-                                                       <!--删除订单-->
-                                                   <a class="Delete_order"
+                                                    @elseif(in_array($order->status, [\App\Models\Order::ORDER_STATUS_CLOSED, \App\Models\Order::ORDER_STATUS_COMPLETED]))
+                                                            <!--删除订单-->
+                                                    <a class="Delete_order"
                                                        href="{{ route('users.home') }}">删除订单</a>
-                                                       <!--再次购买-->
-                                                   <a class="Buy_again"
-                                                       href="{{ route('users.home') }}">再次购买</a>
-                                                           
-                                                    <!--付款是再次购买隐藏显示取消订单-->
-                                                    <!--订单倒计时-->
-                                                	<span class="count_down">剩余59分48秒</span>
-                                                    <a class="payment"
-                                                           href="{{ route('users.home') }}">付款</a>
-                                                    <a class="cancellation" href="{{ route('root') }}">取消订单</a>
-                                                    
+                                                    @endif
+                                                            <!--再次购买-->
+                                                    <a class="buy_more" href="{{ route('root') }}">再次购买</a>
+                                                    <!--再次购买-->
+                                                    <a class="Buy_again" href="{{ route('users.home') }}">再次购买</a>
                                                 </p>
                                             </td>
                                         </tr>
-                                        @endif
-                                        @if($key > 0)
+                                        @else
                                                 <!--当循环的数据中超过两个子订单时从第二个子订单开始采用这种布局-->
                                         <tr class="order_top">
                                             <td class="col-pro-img">
                                                 <p class="p-img">
                                                     <a href="{{ route('products.show', $item->sku->product->id) }}">
-                                                        <img src="{{ $item->sku->photo_url }}">
+                                                        <img src="{{ $item->sku->product->thumb_url }}">
                                                     </a>
                                                 </p>
                                             </td>
@@ -194,10 +200,11 @@
                         @endforeach
                     </div>
                     <!--分页-->
-                    <div class="paging_box">
-                    	<a class="pre_page" href="{{ route('users.home') }}">上一页</a>
-                    	<a class="next_page" href="{{ route('users.home') }}">下一页</a>
-                    </div>
+                    {{ $orders->appends(['status' => $status])->links() }}
+                    {{--<div class="paging_box">
+                        <a class="pre_page" href="{{ route('orders.index') }}">上一页</a>
+                        <a class="next_page" href="{{ route('orders.index') }}">下一页</a>
+                    </div>--}}
                     @endif
                 </div>
                 <!--猜你喜欢-->
@@ -223,15 +230,12 @@
                         </ul>
                         <div class="swiper-pagination"></div>
                         <!--<div class="swiper-container">
-						    <div class="swiper-wrapper">
-						        <div class="swiper-slide">Slide 1</div>
-						        <div class="swiper-slide">Slide 2</div>
-						        <div class="swiper-slide">Slide 3</div>
-						    </div>
-						    <!-- 如果需要分页器 -->
-						    
-						    
-						</div>
+                            <div class="swiper-wrapper">
+                                <div class="swiper-slide">Slide 1</div>
+                                <div class="swiper-slide">Slide 2</div>
+                                <div class="swiper-slide">Slide 3</div>
+                            </div>
+                            <!-- 如果需要分页器 -->
                     </div>
                 </div>
             </div>
@@ -262,7 +266,7 @@
     </div>
 @endsection
 @section('scriptsAfterJs')
-<script src="{{ asset('js/swiper/js/swiper.js') }}"></script>
+    <script src="{{ asset('js/swiper/js/swiper.js') }}"></script>
     <script type="text/javascript">
         $(function () {
             $(".navigation_left ul li").removeClass("active");
@@ -270,35 +274,36 @@
             $(".order-group").on('click', '.col-delete', function () {
                 $(".order_delete").show();
             });
-            
+
             //猜你喜欢轮播图
-//          var swiper = new Swiper('.swiper-container', {
-//          	slidesPerView : 5,
-////              slidesPerGroup : 5,
-//              spaceBetween : 20,
-//              centeredSlides: true,
-//              loop: true,
-//              speed: 1500,
-//              fadeEffect: {
-//                  crossFade: true,
-//              },
-////              autoplay: {
-////                  delay: 3000,
-////              },
-//              pagination: {
-//			      el: '.swiper-pagination',
-//			    },
-//          });
-			var swiper = new Swiper('.swiper-container', {
-		      slidesPerView: 4,
-		      spaceBetween : 15,
-//		      slidesOffsetAfter : 100,
-//            slidesOffsetBefore : 100,
-		      pagination: {
-		        el: '.swiper-pagination',
-		        clickable: true,
-		      },
-		    });
+            /*var swiper = new Swiper('.swiper-container', {
+             slidesPerView: 5,
+             slidesPerGroup: 5,
+             spaceBetween: 20,
+             centeredSlides: true,
+             loop: true,
+             speed: 1500,
+             fadeEffect: {
+             crossFade: true,
+             },
+             autoplay: {
+             delay: 3000,
+             },
+             pagination: {
+             el: '.swiper-pagination',
+             },
+             });*/
+
+            var swiper = new Swiper('.swiper-container', {
+                slidesPerView: 4,
+                spaceBetween: 15,
+                // slidesOffsetAfter: 100,
+                // slidesOffsetBefore : 100,
+                pagination: {
+                    el: '.swiper-pagination',
+                    clickable: true,
+                },
+            });
         });
     </script>
 @endsection
