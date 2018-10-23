@@ -26,6 +26,17 @@ Route::group([
     $router->put('users/{id}', 'UsersController@update')->name('admin.users.update');
     $router->delete('users/{id}', 'UsersController@destroy')->name('admin.users.destroy');
 
+    /*商品订单*/
+    $router->get('orders', 'OrdersController@index')->name('admin.orders.index');
+    //    $router->get('example/create', 'ExampleController@create')->name('admin.example.create');
+    $router->get('orders/{id}', 'OrdersController@show')->name('admin.orders.show');
+    $router->get('orders/{id}/edit', 'OrdersController@edit')->name('admin.orders.edit');
+    //    $router->post('example', 'ExampleController@store')->name('admin.example.store');
+    $router->put('orders/{id}', 'OrdersController@update')->name('admin.orders.update');
+    //    $router->delete('example/{id}', 'ExampleController@destroy')->name('admin.example.destroy');
+
+    /*售后订单*/
+
 
     /*产品分类*/
     $router->resource('product_categories', ProductCategoriesController::class)->names('admin.product_categories');
