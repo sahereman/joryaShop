@@ -20,13 +20,11 @@ class CartsController extends Controller
     // POST 加入购物车
     public function store (CartRequest $request)
     {
-        $user = $request->user();
-        $cart = new Cart([
-            'user_id' => $user->id,
+        $cart = Cart::firstOrNew([
+            'user_id' => $request->user()->id,
             'product_sku_id' => $request->input('sku_id'),
-            'number' => $request->input('number'),
         ]);
-        $cart->user()->associate($user);
+        $cart->increment('number', $request->input('number'));
         $cart->save();
         return $cart;
     }
