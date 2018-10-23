@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Config;
 use App\Models\User;
 use App\Models\UserAddress;
 use Illuminate\Http\Request;
@@ -14,7 +15,7 @@ class UserAddressesController extends Controller
     {
         return view('user_addresses.index', [
             'addresses' => $request->user()->addresses,
-            'max' => config('app.max_user_address_count'),
+            'max' => Config::config('max_user_address_count'),
             'count' => $request->user()->addresses->count(),
         ]);
     }
@@ -26,7 +27,7 @@ class UserAddressesController extends Controller
         $userAddressCount = $user->addresses->count();
         $this->validate($request, [
             'address' => function($attribute, $value, $fail) use ($userAddressCount) {
-                if($userAddressCount > config('app.max_user_address_count')){
+                if($userAddressCount > Config::config('max_user_address_count')){
                     $fail('用户保存收货地址数量已达上限');
                 }
             },
@@ -45,7 +46,7 @@ class UserAddressesController extends Controller
         $userAddress->save();
         return view('user_addresses.index', [
             'addresses' => $request->user()->addresses,
-            'max' => config('app.max_user_address_count'),
+            'max' => Config::config('max_user_address_count'),
             'count' => $request->user()->addresses->count(),
         ]);
     }
@@ -65,7 +66,7 @@ class UserAddressesController extends Controller
         $userAddress->save();
         return view('user_addresses.index', [
             'addresses' => $request->user()->addresses,
-            'max' => config('app.max_user_address_count'),
+            'max' => Config::config('max_user_address_count'),
             'count' => $request->user()->addresses->count(),
         ]);
     }
@@ -85,7 +86,7 @@ class UserAddressesController extends Controller
         $userAddress->delete();
         return view('user_addresses.index', [
             'addresses' => $request->user()->addresses,
-            'max' => config('app.max_user_address_count'),
+            'max' => Config::config('max_user_address_count'),
             'count' => $request->user()->addresses->count(),
         ]);
     }
@@ -100,7 +101,7 @@ class UserAddressesController extends Controller
         $userAddress->save();
         return view('user_addresses.index', [
             'addresses' => $request->user()->addresses,
-            'max' => config('app.max_user_address_count'),
+            'max' => Config::config('max_user_address_count'),
             'count' => $request->user()->addresses->count(),
         ]);
     }

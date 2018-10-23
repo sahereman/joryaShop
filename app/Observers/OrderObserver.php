@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use App\Events\OrderSnapshotEvent;
+use App\Models\Config;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\ProductSku;
@@ -24,7 +25,7 @@ class OrderObserver
     {
         $userInfo = json_decode($order->user_info, true);
         $userInfo['user_id'] = $order->user_id;
-        if($order->user->addresses->count() < config('app.max_user_address_count')){
+        if($order->user->addresses->count() < Config::config('max_user_address_count')){
             // 更新或创建一条用户地址信息记录
             $userAddress = UserAddress::firstOrNew($userInfo);
             $userAddress->last_used_at = Carbon::now()->toDateTimeString();

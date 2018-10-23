@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\PostOrderRequest;
 use App\Http\Requests\RefundOrderRequest;
 use App\Jobs\AutoCloseOrderJob;
+use App\Jobs\AutoCompleteOrderJob;
 use App\Models\Cart;
+use App\Models\Config;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\OrderRefund;
@@ -160,7 +162,7 @@ class OrdersController extends Controller
         });
 
         // 分派定时自动关闭订单任务
-        $this->dispatch(new AutoCloseOrderJob($order, config('app.order_ttl')));
+        $this->dispatch(new AutoCloseOrderJob($order, Config::config('time_to_close_order')));
 
         return $order;
     }
@@ -200,6 +202,11 @@ class OrdersController extends Controller
     public function ship(Request $request, Order $order)
     {
         // TODO ...
+
+        // 分派定时自动关闭订单任务
+        $this->dispatch(new AutoCompleteOrderJob($order, Config::config('time_to_complete_order') * 3600 * 24));
+
+        return $order;
     }
 
     // PATCH 确认收货，交易关闭 [订单进入交易结束状态:status->completed]
