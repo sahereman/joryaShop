@@ -395,6 +395,12 @@
                             margin-left: 60px;
                             font-size: 14px;
                             color: #333;
+                            &.help-block {
+                                width: 300px;
+                                margin-left: 15px;
+                                margin-top: 0;
+                                margin-bottom: 0px;
+                            }
                         }
                         .user_Avatar {
                             width: 69px;
@@ -411,6 +417,7 @@
                         input[type='email']{
                             width: 230px;
                             height: 35px;
+                            float: left;
                             border: 1px solid #ebebeb;
                             border-radius: 2px;
                             text-indent: 15px;
@@ -523,6 +530,12 @@
                             margin-left: 60px;
                             font-size: 14px;
                             color: #333;
+                            &.help-block {
+                                width: 200px;
+                                margin-left: 15px;
+                                margin-top: 0;
+                                margin-bottom: 0px;
+                            }
                         }
                         input {
                             width: 230px;
@@ -531,7 +544,8 @@
                             border-radius: 2px;
                             text-indent: 15px;
                             color: #333; 
-                            &::-webkit-input-placeholder {
+                            float: left; 
+                            &:-webkit-input-placeholder {
                                 color: #dadada;
                                 font-size: 12px;
                             }
