@@ -36,7 +36,7 @@ class OrderPolicy
     public function pay(User $user, Order $order)
     {
         if ($this->update($user, $order)) {
-            return $order->status === 'paying';
+            return $order->status === Order::ORDER_STATUS_PAYING;
         }
         return false;
     }
@@ -63,7 +63,7 @@ class OrderPolicy
     public function close(User $user, Order $order)
     {
         if ($this->update($user, $order)) {
-            return $order->status === 'paying';
+            return $order->status === Order::ORDER_STATUS_PAYING;
         }
         return false;
     }
@@ -78,7 +78,7 @@ class OrderPolicy
     public function complete(User $user, Order $order)
     {
         if ($this->update($user, $order)) {
-            return $order->status === 'receiving';
+            return $order->status === Order::ORDER_STATUS_RECEIVING;
         }
         return false;
     }
@@ -93,7 +93,7 @@ class OrderPolicy
     public function refund(User $user, Order $order)
     {
         if ($this->update($user, $order)) {
-            return $order->status === 'receiving';
+            return $order->status === Order::ORDER_STATUS_RECEIVING;
         }
         return false;
     }
@@ -107,7 +107,7 @@ class OrderPolicy
      */
     public function delete(User $user, Order $order)
     {
-        if(in_array($order->status, ['closed', 'completed'])){
+        if(in_array($order->status, [Order::ORDER_STATUS_CLOSED, Order::ORDER_STATUS_COMPLETED])){
             return $user->id === $order->user_id;
         }
         return false;

@@ -64,7 +64,7 @@ class Order extends Model
      * @var array
      */
     protected $hidden = [
-        'user_id',
+        //
     ];
 
     /**
@@ -72,8 +72,8 @@ class Order extends Model
      * @var array
      */
     protected $casts = [
-        'user_info' => 'array',
-        'snapshot' => 'array',
+        'user_info' => 'json',
+        'snapshot' => 'json',
     ];
 
     /**

@@ -34,7 +34,7 @@ class OrdersController extends Controller
                     ->with('items.sku.product')
                     ->where('status', 'paying')
                     ->orderByDesc('created_at')
-                    ->get();
+                    ->simplePaginate(2);
                 break;
             // 待收货订单
             case 'receiving':
@@ -42,7 +42,7 @@ class OrdersController extends Controller
                     ->with('items.sku.product')
                     ->where('status', 'receiving')
                     ->orderByDesc('shipped_at')
-                    ->get();
+                    ->simplePaginate(2);
                 break;
             // 待评价订单
             case 'uncommented':
@@ -50,7 +50,7 @@ class OrdersController extends Controller
                     ->with('items.sku.product')
                     ->where(['status' => 'completed', 'commented_at' => null])
                     ->orderByDesc('completed_at')
-                    ->get();
+                    ->simplePaginate(2);
                 break;
             // 售后订单
             case 'refunding':
@@ -58,7 +58,7 @@ class OrdersController extends Controller
                     ->with('items.sku.product')
                     ->where('status', 'refunding')
                     ->orderByDesc('updated_at')
-                    ->get();
+                    ->simplePaginate(2);
                 break;
             // 已完成订单
             case 'completed':
@@ -66,18 +66,19 @@ class OrdersController extends Controller
                     ->with('items.sku.product')
                     ->where('status', 'completed')
                     ->orderByDesc('completed_at')
-                    ->get();
+                    ->simplePaginate(2);
                 break;
             // 默认：all 全部订单
             default:
                 $orders = $user->orders()
                     ->with('items.sku.product')
                     ->orderByDesc('updated_at')
-                    ->get();
+                    ->simplePaginate(2);
                 break;
         }
         $guesses = Product::where(['is_index' => true, 'on_sale' => true])->orderByDesc('heat')->limit(8)->get();
         return view('orders.index', [
+            'status' => $status,
             'orders' => $orders,
             'guesses' => $guesses,
         ]);

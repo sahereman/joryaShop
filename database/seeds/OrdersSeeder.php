@@ -107,6 +107,6 @@ class OrdersSeeder extends Seeder
             $random_snapshot[$i]['price'] = $random_sku->price;
             $random_snapshot[$i]['number'] = random_int(1, 5);
         }
-        return collect($random_snapshot)->toJson();
+        return $random_snapshot;
     }
 }

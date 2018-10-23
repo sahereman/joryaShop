@@ -14,7 +14,7 @@ $factory->define(App\Models\ProductSku::class, function (Faker $faker) {
     return [
         'name_en' => $faker->colorName.'-en',
         'name_zh' => $faker->colorName.'-zh',
-        'photo' => $faker->imageUrl(),
+        // 'photo' => $faker->imageUrl(),
         'price' => $faker->randomFloat(2, 10, 100),
         'stock' => $faker->randomNumber(4, true),
         'created_at' => $created_at,

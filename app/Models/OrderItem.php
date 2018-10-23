@@ -30,6 +30,6 @@ class OrderItem extends Model
 
     public function sku()
     {
-        return $this->hasOne(ProductSku::class, 'id');
+        return $this->belongsTo(ProductSku::class, 'product_sku_id');
     }
 }

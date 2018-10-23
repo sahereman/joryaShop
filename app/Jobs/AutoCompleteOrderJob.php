@@ -40,7 +40,7 @@ class AutoCompleteOrderJob implements ShouldQueue
     {
         // 判断对应的订单是否已经确认
         // 如果已经确认，则不需要确认订单，直接退出
-        if ($this->order->completed_at && $this->order->status != Order::ORDER_STATUS_RECEIVING) {
+        if ($this->order->completed_at == null && $this->order->status != Order::ORDER_STATUS_RECEIVING) {
             return;
         }
         // 通过事务执行 sql

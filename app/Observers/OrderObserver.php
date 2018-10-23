@@ -23,16 +23,16 @@ class OrderObserver
 
     public function created(Order $order)
     {
-        $userInfo = json_decode($order->user_info, true);
-        $userInfo['user_id'] = $order->user_id;
+        $userAddressData = $order->user_info;
+        $userAddressData['user_id'] = $order->user_id;
         if($order->user->addresses->count() < Config::config('max_user_address_count')){
             // 更新或创建一条用户地址信息记录
-            $userAddress = UserAddress::firstOrNew($userInfo);
+            $userAddress = UserAddress::firstOrNew($userAddressData);
             $userAddress->last_used_at = Carbon::now()->toDateTimeString();
             $userAddress->save();
         }else{
             // 更新一条用户地址信息记录
-            $userAddress = UserAddress::first($userInfo);
+            $userAddress = UserAddress::first($userAddressData);
             if($userAddress instanceof UserAddress){
                 $userAddress->last_used_at = Carbon::now()->toDateTimeString();
                 $userAddress->save();
@@ -42,8 +42,7 @@ class OrderObserver
         }
 
         // 创建多条子订单OrderItem记录
-        $snapshot = json_decode($order->snapshot, true);
-        foreach ($snapshot as $item) {
+        foreach ($order->snapshot as $item) {
             $itemData['order_id'] = $order->id;
             $itemData['product_sku_id'] = $item['sku_id'];
             $itemData['price'] = $item['price'];
