@@ -400,7 +400,6 @@ a {
         border-radius: 4px;
         transition: 1s;
         transform-style: preserve-3d;
-        -moz-transform-style: preserve-3d;
         .dialog_logo {
             width: 180px;
             height: 40px;
@@ -443,9 +442,7 @@ a {
         }
         .part_frame {
             margin-bottom: 35px;
-            backface-visibility:hidden;
-            -webkit-backface-visibility:hidden;    /* Chrome 和 Safari */
-            -moz-backface-visibility:hidden;     /* Firefox */
+//          backface-visibility:hidden;
         }
     }
     .close {
