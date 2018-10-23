@@ -133,7 +133,7 @@
                                                             <!--订单待支付-->
                                                     <!--付款或再次购买隐藏显示取消订单-->
                                                     <!--系统自动关闭订单倒计时-->
-                                                    <span class="count_down">剩余59分48秒</span>
+                                                    <span class="count_down" created_at="{{ strtotime($order->created_at) }}" time_to_close_order="{{ \App\Models\Config::config('time_to_close_order') }}">{{ generate_order_ttl_message($order->create_at, \App\Models\Order::ORDER_STATUS_PAYING) }}</span>
                                                     <a class="payment" href="{{ route('users.home') }}">付款</a>
                                                     <a class="cancellation" href="{{ route('root') }}">取消订单</a>
                                                     @elseif($order->status == \App\Models\Order::ORDER_STATUS_SHIPPING && $order->shipped_at == null)
@@ -145,7 +145,7 @@
                                                             <!--订单待收货-->
                                                     <!--确认收货-->
                                                     <!--系统自动确认订单倒计时-->
-                                                    <span class="count_down">剩余59分48秒</span>
+                                                    <span class="count_down" shipped_at="{{ strtotime($order->shipped_at) }}" time_to_complete_order="{{ \App\Models\Config::config('time_to_complete_order') }}">{{ generate_order_ttl_message($order->shipped_at, \App\Models\Order::ORDER_STATUS_RECEIVING) }}</span>
                                                     <a class="confirmation_receipt"
                                                        href="{{ route('users.home') }}">确认收货</a>
                                                     @elseif($order->status == \App\Models\Order::ORDER_STATUS_COMPLETED && $order->commented_at == null)

@@ -22,7 +22,7 @@ function easy_sms_send($data, $phone_number)
     $config = config('easysms');
     $easy_sms = new EasySms($config);
 
-    $template = $config['template'] ? : env('ALIYUN_SMS_TEMPLATE', '');
+    $template = $config['template'] ?: env('ALIYUN_SMS_TEMPLATE', '');
     $response = $easy_sms->send($phone_number, [
         'content' => '您的验证码为：' . $data['code'],
         'template' => $template,
@@ -30,4 +30,26 @@ function easy_sms_send($data, $phone_number)
     ]);
 
     return $response;
+}
+
+function generate_order_ttl_message($datetime, $type)
+{
+    $timestamp = strtotime($datetime);
+    $order_ttl_message = '';
+    switch ($type) {
+        case \App\Models\Order::ORDER_STATUS_PAYING:
+            $ttl = \App\Models\Config::config('time_to_close_order') - $timestamp;
+            $minutes = floor($ttl/60);
+            $seconds = $ttl%60;
+            $order_ttl_message = "剩余{$minutes}分{$seconds}秒";
+            break;
+        case \App\Models\Order::ORDER_STATUS_RECEIVING:
+            $ttl = \App\Models\Config::config('time_to_complete_order') * 3600 * 24 - $timestamp;
+            $days = ceil($ttl/(3600*24));
+            $order_ttl_message = "剩余{$days}天";
+            break;
+        default:
+            break;
+    }
+    return $order_ttl_message;
 }
