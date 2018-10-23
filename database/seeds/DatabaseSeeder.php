@@ -28,19 +28,19 @@ class DatabaseSeeder extends Seeder
         //购物车
         $this->call(CartsSeeder::class);
 
-        //订单
-        $this->call(OrdersSeeder::class);
-        $this->call(OrderItemsSeeder::class);
-
-        //评论
-//        $this->call(ProductCommentsSeeder::class);
-
         //其他
         $this->call(BannersSeeder::class);
         $this->call(CountryCodesSeeder::class);
         $this->call(ExchangeRatesSeeder::class);
         $this->call(ArticlesSeeder::class);
         $this->call(PostersSeeder::class);
+
+        //订单
+        $this->call(OrdersSeeder::class);
+        $this->call(OrderItemsSeeder::class);
+
+        //评论
+//        $this->call(ProductCommentsSeeder::class);
 
         // Pertaining Order
         // $this->call(OrderRefundsSeeder::class);

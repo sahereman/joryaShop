@@ -53,11 +53,9 @@ class ProductSku extends Model
 
     public function getRealShippingFeeByCurrency($currency = 'CNY')
     {
-        if ($currency == 'CNY')
-        {
+        if ($currency == 'CNY') {
             return $this->product->shipping_fee;
-        } else
-        {
+        } else {
             $exchangeRate = ExchangeRate::where('currency', $currency)->first();
             return $this->product->shipping_fee * $exchangeRate->rate;
         }
@@ -65,11 +63,9 @@ class ProductSku extends Model
 
     public function getRealPriceByCurrency($currency = 'CNY')
     {
-        if ($currency == 'CNY')
-        {
+        if ($currency == 'CNY') {
             return $this->attributes['price'];
-        } else
-        {
+        } else {
             $exchangeRate = ExchangeRate::where('currency', $currency)->first();
             return $this->attributes['price'] * $exchangeRate->rate;
         }
