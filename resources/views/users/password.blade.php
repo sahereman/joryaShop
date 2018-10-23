@@ -21,7 +21,8 @@
                     <p>修改密码</p>
                 </div>
                 <div class="psw_edit_content">
-                    <form method="POST" action="{{ route('users.update_password', $user->id) }}" enctype="multipart/form-data">
+                    <form method="POST" action="{{ route('users.update_password', $user->id) }}"
+                          enctype="multipart/form-data">
                         {{ csrf_field() }}
                         <input type="hidden" name="_method" value="PUT">
                         <ul>
@@ -47,8 +48,7 @@
                             </li>
                             <li>
                                 <span>确认密码</span>
-                                <input type="password" name="password_confirmation" value="" placeholder="再次输入新密码"
-                                       required>
+                                <input type="password" name="password_confirmation" value="" placeholder="再次输入新密码" required>
                                 @if ($errors->has('password_confirmation'))
                                     <span class="help-block">
                                     <img src="{{ asset('img/error_fork.png') }}">

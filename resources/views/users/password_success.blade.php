@@ -24,7 +24,7 @@
                     <div class="success_content">
                         <img src="{{ asset('img/reset_success.png') }}">
                         <p>新密码已设置成功</p>
-                        <a href="{{ route('root').'?action=login' }}">返回首页</a>
+                        <a href="{{ route('root') }}">返回首页</a>
                     </div>
                 </div>
             </div>

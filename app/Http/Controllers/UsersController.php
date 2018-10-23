@@ -70,6 +70,7 @@ class UsersController extends Controller
 
         $this->validate($request, [
             'password_original' => [
+                'bail',
                 'required',
                 'string',
                 'min:6',
@@ -89,7 +90,9 @@ class UsersController extends Controller
             'password' => bcrypt($request->input('password')),
         ]);
         if ($result) {
-            return view('users.password_success');
+            return view('users.password_success', [
+                'user' => $user,
+            ]);
         }
         return redirect()->route('users.password', $user->id);
     }
