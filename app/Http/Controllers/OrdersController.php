@@ -243,7 +243,7 @@ class OrdersController extends Controller
     {
         // $this->authorize('comment', $order);
 
-        return view('order.show_comment');
+        return view('orders.show_comment');
     }
 
     // GET 创建订单评价
@@ -251,7 +251,7 @@ class OrdersController extends Controller
     {
         // $this->authorize('comment', $order);
 
-        return view('order.create_comment');
+        return view('orders.create_comment');
     }
 
     // POST 发布订单评价
