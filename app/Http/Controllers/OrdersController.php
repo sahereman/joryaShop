@@ -238,14 +238,24 @@ class OrdersController extends Controller
         return response()->json([]);
     }
 
-    public function comment(Request $request, Order $order)
+    // GET 查看订单评价
+    public function showComment(Request $request, Order $order)
     {
         // $this->authorize('comment', $order);
 
-        return view('order.comments');
+        return view('order.show_comment');
     }
 
-    public function postComment(OrderCommentRequest $request, Order $order)
+    // GET 创建订单评价
+    public function createComment(Request $request, Order $order)
+    {
+        // $this->authorize('comment', $order);
+
+        return view('order.create_comment');
+    }
+
+    // POST 发布订单评价
+    public function storeComment(OrderCommentRequest $request, Order $order)
     {
         $this->authorize('comment', $order);
 
