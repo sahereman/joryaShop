@@ -462,6 +462,7 @@ a {
         }
     }
     .error_content {
+//      display: block;
         height: 24px;
         background-color: #fdf4ec;
         border: 1px solid #bc8c61;
@@ -471,7 +472,7 @@ a {
         font-size: 12px;
         overflow: hidden;
         margin: 5px auto;
-        display: none;
+//      display: none;
         i {
             width: 12px;
             height: 12px;
@@ -483,7 +484,6 @@ a {
         span {
             float: left;
             margin-left: 5px;
-            margin-top: -2px;
         }
     }
     .btn_dialog {
@@ -1420,6 +1420,9 @@ footer {
             &.active {
                 color: #be9067;
             }
+            &:first-of-type {
+                margin-top: 30px;
+            }
         }
     }   
 }
@@ -1552,3 +1555,4 @@ footer {
 @import "userAddresses";
 @import "collection_and_history";
 @import "order";
+@import "evaluate";

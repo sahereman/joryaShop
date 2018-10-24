@@ -1,0 +1,222 @@
+.evaluate_commont {
+    background-color: #f8f8f8;
+    position: relative;
+    .comment_content {
+        width: 1000px;
+        float: right;
+        min-height: 595px;
+        background-color: #fff;
+        margin-bottom: 40px;
+        .evaluation_order {
+            width: 100%;
+            table {
+                width: 100%;
+                margin-bottom: 20px;
+                text-align: center;
+                font-size: 12px;
+                thead {
+                    th {
+                        height: 40px;
+                        background-color: #f0f0f0;             
+                        text-align: center;
+                        font-size: 12px;           
+                    }
+                }
+                tbody {
+                    tr {
+                        td {
+                            height: 110px;
+                            border-bottom: 1px solid #ebebeb;
+                            font-size: 12px;
+                            p {
+                                padding: 0 20px;
+                            }
+                            &.col-pay,
+                            &.col-status {
+                                width: 190px;
+                            }
+                            &.col-pro-img {
+                                width: 100px;
+                                img {
+                                    margin-left: 15px;
+                                }
+                            }
+                            &.col-pro-info {
+                                text-align: left;
+                                width: 320px;
+                                .p-info {
+                                    padding-left: 10px;
+                                }
+                            }
+                            &.col-pay {
+                                font-size: 14px;
+                                color: $hover-color;
+                                font-weight: 600;
+                            }
+                            }
+                    }
+                }
+            }
+            .evaluation_content {
+                width: 100%;
+                padding: 0 20px;
+                position: relative;
+                margin-bottom: 30px;
+                .evaluat_title {
+                    font-size: 14px;
+                    color: #333;
+                    font-weight: bold;
+                }
+                .five_star_evaluation {
+                    overflow: hidden;
+                    margin-top: 20px;
+                    margin-bottom: 30px;
+                    .star_area {
+                        float: left;
+                        margin-right: 55px;
+                        p{
+                            float: left;
+                            margin-right: 25px;
+                            font-size: 12px;
+                            i {
+                                color: red;
+                            }
+                        }
+                        .starability-basic {
+                            float: left;
+                            position: relative;
+                            input {
+                                position: absolute;
+                                margin-right: -100%;
+                                opacity: 0;
+                                &:hover ~label,
+                                &:checked ~label,
+                                &:focus ~label {
+                                    background-position: 0 -18px;
+                                }
+                            }
+                            label {
+                                position: relative;
+                                display: inline-block;
+                                float: right;
+                                width: 20px;
+                                height: 18px;
+                                color: transparent;
+                                cursor: pointer;
+                                margin-right: 15px;
+                                margin-bottom: 0;
+                                background-image: url("../img/star_2_2.png");
+                                background-repeat: no-repeat;
+                                background-position: 0 0;
+                            }
+                        }
+                    }
+                }
+                textarea {
+                    display: block;
+                    width: 100%;
+                    height: 220px;
+                    border: 1px solid #ebebeb;
+                    padding: 10px 20px;
+                }
+                .picture_area {
+                    width: 100%;
+                    height: 50px;
+                    margin: 20px 0;
+                    p {
+                        float: left;
+                        line-height: 50px;
+                        margin-right: 15px;
+                        i {
+                            color: red;
+                        }
+                    }
+                    .pictures {
+                        float: left;
+                        div {
+                            width: 48px;
+                            height: 48px;
+                            border: 1px solid #ebebeb;
+                            float: right;
+                            cursor: pointer;
+                            margin: 0 5px;
+                            &.pictures_btn {
+                                border-color: transparent;
+                            }
+                            img {
+                                width: 100%;
+                                height: 100%;
+                            }
+                        }
+                    }
+                }
+                &:after {
+                    content: '';
+                    width: 96%;
+                    height: 1px;
+                    border-top: 1px dashed #ebebeb;
+                    position: absolute;
+                    bottom: -15px;
+                }
+            }
+            .evaluation_results {
+                .five_star_evaluation {
+                    overflow: hidden;
+                    margin-top: 20px;
+                    margin-bottom: 30px;
+                    .star_area {
+                        float: left;
+                        margin-right: 55px;
+                        .starability-basic {
+                            float: left;
+                            position: relative;
+                            input {
+                                position: absolute;
+                                margin-right: -100%;
+                                opacity: 0;
+                                &:hover ~label,
+                                &:checked ~label,
+                                &:focus ~label {
+                                    background-position: 0 -18px;
+                                }
+                            }
+                            label {
+                                position: relative;
+                                display: inline-block;
+                                float: right;
+                                width: 20px;
+                                height: 18px;
+                                color: transparent;
+                                cursor: pointer;
+                                margin-right: 15px;
+                                margin-bottom: 0;
+                                background-image: url("../img/star_2_2.png");
+                                background-repeat: no-repeat;
+                                background-position: 0 0;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        .sub_evaluation_area {
+            margin-top: 65px;
+            margin-bottom: 30px;
+            .sub_evaluation {
+                display: block;
+                width: 88px;
+                height: 32px;
+                color: #fff;
+                border-radius: 2px;
+                background-color: $hover-color;
+                cursor: pointer;
+                margin: auto;
+                text-align: center;
+                line-height: 32px;
+                &:hover {
+                    background-color: #9f7754;
+                }
+            }   
+        }
+    }
+}

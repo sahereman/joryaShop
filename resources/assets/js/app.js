@@ -119,7 +119,6 @@ $(function(){
 	$(".rotary_btn").on("click",function(){
 		var show_code=$(this).attr("code");//		show_code表示显示的内容，0表示登录显示，1表示注册显示
 		if(show_code==0){
-			$(".login_form").removeClass("dis_n");
 		    $(".register_form").addClass("dis_n");
 			$(".login_frame").removeClass("dialog_close_active");    //弹窗翻转
 			$(".register_form").removeClass("dialog_close_active");
@@ -133,10 +132,9 @@ $(function(){
 			$(".login_form").addClass('login_active');
 			$(".dialog_logo").addClass('login_active');
 			$(".close").addClass('login_active');
-			
+			$(".login_form").removeClass("dis_n");
 		}else {
 			$(".login_form").addClass("dis_n");
-	    	$(".register_form").removeClass("dis_n");
 			$(".login_frame").removeClass("dialog_close_active");    //弹窗翻转
 			$(".register_form").removeClass("dialog_close_active");
 		    $(".dialog_logo").removeClass("dialog_close_active");
@@ -149,6 +147,7 @@ $(function(){
 			$(".register_form").addClass('register_active');
 			$(".dialog_logo").addClass('register_active');
 			$(".close").addClass('register_active');
+			$(".register_form").removeClass("dis_n");
 		}
 	})
 	//弹窗关闭
@@ -281,7 +280,6 @@ $(function(){
 			code: $("#login_code").val(),
             _toke: "{{ csrf_token() }}"
 		}
-		console.log(data)
 		$.ajax({
         	type:"post",
         	url:"login/verify_email_code",
@@ -289,7 +287,6 @@ $(function(){
         	success:function(json){              
 //				json = json.replace(/\s+/g, "");
 //				var dataObj = $.parseJSON(json);
-				console.log(json);
 				location.reload();
 			},        
 			error:function(err){          
@@ -332,7 +329,6 @@ $(function(){
         if (getUrlVars() != undefined) {
             action = getUrlVars()
         }
-        console.log(action)
         switch (action) {
             case "login":
                 $(".login").click();

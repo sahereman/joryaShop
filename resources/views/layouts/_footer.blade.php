@@ -155,12 +155,36 @@
                 <form id="register-form" action="{{ route('register') }}" method="POST">
                     {{ csrf_field() }}
                     <input type="text" name="username" id="register_user" placeholder="请输入用户名" required>
+                    @if ($errors->has('username'))
+	                    <p class="login_error error_content">
+		                    <i></i>
+		                    <span>{{ $errors->first('username') }}</span>
+		                </p>
+	                @endif
                     <input type="password" name="password" id="register_psw" placeholder="请输入密码" required>
+                    @if ($errors->has('password'))
+	                    <p class="login_error error_content">
+		                    <i></i>
+		                    <span>{{ $errors->first('password') }}</span>
+		                </p>
+	                @endif
                     <input type="text" name="email" id="register_email" placeholder="请输入邮箱" required>
+                    @if ($errors->has('email'))
+	                    <p class="login_error error_content">
+		                    <i></i>
+		                    <span>{{ $errors->first('email') }}</span>
+		                </p>
+	                @endif
                     <div class="verification_code">
-                        <input type="text" id="register_code" class="code" name="code" placeholder="请输入验证码">
+                        <input type="text" id="register_code" class="code" name="code" placeholder="请输入验证码" required>
                         <input type="button" class="generate_code" id="getRegister_code" value=" 获取验证码">
                     </div>
+                    @if ($errors->has('code'))
+	                    <p class="login_error error_content">
+		                    <i></i>
+		                    <span>{{ $errors->first('code') }}</span>
+		                </p>
+	                @endif
                 </form>
                 <div class="switch-back">
                     <p class="agreement_content">
@@ -192,22 +216,42 @@
                         </li>
                     </ul>
                 </div>
-                <p class="login_error error_content">
-                    <i></i>
-                    <span>请输入邮箱</span>
-                </p>
                 <form id="login-form" class="active" action="{{ route('login.post') }}" method="POST">
                     {{ csrf_field() }}
-                    <input type="text" name="username" placeholder="请输入用户名或邮箱">
-                    <input type="password" name="password" placeholder="请输入密码">
+                    <input type="text" name="username" placeholder="请输入用户名或邮箱" required>
+                	@if ($errors->has('username'))
+	                    <p class="login_error error_content">
+		                    <i></i>
+		                    <span>{{ $errors->first('username') }}</span>
+		                </p>
+	                @endif
+                    <input type="password" name="password" placeholder="请输入密码" required>
+                	@if ($errors->has('password'))
+	                    <p class="login_error error_content">
+		                    <i></i>
+		                    <span>{{ $errors->first('password') }}</span>
+		                </p>
+	                @endif
                 </form>
                 <form id="mailbox_login" action="{{ route('login') }}" method="POST">
                     {{ csrf_field() }}
                     <input type="text" name="email" id="login_email" placeholder="请输入邮箱" required>
+                	@if ($errors->has('email'))
+	                    <p class="login_error error_content">
+		                    <i></i>
+		                    <span>{{ $errors->first('email') }}</span>
+		                </p>
+	                @endif
                     <div class="verification_code">
                         <input type="text" class="code" name="code" id="login_code" placeholder="请输入验证码" required>
                         <input type="button" class="generate_code" id="getLogin_code" value=" 获取验证码">
                     </div>
+                    @if ($errors->has('code'))
+	                    <p class="login_error error_content">
+		                    <i></i>
+		                    <span>{{ $errors->first('code') }}</span>
+		                </p>
+	                @endif
                 </form>
                 <div class="switch-back">
                     <a code="1" class="rotary_btn register_btn pull-left">新用户注册</a>

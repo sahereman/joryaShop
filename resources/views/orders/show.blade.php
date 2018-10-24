@@ -72,19 +72,19 @@
             					<span class="order_status_tips">交易完成</span>
             				</p>
             				<p class="operation_area">
-            					<a class="main_operation">评价</a>
+            					<a class="main_operation" href="{{ route('orders.create_comment', 58) }}">评价</a>
             					<a>删除订单</a>
             				</p>
             			</div>
             			<!--已评价状态-->
-            			<div class="pending_delivery status_area" style="display: none;">
+            			<div class="pending_delivery status_area" >
             				<p>
             					<img src="{{ asset('img/pending.png') }}">
             					<span>订单状态：</span>
             					<span class="order_status_tips">交易完成</span>
             				</p>
             				<p class="operation_area">
-            					<a class="main_operation">查看评价</a>
+            					<a class="main_operation" href="{{ route('orders.show_comment', 58) }}">查看评价</a>
             					<a>删除订单</a>
             				</p>
             			</div>
@@ -100,7 +100,7 @@
             				</p>
             			</div>
             			<!--售后订单-->
-            			<div class="pending_delivery status_area">
+            			<div class="pending_delivery status_area" style="display: none;">
             				<p>
             					<img src="{{ asset('img/pending.png') }}">
             					<span>订单状态：</span>
@@ -133,7 +133,8 @@
             		</div>
             	</div>
             	<!--物流信息根据需要判断是否显示，
-            		**目前显示的订单状态：待收货、未评价、已评价、退款订单
+            		**目前显示的订单状态：待收货、未评价、已评价、退款订单   
+            		*
             		-->
             	<div class="logistics_infor">
             		<p class="logistics_title">物流信息</p>
@@ -192,6 +193,7 @@
             		<!--订单表格与我的订单首页的判断方式一样-->
 	                <table>
 	                	<thead>
+	                		<th></th>
                 			<th>商品</th>
                 			<th>单价</th>
                 			<th>数量</th>
@@ -200,12 +202,14 @@
 	                	</thead>
 	                	<tbody>
 	                		<tr>
+	                			<td class="col-pro-img">
+	                				<a href="">
+                                        <img src="{{ asset('img/order-pro.png') }}">
+                                    </a>
+	                			</td>
                                 <td class="col-pro-info">
                                     <p class="p-info">
-                                    	<a href="">
-                                            <img src="{{ asset('img/order-pro.png') }}">
-                                        </a>
-                                        <a href="">卓页美业长直假发片</a>
+                                        <a class="commodity_description"  href="">卓页美业长直假发片</a>
                                     </p>
                                 </td>
                                 <td class="col-price">
@@ -228,12 +232,14 @@
                                 </td>
 	                		</tr>
 	                		<tr>
+	                			<td class="col-pro-img">
+	                				<a href="">
+                                        <img src="{{ asset('img/order-pro.png') }}">
+                                    </a>
+	                			</td>
                                 <td class="col-pro-info">
                                     <p class="p-info">
-                                    	<a href="">
-                                            <img src="{{ asset('img/order-pro.png') }}">
-                                        </a>
-                                        <a href="">卓页美业长直假发片</a>
+                                        <a class="commodity_description"  href="">卓页美业长直假发片</a>
                                     </p>
                                 </td>
                                 <td class="col-price">
@@ -247,12 +253,14 @@
                                 </td>
 	                		</tr>
 	                		<tr>
+	                			<td class="col-pro-img">
+	                				<a href="">
+                                        <img src="{{ asset('img/order-pro.png') }}">
+                                    </a>
+	                			</td>
                                 <td class="col-pro-info">
                                     <p class="p-info">
-                                    	<a href="">
-                                            <img src="{{ asset('img/order-pro.png') }}">
-                                        </a>
-                                        <a href="">卓页美业长直假发片</a>
+                                        <a class="commodity_description" href="">卓页美业长直假发片卓页美业长直假发片卓页美业长直假发片卓页美业长直假发片卓页美业长直假发片卓页美业长直假发片卓页美业长直假发片卓页美业长直假发片</a>
                                     </p>
                                 </td>
                                 <td class="col-price">
@@ -288,7 +296,6 @@
     </div>
 @endsection
 @section('scriptsAfterJs')
-<script src="{{ asset('js/swiper/js/swiper.js') }}"></script>
     <script type="text/javascript">
         $(function () {
             $(".navigation_left ul li").removeClass("active");

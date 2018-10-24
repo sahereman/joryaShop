@@ -27,27 +27,13 @@
                     <div class="new_product_left pull-left">
                         <div class="product_left_top">
                             <img src="{{ $posters[0]->image_url }}">
-                            <div>
-                                <h2>糖果色片染</h2>
-                                <p>修颜减龄，风格前卫</p>
-                                <a class="info_more" href="{{ $posters[0]->link }}">查看更多</a>
-                            </div>
                         </div>
                         <div class="product_left_bottom">
                             <img src="{{ $posters[1]->image_url }}">
-                            <div>
-                                <h2>欧式BOBO紫灰</h2>
-                                <p>修颜减龄，风格前卫</p>
-                                <a class="info_more" href="{{ $posters[1]->link }}">查看更多</a>
-                            </div>
                         </div>
                     </div>
                     <div class="new_product_right pull-left">
                         <img src="{{ $posters[2]->image_url }}">
-                        <div>
-                            <h2>时尚渐变色 风格前卫</h2>
-                            <a class="info_more" href="{{ $posters[2]->link }}">查看更多</a>
-                        </div>
                     </div>
                 @else
                     <div class="new_product_left pull-left">

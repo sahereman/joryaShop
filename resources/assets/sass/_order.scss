@@ -193,6 +193,10 @@
                             color: #fff;
                             background-color: $hover-color;
                             border: 1px solid $hover-color;
+                            &:hover {
+                                background-color: #9f7754;
+                                border: 1px solid #9f7754;
+                            }
                         }
                     }
                 }
@@ -279,13 +283,19 @@
                         &.col-pay,
                         &.col-status {
                             border-left: 1px solid #ebebeb;
+                            width: 190px;
+                        }
+                        &.col-pro-img {
+                            width: 100px;
+                            img {
+                                margin-left: 15px;
+                            }
                         }
                         &.col-pro-info {
                             text-align: left;
+                            width: 320px;
                             .p-info {
-                                img {
-                                    margin-right: 10px;
-                                }
+                                padding-left: 10px;
                             }
                         }
                         &.col-pay {
