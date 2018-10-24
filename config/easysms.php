@@ -29,6 +29,7 @@ return [
         // ...
     ],
 
-    // 使用短信模板 'SMS_001'
-    'template' => env('ALIYUN_SMS_TEMPLATE', '')
+    // 使用短信模板 'SMS_*********'
+    'domestic_template' => env('ALIYUN_SMS_DOMESTIC_TEMPLATE', 'SMS_149095008'),
+    'international_template' => env('ALIYUN_SMS_INTERNATIONAL_TEMPLATE', 'SMS_149100005'),
 ];

@@ -34,6 +34,7 @@ class DatabaseSeeder extends Seeder
         $this->call(ExchangeRatesSeeder::class);
         $this->call(ArticlesSeeder::class);
         $this->call(PostersSeeder::class);
+        $this->call(ShipmentCompaniesSeeder::class);
 
         //订单
         $this->call(OrdersSeeder::class);
