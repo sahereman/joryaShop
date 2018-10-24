@@ -108,9 +108,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::patch('orders/{order}/ship', 'OrdersController@ship')->name('orders.ship'); // 卖家配送发货 [订单进入待收货状态:status->receiving]
     Route::patch('orders/{order}/complete', 'OrdersController@complete')->name('orders.complete'); // 确认收货，交易关闭 [订单进入交易结束状态:status->completed]
     Route::delete('orders/{order}', 'OrdersController@destroy')->name('orders.destroy'); // 订单删除
-    Route::get('orders/{order}/comments', 'OrdersController@comments')->name('orders.comments'); // 订单评价 [api-for-ajax-request]
-    Route::post('orders/{order}/post_comments', 'OrdersController@postComments')->name('orders.post_comments'); // 发布评价
-    Route::post('orders/{order}/post_comments', 'OrdersController@postComments')->name('orders.post_comments'); // 发布评价
+    Route::get('orders/{order}/comment', 'OrdersController@comment')->name('orders.comment'); // 订单评价
+    Route::post('orders/{order}/post_comment', 'OrdersController@postComment')->name('orders.post_comment'); // 发布评价
     Route::get('orders/{order}/refund', 'OrdersController@refund')->name('orders.refund'); // 申请退单页面
     Route::post('orders/{order}/post_refund', 'OrdersController@postRefund')->name('orders.post_refund'); // 发起退单申请 [订单进入售后状态:status->refunding]
     Route::post('orders/{order}/update_refund', 'OrdersController@updateRefund')->name('orders.update_refund'); // 更新退单申请信息 [订单进入售后状态]
@@ -140,7 +139,7 @@ Route::get('product_categories/{category}/home', 'ProductCategoriesController@ho
 /*商品*/
 Route::get('products', 'ProductsController@index')->name('products.index'); // 列表 | 搜素结果
 Route::get('products/{product}', 'ProductsController@show')->name('products.show'); // 详情
-Route::get('products/{product}/comments', 'ProductsController@comments')->name('products.comments'); // 评价 [api-for-ajax-request]
+Route::get('products/{product}/comment', 'ProductsController@comment')->name('products.comment'); // 评价
 
 /*通用-单页展示*/
 Route::get('pages/{page}', 'PagesController@show')->name('pages.show');

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\OrderCommentRequest;
 use App\Http\Requests\PostOrderRequest;
 use App\Http\Requests\RefundOrderRequest;
 use App\Jobs\AutoCloseOrderJob;
@@ -235,5 +236,19 @@ class OrdersController extends Controller
 
         $order->delete();
         return response()->json([]);
+    }
+
+    public function comment(Request $request, Order $order)
+    {
+        // $this->authorize('comment', $order);
+
+        return view('order.comments');
+    }
+
+    public function postComment(OrderCommentRequest $request, Order $order)
+    {
+        $this->authorize('comment', $order);
+
+        // TODO ...
     }
 }

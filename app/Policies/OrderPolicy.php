@@ -84,6 +84,21 @@ class OrderPolicy
     }
 
     /**
+     * Determine whether the user can comment the order.
+     *
+     * @param  \App\Models\User $user
+     * @param  \App\Models\Order $order
+     * @return mixed
+     */
+    public function comment(User $user, Order $order)
+    {
+        if ($this->update($user, $order)) {
+            return $order->status === Order::ORDER_STATUS_COMPLETED;
+        }
+        return false;
+    }
+
+    /**
      * Determine whether the user can refund the order.
      *
      * @param  \App\Models\User $user
