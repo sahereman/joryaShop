@@ -59,6 +59,17 @@
                         @endforeach
                     </div>
                 </div>
+                <div class="paging_box">
+                    <!--自定义分页-->
+                    @if($previous_page)
+                        <a class="pre_page"
+                           href="{{ route('user_histories.index') . '?page=' . $previous_page }}">上一页</a>
+                    @endif
+                    @if($next_page)
+                        <a class="next_page"
+                           href="{{ route('user_histories.index') . '?page=' . $next_page }}">下一页</a>
+                    @endif
+                </div>
                 @endif
             </div>
         </div>
