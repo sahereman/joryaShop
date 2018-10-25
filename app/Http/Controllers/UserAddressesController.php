@@ -44,11 +44,7 @@ class UserAddressesController extends Controller
         }
         $userAddress->user()->associate($user);
         $userAddress->save();
-        return view('user_addresses.index', [
-            'addresses' => $request->user()->addresses,
-            'max' => Config::config('max_user_address_count'),
-            'count' => $request->user()->addresses->count(),
-        ]);
+        return redirect()->route('user_addresses.index');
     }
 
     // PUT 更新
@@ -65,11 +61,7 @@ class UserAddressesController extends Controller
             $userAddress->is_default = true;
         }
         $userAddress->save();
-        return view('user_addresses.index', [
-            'addresses' => $request->user()->addresses,
-            'max' => Config::config('max_user_address_count'),
-            'count' => $request->user()->addresses->count(),
-        ]);
+        return redirect()->route('user_addresses.index');
     }
 
     // DELETE 删除
@@ -86,11 +78,7 @@ class UserAddressesController extends Controller
         }
         $userAddress->user()->dissociate();
         $userAddress->delete();
-        return view('user_addresses.index', [
-            'addresses' => $request->user()->addresses,
-            'max' => Config::config('max_user_address_count'),
-            'count' => $request->user()->addresses->count(),
-        ]);
+        return redirect()->route('user_addresses.index');
     }
 
     // PATCH 设置默认
@@ -102,10 +90,6 @@ class UserAddressesController extends Controller
             ->update(['is_default' => false]);
         $userAddress->is_default = true;
         $userAddress->save();
-        return view('user_addresses.index', [
-            'addresses' => $request->user()->addresses,
-            'max' => Config::config('max_user_address_count'),
-            'count' => $request->user()->addresses->count(),
-        ]);
+        return redirect()->route('user_addresses.index');
     }
 }
