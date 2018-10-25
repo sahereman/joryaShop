@@ -18,14 +18,14 @@
                     <!--右侧内容-->
             <div class="user_addresses_content">
                 @if($addresses->isEmpty())
-                <!--当没有收获地址列表时显示,如需显示当前内容需要调整一下样式-->
+                        <!--当没有收获地址列表时显示,如需显示当前内容需要调整一下样式-->
                 <div class="no_addressList">
                     <img src="{{ asset('img/location.png') }}">
                     <p>您还没有收货地址</p>
                     <a class="new_address">新建收货地址</a>
                 </div>
                 @else
-                <!--存在收获地址列表-->
+                        <!--存在收获地址列表-->
                 <div class="receive_address">
                     <div class="address_note">
                         <div class="pull-left">
@@ -63,7 +63,8 @@
                                         @if($address->is_default)
                                             <a class="setDefaultAddress haddefault">默认地址</a>
                                         @else
-                                            <a url="{{ route('user_addresses.set_default', $address->id) }}" class="setDefaultAddress">设为默认地址</a>
+                                            <a url="{{ route('user_addresses.set_default', $address->id) }}"
+                                               class="setDefaultAddress">设为默认地址</a>
                                         @endif
                                     </td>
                                 </tr>
@@ -110,7 +111,7 @@
                     <span>新建地址</span>
                 </div>
                 <div class="textarea_content">
-                    <form method="POST" action="{{ route('user_addresses.create') }}" enctype="multipart/form-data">
+                    <form method="POST" action="{{ route('user_addresses.store') }}" enctype="multipart/form-data">
                         {{ csrf_field() }}
                         <input type="hidden" name="_method" value="PUT">
                         <ul>
@@ -158,7 +159,7 @@
                 </div>
                 <div class="textarea_content">
                     <!--这个表单的userAddress值是不确定的，需要根据点击的按钮对应的那一行数据的值-->
-                    <form method="POST" action="{{ route('user_addresses.edit',['userAddress'=>1]) }}"
+                    <form method="POST" action="{{ route('user_addresses.update', 1) }}"
                           enctype="multipart/form-data">
                         {{ csrf_field() }}
                         <input type="hidden" name="_method" value="PUT">
@@ -215,23 +216,23 @@
             });
             //点击表格中的设为默认按钮
             $(".address_list table").on("click", ".setDefaultAddress", function () {
-                if (! $(this).hasClass('haddefault')) {
+                if (!$(this).hasClass('haddefault')) {
                     var data = {
-                    	_method:"PATCH",
-                    	_token:"{{ csrf_token() }}",
-                    	is_default:1
-			        }
-			        var url=$(this).attr('url');
-			        $.ajax({
-			        	type:"post",
-			        	url:url,
-			        	data:data,
-			        	success:function(data){              
-						},        
-						error:function(err){          
-							console.log(err);        
-						}      
-			        });
+                        _method: "PATCH",
+                        _token: "{{ csrf_token() }}",
+                        is_default: 1
+                    }
+                    var url = $(this).attr('url');
+                    $.ajax({
+                        type: "post",
+                        url: url,
+                        data: data,
+                        success: function (data) {
+                        },
+                        error: function (err) {
+                            console.log(err);
+                        }
+                    });
                 }
             });
         });

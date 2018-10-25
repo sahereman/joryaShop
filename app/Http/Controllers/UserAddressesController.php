@@ -43,8 +43,18 @@ class UserAddressesController extends Controller
             $userAddress->is_default = true;
         }
         $userAddress->user()->associate($user);
-        $userAddress->save();
-        return redirect()->route('user_addresses.index');
+        $result = $userAddress->save();
+        if ($result) {
+            return response()->json([
+                'code' => 200,
+                'message' => 'success',
+            ]);
+        } else {
+            return response()->json([
+                'code' => 201,
+                'message' => 'error',
+            ]);
+        }
     }
 
     // PUT 更新
@@ -60,8 +70,18 @@ class UserAddressesController extends Controller
                 ->update(['is_default' => false]);
             $userAddress->is_default = true;
         }
-        $userAddress->save();
-        return redirect()->route('user_addresses.index');
+        $result = $userAddress->save();
+        if($result){
+            return response()->json([
+                'code' => 200,
+                'message' => 'success',
+            ]);
+        }else{
+            return response()->json([
+                'code' => 201,
+                'message' => 'error',
+            ]);
+        }
     }
 
     // DELETE 删除
@@ -77,8 +97,18 @@ class UserAddressesController extends Controller
             $address->save();
         }
         $userAddress->user()->dissociate();
-        $userAddress->delete();
-        return redirect()->route('user_addresses.index');
+        $result = $userAddress->delete();
+        if($result){
+            return response()->json([
+                'code' => 200,
+                'message' => 'success',
+            ]);
+        }else{
+            return response()->json([
+                'code' => 201,
+                'message' => 'error',
+            ]);
+        }
     }
 
     // PATCH 设置默认
@@ -89,7 +119,17 @@ class UserAddressesController extends Controller
             ->where('id', '<>', $userAddress->id)
             ->update(['is_default' => false]);
         $userAddress->is_default = true;
-        $userAddress->save();
-        return redirect()->route('user_addresses.index');
+        $result = $userAddress->save();
+        if($result){
+            return response()->json([
+                'code' => 200,
+                'message' => 'success',
+            ]);
+        }else{
+            return response()->json([
+                'code' => 201,
+                'message' => 'error',
+            ]);
+        }
     }
 }
