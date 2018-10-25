@@ -39,7 +39,7 @@ class UserAddressesController extends Controller
         $userAddress->address = $request->input('address');
         if ($request->filled('is_default')) {
             UserAddress::where(['user_id' => $request->user()->id, 'is_default' => true])
-                ->update(['is_default' => 'false']);
+                ->update(['is_default' => false]);
             $userAddress->is_default = true;
         }
         $userAddress->user()->associate($user);
@@ -61,7 +61,7 @@ class UserAddressesController extends Controller
         if($request->filled('is_default')){
             UserAddress::where(['user_id' => $request->user()->id, 'is_default' => true])
                 ->where('id', '<>', $userAddress->id)
-                ->update(['is_default' => 'false']);
+                ->update(['is_default' => false]);
             $userAddress->is_default = true;
         }
         $userAddress->save();
@@ -79,7 +79,7 @@ class UserAddressesController extends Controller
         if ($userAddress->is_default) {
             UserAddress::where(['user_id' => $request->user()->id, 'is_default' => true])
                 ->where('id', '<>', $userAddress->id)
-                ->update(['is_default' => 'false']);
+                ->update(['is_default' => false]);
             $address = UserAddress::where('user_id', $request->user()->id)->latest('last_used_at')->first();
             $address->is_default = true;
             $address->save();
@@ -99,7 +99,7 @@ class UserAddressesController extends Controller
         $this->authorize('update', $userAddress);
         UserAddress::where(['user_id' => $request->user()->id, 'is_default' => true])
             ->where('id', '<>', $userAddress->id)
-            ->update(['is_default' => 'false']);
+            ->update(['is_default' => false]);
         $userAddress->is_default = true;
         $userAddress->save();
         return view('user_addresses.index', [
