@@ -134,12 +134,9 @@ class UsersController extends Controller
             $data['password'] = bcrypt($data['password']);
         }
 
-        $result = $user->update($data);
+        $user->update($data);
 
-        if ($result) {
-            return view('users.update_success');
-        }
-        return redirect()->route('users.edit', $user->id);
+        return redirect()->back();
     }
 
     // POST logout
