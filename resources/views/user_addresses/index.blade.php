@@ -100,6 +100,27 @@
             </div>
         </div>
     </div>
+    <div class="dialog_popup confirm_residual">
+        <div class="dialog_content">
+            <div class="close">
+                <i></i>
+            </div>
+            <div class="dialog_textarea">
+                <div class="textarea_title">
+                    <span>提示</span>
+                </div>
+                <div class="textarea_content">
+                    <p>
+                        <img src="{{ asset('img/warning.png') }}">
+                        <span>收货地址数量超过上限</span>
+                    </p>
+                </div>
+            </div>
+            <div class="btn_area">
+                <a class="cancel">取消</a>
+            </div>
+        </div>
+    </div>
     <!--新建收获地址弹出层-->
     <div class="dialog_popup new_receipt_address">
         <div class="dialog_content">
@@ -180,7 +201,7 @@
                             <li>
                                 <p class="default_address_set">
                                     <label>
-                                        <input type="checkbox" name="is_default" class="setas_default">
+                                        <input type="checkbox" name="is_default" class="setas_default" id="edit_default">
                                         <span>设为默认地址</span>
                                     </label>
                                 </p>
@@ -203,7 +224,11 @@
             $(".user_address").addClass("active");
             //点击新建收获地址
             $(".new_address").on("click", function () {
-                $(".new_receipt_address").show();
+            	if($(".residual").html()!=0){
+            		$(".new_receipt_address").show();
+            	}else {
+            		$(".confirm_residual").show();
+            	}
             });
             //新建收获地址时进行表单验证
 	        $("#creat-form").validate({
@@ -307,8 +332,7 @@
             $(".confirm_delete").on("click",".success",function(){
         		var data = {
                     _method: "DELETE",
-                    _token: "{{ csrf_token() }}",
-                    is_default: 1
+                    _token: "{{ csrf_token() }}"
                 }
                 var url = $(".textarea_content span").attr('url');
                 $.ajax({

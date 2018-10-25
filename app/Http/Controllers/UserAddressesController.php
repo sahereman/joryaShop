@@ -60,18 +60,8 @@ class UserAddressesController extends Controller
                 ->update(['is_default' => false]);
             $userAddress->is_default = true;
         }
-        $result = $userAddress->save();
-        if($result){
-            return response()->json([
-                'code' => 200,
-                'message' => 'success',
-            ]);
-        }else{
-            return response()->json([
-                'code' => 201,
-                'message' => 'error',
-            ]);
-        }
+        $userAddress->save();
+        return redirect()->route('user_addresses.index');
     }
 
     // DELETE 删除
