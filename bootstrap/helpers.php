@@ -108,8 +108,13 @@ function generate_order_ttl_message($datetime, $type)
  * $data = str_replace("\"",'"',$result );
  * $data = json_decode($data,true);
  * */
-function kuaidi100_query($shipment_company, $shipment_sn)
+function shipment_query($shipment_company, $shipment_sn)
 {
+    // 其他物流公司 - 暂不支持
+    if ($shipment_company == 'etc') {
+        return false;
+    }
+
     $post_data = array();
     $post_data["customer"] = env('KUAIDI100_CUSTOMER');
     $key = env('KUAIDI100_KEY');

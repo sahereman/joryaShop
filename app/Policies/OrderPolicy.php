@@ -127,4 +127,19 @@ class OrderPolicy
         }
         return false;
     }
+
+    /**
+     * Determine whether the user can query the order's shipment information.
+     *
+     * @param  \App\Models\User $user
+     * @param  \App\Models\Order $order
+     * @return mixed
+     */
+    public function shipment_query(User $user, Order $order)
+    {
+        if($this->update($user, $order)){
+            return !in_array($order->status, [Order::ORDER_STATUS_PAYING, Order::ORDER_STATUS_CLOSED, Order::ORDER_STATUS_SHIPPING]);
+        }
+        return false;
+    }
 }

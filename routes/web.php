@@ -133,6 +133,18 @@ Route::get('/', 'IndexController@root')->name('root'); // 首页
 /*通用-获取上传图片预览*/
 Route::post('image/preview', 'IndexController@imagePreview')->name('image.preview');
 
+/*通用-获取国家|地区码列表*/
+Route::get('country_codes', 'CountryCodesController@index')->name('country_codes.index');
+
+/*通用-获取物流公司列表*/
+Route::get('shipment_companies', 'ShipmentCompaniesController@index')->name('shipment_companies.index');
+
+/*通用-Aliyun发送短信 [目前仅用于用户注册、登录、重置密码时发送验证码]*/
+Route::post('easy_sms_send', 'IndexController@easySmsSend')->name('easy_sms_send');
+
+/*通用-快递100 API 实时查询订单物流状态*/
+Route::get('orders/{order}/shipment_query', 'OrdersController@shipmentQuery')->name('orders.shipment_query');
+
 /*商品分类*/
 Route::get('product_categories/{category}', 'ProductCategoriesController@index')->name('product_categories.index'); // 列表
 Route::get('product_categories/{category}/home', 'ProductCategoriesController@home')->name('product_categories.home'); // 商品分类呈现[一|二级分类]

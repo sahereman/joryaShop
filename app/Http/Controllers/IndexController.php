@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Handlers\ImageUploadHandler;
+use App\Http\Requests\EasySmsSendRequest;
 use App\Models\Poster;
 use App\Models\Product;
 use App\Models\ProductCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Overtrue\EasySms\EasySms;
+use Overtrue\EasySms\PhoneNumber;
 
 class IndexController extends Controller
 {
@@ -51,5 +54,12 @@ class IndexController extends Controller
         return response()->json([
             'preview' => $preview_url,
         ]);
+    }
+
+    // POST Aliyun发送短信 [目前仅用于用户注册、登录、重置密码时发送验证码]
+    public function easySmsSend(EasySmsSendRequest $request)
+    {
+        $response = easy_sms_send($request->input('data'), $request->input('phone_number'), $request->input('country_code'));
+        return response()->json($response);
     }
 }

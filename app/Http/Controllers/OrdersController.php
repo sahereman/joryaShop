@@ -261,4 +261,24 @@ class OrdersController extends Controller
 
         // TODO ...
     }
+
+    // GET 快递100 API 实时查询订单物流状态
+    public function shipmentQuery(Request $request, Order $order)
+    {
+        // $this->authorize('shipment_query', $order);
+
+        // 订单物流状态
+        $order_shipment_information = shipment_query($order->shipment_company, $order->shipment_sn);
+
+        // 售后订单物流状态
+        $refund_shipment_information = [];
+        if ($order->refund()->exists()) {
+            $refund_shipment_information = shipment_query($order->refund->shipment_company, $order->refund->shipment_sn);
+        }
+
+        return response()->json([
+            'order_shipment_information' => $order_shipment_information,
+            'refund_shipment_information' => $refund_shipment_information,
+        ]);
+    }
 }

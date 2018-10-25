@@ -67,5 +67,10 @@ class ShipmentCompaniesSeeder extends Seeder
             'code' => 'dhl',
             'name' => 'dhl',
         ]);
+
+        ShipmentCompany::create([
+            'code' => 'etc',
+            'name' => '其他',
+        ]);
     }
 }
