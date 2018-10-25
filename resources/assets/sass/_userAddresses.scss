@@ -138,18 +138,34 @@
                             textarea {
                                 float: left;
                             }
+                            textarea ~label {
+                                float: left;
+                                margin-top: 80px;
+                                margin-left: -530px;
+                            }
                             p {
                                 float: left;
                                 span {
                                     margin-right: 10px;
                                 }
                                 input {
+                                    float: left;
                                     &.user_name {
                                         margin-left: 13px;
                                         margin-right: 45px;
                                     }
+                                    &.user_name ~label {
+                                        margin-top: 45px;
+                                        float: left;
+                                        margin-left: -240px;
+                                    }
                                     &.user_tel {
                                         margin: 0;
+                                    }
+                                    &.user_tel ~label {
+                                        margin-top: 45px;
+                                        float: left;
+                                        margin-left: -200px;
                                     }
                                 }
                             }

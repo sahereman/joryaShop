@@ -21,7 +21,7 @@
             @include('users._left_navigation')
             <!--右侧内容-->
             <div class="comment_content">
-            	@for ($i = 0; $i <3; $i++)
+            	@for ($j = 0; $j <3; $j++)
             		<div class="evaluation_order">
             			<table>
             				<thead>
@@ -68,27 +68,42 @@
 	            			</tbody>
             			</table>
             			<div class="evaluation_results">
-            				<div class="five_star_evaluation">
-            					<div class="five_star_one star_area">
-            						<div class="starability-basic">
-            							
-            							<input type="radio" id="rate5-1_{{ $i }}" name="rating" value="5" />
-										<label for="rate5-1_{{ $i }}" title="Amazing"></label>
-								
-										<input type="radio" id="rate4-1_{{ $i }}" name="rating" value="4" />
-										<label for="rate4-1_{{ $i }}" title="Very good"></label>
-								
-										<input type="radio" id="rate3-1_{{ $i }}" name="rating" value="3" />
-										<label for="rate3-1_{{ $i }}" title="Average"></label>
-								
-										<input type="radio" id="rate2-1_{{ $i }}" name="rating" value="2" />
-										<label for="rate2-1_{{ $i }}" title="Not good"></label>
-								
-										<input type="radio" id="rate1-1_{{ $i }}" name="rating" value="1" />
-										<label for="rate1-1_{{ $i }}" title="Terrible"></label>
-            						</div>
+            				<div class="evaluation_results_left">
+            					<div class="eva_user_img">
+            						<img src="{{ asset('img/eva_user.png') }}">
             					</div>
-							</div>
+            					<span>用户昵称</span>
+            				</div>
+            				<div class="evaluation_results_right">
+            					<div class="five_star_evaluation">
+	            					<div class="five_star_one star_area">
+	            						<div class="starability-basic">
+	            							<img src="{{ asset('img/star-4.png') }}">
+	            						</div>
+	            					</div>
+								</div>
+								<p class="product_parameters">
+									<span>尺寸1.8cm</span>
+									<span>颜色：深棕色</span>
+								</p>
+								<p class="eva_text">送貨快、包裝好、希望產品品質也一樣好，等下水洗過就知道囉</p>
+								<div class="tm-m-photos">
+									<ul class="evaluation_img">
+										@for ($a = 0; $a <3; $a++)
+										<li class="eva_img" data-src="{{ asset('img/eva_img.png') }}">
+											<img src="{{ asset('img/eva_img.png') }}">
+										    <b class="tm-photos-arrow"></b>
+										</li>
+										@endfor
+									</ul>
+									<!--<div class="evaluation_img_viewer"> 
+									    <img src="{{ asset('img/eva_img.png') }}"> -->
+										  <!--<a class="tm-m-photo-viewer-navleft" style="cursor: default;"> <i class="tm-m-photo-viewer-navicon arrow-left">&lt;</i> </a> 
+										  <a class="tm-m-photo-viewer-navright" style="cursor: pointer;"> <i class="tm-m-photo-viewer-navicon arrow-right">&gt;</i> </a> -->
+									<!--</div>-->
+								</div>
+								<p class="eva_time">2018-09-18 13:44</p>
+            				</div>
             			</div>
             	    </div>
 				@endfor
@@ -104,6 +119,113 @@
             $(".order-group").on('click', '.col-delete', function () {
                 $(".order_delete").show();
             });
+//		    var obj = new commentMove('.tm-m-photos', '.evaluation_img_viewer');
+//		    obj.init()
         });
+        /* 
+			parentcontent  //父容器
+			boxcontent   // 评论区图片展示区域
+			*/
+//			function commentMove(parentcontent, boxcontent) {
+//			    this.obj = {
+//			        activeClass: 'tm-current',
+//			        nextButton: '.tm-m-photo-viewer-navright',
+//			        prevButton: '.tm-m-photo-viewer-navleft',
+//			    }
+//			    this.parentcontent = parentcontent;
+//			    this.boxcontent = boxcontent;
+//			
+//			}
+//			commentMove.prototype = {
+//			    init: function () {
+//			        var that = this;
+//			        that.start();
+//			        this.lefthover();
+//			        this.righthover();
+//			        this.leftclick();
+//			        this.rightclick();
+//			    },
+//			    start: function () {
+//			        var that = this;
+//			        $(that.parentcontent + ' li').click(function () {
+//			
+//			            $(this).toggleClass(that.obj.activeClass).siblings().removeClass(that.obj.activeClass);
+//			            var src = $('.' + that.obj.activeClass).attr('data-src');
+//			
+//			            var img = new Image();
+//			            img.src = src;
+//			            img.onload = function () {
+//			                var imageWidth = img.width;
+//			                var imageHeight = img.height;
+//			                $(that.boxcontent).css({ "width": imageWidth, "height": imageHeight })
+//			//                $(that.obj.prevButton).css({ "width": imageWidth / 3, "height": imageHeight })
+//			                $(that.obj.prevButton).children().css({ "top": imageHeight / 2 - 10 + 'px' })
+//			                $(that.obj.nextButton).children().css({ "top": imageHeight / 2 - 10 + 'px' })
+//			
+//			            }
+//			            if (!src) {
+//			                $(that.boxcontent).css({ "width": 0, "height": 0 });
+//			            } else {
+//			                $(that.boxcontent + " img").attr('src', src);
+//			            }
+//			        })
+//			    },
+//			    lefthover: function () {
+//			        var that = this;
+//			        $(that.obj.prevButton).hover(function () {
+//			            var index = $(that.parentcontent + ' li').index($(that.parentcontent + ' li.' + that.obj.activeClass));
+//			            if (index < 1) {
+//			                $(this).children().css("display", "none");
+//			            } else {
+//			                $(this).children().css({ "display": "inline" });
+//			            }
+//			        }, function () {
+//			            $(this).children().css({ "display": "none" });
+//			        })
+//			    },
+//			    righthover: function () {
+//			        var that = this;
+//			        $(that.obj.nextButton).hover(function () {
+//			            var index = $(that.parentcontent + ' li').index($(that.parentcontent + ' li.' + that.obj.activeClass));
+//			            if (index >= $(that.parentcontent + ' li').length - 1) {
+//			                $(this).children().css("display", "none");
+//			            } else {
+//			                $(this).children().css({ "display": "inline" });
+//			            }
+//			        }, function () {
+//			            $(this).children().css({ "display": "none" });
+//			        })
+//			    },
+//			    leftclick: function () {
+//			        var that = this;
+//			        $(that.obj.prevButton).click(function () {
+//			            var index = $(that.parentcontent + ' li').index($(that.parentcontent + ' li.' + that.obj.activeClass));
+//			
+//			            index--;
+//			            if (index >= 0) {
+//						    $(that.boxcontent + " img").attr("src", $(that.parentcontent + ' li').eq(index).attr('data-src'))
+//			   	            $(that.parentcontent + ' li').eq(index).toggleClass(that.obj.activeClass).siblings().removeClass(that.obj.activeClass);
+//						}
+//			            if (index < 1) {
+//							index = 0;
+//			                $(this).children().css({ "display": "none" });
+//							return;
+//			            }
+//			        })
+//			    },
+//			    rightclick: function () {
+//			        var that = this;
+//			        $(that.obj.nextButton).click(function () {
+//			            var index = $(that.parentcontent + ' li').index($(that.parentcontent + ' li.' + that.obj.activeClass));
+//			            index++;
+//			            $(that.boxcontent + " img").attr("src", $(that.parentcontent + ' li').eq(index).attr('data-src'))
+//			
+//			            $(that.parentcontent + ' li').eq(index).toggleClass(that.obj.activeClass).siblings().removeClass(that.obj.activeClass);
+//			            if (index >= $(that.parentcontent + ' li').length - 1) {
+//			                $(this).children().css({ "display": "none" });
+//			            }
+//			        })
+//			    }
+//			}
     </script>
 @endsection

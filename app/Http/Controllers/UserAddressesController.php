@@ -43,18 +43,8 @@ class UserAddressesController extends Controller
             $userAddress->is_default = true;
         }
         $userAddress->user()->associate($user);
-        $result = $userAddress->save();
-        if ($result) {
-            return response()->json([
-                'code' => 200,
-                'message' => 'success',
-            ]);
-        } else {
-            return response()->json([
-                'code' => 201,
-                'message' => 'error',
-            ]);
-        }
+        $userAddress->save();
+        return redirect()->route('user_addresses.index');
     }
 
     // PUT 更新

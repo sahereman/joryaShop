@@ -19,7 +19,7 @@
 </div>
 <!-- JS 脚本 -->
 <script src="{{ asset('js/app.js') }}"></script>
-
+<script src="{{ asset('js/jquery.validate.min.js') }}"></script>
 
 @yield('scriptsAfterJs')
 </body>
