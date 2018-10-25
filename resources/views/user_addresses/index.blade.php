@@ -63,7 +63,7 @@
                                         @if($address->is_default)
                                             <a class="setDefaultAddress haddefault">默认地址</a>
                                         @else
-                                            <a class="setDefaultAddress">设为默认地址</a>
+                                            <a url="{{ route('user_addresses.set_default', $address->id) }}" class="setDefaultAddress">设为默认地址</a>
                                         @endif
                                     </td>
                                 </tr>
@@ -215,12 +215,23 @@
             });
             //点击表格中的设为默认按钮
             $(".address_list table").on("click", ".setDefaultAddress", function () {
-                if ($(this).hasClass('haddefault')) {
-                } else {
-                    $(".address_list table").find(".setDefaultAddress").removeClass("haddefault");
-                    $(".address_list table").find(".setDefaultAddress").html("设为默认地址");
-                    $(this).addClass('haddefault');
-                    $(this).html("默认地址")
+                if (! $(this).hasClass('haddefault')) {
+                    var data = {
+                    	_method:"PATCH",
+                    	_token:"{{ csrf_token() }}",
+                    	is_default:1
+			        }
+			        var url=$(this).attr('url');
+			        $.ajax({
+			        	type:"post",
+			        	url:url,
+			        	data:data,
+			        	success:function(data){              
+						},        
+						error:function(err){          
+							console.log(err);        
+						}      
+			        });
                 }
             });
         });
