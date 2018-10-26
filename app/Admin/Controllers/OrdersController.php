@@ -2,6 +2,8 @@
 
 namespace App\Admin\Controllers;
 
+use App\Exceptions\InvalidRequestException;
+use App\Http\Requests\Request;
 use App\Models\Order;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\HasResourceActions;
@@ -28,17 +30,17 @@ class OrdersController extends Controller
     }
 
     /**
-     * Show interface.
-     * @param mixed $id
+     * @param Order $order
      * @param Content $content
      * @return Content
      */
-    public function show($id, Content $content)
+    public function show(Order $order, Content $content)
     {
         return $content
             ->header('订单管理')
             ->description('商品订单 - 详情')
-            ->body($this->detail($id));
+            ->body(view('admin.orders.show', ['order' => $order]));
+
     }
 
     /**
@@ -55,6 +57,40 @@ class OrdersController extends Controller
             ->body($this->form()->edit($id));
     }
 
+    //发货
+    public function ship(Order $order, Request $request)
+    {
+        // 判断当前订单是否已支付
+        if (!$order->paid_at)
+        {
+            throw new InvalidRequestException('该订单未付款');
+        }
+        // 判断当前订单发货状态是否为待发货
+        if ($order->status !== Order::ORDER_STATUS_SHIPPING)
+        {
+            throw new InvalidRequestException('该订单已发货');
+        }
+
+        // 验证
+        $data = $this->validate($request, [
+            'shipment_company' => ['required'],
+            'shipment_sn' => ['required'],
+        ], [], [
+            'shipment_company' => '物流公司',
+            'shipment_sn' => '物流单号',
+        ]);
+
+        // 将订单发货状态改为已发货，并存入物流信息
+        $order->update([
+            'status' => Order::ORDER_STATUS_RECEIVING,
+            'shipment_company' => $data['shipment_company'],
+            'shipment_sn' => $data['shipment_sn'],
+        ]);
+
+        // 返回上一页
+        return redirect()->back();
+    }
+
     /**
      * Make a grid builder.
      * @return Grid
@@ -62,29 +98,52 @@ class OrdersController extends Controller
     protected function grid()
     {
         $grid = new Grid(new Order);
+        $grid->model()->orderBy('created_at', 'desc'); // 设置初始排序条件
+        $grid->disableCreateButton();
+        $grid->tools(function ($tools) {
+            $tools->batch(function ($batch) {
+                $batch->disableDelete();
+            });
+        });
 
-        $grid->id('Id');
-        $grid->order_sn('Order sn');
-        $grid->user_id('User id');
-        $grid->user_info('User info');
-        $grid->status('Status');
-        $grid->currency('Currency');
-        $grid->payment_method('Payment method');
-        $grid->payment_sn('Payment sn');
-        $grid->paid_at('Paid at');
-        $grid->closed_at('Closed at');
-        $grid->shipment_sn('Shipment sn');
-        $grid->shipment_company('Shipment company');
-        $grid->shipped_at('Shipped at');
-        $grid->completed_at('Completed at');
-        $grid->commented_at('Commented at');
-        $grid->snapshot('Snapshot');
-        $grid->total_shipping_fee('Total shipping fee');
-        $grid->total_amount('Total amount');
-        $grid->remark('Remark');
-        $grid->deleted_at('Deleted at');
-        $grid->created_at('Created at');
-        $grid->updated_at('Updated at');
+        /*筛选*/
+        $grid->filter(function ($filter) {
+            $filter->disableIdFilter(); // 去掉默认的id过滤器
+
+            $filter->equal('status', '订单状态')->select(Order::$orderStatusMap);
+            $filter->like('order_sn', '订单号');
+            $filter->where(function ($query) {
+                $query->whereHas('user', function ($query) {
+                    $query->where('name', 'like', "%{$this->input}%");
+                });
+            }, '买家(用户名或手机号)');
+
+        });
+
+
+        $grid->order_sn('订单号');
+        $grid->column('user.name', '买家');
+        $grid->status('状态')->display(function ($value) {
+            return Order::$orderStatusMap[$value] ?? '未知';
+        });
+        $grid->currency('支付币种');
+
+        $grid->payment_method('支付方式')->display(function ($value) {
+            return Order::$paymentMethodMap[$value] ?? '无';
+        });
+        $grid->total_shipping_fee('运费')->sortable();
+        $grid->total_amount('金额')->sortable();
+        $grid->created_at('下单时间')->sortable();
+
+        $grid->actions(function ($actions) {
+            $actions->disableView();
+            $actions->disableEdit();
+            $actions->disableDelete();
+
+            $actions->append('<a class="btn btn-xs btn-primary" style="margin-right:8px" href="' . route('admin.orders.show', [$actions->getKey()]) . '">查看</a>');
+            $actions->append('<a class="btn btn-xs btn-warning" style="margin-right:8px" href="' . route('admin.order_refunds.show', [$actions->getKey()]) . '">售后</a>');
+            $actions->append('<a class="btn btn-xs btn-danger" style="margin-right:8px" href="' . route('admin.orders.delete', [$actions->getKey()]) . '">删除</a>');
+        });
 
         return $grid;
     }

@@ -138,13 +138,6 @@ class AdminTablesSeeder extends Seeder
                 'icon' => 'fa-list',
                 'uri' => 'orders',
             ],
-            [
-                'parent_id' => 14,
-                'order' => 2,
-                'title' => '售后订单',
-                'icon' => 'fa-list',
-                'uri' => 'order_refunds',
-            ],
 
         ];
 

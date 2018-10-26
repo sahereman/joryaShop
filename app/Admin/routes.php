@@ -27,15 +27,11 @@ Route::group([
     $router->delete('users/{id}', 'UsersController@destroy')->name('admin.users.destroy');
 
     /*商品订单*/
-    $router->get('orders', 'OrdersController@index')->name('admin.orders.index');
-    //    $router->get('example/create', 'ExampleController@create')->name('admin.example.create');
-    $router->get('orders/{id}', 'OrdersController@show')->name('admin.orders.show');
-    $router->get('orders/{id}/edit', 'OrdersController@edit')->name('admin.orders.edit');
-    //    $router->post('example', 'ExampleController@store')->name('admin.example.store');
-    $router->put('orders/{id}', 'OrdersController@update')->name('admin.orders.update');
-    //    $router->delete('example/{id}', 'ExampleController@destroy')->name('admin.example.destroy');
-
-    /*售后订单*/
+    $router->get('orders', 'OrdersController@index')->name('admin.orders.index');/*列表*/
+    $router->get('orders/{order}', 'OrdersController@show')->name('admin.orders.show');/*详情*/
+    $router->delete('orders/{id}/delete', 'OrdersController@delete')->name('admin.orders.delete');/*删除*/
+    $router->post('orders/{order}/ship', 'OrdersController@ship')->name('admin.orders.ship');/*发货*/
+    $router->get('order_refunds/{id}', 'OrderRefundsController@show')->name('admin.order_refunds.show');/*售后详情*/
 
 
     /*产品分类*/

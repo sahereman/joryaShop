@@ -10,16 +10,14 @@ class Handler extends ExceptionHandler
 {
     /**
      * A list of the exception types that are not reported.
-     *
      * @var array
      */
     protected $dontReport = [
-        //
+        InvalidRequestException::class,
     ];
 
     /**
      * A list of the inputs that are never flashed for validation exceptions.
-     *
      * @var array
      */
     protected $dontFlash = [
@@ -29,9 +27,7 @@ class Handler extends ExceptionHandler
 
     /**
      * Report or log an exception.
-     *
      * This is a great spot to send exceptions to Sentry, Bugsnag, etc.
-     *
      * @param  \Exception $exception
      * @return void
      */
@@ -42,7 +38,6 @@ class Handler extends ExceptionHandler
 
     /**
      * Render an exception into an HTTP response.
-     *
      * @param  \Illuminate\Http\Request $request
      * @param  \Exception $exception
      * @return \Illuminate\Http\Response
@@ -56,7 +51,8 @@ class Handler extends ExceptionHandler
     {
         $parsedUrl = parse_url(redirect()->back()->getTargetUrl());
         $urlArray = [];
-        if (isset($parsedUrl['query'])) {
+        if (isset($parsedUrl['query']))
+        {
             parse_str($parsedUrl['query'], $urlArray);
         }
         $urlArray['action'] = 'login';

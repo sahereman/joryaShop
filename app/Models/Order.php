@@ -23,9 +23,9 @@ class Order extends Model
     const ORDER_STATUS_COMPLETED = 'completed';
     const ORDER_STATUS_UNCOMMENTED = 'uncommented';
 
-    protected $orderStatusMap = [
+    public static $orderStatusMap = [
         self::ORDER_STATUS_PAYING => '待付款',
-        self::ORDER_STATUS_CLOSED => '已取消',
+        self::ORDER_STATUS_CLOSED => '交易关闭',
         self::ORDER_STATUS_SHIPPING => '待发货',
         self::ORDER_STATUS_RECEIVING => '待收货',
         self::ORDER_STATUS_REFUNDING => '售后',
@@ -37,10 +37,10 @@ class Order extends Model
     const PAYMENT_METHOD_WECHAT = 'wechat';
     const PAYMENT_METHOD_PAYPAL = 'paypal';
 
-    protected $paymentMethodMap = [
+    public static $paymentMethodMap = [
         self::PAYMENT_METHOD_ALIPAY => '支付宝',
         self::PAYMENT_METHOD_WECHAT => '微信',
-        self::PAYMENT_METHOD_PAYPAL => 'PAYPAL',
+        self::PAYMENT_METHOD_PAYPAL => 'PayPal',
     ];
 
     /**
@@ -57,6 +57,7 @@ class Order extends Model
         'total_shipping_fee',
         'total_amount',
         'remark',
+        'status',
     ];
 
     /**
@@ -100,11 +101,13 @@ class Order extends Model
         // 监听模型创建事件，在写入数据库之前触发
         static::creating(function ($model) {
             // 如果模型的 order_sn 字段为空
-            if (!$model->order_sn) {
+            if (!$model->order_sn)
+            {
                 // 调用 generateOrderSn 生成订单流水号
                 $model->order_sn = static::generateOrderSn();
                 // 如果生成失败，则终止创建订单
-                if (!$model->order_sn) {
+                if (!$model->order_sn)
+                {
                     return false;
                 }
             }
@@ -116,11 +119,13 @@ class Order extends Model
     {
         // 订单流水号前缀
         $prefix = date('YmdHis');
-        for ($i = 0; $i < 10; $i++) {
+        for ($i = 0; $i < 10; $i++)
+        {
             // 随机生成 6 位的数字
             $orderSn = $prefix . str_pad(random_int(0, 999999), 6, '0', STR_PAD_LEFT);
             // 判断是否已经存在
-            if (!static::query()->where('order_sn', $orderSn)->exists()) {
+            if (!static::query()->where('order_sn', $orderSn)->exists())
+            {
                 return $orderSn;
             }
         }

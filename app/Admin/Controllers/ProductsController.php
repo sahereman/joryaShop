@@ -81,6 +81,7 @@ class ProductsController extends Controller
         $category = ProductCategory::find($request->input('cid'));
 
         $grid = new Grid(new Product);
+        $grid->model()->orderBy('id', 'desc'); // 设置初始排序条件
 
         if ($category)
         {

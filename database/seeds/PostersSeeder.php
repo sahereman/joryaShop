@@ -12,12 +12,19 @@ class PostersSeeder extends Seeder
     public function run()
     {
         // Poster::truncate();
-        factory(Poster::class, 3)->create([
-            'slug' => 'poster'
-        ]);
-        factory(Poster::class, 3)->create([
-            'disk' => 'local',
-            'slug' => 'advertisement'
-        ]);
+        $slug_arr = [
+            ['PC站首页新品 图1', 'pc_index_new_1'],
+            ['PC站首页新品 图2', 'pc_index_new_2'],
+            ['PC站首页新品 图3', 'pc_index_new_3'],
+            ['PC站首页楼层 2楼 图1', 'pc_index_2f_1'],
+        ];
+
+        foreach ($slug_arr as $item)
+        {
+            factory(Poster::class)->create([
+                'name' => $item[0],
+                'slug' => $item[1]
+            ]);
+        }
     }
 }

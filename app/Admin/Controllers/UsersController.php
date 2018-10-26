@@ -73,6 +73,7 @@ class UsersController extends Controller
     protected function grid()
     {
         $grid = new Grid(new User);
+        $grid->model()->orderBy('created_at', 'desc'); // 设置初始排序条件
 
         /*筛选*/
         $grid->filter(function ($filter) {

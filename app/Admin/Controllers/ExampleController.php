@@ -89,6 +89,12 @@ class ExampleController extends Controller
 //                $actions->disableDelete();
         });
 
+//        $grid->tools(function ($tools) {
+//            $tools->batch(function ($batch) {
+//                $batch->disableDelete();
+//            });
+//        });
+
 
         $grid->id('ID')->sortable();
         $grid->created_at('Created at');
