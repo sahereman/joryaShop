@@ -85,9 +85,9 @@ class UserAddressesController extends Controller
             ]);
         }else{
             return response()->json([
-                'code' => 201,
+                'code' => 422,
                 'message' => 'error',
-            ]);
+            ], 422);
         }
     }
 
@@ -107,9 +107,9 @@ class UserAddressesController extends Controller
             ]);
         }else{
             return response()->json([
-                'code' => 201,
+                'code' => 422,
                 'message' => 'error',
-            ]);
+            ], 422);
         }
     }
 }

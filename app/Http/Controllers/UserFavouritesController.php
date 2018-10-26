@@ -25,8 +25,18 @@ class UserFavouritesController extends Controller
         $userFavourite->user_id = $user->id;
         $userFavourite->product_id = $request->input('product_id');
         $userFavourite->user()->associate($user);
-        $userFavourite->save();
-        return response()->json([]);
+        $result = $userFavourite->save();
+        if($result){
+            return response()->json([
+                'code' => 200,
+                'message' => 'success',
+            ]);
+        }else{
+            return response()->json([
+                'code' => 422,
+                'message' => 'error',
+            ], 422);
+        }
     }
 
     // DELETE 删除
@@ -34,9 +44,17 @@ class UserFavouritesController extends Controller
     {
         $this->authorize('delete', $userFavourite);
         $userFavourite->user()->dissociate();
-        $userFavourite->delete();
-        return view('user_favourites.index', [
-            'favourites' => $request->user()->favourites()->with('product')->get(),
-        ]);
+        $result = $userFavourite->delete();
+        if($result){
+            return response()->json([
+                'code' => 200,
+                'message' => 'success',
+            ]);
+        }else{
+            return response()->json([
+                'code' => 422,
+                'message' => 'error',
+            ], 422);
+        }
     }
 }

@@ -34,22 +34,34 @@ class UserHistoriesController extends Controller
     {
         $this->authorize('delete', $userHistory);
         $userHistory->user()->dissociate();
-        $userHistory->delete();
-        return view('user_histories.index', [
-            'histories' => $request->user()->histories()->with('product')->orderByDesc('created_at')->get()->groupBy(function ($item, $key) {
-                return date('Y.m.d', strtotime($item['created_at']));
-            }),
-        ]);
+        $result = $userHistory->delete();
+        if($result){
+            return response()->json([
+                'code' => 200,
+                'message' => 'success',
+            ]);
+        }else{
+            return response()->json([
+                'code' => 422,
+                'message' => 'error',
+            ], 422);
+        }
     }
 
     // DELETE 清空
     public function flush(Request $request)
     {
-        UserHistory::where(['user_id' => $request->user()->id])->delete();
-        return view('user_histories.index', [
-            'histories' => $request->user()->histories()->with('product')->orderByDesc('created_at')->get()->groupBy(function ($item, $key) {
-                return date('Y.m.d', strtotime($item['created_at']));
-            }),
-        ]);
+        $result = UserHistory::where(['user_id' => $request->user()->id])->delete();
+        if($result){
+            return response()->json([
+                'code' => 200,
+                'message' => 'success',
+            ]);
+        }else{
+            return response()->json([
+                'code' => 422,
+                'message' => 'error',
+            ], 422);
+        }
     }
 }
