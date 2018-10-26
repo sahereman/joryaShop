@@ -18,27 +18,27 @@
                     <!--右侧内容-->
             <div class="UserInfo_content">
                 <ul class="myorder_classification">
-                    <li class="active">
-                        <a href="{{ route('orders.index') . '?status=paying' }}">
+                    <li class="all_orders">
+                        <a href="{{ route('orders.index') }}">
                             <span>所有订单</span>
                         </a>
                     </li>
-                    <li>
+                    <li class="order_paying">
                         <a href="{{ route('orders.index') . '?status=paying' }}">
                             <span>待付款</span>
                         </a>
                     </li>
-                    <li>
+                    <li class="order_receiving">
                         <a href="{{ route('orders.index') . '?status=receiving' }}">
                             <span>待收货</span>
                         </a>
                     </li>
-                    <li>
+                    <li class="order_uncommented">
                         <a href="{{ route('orders.index') . '?status=uncommented' }}">
                             <span>待评价</span>
                         </a>
                     </li>
-                    <li>
+                    <li class="order_refunding">
                         <a href="{{ route('orders.index') . '?status=refunding' }}">
                             <span>售后订单</span>
                         </a>
@@ -85,11 +85,18 @@
                                          <a href="{{ route('orders.show', $order->id) }}">{{ $order->order_sn }}</a>
                                      </span>
                                     </div>
-                                    <div class="col-delete pull-right">
+                                    <!--<div class="col-delete pull-right" code="{{ route('orders.destroy', $order->id) }}">
                                         <a>
                                             <img src="{{ asset('img/delete.png') }}">
                                         </a>
-                                    </div>
+                                    </div>-->
+                                    @if(in_array($order->status, [\App\Models\Order::ORDER_STATUS_CLOSED, \App\Models\Order::ORDER_STATUS_COMPLETED]))
+	                                    <div class="col-delete pull-right" code="{{ route('orders.destroy', $order->id) }}">
+	                                        <a>
+	                                            <img src="{{ asset('img/delete.png') }}">
+	                                        </a>
+	                                    </div>
+	                                @endif
                                 </div>
                                 <div class="o-pro">
                                     <table border="0" cellpadding="0" cellspacing="0">
@@ -133,7 +140,7 @@
                                                             <!--订单待支付-->
                                                     <!--付款或再次购买隐藏显示取消订单-->
                                                     <!--系统自动关闭订单倒计时-->
-                                                    <span class="count_down" created_at="{{ strtotime($order->created_at) }}" time_to_close_order="{{ \App\Models\Config::config('time_to_close_order') * 3600 }}">{{ generate_order_ttl_message($order->create_at, \App\Models\Order::ORDER_STATUS_PAYING) }}</span>
+                                                    <span class="paying_time count_down" created_at="{{ strtotime($order->created_at) }}" time_to_close_order="{{ \App\Models\Config::config('time_to_close_order') * 3600 }}">{{ generate_order_ttl_message($order->create_at, \App\Models\Order::ORDER_STATUS_PAYING) }}</span>
                                                     <a class="payment" href="{{ route('users.home') }}">付款</a>
                                                     <a class="cancellation" href="{{ route('root') }}">取消订单</a>
                                                     @elseif($order->status == \App\Models\Order::ORDER_STATUS_SHIPPING && $order->shipped_at == null)
@@ -264,7 +271,13 @@
         $(function () {
             $(".navigation_left ul li").removeClass("active");
             $(".my_order").addClass("active");
+            $(".myorder_classification li").on('click',function(){
+            	$(".myorder_classification li").removeClass('active');
+            	$(this).addClass("active");
+            })
+            
             $(".order-group").on('click', '.col-delete', function () {
+            	$(".order_delete .textarea_content").find("span").attr("code",$(this).attr("code"));
                 $(".order_delete").show();
             });
             var swiper = new Swiper('.swiper-container', {
@@ -275,6 +288,121 @@
                     clickable: true,
                 },
             });
-        });
+            $(".order_delete").on("click",".success",function(){
+            	var data = {
+                    _method: "DELETE",
+                    _token: "{{ csrf_token() }}",
+                }
+                var url = $(".textarea_content span").attr('code');
+                $.ajax({
+                    type: "post",
+                    url: url,
+                    data: data,
+                    success: function (data) {
+                    	window.location.reload();
+                    },
+                    error: function (err) {
+                        console.log(err);
+                    }
+                });
+            })
+            var action = "";
+            var data= new Date();
+            window.onload=function () {
+		        if (getUrlVars() != undefined) {
+		            action = getUrlVars()
+		        }
+		        switch (action) {
+		            case "paying":   //待付款
+		                $(".myorder_classification li").removeClass('active');
+		                $(".order_paying").addClass("active")
+		                var creat_date=parseInt($(".paying_time").attr("created_at"))    //后台返回的订单创建时间的字符串
+		                var event_EndTime = new Date(creat_date);               //返回的时间戳转换成时间格式
+					    var addtime=timeStamp($(".paying_time").attr("time_to_close_order")).split("&");    //将后台返回的倒计时总的时间段以s为单位转换成天时分秒的格式然后分割
+					    //设置终止时间  得出订单待付款状态的终止时间
+//					    event_EndTime.setDate(event_EndTime.getDate()+parseInt(addtime[0]));
+//						event_EndTime.setHours(event_EndTime.getHours()+parseInt(addtime[1]));
+//						event_EndTime.setMinutes(event_EndTime.getMinutes()+parseInt(addtime[2]));
+//						event_EndTime.setSeconds(event_EndTime.getSeconds()+parseInt(addtime[3]));
+						//计时器进行倒计时
+					    setInterval(function () {
+//						    var nowtime = new Date();
+//						    var time = event_EndTime - nowtime;        //终止时间与现在的时间做减法得出剩余时间拼接字符串
+//						    var day = parseInt(time / 1000 / 60 / 60 / 24);
+//						    var hour = parseInt(time / 1000 / 60 / 60 % 24);
+//						    var minute = parseInt(time / 1000 / 60 % 60);
+//						    var seconds = parseInt(time / 1000 % 60);
+//						    $('.paying_time').html( "剩余"+hour + "小时" + minute + "分钟"+ seconds + "秒钟");
+
+
+                            count_down()
+						 }, 1000);
+					    
+		                break;
+		            case "receiving":   //待收货
+		                $(".myorder_classification li").removeClass('active');
+		                $(".order_receiving").addClass("active")
+		                break;
+		            case "uncommented":   //待评价
+		                $(".myorder_classification li").removeClass('active');
+		                $(".order_uncommented").addClass("active")
+		                break;
+		            case "refunding":   //售后订单
+		                $(".myorder_classification li").removeClass('active');
+		                $(".order_refunding").addClass("active")
+		                break;
+		            default :   //所有订单
+		                $(".myorder_classification li").removeClass('active');
+		                $(".all_orders").addClass("active")
+		                break;
+		        }
+		   };
+	    });
+        function getUrlVars() {
+	        var vars = [], hash;
+	        var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+	        for (var i = 0; i < hashes.length; i++) {
+	            hash = hashes[i].split('=');
+	            vars.push(hash[0]);
+	            vars[hash[0]] = hash[1];
+	        }
+	        return vars["status"];
+	    }
+	    
+	    //秒数转换
+	    function timeStamp( second_time ){  
+			var time = parseInt(second_time);  
+			if( parseInt(second_time )> 60){  
+			  
+			    var second = parseInt(second_time) % 60;  
+			    var min = parseInt(second_time / 60);  
+			    time = min + "&" + second + "&";  
+			      
+			    if( min > 60 ){  
+			        min = parseInt(second_time / 60) % 60;  
+			        var hour = parseInt( parseInt(second_time / 60) /60 );  
+			        time = hour + "&" + min + "&" + second;  
+			  
+			        if( hour > 24 ){  
+			            hour = parseInt( parseInt(second_time / 60) /60 ) % 24;  
+			            var day = parseInt( parseInt( parseInt(second_time / 60) /60 ) / 24 );  
+			            time = day + "&" + hour + "&" + min + "&" + second;  
+			        }  
+			    }  
+			      
+			  
+			}  
+			  
+			return time;          
+		}  
+		
+		//倒计时方法封装
+		function timeCount (){
+			function _fresh(){
+				var nowDate = new Date(); //当前时间
+				var id = $(remain_id).attr("order_id"); //当前订单的id
+			}
+		}
+		
     </script>
 @endsection

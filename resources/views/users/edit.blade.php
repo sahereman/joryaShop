@@ -21,18 +21,6 @@
                     <p>编辑账户信息</p>
                 </div>
                 <div class="edit_content">
-                	
-                	<form method="post" enctype="multipart/form-data"  id="formAddHandlingFee" style="display:none">
-			            <div class="loadLine">
-			                <a href="javascript:;" class="loadImgBtn" onclick="loadImgEnter(this)">选择本地图片</a>
-			                <input type="file" name="image" id="file" style="display:none" onchange="imgChange(this)" />
-			                <p class="fileerrorTip"></p>
-			                <p class="showFileName"></p>
-			            </div>
-			 
-			        </form>
-                    <input type="button" value="点击上传" onclick="UpLoadImg()"  id="trueUpload" style="display:none">
-                    
                     <form method="POST" action="{{ route('users.update', $user->id) }}" enctype="multipart/form-data" id="img_form">
                         {{ csrf_field() }}
                         <input type="hidden" name="_method" value="PUT">
@@ -42,7 +30,7 @@
                                 <span>头像</span>
                                 <div class="user_Avatar">
                                     <img src="{{ $user->avatar_url }}" width="80">
-                                    <!--<input type="file" name="avatar" value="{{ $user->avatar_url }}" id="upload_head">-->
+                                    <input type="file" name="avatar" value="{{ $user->avatar_url }}" id="upload_head" onchange="imgChange(this)">
 
                                 </div>
                                 <img src="{{ asset('img/photograph.png') }}" class="photograph">
@@ -123,15 +111,12 @@
             $(".navigation_left ul li").removeClass("active");
             $(".account_info").addClass("active");
             $('.user_Avatar img').on('click', function () {
-                $(".loadImgBtn").click();
+                $("#upload_head").click();
             });
             $(".photograph").on('click', function () {
-                $('.loadImgBtn').click();
+                $("#upload_head").click();
             })
         });
-	        function loadImgEnter(obj){
-	            $(obj).siblings('input').click();
-	        }
             // 图片上传入口按钮 input[type=file]值发生改变时触发
 	        function imgChange(obj){
 	            var filePath=$(obj).val();
@@ -141,7 +126,7 @@
 	                var fileName=arr[arr.length-1];
 	                $(".showFileName").html(fileName);
 	                upLoadBtnSwitch = 1;
-	                $("#trueUpload").click();
+                    UpLoadImg();
 	            }else{
 	                $(".showFileName").html("");
 	                $(".fileerrorTip").html("您未选择图片，或者您上传文件格式有误！（当前支持图片格式：jpg，png，jpeg，gif，bmp）").show();
@@ -152,7 +137,8 @@
 	        
 	         // 本地图片上传 按钮
 	        function UpLoadImg(){
-	            var formData = new FormData($( "#formAddHandlingFee" )[0]);
+	            var formData = new FormData();
+	            formData.append('image',document.getElementById("upload_head").files[0]);
 	            $.ajax({
 	                url:"{{ route('image.preview') }}",
 	                data:formData,
