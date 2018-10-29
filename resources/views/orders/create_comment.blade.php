@@ -173,7 +173,7 @@
 	                                <div class="pictures" code="{{ $order_item['id'] }}">
 	                                    <div class="pictures_btn" code="{{ $order_item['id'] }}">
 	                                        <img src="{{ asset('img/pic_upload.png') }}">
-	                                        <input type="file" name="avatar" value=""  code="{{ $order_item['id'] }}" onchange="imgChange(this)" >
+	                                        <input type="file" name="avatar" value=""  id="{{ $order_item['id'] }}" code="{{ $order_item['id'] }}" onchange="imgChange(this)" >
 	                                    </div>
 	                                </div>
 	                            </div>
@@ -196,12 +196,11 @@
             $(".order-group").on('click', '.col-delete', function () {
                 $(".order_delete").show();
             });
-//          $(".pictures_btn").on("click",function () {
-//              which_click = $(this).attr("code");
-//              console.log($(this).find("input[type='file']").attr('code'))
-//              $(this).find("input[type='file']").on("click",function(){
-//              });
-//          })
+            $(".pictures_btn").on("click",function () {
+                which_click = $(this).attr("code");
+                console.log($(this).find("input[type='file']").attr('code'))
+                $(document).on("click",".pictures_btn input",function(){})
+            })
         });
         // 图片上传入口按钮 input[type=file]值发生改变时触发
         function imgChange(obj){
@@ -212,7 +211,7 @@
                 var fileName=arr[arr.length-1];
                 $(".showFileName").html(fileName);
                 upLoadBtnSwitch = 1;
-                UpLoadImg();
+                UpLoadImg(obj);
             }else{
                 $(".showFileName").html("");
                 $(".fileerrorTip").html("您未选择图片，或者您上传文件格式有误！（当前支持图片格式：jpg，png，jpeg，gif，bmp）").show();
@@ -222,9 +221,9 @@
         }
         
          // 本地图片上传 按钮
-        function UpLoadImg(){
+        function UpLoadImg(obj){
             var formData = new FormData();
-            formData.append('image',document.getElementById("upload_head").files[0]);
+            formData.append('image',$(obj)[0].files[0]);
             $.ajax({
                 url:"{{ route('image.preview') }}",
                 data:formData,
