@@ -85,11 +85,6 @@
                                          <a href="{{ route('orders.show', $order->id) }}">{{ $order->order_sn }}</a>
                                      </span>
                                     </div>
-                                    <!--<div class="col-delete pull-right" code="{{ route('orders.destroy', $order->id) }}">
-                                        <a>
-                                            <img src="{{ asset('img/delete.png') }}">
-                                        </a>
-                                    </div>-->
                                     @if(in_array($order->status, [\App\Models\Order::ORDER_STATUS_CLOSED, \App\Models\Order::ORDER_STATUS_COMPLETED]))
 	                                    <div class="col-delete pull-right" code="{{ route('orders.destroy', $order->id) }}">
 	                                        <a>
@@ -158,11 +153,17 @@
                                                     @elseif($order->status == \App\Models\Order::ORDER_STATUS_COMPLETED && $order->commented_at == null)
                                                             <!--订单待评价-->
                                                     <a class="evaluate" href="{{ route('orders.create_comment', $order->id) }}">评价</a>
+                                                    <!--删除订单-->
+                                                    <a class="Delete_order"
+                                                       href="{{ route('users.home') }}">删除订单</a>
                                                     @elseif($order->status == \App\Models\Order::ORDER_STATUS_COMPLETED && $order->commented_at != null)
                                                             <!--订单已评价-->
                                                     <!--查看评价-->
                                                     <a class="View_evaluation"
                                                        href="{{  route('orders.show_comment', $order->id) }}">查看评价</a>
+                                                    <!--删除订单-->
+                                                    <a class="Delete_order"
+                                                       href="{{ route('users.home') }}">删除订单</a>
                                                     @elseif(in_array($order->status, [\App\Models\Order::ORDER_STATUS_CLOSED, \App\Models\Order::ORDER_STATUS_COMPLETED]))
                                                             <!--删除订单-->
                                                     <a class="Delete_order"

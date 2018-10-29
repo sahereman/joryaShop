@@ -11,7 +11,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 
-class AutoCompleteOrderJob implements ShouldQueue
+class AutoDeclineOrderRefundJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -20,14 +20,14 @@ class AutoCompleteOrderJob implements ShouldQueue
     /**
      * Create a new job instance.
      * @param $order \App\Models\Order
-     * @param $time_to_complete_order integer unit:seconds
+     * @param $time_to_decline_order_refund integer unit:seconds
      * @return void
      */
-    public function __construct(Order $order, $time_to_complete_order)
+    public function __construct(Order $order, $time_to_decline_order_refund)
     {
         $this->order = $order;
         // 设置延迟的时间，delay() 方法的参数代表多少秒之后执行
-        $this->delay($time_to_complete_order);
+        $this->delay($time_to_decline_order_refund);
     }
 
     // 定义这个任务类具体的执行逻辑
@@ -39,17 +39,24 @@ class AutoCompleteOrderJob implements ShouldQueue
      */
     public function handle()
     {
-        // 判断对应的订单是否已经确认
-        // 如果已经确认，则不需要确认订单，直接退出
-        if ($this->order->status != Order::ORDER_STATUS_RECEIVING) {
+        // 判断对应的退单类型是否为refund[仅退款]
+        // 如果是仅退款退单，则直接退出
+        if($this->order->refund->type == 'refund'){
             return;
         }
+
+        // 判断对应的订单买家是否已经发货
+        // 如果已经发货，则不需要拒绝售后申请，直接退出
+        if ($this->order->refund->shipment_company != null && $this->order->refund->shipment_sn != null) {
+            return;
+        }
+
         // 通过事务执行 sql
         DB::transaction(function () {
             // 将订单的 status 字段标记为 completed，即确认订单
-            $this->order->update([
-                'status' => 'completed',
-                'completed_at' => Carbon::now()->toDateTimeString(),
+            $this->order->refund->update([
+                'status' => 'declined',
+                'declined_at' => Carbon::now()->toDateTimeString(),
             ]);
         });
     }

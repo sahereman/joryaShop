@@ -41,7 +41,7 @@ class AutoCloseOrderJob implements ShouldQueue
     {
         // 判断对应的订单是否已经被支付
         // 如果已经支付，则不需要关闭订单，直接退出
-        if ($this->order->paid_at == null && $this->order->status != Order::ORDER_STATUS_PAYING) {
+        if ($this->order->paid_at != null && $this->order->status != Order::ORDER_STATUS_PAYING) {
             return;
         }
         // 通过事务执行 sql

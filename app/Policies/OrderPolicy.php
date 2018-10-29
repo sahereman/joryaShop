@@ -2,6 +2,8 @@
 
 namespace App\Policies;
 
+use App\Models\OrderRefund;
+use App\Models\ProductComment;
 use App\Models\User;
 use App\Models\Order;
 use Illuminate\Auth\Access\HandlesAuthorization;
@@ -84,16 +86,52 @@ class OrderPolicy
     }
 
     /**
-     * Determine whether the user can comment the order.
+     * Determine whether the user can show comment of the order.
      *
      * @param  \App\Models\User $user
      * @param  \App\Models\Order $order
      * @return mixed
      */
-    public function comment(User $user, Order $order)
+    public function show_comment(User $user, Order $order)
     {
         if ($this->update($user, $order)) {
             return $order->status === Order::ORDER_STATUS_COMPLETED;
+        }
+        return false;
+    }
+
+    /**
+     * Determine whether the user can store comment of the order.
+     *
+     * @param  \App\Models\User $user
+     * @param  \App\Models\Order $order
+     * @return mixed
+     */
+    public function store_comment(User $user, Order $order)
+    {
+        if ($this->update($user, $order) && $order->status === Order::ORDER_STATUS_COMPLETED) {
+            return ! ProductComment::where([
+                'user_id' => $user->id,
+                'order_id' => $order->id,
+            ])->exists();
+        }
+        return false;
+    }
+
+    /**
+     * Determine whether the user can append comment of the order.
+     *
+     * @param  \App\Models\User $user
+     * @param  \App\Models\Order $order
+     * @return mixed
+     */
+    public function append_comment(User $user, Order $order)
+    {
+        if ($this->update($user, $order) && $order->status === Order::ORDER_STATUS_COMPLETED) {
+            return ProductComment::where([
+                'user_id' => $user->id,
+                'order_id' => $order->id,
+            ])->exists();
         }
         return false;
     }
@@ -107,8 +145,44 @@ class OrderPolicy
      */
     public function refund(User $user, Order $order)
     {
+        /*
+         * order status： shipping -> refund [仅退款]
+         * */
+        if ($this->update($user, $order)) {
+            return $order->status === Order::ORDER_STATUS_SHIPPING;
+        }
+        return false;
+    }
+
+    /**
+     * Determine whether the user can refund the order with shipment.
+     *
+     * @param  \App\Models\User $user
+     * @param  \App\Models\Order $order
+     * @return mixed
+     */
+    public function refund_with_shipment(User $user, Order $order)
+    {
+        /*
+         * order status： receiving -> refund_with_shipment [退货并退款]
+         * */
         if ($this->update($user, $order)) {
             return $order->status === Order::ORDER_STATUS_RECEIVING;
+        }
+        return false;
+    }
+
+    /**
+     * Determine whether the user can revoke the order refund.
+     *
+     * @param  \App\Models\User $user
+     * @param  \App\Models\Order $order
+     * @return mixed
+     */
+    public function revoke_refund(User $user, Order $order)
+    {
+        if ($this->update($user, $order) && $order->status === Order::ORDER_STATUS_REFUNDING) {
+            return !in_array($order->refund->status, [OrderRefund::ORDER_REFUND_STATUS_REFUNDED, OrderRefund::ORDER_REFUND_STATUS_DECLINED]);
         }
         return false;
     }

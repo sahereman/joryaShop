@@ -101,13 +101,11 @@ class Order extends Model
         // 监听模型创建事件，在写入数据库之前触发
         static::creating(function ($model) {
             // 如果模型的 order_sn 字段为空
-            if (!$model->order_sn)
-            {
+            if (!$model->order_sn) {
                 // 调用 generateOrderSn 生成订单流水号
                 $model->order_sn = static::generateOrderSn();
                 // 如果生成失败，则终止创建订单
-                if (!$model->order_sn)
-                {
+                if (!$model->order_sn) {
                     return false;
                 }
             }
@@ -119,13 +117,11 @@ class Order extends Model
     {
         // 订单流水号前缀
         $prefix = date('YmdHis');
-        for ($i = 0; $i < 10; $i++)
-        {
+        for ($i = 0; $i < 10; $i++) {
             // 随机生成 6 位的数字
             $orderSn = $prefix . str_pad(random_int(0, 999999), 6, '0', STR_PAD_LEFT);
             // 判断是否已经存在
-            if (!static::query()->where('order_sn', $orderSn)->exists())
-            {
+            if (!static::query()->where('order_sn', $orderSn)->exists()) {
                 return $orderSn;
             }
         }
@@ -148,13 +144,18 @@ class Order extends Model
         return $this->hasOne(OrderRefund::class);
     }
 
+    public function comments()
+    {
+        return $this->hasMany(ProductComment::class);
+    }
+
     public function translateStatus($status)
     {
-        return $this->orderStatusMap[$status];
+        return self::$orderStatusMap[$status];
     }
 
     public function translatePaymentMethod($paymentMethod)
     {
-        return $this->paymentMethodMap[$paymentMethod];
+        return self::$paymentMethodMap[$paymentMethod];
     }
 }

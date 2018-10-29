@@ -27,7 +27,7 @@ class ProductComment extends Model
      * @var array
      */
     protected $casts = [
-        'photos' => 'array',
+        //
     ];
 
     public function children()
@@ -43,6 +43,11 @@ class ProductComment extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function order()
+    {
+        return $this->belongsTo(Order::class);
     }
 
     public function product()

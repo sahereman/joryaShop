@@ -6,6 +6,20 @@ use Illuminate\Database\Eloquent\Model;
 
 class OrderRefund extends Model
 {
+    const ORDER_REFUND_STATUS_CHECKING = 'checking';
+    const ORDER_REFUND_STATUS_SHIPPING = 'shipping';
+    const ORDER_REFUND_STATUS_RECEIVING = 'receiving';
+    const ORDER_REFUND_STATUS_REFUNDED = 'refunded';
+    const ORDER_REFUND_STATUS_DECLINED = 'declined';
+
+    protected $orderRefundStatusMap = [
+        self::ORDER_REFUND_STATUS_CHECKING => '待审核',
+        self::ORDER_REFUND_STATUS_SHIPPING => '待发货',
+        self::ORDER_REFUND_STATUS_RECEIVING => '待收货',
+        self::ORDER_REFUND_STATUS_REFUNDED => '已退款',
+        self::ORDER_REFUND_STATUS_DECLINED => '已拒绝',
+    ];
+
     /**
      * The attributes that are mass assignable.
      *
@@ -13,6 +27,7 @@ class OrderRefund extends Model
      */
     protected $fillable = [
         'type',
+        'status',
         'remark_by_user',
         'remark_by_seller',
         'remark_by_shipment',
@@ -35,9 +50,9 @@ class OrderRefund extends Model
      * @var array
      */
     protected $casts = [
-        'seller_info' => 'array',
-        'photos_for_refund' => 'array',
-        'photos_for_shipment' => 'array',
+        'seller_info' => 'json',
+        'photos_for_refund' => 'json',
+        'photos_for_shipment' => 'json',
     ];
 
     /**
@@ -46,7 +61,10 @@ class OrderRefund extends Model
      * @var array
      */
     protected $dates = [
+        'checked_at',
+        'shipped_at',
         'refunded_at',
+        'declined_at',
     ];
 
     /**
@@ -59,5 +77,10 @@ class OrderRefund extends Model
     public function order()
     {
         return $this->belongsTo(Order::class);
+    }
+
+    public function translateStatus($status)
+    {
+        return $this->orderRefundStatusMap[$status];
     }
 }

@@ -98,26 +98,30 @@ Route::group(['middleware' => 'auth'], function () {
 
     /*订单*/
     Route::get('orders', 'OrdersController@index')->name('orders.index'); // 订单列表
-    Route::get('orders/create', 'OrdersController@create')->name('orders.create'); // 提交订单页面 (参数:购物车ids or 立即购买sku_id)
     Route::get('orders/{order}', 'OrdersController@show')->name('orders.show'); // 订单详情
     Route::post('orders', 'OrdersController@store')->name('orders.store'); // 提交订单
     Route::get('orders/{order}/payment_method', 'OrdersController@paymentMethod')->name('orders.payment_method'); // 选择支付方式页面
     Route::patch('orders/{order}/close', 'OrdersController@close')->name('orders.close'); // [主动]取消订单，交易关闭 [订单进入交易关闭状态:status->closed]
-    Route::patch('orders/{order}/ship', 'OrdersController@ship')->name('orders.ship'); // 卖家配送发货 [订单进入待收货状态:status->receiving]
+    // Route::patch('orders/{order}/ship', 'OrdersController@ship')->name('orders.ship'); // 卖家配送发货 [订单进入待收货状态:status->receiving]
     Route::patch('orders/{order}/complete', 'OrdersController@complete')->name('orders.complete'); // 确认收货，交易关闭 [订单进入交易结束状态:status->completed]
     Route::delete('orders/{order}', 'OrdersController@destroy')->name('orders.destroy'); // 订单删除
-    Route::get('orders/{order}/create_comment', 'OrdersController@createComment')->name('orders.create_comment'); // 展示创建订单评价页面
-    Route::post('orders/{order}/store_comment', 'OrdersController@storeComment')->name('orders.store_comment'); // 发布订单评价
-    Route::get('orders/{order}/show_comment', 'OrdersController@showComment')->name('orders.show_comment'); // 查看订单评价
-    Route::post('orders/{order}/append_comment', 'OrdersController@appendComment')->name('orders.append_comment'); // 追加订单评价
-    Route::get('orders/{order}/create_refund', 'OrdersController@refund')->name('orders.refund'); // 申请退单页面 [仅退款]
-    Route::post('orders/{order}/store_refund', 'OrdersController@storeRefund')->name('orders.store_refund'); // 发起退单申请 [订单进入售后状态:status->refunding] [仅退款]
-    Route::get('orders/{order}/show_refund', 'OrdersController@refund')->name('orders.refund'); // 查看已提交退单信息 [仅退款]
-    Route::put('orders/{order}/update_refund', 'OrdersController@updateRefund')->name('orders.update_refund'); // 更新退单申请信息 [订单进入售后状态] [仅退款]
-    Route::get('orders/{order}/create_refund_with_shipment', 'OrdersController@refundWithShipment')->name('orders.refund_with_shipment'); // 申请退单页面 [退货并退款]
-    Route::post('orders/{order}/post_refund_with_shipment', 'OrdersController@postRefundWithShipment')->name('orders.post_refund_with_shipment'); // 发起退单申请 [订单进入售后状态:status->refunding] [退货并退款]
-    Route::get('orders/{order}/show_refund_with_shipment', 'OrdersController@refundWithShipment')->name('orders.refund_with_shipment'); // 查看已提交退单信息 [退货并退款]
-    Route::put('orders/{order}/update_refund_with_shipment', 'OrdersController@updateRefundWithShipment')->name('orders.update_refund_with_shipment'); // 更新退单申请信息 [订单进入售后状态] [退货并退款]
+
+    // 订单评价
+    Route::get('orders/{order}/create_comment', 'OrdersController@createComment')->name('orders.create_comment'); // 创建订单评价页面
+    Route::post('orders/{order}/store_comment', 'OrdersController@storeComment')->name('orders.store_comment'); // 发布订单评价 [每款产品都必须发布评价 + 评分]
+    Route::get('orders/{order}/show_comment', 'OrdersController@showComment')->name('orders.show_comment'); // 查看订单评价页面
+    Route::post('orders/{order}/append_comment', 'OrdersController@appendComment')->name('orders.append_comment'); // 追加订单评价 [可针对某一款产品单独追加评论]
+
+    // 售后订单 [仅退款]
+    Route::get('orders/{order}/refund', 'OrdersController@refund')->name('orders.refund'); // 退单申请页面
+    Route::post('orders/{order}/store_refund', 'OrdersController@storeRefund')->name('orders.store_refund'); // 发起退单申请 [订单进入售后状态:status->refunding]
+    Route::put('orders/{order}/update_refund', 'OrdersController@updateRefund')->name('orders.update_refund'); // 更新退单申请
+    //售后订单 [退货并退款]
+    Route::get('orders/{order}/refund_with_shipment', 'OrdersController@refundWithShipment')->name('orders.refund_with_shipment'); // 退单申请页面
+    Route::post('orders/{order}/store_refund_with_shipment', 'OrdersController@storeRefundWithShipment')->name('orders.store_refund_with_shipment'); // 发起退单申请 [订单进入售后状态:status->refunding]
+    Route::put('orders/{order}/update_refund_with_shipment', 'OrdersController@updateRefundWithShipment')->name('orders.update_refund_with_shipment'); // 更新退单申请
+
+    Route::patch('orders/{order}/revoke_refund', 'OrdersController@revokeRefund')->name('orders.revoke_refund'); // 撤销退单申请 [订单恢复状态:status->shipping | receiving]
 
     /*支付*/
     Route::get('payments/{order}/alipay', 'PaymentsController@alipay')->name('payments.alipay'); // 支付宝支付
@@ -136,6 +140,8 @@ Route::get('/', 'IndexController@root')->name('root'); // 首页
 
 /*通用-获取上传图片预览*/
 Route::post('image/preview', 'IndexController@imagePreview')->name('image.preview');
+/*通用-获取上传图片路径+预览*/
+Route::post('image/upload', 'IndexController@imageUpload')->name('image.upload');
 
 /*通用-获取国家|地区码列表*/
 Route::get('country_codes', 'CountryCodesController@index')->name('country_codes.index');

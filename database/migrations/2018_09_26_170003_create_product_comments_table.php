@@ -16,7 +16,7 @@ class CreateProductCommentsTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('parent_id')->nullable(false)->default(0)->comment('parent-comment-id:用于追加评论');
 
-            $table->unsignedInteger('user_id')->nullable(false)->comment('user-id');
+            $table->unsignedInteger('user_id')->nullable(false)->default(0)->comment('user-id[user_id=0:来自卖家的评论]');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 
             $table->unsignedInteger('order_id')->nullable(false)->comment('order-id');
@@ -25,11 +25,11 @@ class CreateProductCommentsTable extends Migration
             $table->unsignedInteger('product_id')->nullable(false)->comment('product-id');
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
 
-            $table->unsignedDecimal('composite_index')->nullable(false)->default(5)->comment('综合评分');
-            $table->unsignedDecimal('description_index')->nullable(false)->default(5)->comment('描述相符');
-            $table->unsignedDecimal('shipment_index')->nullable(false)->default(5)->comment('物流服务');
+            $table->unsignedInteger('composite_index')->nullable(false)->default(5)->comment('综合评分');
+            $table->unsignedInteger('description_index')->nullable(false)->default(5)->comment('描述相符');
+            $table->unsignedInteger('shipment_index')->nullable(false)->default(5)->comment('物流服务');
             $table->string('content')->nullable(false)->comment('comment-content');
-            $table->json('photos')->nullable()->comment('图片集');
+            $table->text('photos')->nullable()->comment('图片集');
 
             $table->timestamps();
         });

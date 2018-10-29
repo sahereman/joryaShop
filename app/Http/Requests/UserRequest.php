@@ -36,17 +36,17 @@ class UserRequest extends Request
                 'sometimes', 'required', 'string', 'email', 'max:255',
                 Rule::unique('users')->ignore($this->route()->user->id),
             ],
-            'real_name' => 'sometimes|string',
+            'real_name' => 'sometimes|nullable|string',
             'gender' => [
                 'sometimes',
                 'string',
                 Rule::in(['male', 'female']),
             ],
-            'qq' => 'sometimes|string',
-            'wechat' => 'sometimes|string',
-            'country_code' => 'sometimes|string',
+            'qq' => 'sometimes|nullable|string',
+            'wechat' => 'sometimes|nullable|string',
+            'country_code' => 'sometimes|required_with:phone|string',
             'phone' => 'sometimes|string',
-            'facebook' => 'sometimes|string',
+            'facebook' => 'sometimes|nullable|string',
         ];
     }
 

@@ -52,7 +52,9 @@
                                             <span class="old_price">¥ {{ number_format($history->product->price + random_int(300, 500), 2) }}</span>
                                         </p>
                                         <a class="add_to_cart" href="">加入购物车</a>
-                                        <a class="delete_mark" code="{{ route('user_histories.destroy', $history->id) }}" title="点击删除该商品"></a>
+                                        <a class="delete_mark"
+                                           code="{{ route('user_histories.destroy', $history->id) }}"
+                                           title="点击删除该商品"></a>
                                     </li>
                                 @endforeach
                             </ul>
@@ -130,27 +132,27 @@
             $(".browse_history").addClass("active");
             //点击表格中的删除
             $(".address_list ul").on("click", ".delete_mark", function () {
-            	$(".confirm_delete .textarea_content").find("span").attr("code",$(this).attr("code"));
+                $(".confirm_delete .textarea_content").find("span").attr("code", $(this).attr("code"));
                 $(".confirm_delete").show();
             });
-            $(".confirm_delete").on("click",".success",function(){
-            	var data = {
+            $(".confirm_delete").on("click", ".success", function () {
+                var data = {
                     _method: "DELETE",
                     _token: "{{ csrf_token() }}",
-                }
+                };
                 var url = $(".textarea_content span").attr('code');
                 $.ajax({
                     type: "post",
                     url: url,
                     data: data,
                     success: function (data) {
-                    	window.location.reload();
+                        window.location.reload();
                     },
                     error: function (err) {
                         console.log(err);
                     }
                 });
-            })
+            });
             $(".history_empty").on("click", function () {
                 $(".empty_history_dia").show();
             });

@@ -55,8 +55,10 @@
                                     <!--电话建议后台正则处理前端处理容易泄露-->
                                     <td class="address_tel">{{ $address->phone }}</td>
                                     <td class="address_operation">
-                                        <a url="{{ route('user_addresses.update', $address->id) }}" class="edit_address">编辑</a>
-                                        <a url="{{ route('user_addresses.destroy', $address->id) }}" class="delete_address">删除</a>
+                                        <a url="{{ route('user_addresses.update', $address->id) }}"
+                                           class="edit_address">编辑</a>
+                                        <a url="{{ route('user_addresses.destroy', $address->id) }}"
+                                           class="delete_address">删除</a>
                                     </td>
                                     <td class="default_address">
                                         <!--两种情况，正式情况只能显示一种，且默认地址只有一个-->
@@ -132,22 +134,23 @@
                     <span>新建地址</span>
                 </div>
                 <div class="textarea_content">
-                    <form method="POST" action="{{ route('user_addresses.store') }}" enctype="multipart/form-data" id="creat-form">
+                    <form method="POST" action="{{ route('user_addresses.store') }}" enctype="multipart/form-data"
+                          id="creat-form">
                         {{ csrf_field() }}
                         <ul>
                             <li>
                                 <p>
                                     <span class="input_name"><i>*</i>收货人：</span>
-                                    <input class="user_name" name="name" type="text"  placeholder="输入收货人姓名">
+                                    <input class="user_name" name="name" type="text" placeholder="输入收货人姓名">
                                 </p>
                                 <p>
                                     <span class="input_name"><i>*</i>手机号码：</span>
-                                    <input class="user_tel" name="phone" type="text"  placeholder="输入真实有效的手机号">
+                                    <input class="user_tel" name="phone" type="text" placeholder="输入真实有效的手机号">
                                 </p>
                             </li>
                             <li>
                                 <span class="input_name"><i>*</i>详细地址：</span>
-                                <textarea name="address"  placeholder="详细地址，街道、门牌号等"></textarea>
+                                <textarea name="address" placeholder="详细地址，街道、门牌号等"></textarea>
                             </li>
                             <li>
                                 <p class="default_address_set">
@@ -201,7 +204,8 @@
                             <li>
                                 <p class="default_address_set">
                                     <label>
-                                        <input type="checkbox" name="is_default" class="setas_default" id="edit_default">
+                                        <input type="checkbox" name="is_default" class="setas_default"
+                                               id="edit_default">
                                         <span>设为默认地址</span>
                                     </label>
                                 </p>
@@ -224,82 +228,81 @@
             $(".user_address").addClass("active");
             //点击新建收获地址
             $(".new_address").on("click", function () {
-            	if($(".residual").html()!=0){
-            		$(".new_receipt_address").show();
-            	}else {
-            		$(".confirm_residual").show();
-            	}
+                if ($(".residual").html() != 0) {
+                    $(".new_receipt_address").show();
+                } else {
+                    $(".confirm_residual").show();
+                }
             });
             //新建收获地址时进行表单验证
-	        $("#creat-form").validate({
-	            rules: {
-	                name: {
-	                    required: true
-	                },
-	                phone: {
-	                    required: true
-	                },
-	                address: {
-	                    required: true
-	                },
-	            },
-	            messages: {
-	                name: {
-	                    required: '请输入收货人姓名'
-	                },
-	                phone: {
-	                    required: '请输入收货人联系方式'
-	                },
-	                address: {
-	                    required: '请输入详细收货地址'
-	                }
-	            }
-	        });
-            $(".new_receipt_address").on("click",".success",function(){
-        		if($("#creat-form").valid()){
-        			$('#creat-form').submit();
-        		}
-            })
-            
-           
-            
+            $("#creat-form").validate({
+                rules: {
+                    name: {
+                        required: true
+                    },
+                    phone: {
+                        required: true
+                    },
+                    address: {
+                        required: true
+                    },
+                },
+                messages: {
+                    name: {
+                        required: '请输入收货人姓名'
+                    },
+                    phone: {
+                        required: '请输入收货人联系方式'
+                    },
+                    address: {
+                        required: '请输入详细收货地址'
+                    }
+                }
+            });
+            $(".new_receipt_address").on("click", ".success", function () {
+                if ($("#creat-form").valid()) {
+                    $('#creat-form').submit();
+                }
+            });
+
+
             //点击表格中的编辑
             $(".address_list table").on("click", ".edit_address", function () {
-            	console.log($(this).attr("url"));
-            	$("#edit-form").prop("action",$(this).attr("url"));
+                console.log($(this).attr("url"));
+                $("#edit-form").prop("action", $(this).attr("url"));
                 $(".edit_harvest_address").show();
             });
             //编辑收获地址时进行表单验证
-	        $("#edit-form").validate({
-	            rules: {
-	                name: {
-	                    required: true
-	                },
-	                phone: {
-	                    required: true
-	                },
-	                address: {
-	                    required: true
-	                },
-	            },
-	            messages: {
-	                name: {
-	                    required: '请输入收货人姓名'
-	                },
-	                phone: {
-	                    required: '请输入收货人联系方式'
-	                },
-	                address: {
-	                    required: '请输入详细收货地址'
-	                }
-	            }
-	        });
-	        //编辑收获地址弹窗中的确定按钮
-            $(".edit_harvest_address").on("click",".success",function(){
-        		if($("#edit-form").valid()){
-        			$('#edit-form').submit();
-        		}
-            })
+            $("#edit-form").validate({
+                rules: {
+                    name: {
+                        required: true
+                    },
+                    phone: {
+                        required: true
+                    },
+                    address: {
+                        required: true
+                    },
+                },
+                messages: {
+                    name: {
+                        required: '请输入收货人姓名'
+                    },
+                    phone: {
+                        required: '请输入收货人联系方式'
+                    },
+                    address: {
+                        required: '请输入详细收货地址'
+                    }
+                }
+            });
+            //编辑收获地址弹窗中的确定按钮
+            $(".edit_harvest_address").on("click", ".success", function () {
+                if ($("#edit-form").valid()) {
+                    $('#edit-form').submit();
+                }
+            });
             //点击表格中的设为默认按钮
             $(".address_list table").on("click", ".setDefaultAddress", function () {
                 if (!$(this).hasClass('haddefault')) {
@@ -314,7 +317,7 @@
                         url: url,
                         data: data,
                         success: function (data) {
-                        	window.location.reload();
+                            window.location.reload();
                         },
                         error: function (err) {
                             console.log(err);
@@ -322,31 +325,31 @@
                     });
                 }
             });
-            
+
             //点击表格中的删除
             $(".address_list table").on("click", ".delete_address", function () {
-            	$(".textarea_content span").attr('url',$(this).attr('url'));
+                $(".textarea_content span").attr('url', $(this).attr('url'));
                 $(".confirm_delete").show();
             });
             //点击确定删除按钮
-            $(".confirm_delete").on("click",".success",function(){
-        		var data = {
+            $(".confirm_delete").on("click", ".success", function () {
+                var data = {
                     _method: "DELETE",
                     _token: "{{ csrf_token() }}"
-                }
+                };
                 var url = $(".textarea_content span").attr('url');
                 $.ajax({
                     type: "post",
                     url: url,
                     data: data,
                     success: function (data) {
-                    	window.location.reload();
+                        window.location.reload();
                     },
                     error: function (err) {
                         console.log(err);
                     }
                 });
-            })
+            });
         });
     </script>
 @endsection

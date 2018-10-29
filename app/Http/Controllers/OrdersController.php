@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\OrderCommentRequest;
+use App\Http\Requests\PostOrderCommentRequest;
+use App\Http\Requests\PutOrderCommentRequest;
 use App\Http\Requests\PostOrderRequest;
 use App\Http\Requests\RefundOrderRequest;
 use App\Jobs\AutoCloseOrderJob;
@@ -13,6 +14,7 @@ use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\OrderRefund;
 use App\Models\Product;
+use App\Models\ProductComment;
 use App\Models\ProductSku;
 use App\Models\User;
 use App\Models\UserAddress;
@@ -20,6 +22,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class OrdersController extends Controller
 {
@@ -90,15 +93,16 @@ class OrdersController extends Controller
     {
         $this->authorize('view', $order);
 
+        // 订单物流状态
+        $order_shipment_information = [];
+        if ($order->shipment_company != null && $order->shipment_sn != null) {
+            $order_shipment_information = shipment_query($order->shipment_company, $order->shipment_sn);
+        }
+
         return view('orders.show', [
             'order' => $order,
+            'order_shipment_information' => $order_shipment_information,
         ]);
-    }
-
-    // GET 创建订单页面
-    public function create(Request $request)
-    {
-        return view('orders.create');
     }
 
     // POST 提交创建订单
@@ -174,7 +178,9 @@ class OrdersController extends Controller
     {
         $this->authorize('pay', $order);
 
-        return view('orders.payment_method', []);
+        return view('orders.payment_method', [
+            'order' => $order,
+        ]);
     }
 
     // PATCH [主动]取消订单，交易关闭 [订单进入交易关闭状态:status->closed]
@@ -222,11 +228,146 @@ class OrdersController extends Controller
         return response()->json([]);
     }
 
+    /*--订单评价--*/
+    // GET 创建订单评价
+    public function createComment(Request $request, Order $order)
+    {
+        $this->authorize('store_comment', $order);
+
+        return view('orders.create_comment', [
+            'order' => $order,
+            'order_items' => $order->items()->with('sku.product')->get()->groupBy('id'),
+        ]);
+    }
+
+    // POST 发布订单评价 [每款产品都必须发布评价 + 评分]
+    public function storeComment(PostOrderCommentRequest $request, Order $order)
+    {
+        $this->authorize('store_comment', $order);
+
+        if ($request->input('order_id') != $order->id) {
+            return redirect()->back()->withInput();
+        }
+
+        $order_items = $order->items()->with('sku.product')->get()->groupBy('id');
+
+        foreach ($order_items as $order_item_id => $order_item) {
+            ProductComment::create([
+                'parent_id' => 0,
+                'user_id' => $order->user_id,
+                'order_id' => $order->id,
+                'product_id' => $order_item[0]->sku->product->id,
+                'composite_index' => $request->input('composite_index')[$order_item_id],
+                'description_index' => $request->input('description_index')[$order_item_id],
+                'shipment_index' => $request->input('shipment_index')[$order_item_id],
+                'content' => $request->input('content')[$order_item_id],
+                'photos' => $request->input('photos')[$order_item_id],
+            ]);
+        }
+
+        return response()->json([
+            'code' => 200,
+            'message' => 'success',
+        ]);
+    }
+
+    // GET 查看订单评价
+    public function showComment(Request $request, Order $order)
+    {
+        $this->authorize('show_comment', $order);
+
+        return view('orders.show_comment', [
+            'order' => $order,
+            'order_items' => $order->items()->with('sku.product')->get()->groupBy('id'),
+            'comments' => $order->comments,
+        ]);
+    }
+
+    // POST 追加订单评价 [可针对某一款产品单独追加评论]
+    public function appendComment(PutOrderCommentRequest $request, Order $order)
+    {
+        $this->authorize('append_comment', $order);
+
+        if ($request->input('order_id') != $order->id) {
+            return redirect()->back()->withInput();
+        }
+
+        $order_items = $order->items()->with('sku.product')->get()->groupBy('id');
+
+        ProductComment::create([
+            'parent_id' => $request->input('parent_id'),
+            'user_id' => $order->user_id,
+            'order_id' => $order->id,
+            'product_id' => $order_items[$request->input('order_item_id')][0]->sku->product->id,
+            'content' => $request->input('content'),
+            'photos' => $request->input('photos'),
+        ]);
+
+        return response()->json([
+            'code' => 200,
+            'message' => 'success',
+        ]);
+    }
+
+    /*--售后订单--*/
+    // GET 退单申请页面 [仅退款]
     public function refund(Request $request, Order $order)
     {
         $this->authorize('refund', $order);
 
+        return view('orders.refund', [
+            'order' => $order,
+            'refund' => $order->refund,
+        ]);
+    }
+
+    // POST 发起退单申请 [订单进入售后状态:status->refunding] [仅退款]
+    public function storeRefund(Request $request, Order $order)
+    {
+        $this->authorize('refund', $order);
+
         // TODO ...
+    }
+
+    // PUT 更新退单申请 [仅退款]
+    public function updateRefund(Request $request, Order $order)
+    {
+        $this->authorize('refund', $order);
+
+        // TODO ...
+    }
+
+    // GET 退单申请页面 [退货并退款]
+    public function refundWithShipment(Request $request, Order $order)
+    {
+        $this->authorize('refund_with_shipment', $order);
+
+        return view('orders.refund_with_shipment', [
+            'order' => $order,
+            'refund' => $order->refund,
+        ]);
+    }
+
+    // POST 发起退单申请 [订单进入售后状态:status->refunding] [退货并退款]
+    public function storeRefundWithShipment(Request $request, Order $order)
+    {
+        $this->authorize('refund_with_shipment', $order);
+
+        // TODO ...
+    }
+
+    // PUT 更新退单申请 [退货并退款]
+    public function updateRefundWithShipment(Request $request, Order $order)
+    {
+        $this->authorize('refund_with_shipment', $order);
+
+        // TODO ...
+    }
+
+    // PATCH 撤销退单申请 [订单恢复状态:status->shipping | receiving]
+    public function revokeRefund(Request $request, Order $order)
+    {
+        $this->authorize('revoke_refund', $order);
     }
 
     // DELETE 删除订单
@@ -238,47 +379,20 @@ class OrdersController extends Controller
         return response()->json([]);
     }
 
-    // GET 查看订单评价
-    public function showComment(Request $request, Order $order)
-    {
-        // $this->authorize('comment', $order);
-
-        return view('orders.show_comment');
-    }
-
-    // GET 创建订单评价
-    public function createComment(Request $request, Order $order)
-    {
-        // $this->authorize('comment', $order);
-
-        return view('orders.create_comment');
-    }
-
-    // POST 发布订单评价
-    public function storeComment(OrderCommentRequest $request, Order $order)
-    {
-        $this->authorize('comment', $order);
-
-        // TODO ...
-    }
-
+    /*--通用--*/
     // GET 快递100 API 实时查询订单物流状态
     public function shipmentQuery(Request $request, Order $order)
     {
-        // $this->authorize('shipment_query', $order);
+        $this->authorize('shipment_query', $order);
 
         // 订单物流状态
-        $order_shipment_information = shipment_query($order->shipment_company, $order->shipment_sn);
-
-        // 售后订单物流状态
-        $refund_shipment_information = [];
-        if ($order->refund()->exists()) {
-            $refund_shipment_information = shipment_query($order->refund->shipment_company, $order->refund->shipment_sn);
+        $order_shipment_information = [];
+        if ($order->shipment_company != null && $order->shipment_sn != null) {
+            $order_shipment_information = shipment_query($order->shipment_company, $order->shipment_sn);
         }
 
         return response()->json([
             'order_shipment_information' => $order_shipment_information,
-            'refund_shipment_information' => $refund_shipment_information,
         ]);
     }
 }

@@ -38,16 +38,17 @@ class CreateOrdersTable extends Migration
 
             $table->json('user_info')->nullable(false)->comment('user-info-data-for-shipping-in-json-format[data:name&phone&address]'); // 买家信息
 
-            /*
+            /**
              * Order Status Workflow:
              *
              * paying --> | --> closed
              *            |
-             *            | --> shipping -->receiving --> | --> completed
-             *                                            |
-             *                                            | --> refunding
+             *            | --> shipping  | -->receiving --> | --> completed
+             *                            |                  |
+             *                            | --> refunding    | --> refunding
+             *                            (refund[仅退款])    (refund_with_shipment[退货并退款])
              *
-             * */
+             */
             $table->string('status')->nullable(false)->default('paying')->comment('order-status:paying[待支付];closed[交易关闭:主动|自动取消订单];shipping[待发货];receiving[待收货];refunding[售后状态:售后中];completed[交易结束:已确认]')->index(); // 最终状态只有三种：closed, refunding, completed
 
             $table->string('currency')->nullable(false)->default('CNY')->comment('payment-currency[支付币种]:CNY|USD|etc');
