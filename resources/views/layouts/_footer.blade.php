@@ -166,11 +166,16 @@
 	                @endif
 	                <div class="register_phone">
 	                	<select class="choose_tel_area">
-		                	<option>1</option>
-		                	<option>2</option>
-		                	<option>3</option>
-		                	<option>4</option>
+		                	<option>1-340</option>
+		                	<option>1-340</option>
+		                	<option>1-340</option>
+		                	<option>1-340</option>
 		                </select>
+		                <div class="click_areaCode">
+		                	<img src="{{ asset('img/tel_phone.png') }}">
+		                	<img src="{{ asset('img/sanjiao.png') }}">
+		                </div>
+		                <span class="areaCode_val"></span>
 	                    <input type="text" name="phone" id="register_email" placeholder="请输入手机号" required>
 	                </div>
                     @if ($errors->has('phone'))

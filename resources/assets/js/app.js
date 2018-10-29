@@ -432,6 +432,11 @@ $(function(){
 	        }
 		}
 	})
+	//区号选择
+    $(".choose_tel_area").on("change",function(){
+    	$(".areaCode_val").html($(".choose_tel_area").val());
+    	$(".register_phone input").addClass("active");
+    })
 })
 
 

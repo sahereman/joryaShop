@@ -538,17 +538,47 @@ a {
             width: 100%;
             margin: 5px auto;
             display: flex;
+            position: relative;
             select {
+                width: 50px;
                 border: 1px solid #eaeaea;
                 outline: none;
                 border-right: 0px;
+                position: absolute;
+                z-index: 5;
+                opacity: 0;
+                height: 36px;
+                margin: 5px auto;
             }
             input {
                 margin: 0;
-                border-left: 0px;
-                &:focus ~select{
-                    border-color: #7ca442;
+                padding-left: 50px;
+                &.active {
+                    padding-left: 90px;
                 }
+            }
+            .click_areaCode {
+                position: absolute;
+                width: 50px;
+                height: 25px;
+                top: 5px;
+                border-right: 1px solid #e0e0e0;
+                z-index: 10;
+                cursor: pointer;
+                pointer-events: none;
+                img {
+                    &:first-of-type {
+                        margin: 0 4px;
+                    }
+                }
+            }
+            .areaCode_val {
+                display: block;
+                position: absolute;
+                width: 50px;
+                height: 36px;
+                left: 50px;
+                line-height: 36px;
             }
         }
     }
