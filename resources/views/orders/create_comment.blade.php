@@ -85,7 +85,7 @@
             						</p>
             						<div class="starability-basic">
             							
-            							<input type="radio" id="rate5-1_{{ $i }}" name="rating" value="5" />
+            							<input type="radio" id="rate5-1_{{ $i }}" name="rating[45]" value="5" />
 										<label for="rate5-1_{{ $i }}" title="Amazing"></label>
 								
 										<input type="radio" id="rate4-1_{{ $i }}" name="rating" value="4" />
@@ -155,6 +155,7 @@
         						<div class="pictures" code="{{ $i }}">
         							<div class="pictures_btn" code="{{ $i }}">
         								<img src="{{ asset('img/pic_upload.png') }}">
+        									<input type="hidden" name="img[45]" value="aaa.jpg,bb.jpg" />
         							</div>
         						</div>
             				</div>

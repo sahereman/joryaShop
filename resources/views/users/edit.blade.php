@@ -24,7 +24,6 @@
                     <form method="POST" action="{{ route('users.update', $user->id) }}" enctype="multipart/form-data" id="img_form">
                         {{ csrf_field() }}
                         <input type="hidden" name="_method" value="PUT">
-
                         <ul>
                             <li class="user_header_img">
                                 <span>头像</span>
@@ -76,10 +75,10 @@
                                 <span>国家|地区码</span>
                                 <input type="text" name="country_code" value="86">
                             </li>-->
-                            <!--<li>
+                            <li>
                                 <span>手机号</span>
-                                <input type="text" name="phone" value="13061295254">
-                            </li>-->
+                                <input type="text" name="phone" value="{{ $user->facebook }}">
+                            </li>
                             <li>
                                 <span>Facebook</span>
                                 <input type="text" name="facebook" value="{{ $user->facebook }}" placeholder="输入Facebook账号">

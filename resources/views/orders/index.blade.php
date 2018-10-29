@@ -135,7 +135,7 @@
                                                             <!--订单待支付-->
                                                     <!--付款或再次购买隐藏显示取消订单-->
                                                     <!--系统自动关闭订单倒计时-->
-                                                    <span class="paying_time count_down" created_at="{{ strtotime($order->created_at) }}" time_to_close_order="{{ \App\Models\Config::config('time_to_close_order') * 3600 }}">{{ generate_order_ttl_message($order->create_at, \App\Models\Order::ORDER_STATUS_PAYING) }}</span>
+                                                    <span id="{{ $order->order_sn }}" mark="{{ $order->order_sn }}" class="paying_time count_down" created_at="{{ strtotime($order->created_at) }}" time_to_close_order="{{ \App\Models\Config::config('time_to_close_order') * 3600 }}">{{ generate_order_ttl_message($order->create_at, \App\Models\Order::ORDER_STATUS_PAYING) }}</span>
                                                     <a class="payment" href="{{ route('users.home') }}">付款</a>
                                                     <a class="cancellation" href="{{ route('root') }}">取消订单</a>
                                                     @elseif($order->status == \App\Models\Order::ORDER_STATUS_SHIPPING && $order->shipped_at == null)
@@ -147,23 +147,17 @@
                                                             <!--订单待收货-->
                                                     <!--确认收货-->
                                                     <!--系统自动确认订单倒计时-->
-                                                    <span class="count_down" shipped_at="{{ strtotime($order->shipped_at) }}" time_to_complete_order="{{ \App\Models\Config::config('time_to_complete_order') * 3600 * 24 }}">{{ generate_order_ttl_message($order->shipped_at, \App\Models\Order::ORDER_STATUS_RECEIVING) }}</span>
+                                                    <span id="{{ $order->order_sn }}" mark="{{ $order->order_sn }}" class="tobe_received_count count_down" shipped_at="{{ strtotime($order->shipped_at) }}" time_to_complete_order="{{ \App\Models\Config::config('time_to_complete_order') * 3600 * 24 }}">{{ generate_order_ttl_message($order->shipped_at, \App\Models\Order::ORDER_STATUS_RECEIVING) }}</span>
                                                     <a class="confirmation_receipt"
                                                        href="{{ route('users.home') }}">确认收货</a>
                                                     @elseif($order->status == \App\Models\Order::ORDER_STATUS_COMPLETED && $order->commented_at == null)
                                                             <!--订单待评价-->
                                                     <a class="evaluate" href="{{ route('orders.create_comment', $order->id) }}">评价</a>
-                                                    <!--删除订单-->
-                                                    <a class="Delete_order"
-                                                       href="{{ route('users.home') }}">删除订单</a>
                                                     @elseif($order->status == \App\Models\Order::ORDER_STATUS_COMPLETED && $order->commented_at != null)
                                                             <!--订单已评价-->
                                                     <!--查看评价-->
                                                     <a class="View_evaluation"
                                                        href="{{  route('orders.show_comment', $order->id) }}">查看评价</a>
-                                                    <!--删除订单-->
-                                                    <a class="Delete_order"
-                                                       href="{{ route('users.home') }}">删除订单</a>
                                                     @elseif(in_array($order->status, [\App\Models\Order::ORDER_STATUS_CLOSED, \App\Models\Order::ORDER_STATUS_COMPLETED]))
                                                             <!--删除订单-->
                                                     <a class="Delete_order"
@@ -270,13 +264,22 @@
     <script src="{{ asset('js/swiper/js/swiper.js') }}"></script>
     <script type="text/javascript">
         $(function () {
+        	
+        	$(".tobe_received_count").each(function(index, element) {
+			                var val = $(this).attr("mark");
+			                var start_time = $(this).attr("shipped_at") * 1000;
+			                var ending_time = $(this).attr('time_to_complete_order');
+			                timeCount(val,start_time,ending_time,"2");
+			            });	    
+        	
+        	
+        	
             $(".navigation_left ul li").removeClass("active");
             $(".my_order").addClass("active");
             $(".myorder_classification li").on('click',function(){
             	$(".myorder_classification li").removeClass('active');
             	$(this).addClass("active");
             })
-            
             $(".order-group").on('click', '.col-delete', function () {
             	$(".order_delete .textarea_content").find("span").attr("code",$(this).attr("code"));
                 $(".order_delete").show();
@@ -300,10 +303,14 @@
                     url: url,
                     data: data,
                     success: function (data) {
+                    	console.log(data)
                     	window.location.reload();
                     },
                     error: function (err) {
-                        console.log(err);
+                        console.log(err.status)
+                        if(err.status==403) {
+                        	
+                        }
                     }
                 });
             })
@@ -317,32 +324,24 @@
 		            case "paying":   //待付款
 		                $(".myorder_classification li").removeClass('active');
 		                $(".order_paying").addClass("active")
-		                var creat_date=parseInt($(".paying_time").attr("created_at"))    //后台返回的订单创建时间的字符串
-		                var event_EndTime = new Date(creat_date);               //返回的时间戳转换成时间格式
-					    var addtime=timeStamp($(".paying_time").attr("time_to_close_order")).split("&");    //将后台返回的倒计时总的时间段以s为单位转换成天时分秒的格式然后分割
-					    //设置终止时间  得出订单待付款状态的终止时间
-//					    event_EndTime.setDate(event_EndTime.getDate()+parseInt(addtime[0]));
-//						event_EndTime.setHours(event_EndTime.getHours()+parseInt(addtime[1]));
-//						event_EndTime.setMinutes(event_EndTime.getMinutes()+parseInt(addtime[2]));
-//						event_EndTime.setSeconds(event_EndTime.getSeconds()+parseInt(addtime[3]));
-						//计时器进行倒计时
-					    setInterval(function () {
-//						    var nowtime = new Date();
-//						    var time = event_EndTime - nowtime;        //终止时间与现在的时间做减法得出剩余时间拼接字符串
-//						    var day = parseInt(time / 1000 / 60 / 60 / 24);
-//						    var hour = parseInt(time / 1000 / 60 / 60 % 24);
-//						    var minute = parseInt(time / 1000 / 60 % 60);
-//						    var seconds = parseInt(time / 1000 % 60);
-//						    $('.paying_time').html( "剩余"+hour + "小时" + minute + "分钟"+ seconds + "秒钟");
-
-
-                            count_down()
-						 }, 1000);
-					    
+		                //倒计时开始
+			            //显示时间，待支付订单
+			            $(".paying_time").each(function(index, element) {
+			                var val = $(this).attr("mark");
+			                var start_time = $(this).attr("created_at") * 1000;
+			                var ending_time = $(this).attr('time_to_close_order');
+			                timeCount(val,start_time,ending_time,'1');
+			            });	    
 		                break;
 		            case "receiving":   //待收货
 		                $(".myorder_classification li").removeClass('active');
-		                $(".order_receiving").addClass("active")
+		                $(".order_receiving").addClass("active");
+		                $(".tobe_received_count").each(function(index, element) {
+			                var val = $(this).attr("mark");
+			                var start_time = $(this).attr("shipped_at") * 1000;
+			                var ending_time = $(this).attr('time_to_complete_order');
+			                timeCount(val,start_time,ending_time,"2");
+			            });	    
 		                break;
 		            case "uncommented":   //待评价
 		                $(".myorder_classification li").removeClass('active');
@@ -359,51 +358,29 @@
 		        }
 		   };
 	    });
-        function getUrlVars() {
-	        var vars = [], hash;
-	        var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
-	        for (var i = 0; i < hashes.length; i++) {
-	            hash = hashes[i].split('=');
-	            vars.push(hash[0]);
-	            vars[hash[0]] = hash[1];
-	        }
-	        return vars["status"];
-	    }
-	    
-	    //秒数转换
-	    function timeStamp( second_time ){  
-			var time = parseInt(second_time);  
-			if( parseInt(second_time )> 60){  
-			  
-			    var second = parseInt(second_time) % 60;  
-			    var min = parseInt(second_time / 60);  
-			    time = min + "&" + second + "&";  
-			      
-			    if( min > 60 ){  
-			        min = parseInt(second_time / 60) % 60;  
-			        var hour = parseInt( parseInt(second_time / 60) /60 );  
-			        time = hour + "&" + min + "&" + second;  
-			  
-			        if( hour > 24 ){  
-			            hour = parseInt( parseInt(second_time / 60) /60 ) % 24;  
-			            var day = parseInt( parseInt( parseInt(second_time / 60) /60 ) / 24 );  
-			            time = day + "&" + hour + "&" + min + "&" + second;  
-			        }  
-			    }  
-			      
-			  
-			}  
-			  
-			return time;          
-		}  
-		
 		//倒计时方法封装
-		function timeCount (){
-			function _fresh(){
-				var nowDate = new Date(); //当前时间
-				var id = $(remain_id).attr("order_id"); //当前订单的id
-			}
+		function timeCount (remain_id,start_time,ending_time,type){
+			function _fresh() {
+                    var nowDate = new Date(); //当前时间
+                    var id = $('#' + remain_id).attr("order_id"); //当前订单的id
+		            var addTime = new Date(parseInt(start_time));               //返回的时间戳转换成时间格式
+                    var auto_totalS = ending_time; //订单支付有效时长
+                    var ad_totalS = parseInt((addTime.getTime() / 1000) + auto_totalS); ///下单总秒数
+                    var totalS = parseInt(ad_totalS - (nowDate.getTime() / 1000)); ///支付时长
+                        if(totalS > 0) {
+                        	var _day = parseInt((totalS / 3600) % 24 /24);
+                            var _hour = parseInt((totalS / 3600) % 24);
+                            var _minute = parseInt((totalS / 60) % 60);
+                            var _second = parseInt(totalS % 60);
+                            if(type=='1') {
+                            	$('#' + remain_id).html('剩余' + _hour + '时' + _minute + '分' + _second + '秒');	
+                            }else {
+                            	$('#' + remain_id).html('剩余' + _day + '天' + _hour + '时' + _minute + '分');	
+                            }
+                    }
+                }
+                _fresh();
+                var sh = setInterval(_fresh, 1000);
 		}
-		
     </script>
 @endsection

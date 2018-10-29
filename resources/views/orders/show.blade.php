@@ -65,19 +65,19 @@
             				</p>
             			</div>
             			<!--待评价状态-->
-            			<div class="pending_delivery status_area" style="display: none;">
+            			<div class="pending_delivery status_area">
             				<p>
             					<img src="{{ asset('img/pending.png') }}">
             					<span>订单状态：</span>
             					<span class="order_status_tips">交易完成</span>
             				</p>
             				<p class="operation_area">
-            					<a class="main_operation" href="{{ route('orders.create_comment', 58) }}">评价</a>
+            					<a class="main_operation" href="{{ route('orders.create_comment', 4) }}">评价</a>
             					<a>删除订单</a>
             				</p>
             			</div>
             			<!--已评价状态-->
-            			<div class="pending_delivery status_area" >
+            			<div class="pending_delivery status_area"  style="display: none;">
             				<p>
             					<img src="{{ asset('img/pending.png') }}">
             					<span>订单状态：</span>
