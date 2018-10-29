@@ -339,10 +339,13 @@ class OrdersController extends Controller
             'order_id' => $order->id,
             'type' => 'refund',
             'status' => 'checking',
-            'amount' => $request->input('amount'),
+            // 'amount' => $request->input('amount'),
             'remark_by_user' => $request->input('remark_by_user'),
             'photos_for_refund' => $request->input('photos_for_refund'),
         ]);
+
+        $order->status = 'refunding';
+        $order->save();
 
         return response()->json([
             'code' => 200,
@@ -351,11 +354,32 @@ class OrdersController extends Controller
     }
 
     // PUT 更新退单申请 [仅退款]
-    public function updateRefund(Request $request, Order $order)
+    public function updateRefund(RefundOrderRequest $request, Order $order)
     {
         $this->authorize('refund', $order);
 
-        // TODO ...
+        $updated = false;
+        /*if ($request->has('amount')) {
+            $order->refund->amount = $request->input('amount');
+            $updated = true;
+        }*/
+        if ($request->has('remark_by_user')) {
+            $order->refund->remark_by_user = $request->input('remark_by_user');
+            $updated = true;
+        }
+        if ($request->has('photos_for_refund')) {
+            $order->refund->photos_for_refund = $request->input('photos_for_refund');
+            $updated = true;
+        }
+
+        if ($updated) {
+            $order->refund->save();
+        }
+
+        return response()->json([
+            'code' => 200,
+            'message' => 'success',
+        ]);
     }
 
     // GET 退单申请页面 [退货并退款]
@@ -370,25 +394,90 @@ class OrdersController extends Controller
     }
 
     // POST 发起退单申请 [订单进入售后状态:status->refunding] [退货并退款]
-    public function storeRefundWithShipment(Request $request, Order $order)
+    public function storeRefundWithShipment(RefundOrderRequest $request, Order $order)
     {
         $this->authorize('refund_with_shipment', $order);
 
-        // TODO ...
+        OrderRefund::create([
+            'order_id' => $order->id,
+            'type' => 'refund_with_shipment',
+            'status' => 'checking',
+            // 'amount' => $request->input('amount'),
+            'remark_by_user' => $request->input('remark_by_user'),
+            'photos_for_refund' => $request->input('photos_for_refund'),
+        ]);
+
+        $order->status = 'refunding';
+        $order->save();
+
+        return response()->json([
+            'code' => 200,
+            'message' => 'success',
+        ]);
     }
 
     // PUT 更新退单申请 [退货并退款]
-    public function updateRefundWithShipment(Request $request, Order $order)
+    public function updateRefundWithShipment(RefundOrderWithShipmentRequest $request, Order $order)
     {
         $this->authorize('refund_with_shipment', $order);
 
-        // TODO ...
+        $updated = false;
+        /*if ($request->has('amount')) {
+            $order->refund->amount = $request->input('amount');
+            $updated = true;
+        }*/
+        if ($request->has('remark_by_user')) {
+            $order->refund->remark_by_user = $request->input('remark_by_user');
+            $updated = true;
+        }
+        if ($request->has('remark_by_shipment')) {
+            $order->refund->remark_by_shipment = $request->input('remark_by_shipment');
+            $updated = true;
+        }
+        if ($request->has('shipment_sn')) {
+            $order->refund->shipment_sn = $request->input('shipment_sn');
+            $updated = true;
+        }
+        if ($request->has('shipment_company')) {
+            $order->refund->shipment_company = $request->input('shipment_company');
+            $updated = true;
+        }
+        if ($request->has('photos_for_refund')) {
+            $order->refund->photos_for_refund = $request->input('photos_for_refund');
+            $updated = true;
+        }
+        if ($request->has('photos_for_shipment')) {
+            $order->refund->photos_for_shipment = $request->input('photos_for_shipment');
+            $updated = true;
+        }
+
+        if ($updated) {
+            $order->refund->save();
+        }
+
+        return response()->json([
+            'code' => 200,
+            'message' => 'success',
+        ]);
     }
 
     // PATCH 撤销退单申请 [订单恢复状态:status->shipping | receiving]
     public function revokeRefund(Request $request, Order $order)
     {
         $this->authorize('revoke_refund', $order);
+
+        if ($order->refund->type == 'refund') {
+            $order->status = 'shipping';
+        } else {
+            $order->status = 'receiving';
+        }
+
+        $order->save();
+
+        return response()->json([
+            'code' => 200,
+            'message' => 'success',
+        ]);
     }
 
     // DELETE 删除订单

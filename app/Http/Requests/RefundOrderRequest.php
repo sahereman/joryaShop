@@ -13,7 +13,7 @@ class RefundOrderRequest extends Request
     public function rules()
     {
         return [
-            'amount' => 'bail|required|numeric',
+            // 'amount' => 'bail|required|numeric',
             'remark_by_user' => 'bail|required|string|min:3|max:255',
             'photos_for_refund' => 'bail|sometimes|nullable|string',
         ];
@@ -26,7 +26,7 @@ class RefundOrderRequest extends Request
     public function attributes()
     {
         return [
-            'amount' => '退款金额',
+            // 'amount' => '退款金额',
             'remark_by_user' => '退款理由',
             'photos_for_refund' => '退款申请图片凭证',
         ];
