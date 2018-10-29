@@ -1,7 +1,6 @@
 @extends('layouts.app')
 @section('title', '个人中心-我的订单')
 @section('content')
-    @include('common.error')
     <div class="orders_details">
         <div class="m-wrapper">
             <div>
@@ -48,7 +47,7 @@
             				</p>
             				<p class="operation_area">
             					<a>提醒发货</a>
-            					<a class="main_operation">申请退款</a>
+            					<a class="main_operation" href="{{ route('orders.refund', 60) }}">申请退款</a>
             				</p>
             			</div>
             			<!--待收货状态-->
@@ -65,18 +64,6 @@
             				</p>
             			</div>
             			<!--待评价状态-->
-            			<div class="pending_delivery status_area" style="display: none;">
-            				<p>
-            					<img src="{{ asset('img/pending.png') }}">
-            					<span>订单状态：</span>
-            					<span class="order_status_tips">交易完成</span>
-            				</p>
-            				<p class="operation_area">
-            					<a class="main_operation" href="{{ route('orders.create_comment', 58) }}">评价</a>
-            					<a>删除订单</a>
-            				</p>
-            			</div>
-            			<!--已评价状态-->
             			<div class="pending_delivery status_area" >
             				<p>
             					<img src="{{ asset('img/pending.png') }}">
@@ -84,7 +71,19 @@
             					<span class="order_status_tips">交易完成</span>
             				</p>
             				<p class="operation_area">
-            					<a class="main_operation" href="{{ route('orders.show_comment', 58) }}">查看评价</a>
+            					<a class="main_operation" href="{{ route('orders.create_comment', 60) }}">评价</a>
+            					<a>删除订单</a>
+            				</p>
+            			</div>
+            			<!--已评价状态-->
+            			<div class="pending_delivery status_area" style="display: none;">
+            				<p>
+            					<img src="{{ asset('img/pending.png') }}">
+            					<span>订单状态：</span>
+            					<span class="order_status_tips">交易完成</span>
+            				</p>
+            				<p class="operation_area">
+            					<a class="main_operation" href="{{ route('orders.show_comment', 60) }}">查看评价</a>
             					<a>删除订单</a>
             				</p>
             			</div>
