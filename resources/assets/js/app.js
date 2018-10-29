@@ -6,7 +6,9 @@ require('./bootstrap');
 //window.Vue = require('vue');
 //require('./components/SelectDistrict');
 //require('./components/UserAddressesCreateAndEdit');
-//require('./components/jquery.lazyload/jquery.lazyload.min')
+require('./components/jquery.lazyload/jquery.lazyload.min');
+require('./jquery.validate.min');
+//require('./layer/layer')
 
 //const app = new Vue({
 //  el: '#app'
@@ -349,5 +351,31 @@ $(function(){
 	})
 })
 
+//登陆注册弹窗调整
+$(function(){
+	$("#login-form").validate({
+	    rules: {
+	        username: {
+	            required: true
+	        },
+	        password: {
+	            required: true
+	        }
+	    },
+	    messages: {
+	        username: {
+	            required: '请输入用户名或邮箱'
+	        },
+	        password: {
+	            required: '请输入密码'
+	        }
+	    }
+	});
+	$(".commo_btn").on("click",function(){
+		if ($("#login-form").valid()) {
+            $('#login-form').submit();
+        }
+	})
+})
 
 
