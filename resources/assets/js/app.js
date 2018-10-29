@@ -8,7 +8,6 @@ require('./bootstrap');
 //require('./components/UserAddressesCreateAndEdit');
 require('./components/jquery.lazyload/jquery.lazyload.min');
 require('./jquery.validate.min');
-//require('./layer/layer')
 
 //const app = new Vue({
 //  el: '#app'
@@ -371,10 +370,67 @@ $(function(){
 	        }
 	    }
 	});
+	$("#register-form").validate({
+	    rules: {
+	        username: {
+	            required: true
+	        },
+	        password: {
+	            required: true
+	        },
+	        phone: {
+	        	required: true
+	        }
+	    },
+	    messages: {
+	        username: {
+	            required: '请输入用户名'
+	        },
+	        password: {
+	            required: '请输入密码'
+	        },
+	        phone: {
+	        	required: '输入手机号'
+	        }
+	    }
+	});
+	$("#mailbox_login").validate({
+	    rules: {
+	        email: {
+	            required: true
+	        },
+	    },
+	    messages: {
+	        email: {
+	            required: '请输入邮箱'
+	        },
+	    }
+	});
+	//普通登录
 	$(".commo_btn").on("click",function(){
 		if ($("#login-form").valid()) {
             $('#login-form').submit();
         }
+	})
+	//注册
+	$(".register_btn").on("click",function(){
+		if ($("#register-form").valid()) {
+			if($("#register_code").val()!=""&&$("#agreement").prop("checked")!=false){
+	            $('#register-form').submit();
+	        }else {
+	        	$(".register_error").css("display","block");
+	        }
+		}
+	})
+	//邮箱登录
+	$(".mailbox_btn").on("click",function(){
+		if ($("#mailbox_login").valid()) {
+			if($("#login_code").val()!=""){
+	            $('#register-form').submit();
+	        }else {
+	        	$(".mailbox_error").css("display","block");
+	        }
+		}
 	})
 })
 

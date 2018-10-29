@@ -148,10 +148,6 @@
         <div class="register_form part_frame">
             <div class="holder">
                 <div class="with-line">新用户注册</div>
-                <p class="register_error error_content">
-                    <i></i>
-                    <span>请输入邮箱</span>
-                </p>
                 <form id="register-form" action="{{ route('register') }}" method="POST">
                     {{ csrf_field() }}
                     <input type="text" name="username" id="register_user" placeholder="请输入用户名" required>
@@ -168,17 +164,29 @@
 		                    <span>{{ $errors->first('password') }}</span>
 		                </p>
 	                @endif
-                    <input type="text" name="email" id="register_email" placeholder="请输入邮箱" required>
-                    @if ($errors->has('email'))
+	                <div class="register_phone">
+	                	<select class="choose_tel_area">
+		                	<option>1</option>
+		                	<option>2</option>
+		                	<option>3</option>
+		                	<option>4</option>
+		                </select>
+	                    <input type="text" name="phone" id="register_email" placeholder="请输入手机号" required>
+	                </div>
+                    @if ($errors->has('phone'))
 	                    <p class="login_error error_content">
 		                    <i></i>
-		                    <span>{{ $errors->first('email') }}</span>
+		                    <span>{{ $errors->first('phone') }}</span>
 		                </p>
 	                @endif
                     <div class="verification_code">
-                        <input type="text" id="register_code" class="code" name="code" placeholder="请输入验证码" required>
+                        <input type="text" id="register_code" class="code" name="code" placeholder="请输入验证码">
                         <input type="button" class="generate_code" id="getRegister_code" value=" 获取验证码">
                     </div>
+                    <p class="register_error error_content">
+	                    <i></i>
+	                    <span>请输入有效验证码阅读并同意服务协议</span>
+	                </p>
                     @if ($errors->has('code'))
 	                    <p class="login_error error_content">
 		                    <i></i>
@@ -193,8 +201,7 @@
                         <a href="{{ route('root') }}">《用户服务使用协议》</a>
                     </p>
                 </div>
-                <a class="btn_dialog" href="{{ route('register') }}"
-                   onclick="event.preventDefault();document.getElementById('register-form').submit();">注册</a>
+                <a class="btn_dialog register_btn">注册</a>
                 <div class="switch-back">
                     <p class="change_title">
                         <span>已有账号？</span>
@@ -243,9 +250,13 @@
 		                </p>
 	                @endif
                     <div class="verification_code">
-                        <input type="text" class="code" name="code" id="login_code" placeholder="请输入验证码" required>
+                        <input type="text" class="code" name="code" id="login_code" placeholder="请输入验证码">
                         <input type="button" class="generate_code" id="getLogin_code" value=" 获取验证码">
                     </div>
+                    <p class="mailbox_error error_content">
+	                    <i></i>
+	                    <span>请输入正确有效验证码</span>
+	                </p>
                     @if ($errors->has('code'))
 	                    <p class="login_error error_content">
 		                    <i></i>
@@ -257,8 +268,7 @@
                     <a code="1" class="rotary_btn register_btn pull-left">新用户注册</a>
                     <a class="forget_psw pull-right" href="{{ route('password.request') }}">忘记密码？</a>
                 </div>
-                <a class="btn_dialog commo_btn active"
-                   onclick="event.preventDefault();document.getElementById('login-form').submit();">登录</a>
+                <a class="btn_dialog commo_btn active">登录</a>
                 <a class="btn_dialog mailbox_btn">登录</a>
             </div>
         </div>

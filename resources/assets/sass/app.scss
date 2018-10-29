@@ -476,7 +476,7 @@ a {
         font-size: 12px;
         overflow: hidden;
         margin: 5px auto;
-//      display: none;
+        display: none;
         i {
             width: 12px;
             height: 12px;
@@ -499,6 +499,7 @@ a {
         border-radius: 2px;
         font-size: 16px;
         line-height: 36px;
+        cursor: pointer;
     }
     input {
         width: 287px;
@@ -530,6 +531,24 @@ a {
                 background: url(../img/email.png) left no-repeat;
                 background-position-x: 10px;
                 text-indent: 35px;
+            }
+        }
+        .register_phone {
+            height: 36px;
+            width: 100%;
+            margin: 5px auto;
+            display: flex;
+            select {
+                border: 1px solid #eaeaea;
+                outline: none;
+                border-right: 0px;
+            }
+            input {
+                margin: 0;
+                border-left: 0px;
+                &:focus ~select{
+                    border-color: #7ca442;
+                }
             }
         }
     }
@@ -720,6 +739,26 @@ a {
              right: 0;
         }
     }
+    label {
+        &.error {
+            display: block;
+            height: 24px;
+            border: 1px solid #bc8c61;
+            color: #bc8c61;
+            line-height: 24px;
+            border-radius: 2px;
+            font-size: 12px;
+            overflow: hidden;
+            margin: 5px auto;
+            text-align: left;
+            text-indent: 32px;
+            background: url(../img/error_mark.png) no-repeat;
+            background-color: #fdf4ec;
+            background-position: left center;
+            background-position-x: 15px;
+        }
+    }
+    
 }
 
 
