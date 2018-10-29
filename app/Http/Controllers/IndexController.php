@@ -56,6 +56,23 @@ class IndexController extends Controller
         ]);
     }
 
+    // POST 获取上传图片路径+预览
+    public function imageUpload(Request $request, ImageUploadHandler $handler)
+    {
+        $this->validate($request, [
+            'image' => 'required|image',
+        ], [], [
+            'image' => '上传图片',
+        ]);
+        $path = $handler->uploadOriginal($request->image);
+        $preview_path = $handler->uploadTemp($request->image);
+        $preview_url = Storage::disk('public')->url($preview_path);
+        return response()->json([
+            'path' => $path,
+            'preview' => $preview_url,
+        ]);
+    }
+
     // POST Aliyun发送短信 [目前仅用于用户注册、登录、重置密码时发送验证码]
     public function easySmsSend(EasySmsSendRequest $request)
     {
