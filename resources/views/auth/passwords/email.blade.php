@@ -34,8 +34,16 @@
                     <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
                         <div class="">
                         	<label class="reset_email">
-                        		<span>邮箱</span>
-                        		<input id="email" type="email"  name="email" value="{{ old('email') }}"  required placeholder="请输入邮箱">
+                        		<span>手机号</span>
+                        		<img src="{{ asset('img/sanjiao.png') }}">
+                        	    <select class="choose_tel_area">
+				                	<option>1-340</option>
+				                	<option>1-340</option>
+				                	<option>1-340</option>
+				                	<option>1-340</option>
+				                </select>
+				                <span class="areaCode_choosed"></span>
+                        		<input id="email" type="email"  name="email" value="{{ old('email') }}"  required placeholder="请输入手机号">
                         	</label>
                             @if ($errors->has('email'))
                                 <span class="help-block">
@@ -97,6 +105,11 @@
 				settime();      
 			},1000);    
 		}
+		//选择区号
+		$(".choose_tel_area").on("change",function(){
+			$(".areaCode_choosed").html($(this).val());
+			$(".reset_email input").addClass("active");
+		})
 	});
 </script>
 @endsection

@@ -83,14 +83,19 @@
             .reset_psw_new,
             .reset_psw_sure{
                 overflow: hidden;
+                position: relative;
                 span {
                     display: inline-block;
                     float: left;
                     color: #a0a39d;
-                    margin-right: 15px;
+                    margin-right: 10px;
                     margin-left: 195px;
                     font-size: 12px;
                     margin-top: 5px;
+                    &.areaCode_choosed {
+                        position: absolute;
+                        margin-left: 5px;
+                    }
                 }
                 input {
                     width: 280px;
@@ -118,6 +123,21 @@
                         color: #dbdbdb;
                         font-size: 12px;
                     }
+                    &.active {
+                        padding-left: 35px;
+                    }
+                }
+                img {
+                    float: left;
+                    margin: 10px 0;
+                    margin-right: 6px;
+                    
+                }
+                .choose_tel_area {
+                    position: absolute;
+                    left: 195px;
+                    opacity: 0;
+                    cursor: pointer;
                 }
                 
             }   

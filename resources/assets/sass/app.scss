@@ -445,7 +445,6 @@ a {
         }
         .part_frame {
             margin-bottom: 35px;
-//          backface-visibility:hidden;
         }
     }
     .close {
@@ -466,7 +465,6 @@ a {
         }
     }
     .error_content {
-//      display: block;
         height: 24px;
         background-color: #fdf4ec;
         border: 1px solid #bc8c61;
@@ -1629,3 +1627,4 @@ footer {
 @import "collection_and_history";
 @import "order";
 @import "evaluate";
+@import "refund";

@@ -34,7 +34,7 @@
                         <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
                             <div class="">
                                 <label class="reset_email">
-                                    <span>邮箱</span>
+                                    <span>手机号</span>
                                     <input id="email" type="email" name="email" value="{{ old('email') }}" readonly
                                            required placeholder="请输入邮箱">
                                 </label>
