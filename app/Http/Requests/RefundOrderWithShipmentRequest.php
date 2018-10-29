@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Validation\Rule;
 
-class RefundOrderRequest extends Request
+class RefundOrderWithShipmentRequest extends Request
 {
     /**
      * Get the validation rules that apply to the request.
@@ -14,7 +14,7 @@ class RefundOrderRequest extends Request
     {
         return [
             'amount' => 'bail|required|numeric',
-            'remark_by_user' => 'bail|required|string|min:3|max:255',
+            'remark_by_user' => 'bail|required|string|min:3',
             'photos_for_refund' => 'bail|sometimes|nullable|string',
         ];
     }

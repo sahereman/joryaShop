@@ -6,6 +6,7 @@ use App\Http\Requests\PostOrderCommentRequest;
 use App\Http\Requests\PutOrderCommentRequest;
 use App\Http\Requests\PostOrderRequest;
 use App\Http\Requests\RefundOrderRequest;
+use App\Http\Requests\RefundOrderWithShipmentRequest;
 use App\Jobs\AutoCloseOrderJob;
 use App\Jobs\AutoCompleteOrderJob;
 use App\Models\Cart;
@@ -236,7 +237,7 @@ class OrdersController extends Controller
 
         return view('orders.create_comment', [
             'order' => $order,
-            'order_items' => $order->items()->with('sku.product')->get()->groupBy('id'),
+            // 'order_items' => $order->items()->with('sku.product')->get(),
         ]);
     }
 
@@ -256,6 +257,7 @@ class OrdersController extends Controller
                 'parent_id' => 0,
                 'user_id' => $order->user_id,
                 'order_id' => $order->id,
+                'order_item_id' => $order_item_id,
                 'product_id' => $order_item[0]->sku->product->id,
                 'composite_index' => $request->input('composite_index')[$order_item_id],
                 'description_index' => $request->input('description_index')[$order_item_id],
@@ -265,10 +267,14 @@ class OrdersController extends Controller
             ]);
         }
 
-        return response()->json([
+        $order->commented_at = Carbon::now()->toDateTimeString();
+        $order->save();
+
+        /*return response()->json([
             'code' => 200,
             'message' => 'success',
-        ]);
+        ]);*/
+        return redirect()->route('orders.show_comment', $order->id);
     }
 
     // GET 查看订单评价
@@ -276,10 +282,12 @@ class OrdersController extends Controller
     {
         $this->authorize('show_comment', $order);
 
+        dd($order->comments->groupBy('product_id'));
         return view('orders.show_comment', [
+            'user' => $request->user(),
             'order' => $order,
-            'order_items' => $order->items()->with('sku.product')->get()->groupBy('id'),
-            'comments' => $order->comments,
+            // 'order_items' => $order->items()->with('sku.product')->get(),
+            'comments' => $order->comments->groupBy('order_item_id'),
         ]);
     }
 
@@ -298,6 +306,7 @@ class OrdersController extends Controller
             'parent_id' => $request->input('parent_id'),
             'user_id' => $order->user_id,
             'order_id' => $order->id,
+            'order_item_id' => $request->input('order_item_id'),
             'product_id' => $order_items[$request->input('order_item_id')][0]->sku->product->id,
             'content' => $request->input('content'),
             'photos' => $request->input('photos'),
@@ -322,11 +331,23 @@ class OrdersController extends Controller
     }
 
     // POST 发起退单申请 [订单进入售后状态:status->refunding] [仅退款]
-    public function storeRefund(Request $request, Order $order)
+    public function storeRefund(RefundOrderRequest $request, Order $order)
     {
         $this->authorize('refund', $order);
 
-        // TODO ...
+        OrderRefund::create([
+            'order_id' => $order->id,
+            'type' => 'refund',
+            'status' => 'checking',
+            'amount' => $request->input('amount'),
+            'remark_by_user' => $request->input('remark_by_user'),
+            'photos_for_refund' => $request->input('photos_for_refund'),
+        ]);
+
+        return response()->json([
+            'code' => 200,
+            'message' => 'success',
+        ]);
     }
 
     // PUT 更新退单申请 [仅退款]

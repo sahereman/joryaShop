@@ -14,6 +14,7 @@ class ProductComment extends Model
         'parent_id',
         'user_id',
         'order_id',
+        'order_item_id',
         'product_id',
         'composite_index',
         'description_index',
@@ -29,6 +30,26 @@ class ProductComment extends Model
     protected $casts = [
         //
     ];
+
+    /**
+     * The accessors to append to the model's array form.
+     * @var array
+     */
+    protected $appends = [
+        'photo_set',
+    ];
+
+    public function getPhotoSetAttribute()
+    {
+        $photoSet = [];
+        if ($this->attributes['photos'] != '') {
+            $photos = explode(',', $this->attributes['photos']);
+            foreach ($photos as $photo) {
+                $photoSet[] = generate_image_url($photo);
+            }
+        }
+        return $photoSet;
+    }
 
     public function children()
     {

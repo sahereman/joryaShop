@@ -33,7 +33,7 @@ class UserRequest extends Request
             ],*/
             'password' => 'sometimes|required|string|min:6|confirmed',
             'email' => [
-                'sometimes', 'required', 'string', 'email', 'max:255',
+                'sometimes', 'nullable', 'string', 'email', 'max:255',
                 Rule::unique('users')->ignore($this->route()->user->id),
             ],
             'real_name' => 'sometimes|nullable|string',
@@ -44,8 +44,24 @@ class UserRequest extends Request
             ],
             'qq' => 'sometimes|nullable|string',
             'wechat' => 'sometimes|nullable|string',
-            'country_code' => 'sometimes|required_with:phone|string',
-            'phone' => 'sometimes|string',
+            /*暂不支持修改手机号码*/
+            /*'country_code' => 'sometimes|required_with:phone|string',
+            'phone' => [
+                'sometimes',
+                'required_with:country_code',
+                'string',
+                function ($attribute, $value, $fail) {
+                    if ($this->has('country_code')) {
+                        if (! User::where([
+                            'country_code' => $this->input('country_code'),
+                            'phone' => $value,
+                        ])->exists()
+                        ) {
+                            $fail('对不起，该手机号码尚未注册用户~');
+                        }
+                    }
+                }
+            ],*/
             'facebook' => 'sometimes|nullable|string',
         ];
     }
@@ -62,8 +78,9 @@ class UserRequest extends Request
             'gender' => '性别:male|female',
             'qq' => 'QQ',
             'wechat' => '微信',
-            'country_code' => '国家|地区码',
-            'phone' => '手机',
+            /*暂不支持修改手机号码*/
+            // 'country_code' => '国家|地区码',
+            // 'phone' => '手机',
             'facebook' => 'Facebook',
         ];
     }

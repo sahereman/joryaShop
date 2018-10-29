@@ -1,4 +1,7 @@
 <?php
+
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 use Overtrue\EasySms\EasySms;
 use Overtrue\EasySms\PhoneNumber;
 
@@ -136,4 +139,18 @@ function shipment_query($shipment_company, $shipment_sn)
     $result = curl_exec($ch);
     $data = str_replace("\"", '"', $result);
     return json_decode($data, true);
+}
+
+/**
+ * Generate An Image Url.
+ * @param $image string image path or url.
+ * @return string image url.
+ * */
+function generate_image_url($image)
+{
+    // 如果 image 字段本身就已经是完整的 url 就直接返回
+    if (Str::startsWith($image, ['http://', 'https://'])) {
+        return $image;
+    }
+    return Storage::disk('public')->url($image);
 }

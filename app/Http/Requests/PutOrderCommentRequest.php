@@ -14,7 +14,6 @@ class PutOrderCommentRequest extends Request
 
     /**
      * Get the validation rules that apply to the request.
-     *
      * @return array
      */
     public function rules()
@@ -59,6 +58,10 @@ class PutOrderCommentRequest extends Request
         ];
     }
 
+    /**
+     * Get custom attributes for validator errors.
+     * @return array
+     */
     public function attributes()
     {
         return [
@@ -70,6 +73,10 @@ class PutOrderCommentRequest extends Request
         ];
     }
 
+    /**
+     * Get custom messages for validator errors.
+     * @return array
+     */
     public function messages()
     {
         return [

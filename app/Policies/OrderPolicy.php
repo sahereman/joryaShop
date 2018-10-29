@@ -22,7 +22,7 @@ class OrderPolicy
     public function view(User $user, Order $order)
     {
         // 不可查看已删除订单
-        if(! $order->deleted_at){
+        if (!$order->deleted_at) {
             return $user->id === $order->user_id;
         }
         return false;
@@ -110,7 +110,7 @@ class OrderPolicy
     public function store_comment(User $user, Order $order)
     {
         if ($this->update($user, $order) && $order->status === Order::ORDER_STATUS_COMPLETED) {
-            return ! ProductComment::where([
+            return !ProductComment::where([
                 'user_id' => $user->id,
                 'order_id' => $order->id,
             ])->exists();
@@ -196,7 +196,7 @@ class OrderPolicy
      */
     public function delete(User $user, Order $order)
     {
-        if(in_array($order->status, [Order::ORDER_STATUS_CLOSED, Order::ORDER_STATUS_COMPLETED])){
+        if (in_array($order->status, [Order::ORDER_STATUS_CLOSED, Order::ORDER_STATUS_COMPLETED])) {
             return $user->id === $order->user_id;
         }
         return false;
@@ -211,7 +211,7 @@ class OrderPolicy
      */
     public function shipment_query(User $user, Order $order)
     {
-        if($this->update($user, $order)){
+        if ($this->update($user, $order)) {
             return !in_array($order->status, [Order::ORDER_STATUS_PAYING, Order::ORDER_STATUS_CLOSED, Order::ORDER_STATUS_SHIPPING]);
         }
         return false;

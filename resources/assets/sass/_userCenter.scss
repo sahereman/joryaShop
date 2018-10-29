@@ -130,6 +130,7 @@
                 height: 285px;
                 background-color: #fff;
                 text-align: center;
+                display: none;
                 img {
                     margin-top: 40px;
                     margin-bottom: 30px;
@@ -377,7 +378,7 @@
 //修改账户信息
 .User_center_edit {
     .UserInfo_content {
-//      min-height: 670px;
+        height: 670px;
         background-color: #fff;
         .edit_content {
             form {
@@ -502,7 +503,6 @@
                     line-height: 40px;
                     background-color: $commom-color;
                     margin-left: 177px;
-                    margin-bottom: 35px;
                     font-size: 16px;
                 }
             }
