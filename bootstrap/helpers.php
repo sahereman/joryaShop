@@ -16,7 +16,11 @@ function route_class()
  * @param array $data 短信内容 format: ['code' => '888888']
  * @param string $phone_number 手机号码 eg. 18888888888.
  * @param string $country_code 国家|地区码 eg. 86.
- * @return boolean
+ *
+ * @return array $response
+ *
+ * @throws \Overtrue\EasySms\Exceptions\InvalidArgumentException
+ * @throws \Overtrue\EasySms\Exceptions\NoGatewayAvailableException
  */
 function easy_sms_send($data, $phone_number, $country_code)
 {

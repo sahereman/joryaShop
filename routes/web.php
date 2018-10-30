@@ -10,7 +10,7 @@ Route::get('test', function () {
 
 /*通过短信验证码登录*/
 Route::post('login/send_sms', 'Auth\LoginController@sendSms')->name('login.send_sms'); // 发送短信验证码 [for Ajax request]
-// Route::post('login/verify_sms', 'Auth\LoginController@verifySms')->name('login.verify_sms'); // 验证短信验证码 [for Ajax request]
+Route::post('login/verify_sms', 'Auth\LoginController@verifySms')->name('login.verify_sms'); // 验证短信验证码 [for Ajax request]
 
 /*通过邮箱验证码重置密码*/
 // $this->get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request'); // 忘记密码，通过邮箱重置密码页面

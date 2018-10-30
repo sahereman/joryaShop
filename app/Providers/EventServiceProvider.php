@@ -25,6 +25,15 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\EmailCodeRegisterEvent' => [
             'App\Listeners\EmailCodeRegisterEventListener',
         ],
+        'App\Events\SmsLoginEvent' => [
+            'App\Listeners\SmsLoginEventListener',
+        ],
+        'App\Events\SmsResetEvent' => [
+            'App\Listeners\SmsResetEventListener',
+        ],
+        'App\Events\SmsRegisterEvent' => [
+            'App\Listeners\SmsRegisterEventListener',
+        ],
         'App\Events\OrderSnapshotEvent' => [
             'App\Listeners\OrderSnapshotEventListener',
         ],
