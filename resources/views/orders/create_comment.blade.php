@@ -37,7 +37,7 @@
 	                            </thead>
 	                            <tbody>
 	                            <tr>
-	                                <td class="col-pro-img">
+	                                <td class="col-pro-img" >
 	                                    <a href="">
 	                                        <img src="{{ $order_item['sku']['product']['thumb_url'] }}">
 	                                    </a>
@@ -173,7 +173,8 @@
 	                                <div class="pictures" code="{{ $order_item['id'] }}">
 	                                    <div class="pictures_btn" code="{{ $order_item['id'] }}">
 	                                        <img src="{{ asset('img/pic_upload.png') }}">
-	                                        <input type="file" name="avatar" value=""  id="{{ $order_item['id'] }}" code="{{ $order_item['id'] }}" onchange="imgChange(this)" >
+	                                        <input type="file" name="image"  value="" id="{{ $order_item['id'] }}" onchange="imgChange(this)" />
+	                                        <input type="hidden" name="photos" code="{{ $order_item['id'] }}" >
 	                                    </div>
 	                                </div>
 	                            </div>
@@ -181,7 +182,7 @@
 	                    </div>
 	                @endforeach
 	                <div class="sub_evaluation_area">
-	                    <a class="sub_evaluation" href="">提交</a>
+	                    <a class="sub_evaluation">提交</a>
 	                </div>
             </div>
         </div>
@@ -190,6 +191,7 @@
 @section('scriptsAfterJs')
     <script type="text/javascript">
         var which_click = 0;
+        var set_finish = false;
         $(function () {
             $(".navigation_left ul li").removeClass("active");
             $(".my_order").addClass("active");
@@ -198,7 +200,6 @@
             });
             $(".pictures_btn").on("click",function () {
                 which_click = $(this).attr("code");
-                console.log($(this).find("input[type='file']").attr('code'))
                 $(document).on("click",".pictures_btn input",function(){})
             })
         });
@@ -206,15 +207,15 @@
         function imgChange(obj){
             var filePath=$(obj).val();
             if(filePath.indexOf("jpg")!=-1 || filePath.indexOf("png")!=-1 || filePath.indexOf("jpeg")!=-1 || filePath.indexOf("gif")!=-1 || filePath.indexOf("bmp")!=-1){
-                $(".fileerrorTip").html("").hide();
                 var arr=filePath.split('\\');
                 var fileName=arr[arr.length-1];
-                $(".showFileName").html(fileName);
                 upLoadBtnSwitch = 1;
                 UpLoadImg(obj);
             }else{
-                $(".showFileName").html("");
-                $(".fileerrorTip").html("您未选择图片，或者您上传文件格式有误！（当前支持图片格式：jpg，png，jpeg，gif，bmp）").show();
+                layer.open({
+				  title: '提示',
+				  content: '您未选择图片，或者您上传文件格式有误！（当前支持图片格式：jpg，png，jpeg，gif，bmp）'
+				});
                 upLoadBtnSwitch = 0;
                 return false 
             }
@@ -225,7 +226,7 @@
             var formData = new FormData();
             formData.append('image',$(obj)[0].files[0]);
             $.ajax({
-                url:"{{ route('image.preview') }}",
+                url:"{{ route('comment_image.upload') }}",
                 data:formData,
                 dataType:'json',
                 cache: false,  
@@ -233,12 +234,42 @@
                 processData: false,//必须false才会自动加上正确的Content-Type
                 type:'post',            
                 success:function(data){
-                   var html = "<div><img src='" + data.preview + "'></div>";
-                   $(".pictures[code='" + which_click + "']").append(html);
+                    var html = "<div class='img_path' data-path='"+ data.path +"'>"+
+                                    "<img src='" + data.preview + "' data-path='"+ data.path +"'>"+
+                                    "<img class='close_btn' src='{{ asset('img/error_fork.png') }}' >"+
+                              "</div>";
+                    $(".pictures[code='" + which_click + "']").append(html);
                 },error:function(e){
                     console.log(e);
                 }
             });
         }
+        
+        
+        //表单提交
+        $(".sub_evaluation").on("click",function(){
+        	set_path();
+        	if(set_finish==true){
+        		$("form").submit();
+        	}
+        })
+        function set_path() {
+        	var order_list = $(".comment_content").find(".evaluation_order .pictures");
+        	$.each(order_list, function(i,n) {
+        		var img_list = $(n).find(".img_path");
+        		var path_url = "";
+        		$.each(img_list, function(a,b) {
+        			path_url+=$(b).attr("data-path")+","
+        		});
+        		path_url=path_url.substring(0, path_url.length - 1);
+        		$(n).find("input[code='"+ $(n).attr("code") +"']").val(path_url);
+        	});
+        	set_finish=true;
+        	return set_finish;
+        }
+        //删除
+        $(document).on("click",".close_btn",function(){
+        	$(this).parents('.img_path').remove();
+        })
     </script>
 @endsection
