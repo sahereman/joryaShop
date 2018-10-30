@@ -5,7 +5,7 @@ namespace App\Rules;
 use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Support\Facades\Cache;
 
-class LoginEmailCodeSentableRule implements Rule
+class ResetEmailCodeSendableRule implements Rule
 {
     /**
      * Create a new rule instance.
@@ -26,7 +26,7 @@ class LoginEmailCodeSentableRule implements Rule
      */
     public function passes($attribute, $value)
     {
-        return ! Cache::has('login_email_code_sent-' . $value);
+        return ! Cache::has('reset_email_code_sent-' . $value);
     }
 
     /**

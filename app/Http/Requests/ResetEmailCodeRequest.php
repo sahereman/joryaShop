@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Rules\ResetEmailCodeSentableRule;
+use App\Rules\ResetEmailCodeSendableRule;
 use Illuminate\Validation\Rule;
 
 class ResetEmailCodeRequest extends Request
@@ -30,7 +30,7 @@ class ResetEmailCodeRequest extends Request
                 'string',
                 'email',
                 'exists:users',
-                new ResetEmailCodeSentableRule(),
+                new ResetEmailCodeSendableRule(),
             ],
         ];
     }

@@ -5,7 +5,7 @@ namespace App\Rules;
 use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Support\Facades\Cache;
 
-class RegisterEmailCodeSentableRule implements Rule
+class RegisterEmailCodeSendableRule implements Rule
 {
     /**
      * Create a new rule instance.

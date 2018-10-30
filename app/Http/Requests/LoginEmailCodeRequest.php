@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Rules\LoginEmailCodeSentableRule;
+use App\Rules\LoginEmailCodeSendableRule;
 use Illuminate\Validation\Rule;
 
 class LoginEmailCodeRequest extends Request
@@ -30,7 +30,7 @@ class LoginEmailCodeRequest extends Request
                 'string',
                 'email',
                 'exists:users',
-                new LoginEmailCodeSentableRule(),
+                new LoginEmailCodeSendableRule(),
             ],
         ];
     }

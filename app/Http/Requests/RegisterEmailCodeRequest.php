@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Rules\RegisterEmailCodeSentableRule;
+use App\Rules\RegisterEmailCodeSendableRule;
 use Illuminate\Validation\Rule;
 
 class RegisterEmailCodeRequest extends Request
@@ -33,7 +33,7 @@ class RegisterEmailCodeRequest extends Request
                 'string',
                 'email',
                 'unique:users',
-                new RegisterEmailCodeSentableRule(),
+                new RegisterEmailCodeSendableRule(),
             ],
         ];
     }

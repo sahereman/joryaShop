@@ -10,8 +10,6 @@ use Illuminate\Validation\Rule;
 
 class PutOrderCommentRequest extends Request
 {
-    protected $order_item_ids = [];
-
     /**
      * Get the validation rules that apply to the request.
      * @return array
