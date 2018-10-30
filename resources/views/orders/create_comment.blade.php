@@ -57,7 +57,7 @@
 	                                <td class="col-price">
 	                                    <p class="p-price">
 	                                        <em>¥</em>
-	                                        <span>{{ $order_item['price'] }}</span>
+	                                        <span>{{ number_format($order_item['price'], 2) }}</span>
 	                                    </p>
 	                                </td>
 	                                <td class="col-quty">
@@ -66,7 +66,7 @@
 	                                <td class="col-pay">
 	                                    <p>
 	                                        <em>¥</em>
-	                                        <span>{{ $order_item['price'] * $order_item['number'] }}</span>
+	                                        <span>{{ number_format($order_item['price'] * $order_item['number'], 2) }}</span>
 	                                    </p>
 	                                </td>
 	                            </tr>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Handlers\ImageUploadHandler;
 use App\Http\Requests\UserRequest;
+use App\Models\CountryCode;
 use App\Models\User;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -97,22 +98,24 @@ class UsersController extends Controller
         return redirect()->route('users.password', $user->id);
     }
 
-    // GET 修改手机页面
+    // GET 绑定|修改手机页面
     public function updatePhone(User $user)
     {
         $this->authorize('update', $user);
 
+        $country_codes = CountryCode::all();
         return view('users.update_phone', [
             'user' => $user,
+            'country_codes' => $country_codes,
         ]);
     }
 
-    // GET 绑定手机页面
-    public function bindingPhone(User $user)
+    // GET 绑定|修改Email页面
+    public function updateEmail(User $user)
     {
         $this->authorize('update', $user);
 
-        return view('users.binding_phone', [
+        return view('users.update_email', [
             'user' => $user,
         ]);
     }
@@ -123,8 +126,8 @@ class UsersController extends Controller
 
         $this->authorize('update', $user);
 
-        $data = $request->only('avatar', 'email', 'password', 'real_name', 'gender', 'qq', 'wechat', 'phone', 'facebook');
-        // $data = $request->only('name', 'avatar', 'email', 'password', 'real_name', 'gender', 'qq', 'wechat', 'phone', 'facebook');
+        $data = $request->only('avatar', 'email', 'password', 'real_name', 'gender', 'qq', 'wechat', 'country_code', 'phone', 'facebook');
+        // $data = $request->only('name', 'avatar', 'email', 'password', 'real_name', 'gender', 'qq', 'wechat', 'country_code', 'phone', 'facebook');
 
         if ($request->hasFile('avatar')) {
             $data['avatar'] = $imageUploadHandler->uploadOriginal($request->avatar);

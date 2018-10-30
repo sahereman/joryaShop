@@ -96,9 +96,10 @@ class OrdersController extends Controller
 
         // 订单物流状态
         $order_shipment_information = [];
-        if ($order->shipment_company != null && $order->shipment_sn != null) {
+        // TODO ...
+        /*if ($order->shipment_company != null && $order->shipment_sn != null) {
             $order_shipment_information = shipment_query($order->shipment_company, $order->shipment_sn);
-        }
+        }*/
 
         return view('orders.show', [
             'order' => $order,
