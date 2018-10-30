@@ -1,3 +1,104 @@
+.refun_crumbs {
+    .Crumbs {
+        padding-left: 105px;
+    }
+}
 .refund_content {
-    
+    width: 990px;
+    min-height: 465px;
+    margin: auto;
+    margin-bottom: 35px;
+    .technological_process {
+        height: 40px;
+        width: 100%;
+        margin-bottom: 10px;
+        img {
+            width: 100%;
+        }
+    }
+    .process_content {
+        width: 100%;
+        min-height: 420px;
+        background: #fff;
+        .step_content {
+            .order_lists {
+                height: 100%;
+                width: 290px;
+                border-left: 1px solid #ebebeb;
+                .step_content_title {
+                    font-size: 16px;
+                    color: #333;
+                    font-weight: bold;
+                    margin: 20px auto;
+                    padding-left: 30px;
+                }
+                ul {
+                    height: 355px;
+                }
+            }
+            .application_content {
+                width: 700px;
+                .step-1-ul {
+                    padding-left: 45px;
+                    li {
+                        overflow: hidden;
+                        margin-top: 20px;
+                        margin-bottom: 10px;
+                        span {
+                            display: block;
+                            width: 80px;
+                            height: 35px;
+                            line-height: 35px;
+                            text-align: left;
+                            float: left;
+                        }
+                        input[type='text'],
+                        input[type='button'] {
+                            width: 120px;
+                            height: 35px;
+                            border: 1px solid #ebebeb;
+                            border-radius: 2px;
+                            float: left;
+                        }
+                        input[type='text'] {
+                            color: $hover-color;
+                            font-size: 14px;
+                            padding-left: 15px;
+                        }
+                        input[type='button'] {
+                            font-size: 12px;
+                        }
+                        input[type='file'] {
+                            display: none;
+                        }
+                        textarea {
+                            border: 1px solid #ebebeb;
+                            width: 480px;
+                            height: 130px;
+                            border-radius: 2px;
+                        }
+                    }
+                }
+                .step-submit {
+                    display: inline-block;
+                    width: 88px;
+                    height: 32px;
+                    margin-left: 135px;
+                    margin-bottom: 20px;
+                    margin-top: 85px;
+                    border-radius: 2px;
+                    line-height: 32px;
+                    text-align: center;
+                    font-size: 12px;
+                    cursor: pointer;
+                    color: #fff;
+                    background-color: #bc8c61;
+                    border: 1px solid #bc8c61;
+                }
+            }
+            &.step-1 {
+                height: 420px;
+            }
+        }
+    }
 }
