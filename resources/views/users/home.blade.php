@@ -111,7 +111,6 @@
                             <!--订单部分-->
                     <div class="order-group">
                         @foreach($orders as $order)
-                        
                             <div class="order-group-item">
                                 <div class="o-info">
                                     <div class="col-info pull-left">
@@ -120,13 +119,14 @@
                                          <a href="{{ route('orders.show', $order->id) }}">{{ $order->order_sn }}</a>
                                      </span>
                                     </div>
-									@if(in_array($order->status, [\App\Models\Order::ORDER_STATUS_CLOSED, \App\Models\Order::ORDER_STATUS_COMPLETED]))
-	                                    <div class="col-delete pull-right" code="{{ route('orders.destroy', $order->id) }}">
-	                                        <a>
-	                                            <img src="{{ asset('img/delete.png') }}">
-	                                        </a>
-	                                    </div>
-	                                @endif
+                                    @if(in_array($order->status, [\App\Models\Order::ORDER_STATUS_CLOSED, \App\Models\Order::ORDER_STATUS_COMPLETED]))
+                                        <div class="col-delete pull-right"
+                                             code="{{ route('orders.destroy', $order->id) }}">
+                                            <a>
+                                                <img src="{{ asset('img/delete.png') }}">
+                                            </a>
+                                        </div>
+                                    @endif
                                 </div>
                                 <div class="o-pro">
                                     <table border="0" cellpadding="0" cellspacing="0">
@@ -207,8 +207,8 @@
                     </div>
                     <!--分页-->
                     <div class="paging_box">
-                    	<a class="pre_page" href="{{ route('users.home') }}">上一页</a>
-                    	<a class="next_page" href="{{ route('users.home') }}">下一页</a>
+                        <a class="pre_page" href="{{ route('users.home') }}">上一页</a>
+                        <a class="next_page" href="{{ route('users.home') }}">下一页</a>
                     </div>
                     @endif
                 </div>
@@ -227,7 +227,7 @@
                                     <p class="commodity_title">{{ $guess->name_zh }}</p>
                                     <p class="collection_price">
                                         <span class="new_price">¥ {{ number_format($guess->price, 2) }}</span>
-                                        <span class="old_price">¥ {{ number_format($guess->price + random_int(300, 500), 2) }}</span>
+                                        <span class="old_price">¥ {{ bcadd($guess->price, random_int(300, 500), 2) }}</span>
                                     </p>
                                     <a class="add_to_cart" href="">加入购物车</a>
                                 </li>
@@ -268,27 +268,27 @@
             $(".navigation_left ul li").removeClass("active");
             $(".user_index").addClass("active");
             $(".order-group").on('click', '.col-delete', function () {
-            	$(".order_delete .textarea_content").find("span").attr("code",$(this).attr("code"));
+                $(".order_delete .textarea_content").find("span").attr("code", $(this).attr("code"));
                 $(".order_delete").show();
             });
-            $(".order_delete").on("click",".success",function(){
-            	var data = {
+            $(".order_delete").on("click", ".success", function () {
+                var data = {
                     _method: "DELETE",
                     _token: "{{ csrf_token() }}",
-                }
+                };
                 var url = $(".textarea_content span").attr('code');
                 $.ajax({
                     type: "post",
                     url: url,
                     data: data,
                     success: function (data) {
-                    	window.location.reload();
+                        window.location.reload();
                     },
                     error: function (err) {
                         console.log(err);
                     }
                 });
-            })
+            });
         });
     </script>
 @endsection

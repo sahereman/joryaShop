@@ -66,7 +66,7 @@
 	                                <td class="col-pay">
 	                                    <p>
 	                                        <em>¥</em>
-	                                        <span>{{ number_format($order_item['price'] * $order_item['number'], 2) }}</span>
+	                                        <span>{{ bcmul($order_item['price'], $order_item['number'], 2) }}</span>
 	                                    </p>
 	                                </td>
 	                            </tr>

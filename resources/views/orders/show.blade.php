@@ -292,7 +292,7 @@
                             </p>
                             <p class="total_cost">
                                 <span>应付总额：</span>
-                                <span class="cost_of_total">¥ {{ number_format($order->total_amount + $order->total_shipping_fee, 2) }}</span>
+                                <span class="cost_of_total">¥ {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}</span>
                             </p>
                         </div>
                     </div>

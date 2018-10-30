@@ -49,7 +49,7 @@
                                         <p class="commodity_title">{{ $history->product->name_zh }}</p>
                                         <p class="collection_price">
                                             <span class="new_price">¥ {{ number_format($history->product->price, 2) }}</span>
-                                            <span class="old_price">¥ {{ number_format($history->product->price + random_int(300, 500), 2) }}</span>
+                                            <span class="old_price">¥ {{ bcadd($history->product->price, random_int(300, 500), 2) }}</span>
                                         </p>
                                         <a class="add_to_cart" href="">加入购物车</a>
                                         <a class="delete_mark" code="{{ route('user_histories.destroy', $history->id) }}" title="点击删除该商品"></a>
