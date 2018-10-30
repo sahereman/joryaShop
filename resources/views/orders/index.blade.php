@@ -116,14 +116,14 @@
                                             <td class="col-price">
                                                 <p class="p-price">
                                                     <em>¥</em>
-                                                    <span>{{ $item->price }}</span>
+                                                    <span>{{ number_format($item->price, 2) }}</span>
                                                 </p>
                                             </td>
                                             <td class="col-quty">1</td>
                                             <td rowspan="{{ $order->items->count() }}" class="col-pay">
                                                 <p>
                                                     <em>¥</em>
-                                                    <span>{{ $order->total_amount }}</span>
+                                                    <span>{{ number_format($order->total_amount, 2) }}</span>
                                                 </p>
                                             </td>
                                             <td rowspan="{{ $order->items->count() }}" class="col-status">
@@ -140,14 +140,15 @@
                                                           class="paying_time count_down"
                                                           created_at="{{ strtotime($order->created_at) }}"
                                                           time_to_close_order="{{ \App\Models\Config::config('time_to_close_order') * 3600 }}">{{ generate_order_ttl_message($order->create_at, \App\Models\Order::ORDER_STATUS_PAYING) }}</span>
-                                                    <a class="payment" href="{{ route('users.home') }}">付款</a>
-                                                    <a class="cancellation" href="{{ route('root') }}">取消订单</a>
-                                                    @elseif($order->status == \App\Models\Order::ORDER_STATUS_SHIPPING && $order->shipped_at == null)
+                                                    <a class="payment" href="{{ route('orders.payment_method', $order->id) }}">付款</a>
+                                                    <a class="cancellation" code="{{ route('orders.close', $order->id) }}">取消订单</a>
+                                                    @elseif($order->status == \App\Models\Order::ORDER_STATUS_CLOSED)
+                                                            <!--再次购买-->
+                                                    <a class="Buy_again" data-url="{{ route('carts.store') }}">再次购买</a>
+                                                    @elseif($order->status == \App\Models\Order::ORDER_STATUS_SHIPPING)
                                                             <!--订单待发货-->
-                                                    <a class="reminding_shipments"
-                                                       href="{{ route('users.home') }}">提醒发货</a>
-                                                    <a class="buy_more" href="{{ route('root') }}">再次购买</a>
-                                                    @elseif($order->status == \App\Models\Order::ORDER_STATUS_RECEIVING && $order->received_at == null)
+                                                    <a class="reminding_shipments">提醒发货</a>
+                                                    @elseif($order->status == \App\Models\Order::ORDER_STATUS_RECEIVING)
                                                             <!--订单待收货-->
                                                     <!--确认收货-->
                                                     <!--系统自动确认订单倒计时-->
@@ -156,25 +157,21 @@
                                                           shipped_at="{{ strtotime($order->shipped_at) }}"
                                                           time_to_complete_order="{{ \App\Models\Config::config('time_to_complete_order') * 3600 * 24 }}">{{ generate_order_ttl_message($order->shipped_at, \App\Models\Order::ORDER_STATUS_RECEIVING) }}</span>
                                                     <a class="confirmation_receipt"
-                                                       href="{{ route('users.home') }}">确认收货</a>
+                                                       code="{{ route('orders.complete', $order->id) }}">确认收货</a>
                                                     @elseif($order->status == \App\Models\Order::ORDER_STATUS_COMPLETED && $order->commented_at == null)
                                                             <!--订单待评价-->
                                                     <a class="evaluate"
-                                                       href="{{ route('orders.create_comment', $order->id) }}">评价</a>
+                                                       href="{{ route('orders.create_comment', $order->id) }}">去评价</a>
+                                                            <!--再次购买-->
+                                                    <a class="buy_more" data-url="{{ route('carts.store') }}">再次购买</a>
                                                     @elseif($order->status == \App\Models\Order::ORDER_STATUS_COMPLETED && $order->commented_at != null)
                                                             <!--订单已评价-->
                                                     <!--查看评价-->
                                                     <a class="View_evaluation"
                                                        href="{{  route('orders.show_comment', $order->id) }}">查看评价</a>
-                                                    @elseif(in_array($order->status, [\App\Models\Order::ORDER_STATUS_CLOSED, \App\Models\Order::ORDER_STATUS_COMPLETED]))
-                                                            <!--删除订单-->
-                                                    <a class="Delete_order"
-                                                       href="{{ route('users.home') }}">删除订单</a>
-                                                    @endif
                                                             <!--再次购买-->
-                                                    <a class="buy_more" href="{{ route('root') }}">再次购买</a>
-                                                    <!--再次购买-->
-                                                    <a class="Buy_again" href="{{ route('users.home') }}">再次购买</a>
+                                                    <a class="buy_more" data-url="{{ route('carts.store') }}">再次购买</a>
+                                                    @endif
                                                 </p>
                                             </td>
                                         </tr>
@@ -196,7 +193,7 @@
                                             <td class="col-price">
                                                 <p class="p-price">
                                                     <em>¥</em>
-                                                    <span>{{ $item->price }}</span>
+                                                    <span>{{ number_format($item->price, 2) }}</span>
                                                 </p>
                                             </td>
                                             <td class="col-quty">1</td>
@@ -231,8 +228,8 @@
                                     </div>
                                     <p class="commodity_title">{{ $guess->name_zh }}</p>
                                     <p class="collection_price">
-                                        <span class="new_price">¥ {{ $guess->price }}</span>
-                                        <span class="old_price">¥ {{ $guess->price + random_int(300, 500) }}</span>
+                                        <span class="new_price">¥ {{ number_format($guess->price, 2) }}</span>
+                                        <span class="old_price">¥ {{ bcadd($guess->price, random_int(300, 500), 2) }}</span>
                                     </p>
                                     <a class="add_to_cart" href="">加入购物车</a>
                                 </li>
@@ -258,6 +255,29 @@
                     <p>
                         <img src="{{ asset('img/warning.png') }}">
                         <span>确定要删除订单信息？</span>
+                    </p>
+                </div>
+            </div>
+            <div class="btn_area">
+                <a class="cancel">取消</a>
+                <a class="success">确定</a>
+            </div>
+        </div>
+    </div>
+    <!--是否确认取消订单弹出层-->
+    <div class="dialog_popup order_cancel">
+        <div class="dialog_content">
+            <div class="close">
+                <i></i>
+            </div>
+            <div class="dialog_textarea">
+                <div class="textarea_title">
+                    <span>提示</span>
+                </div>
+                <div class="textarea_content">
+                    <p>
+                        <img src="{{ asset('img/warning.png') }}">
+                        <span>确定要取消订单？</span>
                     </p>
                 </div>
             </div>
@@ -316,13 +336,27 @@
                     error: function (err) {
                         console.log(err.status);
                         if (err.status == 403) {
-
+                        	layer.open({
+							  type: 1, 
+							  content: '无法处理请求' 
+							});
                         }
                     }
                 });
             });
             var action = "";
             var data = new Date();
+            //获取url参数
+			function getUrlVars() {
+		        var vars = [], hash;
+		        var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+		        for (var i = 0; i < hashes.length; i++) {
+		            hash = hashes[i].split('=');
+		            vars.push(hash[0]);
+		            vars[hash[0]] = hash[1];
+		        }
+		        return vars["status"];
+		    }
             window.onload = function () {
                 if (getUrlVars() != undefined) {
                     action = getUrlVars();
@@ -390,5 +424,63 @@
             _fresh();
             var sh = setInterval(_fresh, 1000);
         }
+        
+        //取消订单
+        $(".cancellation").on('click',function(){
+        	$(".order_cancel .textarea_content").find("span").attr("code", $(this).attr("code"));
+          	$(".order_cancel").show();
+        })
+        $(".order_cancel").on('click','.success',function(){
+        	var data = {
+                _method: "PATCH",
+                _token: "{{ csrf_token() }}",
+           };
+            var url = $(".order_cancel .textarea_content").find("span").attr('code');
+            $.ajax({
+                type: "post",
+                url: url,
+                data: data,
+                success: function (data) {
+                    window.location.reload();
+                },
+                error: function (err) {
+                    if (err.status == 403) {
+                        layer.open({
+						  type: 1, 
+						  content: '无法处理请求' 
+						});
+                    }
+                }
+            });
+        })
+        
+       //确认收货
+       $(".confirmation_receipt").on('click',function(){
+       	   var data = {
+                _method: "PATCH",
+                _token: "{{ csrf_token() }}",
+           };
+            var url = $(this).attr('code');
+            $.ajax({
+                type: "post",
+                url: url,
+                data: data,
+                success: function (data) {
+                    window.location.reload();
+                },
+                error: function (err) {
+                    if (err.status == 403) {
+                        layer.open({
+						  type: 1, 
+						  content: '无法处理请求' 
+						});
+                    }
+                }
+            });
+       })
+       //提醒发货
+       $(".reminding_shipments").on('click',function(){
+       	   layer.msg('已提醒卖家发货，请敬候佳音');
+       })
     </script>
 @endsection

@@ -130,7 +130,6 @@
                 height: 285px;
                 background-color: #fff;
                 text-align: center;
-                display: none;
                 img {
                     margin-top: 40px;
                     margin-bottom: 30px;
@@ -219,9 +218,8 @@
                                     cursor: pointer;
                                     display: inline-block;
                                     margin: 5px 0;
-                                    width: 100%;
                                     &.evaluate {
-                                        width: 50px;
+                                        min-width: 85px;
                                         height: 30px;
                                         border: 1px solid #dcdcdc;
                                         border-radius: 2px;
