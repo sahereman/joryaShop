@@ -61,7 +61,7 @@ class SmsLoginNotification extends Notification implements ShouldQueue
         $code = Str::random(6);
         $ttl = 10;
         Cache::set('sms_login_code-' . $country_code . '-' . $phone_number, $code, $ttl);
-        // 60s内不允许重复发送邮箱验证码
+        // 60s内不允许重复发送手机验证码
         Cache::set('sms_login_code_sent-' . $country_code . '-' . $phone_number, true, 1);
 
         return ['code' => $code];
