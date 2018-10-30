@@ -12,13 +12,6 @@ class SmsChannel
     protected $country_code = 86;
     protected $phone_number;
 
-    public function __construct($data, $phone_number, $country_code)
-    {
-        $this->data = $data;
-        $this->country_code = $country_code;
-        $this->phone_number = $phone_number;
-    }
-
     /**
      * Send the given notification.
      *
@@ -35,7 +28,7 @@ class SmsChannel
         $message = $notification->toSms($notifiable);
         $this->data['code'] = $message['code'];
         if (isset($message['content'])) {
-            $this->data['content'] = $message['content']
+            $this->data['content'] = $message['content'];
         };
 
         // Send notification to the $notifiable instance...
@@ -52,12 +45,12 @@ class SmsChannel
 
         // 国家场景判断
         if ($this->country_code == '86') {
-            if(isset($this->data['content'])){
+            if (isset($this->data['content'])) {
                 $this->data['content'] = '您的验证码为：' . $this->data['code'];
             }
             $template = $config['domestic_template'] ?: env('ALIYUN_SMS_DOMESTIC_TEMPLATE', '');
         } else {
-            if(isset($this->data['content'])){
+            if (isset($this->data['content'])) {
                 $this->data['content'] = 'Your Verification Code is: ' . $this->data['code'];
             }
             $template = $config['international_template'] ?: env('ALIYUN_SMS_INTERNATIONAL_TEMPLATE', '');

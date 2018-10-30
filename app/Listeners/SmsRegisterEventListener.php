@@ -31,7 +31,7 @@ class SmsRegisterEventListener implements ShouldQueue
     /**
      * Handle the event.
      *
-     * @param  SmsRegisterEvent  $event
+     * @param  SmsRegisterEvent $event
      * @return void
      */
     public function handle(SmsRegisterEvent $event)
@@ -59,12 +59,12 @@ class SmsRegisterEventListener implements ShouldQueue
     /**
      * Get the notification routing information for the given driver.
      *
-     * @param  string  $driver
+     * @param  string $driver
      * @return mixed
      */
     public function routeNotificationFor($driver)
     {
-        if (method_exists($this, $method = 'routeNotificationFor'.Str::studly($driver))) {
+        if (method_exists($this, $method = 'routeNotificationFor' . Str::studly($driver))) {
             return $this->{$method}();
         }
 
