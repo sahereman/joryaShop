@@ -33,7 +33,7 @@
                                 <span>订单状态：</span>
                                 <span class="order_status_tips">等待买家付款</span>
                             </p>
-                            <p id="{{ $order->order_sn }}" mark="{{ $order->order_sn }}" class="cunt_down"
+                            <p id="{{ $order->order_sn }}" mark="{{ $order->order_sn }}" class="cunt_down paying_time"
                                created_at="{{ strtotime($order->created_at) }}"
                                time_to_close_order="{{ \App\Models\Config::config('time_to_close_order') * 3600 }}">{{ generate_order_ttl_message($order->create_at, \App\Models\Order::ORDER_STATUS_PAYING) }}
                                 支付（若超时未支付订单，系统将自动取消订单）</p>
@@ -64,7 +64,7 @@
                                 <span>订单状态：</span>
                                 <span class="order_status_tips">卖家已发货，等待买家收货 </span>
                             </p>
-                            <p id="{{ $order->order_sn }}" mark="{{ $order->order_sn }}" class="cunt_down"
+                            <p id="{{ $order->order_sn }}" mark="{{ $order->order_sn }}" class="cunt_down tobe_received_count"
                                shipped_at="{{ strtotime($order->shipped_at) }}"
                                time_to_complete_order="{{ \App\Models\Config::config('time_to_complete_order') * 3600 * 24 }}">{{ generate_order_ttl_message($order->shipped_at, \App\Models\Order::ORDER_STATUS_RECEIVING) }}
                                 确认（若超时未确认订单，系统将自动确认订单）</p>
@@ -83,7 +83,7 @@
                             </p>
                             <p class="operation_area">
                                 <a class="main_operation" href="{{ route('orders.create_comment', $order->id) }}">去评价</a>
-                                <a data-url="{{ route('orders.destroy', $order->id) }}">删除订单</a>
+                                <a class="delete_order" data-url="{{ route('orders.destroy', $order->id) }}">删除订单</a>
                             </p>
                         </div>
                         @elseif($order->status == \App\Models\Order::ORDER_STATUS_COMPLETED && $order->commented_at != null)
@@ -96,7 +96,7 @@
                             </p>
                             <p class="operation_area">
                                 <a class="main_operation" href="{{ route('orders.show_comment', $order->id) }}">查看评价</a>
-                                <a data-url="{{ route('orders.destroy', $order->id) }}">删除订单</a>
+                                <a class="delete_order" data-url="{{ route('orders.destroy', $order->id) }}">删除订单</a>
                             </p>
                         </div>
                         @elseif($order->status == \App\Models\Order::ORDER_STATUS_CLOSED)
@@ -108,7 +108,7 @@
                                 <span class="order_status_tips">交易已关闭</span>
                             </p>
                             <p class="operation_area">
-                                <a data-url="{{ route('orders.destroy', $order->id) }}">删除订单</a>
+                                <a class="delete_order" data-url="{{ route('orders.destroy', $order->id) }}">删除订单</a>
                             </p>
                         </div>
                         @elseif($order->status == \App\Models\Order::ORDER_STATUS_REFUNDING)
@@ -120,7 +120,7 @@
                                 <span class="order_status_tips">售后中</span>
                             </p>
                             <p class="operation_area">
-                                <a class="main_operation" data-url="{{ route('orders.revoke_refund', $order->id) }}">撤销售后</a>
+                                <a class="main_operation revocation_after_sale" data-url="{{ route('orders.revoke_refund', $order->id) }}">撤销售后</a>
                             </p>
                         </div>
                         @endif
@@ -297,7 +297,52 @@
                         </div>
                     </div>
             </div>
-
+        </div>
+    </div>
+    <!--是否确认删除弹出层-->
+    <div class="dialog_popup order_delete">
+        <div class="dialog_content">
+            <div class="close">
+                <i></i>
+            </div>
+            <div class="dialog_textarea">
+                <div class="textarea_title">
+                    <span>提示</span>
+                </div>
+                <div class="textarea_content">
+                    <p>
+                        <img src="{{ asset('img/warning.png') }}">
+                        <span>确定要删除订单信息？</span>
+                    </p>
+                </div>
+            </div>
+            <div class="btn_area">
+                <a class="cancel">取消</a>
+                <a class="success">确定</a>
+            </div>
+        </div>
+    </div>
+    <!--是否撤销售后出层-->
+    <div class="dialog_popup order_after_sale">
+        <div class="dialog_content">
+            <div class="close">
+                <i></i>
+            </div>
+            <div class="dialog_textarea">
+                <div class="textarea_title">
+                    <span>提示</span>
+                </div>
+                <div class="textarea_content">
+                    <p>
+                        <img src="{{ asset('img/warning.png') }}">
+                        <span>确定要撤销售后申请？</span>
+                    </p>
+                </div>
+            </div>
+            <div class="btn_area">
+                <a class="cancel">取消</a>
+                <a class="success">确定</a>
+            </div>
         </div>
     </div>
 @endsection
@@ -308,6 +353,102 @@
             $(".my_order").addClass("active");
             $(".order-group").on('click', '.col-delete', function () {
                 $(".order_delete").show();
+            });
+            //待付款订单
+             $(".paying_time").each(function (index, element) {
+                var val = $(this).attr("mark");
+                var start_time = $(this).attr("created_at") * 1000;
+                var ending_time = $(this).attr('time_to_close_order');
+                timeCount(val, start_time, ending_time, '1');
+            });
+            //待收货订单
+            $(".tobe_received_count").each(function (index, element) {
+                var val = $(this).attr("mark");
+                var start_time = $(this).attr("shipped_at") * 1000;
+                var ending_time = $(this).attr('time_to_complete_order');
+                timeCount(val, start_time, ending_time, "2");
+            });
+             //倒计时方法封装
+	        function timeCount(remain_id, start_time, ending_time, type) {
+	            function _fresh() {
+	                var nowDate = new Date(); //当前时间
+	                var id = $('#' + remain_id).attr("order_id"); //当前订单的id
+	                var addTime = new Date(parseInt(start_time));               //返回的时间戳转换成时间格式
+	                var auto_totalS = ending_time; //订单支付有效时长
+	                var ad_totalS = parseInt((addTime.getTime() / 1000) + auto_totalS); ///下单总秒数
+	                var totalS = parseInt(ad_totalS - (nowDate.getTime() / 1000)); ///支付时长
+	                if (totalS > 0) {
+	                    var _day = parseInt((totalS / 3600) % 24 / 24);
+	                    var _hour = parseInt((totalS / 3600) % 24);
+	                    var _minute = parseInt((totalS / 60) % 60);
+	                    var _second = parseInt(totalS % 60);
+	                    if (type == '1') {
+	                        $('#' + remain_id).html('剩余' + _hour + '时' + _minute + '分' + _second + '秒支付（若超时未支付订单，系统将自动取消订单）');
+	                    } else {
+	                        $('#' + remain_id).html('剩余' + _day + '天' + _hour + '时' + _minute + '分确认（若超时未确认订单，系统将自动确认订单）');
+	                    }
+	                }
+	            }
+	            _fresh();
+	            var sh = setInterval(_fresh, 1000);
+	        }
+	        //删除订单
+	        $(".delete_order").on('click',function(){
+	        	$(".order_delete .textarea_content").find("span").attr("code", $(this).attr("data-url"));
+                $(".order_delete").show();
+	        })
+	        $(".order_delete").on("click", ".success", function () {
+                var data = {
+                    _method: "DELETE",
+                    _token: "{{ csrf_token() }}",
+                };
+                var url = $(".textarea_content span").attr('code');
+                $.ajax({
+                    type: "post",
+                    url: url,
+                    data: data,
+                    success: function (data) {
+                        window.location.href = "{{ route('orders.index') }}";
+                    },
+                    error: function (err) {
+                        console.log(err);
+                        if (err.status == 403) {
+                        	layer.open({
+							  type: 1, 
+							  content: '您无权限执行此操作！' 
+							});
+                        }
+                    }
+                });
+            });
+            //撤销售后
+            $('.revocation_after_sale').on("click",function(){
+            	$(".order_delete .textarea_content").find("span").attr("code", $(this).attr("data-url"));
+            	$('.order_after_sale').show()
+            })
+            $(".order_after_sale").on("click", ".success", function () {
+                var data = {
+                    _method: "PATCH",
+                    _token: "{{ csrf_token() }}",
+                };
+                var url = $(".textarea_content span").attr('code');
+                $.ajax({
+                    type: "post",
+                    url: url,
+                    data: data,
+                    success: function (data) {
+                        window.location.href = "{{ route('orders.index') }}";
+                    },
+                    error: function (err) {
+                        console.log(err);
+                        if (err.status == 403) {
+                        	layer.open({
+							  type: 1, 
+							  content: '您无权限执行此操作！' 
+							});
+                        }
+                    }
+                });
             });
         });
     </script>

@@ -292,15 +292,6 @@
     <script src="{{ asset('js/swiper/js/swiper.js') }}"></script>
     <script type="text/javascript">
         $(function () {
-
-            $(".tobe_received_count").each(function (index, element) {
-                var val = $(this).attr("mark");
-                var start_time = $(this).attr("shipped_at") * 1000;
-                var ending_time = $(this).attr('time_to_complete_order');
-                timeCount(val, start_time, ending_time, "2");
-            });
-
-
             $(".navigation_left ul li").removeClass("active");
             $(".my_order").addClass("active");
             $(".myorder_classification li").on('click', function () {
