@@ -56,7 +56,7 @@ class IndexController extends Controller
         ]);
     }
 
-    // POST 获取上传图片路径+预览
+    // POST 获取原上传图片路径+预览
     public function imageUpload(Request $request, ImageUploadHandler $handler)
     {
         $this->validate($request, [
@@ -65,6 +65,23 @@ class IndexController extends Controller
             'image' => '上传图片',
         ]);
         $path = $handler->uploadOriginal($request->image);
+        $preview_path = $handler->uploadTemp($request->image);
+        $preview_url = Storage::disk('public')->url($preview_path);
+        return response()->json([
+            'path' => $path,
+            'preview' => $preview_url,
+        ]);
+    }
+
+    // POST 获取评论上传图片路径+预览
+    public function commentImageUpload(Request $request, ImageUploadHandler $handler)
+    {
+        $this->validate($request, [
+            'image' => 'required|image',
+        ], [], [
+            'image' => '上传图片',
+        ]);
+        $path = $handler->uploadCommentImage($request->image, false, false, 240, 240);
         $preview_path = $handler->uploadTemp($request->image);
         $preview_url = Storage::disk('public')->url($preview_path);
         return response()->json([

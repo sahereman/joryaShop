@@ -5,22 +5,40 @@ Route::get('test', function () {
 });
 
 /*通过邮箱验证码登录*/
-Route::post('login/send_email_code', 'Auth\LoginController@sendEmailCode')->name('login.send_email_code'); // 发送邮箱验证码 [for Ajax request]
-Route::post('login/verify_email_code', 'Auth\LoginController@verifyEmailCode')->name('login.verify_email_code'); // 验证邮箱验证码 [for Ajax request]
+// Route::post('login/send_email_code', 'Auth\LoginController@sendEmailCode')->name('login.send_email_code'); // 发送邮箱验证码 [for Ajax request]
+// Route::post('login/verify_email_code', 'Auth\LoginController@verifyEmailCode')->name('login.verify_email_code'); // 验证邮箱验证码 [for Ajax request]
+
+/*通过短信验证码登录*/
+Route::post('login/send_sms', 'Auth\LoginController@sendSms')->name('login.send_sms'); // 发送短信验证码 [for Ajax request]
+// Route::post('login/verify_sms', 'Auth\LoginController@verifySms')->name('login.verify_sms'); // 验证短信验证码 [for Ajax request]
 
 /*通过邮箱验证码重置密码*/
 // $this->get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request'); // 忘记密码，通过邮箱重置密码页面
-Route::post('password/reset/send_email_code', 'Auth\ResetPasswordController@sendEmailCode')->name('reset.send_email_code'); // 校验邮箱，并跳转下一步
-Route::post('password/reset/resend_email_code', 'Auth\ResetPasswordController@resendEmailCode')->name('reset.resend_email_code'); // 发送邮箱验证码 [for Ajax request]
-Route::get('password/reset/input_email_code', 'Auth\ResetPasswordController@inputEmailCode')->name('reset.input_email_code'); // 输入邮箱验证码页面
-Route::post('password/reset/verify_email_code', 'Auth\ResetPasswordController@verifyEmailCode')->name('reset.verify_email_code'); // 验证邮箱验证码
+// Route::post('password/reset/send_email_code', 'Auth\ResetPasswordController@sendEmailCode')->name('reset.send_email_code'); // 校验邮箱，并跳转下一步
+// Route::post('password/reset/resend_email_code', 'Auth\ResetPasswordController@resendEmailCode')->name('reset.resend_email_code'); // 发送邮箱验证码 [for Ajax request]
+// Route::get('password/reset/input_email_code', 'Auth\ResetPasswordController@inputEmailCode')->name('reset.input_email_code'); // 输入邮箱验证码页面
+// Route::post('password/reset/verify_email_code', 'Auth\ResetPasswordController@verifyEmailCode')->name('reset.verify_email_code'); // 验证邮箱验证码
+// Route::get('password/reset/override', 'Auth\ResetPasswordController@override')->name('reset.override'); // 重复输入新密码页面
+// Route::post('password/reset/override_password', 'Auth\ResetPasswordController@overridePassword')->name('reset.override_password'); // 重置密码为新密码
+// Route::get('password/reset/success', 'Auth\ResetPasswordController@success')->name('reset.success'); // 通过邮箱验证码重置密码成功页面
+// $this->post('password/reset', 'Auth\ResetPasswordController@reset');
+
+/*通过短信验证码重置密码*/
+// $this->get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request'); // 忘记密码，通过短信重置密码页面
+Route::post('password/reset/send_sms', 'Auth\ResetPasswordController@sendEmailCode')->name('reset.send_sms'); // 校验短信，并跳转下一步
+Route::post('password/reset/resend_sms', 'Auth\ResetPasswordController@resendEmailCode')->name('reset.resend_sms'); // 发送短信验证码 [for Ajax request]
+Route::get('password/reset/input_sms', 'Auth\ResetPasswordController@inputEmailCode')->name('reset.input_sms'); // 输入短信验证码页面
+Route::post('password/reset/verify_sms', 'Auth\ResetPasswordController@verifyEmailCode')->name('reset.verify_sms'); // 验证短信验证码
 Route::get('password/reset/override', 'Auth\ResetPasswordController@override')->name('reset.override'); // 重复输入新密码页面
 Route::post('password/reset/override_password', 'Auth\ResetPasswordController@overridePassword')->name('reset.override_password'); // 重置密码为新密码
-Route::get('password/reset/success', 'Auth\ResetPasswordController@success')->name('reset.success'); // 通过邮箱验证码重置密码成功页面
+Route::get('password/reset/success', 'Auth\ResetPasswordController@success')->name('reset.success'); // 通过短信验证码重置密码成功页面
 // $this->post('password/reset', 'Auth\ResetPasswordController@reset');
 
 /*通过邮箱验证码注册*/
-Route::post('register/send_email_code', 'Auth\RegisterController@sendEmailCode')->name('login.send_email_code'); // 发送邮箱验证码 [for Ajax request]
+// Route::post('register/send_email_code', 'Auth\RegisterController@sendEmailCode')->name('login.send_email_code'); // 发送邮箱验证码 [for Ajax request]
+
+/*通过短信验证码注册*/
+Route::post('register/send_sms', 'Auth\RegisterController@sendSms')->name('login.send_sms'); // 发送短信验证码 [for Ajax request]
 
 /*// Authentication Routes...
 $this->get('login', 'Auth\LoginController@showLoginForm')->name('login');
@@ -68,8 +86,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('users/{user}/edit', 'UsersController@edit')->name('users.edit'); // 编辑个人信息页面
     Route::get('users/{user}/password', 'UsersController@password')->name('users.password'); // 修改密码页面
     Route::put('users/{user}/update_password', 'UsersController@updatePassword')->name('users.update_password'); // 修改密码页面
-    Route::get('users/{user}/update_phone', 'UsersController@updatePhone')->name('users.update_phone'); // 修改手机页面
-    Route::get('users/{user}/binding_phone', 'UsersController@bindingPhone')->name('users.binding_phone'); // 绑定手机页面
+    // Route::get('users/{user}/update_phone', 'UsersController@updatePhone')->name('users.update_phone'); // 修改手机页面
+    // Route::get('users/{user}/binding_phone', 'UsersController@bindingPhone')->name('users.binding_phone'); // 绑定手机页面
+    Route::get('users/{user}/update_email', 'UsersController@updateEmail')->name('users.update_email'); // 修改Email页面
+    Route::get('users/{user}/binding_email', 'UsersController@bindingEmail')->name('users.binding_email'); // 绑定Email页面
     Route::put('users/{user}', 'UsersController@update')->name('users.update'); // 编辑个人信息提交 & 修改密码提交 & 绑定手机提交
 
     /*商品收藏*/
@@ -140,8 +160,10 @@ Route::get('/', 'IndexController@root')->name('root'); // 首页
 
 /*通用-获取上传图片预览*/
 Route::post('image/preview', 'IndexController@imagePreview')->name('image.preview');
-/*通用-获取上传图片路径+预览*/
+/*通用-获取原上传图片路径+预览*/
 Route::post('image/upload', 'IndexController@imageUpload')->name('image.upload');
+/*通用-获取评论上传图片路径+预览*/
+Route::post('comment_image/upload', 'IndexController@commentImageUpload')->name('comment_image.upload');
 
 /*通用-获取国家|地区码列表*/
 Route::get('country_codes', 'CountryCodesController@index')->name('country_codes.index');

@@ -38,12 +38,9 @@ class ImageUploadHandler
         $date = Carbon::now();
         $child_path = 'original/' . date('Ym', $date->timestamp);/*存储文件格式为 201706 文件夹内*/
 
-        if ($save_path && $name)
-        {
+        if ($save_path && $name) {
             $path = Storage::disk('public')->putFileAs($save_path, $file, $name . strrchr($file->getClientOriginalName(), '.'));/*自己拼接保持原本上传的后缀名*/
-        }
-        else
-        {
+        } else {
             $path = Storage::disk('public')->putFile($child_path, $file);
         }
 
@@ -61,14 +58,11 @@ class ImageUploadHandler
     {
         $date = Carbon::now();
         $prefix_path = Storage::disk('public')->getAdapter()->getPathPrefix();
-        $child_path = 'thumb/' . date('Ym', $date->timestamp) ;/*存储文件格式为 201706 文件夹内*/
+        $child_path = 'thumb/' . date('Ym', $date->timestamp);/*存储文件格式为 201706 文件夹内*/
 
-        if ($save_path && $name)
-        {
+        if ($save_path && $name) {
             $path = Storage::disk('public')->putFileAs($save_path, $file, $name . strrchr($file->getClientOriginalName(), '.'));/*自己拼接保持原本上传的后缀名*/
-        }
-        else
-        {
+        } else {
             $path = Storage::disk('public')->putFile($child_path, $file);
         }
 
@@ -85,13 +79,36 @@ class ImageUploadHandler
      */
     public function uploadTemp($file)
     {
-        if (mt_rand(0, $this->clear_temp_odds) == 0)
-        {
+        if (mt_rand(0, $this->clear_temp_odds) == 0) {
             $prefix_path = Storage::disk('public')->getAdapter()->getPathPrefix();
             self::truncateFolder($prefix_path . 'temp');
         }
 
         $path = Storage::disk('public')->putFile('temp', $file);
+
+        return $path;
+    }
+
+    /**
+     * 上传一个原始文件到 comment_image 目录 （如有可选参数 指定目录及文件名）
+     * @param $file & 表单的file对象
+     * @param bool $save_path
+     * @param bool $name
+     * @return mixed & 返回需要入数据库的文件路径
+     */
+    public function uploadCommentImage($file, $save_path = false, $name = false, $width = 240, $height = 240)
+    {
+        $date = Carbon::now();
+        $prefix_path = Storage::disk('public')->getAdapter()->getPathPrefix();
+        $child_path = 'comment_image/' . date('Ym', $date->timestamp);/*存储文件格式为 201706 文件夹内*/
+
+        if ($save_path && $name) {
+            $path = Storage::disk('public')->putFileAs($save_path, $file, $name . strrchr($file->getClientOriginalName(), '.'));/*自己拼接保持原本上传的后缀名*/
+        } else {
+            $path = Storage::disk('public')->putFile($child_path, $file);
+        }
+
+        Image::make($prefix_path . $path)->resize($width, $height)->save();
 
         return $path;
     }
@@ -113,19 +130,14 @@ class ImageUploadHandler
     public function truncateFolder($path)
     {
         $op = dir($path);
-        while (false != ($item = $op->read()))
-        {
-            if ($item == '.' || $item == '..')
-            {
+        while (false != ($item = $op->read())) {
+            if ($item == '.' || $item == '..') {
                 continue;
             }
-            if (is_dir($op->path . '/' . $item))
-            {
+            if (is_dir($op->path . '/' . $item)) {
                 self::truncateFolder($op->path . '/' . $item);
                 rmdir($op->path . '/' . $item);
-            }
-            else
-            {
+            } else {
                 unlink($op->path . '/' . $item);
             }
         }
