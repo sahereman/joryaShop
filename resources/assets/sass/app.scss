@@ -74,8 +74,15 @@ a {
     display: none;
 }
 
+.dis_ni {
+    display: none !important;
+}
+
 .dis_b {
     display: block;
+}
+.hidden {
+    opacity: 0;
 }
 
 //价格颜色样式
@@ -969,6 +976,7 @@ footer {
             border-radius: 2px;
             margin-bottom: 15px;
             position: relative;
+            box-shadow: 0 0 9px 0 rgba(0,0,0,0.1);
             a {
                 display: block;
                 width: 100%;
