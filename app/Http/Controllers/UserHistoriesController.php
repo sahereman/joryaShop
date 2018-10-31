@@ -43,7 +43,7 @@ class UserHistoriesController extends Controller
         }else{
             return response()->json([
                 'code' => 422,
-                'message' => 'error',
+                'message' => 'Unprocessable Entity',
             ], 422);
         }
     }
@@ -60,7 +60,7 @@ class UserHistoriesController extends Controller
         }else{
             return response()->json([
                 'code' => 422,
-                'message' => 'error',
+                'message' => 'Unprocessable Entity',
             ], 422);
         }
     }

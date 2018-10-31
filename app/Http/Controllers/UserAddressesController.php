@@ -86,7 +86,7 @@ class UserAddressesController extends Controller
         }else{
             return response()->json([
                 'code' => 422,
-                'message' => 'error',
+                'message' => 'Unprocessable Entity',
             ], 422);
         }
     }
@@ -108,7 +108,7 @@ class UserAddressesController extends Controller
         }else{
             return response()->json([
                 'code' => 422,
-                'message' => 'error',
+                'message' => 'Unprocessable Entity',
             ], 422);
         }
     }

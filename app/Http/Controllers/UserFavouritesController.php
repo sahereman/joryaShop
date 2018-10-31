@@ -34,7 +34,7 @@ class UserFavouritesController extends Controller
         }else{
             return response()->json([
                 'code' => 422,
-                'message' => 'error',
+                'message' => 'Unprocessable Entity',
             ], 422);
         }
     }
@@ -53,7 +53,7 @@ class UserFavouritesController extends Controller
         }else{
             return response()->json([
                 'code' => 422,
-                'message' => 'error',
+                'message' => 'Unprocessable Entity',
             ], 422);
         }
     }
