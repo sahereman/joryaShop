@@ -228,7 +228,7 @@
 	            		<!--第五步退款失败-->
 	            		<div class="step_content step-5">
 	            			<div class="read_info last_level">
-	            				<p class="read_info_title">审核未通过</p>
+	            				<p class="read_info_title">审核未通过<span>你可以修改后再次<a>发起申请</a>，联系在线客服或者拨打400电话</span></p>
 	            				<ul class="step-ul">
 	            					<li>
 			                    		<span>退款金额：</span>
