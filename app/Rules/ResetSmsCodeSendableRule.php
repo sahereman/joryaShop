@@ -5,7 +5,7 @@ namespace App\Rules;
 use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Support\Facades\Cache;
 
-class LoginSmsCodeSendableRule implements Rule
+class ResetSmsCodeSendableRule implements Rule
 {
     protected $country_code = 86;
 
@@ -22,13 +22,13 @@ class LoginSmsCodeSendableRule implements Rule
     /**
      * Determine if the validation rule passes.
      *
-     * @param  string $attribute
-     * @param  mixed $value
+     * @param  string  $attribute
+     * @param  mixed  $value
      * @return bool
      */
     public function passes($attribute, $value)
     {
-        return !Cache::has('login_sms_code_sent-' . $this->country_code . '-' . $value);
+        return !Cache::has('reset_sms_code_sent-' . $this->country_code . '-' . $value);
     }
 
     /**

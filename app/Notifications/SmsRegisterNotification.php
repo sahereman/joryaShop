@@ -60,9 +60,9 @@ class SmsRegisterNotification extends Notification implements ShouldQueue
         $phone_number = $notifiable->getPhoneNumber();
         $code = Str::random(6);
         $ttl = 10;
-        Cache::set('sms_register_code-' . $country_code . '-' . $phone_number, $code, $ttl);
-        // 60s内不允许重复发送手机验证码
-        Cache::set('sms_register_code_sent-' . $country_code . '-' . $phone_number, true, 1);
+        Cache::set('register_sms_code-' . $country_code . '-' . $phone_number, $code, $ttl);
+        // 60s内不允许重复发送短信验证码
+        Cache::set('register_sms_code_sent-' . $country_code . '-' . $phone_number, true, 1);
 
         return ['code' => $code];
     }

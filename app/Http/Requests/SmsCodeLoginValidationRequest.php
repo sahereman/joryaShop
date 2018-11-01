@@ -6,7 +6,7 @@ use App\Models\User;
 use App\Rules\LoginSmsCodeValidRule;
 use Illuminate\Validation\Rule;
 
-class SmsLoginValidationRequest extends Request
+class SmsCodeLoginValidationRequest extends Request
 {
     /**
      * Get the validation rules that apply to the request.
@@ -35,6 +35,7 @@ class SmsLoginValidationRequest extends Request
                 'bail',
                 'required',
                 'string',
+                'regex:/^\d+$/',
                 new LoginSmsCodeValidRule($this->input('country_code'), $this->input('phone')),
             ],
         ];
@@ -62,6 +63,7 @@ class SmsLoginValidationRequest extends Request
         return [
             'country_code.regex' => '国家|地区码 格式不正确（仅支持数字组合）',
             'phone.regex' => '手机号码 格式不正确（仅支持数字组合）',
+            'code.regex' => '短信验证码 格式不正确（仅支持数字组合）',
         ];
     }
 }

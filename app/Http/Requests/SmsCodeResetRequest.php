@@ -3,10 +3,10 @@
 namespace App\Http\Requests;
 
 use App\Models\User;
-use App\Rules\LoginSmsCodeSendableRule;
+use App\Rules\ResetSmsCodeSendableRule;
 use Illuminate\Validation\Rule;
 
-class SmsCodeLoginRequest extends Request
+class SmsCodeResetRequest extends Request
 {
     /**
      * Get the validation rules that apply to the request.
@@ -30,7 +30,7 @@ class SmsCodeLoginRequest extends Request
                         $fail('对不起，该手机号码尚未注册用户');
                     }
                 },
-                new LoginSmsCodeSendableRule($this->input('country_code')),
+                new ResetSmsCodeSendableRule($this->input('country_code')),
             ],
         ];
     }

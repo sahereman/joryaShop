@@ -10,17 +10,17 @@ class SmsCodeResetValidationRequest extends Request
 {
     /**
      * Get the validation rules that apply to the request.
-     *
      * @return array
      */
     public function rules()
     {
         return [
-            'country_code' => 'bail|required|integer',
+            'country_code' => 'bail|required|string|regex:/^\d+$/',
             'phone' => [
                 'bail',
                 'required',
-                'integer',
+                'string',
+                'regex:/^\d+$/',
                 function ($attribute, $value, $fail) {
                     if (! User::where([
                         'country_code' => $this->input('country_code'),
@@ -35,6 +35,7 @@ class SmsCodeResetValidationRequest extends Request
                 'bail',
                 'required',
                 'string',
+                'regex:/^\d+$/',
                 new ResetSmsCodeValidRule($this->input('country_code'), $this->input('phone')),
             ],
         ];
@@ -62,6 +63,7 @@ class SmsCodeResetValidationRequest extends Request
         return [
             'country_code.regex' => '国家|地区码 格式不正确（仅支持数字组合）',
             'phone.regex' => '手机号码 格式不正确（仅支持数字组合）',
+            'code.regex' => '短信验证码 格式不正确（仅支持数字组合）',
         ];
     }
 }

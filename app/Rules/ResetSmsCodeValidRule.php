@@ -5,7 +5,7 @@ namespace App\Rules;
 use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Support\Facades\Cache;
 
-class LoginSmsCodeValidRule implements Rule
+class ResetSmsCodeValidRule implements Rule
 {
     protected $is_expired = true;
     protected $country_code = 86;
@@ -32,9 +32,9 @@ class LoginSmsCodeValidRule implements Rule
      */
     public function passes($attribute, $value)
     {
-        if (Cache::has('login_sms_code-' . $this->country_code . '-' . $this->phone_number)) {
+        if (Cache::has('reset_sms_code-' . $this->country_code . '-' . $this->phone_number)) {
             $this->is_expired = false;
-            return Cache::get('login_sms_code-' . $this->country_code . '-' . $this->phone_number) == $value;
+            return Cache::get('reset_sms_code-' . $this->country_code . '-' . $this->phone_number) == $value;
         }
         return false;
     }

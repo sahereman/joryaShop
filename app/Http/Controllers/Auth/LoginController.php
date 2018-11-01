@@ -6,8 +6,8 @@ use App\Events\EmailCodeLoginEvent;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginEmailCodeRequest;
 use App\Http\Requests\LoginEmailCodeValidationRequest;
-use App\Http\Requests\SmsLoginRequest;
-use App\Http\Requests\SmsLoginValidationRequest;
+use App\Http\Requests\SmsCodeLoginRequest;
+use App\Http\Requests\SmsCodeLoginValidationRequest;
 use App\Models\User;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
@@ -195,7 +195,7 @@ class LoginController extends Controller
      * },
      * }
      */
-    public function sendSms(SmsLoginRequest $request)
+    public function sendSmsCode(SmsCodeLoginRequest $request)
     {
         $phone_number = $request->input('phone');
         $country_code = $request->input('country_code');
@@ -231,7 +231,7 @@ class LoginController extends Controller
     }
 
     // POST 验证短信验证码 [for Ajax request]
-    public function verifySms(SmsLoginValidationRequest $request)
+    public function verifySmsCode(SmsCodeLoginValidationRequest $request)
     {
         $phone_number = $request->input('phone');
         $country_code = $request->input('country_code');
