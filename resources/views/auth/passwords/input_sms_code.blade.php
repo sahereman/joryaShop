@@ -82,19 +82,19 @@
                     return false;
                 }
                 var data = {
-                	email: $("#email").val(),
+                    email: $("#email").val(),
                     _toke: "{{ csrf_token() }}"
                 }
                 $.ajax({
-                	type:"post",
-                	url:"{{ route('reset.resend_email_code') }}",
-                	data:data,
-                	success:function(data){              
-						settime();        
-					},        
-					error:function(err){          
-						console.log(err);        
-					}      
+                    type: "post",
+                    url: "{{ route('reset.resend_email_code') }}",
+                    data: data,
+                    success: function (data) {
+                        settime();
+                    },
+                    error: function (err) {
+                        console.log(err);
+                    }
                 });
             });
             function settime() {

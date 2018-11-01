@@ -150,6 +150,7 @@
                     *
                     -->
                 @if(!empty($order_shipment_information))
+                    {{ $order_shipment_information }}
                     <div class="logistics_infor">
                         <p class="logistics_title">物流信息</p>
                         <ul class="logistics_lists">

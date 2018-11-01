@@ -9,14 +9,14 @@ Route::get('test', function () {
 // Route::post('login/verify_email_code', 'Auth\LoginController@verifyEmailCode')->name('login.verify_email_code'); // 验证邮箱验证码 [for Ajax request]
 
 /*通过短信验证码登录*/
-Route::post('login/send_sms', 'Auth\LoginController@sendSms')->name('login.send_sms'); // 发送短信验证码 [for Ajax request]
-Route::post('login/verify_sms', 'Auth\LoginController@verifySms')->name('login.verify_sms'); // 验证短信验证码 [for Ajax request]
+Route::post('login/send_sms_code', 'Auth\LoginController@sendSms')->name('login.send_sms_code'); // 发送短信验证码 [for Ajax request]
+Route::post('login/verify_sms_code', 'Auth\LoginController@verifySmsCode')->name('login.verify_sms_code'); // 验证短信验证码 [for Ajax request]
 
 /*通过邮箱验证码重置密码*/
 // $this->get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request'); // 忘记密码，通过邮箱重置密码页面
 // Route::post('password/reset/send_email_code', 'Auth\ResetPasswordController@sendEmailCode')->name('reset.send_email_code'); // 校验邮箱，并跳转下一步
-// Route::post('password/reset/resend_email_code', 'Auth\ResetPasswordController@resendEmailCode')->name('reset.resend_email_code'); // 发送邮箱验证码 [for Ajax request]
 // Route::get('password/reset/input_email_code', 'Auth\ResetPasswordController@inputEmailCode')->name('reset.input_email_code'); // 输入邮箱验证码页面
+// Route::post('password/reset/resend_email_code', 'Auth\ResetPasswordController@resendEmailCode')->name('reset.resend_email_code'); // 发送邮箱验证码 [for Ajax request]
 // Route::post('password/reset/verify_email_code', 'Auth\ResetPasswordController@verifyEmailCode')->name('reset.verify_email_code'); // 验证邮箱验证码
 // Route::get('password/reset/override', 'Auth\ResetPasswordController@override')->name('reset.override'); // 重复输入新密码页面
 // Route::post('password/reset/override_password', 'Auth\ResetPasswordController@overridePassword')->name('reset.override_password'); // 重置密码为新密码
@@ -25,10 +25,10 @@ Route::post('login/verify_sms', 'Auth\LoginController@verifySms')->name('login.v
 
 /*通过短信验证码重置密码*/
 // $this->get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request'); // 忘记密码，通过短信重置密码页面
-Route::post('password/reset/send_sms', 'Auth\ResetPasswordController@sendEmailCode')->name('reset.send_sms'); // 校验短信，并跳转下一步
-Route::post('password/reset/resend_sms', 'Auth\ResetPasswordController@resendEmailCode')->name('reset.resend_sms'); // 发送短信验证码 [for Ajax request]
-Route::get('password/reset/input_sms', 'Auth\ResetPasswordController@inputEmailCode')->name('reset.input_sms'); // 输入短信验证码页面
-Route::post('password/reset/verify_sms', 'Auth\ResetPasswordController@verifyEmailCode')->name('reset.verify_sms'); // 验证短信验证码
+Route::post('password/reset/send_sms_code', 'Auth\ResetPasswordController@sendSmsCode')->name('reset.send_sms_code'); // 校验国家|地区码+手机号码，并跳转下一步
+Route::get('password/reset/input_sms_code', 'Auth\ResetPasswordController@inputSmsCode')->name('reset.input_sms_code'); // 输入短信验证码页面
+Route::post('password/reset/resend_sms_code', 'Auth\ResetPasswordController@resendSmsCode')->name('reset.resend_sms_code'); // 发送短信验证码 [for Ajax request]
+Route::post('password/reset/verify_sms_code', 'Auth\ResetPasswordController@verifySmsCode')->name('reset.verify_sms_code'); // 验证短信验证码
 Route::get('password/reset/override', 'Auth\ResetPasswordController@override')->name('reset.override'); // 重复输入新密码页面
 Route::post('password/reset/override_password', 'Auth\ResetPasswordController@overridePassword')->name('reset.override_password'); // 重置密码为新密码
 Route::get('password/reset/success', 'Auth\ResetPasswordController@success')->name('reset.success'); // 通过短信验证码重置密码成功页面
@@ -38,7 +38,7 @@ Route::get('password/reset/success', 'Auth\ResetPasswordController@success')->na
 // Route::post('register/send_email_code', 'Auth\RegisterController@sendEmailCode')->name('login.send_email_code'); // 发送邮箱验证码 [for Ajax request]
 
 /*通过短信验证码注册*/
-Route::post('register/send_sms', 'Auth\RegisterController@sendSms')->name('login.send_sms'); // 发送短信验证码 [for Ajax request]
+Route::post('register/send_sms_code', 'Auth\RegisterController@sendSmsCode')->name('login.send_sms_code'); // 发送短信验证码 [for Ajax request]
 
 /*// Authentication Routes...
 $this->get('login', 'Auth\LoginController@showLoginForm')->name('login');
