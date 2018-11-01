@@ -283,7 +283,6 @@ class OrdersController extends Controller
     {
         $this->authorize('show_comment', $order);
 
-        dd($order->comments->groupBy('product_id'));
         return view('orders.show_comment', [
             'user' => $request->user(),
             'order' => $order,

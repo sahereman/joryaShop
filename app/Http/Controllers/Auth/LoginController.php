@@ -6,13 +6,16 @@ use App\Events\EmailCodeLoginEvent;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginEmailCodeRequest;
 use App\Http\Requests\LoginEmailCodeValidationRequest;
+use App\Http\Requests\SmsLoginRequest;
+use App\Http\Requests\SmsLoginValidationRequest;
 use App\Models\User;
-use App\Rules\LoginEmailCodeSentableRule;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class LoginController extends Controller
 {
@@ -28,6 +31,12 @@ class LoginController extends Controller
     */
 
     use AuthenticatesUsers;
+
+    // The maximum number of attempts to allow.
+    protected $maxAttempts = 3;
+
+    // The number of minutes to throttle for.
+    protected $decayMinutes = 1;
 
     /**
      * Where to redirect users after login.
@@ -61,30 +70,32 @@ class LoginController extends Controller
     {
         if (request()->has('username')) {
             if (Validator::make(request()->all(), [
-                'username' => 'required|string|email',
-            ])->fails()
+                'username' => 'required|string|regex:/^\d+$/',
+            ])->passes()
             ) {
-                return 'name';
+                return 'phone';
+            } elseif (Validator::make(request()->all(), [
+                'username' => 'required|string|email',
+            ])->passes()
+            ) {
+                return 'email';
             }
         }
-        return 'email';
+        return 'name';
     }
 
     /**
      * Get the needed authorization credentials from the request.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return array
      */
     protected function credentials(Request $request)
     {
-        if($request->has('username')){
-            return [
-                $this->username() => $request->input('username'),
-                'password' => $request->input('password'),
-            ];
-        }
-        return $request->only('email', 'code');
+        return [
+            $this->username() => $request->input('username'),
+            'password' => $request->input('password'),
+        ];
     }
 
     /**
@@ -95,17 +106,10 @@ class LoginController extends Controller
      */
     protected function validateLogin(Request $request)
     {
-        if ($request->has('username')) {
-            $this->validate($request, [
-                'username' => 'required|string',
-                'password' => 'required|string',
-            ]);
-        } else {
-            $this->validate($request, [
-                'email' => 'required|string|email|exists:users',
-                'code' => 'required|string',
-            ]);
-        }
+        $this->validate($request, [
+            'username' => 'bail|required|string',
+            'password' => 'required|string',
+        ]);
     }
 
     /**
@@ -115,7 +119,7 @@ class LoginController extends Controller
      * @param  mixed $user
      * @return mixed
      */
-    protected function authenticated(Request $request)
+    protected function authenticated(Request $request, User $user)
     {
         return redirect()->back(302);
     }
@@ -140,14 +144,158 @@ class LoginController extends Controller
         $email = $request->input('email');
         // $code = $request->input('code');
 
-        Cache::forget('login_email_code-' . $email);
-        $user = User::where(['email' => $email])->first();
-        if ($request->filled('remember')) {
-            Auth::login($user, true);
-        } else {
-            Auth::login($user);
+        // If the class is using the ThrottlesLogins trait, we can automatically throttle
+        // the login attempts for this application. We'll key this by the username and
+        // the IP address of the client making these requests into this application.
+        if ($this->hasTooManyLoginAttempts($request)) {
+            $this->fireLockoutEvent($request);
+
+            return $this->sendLockoutResponse($request);
         }
 
+        if (Cache::has('login_email_code-' . $email)) {
+            Cache::forget('login_email_code-' . $email);
+        }
+
+        $user = User::where(['email' => $email])->first();
+        if ($user) {
+            if ($request->filled('remember')) {
+                Auth::login($user, true);
+            } else {
+                Auth::login($user);
+            }
+            return $this->sendLoginResponse($request);
+        }
+
+        // If the login attempt was unsuccessful we will increment the number of attempts
+        // to login and redirect the user back to the login form. Of course, when this
+        // user surpasses their maximum number of attempts they will get locked out.
+        $this->incrementLoginAttempts($request);
+
+        return $this->sendFailedLoginResponse($request);
+    }
+
+    // POST 发送短信验证码 [for Ajax request]
+    /**
+     * Successful Response Demo:
+     * {
+     * "code":200,
+     * "message":"success",
+     * "response":{
+     * "aliyun":{
+     * "gateway":"aliyun",
+     * "status":"success",
+     * "result":{
+     * "Message":"OK",
+     * "RequestId":"56A053E7-5934-4FDF-A1D2-E60C6AC11706",
+     * "BizId":"924907740968089747^0",
+     * "Code":"OK",
+     * },
+     * },
+     * },
+     * }
+     */
+    public function sendSms(SmsLoginRequest $request)
+    {
+        $phone_number = $request->input('phone');
+        $country_code = $request->input('country_code');
+
+        if (Cache::has('login_sms_code-' . $country_code . '-' . $phone_number)) {
+            Cache::forget('login_sms_code-' . $country_code . '-' . $phone_number);
+        }
+
+        $code = random_int(100000, 999999);
+        $ttl = 10;
+        Cache::set('login_sms_code-' . $country_code . '-' . $phone_number, $code, $ttl);
+        // 60s内不允许重复发送邮箱验证码
+        Cache::set('login_sms_code_sent-' . $country_code . '-' . $phone_number, true, 1);
+        // Interruption For Test:
+        dd($code);
+
+        $data['code'] = $code;
+        $response = easy_sms_send($data, $phone_number, $country_code);
+
+        if ($response['aliyun']['status'] == 'success') {
+            return response()->json([
+                'code' => 200,
+                'message' => 'success',
+                'response' => $response,
+            ]);
+        }
+
+        return response()->json([
+            'code' => 400,
+            'message' => 'Bad Request',
+            'response' => $response,
+        ], 400);
+    }
+
+    // POST 验证短信验证码 [for Ajax request]
+    public function verifySms(SmsLoginValidationRequest $request)
+    {
+        $phone_number = $request->input('phone');
+        $country_code = $request->input('country_code');
+
+        // Comment For Test:
+        if (Cache::has('login_sms_code-' . $country_code . '-' . $phone_number)) {
+            Cache::forget('login_sms_code-' . $country_code . '-' . $phone_number);
+        }
+
+        $user = User::where([
+            'country_code' => $country_code,
+            'phone' => $phone_number,
+        ])->first();
+        if ($user) {
+            if ($request->filled('remember')) {
+                Auth::login($user, true);
+            } else {
+                Auth::login($user);
+            }
+        }
         return $this->sendLoginResponse($request);
     }
+
+    /**
+     * Handle a login request to the application.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response|\Illuminate\Http\JsonResponse
+     */
+    public function login(Request $request)
+    {
+        $this->validateLogin($request);
+
+        // If the class is using the ThrottlesLogins trait, we can automatically throttle
+        // the login attempts for this application. We'll key this by the username and
+        // the IP address of the client making these requests into this application.
+        if ($this->hasTooManyLoginAttempts($request)) {
+            $this->fireLockoutEvent($request);
+
+            return $this->sendLockoutResponse($request);
+        }
+
+        $users = User::where([
+            $this->username() => $request->input('username'),
+        ])->get();
+        foreach ($users as $user) {
+            $userData = $user->makeVisible('password')->toArray();
+            if (Hash::check($request->input('password'), $userData['password'])) {
+                if ($request->filled('remember')) {
+                    Auth::login($user, true);
+                } else {
+                    Auth::login($user);
+                }
+                return $this->sendLoginResponse($request);
+                break;
+            }
+        }
+
+        // If the login attempt was unsuccessful we will increment the number of attempts
+        // to login and redirect the user back to the login form. Of course, when this
+        // user surpasses their maximum number of attempts they will get locked out.
+        $this->incrementLoginAttempts($request);
+
+        return $this->sendFailedLoginResponse($request);
+    }
+
 }
