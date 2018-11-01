@@ -26,7 +26,7 @@ class RegisterEmailCodeSendableRule implements Rule
      */
     public function passes($attribute, $value)
     {
-        return ! Cache::has('register_email_code_sent-' . $value);
+        return !Cache::has('register_email_code_sent-' . $value);
     }
 
     /**

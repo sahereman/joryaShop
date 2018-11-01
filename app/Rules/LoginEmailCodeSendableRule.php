@@ -26,7 +26,7 @@ class LoginEmailCodeSendableRule implements Rule
      */
     public function passes($attribute, $value)
     {
-        return ! Cache::has('login_email_code_sent-' . $value);
+        return !Cache::has('login_email_code_sent-' . $value);
     }
 
     /**

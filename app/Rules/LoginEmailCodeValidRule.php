@@ -29,7 +29,7 @@ class LoginEmailCodeValidRule implements Rule
      */
     public function passes($attribute, $value)
     {
-        if(Cache::has('login_email_code-'.$this->email)){
+        if (Cache::has('login_email_code-' . $this->email)) {
             $this->is_expired = false;
             return Cache::get('login_email_code-' . $this->email) == $value;
         }
@@ -43,7 +43,7 @@ class LoginEmailCodeValidRule implements Rule
      */
     public function message()
     {
-        if($this->is_expired){
+        if ($this->is_expired) {
             return '邮箱验证码已过期';
         }
         return '邮箱验证码错误';

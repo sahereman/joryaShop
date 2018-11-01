@@ -48,6 +48,7 @@ class LoginEmailCodeValidationRequest extends Request
     {
         return [
             'email' => '邮箱',
+            'code' => '邮箱验证码',
         ];
     }
 
