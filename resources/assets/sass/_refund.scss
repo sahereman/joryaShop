@@ -5,7 +5,6 @@
 }
 .refund_content {
     width: 990px;
-    min-height: 465px;
     margin: auto;
     margin-bottom: 35px;
     .technological_process {
@@ -18,7 +17,6 @@
     }
     .process_content {
         width: 100%;
-        min-height: 420px;
         background: #fff;
         overflow: hidden;
         .left_content {
@@ -160,9 +158,6 @@
                             }
                         }
                     }
-                }
-                &.step-1 {
-                    height: 500px;
                 }
                 &.step-2 {
                     .no_border {

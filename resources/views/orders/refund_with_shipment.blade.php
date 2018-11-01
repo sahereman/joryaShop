@@ -62,7 +62,7 @@
 		            		</p>
 	            		</div>
 	            		<!--第二步卖家处理退货申请-->
-	            		<div class="step_content step-2" style="display: none;">
+	            		<div class="step_content step-2">
 	            			<form method="POST" action="{{ route('orders.update_refund_with_shipment',32) }}" enctype="multipart/form-data" id="step-2-form">
 		            			{{ csrf_field() }}
 			                    <input type="hidden" name="order_id" value="">
@@ -226,7 +226,7 @@
 	            			</div>
 	            		</div>
 	            		<!--第五步退款失败-->
-	            		<div class="step_content step-5">
+	            		<div class="step_content step-5" style="display: none;">
 	            			<div class="read_info last_level">
 	            				<p class="read_info_title">审核未通过<span>你可以修改后再次<a>发起申请</a>，联系在线客服或者拨打400电话</span></p>
 	            				<ul class="step-ul">
