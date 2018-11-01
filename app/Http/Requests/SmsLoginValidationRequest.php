@@ -32,6 +32,7 @@ class SmsLoginValidationRequest extends Request
                 },
             ],
             'code' => [
+                'bail',
                 'required',
                 'string',
                 new LoginSmsValidRule($this->input('country_code'), $this->input('phone')),

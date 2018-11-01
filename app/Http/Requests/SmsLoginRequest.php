@@ -17,6 +17,7 @@ class SmsLoginRequest extends Request
         return [
             'country_code' => 'bail|required|string|regex:/^\d+$/',
             'phone' => [
+                'bail',
                 'required',
                 'string',
                 'regex:/^\d+$/',

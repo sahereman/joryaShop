@@ -210,7 +210,7 @@ class LoginController extends Controller
         // 60s内不允许重复发送邮箱验证码
         Cache::set('login_sms_code_sent-' . $country_code . '-' . $phone_number, true, 1);
         // Interruption For Test:
-        dd($code);
+        // dd($code);
 
         $data['code'] = $code;
         $response = easy_sms_send($data, $phone_number, $country_code);
