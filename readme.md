@@ -103,9 +103,14 @@ php artisan vendor:publish
 composer dumpautoload
 
 //清除配置文件缓存
+php artisan cache:clear
+php artisan route:clear
 php artisan config:clear
 
 php artisan config:cache
+
+//清除异步队列任务
+php artisan queue:flush
 ```
 
 ## .env文件详解:
