@@ -67,8 +67,8 @@ class OrdersSeeder extends Seeder
             'payment_sn' => 'PAYMENT_SN_ALIPAY_88888888',
             'payment_method' => Order::PAYMENT_METHOD_ALIPAY,
             'paid_at' => $earlier,
-            'shipment_sn' => 'SHIPMENT_SN_88888888',
-            'shipment_company' => 'SHIPMENT_COMPANY_AAAAAAAA',
+            'shipment_sn' => '900288536666',
+            'shipment_company' => 'UC',
             'shipped_at' => $former,
         ]);
         factory(Order::class, 10)->create([
@@ -77,8 +77,8 @@ class OrdersSeeder extends Seeder
             'payment_sn' => 'PAYMENT_SN_ALIPAY_88888888',
             'payment_method' => Order::PAYMENT_METHOD_ALIPAY,
             'paid_at' => $earlier,
-            'shipment_sn' => 'SHIPMENT_SN_88888888',
-            'shipment_company' => 'SHIPMENT_COMPANY_AAAAAAAA',
+            'shipment_sn' => '285873265130',
+            'shipment_company' => 'ZTO',
             'shipped_at' => $former,
             'completed_at' => $latter,
         ]);
@@ -88,8 +88,8 @@ class OrdersSeeder extends Seeder
             'payment_sn' => 'PAYMENT_SN_ALIPAY_88888888',
             'payment_method' => Order::PAYMENT_METHOD_ALIPAY,
             'paid_at' => $earlier,
-            'shipment_sn' => 'SHIPMENT_SN_88888888',
-            'shipment_company' => 'SHIPMENT_COMPANY_AAAAAAAA',
+            'shipment_sn' => '801946086070327406',
+            'shipment_company' => 'YTO',
             'shipped_at' => $former,
             'completed_at' => $latter,
             'commented_at' => $latest,
@@ -99,11 +99,12 @@ class OrdersSeeder extends Seeder
     protected function makeRandomSnapshot()
     {
         $sku_count = ProductSku::all()->count();
-        $random_count = random_int(3, 5);
+        $random_count = random_int(1, 3);
         $random_snapshot = [];
         for ($i = 0; $i < $random_count; $i++) {
-            $random_sku = ProductSku::find(random_int(1, $sku_count));
-            $random_snapshot[$i]['sku_id'] = $random_sku->id;
+            $random_sku_id = random_int(1, $sku_count);
+            $random_sku = ProductSku::find($random_sku_id);
+            $random_snapshot[$i]['sku_id'] = $random_sku_id;
             $random_snapshot[$i]['price'] = $random_sku->price;
             $random_snapshot[$i]['number'] = random_int(1, 5);
         }

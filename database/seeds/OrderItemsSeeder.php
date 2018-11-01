@@ -14,7 +14,7 @@ class OrderItemsSeeder extends Seeder
      */
     public function run()
     {
-        $orders = Order::where('status', '<>', Order::ORDER_STATUS_CLOSED)->get();
+        /*$orders = Order::where('status', '<>', Order::ORDER_STATUS_CLOSED)->get();
         $orders->each(function ($order){
             OrderItem::create([
                 'order_id' => $order->id,
@@ -22,6 +22,6 @@ class OrderItemsSeeder extends Seeder
                 'price' => 5.00,
                 'number' => random_int(1, 5),
             ]);
-        });
+        });*/
     }
 }

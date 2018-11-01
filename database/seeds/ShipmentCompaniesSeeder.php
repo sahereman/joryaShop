@@ -13,7 +13,7 @@ class ShipmentCompaniesSeeder extends Seeder
     {
         ShipmentCompany::truncate();
 
-        ShipmentCompany::create([
+        /*ShipmentCompany::create([
             'code' => 'aae',
             'name' => 'aae全球专递',
         ]);
@@ -67,6 +67,80 @@ class ShipmentCompaniesSeeder extends Seeder
             'code' => 'dhl',
             'name' => 'dhl',
         ]);
+
+        ShipmentCompany::create([
+            'code' => 'shentong',
+            'name' => '申通',
+        ]);
+
+        ShipmentCompany::create([
+            'code' => 'shunfeng',
+            'name' => '顺丰',
+        ]);
+
+        ShipmentCompany::create([
+            'code' => 'sue',
+            'name' => '速尔物流',
+        ]);
+
+        ShipmentCompany::create([
+            'code' => 'shengfeng',
+            'name' => '盛丰物流',
+        ]);
+
+        ShipmentCompany::create([
+            'code' => 'saiaodi',
+            'name' => '赛澳递',
+        ]);
+
+        ShipmentCompany::create([
+            'code' => 'tiandihuayu',
+            'name' => '天地华宇',
+        ]);
+
+        ShipmentCompany::create([
+            'code' => 'tiantian',
+            'name' => '天天快递',
+        ]);
+
+        ShipmentCompany::create([
+            'code' => 'tnt',
+            'name' => 'tnt',
+        ]);
+
+        ShipmentCompany::create([
+            'code' => 'ups',
+            'name' => 'ups',
+        ]);
+
+        ShipmentCompany::create([
+            'code' => 'youshuwuliu',
+            'name' => '优速物流',
+        ]);
+
+        ShipmentCompany::create([
+            'code' => 'yuantong',
+            'name' => '圆通速递',
+        ]);
+
+        ShipmentCompany::create([
+            'code' => 'yunda',
+            'name' => '韵达快运',
+        ]);
+
+        ShipmentCompany::create([
+            'code' => 'zhongtong',
+            'name' => '中通速递',
+        ]);*/
+
+        $shipment_companies = require('ShipmentCompanies.php');
+
+        foreach($shipment_companies as $shipment_company){
+            ShipmentCompany::create([
+                'code' => $shipment_company['code'],
+                'name' => $shipment_company['name'],
+            ]);
+        }
 
         ShipmentCompany::create([
             'code' => 'etc',
