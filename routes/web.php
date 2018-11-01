@@ -9,7 +9,7 @@ Route::get('test', function () {
 // Route::post('login/verify_email_code', 'Auth\LoginController@verifyEmailCode')->name('login.verify_email_code'); // 验证邮箱验证码 [for Ajax request]
 
 /*通过短信验证码登录*/
-Route::post('login/send_sms_code', 'Auth\LoginController@sendSms')->name('login.send_sms_code'); // 发送短信验证码 [for Ajax request]
+Route::post('login/send_sms_code', 'Auth\LoginController@sendSmsCode')->name('login.send_sms_code'); // 发送短信验证码 [for Ajax request]
 Route::post('login/verify_sms_code', 'Auth\LoginController@verifySmsCode')->name('login.verify_sms_code'); // 验证短信验证码 [for Ajax request]
 
 /*通过邮箱验证码重置密码*/
