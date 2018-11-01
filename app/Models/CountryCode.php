@@ -11,8 +11,8 @@ class CountryCode extends Model
      * @var array
      */
     protected $fillable = [
-        'country_name_en',
-        'country_name_zh',
+        'country_name',
+        // 'country_name_zh',
         'country_iso',
         'country_code',
     ];
