@@ -16,7 +16,10 @@ class ViewComposerServiceProvider extends ServiceProvider
     public function boot()
     {
         // Using Closure based composers...
-        View::composer('layouts._footer', function ($view) {
+        View::composer([
+            'layouts._footer',
+            'auth.passwords.sms_code',
+        ], function ($view) {
             $country_codes = CountryCode::all();
             $view->with('country_codes', $country_codes);
         });
