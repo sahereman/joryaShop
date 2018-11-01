@@ -72,7 +72,7 @@
                         <div class="evaluation_results">
                             <div class="evaluation_results_left">
                                 <div class="eva_user_img">
-                                    <img src="{{ $user->avatar_url }}">
+                                    <img style="width:48px; height:48px;" src="{{ $user->avatar_url }}">
                                 </div>
                                 <span>{{ $user->name }}</span>
                             </div>
@@ -80,7 +80,7 @@
                                 <div class="five_star_evaluation">
                                     <div class="five_star_one star_area">
                                         <div class="starability-basic">
-                                            <img src="{{ asset('img/star-'. $comments[$order_item['id']][0]['composite_index'] .'png') }}">
+                                            <img src="{{ asset('img/star-' . $comments[$order_item['id']][0]['composite_index'] . '.png') }}">
                                         </div>
                                     </div>
                                 </div>

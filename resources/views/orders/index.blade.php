@@ -97,39 +97,39 @@
                                 <div class="o-pro">
                                     <table border="0" cellpadding="0" cellspacing="0">
                                         <tbody>
-                                        @foreach($order->items as $key => $item)
+                                        @foreach($order->snapshot as $key => $order_item)
                                         @if($key == 0)
                                                 <!--当循环的子订单数量为1时第一个tr整体作为一个单独的模板进行渲染，超过两个时请看第二个tr前的注释-->
                                         <tr>
                                             <td class="col-pro-img">
                                                 <p class="p-img">
-                                                    <a href="{{ route('products.show', $item->sku->product->id) }}">
-                                                        <img src="{{ $item->sku->product->thumb_url }}">
+                                                    <a href="{{ route('products.show', $order_item['sku']['product']['id']) }}">
+                                                        <img src="{{ $order_item['sku']['product']['thumb_url'] }}">
                                                     </a>
                                                 </p>
                                             </td>
                                             <td class="col-pro-info">
                                                 <p class="p-info">
-                                                    <a href="{{ route('products.show', $item->sku->product->id) }}">{{ $item->sku->product->name_zh }}</a>
+                                                    <a href="{{ route('products.show', $order_item['sku']['product']['id']) }}">{{ $order_item['sku']['product']['name_zh'] }}</a>
                                                 </p>
                                             </td>
                                             <td class="col-price">
                                                 <p class="p-price">
                                                     <em>¥</em>
-                                                    <span>{{ number_format($item->price, 2) }}</span>
+                                                    <span>{{ $order_item['price'] }}</span>
                                                 </p>
                                             </td>
-                                            <td class="col-quty">1</td>
-                                            <td rowspan="{{ $order->items->count() }}" class="col-pay">
+                                            <td class="col-quty">{{ $order_item['number'] }}</td>
+                                            <td rowspan="{{ count($order->snapshot) }}" class="col-pay">
                                                 <p>
                                                     <em>¥</em>
-                                                    <span>{{ number_format($order->total_amount, 2) }}</span>
+                                                    <span>{{ $order->total_amount }}</span>
                                                 </p>
                                             </td>
-                                            <td rowspan="{{ $order->items->count() }}" class="col-status">
+                                            <td rowspan="{{ count($order->snapshot) }}" class="col-status">
                                                 <p>{{ $order->translateStatus($order->status) }}</p>
                                             </td>
-                                            <td rowspan="{{ $order->items->count() }}" class="col-operate">
+                                            <td rowspan="{{ count($order->snapshot) }}" class="col-operate">
                                                 <p class="p-button">
                                                     <!--以下按钮除再次购买并不同时展示根据订单状态进行调整-->
                                                     @if($order->status == \App\Models\Order::ORDER_STATUS_PAYING)
@@ -180,23 +180,23 @@
                                         <tr class="order_top">
                                             <td class="col-pro-img">
                                                 <p class="p-img">
-                                                    <a href="{{ route('products.show', $item->sku->product->id) }}">
-                                                        <img src="{{ $item->sku->product->thumb_url }}">
+                                                    <a href="{{ route('products.show', $order_item['sku']['product']['id']) }}">
+                                                        <img src="{{ $order_item['sku']['product']['thumb_url'] }}">
                                                     </a>
                                                 </p>
                                             </td>
                                             <td class="col-pro-info">
                                                 <p class="p-info">
-                                                    <a href="{{ route('products.show', $item->sku->product->id) }}">{{ $item->sku->product->name_zh }}</a>
+                                                    <a href="{{ route('products.show', $order_item['sku']['product']['id']) }}">{{ $order_item['sku']['product']['name_zh'] }}</a>
                                                 </p>
                                             </td>
                                             <td class="col-price">
                                                 <p class="p-price">
                                                     <em>¥</em>
-                                                    <span>{{ number_format($item->price, 2) }}</span>
+                                                    <span>{{ $order_item['price'] }}</span>
                                                 </p>
                                             </td>
-                                            <td class="col-quty">1</td>
+                                            <td class="col-quty">{{ $order_item['number'] }}</td>
                                         </tr>
                                         @endif
                                         @endforeach
@@ -228,7 +228,7 @@
                                     </div>
                                     <p class="commodity_title">{{ $guess->name_zh }}</p>
                                     <p class="collection_price">
-                                        <span class="new_price">¥ {{ number_format($guess->price, 2) }}</span>
+                                        <span class="new_price">¥ {{ $guess->price }}</span>
                                         <span class="old_price">¥ {{ bcadd($guess->price, random_int(300, 500), 2) }}</span>
                                     </p>
                                     <a class="add_to_cart" href="">加入购物车</a>

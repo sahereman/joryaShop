@@ -36,7 +36,7 @@ class OrdersController extends Controller
             // 待付款订单
             case 'paying':
                 $orders = $user->orders()
-                    ->with('items.sku.product')
+                    // ->with('items.sku.product')
                     ->where('status', 'paying')
                     ->orderByDesc('created_at')
                     ->simplePaginate(2);
@@ -44,7 +44,7 @@ class OrdersController extends Controller
             // 待收货订单
             case 'receiving':
                 $orders = $user->orders()
-                    ->with('items.sku.product')
+                    // ->with('items.sku.product')
                     ->where('status', 'receiving')
                     ->orderByDesc('shipped_at')
                     ->simplePaginate(2);
@@ -52,7 +52,7 @@ class OrdersController extends Controller
             // 待评价订单
             case 'uncommented':
                 $orders = $user->orders()
-                    ->with('items.sku.product')
+                    // ->with('items.sku.product')
                     ->where(['status' => 'completed', 'commented_at' => null])
                     ->orderByDesc('completed_at')
                     ->simplePaginate(2);
@@ -60,7 +60,7 @@ class OrdersController extends Controller
             // 售后订单
             case 'refunding':
                 $orders = $user->orders()
-                    ->with('items.sku.product')
+                    // ->with('items.sku.product')
                     ->where('status', 'refunding')
                     ->orderByDesc('updated_at')
                     ->simplePaginate(2);
@@ -68,7 +68,7 @@ class OrdersController extends Controller
             // 已完成订单
             case 'completed':
                 $orders = $user->orders()
-                    ->with('items.sku.product')
+                    // ->with('items.sku.product')
                     ->where('status', 'completed')
                     ->orderByDesc('completed_at')
                     ->simplePaginate(2);
@@ -76,7 +76,7 @@ class OrdersController extends Controller
             // 默认：all 全部订单
             default:
                 $orders = $user->orders()
-                    ->with('items.sku.product')
+                    // ->with('items.sku.product')
                     ->orderByDesc('updated_at')
                     ->simplePaginate(2);
                 break;
@@ -90,7 +90,7 @@ class OrdersController extends Controller
     }
 
     // GET 订单详情页面
-    public function show(Order $order)
+    public function show(Request $request, Order $order)
     {
         $this->authorize('view', $order);
 
@@ -186,7 +186,7 @@ class OrdersController extends Controller
     }
 
     // PATCH [主动]取消订单，交易关闭 [订单进入交易关闭状态:status->closed]
-    public function close(Order $order)
+    public function close(Request $request, Order $order)
     {
         $this->authorize('close', $order);
 
@@ -220,7 +220,7 @@ class OrdersController extends Controller
     }
 
     // PATCH 确认收货，交易关闭 [订单进入交易结束状态:status->completed]
-    public function complete(Order $order)
+    public function complete(Request $request, Order $order)
     {
         $this->authorize('complete', $order);
 
