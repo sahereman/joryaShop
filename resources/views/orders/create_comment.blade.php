@@ -21,7 +21,7 @@
             @include('users._left_navigation')
                     <!--右侧内容-->
             <div class="comment_content">
-            	<form method="POST" action="{{ route('orders.store_comment',$order->id) }}" enctype="multipart/form-data">
+            	<form method="POST" action="{{ route('orders.store_comment',$order->id) }}" enctype="multipart/form-data" id="creat_comment_form">
 	                {{ csrf_field() }}
 	                <input type="hidden" name="order_id" value="{{ $order->id }}">
 	                @foreach($order->snapshot as $order_item)
@@ -163,9 +163,10 @@
 	                                </div>
 	                            </div>
 	                            <textarea name="content[{{ $order_item['id'] }}]" placeholder="请输入少于200字的商品评价"></textarea>
-	                            <input id="###-[{{ $order_item['id'] }}]" type="hidden" name="photos[{{ $order_item['id'] }}]"
-	                                   value="">
+	                            <!--<input id="imgPath-[{{ $order_item['id'] }}]" type="hidden" name="photos[{{ $order_item['id'] }}]"-->
+	                                 
 	                            <div class="picture_area">
+	                            	<input id="imgPath-[{{ $order_item['id'] }}]" type="hidden" name="photos[{{ $order_item['id'] }}]"  value="">
 	                                <p>
 	                                    <i>*</i>
 	                                    <span>上传图片</span>
@@ -174,7 +175,6 @@
 	                                    <div class="pictures_btn" code="{{ $order_item['id'] }}">
 	                                        <img src="{{ asset('img/pic_upload.png') }}">
 	                                        <input type="file" name="image"  value="" id="{{ $order_item['id'] }}" onchange="imgChange(this)" />
-	                                        <input type="hidden" name="photos" code="{{ $order_item['id'] }}" >
 	                                    </div>
 	                                </div>
 	                            </div>
@@ -250,7 +250,7 @@
         $(".sub_evaluation").on("click",function(){
         	set_path();
         	if(set_finish==true){
-        		$("form").submit();
+        		$("#creat_comment_form").submit();
         	}
         })
         function set_path() {
@@ -262,7 +262,7 @@
         			path_url+=$(b).attr("data-path")+","
         		});
         		path_url=path_url.substring(0, path_url.length - 1);
-        		$(n).find("input[code='"+ $(n).attr("code") +"']").val(path_url);
+        		$(n).parents(".picture_area").find("input[name='photos["+ $(n).attr("code") +"]']").val(path_url);
         	});
         	set_finish=true;
         	return set_finish;
