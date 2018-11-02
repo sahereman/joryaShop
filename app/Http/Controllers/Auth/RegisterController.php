@@ -9,6 +9,7 @@ use App\Http\Requests\RegisterEmailCodeValidationRequest;
 use App\Http\Requests\SmsCodeRegisterRequest;
 use App\Http\Requests\SmsCodeRegisterValidationRequest;
 use App\Models\User;
+use App\Rules\RegisterSmsCodeValidRule;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Cache;
@@ -67,11 +68,14 @@ class RegisterController extends Controller
             'code' => 'required|string',
         ]);*/
         return Validator::make($data, [
-            'name' => 'required|string|max:255|unique:users',
-            'country_code' => 'required_with:phone|string',
+            'name' => 'bail|required|string|max:255|unique:users',
+            'password' => 'bail|required|string|min:6',
+            'country_code' => 'bail|required|string|regex:/^\d+$/',
             'phone' => [
-                'required_with:country_code',
+                'bail',
+                'required',
                 'string',
+                'regex:/^\d+$/',
                 function ($attribute, $value, $fail) {
                     if (isset($data['country_code'])) {
                         if (User::where([
@@ -79,13 +83,18 @@ class RegisterController extends Controller
                             'phone' => $value,
                         ])->exists()
                         ) {
-                            $fail('对不起，该手机号码已经注册过用户~');
+                            $fail('对不起，该手机号码已经注册过用户');
                         }
                     }
                 }
             ],
-            'password' => 'required|string|min:6',
-            'code' => 'required|string',
+            'code' => [
+                'bail',
+                'required',
+                'string',
+                'regex:/^\d+$/',
+                new RegisterSmsCodeValidRule($data['country_code'], $data['phone']),
+            ],
         ]);
     }
 
