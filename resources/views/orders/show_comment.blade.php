@@ -72,7 +72,7 @@
                         <div class="evaluation_results">
                             <div class="evaluation_results_left">
                                 <div class="eva_user_img">
-                                    <img style="width:48px; height:48px;" src="{{ $user->avatar_url }}">
+                                    <img src="{{ $user->avatar_url }}">
                                 </div>
                                 <span>{{ $user->name }}</span>
                             </div>
