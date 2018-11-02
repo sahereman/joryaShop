@@ -110,7 +110,7 @@
                 <ul>
                     <li>
                         <input type="search" placeholder="请输入您要搜索的商品">
-                        <a href="{{ route('login') }}">
+                        <a href="{{ route('products.index') }}">
                             <img src="{{ asset('img/search_magnifier.png') }}">
                         </a>
                     </li>
