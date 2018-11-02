@@ -106,10 +106,17 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        /*return User::create([
             'name' => $data['name'],
             'avatar' => asset('/vendor/laravel-admin/AdminLTE/dist/img/user2-160x160.jpg'),
             'email' => $data['email'],
+            'password' => bcrypt($data['password']),
+        ]);*/
+        return User::create([
+            'name' => $data['name'],
+            'avatar' => asset('/vendor/laravel-admin/AdminLTE/dist/img/user2-160x160.jpg'),
+            'country_code' => $data['country_code'],
+            'phone' => $data['phone'],
             'password' => bcrypt($data['password']),
         ]);
     }
