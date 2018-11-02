@@ -100,7 +100,7 @@ class ImageUploadHandler
     {
         $date = Carbon::now();
         $prefix_path = Storage::disk('public')->getAdapter()->getPathPrefix();
-        $child_path = 'comment_image/' . date('Ym', $date->timestamp);/*存储文件格式为 201706 文件夹内*/
+        $child_path = 'comment/' . date('Ym', $date->timestamp);/*存储文件格式为 201706 文件夹内*/
 
         if ($save_path && $name) {
             $path = Storage::disk('public')->putFileAs($save_path, $file, $name . strrchr($file->getClientOriginalName(), '.'));/*自己拼接保持原本上传的后缀名*/
