@@ -411,7 +411,7 @@ function kdniao_shipment_query($shipment_company, $shipment_sn, $order_sn = '')
      * Traces.AcceptStation String [R] 轨迹描述
      * Traces.Remark String [O] 轨迹状态描述
      */
-    if (isset($response_body_content)) {
+    /*if (isset($response_body_content)) {
         if (isset($response_body_content['EBusinessID']) && $response_body_content['EBusinessID'] == $ebusiness_id
             && isset($response_body_content['ShipperCode']) && $response_body_content['ShipperCode'] == $shipment_company
             && isset($response_body_content['LogisticCode']) && $response_body_content['LogisticCode'] == $shipment_sn
@@ -420,6 +420,10 @@ function kdniao_shipment_query($shipment_company, $shipment_sn, $order_sn = '')
             // return $response_body_content['Traces'];
             return isset($response_body_content['Traces']) ? $response_body_content['Traces'] : [];
         }
+    }*/
+    if (isset($response_body_content) && isset($response_body_content['Success']) && $response_body_content['Success'] == true) {
+        // return $response_body_content['Traces'];
+        return isset($response_body_content['Traces']) ? $response_body_content['Traces'] : [];
     }
     return [];
 }
