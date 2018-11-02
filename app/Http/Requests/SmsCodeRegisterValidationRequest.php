@@ -30,13 +30,13 @@ class SmsCodeRegisterValidationRequest extends Request
                         $fail('对不起，该手机号码已注册过用户');
                     }
                 },
-                'code' => [
-                    'bail',
-                    'required',
-                    'string',
-                    'regex:/^\d+$/',
-                    new RegisterSmsCodeValidRule($this->input('country_code'), $this->input('phone')),
-                ],
+            ],
+            'code' => [
+                'bail',
+                'required',
+                'string',
+                'regex:/^\d+$/',
+                new RegisterSmsCodeValidRule($this->input('country_code'), $this->input('phone')),
             ],
         ];
     }
