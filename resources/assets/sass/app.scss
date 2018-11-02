@@ -536,13 +536,13 @@ a {
                 text-indent: 35px;
             }
             &:nth-of-type(4) {
-                background: url(../img/email.png) left no-repeat;
+                background: url(../img/tel_phone.png) left no-repeat;
                 background-position-x: 10px;
                 text-indent: 35px;
             }
         }
         .register_phone {
-            height: 36px;
+//          height: 36px;
             width: 100%;
             margin: 5px auto;
             display: flex;
@@ -587,6 +587,13 @@ a {
                 height: 36px;
                 left: 50px;
                 line-height: 36px;
+            }
+            label {
+                &.error {
+                    margin-top: 40px;
+                    margin-left: -288px;
+                    width: 100%;
+                }
             }
         }
     }
@@ -692,6 +699,17 @@ a {
             &.active {
                 display: block;
             }
+            select {
+                width: 50px;
+                border: 1px solid #eaeaea;
+                outline: none;
+                border-right: 0px;
+                position: absolute;
+                z-index: 5;
+                opacity: 0;
+                height: 36px;
+                margin: 5px auto;
+            }
             >input {
                 &:first-of-type,
                 &:nth-of-type(2) {
@@ -706,12 +724,67 @@ a {
                 }
             }
             &:last-of-type {
+                position: relative;
                 >input {
                     &:first-of-type,
                     &:nth-of-type(2) {
-                        background: url(../img/email.png) left no-repeat;
+                        background: none;
                         background-position-x: 10px;
                         text-indent: 35px;
+                    }
+                }
+                .register_phone {
+                    width: 100%;
+                    margin: 5px auto;
+                    display: flex;
+                    position: relative;
+                    select {
+                        width: 50px;
+                        border: 1px solid #eaeaea;
+                        outline: none;
+                        border-right: 0px;
+                        position: absolute;
+                        z-index: 5;
+                        opacity: 0;
+                        height: 36px;
+                        margin: 5px auto;
+                    }
+                    input {
+                        margin: 0;
+                        padding-left: 50px;
+                        &.active {
+                            padding-left: 90px;
+                        }
+                    }
+                    .click_areaCode {
+                        position: absolute;
+                        width: 50px;
+                        height: 25px;
+                        top: 5px;
+                        border-right: 1px solid #e0e0e0;
+                        z-index: 10;
+                        cursor: pointer;
+                        pointer-events: none;
+                        img {
+                            &:first-of-type {
+                                margin: 0 4px;
+                            }
+                        }
+                    }
+                    .areaCode_val {
+                        display: block;
+                        position: absolute;
+                        width: 50px;
+                        height: 36px;
+                        left: 50px;
+                        line-height: 36px;
+                    }
+                    label {
+                        &.error {
+                            margin-top: 40px;
+                            margin-left: -288px;
+                            width: 100%;
+                        }
                     }
                 }
             }
@@ -1639,3 +1712,4 @@ footer {
 @import "order";
 @import "evaluate";
 @import "refund";
+@import "productCategories"

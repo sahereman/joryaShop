@@ -215,7 +215,9 @@ $(function(){
 	//获取验证码倒计时
 	var countdown=60;    
 	var _generate_code;
-	var myReg = /^[a-zA-Z0-9_-]+@([a-zA-Z0-9]+\.)+(com|cn|net|org)$/;
+	// var myReg = /^[a-zA-Z0-9_-]+@([a-zA-Z0-9]+\.)+(com|cn|net|org)$/;
+	var myReg = /^\d+$/;
+	//注册获取验证码
 	$("#getRegister_code").on("click",function(){      
 		var disabled = $("#getRegister_code").attr("disabled");  
 		_generate_code = $("#getRegister_code");
@@ -229,14 +231,16 @@ $(function(){
            return false;
         }
         var data = {
-        	email: $("#register_email").val(),
+        	phone: $("#register_email").val(),
+        	country_code: $("#register_countryCode").val(),
         	name: $("#register_user").val(),
         	password: $("#register_psw").val(),
-            _toke: "{{ csrf_token() }}"
+            _toke: $("#register_token_code").find("input").val()
         }
+        console.log(data)
         $.ajax({
         	type:"post",
-        	url:"register/send_email_code",
+        	url:"./register/send_sms_code",
         	data:data,
         	success:function(data){              
 				settime();        
@@ -246,6 +250,7 @@ $(function(){
 			}      
         });
 	});
+	//登录获取验证码
 	$("#getLogin_code").on("click",function(){      
 		var disabled = $("#getLogin_code").attr("disabled");  
 		_generate_code = $("#getLogin_code");
@@ -254,12 +259,13 @@ $(function(){
 			return false;      
 		}      
 		var data = {
-        	email: $("#login_email").val(),
-            _toke: "{{ csrf_token() }}"
-        }
+        	phone: $("#login_email").val(),
+        	country_code: $("#login_countryCode").val(),
+            _toke: $("#login_token_code").find("input").val()
+       }
         $.ajax({
         	type:"post",
-        	url:"login/send_email_code",
+        	url:"./login/send_sms_code",
         	data:data,
         	success:function(data){              
 				settime();        
@@ -271,19 +277,20 @@ $(function(){
 	});    
 	//邮箱验证登录
 	$(".mailbox_btn").on("click",function(){
-		if (!myReg.test($("#login_email").val())||$("#login_code").val()==""||$("#login_code").val()==null) {
-			$(".error_content span").html("请输入正确的邮箱和验证码");
+		if ($("#login_code").val()==""||$("#login_code").val()==null) {
+			$(".error_content span").html("请输入正确的手机号和验证码");
 			$(".error_content").show();
            return false;
         }
 		var data = {
-			email: $("#login_email").val(),
-			code: $("#login_code").val(),
-            _toke: "{{ csrf_token() }}"
+            country_code: $("#login_countryCode").val(),
+            phone: $("#login_email").val(),
+            code: $("#login_code").val(),
+            _toke: $("#login_token_code").find("input").val()
 		}
 		$.ajax({
         	type:"post",
-        	url:"login/verify_email_code",
+        	url:"./login/verify_sms_code",
         	data:data,
         	success:function(json){              
 //				json = json.replace(/\s+/g, "");
@@ -396,12 +403,12 @@ $(function(){
 	});
 	$("#mailbox_login").validate({
 	    rules: {
-	        email: {
+	        phone: {
 	            required: true
 	        },
 	    },
 	    messages: {
-	        email: {
+	        phone: {
 	            required: '请输入邮箱'
 	        },
 	    }
@@ -413,7 +420,7 @@ $(function(){
         }
 	})
 	//注册
-	$(".register_btn").on("click",function(){
+	$("#register_btn").on("click",function(){
 		if ($("#register-form").valid()) {
 			if($("#register_code").val()!=""&&$("#agreement").prop("checked")!=false){
 	            $('#register-form').submit();
@@ -434,8 +441,8 @@ $(function(){
 	})
 	//区号选择
     $(".choose_tel_area").on("change",function(){
-    	$(".areaCode_val").html($(".choose_tel_area").val());
-    	$(".register_phone input").addClass("active");
+    	$(this).parents(".register_phone").find(".areaCode_val").html($(this).find("option:checked").val());
+    	$(this).parents(".register_phone").find("input").addClass("active");
     })
 })
 

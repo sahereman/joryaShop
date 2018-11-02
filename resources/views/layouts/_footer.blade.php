@@ -149,7 +149,7 @@
             <div class="holder">
                 <div class="with-line">新用户注册</div>
                 <form id="register-form" action="{{ route('register') }}" method="POST">
-                    {{ csrf_field() }}
+                    <p id="register_token_code" class="dis_n">{{ csrf_field() }}</p>
                     <input type="text" name="username" id="register_user" placeholder="请输入用户名" required>
                     @if ($errors->has('username'))
 	                    <p class="login_error error_content">
@@ -165,11 +165,10 @@
 		                </p>
 	                @endif
 	                <div class="register_phone">
-	                	<select class="choose_tel_area">
-		                	<option>1-340</option>
-		                	<option>1-340</option>
-		                	<option>1-340</option>
-		                	<option>1-340</option>
+	                	<select class="choose_tel_area" name="country_code" id="register_countryCode">
+	                		@foreach($country_codes as $country_code)
+	                		    <option value="{{ $country_code->country_code }}">{{ $country_code->country_iso }}</option>
+	                		@endforeach
 		                </select>
 		                <div class="click_areaCode">
 		                	<img src="{{ asset('img/tel_phone.png') }}">
@@ -206,7 +205,7 @@
                         <a href="{{ route('root') }}">《用户服务使用协议》</a>
                     </p>
                 </div>
-                <a class="btn_dialog register_btn">注册</a>
+                <a class="btn_dialog register_btn" id="register_btn">注册</a>
                 <div class="switch-back">
                     <p class="change_title">
                         <span>已有账号？</span>
@@ -224,13 +223,13 @@
                             <a>普通登录</a>
                         </li>
                         <li class="mailbox_login">
-                            <a>邮箱动态密码登录</a>
+                            <a>手机动态密码登录</a>
                         </li>
                     </ul>
                 </div>
                 <form id="login-form" class="active" action="{{ route('login.post') }}" method="POST">
                     {{ csrf_field() }}
-                    <input type="text" name="username" placeholder="请输入用户名或邮箱" required>
+                    <input type="text" name="username" placeholder="请输入用户名或手机号" required>
                 	@if ($errors->has('username'))
 	                    <p class="login_error error_content">
 		                    <i></i>
@@ -245,13 +244,25 @@
 		                </p>
 	                @endif
                 </form>
-                <form id="mailbox_login" action="{{ route('login') }}" method="POST">
-                    {{ csrf_field() }}
-                    <input type="text" name="email" id="login_email" placeholder="请输入邮箱" required>
-                	@if ($errors->has('email'))
+                <form id="mailbox_login" action="{{ route('login.verify_sms_code') }}" method="POST">
+                    <p id="login_token_code" class="dis_n">{{ csrf_field() }}</p>
+                    <div class="register_phone">
+	                	<select class="choose_tel_area" name="country_code" id="login_countryCode">
+		                	@foreach($country_codes as $country_code)
+	                		    <option value="{{ $country_code->country_code }}">{{ $country_code->country_iso }}</option>
+	                		@endforeach
+		                </select>
+		                <div class="click_areaCode">
+		                	<img src="{{ asset('img/tel_phone.png') }}">
+		                	<img src="{{ asset('img/sanjiao.png') }}">
+		                </div>
+		                <span class="areaCode_val login_code"></span>
+	                    <input type="text" name="phone" id="login_email" placeholder="请输入手机号" required>
+	                </div>
+                    @if ($errors->has('phone'))
 	                    <p class="login_error error_content">
 		                    <i></i>
-		                    <span>{{ $errors->first('email') }}</span>
+		                    <span>{{ $errors->first('phone') }}</span>
 		                </p>
 	                @endif
                     <div class="verification_code">

@@ -78,25 +78,25 @@
                             <a href="{{ route('root') }}">首页</a>
                         </li>
                         <li>
-                            <a href="{{ route('root') }}">穿搭</a>
+                            <a href="{{ route('product_categories.index', 1) }}">穿搭</a>
                         </li>
                         <li>
-                            <a href="{{ route('root') }}">商务</a>
+                            <a href="{{ route('product_categories.index', 1) }}">商务</a>
                         </li>
                         <li>
-                            <a href="{{ route('root') }}">简约</a>
+                            <a href="{{ route('product_categories.index', 1) }}">简约</a>
                         </li>
                         <li>
-                            <a href="{{ route('root') }}">直发</a>
+                            <a href="{{ route('product_categories.index', 1) }}">直发</a>
                         </li>
                         <li>
-                            <a href="{{ route('root') }}">卷发</a>
+                            <a href="{{ route('product_categories.index', 1) }}">卷发</a>
                         </li>
                         <li>
-                            <a href="{{ route('root') }}">时尚</a>
+                            <a href="{{ route('product_categories.index', 1) }}">时尚</a>
                         </li>
                         <li>
-                            <a href="{{ route('root') }}">正品保证</a>
+                            <a href="{{ route('product_categories.index', 1) }}">正品保证</a>
                         </li>
                     </ul>
                 </div>

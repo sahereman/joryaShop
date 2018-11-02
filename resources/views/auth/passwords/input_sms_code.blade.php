@@ -29,19 +29,21 @@
                             {{ session('status') }}
                         </div>
                     @endif
-                    <form class="form-horizontal" method="POST" action="{{ route('reset.verify_email_code') }}">
+                    <form class="form-horizontal" method="POST" action="{{ route('reset.verify_sms_code') }}">
                         {{ csrf_field() }}
-                        <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                            <div class="">
+                        <div class="form-group{{ $errors->has('phone') ? ' has-error' : '' }}">
+                            {{--<div class="">
                                 <label class="reset_email">
                                     <span>手机号</span>
-                                    <input id="email" type="email" name="email" value="{{ old('email') }}" readonly
-                                           required placeholder="请输入邮箱">
+                                    <img src="{{ asset('img/sanjiao.png') }}">
+                                    <span class="areaCode_choosed">{{ old('country_code') }}</span>
+                                    <input id="email" type="phone" name="phone" value="{{ old('phone') }}" readonly
+                                           class='active' required placeholder="请输入手机号">
                                 </label>
-                                @if ($errors->has('email'))
+                                @if ($errors->has('phone'))
                                     <span class="help-block">
                                     <img src="{{ asset('img/error_fork.png') }}">
-                                    <strong>{{ $errors->first('email') }}</strong>
+                                    <strong>{{ $errors->first('phone') }}</strong>
                                     </span>
                                 @endif
                                 <label class="reset_code">
@@ -56,7 +58,45 @@
                                     <strong>{{ $errors->first('code') }}</strong>
                                     </span>
                                 @endif
-                            </div>
+                            </div>--}}
+                            <ul class="reset_info_content">
+                            	<li>
+                            		<label class="reset_email">
+                                    <span>手机号</span>
+                                    <img src="{{ asset('img/sanjiao.png') }}">
+                                    <input type="hidden" class="choose_tel_area" name="country_code" value="{{ old('country_code') }}">
+                                    <span class="areaCode_choosed">{{ old('country_code') }}</span>
+                                    <input id="email" type="phone" name="phone" value="{{ old('phone') }}" readonly
+                                           class='active' required placeholder="请输入手机号">
+	                                </label>
+	                                @if ($errors->has('phone'))
+	                                    <span class="help-block">
+	                                    <img src="{{ asset('img/error_fork.png') }}">
+	                                    <strong>{{ $errors->first('phone') }}</strong>
+	                                    </span>
+	                                @endif
+                            	</li>
+                            	<li>
+                            		<label class="reset_code">
+                                    <span>验证码</span>
+                                    <input id="code" type="text" name="code" value="{{ old('code') }}"
+                                           placeholder="请输入验证码" required>
+                                    <input type="button" id="resetCode_get" value="获取验证码">
+	                                </label>
+	                                @if ($errors->has('code'))
+	                                    <span class="help-block">
+	                                    <img src="{{ asset('img/error_fork.png') }}">
+	                                    <strong>{{ $errors->first('code') }}</strong>
+	                                    </span>
+	                                @endif
+                            	</li>
+                            </ul>
+                            
+                            
+                            
+                            
+                            
+                            
                         </div>
                         <div class="step_btn">
                             <button type="submit" class="btn btn-primary">下一步</button>
@@ -73,7 +113,8 @@
         $(function () {
             var countdown = 60;
             var _generate_code;
-            var myReg = /^[a-zA-Z0-9_-]+@([a-zA-Z0-9]+\.)+(com|cn|net|org)$/;
+//          var myReg = /^[a-zA-Z0-9_-]+@([a-zA-Z0-9]+\.)+(com|cn|net|org)$/;
+            var myReg = /^\d+$/;
             $("#resetCode_get").on("click", function () {
                 $(".error_block").hide();
                 var disabled = $("#resetCode_get").attr("disabled");
@@ -82,12 +123,14 @@
                     return false;
                 }
                 var data = {
-                    email: $("#email").val(),
+                    phone: $("#email").val(),
+                    country_code: $(".areaCode_choosed").html(),
                     _toke: "{{ csrf_token() }}"
                 }
+                console.log(data);
                 $.ajax({
                     type: "post",
-                    url: "{{ route('reset.resend_email_code') }}",
+                    url: "{{ route('reset.resend_sms_code') }}",
                     data: data,
                     success: function (data) {
                         settime();

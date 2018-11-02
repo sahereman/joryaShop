@@ -31,9 +31,10 @@
                 @endif
                 <form class="form-horizontal" method="POST" action="{{ route('reset.override_password') }}">
                     {{ csrf_field() }}
-                    <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
+                    <div class="form-group{{ $errors->has('phone') ? ' has-error' : '' }}">
                         <div class="">
-                            <input type="hidden" name="email" value="{{ old('email') }}" required>
+                        	<input type="hidden" name="country_code" value="{{ old('country_code') }}" required>
+                        	<input type="hidden" name="phone" value="{{ old('phone') }}" required>
                             <input type="hidden" name="code" value="{{ old('code') }}" required>
                             {{--<input type="hidden" name="token" value="{{ $token or old('token') }}">--}}
                             <label class="reset_psw_new">

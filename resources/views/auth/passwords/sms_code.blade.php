@@ -31,25 +31,24 @@
                     @endif
                     <form class="form-horizontal" method="POST" action="{{ route('reset.send_sms_code') }}">
                         {{ csrf_field() }}
-                        <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
+                        <div class="form-group{{ $errors->has('phone') ? ' has-error' : '' }}">
                             <div class="">
                                 <label class="reset_email">
                                     <span>手机号</span>
                                     <img src="{{ asset('img/sanjiao.png') }}">
-                                    <select class="choose_tel_area">
-                                        <option>1-340</option>
-                                        <option>1-340</option>
-                                        <option>1-340</option>
-                                        <option>1-340</option>
+                                    <select class="choose_tel_area" name="country_code">
+                                        @foreach($country_codes as $country_code)
+				                		    <option value="{{ $country_code->country_code }}">{{ $country_code->country_iso }}</option>
+				                		@endforeach
                                     </select>
                                     <span class="areaCode_choosed"></span>
-                                    <input id="email" type="email" name="email" value="{{ old('email') }}" required
+                                    <input id="email" type="phone" name="phone" value="{{ old('phone') }}" required
                                            placeholder="请输入手机号">
                                 </label>
-                                @if ($errors->has('email'))
+                                @if ($errors->has('phone'))
                                     <span class="help-block">
                                     <img src="{{ asset('img/error_fork.png') }}">
-                                    <strong>{{ $errors->first('email') }}</strong>
+                                    <strong>{{ $errors->first('phone') }}</strong>
                                 </span>
                                 @endif
                             </div>
@@ -69,7 +68,8 @@
         $(function () {
             var countdown = 60;
             var _generate_code;
-            var myReg = /^[a-zA-Z0-9_-]+@([a-zA-Z0-9]+\.)+(com|cn|net|org)$/;
+            //var myReg = /^[a-zA-Z0-9_-]+@([a-zA-Z0-9]+\.)+(com|cn|net|org)$/;
+            var myReg = /^\d+$/;
             $("#resetCode_get").on("click", function () {
                 if ($("#email").val() == "") {
                     $(".error_block").show();
