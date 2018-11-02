@@ -19,9 +19,9 @@ return [
     // 可用的网关配置
     'gateways' => [
         'aliyun' => [
-            'access_key_id' => env('ALIYUN_SMS_ACCESS_KEY_ID', 'LTAI9tLIc5tEbKl0'),
-            'access_key_secret' => env('ALIYUN_SMS_ACCESS_KEY_SECRET', '2kmg2xFde4krB99yzFroJmgYqjVVTd'),
-            'sign_name' => env('ALIYUN_SMS_SIGN_NAME', '卓雅美业'),
+            'access_key_id' => env('ALIYUN_SMS_ACCESS_KEY_ID', 'access_key_id'),
+            'access_key_secret' => env('ALIYUN_SMS_ACCESS_KEY_SECRET', 'access_key_secret'),
+            'sign_name' => env('ALIYUN_SMS_SIGN_NAME', 'sign_name'),
         ],
         'errorlog' => [
             'file' => '/tmp/easy-sms.log',
@@ -30,8 +30,8 @@ return [
     ],
 
     // 使用短信模板 'SMS_*********'
-    'domestic_template' => env('ALIYUN_SMS_DOMESTIC_TEMPLATE', 'SMS_149095008'),
-    'international_template' => env('ALIYUN_SMS_INTERNATIONAL_TEMPLATE', 'SMS_149100005'),
+    'domestic_template' => env('ALIYUN_SMS_DOMESTIC_TEMPLATE', 'domestic_template'),
+    'international_template' => env('ALIYUN_SMS_INTERNATIONAL_TEMPLATE', 'international_template'),
 
     // errorlog
     'file' => '/tmp/easy-sms.log',
