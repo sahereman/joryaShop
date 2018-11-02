@@ -176,7 +176,7 @@ class ResetPasswordController extends Controller
     }
 
     // POST 重置密码为新密码
-    public function overridePassword(ResetEmailCodeValidationRequest $request)
+    public function overridePassword(SmsCodeResetValidationRequest $request)
     {
         // $email = $request->input('email');
         // $code = $request->input('code');
