@@ -37,9 +37,34 @@
                             color: $hover-color;
                         }
                     }
+                    &.icon {
+                        span {
+                            float: left;
+                        }
+                        div {
+                            float: left;
+                            width: 10px;
+                            height: 40px;
+                            margin-left: 5px;
+                            i {
+                                display: inline-block;
+                                width: 10px;
+                                height: 5px;
+                                float: left;
+                                margin: 2px 0;
+                                &.arrow-up {
+                                    background: url(../img/arrow-up.png) no-repeat;
+                                    margin-top: 13px;
+                                }
+                                &.arrow-down {
+                                    background: url(../img/arrow-down.png) no-repeat;
+                                }
+                            }
+                        }
+                    }
                 }
             }
-            div {
+            >div {
                 float: left;
                 margin-top: 6px;
                 margin-left: 20px;
