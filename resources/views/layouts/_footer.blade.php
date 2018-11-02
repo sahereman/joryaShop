@@ -150,11 +150,11 @@
                 <div class="with-line">新用户注册</div>
                 <form id="register-form" action="{{ route('register') }}" method="POST">
                     <p id="register_token_code" class="dis_n">{{ csrf_field() }}</p>
-                    <input type="text" name="username" id="register_user" placeholder="请输入用户名" required>
-                    @if ($errors->has('username'))
+                    <input type="text" name="name" id="register_user" placeholder="请输入用户名" required>
+                    @if ($errors->has('name'))
 	                    <p class="login_error error_content">
 		                    <i></i>
-		                    <span>{{ $errors->first('username') }}</span>
+		                    <span>{{ $errors->first('name') }}</span>
 		                </p>
 	                @endif
                     <input type="password" name="password" id="register_psw" placeholder="请输入密码" required>

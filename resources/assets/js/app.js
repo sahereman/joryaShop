@@ -233,14 +233,14 @@ $(function(){
         var data = {
         	phone: $("#register_email").val(),
         	country_code: $("#register_countryCode").val(),
-        	name: $("#register_user").val(),
-        	password: $("#register_psw").val(),
+//      	name: $("#register_user").val(),
+//      	password: $("#register_psw").val(),
             _toke: $("#register_token_code").find("input").val()
         }
         console.log(data)
         $.ajax({
         	type:"post",
-        	url:"./register/send_sms_code",
+        	url:"/register/send_sms_code",
         	data:data,
         	success:function(data){              
 				settime();        
@@ -265,7 +265,7 @@ $(function(){
        }
         $.ajax({
         	type:"post",
-        	url:"./login/send_sms_code",
+        	url:"/login/send_sms_code",
         	data:data,
         	success:function(data){              
 				settime();        
@@ -290,7 +290,7 @@ $(function(){
 		}
 		$.ajax({
         	type:"post",
-        	url:"./login/verify_sms_code",
+        	url:"/login/verify_sms_code",
         	data:data,
         	success:function(json){              
 //				json = json.replace(/\s+/g, "");
