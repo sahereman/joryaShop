@@ -19,6 +19,20 @@ function route_class()
 }
 
 /**
+ * Generate An Image Url.
+ * @param $image string image path or url.
+ * @return string image url.
+ * */
+function generate_image_url($image)
+{
+    // 如果 image 字段本身就已经是完整的 url 就直接返回
+    if (Str::startsWith($image, ['http://', 'https://'])) {
+        return $image;
+    }
+    return Storage::disk('public')->url($image);
+}
+
+/**
  * Aliyun发送短信
  * [目前仅用于用户注册、登录、重置密码时发送验证码]
  * @param array $data 短信内容 format: ['code' => '888888']
@@ -155,11 +169,11 @@ function generate_order_ttl_message($datetime, $type)
  * $data = str_replace("\"",'"',$result );
  * $data = json_decode($data,true);
  * */
-function shipment_query($shipment_company, $shipment_sn)
+function kuaidi100_shipment_query($shipment_company, $shipment_sn)
 {
     // 其他物流公司 - 暂不支持
     if ($shipment_company == 'etc') {
-        return false;
+        return [];
     }
 
     $post_data = array();
@@ -180,7 +194,7 @@ function shipment_query($shipment_company, $shipment_sn)
         // You can set any number of default request options.
         'timeout' => 3.0,
     ]);
-    // dd(123);
+
     /*$response = $guzzle_http_client->request('GET', $url_backup, [
         'query' => [
             'type' => $shipment_company,
@@ -226,14 +240,16 @@ function shipment_query($shipment_company, $shipment_sn)
             ],
         ]);
     }
-    dd($response->getBody()->getContents());
+    $response_body_content = json_decode($response->getBody()->getContents(), true);
+    return isset($response_body_content['data']) ? $response_body_content['data'] : [];
 
     /*$o = "";
     foreach ($post_data as $k => $v) {
         $o .= "$k=" . urlencode($v) . "&"; // 默认UTF-8编码格式
     }
     $post_data = substr($o, 0, -1);*/
-    $post_data = http_build_query($post_data);
+
+    /*$post_data = http_build_query($post_data);
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_POST, 1);
     curl_setopt($ch, CURLOPT_HEADER, 0);
@@ -241,25 +257,11 @@ function shipment_query($shipment_company, $shipment_sn)
     curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
     $result = curl_exec($ch);
     $data = str_replace("\"", '"', $result);
-    return json_decode($data, true);
+    return json_decode($data, true);*/
 }
 
 /**
- * Generate An Image Url.
- * @param $image string image path or url.
- * @return string image url.
- * */
-function generate_image_url($image)
-{
-    // 如果 image 字段本身就已经是完整的 url 就直接返回
-    if (Str::startsWith($image, ['http://', 'https://'])) {
-        return $image;
-    }
-    return Storage::disk('public')->url($image);
-}
-
-/**
- * 快递鸟 即时查询API
+ * 快递鸟(kdniao.com) 即时查询API
  *
  * Request Method: HTTP POST
  * Content-Type:application/x-www-form-urlencoded;charset=utf-8
@@ -273,8 +275,44 @@ function generate_image_url($image)
  * @param string $order_sn 订单序列号
  * @return array
  */
+/**
+ * Successful Response Demo:
+ * $response = [
+ * "LogisticCode" => "shipment_sn",
+ * "ShipperCode" => "shipment_company",
+ * "Traces" => [],
+ * "State" => "0",
+ * "Traces" => [
+ * 0 => [
+ * "AcceptStation" => "[四川成都得力H]【向俊如】已收件",
+ * "AcceptTime" => "2018-10-28 18:04:36",
+ * ],
+ * 1 => [
+ * "AcceptStation" => "快件已由[四川成都得力H]发往[成都分拨中心]",
+ * "AcceptTime" => "2018-10-28 18:10:36",
+ * ],
+ * 2 => [
+ * "AcceptStation" => "快件已到达[成都分拨中心],上一站是[龙泉一部]",
+ * "AcceptTime" => "2018-10-28 22:09:20",
+ * ],
+ * 3 => [
+ * "AcceptStation" => "快件已由[成都分拨中心]发往[武汉分拨中心]",
+ * "AcceptTime" => "2018-10-28 22:11:44",
+ * ],
+ * ],
+ * "State" => "2",
+ * "EBusinessID" => "ebusiness_id",
+ * "Reason" => "暂无轨迹信息",
+ * "Success" => true,
+ * ];
+ */
 function kdniao_shipment_query($shipment_company, $shipment_sn, $order_sn = '')
 {
+    // 其他物流公司 - 暂不支持
+    if ($shipment_company == 'etc') {
+        return [];
+    }
+
     // 判断当前项目运行环境
     if (app()->environment('production')) {
         $ebusiness_id = config('kdniao.production.ebusiness_id', 'ebusiness_id');
@@ -305,29 +343,29 @@ function kdniao_shipment_query($shipment_company, $shipment_sn, $order_sn = '')
         'DataType' => $data_type,
     ];
     $data['DataSign'] = urlencode(base64_encode(md5($request_data . $api_key)));
+    // $data['DataSign'] = kdniao_encrypt($request_data . $api_key);
 
     $guzzle_http_client = new GuzzleHttpClient([
         // Base URI is used with relative requests
         // 'base_uri' => $url,
         // You can set any number of default request options.
-        'timeout' => config('kdniao.timeout'),
+        'timeout' => config('kdniao.timeout', 3.0),
         'headers' => [
             'Content-Type' => 'application/x-www-form-urlencoded;charset=utf-8',
         ],
     ]);
 
-    $response = $guzzle_http_client->request('POST', $request_url, [
-        // 'json' => $data,
+    /*$response = $guzzle_http_client->request('POST', $request_url, [
         // 'json' => $data,
         // 'multipart' => $data,
         'form_params' => $data,
     ]);
+    $response_body_content = json_decode($response->getBody()->getContents(), true);
+    return isset($response_body_content['Traces']) ? $response_body_content['Traces'] : [];*/
 
-    // $response_body_content = json_decode($response->getBody()->getContents(), true);
-    // dd($response->getBody()->getContents());
-
-    $response = sendPost($request_url, $data);
-    dd($response);
+    /*$response = kdniao_send_post_query($request_url, $data);
+    $response_body_content = json_decode($response, true);
+    return isset($response_body_content['Traces']) ? $response_body_content['Traces'] : [];*/
 
     try {
         $response = $guzzle_http_client->request('POST', $request_url, [
@@ -336,34 +374,74 @@ function kdniao_shipment_query($shipment_company, $shipment_sn, $order_sn = '')
             'form_params' => $data,
         ]);
         $response_body_content = json_decode($response->getBody()->getContents(), true);
-        dd($response->getBody()->getContents());
     } catch (ClientException $e) {
         echo Psr7\str($e->getRequest());
         if ($e->hasResponse()) {
             echo Psr7\str($e->getResponse());
         }
+        return [];
     } catch (RequestException $e) {
         echo Psr7\str($e->getRequest());
         if ($e->hasResponse()) {
             echo Psr7\str($e->getResponse());
         }
+        return [];
     }
+    /**
+     * EBusinessID String [R] 用户 ID
+     *
+     * OrderCode String [O] 订单编号
+     *
+     * ShipperCode String [R] 快递公司编码
+     *
+     * LogisticCode String [R] 快递单号
+     *
+     * Success Bool [R] 成功与否 (true|false)
+     *
+     * Reason String [O] 失败原因
+     *
+     * State String [R] 物流状态:
+     * 0 - 无轨迹
+     * 1 - 已揽收
+     * 2 - 在途中
+     * 3 - 已签收
+     * 4 - 问题件
+     *
+     * Traces.AcceptTime Date [R] 轨迹发生时间
+     * Traces.AcceptStation String [R] 轨迹描述
+     * Traces.Remark String [O] 轨迹状态描述
+     */
+    if (isset($response_body_content)) {
+        if (isset($response_body_content['EBusinessID']) && $response_body_content['EBusinessID'] == $ebusiness_id
+            && isset($response_body_content['ShipperCode']) && $response_body_content['ShipperCode'] == $shipment_company
+            && isset($response_body_content['LogisticCode']) && $response_body_content['LogisticCode'] == $shipment_sn
+            && isset($response_body_content['Success']) && $response_body_content['Success'] == true
+        ) {
+            // return $response_body_content['Traces'];
+            return isset($response_body_content['Traces']) ? $response_body_content['Traces'] : [];
+        }
+    }
+    return [];
 }
 
 /**
  * Json方式 查询订单物流轨迹
  */
-function getOrderTracesByJson(){
-    $requestData= "{'OrderCode':'','ShipperCode':'YTO','LogisticCode':'12345678'}";
+function get_order_traces_by_json()
+{
+    $ebusiness_id = '';
+    $api_key = '';
+    $request_url = '';
+    $request_data = "{'OrderCode':'','ShipperCode':'YTO','LogisticCode':'12345678'}";
 
-    $datas = array(
-        'EBusinessID' => EBusinessID,
+    $data = array(
+        'EBusinessID' => $ebusiness_id,
         'RequestType' => '1002',
-        'RequestData' => urlencode($requestData) ,
-        'DataType' => '2',
+        'RequestData' => urlencode($request_data),
+        'DataType' => '2', // 2 - json: request & response in json.
     );
-    $datas['DataSign'] = encrypt($requestData, AppKey);
-    $result=sendPost(ReqURL, $datas);
+    $data['DataSign'] = kdniao_encrypt($request_data, $api_key);
+    $result = kdniao_send_post_query($request_url, $data);
 
     //根据公司业务处理返回的信息......
 
@@ -372,50 +450,52 @@ function getOrderTracesByJson(){
 
 /**
  *  post提交数据
- * @param  string $url 请求Url
- * @param  array $datas 提交的数据
- * @return url响应返回的html
+ * @param  string $request_url 请求Url
+ * @param  array $request_data 提交的数据
+ * @return string url响应返回的html
  */
-function sendPost($url, $datas) {
-    $temps = array();
-    foreach ($datas as $key => $value) {
-        $temps[] = sprintf('%s=%s', $key, $value);
+function kdniao_send_post_query($request_url, $request_data)
+{
+    /*$data_container = array();
+    foreach ($request_data as $key => $value) {
+        $data_container[] = sprintf('%s=%s', $key, $value);
     }
-    $post_data = implode('&', $temps);
-    $url_info = parse_url($url);
-    if(empty($url_info['port']))
-    {
-        $url_info['port']=80;
+    $post_data = implode('&', $data_container);*/
+    $post_data = http_build_query($request_data);
+    $url_info = parse_url($request_url);
+    if (empty($url_info['port'])) {
+        $url_info['port'] = 80;
     }
     $httpheader = "POST " . $url_info['path'] . " HTTP/1.0\r\n";
-    $httpheader.= "Host:" . $url_info['host'] . "\r\n";
-    $httpheader.= "Content-Type:application/x-www-form-urlencoded\r\n";
-    $httpheader.= "Content-Length:" . strlen($post_data) . "\r\n";
-    $httpheader.= "Connection:close\r\n\r\n";
-    $httpheader.= $post_data;
-    $fd = fsockopen($url_info['host'], $url_info['port']);
-    fwrite($fd, $httpheader);
-    $gets = "";
+    $httpheader .= "Host:" . $url_info['host'] . "\r\n";
+    $httpheader .= "Content-Type:application/x-www-form-urlencoded\r\n";
+    $httpheader .= "Content-Length:" . strlen($post_data) . "\r\n";
+    $httpheader .= "Connection:close\r\n\r\n";
+    $httpheader .= $post_data;
+    $file_pointer = fsockopen($url_info['host'], $url_info['port']);
+    fwrite($file_pointer, $httpheader);
+    $response_content = "";
     $headerFlag = true;
-    while (!feof($fd)) {
-        if (($header = @fgets($fd)) && ($header == "\r\n" || $header == "\n")) {
+    while (!feof($file_pointer)) {
+        if (($header = @fgets($file_pointer)) && ($header == "\r\n" || $header == "\n")) {
             break;
         }
     }
-    while (!feof($fd)) {
-        $gets.= fread($fd, 128);
+    while (!feof($file_pointer)) {
+        $response_content .= fread($file_pointer, 128);
     }
-    fclose($fd);
+    fclose($file_pointer);
 
-    return $gets;
+    return $response_content;
 }
 
 /**
  * 电商Sign签名生成
- * @param string $data 内容
- * @param $appkey Appkey
- * @return DataSign签名
+ * @param string $request_data 内容
+ * @param string $api_key Appkey
+ * @return string DataSign签名
  */
-/*function encrypt($data, $appkey) {
-    return urlencode(base64_encode(md5($data.$appkey)));
-}*/
+function kdniao_encrypt($request_data, $api_key)
+{
+    return urlencode(base64_encode(md5($request_data . $api_key)));
+}

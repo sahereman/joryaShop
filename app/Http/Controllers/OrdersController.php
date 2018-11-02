@@ -17,6 +17,7 @@ use App\Models\OrderRefund;
 use App\Models\Product;
 use App\Models\ProductComment;
 use App\Models\ProductSku;
+use App\Models\ShipmentCompany;
 use App\Models\User;
 use App\Models\UserAddress;
 use Illuminate\Http\Request;
@@ -95,15 +96,19 @@ class OrdersController extends Controller
         $this->authorize('view', $order);
 
         // 订单物流状态
-        $order_shipment_information = [];
-        // TODO ...
-        /*if ($order->shipment_company != null && $order->shipment_sn != null) {
-            $order_shipment_information = shipment_query($order->shipment_company, $order->shipment_sn);
-        }*/
+        $order_shipment_traces = [];
+        if ($order->shipment_company != null && $order->shipment_sn != null) {
+            // 快递100 实时查询API
+            // $order_shipment_traces = kuaidi100_shipment_query($order->shipment_company, $order->shipment_sn);
+            // 快递鸟(kdniao.com) 即时查询API
+            $order_shipment_traces = kdniao_shipment_query($order->shipment_company, $order->shipment_sn);
+        }
 
         return view('orders.show', [
             'order' => $order,
-            'order_shipment_information' => $order_shipment_information,
+            'shipment_sn' => $order->shipment_sn,
+            'shipment_company' => ShipmentCompany::where(['code' => $order->shipment_company])->first()->name,
+            'order_shipment_traces' => $order_shipment_traces,
         ]);
     }
 
@@ -500,13 +505,16 @@ class OrdersController extends Controller
         $this->authorize('shipment_query', $order);
 
         // 订单物流状态
-        $order_shipment_information = [];
+        $order_shipment_traces = [];
         if ($order->shipment_company != null && $order->shipment_sn != null) {
-            $order_shipment_information = shipment_query($order->shipment_company, $order->shipment_sn);
+            // 快递100 实时查询API
+            // $order_shipment_traces = kuaidi100_shipment_query($order->shipment_company, $order->shipment_sn);
+            // 快递鸟(kdniao.com) 即时查询API
+            $order_shipment_traces = kdniao_shipment_query($order->shipment_company, $order->shipment_sn);
         }
 
         return response()->json([
-            'order_shipment_information' => $order_shipment_information,
+            'order_shipment_traces' => $order_shipment_traces,
         ]);
     }
 }

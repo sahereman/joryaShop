@@ -57,7 +57,7 @@
 	                                <td class="col-price">
 	                                    <p class="p-price">
 	                                        <em>¥</em>
-	                                        <span>{{ number_format($order_item['price'], 2) }}</span>
+	                                        <span>{{ $order_item['price'] }}</span>
 	                                    </p>
 	                                </td>
 	                                <td class="col-quty">

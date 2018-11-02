@@ -37,7 +37,7 @@
                                     </div>
                                     <p class="commodity_title">{{ $favourite->product->name_zh }}</p>
                                     <p class="collection_price">
-                                        <span class="new_price">¥ {{ number_format($favourite->product->price, 2) }}</span>
+                                        <span class="new_price">¥ {{ $favourite->product->price }}</span>
                                         <span class="old_price">¥ {{ bcadd($favourite->product->price, random_int(300, 500), 2) }}</span>
                                     </p>
                                     <a class="add_to_cart" href="">加入购物车</a>
