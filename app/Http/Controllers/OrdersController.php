@@ -283,6 +283,10 @@ class OrdersController extends Controller
     {
         $this->authorize('show_comment', $order);
 
+        if($order->comments->isEmpty()){
+            return redirect()->route('orders.create_comment', $order->id);
+        }
+
         return view('orders.show_comment', [
             'user' => $request->user(),
             'order' => $order,
