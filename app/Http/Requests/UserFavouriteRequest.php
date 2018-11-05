@@ -20,7 +20,7 @@ class UserFavouriteRequest extends Request
                 'numeric',
                 //'exists:products,id',
                 Rule::exists('products', 'id')->where(function ($query) {
-                    return $query->where([['on_sale', '=', true], ['stock', '>', '0']]);
+                    return $query->where([['on_sale', '=', 1], ['stock', '>', '0']]);
                 }),
                 /*function ($attribute, $value, $fail) {
                     $product = Product::find($value);

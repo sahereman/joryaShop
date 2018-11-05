@@ -71,30 +71,15 @@
                     <div class="part_title">
                         <h3>{{ $category_products['category']->name_zh }}</h3>
                         <ul class="pull-right">
-                            <li>
-                                <a href="{{ route('root') }}">直发</a>
-                                <span>/</span>
-                            </li>
-                            <li>
-                                <a href="{{ route('root') }}">卷发</a>
-                                <span>/</span>
-                            </li>
-                            <li>
-                                <a href="{{ route('root') }}">头套</a>
-                                <span>/</span>
-                            </li>
-                            <li>
-                                <a href="{{ route('root') }}">刘海</a>
-                                <span>/</span>
-                            </li>
-                            <li>
-                                <a href="{{ route('root') }}">发块</a>
-                                <span>/</span>
-                            </li>
-                            <li>
-                                <a href="{{ route('root') }}">佩件</a>
-                                <span>/</span>
-                            </li>
+                            @foreach($category_products['children'] as $key => $child)
+                                @if($key > 2)
+                                    @break
+                                @endif
+                                <li>
+                                    <a href="{{ route('product_categories.index', ['category' => $child->id]) }}">{{ $child->name_zh }}</a>
+                                    <span>/</span>
+                                </li>
+                            @endforeach
                         </ul>
                     </div>
                     <div class="content">
@@ -130,7 +115,7 @@
                                 <h5>{{ $guess->name_zh }}</h5>
                                 <p class="guess_price">
                                     <span class="new_price">¥{{ $guess->price }}</span>
-                                    <span class="old_price">¥{{ $guess->price + random_int(300, 500) }}</span>
+                                    <span class="old_price">¥{{ bcadd($guess->price, random_int(300, 500), 2) }}</span>
                                 </p>
                                 <a class="buy_now_guess" href="{{ url('products/' . $guess->id) }}">立即购买</a>
                             </li>

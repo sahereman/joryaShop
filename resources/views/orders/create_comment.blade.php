@@ -12,16 +12,16 @@
                     <span>></span>
                     <a href="{{ route('orders.index') }}">我的订单</a>
                     <span>></span>
-                    <a href="{{ route('orders.index') }}">订单详情</a>
+                    <a href="{{ route('orders.show', ['order' => $order->id]) }}">订单详情</a>
                     <span>></span>
-                    <a href="{{ route('orders.index') }}">评价</a>
+                    <a href="#">评价</a>
                 </p>
             </div>
             <!--左侧导航栏-->
             @include('users._left_navigation')
                     <!--右侧内容-->
             <div class="comment_content">
-            	<form method="POST" action="{{ route('orders.store_comment',$order->id) }}" enctype="multipart/form-data" id="creat_comment_form">
+            	<form method="POST" action="{{ route('orders.store_comment', ['order' => $order->id]) }}" enctype="multipart/form-data" id="creat_comment_form">
 	                {{ csrf_field() }}
 	                <input type="hidden" name="order_id" value="{{ $order->id }}">
 	                @foreach($order->snapshot as $order_item)
@@ -45,13 +45,13 @@
 	                                <td class="col-pro-info">
 	                                    <p class="p-info">
 	                                        <a class="commodity_description"
-	                                           href="{{ route('products.show', $order_item['sku']['product']['id']) }}">{{ $order_item['sku']['product']['name_zh'] }}</a>
+	                                           href="{{ route('products.show', ['product' => $order_item['sku']['product']['id']]) }}">{{ $order_item['sku']['product']['name_zh'] }}</a>
 	                                    </p>
 	                                </td>
 	                                <td class="col-pro-speci">
 	                                    <p class="p-info">
 	                                        <a class="specifications"
-	                                           href="{{ route('products.show', $order_item['sku']['product']['id']) }}">{{ $order_item['sku']['name_zh'] }}</a>
+	                                           href="{{ route('products.show', ['product' => $order_item['sku']['product']['id']]) }}">{{ $order_item['sku']['name_zh'] }}</a>
 	                                    </p>
 	                                </td>
 	                                <td class="col-price">

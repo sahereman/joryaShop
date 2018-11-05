@@ -8,7 +8,7 @@
 
     <h1>个人设置</h1>
 
-    <form method="POST" action="{{ route('users.update',$user->id) }}" enctype="multipart/form-data">
+    <form method="POST" action="{{ route('users.update', ['user' => $user->id]) }}" enctype="multipart/form-data">
         {{ csrf_field() }}
         <input type="hidden" name="_method" value="PUT">
 

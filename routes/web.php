@@ -144,13 +144,13 @@ Route::group(['middleware' => 'auth'], function () {
     Route::patch('orders/{order}/revoke_refund', 'OrdersController@revokeRefund')->name('orders.revoke_refund'); // 撤销退单申请 [订单恢复状态:status->shipping | receiving]
 
     /*支付*/
-    Route::get('payments/{order}/alipay', 'PaymentsController@alipay')->name('payments.alipay'); // 支付宝支付
-    Route::get('payments/{order}/wechat', 'PaymentsController@wechat')->name('payments.wechat'); // 微信支付
-    Route::get('payments/{order}/paypal', 'PaymentsController@paypal')->name('payments.paypal'); // PayPal支付
+    Route::post('payments/{order}/alipay', 'PaymentsController@alipay')->name('payments.alipay'); // 支付宝支付
+    Route::post('payments/{order}/wechat', 'PaymentsController@wechat')->name('payments.wechat'); // 微信支付
+    Route::post('payments/{order}/paypal', 'PaymentsController@paypal')->name('payments.paypal'); // PayPal支付
     Route::get('payments/{order}/success', 'PaymentsController@success')->name('payments.success'); // 支付成功页面 [notify_url]
-    Route::get('payments/{order}/alipay/notify', 'PaymentsController@alipayNotify')->name('payments.alipay.notify'); // 支付宝支付成功页面 [notify_url]
-    Route::get('payments/{order}/wechat/notify', 'PaymentsController@wechatNotify')->name('payments.wechat.notify'); // 微信支付成功页面 [notify_url]
-    Route::get('payments/{order}/paypal/notify', 'PaymentsController@paypalNotify')->name('payments.paypal.notify'); // PayPal支付成功页面 [notify_url]
+    // Route::get('payments/{order}/alipay/notify', 'PaymentsController@alipayNotify')->name('payments.alipay.notify'); // 支付宝支付成功页面 [notify_url]
+    // Route::get('payments/{order}/wechat/notify', 'PaymentsController@wechatNotify')->name('payments.wechat.notify'); // 微信支付成功页面 [notify_url]
+    // Route::get('payments/{order}/paypal/notify', 'PaymentsController@paypalNotify')->name('payments.paypal.notify'); // PayPal支付成功页面 [notify_url]
 
 
 });
@@ -178,13 +178,12 @@ Route::post('easy_sms_send', 'IndexController@easySmsSend')->name('easy_sms_send
 Route::get('orders/{order}/shipment_query', 'OrdersController@shipmentQuery')->name('orders.shipment_query');
 
 /*商品分类*/
-Route::get('product_categories/{category}', 'ProductCategoriesController@index')->name('product_categories.index'); // 列表
-Route::get('product_categories/{category}/home', 'ProductCategoriesController@home')->name('product_categories.home'); // 商品分类呈现[一|二级分类]
+Route::get('product_categories/{category}', 'ProductCategoriesController@index')->name('product_categories.index'); // 一级分类及其商品列表 [完整展示] or 二级分类及其商品列表 [下拉加载更多]
 
 /*商品*/
-Route::get('products', 'ProductsController@index')->name('products.index'); // 列表 | 搜素结果
-Route::get('products/{product}', 'ProductsController@show')->name('products.show'); // 详情
-Route::get('products/{product}/comment', 'ProductsController@comment')->name('products.comment'); // 评价
+// Route::get('products', 'ProductsController@index')->name('products.index'); // 二级分类及其商品列表 [下拉加载更多]
+Route::get('products/search', 'ProductsController@search')->name('products.search'); // 搜素结果 [下拉加载更多]
+Route::get('products/{product}', 'ProductsController@show')->name('products.show'); // 商品详情页
 
 /*通用-单页展示*/
 Route::get('pages/{page}', 'PagesController@show')->name('pages.show');
@@ -193,6 +192,11 @@ Route::get('pages/{page}', 'PagesController@show')->name('pages.show');
 Route::get('posters/{poster}', 'PostersController@show')->name('posters.show');
 
 /*支付回调 [return_url]*/
-Route::post('payments/alipay/return', 'PaymentsController@alipayReturn')->name('payments.alipay.return'); // 支付宝支付回调
-Route::post('payments/wechat/return', 'PaymentsController@wechatReturn')->name('payments.wechat.return'); // 微信支付回调
-Route::post('payments/paypal/return', 'PaymentsController@paypalReturn')->name('payments.paypal.return'); // PayPal支付回调
+Route::post('payments/{order}/alipay/return', 'PaymentsController@alipayReturn')->name('payments.alipay.return'); // 支付宝支付回调
+Route::post('payments/{order}/wechat/return', 'PaymentsController@wechatReturn')->name('payments.wechat.return'); // 微信支付回调
+Route::post('payments/{order}/paypal/return', 'PaymentsController@paypalReturn')->name('payments.paypal.return'); // PayPal支付回调
+
+/*支付通知 [notify_url]*/
+Route::post('payments/alipay/notify', 'PaymentsController@alipayNotify')->name('payments.alipay.notify'); // 支付宝支付成功通知 [notify_url]
+Route::post('payments/wechat/notify', 'PaymentsController@wechatNotify')->name('payments.wechat.notify'); // 微信支付成功通知 [notify_url]
+Route::post('payments/paypal/notify', 'PaymentsController@paypalNotify')->name('payments.paypal.notify'); // PayPal支付成功通知 [notify_url]

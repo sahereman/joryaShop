@@ -13,6 +13,8 @@ class UserHistoriesController extends Controller
     {
         $this->validate($request, [
             'page' => 'sometimes|required|integer|min:1',
+        ], [], [
+            'page' => '页码',
         ]);
         $current_page = $request->has('page') ? $request->input('page') : 1;
         $histories = $request->user()->histories()->with('product')->orderByDesc('created_at')->get()->groupBy(function ($item, $key) {

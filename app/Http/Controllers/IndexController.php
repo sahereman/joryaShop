@@ -20,20 +20,18 @@ class IndexController extends Controller
         // TODO ... [投放广告页]
         $posters = Poster::where(['slug' => 'advertisement'])->latest()->limit(3)->get();
 
-        $categories = ProductCategory::where(['parent_id' => 0, 'is_index' => true])->get();
+        $categories = ProductCategory::where(['parent_id' => 0, 'is_index' => 1])->get();
         foreach ($categories as $category) {
-            $child_category_ids = [];
-            if ($category->parent_id == 0) {
-                $category->children->each(function ($child_category) use (&$child_category_ids) {
-                    $child_category_ids[] = $child_category->id;
-                });
+            $children = $category->children;
+            if($children->isEmpty()){
+                continue;
             }
-            if ($child_category_ids !== []) {
-                $products[$category->id]['category'] = $category;
-                $products[$category->id]['products'] = Product::where('is_index', true)->whereIn('product_category_id', $child_category_ids)->orderByDesc('index')->limit(8)->get();
-            }
+            $children_ids = $children->pluck('id')->all();
+            $products[$category->id]['category'] = $category;
+            $products[$category->id]['children'] = $children;
+            $products[$category->id]['products'] = Product::where('is_index', 1)->whereIn('product_category_id', $children_ids)->orderByDesc('index')->limit(8)->get();
         }
-        $guesses = Product::where(['is_index' => true, 'on_sale' => true])->orderByDesc('heat')->limit(8)->get();
+        $guesses = Product::where(['is_index' => 1, 'on_sale' => 1])->orderByDesc('heat')->limit(8)->get();
         return view('index.root', [
             'posters' => $posters,
             'products' => $products,

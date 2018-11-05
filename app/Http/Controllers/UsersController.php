@@ -33,7 +33,7 @@ class UsersController extends Controller
                 ->orderByDesc('created_at')
                 ->limit(5)
                 ->get();
-            $guesses = Product::where(['is_index' => true, 'on_sale' => true])->orderByDesc('heat')->limit(8)->get();
+            $guesses = Product::where(['is_index' => 1, 'on_sale' => 1])->orderByDesc('heat')->limit(8)->get();
             return view('users.home', [
                 'user' => $user,
                 'orders' => $orders,
@@ -95,7 +95,9 @@ class UsersController extends Controller
                 'user' => $user,
             ]);
         }
-        return redirect()->route('users.password', $user->id);
+        return redirect()->route('users.password', [
+            'user' => $user->id,
+        ]);
     }
 
     // GET 绑定|修改手机页面

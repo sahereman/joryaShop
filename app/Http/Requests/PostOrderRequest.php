@@ -22,7 +22,7 @@ class PostOrderRequest extends Request
                 'exists:product_skus,id',
                 function ($attribute, $value, $fail) {
                     $sku = ProductSku::find($value);
-                    if ($sku->product->on_sale == false) {
+                    if ($sku->product->on_sale == 0) {
                         $fail('该商品已下架');
                     }
                     if ($sku->stock == 0) {

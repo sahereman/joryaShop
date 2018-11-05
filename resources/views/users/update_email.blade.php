@@ -10,7 +10,7 @@
                     <span>></span>
                     <a href="{{ route('users.home') }}">个人中心</a>
                     <span>></span>
-                    <a href="{{ route('users.edit', $user->id) }}">修改绑定邮箱</a>
+                    <a href="{{ route('users.edit', ['user' => $user->id]) }}">修改绑定邮箱</a>
                 </p>
             </div>
             <!--左侧导航栏-->
@@ -21,7 +21,7 @@
                     <p>修改绑定邮箱</p>
                 </div>
                 <div class="psw_edit_content">
-                    <form method="POST" action="{{ route('users.update_password', $user->id) }}"
+                    <form method="POST" action="{{ route('users.update_password', ['user' => $user->id]) }}"
                           enctype="multipart/form-data">
                         {{ csrf_field() }}
                         <input type="hidden" name="_method" value="PUT">
