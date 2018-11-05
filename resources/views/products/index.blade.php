@@ -73,7 +73,6 @@
 	    $(".icon").click(
 	        function () {
 	            a++;
-//	            console.log("hello");//显示消息，不影响页面的加载
 	            var arr = new Array();
 	            //遍历节点取值赋给数组，并绑定事件
 	            //.each(function(index,Element))   返回jQuery
