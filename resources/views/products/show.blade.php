@@ -56,7 +56,7 @@
 			    		</p>
 			    		<p class="present_price">
 			    			<span>现价</span>
-			    			<span><i>￥</i>840.00</span>
+			    			<span class="changePrice_num"><i>￥</i>840.00</span>
 			    		</p>
 			    		<p class="service">
 			    			<span>服务</span>
@@ -68,11 +68,11 @@
 		    			<span>运费</span>
 		    			<span><i>￥</i>10.00</span>
 		    		</div>
-		    		<div class="priceOfpro">
+		    		<div class="priceOfpro kindOfPro">
 		    			<span>分类</span>
 		    			<ul>
 		    				@for ($i = 0; $i < 8; $i++)
-				        		<li>
+				        		<li code_price='999.00'>
 				        			<span>局部手织-自然黑</span>
 				        		</li>
 				        	@endfor
@@ -337,5 +337,11 @@
 			$(tabId + " .tabcon").hide();
 			$(tabId + " .tabcon").eq(tabNum).show();
 		}
+		//切换
+		$(".kindOfPro").on("click","li",function(){
+			$(".kindOfPro").find('li').removeClass("active");
+			$(this).addClass('active');
+		    $(".changePrice_num").html("&yen;"+$(this).attr('code_price'));
+		})
 	</script>
 @endsection
