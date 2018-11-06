@@ -70,21 +70,6 @@ a {
     } 
 }
 
-.dis_n {
-    display: none;
-}
-
-.dis_ni {
-    display: none !important;
-}
-
-.dis_b {
-    display: block;
-}
-.hidden {
-    opacity: 0;
-}
-
 //价格颜色样式
 .product_price {
     color: #bc8c61;
@@ -96,13 +81,41 @@ a {
     color: #999;
     margin: 10px 0;
 }
-
+//通用属性
 .error {
     color: red;
     font-size: 12px;
 }
 .red {
     color: red;
+}
+.left {
+    float: left;    
+}
+.right {
+    float: right;
+}
+.clear {
+    clear: both;
+}
+.center {
+    text-align: center;
+}
+.dis_n {
+    display: none;
+}
+.dis_ni {
+    display: none !important;
+}
+
+.dis_b {
+    display: block;
+}
+.hidden {
+    opacity: 0;
+}
+.cur_p {
+    cursor: pointer;
 }
 //顶部样式
 .navbar {
@@ -1714,3 +1727,4 @@ footer {
 @import "refund";
 @import "productCategories";
 @import "commodityDetails";
+@import "shoppingCart";
