@@ -396,6 +396,15 @@
                     layer.msg('最多上传3张图片！！');
                 }
             });
+            refunds_3
+            $(".refunds_3").on("click", function () {
+                var img_num = $(this).parents('li').find(".refund-path");
+                if (img_num.length < 3) {
+                    $("#refunds_photos_bill").click();
+                } else {
+                    layer.msg('最多上传3张图片！！');
+                }
+            });
             //图片删除
             $(".del_btn").on('click', function () {
                 $(this).parents('.refund-path').remove();
