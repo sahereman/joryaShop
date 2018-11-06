@@ -104,8 +104,9 @@
                                         <input type="hidden" name="photos_for_refund"
                                                value="{{ $refund->photos_for_refund }}">
                                         <!--获取的图片按照下面的格式存放不超过3张-->
-                                        @if(! $refund->photos_for_refund)
+                                        @if($refund->photos_for_refund)
                                             @foreach($refund->photo_set_for_refund as $photo_for_refund)
+                                                <img src="{{ $photo_for_refund }}" alt="">
                                                 <div class='refund-path' data-path='{{ $photo_for_refund }}'>
                                                     <img src="{{ $photo_for_refund }}"
                                                          data-path='{{ $photo_for_refund }}'>
@@ -151,11 +152,13 @@
                                     </li>
                                     <li>
                                         <span>商品图片：</span>
-                                        @foreach($refund->photo_set_for_refund as $photo_for_refund)
-                                            <div class='refund-path'>
-                                                <img src="{{ $photo_for_refund }}">
-                                            </div>
-                                        @endforeach
+                                        @if($refund->photos_for_refund)
+                                            @foreach($refund->photo_set_for_refund as $photo_for_refund)
+                                                <div class='refund-path'>
+                                                    <img src="{{ $photo_for_refund }}">
+                                                </div>
+                                            @endforeach
+                                        @endif
                                     </li>
                                 </ul>
                             </div>
@@ -220,11 +223,13 @@
                                         </li>
                                         <li>
                                             <span>物流单据：</span>
-                                            @foreach($refund->photo_set_for_shipment as $photo_for_shipment)
-                                                <div class='refund-path'>
-                                                    <img src="{{ $photo_for_shipment }}">
-                                                </div>
-                                            @endforeach
+                                            @if($refund->photos_for_shipment)
+                                                @foreach($refund->photo_set_for_shipment as $photo_for_shipment)
+                                                    <div class='refund-path'>
+                                                        <img src="{{ $photo_for_shipment }}">
+                                                    </div>
+                                                @endforeach
+                                            @endif
                                         </li>
                                     </ul>
                                 </div>
@@ -252,11 +257,13 @@
                                     </li>
                                     <li>
                                         <span>商品图片：</span>
-                                        @foreach($refund->photo_set_for_refund as $photo_for_refund)
-                                            <div class='refund-path'>
-                                                <img src="{{ $photo_for_refund }}">
-                                            </div>
-                                        @endforeach
+                                        @if($refund->photos_for_refund)
+                                            @foreach($refund->photo_set_for_refund as $photo_for_refund)
+                                                <div class='refund-path'>
+                                                    <img src="{{ $photo_for_refund }}">
+                                                </div>
+                                            @endforeach
+                                        @endif
                                     </li>
                                 </ul>
                             </div>
@@ -301,11 +308,13 @@
                                     </li>
                                     <li>
                                         <span>商品图片：</span>
-                                        @foreach($refund->photo_set_for_refund as $photo_for_refund)
-                                            <div class='refund-path'>
-                                                <img src="{{ $photo_for_refund }}">
-                                            </div>
-                                        @endforeach
+                                        @if($refund->photos_for_refund)
+                                            @foreach($refund->photo_set_for_refund as $photo_for_refund)
+                                                <div class='refund-path'>
+                                                    <img src="{{ $photo_for_refund }}">
+                                                </div>
+                                            @endforeach
+                                        @endif
                                     </li>
                                     <li class="red">
                                         <span>卖家回复：</span>
