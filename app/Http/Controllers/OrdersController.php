@@ -372,13 +372,13 @@ class OrdersController extends Controller
         $order->status = 'refunding';
         $order->save();
 
-        /*return redirect()->route('orders.refund', [
+        return redirect()->route('orders.refund', [
             'order' => $order->id,
-        ]);*/
-        return response()->json([
+        ]);
+        /*return response()->json([
             'code' => 200,
             'message' => 'success',
-        ]);
+        ]);*/
     }
 
     // GET 更新退单申请页面 [仅退款]
@@ -468,13 +468,13 @@ class OrdersController extends Controller
         $order->status = 'refunding';
         $order->save();
 
-        /*return redirect()->route('orders.refund_with_shipment', [
+        return redirect()->route('orders.refund_with_shipment', [
             'order' => $order->id,
-        ]);*/
-        return response()->json([
+        ]);
+        /*return response()->json([
             'code' => 200,
             'message' => 'success',
-        ]);
+        ]);*/
     }
 
     // GET 更新退单申请页面 [退货并退款]

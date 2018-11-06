@@ -52,8 +52,8 @@
                                 <span class="order_status_tips">买家已付款，等待卖家发货</span>
                             </p>
                             <p class="operation_area">
-                                <a>提醒发货</a>
-                                <a class="main_operation" href="{{ route('orders.refund', ['order' => $order->id]) }}">申请退款</a>
+                                <a class="main_operation">提醒发货</a>
+                                <a href="{{ route('orders.refund', ['order' => $order->id]) }}">申请退款</a>
                             </p>
                         </div>
                         @elseif($order->status == \App\Models\Order::ORDER_STATUS_RECEIVING)
