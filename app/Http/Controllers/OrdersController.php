@@ -11,6 +11,7 @@ use App\Jobs\AutoCloseOrderJob;
 use App\Jobs\AutoCompleteOrderJob;
 use App\Models\Cart;
 use App\Models\Config;
+use App\Models\ExchangeRate;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\OrderRefund;
@@ -98,19 +99,19 @@ class OrdersController extends Controller
         // 订单物流状态
         $shipment_company_name = $order->shipment_company;
         $order_shipment_traces = [];
-        if ($order->shipment_company != null && $order->shipment_sn != null) {
+        if ($order->shipment_company != null && $order->shipment_company != 'etc' && $order->shipment_sn != null) {
             $shipment_company = ShipmentCompany::where(['code' => $order->shipment_company])->first();
             if ($shipment_company instanceof ShipmentCompany) {
                 $shipment_company_name = $shipment_company->name;
+                // 快递100 实时查询API
+                // $order_shipment_traces = kuaidi100_shipment_query($order->shipment_company, $order->shipment_sn);
+                // 快递鸟(kdniao.com) 即时查询API
+                $order_shipment_traces = kdniao_shipment_query($order->shipment_company, $order->shipment_sn);
             }
-            // 快递100 实时查询API
-            // $order_shipment_traces = kuaidi100_shipment_query($order->shipment_company, $order->shipment_sn);
-            // 快递鸟(kdniao.com) 即时查询API
-            $order_shipment_traces = kdniao_shipment_query($order->shipment_company, $order->shipment_sn);
         }
 
         $order_refund_type = 'refund';
-        if($order->status == Order::ORDER_STATUS_REFUNDING){
+        if ($order->status == Order::ORDER_STATUS_REFUNDING) {
             $order_refund_type = $order->refund->type;
         }
 
@@ -189,6 +190,53 @@ class OrdersController extends Controller
         $this->dispatch(new AutoCloseOrderJob($order, Config::config('time_to_close_order')));
 
         return $order;
+    }
+
+    // GET 选择地址+币种页面
+    public function prePayment(Request $request, Order $order)
+    {
+        $this->authorize('pay', $order);
+
+        $user_addresses = UserAddress::where('user_id', $request->user()->id)->get();
+        $exchange_rates = ExchangeRate::all();
+        return view('orders.pre_payment', [
+            'order' => $order,
+            'user_addresses' => $user_addresses,
+            'exchange_rates' => $exchange_rates,
+        ]);
+    }
+
+    // PUT 提交表单更改[地址+币种]
+    public function update(Request $request, Order $order)
+    {
+        $this->authorize('pay', $order);
+
+        $validator = Validator::make($request->only(['name', 'phone', 'address', 'currency']), [
+            'name' => 'required|string',
+            'phone' => 'required|string',
+            'address' => 'required|string',
+            'currency' => 'required|string|exists:exchange_rates',
+        ], [], [
+            'name' => '收货人',
+            'phone' => '手机号码',
+            'address' => '详细地址',
+            'currency' => '货币种类',
+        ]);
+
+        if ($validator->passes()) {
+            $order->user_info = collect($request->only(['name', 'phone', 'address']))->toJson();
+            $order->currency = $request->input('currency');
+            $order->save();
+            return response()->json([
+                'code' => 200,
+                'message' => 'success',
+            ]);
+        } else {
+            return response()->json([
+                'code' => 422,
+                'message' => 'Unprocessable Entity',
+            ], 422);
+        }
     }
 
     // GET 选择支付方式页面
@@ -516,12 +564,11 @@ class OrdersController extends Controller
             $order->refund->remark_by_shipment = $request->input('remark_by_shipment');
             $updated = true;
         }
-        if ($request->has('shipment_sn')) {
+        if ($request->has('shipment_sn') && $request->has('shipment_company')) {
             $order->refund->shipment_sn = $request->input('shipment_sn');
-            $updated = true;
-        }
-        if ($request->has('shipment_company')) {
             $order->refund->shipment_company = $request->input('shipment_company');
+            $order->refund->shipped_at = Carbon::now()->toDateTimeString();
+            $order->refund->status = OrderRefund::ORDER_REFUND_STATUS_RECEIVING;
             $updated = true;
         }
         if ($request->has('photos_for_refund')) {

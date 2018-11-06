@@ -51,8 +51,7 @@ class PostOrderRequest extends Request
                 'regex:/^\d(\,\d)*$/'
             ],
             'name' => 'required|string',
-            'country_code' => 'required|string',
-            'phone_number' => 'required|string',
+            'phone' => 'required|string',
             'address' => 'required|string',
             'remark' => 'sometimes|nullable|string',
         ];

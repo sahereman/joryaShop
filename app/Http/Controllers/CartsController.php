@@ -11,7 +11,14 @@ class CartsController extends Controller
     // GET 购物车清单
     public function index (Request $request)
     {
-        $carts = $request->user()->carts()->with('sku')->get();
+        $carts = $request->user()->carts()->with('sku.product')->get();
+        // 自动清除失效商品[已删除或已下架商品]
+        foreach($carts as $cart){
+            if(! $cart->sku->product || ! $cart->sku->product->on_sale){
+                $cart->user()->dissociate();
+                $cart->delete();
+            }
+        }
         return view('carts.index', [
             'carts' => $carts,
         ]);

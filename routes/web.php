@@ -121,7 +121,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('orders/{order}', 'OrdersController@show')->name('orders.show'); // 订单详情
     Route::post('orders', 'OrdersController@store')->name('orders.store'); // 提交订单
     Route::get('orders/{order}/pre_payment', 'OrdersController@prePayment')->name('orders.pre_payment'); // 选择地址+币种页面
-    Route::get('orders/{order}/update', 'OrdersController@prePayment')->name('orders.update'); // 提交表单更改[地址+币种]
+    Route::put('orders/{order}/update', 'OrdersController@prePayment')->name('orders.update'); // 提交表单更改[地址+币种]
     Route::get('orders/{order}/payment_method', 'OrdersController@paymentMethod')->name('orders.payment_method'); // 选择支付方式页面
     Route::patch('orders/{order}/close', 'OrdersController@close')->name('orders.close'); // [主动]取消订单，交易关闭 [订单进入交易关闭状态:status->closed]
     // Route::patch('orders/{order}/ship', 'OrdersController@ship')->name('orders.ship'); // 卖家配送发货 [订单进入待收货状态:status->receiving]
@@ -188,6 +188,7 @@ Route::get('product_categories/{category}', 'ProductCategoriesController@index')
 /*商品*/
 // Route::get('products', 'ProductsController@index')->name('products.index'); // 二级分类及其商品列表 [下拉加载更多]
 Route::get('products/search', 'ProductsController@search')->name('products.search'); // 搜素结果 [下拉加载更多]
+Route::get('products/search_hint', 'ProductsController@searchHint')->name('products.search_hint'); // 模糊搜素提示结果 [10 records] [for Ajax request]
 Route::get('products/{product}', 'ProductsController@show')->name('products.show'); // 商品详情页
 
 /*通用-单页展示*/

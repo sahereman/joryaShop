@@ -49,6 +49,30 @@ class ProductsController extends Controller
         ]);
     }
 
+    // GET 模糊搜素提示结果 [10 records] [for Ajax request]
+    public function searchHint(Request $request)
+    {
+        $this->validate($request, [
+            'query' => 'required|string|min:1',
+        ], [], [
+            'query' => '搜索内容',
+        ]);
+        $query = $request->query('query');
+        // on_sale: 是否在售 + index: 综合指数
+        $products = Product::where('on_sale', 1)
+            ->where('name_en', 'like', '%' . $query . '%')
+            ->orWhere('name_en', 'like', '%' . $query . '%')
+            ->orderByDesc('index')
+            ->limit(10)
+            ->get();
+
+        return response()->json([
+            'code' => 200,
+            'message' => 'success',
+            'products' => $products,
+        ]);
+    }
+
     // 商品详情
     public function show(Request $request, Product $product)
     {

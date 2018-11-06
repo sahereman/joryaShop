@@ -324,9 +324,9 @@ function kdniao_shipment_query($shipment_company, $shipment_sn, $order_sn = '')
         $request_url = config('kdniao.development.request_url', 'request_url');
     }
 
-    $ebusiness_id = config('kdniao.production.ebusiness_id', 'ebusiness_id');
+    /*$ebusiness_id = config('kdniao.production.ebusiness_id', 'ebusiness_id');
     $api_key = config('kdniao.production.api_key', 'api_key');
-    $request_url = config('kdniao.production.request_url', 'request_url');
+    $request_url = config('kdniao.production.request_url', 'request_url');*/
 
     $data_type = 2; // json
     $charset = 'UTF-8';
