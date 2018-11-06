@@ -67,7 +67,8 @@
 	                        <label for="selectAll-2">全选</label>
 	                	</div>
 	                    <a id="clearSelected" href="javascript:void(0);">删除选中商品</a>
-	                    <a id="clearInvalid" href="javascript:void(0);">清空失效商品</a>
+	                    <!--随时解注-->
+	                    <!--<a id="clearInvalid" href="javascript:void(0);">清空失效商品</a>-->
 	                </div>
 	                <div class="right">
 	                    <!--<span>总共选中了<span id="totalCount">0</span>件商品</span>-->
