@@ -14,8 +14,10 @@ class RefundOrderWithShipmentRequest extends Request
     {
         return [
             // 'amount' => 'bail|sometimes|required|numeric',
-            'remark_by_user' => 'bail|sometimes|required|string|min:3',
-            'remark_by_shipment' => 'bail|sometimes|required|string|min:3',
+            'order_id' =>'bail|required|exists:orders,id',
+            'remark_by_user' => 'bail|sometimes|required|string|min:3|max:255',
+            'remark_by_seller' => 'bail|sometimes|nullable|string|min:3|max:255',
+            'remark_by_shipment' => 'bail|sometimes|nullable|string|min:3|max:255',
             'shipment_sn' => 'bail|required|string|min:3',
             'shipment_company' => 'bail|required|string|min:3',
             'photos_for_refund' => 'bail|sometimes|nullable|string',
@@ -31,7 +33,9 @@ class RefundOrderWithShipmentRequest extends Request
     {
         return [
             // 'amount' => '退款金额',
+            'order_id' => '订单ID',
             'remark_by_user' => '退款理由',
+            'remark_by_seller' => '卖家回复',
             'remark_by_shipment' => '退货物流备注信息',
             'shipment_sn' => '退货物流流水单号',
             'shipment_company' => '退货物流公司名称',

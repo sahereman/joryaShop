@@ -39,8 +39,8 @@
                                 支付（若超时未支付订单，系统将自动取消订单）</p>
                             <p class="operation_area">
                                 <a class="main_operation"
-                                   href="{{ route('orders.payment_method', $order->id) }}">立即付款</a>
-                                <a data-url="{{ route('orders.close', $order->id) }}">取消</a>
+                                   href="{{ route('orders.payment_method', ['order' => $order->id]) }}">立即付款</a>
+                                <a data-url="{{ route('orders.close', ['order' => $order->id]) }}">取消</a>
                             </p>
                         </div>
                         @elseif($order->status == \App\Models\Order::ORDER_STATUS_SHIPPING)
@@ -53,7 +53,7 @@
                             </p>
                             <p class="operation_area">
                                 <a>提醒发货</a>
-                                <a class="main_operation" href="{{ route('orders.refund', $order->id) }}">申请退款</a>
+                                <a class="main_operation" href="{{ route('orders.refund', ['order' => $order->id]) }}">申请退款</a>
                             </p>
                         </div>
                         @elseif($order->status == \App\Models\Order::ORDER_STATUS_RECEIVING)
@@ -70,8 +70,9 @@
                                time_to_complete_order="{{ \App\Models\Config::config('time_to_complete_order') * 3600 * 24 }}">{{ generate_order_ttl_message($order->shipped_at, \App\Models\Order::ORDER_STATUS_RECEIVING) }}
                                 确认（若超时未确认订单，系统将自动确认订单）</p>
                             <p class="operation_area">
-                                <a class="main_operation" data-url="{{ route('orders.complete', $order->id) }}">确认收货</a>
-                                <a href="{{ route('orders.refund_with_shipment', $order->id) }}">申请退款</a>
+                                <a class="main_operation"
+                                   data-url="{{ route('orders.complete', ['order' => $order->id]) }}">确认收货</a>
+                                <a href="{{ route('orders.refund_with_shipment', ['order' => $order->id]) }}">申请退款</a>
                             </p>
                         </div>
                         @elseif($order->status == \App\Models\Order::ORDER_STATUS_COMPLETED && $order->commented_at == null)
@@ -84,8 +85,9 @@
                             </p>
                             <p class="operation_area">
                                 <a class="main_operation"
-                                   href="{{ route('orders.create_comment', $order->id) }}">去评价</a>
-                                <a class="delete_order" data-url="{{ route('orders.destroy', $order->id) }}">删除订单</a>
+                                   href="{{ route('orders.create_comment', ['order' => $order->id]) }}">去评价</a>
+                                <a class="delete_order"
+                                   data-url="{{ route('orders.destroy', ['order' => $order->id]) }}">删除订单</a>
                             </p>
                         </div>
                         @elseif($order->status == \App\Models\Order::ORDER_STATUS_COMPLETED && $order->commented_at != null)
@@ -97,8 +99,10 @@
                                 <span class="order_status_tips">交易完成</span>
                             </p>
                             <p class="operation_area">
-                                <a class="main_operation" href="{{ route('orders.show_comment', $order->id) }}">查看评价</a>
-                                <a class="delete_order" data-url="{{ route('orders.destroy', $order->id) }}">删除订单</a>
+                                <a class="main_operation"
+                                   href="{{ route('orders.show_comment', ['order' => $order->id]) }}">查看评价</a>
+                                <a class="delete_order"
+                                   data-url="{{ route('orders.destroy', ['order' => $order->id]) }}">删除订单</a>
                             </p>
                         </div>
                         @elseif($order->status == \App\Models\Order::ORDER_STATUS_CLOSED)
@@ -110,7 +114,8 @@
                                 <span class="order_status_tips">交易已关闭</span>
                             </p>
                             <p class="operation_area">
-                                <a class="delete_order" data-url="{{ route('orders.destroy', $order->id) }}">删除订单</a>
+                                <a class="delete_order"
+                                   data-url="{{ route('orders.destroy', ['order' => $order->id]) }}">删除订单</a>
                             </p>
                         </div>
                         @elseif($order->status == \App\Models\Order::ORDER_STATUS_REFUNDING)
@@ -122,8 +127,20 @@
                                 <span class="order_status_tips">售后中</span>
                             </p>
                             <p class="operation_area">
-                                <a class="main_operation revocation_after_sale"
-                                   data-url="{{ route('orders.revoke_refund', $order->id) }}">撤销售后</a>
+                                @if(isset($order_refund_type) && $order_refund_type == 'refund')
+                                    <a class="main_operation"
+                                       href="{{ route('orders.refund', ['order' => $order->id]) }}">查看售后状态</a>
+                                    <a class="revocation_after_sale"
+                                       data-url="{{ route('orders.revoke_refund', ['order' => $order->id]) }}">撤销售后</a>
+                                @elseif(isset($order_refund_type) && $order_refund_type == 'refund_with_shipment')
+                                    <a class="main_operation"
+                                       href="{{ route('orders.refund_with_shipment', ['order' => $order->id]) }}">查看售后状态</a>
+                                    <a class="revocation_after_sale"
+                                       data-url="{{ route('orders.revoke_refund', ['order' => $order->id]) }}">撤销售后</a>
+                                @else
+                                    <a class="revocation_after_sale"
+                                       data-url="{{ route('orders.revoke_refund', ['order' => $order->id]) }}">撤销售后</a>
+                                @endif
                             </p>
                         </div>
                         @endif
@@ -148,132 +165,129 @@
                         </p>
                     </div>
                 </div>
-                <!--物流信息根据需要判断是否显示，
-                    **目前显示的订单状态：待收货、未评价、已评价、退款订单
-                    *
-                    -->
                 @if(!empty($order_shipment_traces))
-                    <div class="logistics_infor">
-                        <p class="logistics_title">物流信息</p>
-                        <ul class="logistics_lists">
+                        <!--物流信息根据需要判断是否显示，目前显示的订单状态：待收货、未评价、已评价、退款订单-->
+                <div class="logistics_infor">
+                    <p class="logistics_title">物流信息</p>
+                    <ul class="logistics_lists">
+                        <li>
+                            <span>发货方式：</span>
+                            <span>快递</span>
+                        </li>
+                        <li>
+                            <span>物流公司：</span>
+                            <span>{{ $shipment_company }}</span>
+                        </li>
+                        <li>
+                            <span>运单号码：</span>
+                            <span>{{ $shipment_sn }}</span>
+                        </li>
+                        <li>
+                            <span>物理跟踪：</span>
+                        </li>
+                        @foreach($order_shipment_traces as $order_shipment_trace)
                             <li>
-                                <span>发货方式：</span>
-                                <span>快递</span>
+                                <span>{{ $order_shipment_trace['AcceptTime'] . '   ' . $order_shipment_trace['AcceptStation'] . (isset($order_shipment_trace['Remark']) ? '   ' . $order_shipment_trace['Remark'] : '')  }}</span>
                             </li>
-                            <li>
-                                <span>物流公司：</span>
-                                <span>{{ $shipment_company }}</span>
-                            </li>
-                            <li>
-                                <span>运单号码：</span>
-                                <span>{{ $shipment_sn }}</span>
-                            </li>
-                            <li>
-                                <span>物理跟踪：</span>
-                            </li>
-                            @foreach($order_shipment_traces as $order_shipment_trace)
-                                <li>
-                                    <span>{{ $order_shipment_trace['AcceptTime'] . '   ' . $order_shipment_trace['AcceptStation'] . (isset($order_shipment_trace['Remark']) ? '   ' . $order_shipment_trace['Remark'] : '')  }}</span>
-                                </li>
-                            @endforeach
-                        </ul>
-                    </div>
-                    @endif
+                        @endforeach
+                    </ul>
+                </div>
+                @endif
 
-                            <!--订单商品列表-->
-                    <div class="order_list">
-                        <!--订单表格与我的订单首页的判断方式一样-->
-                        <table>
-                            <thead>
-                            <th></th>
-                            <th>商品</th>
-                            <th>单价</th>
-                            <th>数量</th>
-                            <th>小计</th>
-                            <th>订单状态</th>
-                            </thead>
-                            <tbody>
-                            @foreach($order->snapshot as $key => $order_item)
-                                @if($key == 0)
-                                    <tr>
-                                        <td class="col-pro-img">
-                                            <a href="">
-                                                <img src="{{ $order_item['sku']['product']['thumb_url'] }}">
-                                            </a>
-                                        </td>
-                                        <td class="col-pro-info">
-                                            <p class="p-info">
-                                                <a class="commodity_description"
-                                                   href="{{ route('products.show', $order_item['sku']['product']['id']) }}">{{ $order_item['sku']['product']['name_zh'] }}</a>
-                                                <br><br>
-                                                <a class="commodity_description"
-                                                   href="{{ route('products.show', $order_item['sku']['product']['id']) }}">{{ $order_item['sku']['name_zh'] }}</a>
-                                            </p>
-                                        </td>
-                                        <td class="col-price">
-                                            <p class="p-price">
-                                                <em>¥</em>
-                                                <span>{{ $order_item['price'] }}</span>
-                                            </p>
-                                        </td>
-                                        <td class="col-quty">
-                                            <p>{{ $order_item['number'] }}</p>
-                                        </td>
-                                        <td rowspan="{{ count($order->snapshot) }}" class="col-pay">
-                                            <p>
-                                                <em>¥</em>
-                                                <span>{{ $order->total_amount }}</span>
-                                            </p>
-                                        </td>
-                                        <td rowspan="{{ count($order->snapshot) }}" class="col-status">
-                                            <p>{{ $order->translateStatus($order->status) }}</p>
-                                        </td>
-                                    </tr>
-                                @else
-                                    <tr>
-                                        <td class="col-pro-img">
-                                            <a href="">
-                                                <img src="{{ $order_item['sku']['product']['thumb_url'] }}">
-                                            </a>
-                                        </td>
-                                        <td class="col-pro-info">
-                                            <p class="p-info">
-                                                <a class="commodity_description"
-                                                   href="{{ route('products.show', $order_item['sku']['product']['id']) }}">{{ $order_item['sku']['product']['name_zh'] }}</a>
-                                                <br><br>
-                                                <a class="commodity_description"
-                                                   href="{{ route('products.show', $order_item['sku']['product']['id']) }}">{{ $order_item['sku']['name_zh'] }}</a>
-                                            </p>
-                                        </td>
-                                        <td class="col-price">
-                                            <p class="p-price">
-                                                <em>¥</em>
-                                                <span>{{ $order_item['price'] }}</span>
-                                            </p>
-                                        </td>
-                                        <td class="col-quty">
-                                            <p>{{ $order_item['number'] }}</p>
-                                        </td>
-                                    </tr>
-                                @endif
-                            @endforeach
-                            </tbody>
-                        </table>
-                        <div class="order_settlement">
-                            <p class="commodity_cost">
-                                <span>商品合计：</span>
-                                <span>¥ {{ $order->total_amount }}</span>
-                            </p>
-                            <p class="freight">
-                                <span>运  费：</span>
-                                <span>¥ {{ $order->total_shipping_fee }}</span>
-                            </p>
-                            <p class="total_cost">
-                                <span>应付总额：</span>
-                                <span class="cost_of_total">¥ {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}</span>
-                            </p>
-                        </div>
+                        <!--订单商品列表-->
+                <div class="order_list">
+                    <!--订单表格与我的订单首页的判断方式一样-->
+                    <table>
+                        <thead>
+                        <th></th>
+                        <th>商品</th>
+                        <th>单价</th>
+                        <th>数量</th>
+                        <th>小计</th>
+                        <th>订单状态</th>
+                        </thead>
+                        <tbody>
+                        @foreach($order->snapshot as $key => $order_item)
+                            @if($key == 0)
+                                <tr>
+                                    <td class="col-pro-img">
+                                        <a href="">
+                                            <img src="{{ $order_item['sku']['product']['thumb_url'] }}">
+                                        </a>
+                                    </td>
+                                    <td class="col-pro-info">
+                                        <p class="p-info">
+                                            <a class="commodity_description"
+                                               href="{{ route('products.show', ['product' => $order_item['sku']['product']['id']]) }}">{{ $order_item['sku']['product']['name_zh'] }}</a>
+                                            <br><br>
+                                            <a class="commodity_description"
+                                               href="{{ route('products.show', ['product' => $order_item['sku']['product']['id']]) }}">{{ $order_item['sku']['name_zh'] }}</a>
+                                        </p>
+                                    </td>
+                                    <td class="col-price">
+                                        <p class="p-price">
+                                            <em>¥</em>
+                                            <span>{{ $order_item['price'] }}</span>
+                                        </p>
+                                    </td>
+                                    <td class="col-quty">
+                                        <p>{{ $order_item['number'] }}</p>
+                                    </td>
+                                    <td rowspan="{{ count($order->snapshot) }}" class="col-pay">
+                                        <p>
+                                            <em>¥</em>
+                                            <span>{{ $order->total_amount }}</span>
+                                        </p>
+                                    </td>
+                                    <td rowspan="{{ count($order->snapshot) }}" class="col-status">
+                                        <p>{{ $order->translateStatus($order->status) }}</p>
+                                    </td>
+                                </tr>
+                            @else
+                                <tr>
+                                    <td class="col-pro-img">
+                                        <a href="">
+                                            <img src="{{ $order_item['sku']['product']['thumb_url'] }}">
+                                        </a>
+                                    </td>
+                                    <td class="col-pro-info">
+                                        <p class="p-info">
+                                            <a class="commodity_description"
+                                               href="{{ route('products.show', ['product' => $order_item['sku']['product']['id']]) }}">{{ $order_item['sku']['product']['name_zh'] }}</a>
+                                            <br><br>
+                                            <a class="commodity_description"
+                                               href="{{ route('products.show', ['product' => $order_item['sku']['product']['id']]) }}">{{ $order_item['sku']['name_zh'] }}</a>
+                                        </p>
+                                    </td>
+                                    <td class="col-price">
+                                        <p class="p-price">
+                                            <em>¥</em>
+                                            <span>{{ $order_item['price'] }}</span>
+                                        </p>
+                                    </td>
+                                    <td class="col-quty">
+                                        <p>{{ $order_item['number'] }}</p>
+                                    </td>
+                                </tr>
+                            @endif
+                        @endforeach
+                        </tbody>
+                    </table>
+                    <div class="order_settlement">
+                        <p class="commodity_cost">
+                            <span>商品合计：</span>
+                            <span>¥ {{ $order->total_amount }}</span>
+                        </p>
+                        <p class="freight">
+                            <span>运  费：</span>
+                            <span>¥ {{ $order->total_shipping_fee }}</span>
+                        </p>
+                        <p class="total_cost">
+                            <span>应付总额：</span>
+                            <span class="cost_of_total">¥ {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}</span>
+                        </p>
                     </div>
+                </div>
             </div>
         </div>
     </div>
@@ -376,7 +390,7 @@
             $(".delete_order").on('click', function () {
                 $(".order_delete .textarea_content").find("span").attr("code", $(this).attr("data-url"));
                 $(".order_delete").show();
-            })
+            });
             $(".order_delete").on("click", ".success", function () {
                 var data = {
                     _method: "DELETE",
@@ -405,7 +419,7 @@
             $('.revocation_after_sale').on("click", function () {
                 $(".order_delete .textarea_content").find("span").attr("code", $(this).attr("data-url"));
                 $('.order_after_sale').show()
-            })
+            });
             $(".order_after_sale").on("click", ".success", function () {
                 var data = {
                     _method: "PATCH",

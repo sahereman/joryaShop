@@ -26,6 +26,8 @@ class OrderRefund extends Model
      * @var array
      */
     protected $fillable = [
+        'order_id',
+        'seller_info',
         'type',
         'status',
         'remark_by_user',
@@ -33,6 +35,8 @@ class OrderRefund extends Model
         'remark_by_shipment',
         'shipment_sn',
         'shipment_company',
+        'photos_for_refund',
+        'photos_for_shipment',
     ];
 
     /**
@@ -51,8 +55,6 @@ class OrderRefund extends Model
      */
     protected $casts = [
         'seller_info' => 'json',
-        'photos_for_refund' => 'json',
-        'photos_for_shipment' => 'json',
     ];
 
     /**
@@ -72,7 +74,34 @@ class OrderRefund extends Model
      *
      * @var array
      */
-    protected $appends = [];
+    protected $appends = [
+        'photo_set_for_refund',
+        'photo_set_for_shipment',
+    ];
+
+    public function getPhotoSetForRefundAttribute()
+    {
+        $photo_set_for_refund = [];
+        if ($this->attributes['photos_for_refund'] != '') {
+            $photos_for_refund = explode(',', $this->attributes['photos_for_refund']);
+            foreach ($photos_for_refund as $photo_for_refund) {
+                $photo_set_for_refund[] = generate_image_url($photo_for_refund);
+            }
+        }
+        return $photo_set_for_refund;
+    }
+
+    public function getPhotoSetForShipmentAttribute()
+    {
+        $photo_set_for_shipment = [];
+        if ($this->attributes['photos_for_shipment'] != '') {
+            $photos_for_shipment = explode(',', $this->attributes['photos_for_shipment']);
+            foreach ($photos_for_shipment as $photo_for_shipment) {
+                $photo_set_for_shipment[] = generate_image_url($photo_for_shipment);
+            }
+        }
+        return $photo_set_for_shipment;
+    }
 
     public function order()
     {

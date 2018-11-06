@@ -96,19 +96,30 @@ class OrdersController extends Controller
         $this->authorize('view', $order);
 
         // 订单物流状态
+        $shipment_company_name = $order->shipment_company;
         $order_shipment_traces = [];
         if ($order->shipment_company != null && $order->shipment_sn != null) {
+            $shipment_company = ShipmentCompany::where(['code' => $order->shipment_company])->first();
+            if ($shipment_company instanceof ShipmentCompany) {
+                $shipment_company_name = $shipment_company->name;
+            }
             // 快递100 实时查询API
             // $order_shipment_traces = kuaidi100_shipment_query($order->shipment_company, $order->shipment_sn);
             // 快递鸟(kdniao.com) 即时查询API
             $order_shipment_traces = kdniao_shipment_query($order->shipment_company, $order->shipment_sn);
         }
 
+        $order_refund_type = 'refund';
+        if($order->status == Order::ORDER_STATUS_REFUNDING){
+            $order_refund_type = $order->refund->type;
+        }
+
         return view('orders.show', [
             'order' => $order,
             'shipment_sn' => $order->shipment_sn,
-            'shipment_company' => ShipmentCompany::where(['code' => $order->shipment_company])->first()->name,
+            'shipment_company' => $shipment_company_name,
             'order_shipment_traces' => $order_shipment_traces,
+            'order_refund_type' => $order_refund_type,
         ]);
     }
 
@@ -290,7 +301,7 @@ class OrdersController extends Controller
     {
         $this->authorize('show_comment', $order);
 
-        if($order->comments->isEmpty()){
+        if ($order->comments->isEmpty()) {
             return redirect()->route('orders.create_comment', [
                 'order' => $order->id,
             ]);
@@ -305,7 +316,7 @@ class OrdersController extends Controller
     }
 
     // POST 追加订单评价 [可针对某一款产品单独追加评论]
-    public function appendComment(PutOrderCommentRequest $request, Order $order)
+    /*public function appendComment(PutOrderCommentRequest $request, Order $order)
     {
         $this->authorize('append_comment', $order);
 
@@ -329,7 +340,7 @@ class OrdersController extends Controller
             'code' => 200,
             'message' => 'success',
         ]);
-    }
+    }*/
 
     /*--售后订单--*/
     // GET 退单申请页面 [仅退款]
@@ -340,6 +351,7 @@ class OrdersController extends Controller
         return view('orders.refund', [
             'order' => $order,
             'refund' => $order->refund,
+            'snapshot' => $order->snapshot,
         ]);
     }
 
@@ -354,17 +366,33 @@ class OrdersController extends Controller
             'status' => 'checking',
             // 'amount' => $request->input('amount'),
             'remark_by_user' => $request->input('remark_by_user'),
-            'photos_for_refund' => $request->input('photos_for_refund'),
+            // 'photos_for_refund' => $request->has('photos_for_refund') ? $request->input('photos_for_refund') : '',
         ]);
 
         $order->status = 'refunding';
         $order->save();
 
+        /*return redirect()->route('orders.refund', [
+            'order' => $order->id,
+        ]);*/
         return response()->json([
             'code' => 200,
             'message' => 'success',
         ]);
     }
+
+    // GET 更新退单申请页面 [仅退款]
+    /*public function editRefund(Request $request, Order $order)
+    {
+        $this->authorize('refund', $order);
+
+        return view('orders.refund', [
+            'order' => $order,
+            'refund' => $order->refund,
+            'snapshot' => $order->snapshot,
+            'is_edit' => true,
+        ]);
+    }*/
 
     // PUT 更新退单申请 [仅退款]
     public function updateRefund(RefundOrderRequest $request, Order $order)
@@ -380,19 +408,26 @@ class OrdersController extends Controller
             $order->refund->remark_by_user = $request->input('remark_by_user');
             $updated = true;
         }
-        if ($request->has('photos_for_refund')) {
-            $order->refund->photos_for_refund = $request->input('photos_for_refund');
+        if ($request->has('remark_by_seller')) {
+            $order->refund->remark_by_seller = $request->input('remark_by_seller');
             $updated = true;
         }
+        /*if ($request->has('photos_for_refund')) {
+            $order->refund->photos_for_refund = $request->input('photos_for_refund');
+            $updated = true;
+        }*/
 
         if ($updated) {
             $order->refund->save();
         }
 
-        return response()->json([
+        return redirect()->route('orders.refund', [
+            'order' => $order->id,
+        ]);
+        /*return response()->json([
             'code' => 200,
             'message' => 'success',
-        ]);
+        ]);*/
     }
 
     // GET 退单申请页面 [退货并退款]
@@ -400,9 +435,19 @@ class OrdersController extends Controller
     {
         $this->authorize('refund_with_shipment', $order);
 
+        $shipment_company_name = $order->shipment_company;
+        if ($order->shipment_company != null && $order->shipment_sn != null) {
+            $shipment_company = ShipmentCompany::where(['code' => $order->shipment_company])->first();
+            if ($shipment_company instanceof ShipmentCompany) {
+                $shipment_company_name = $shipment_company->name;
+            }
+        }
+
         return view('orders.refund_with_shipment', [
             'order' => $order,
             'refund' => $order->refund,
+            'snapshot' => $order->snapshot,
+            'shipment_company' => $shipment_company_name,
         ]);
     }
 
@@ -417,17 +462,33 @@ class OrdersController extends Controller
             'status' => 'checking',
             // 'amount' => $request->input('amount'),
             'remark_by_user' => $request->input('remark_by_user'),
-            'photos_for_refund' => $request->input('photos_for_refund'),
+            'photos_for_refund' => $request->has('photos_for_refund') ? $request->input('photos_for_refund') : '',
         ]);
 
         $order->status = 'refunding';
         $order->save();
 
+        /*return redirect()->route('orders.refund_with_shipment', [
+            'order' => $order->id,
+        ]);*/
         return response()->json([
             'code' => 200,
             'message' => 'success',
         ]);
     }
+
+    // GET 更新退单申请页面 [退货并退款]
+    /*public function editRefundWithShipment(Request $request, Order $order)
+    {
+        $this->authorize('refund_with_shipment', $order);
+
+        return view('orders.refund_with_shipment', [
+            'order' => $order,
+            'refund' => $order->refund,
+            'snapshot' => $order->snapshot,
+            'is_edit' => true,
+        ]);
+    }*/
 
     // PUT 更新退单申请 [退货并退款]
     public function updateRefundWithShipment(RefundOrderWithShipmentRequest $request, Order $order)
@@ -439,8 +500,16 @@ class OrdersController extends Controller
             $order->refund->amount = $request->input('amount');
             $updated = true;
         }*/
+        if ($request->has('seller_info')) {
+            $order->refund->seller_info = $request->input('seller_info');
+            $updated = true;
+        }
         if ($request->has('remark_by_user')) {
             $order->refund->remark_by_user = $request->input('remark_by_user');
+            $updated = true;
+        }
+        if ($request->has('remark_by_seller')) {
+            $order->refund->remark_by_seller = $request->input('remark_by_seller');
             $updated = true;
         }
         if ($request->has('remark_by_shipment')) {
@@ -468,6 +537,9 @@ class OrdersController extends Controller
             $order->refund->save();
         }
 
+        /*return redirect()->route('orders.refund_with_shipment', [
+            'order' => $order->id,
+        ]);*/
         return response()->json([
             'code' => 200,
             'message' => 'success',

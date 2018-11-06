@@ -149,7 +149,7 @@ class OrderPolicy
          * order status： shipping -> refund [仅退款]
          * */
         if ($this->update($user, $order)) {
-            return $order->status === Order::ORDER_STATUS_SHIPPING;
+            return in_array($order->status, [Order::ORDER_STATUS_SHIPPING, Order::ORDER_STATUS_REFUNDING]);
         }
         return false;
     }
@@ -167,7 +167,7 @@ class OrderPolicy
          * order status： receiving -> refund_with_shipment [退货并退款]
          * */
         if ($this->update($user, $order)) {
-            return $order->status === Order::ORDER_STATUS_RECEIVING;
+            return in_array($order->status, [Order::ORDER_STATUS_RECEIVING, Order::ORDER_STATUS_REFUNDING]);
         }
         return false;
     }
