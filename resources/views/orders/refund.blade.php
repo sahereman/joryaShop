@@ -93,8 +93,12 @@
                                 <!--第三步退款成功-->
                         <div class="step_content step-3">
                             <div class="read_info last_level">
-                                <p class="read_info_title">审核通过，退款成功<span>退款成功！ {{ $order->total_amount }}
-                                        元已按照原打款路径退回。</span></p>
+                                <p class="read_info_title">
+                                    审核通过，退款成功
+                                    <span>
+                                        退款成功！ {{ $order->total_amount }}元已按照原打款路径退回。
+                                    </span>
+                                </p>
                                 <ul class="step-ul">
                                     <li>
                                         <span>退款金额：</span>
@@ -111,7 +115,12 @@
                                 <!--第四步退款失败-->
                         <div class="step_content step-4">
                             <div class="read_info last_level">
-                                <p class="read_info_title">审核未通过<span>，你可以联系在线客服或者拨打400电话</span></p>
+                                <p class="read_info_title">
+                                    审核未通过
+                                    <span>
+                                        你可以联系在线客服或者拨打400电话
+                                    </span>
+                                </p>
                                 <ul class="step-ul">
                                     <li>
                                         <span>退款金额：</span>
