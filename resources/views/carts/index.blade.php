@@ -5,87 +5,90 @@
     <div class="shopping_cart">
         <div class="m-wrapper">
             <div class="carts">
-            	<p class="Crumbs">
-	                <a href="{{ route('root') }}">首页</a>
-	                <span>></span>
-	                <a href="#">购物车</a>
-	            </p>
-	            <!--当购物车内容为空时显示-->
-            	<div class="empty_shopping_cart" style="display: none;">
-            		<div></div>
-            		<p>购物车还是空滴</p>
-            		<a href="{{ route('root') }}">去逛逛</a>
-            	</div>
-            	<!--购物车有商品时显示下方内容包括cart-header，cart-items，cart-footer-->
-            	<div class="cart-header">
-            		<div class="left w130">
-	                    <input id="selectAll" class="selectAll" type="checkbox">
-	                    <label for="selectAll">全选</label>
-	                </div>
-	                <div class="left w250">商品信息</div>
-	                <div class="left w120 center">规格</div>
-	                <div class="left w100 center">单价</div>
-	                <div class="left w150 center">数量</div>
-	                <div class="left w100 center">小计</div>
-	                <div class="left w120 center">操作</div>
-            	</div>
-            	<div class="cart-items">
-            		@for ($a = 0; $a < 3; $a++)
-            			<div class="clear single-item">
-		                    <div class="left w20">
-		                        <input name="selectOne" type="checkbox">
-		                    </div>
-		                    <div class="left w110 shop-img">
-		                        <a class="cur_p" href="">
-		                            <img src="{{ asset('img/list-1.png') }}">
-		                        </a>
-		                    </div>
-		                    <div class="left w250 pro-info">
-		                        <span>卓页美业长直假发片</span>
-		                    </div>
-		                    <div class="left w120 center"><span>颜色：蓝色</span></div>
-		                    <div class="left w100 center">&yen;<span class="price">138.00</span></div>
-		                    <div class="left w150 center counter">
-		                        <button class="left small-button">-</button>
-		                        <input class="left center count" type="text" size="2" value="1">
-		                        <button class="left small-button">+</button>
-		                    </div>
-		                    <div class="left w100 s_total center">&yen;<span>138.00</span></div>
-		                    <div class="left w120 center">
-		                    	<p>
-		                    		<a class="cur_p">移入收藏夹</a>
-		                            <a class="cur_p">删除</a>
-		                    	</p>
-		                    </div>
-		                </div>
-            		@endfor
-            	</div>
-            	<div class="cart-footer">
-	                <div class="clear left left-control">
-	                	<div class="left w100">
-	                		<input id="selectAll-2" class="selectAll" type="checkbox">
-	                        <label for="selectAll-2">全选</label>
-	                	</div>
-	                    <a id="clearSelected" href="javascript:void(0);">删除选中商品</a>
-	                    <!--随时解注-->
-	                    <!--<a id="clearInvalid" href="javascript:void(0);">清空失效商品</a>-->
-	                </div>
-	                <div class="right">
-	                    <!--<span>总共选中了<span id="totalCount">0</span>件商品</span>-->
-	                    <span>合计: <span id="totalPrice">&yen;0.00</span></span>
-	                    <button class="big-button">结算</button>
-	                </div>
-	            </div>
+                <p class="Crumbs">
+                    <a href="{{ route('root') }}">首页</a>
+                    <span>></span>
+                    <a href="#">购物车</a>
+                </p>
+                @if(!$carts)
+                        <!--当购物车内容为空时显示-->
+                <div class="empty_shopping_cart">
+                    <div></div>
+                    <p>购物车还是空滴</p>
+                    <a href="{{ route('root') }}">去逛逛</a>
+                </div>
+                @else
+                        <!--购物车有商品时显示下方内容包括cart-header，cart-items，cart-footer-->
+                <div class="cart-header">
+                    <div class="left w130">
+                        <input id="selectAll" class="selectAll" type="checkbox">
+                        <label for="selectAll">全选</label>
+                    </div>
+                    <div class="left w250">商品信息</div>
+                    <div class="left w120 center">规格</div>
+                    <div class="left w100 center">单价</div>
+                    <div class="left w150 center">数量</div>
+                    <div class="left w100 center">小计</div>
+                    <div class="left w120 center">操作</div>
+                </div>
+                <div class="cart-items">
+                    @foreach($carts as $cart)
+                        <div class="clear single-item">
+                            <div class="left w20">
+                                <input name="selectOne" type="checkbox">
+                            </div>
+                            <div class="left w110 shop-img">
+                                <a class="cur_p" href="">
+                                    <img src="{{ $cart->sku->product->thumb_url }}">
+                                </a>
+                            </div>
+                            <div class="left w250 pro-info">
+                                <span>{{ $cart->sku->product->name_zh }}</span>
+                            </div>
+                            <div class="left w120 center"><span>{{ $cart->sku->name_zh }}</span></div>
+                            <div class="left w100 center">&yen;<span class="price">{{ $cart->sku->price }}</span></div>
+                            <div class="left w150 center counter">
+                                <button class="left small-button">-</button>
+                                <input class="left center count" type="text" size="2" value="{{ $cart->number }}">
+                                <button class="left small-button">+</button>
+                            </div>
+                            <div class="left w100 s_total center">&yen;<span>{{ bcmul($cart->sku->price, $cart->number, 2) }}</span></div>
+                            <div class="left w120 center">
+                                <p>
+                                    <a class="cur_p">加入收藏夹</a>
+                                    <a class="cur_p">删除</a>
+                                </p>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+                <div class="cart-footer">
+                    <div class="clear left left-control">
+                        <div class="left w100">
+                            <input id="selectAll-2" class="selectAll" type="checkbox">
+                            <label for="selectAll-2">全选</label>
+                        </div>
+                        <a id="clearSelected" href="javascript:void(0);">删除选中商品</a>
+                        <!--随时解注-->
+                        <!--<a id="clearInvalid" href="javascript:void(0);">清空失效商品</a>-->
+                    </div>
+                    <div class="right">
+                        <!--<span>总共选中了<span id="totalCount">0</span>件商品</span>-->
+                        <span>合计: <span id="totalPrice">&yen;0.00</span></span>
+                        <button class="big-button">结算</button>
+                    </div>
+                </div>
+                @endif
             </div>
-            
+
         </div>
     </div>
 @endsection
 @section('scriptsAfterJs')
     <script type="text/javascript">
         $(function () {
-        	//全选
-        	$('.selectAll').on('change', function(evt) {
+            //全选
+            $('.selectAll').on('change', function (evt) {
                 if ($(this).prop('checked')) {
                     $('.single-item input[type="checkbox"]').prop('checked', true);
                     $('.selectAll').prop('checked', true);
@@ -100,16 +103,16 @@
                 }
             });
             // 为单个商品项的复选框绑定改变事件
-            $('input[name="selectOne"]').on('change', function() {
+            $('input[name="selectOne"]').on('change', function () {
                 calcTotal();
                 if (!$(this).prop('checked')) {
                     $('.selectAll').prop('checked', false);
                 }
             });
             // 为删除选中商品超链接绑定事件回调
-            $('#clearSelected').on('click', function() {
-                layer.alert('确定要删除所选商品吗', function(index){
-                	$('.single-item').each(function() {
+            $('#clearSelected').on('click', function () {
+                layer.alert('确定要删除所选商品吗', function (index) {
+                    $('.single-item').each(function () {
                         if ($(this).find('input[name="selectOne"]').prop('checked')) {
                             $(this).remove();
                         }
@@ -117,10 +120,10 @@
                     $('.selectAll').prop('checked', false);
                     calcTotal();
                     layer.close(index);
-				});       
+                });
             });
             // 为减少和添加商品数量的按钮绑定事件回调
-            $('.single-item button').on('click', function(evt) {
+            $('.single-item button').on('click', function (evt) {
                 $(this).parent().parent().find('input[name="selectOne"]').prop('checked', true);
                 if ($(this).text() == '-') {
                     var count = parseInt($(this).next().val());
@@ -143,17 +146,17 @@
                 $(this).parent().next().html('&yen;' + (price * count).toFixed(2));
                 calcTotal();
             });
-             // 为单个商品项删除超链接绑定事件回调
-            $('.single-item a').on('click', function() {
-            	var clickDom = $(this);
-                layer.alert('确定要删除该项吗', function(index){
-                	clickDom.parents('.single-item').remove();
+            // 为单个商品项删除超链接绑定事件回调
+            $('.single-item a').on('click', function () {
+                var clickDom = $(this);
+                layer.alert('确定要删除该项吗', function (index) {
+                    clickDom.parents('.single-item').remove();
                     calcTotal();
                     layer.close(index);
-				});       
+                });
             });
             // 为商品数量文本框绑定改变事件回调
-            $('.single-item input[type="text"]').on('change', function() {
+            $('.single-item input[type="text"]').on('change', function () {
                 $(this).parent().parent().find('input[name="selectOne"]').prop('checked', true);
                 var count = parseInt($(this).val());
 
@@ -166,7 +169,7 @@
                 $(this).parent().next().html('&yen;' + (price * count).toFixed(2));
                 calcTotal();
             });
-            
+
             // 计算总计
             function calcTotal() {
                 var checkBoxes = $('input[name="selectOne"]');
@@ -184,10 +187,10 @@
                         totalPrice += price * count;
                     }
                 }
-                if(totalPrice > 0){
-                	$(".big-button").addClass('active');
-                }else {
-                	$(".big-button").removeClass('active');
+                if (totalPrice > 0) {
+                    $(".big-button").addClass('active');
+                } else {
+                    $(".big-button").removeClass('active');
                 }
                 $('#totalCount').text(totalCount);
                 $('#totalPrice').html('&yen;' + totalPrice.toFixed(2));
