@@ -106,7 +106,6 @@
                                         <!--获取的图片按照下面的格式存放不超过3张-->
                                         @if($refund->photos_for_refund)
                                             @foreach($refund->photo_set_for_refund as $photo_for_refund)
-                                                <img src="{{ $photo_for_refund }}" alt="">
                                                 <div class='refund-path' data-path='{{ $photo_for_refund }}'>
                                                     <img src="{{ $photo_for_refund }}"
                                                          data-path='{{ $photo_for_refund }}'>
@@ -405,7 +404,6 @@
                     layer.msg('最多上传3张图片！！');
                 }
             });
-            refunds_3
             $(".refunds_3").on("click", function () {
                 var img_num = $(this).parents('li').find(".refund-path");
                 if (img_num.length < 3) {
@@ -502,6 +500,13 @@
                     }
                 });
             });
+            //提交物流单据
+            $(".step-3-submit").on("click",function(){
+            	set_path("#step-3-form", 'photos_for_shipment');
+                if (set_finish == true) {
+                    $("#step-3-form").submit();
+                }
+            })
             //撤销退款申请
             $(".step-5-submit-2").on("click", function () {
                 var data = {
@@ -576,6 +581,7 @@
                 path_url += $(n).attr('data-path') + ",";
             });
             path_url = path_url.substring(0, path_url.length - 1);
+            
             $(dom).find("input[name='" + input_name + "']").val(path_url);
             set_finish = true;
             return set_finish;

@@ -52,7 +52,7 @@
                                 <span class="order_status_tips">买家已付款，等待卖家发货</span>
                             </p>
                             <p class="operation_area">
-                                <a class="main_operation">提醒发货</a>
+                                <a class="main_operation reminding_shipments">提醒发货</a>
                                 <a href="{{ route('orders.refund', ['order' => $order->id]) }}">申请退款</a>
                             </p>
                         </div>
@@ -444,6 +444,9 @@
                     }
                 });
             });
+            $(".reminding_shipments").on("click",function(){
+            	layer.msg("提醒发货成功");
+            })
         });
     </script>
 @endsection
