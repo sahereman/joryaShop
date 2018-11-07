@@ -11,6 +11,7 @@ class Cart extends Model
      * @var array
      */
     protected $fillable = [
+        'user_id',
         'product_sku_id',
         'number',
     ];
@@ -20,7 +21,7 @@ class Cart extends Model
      * @var array
      */
     protected $hidden = [
-        'user_id',
+        //
     ];
 
     public function user()

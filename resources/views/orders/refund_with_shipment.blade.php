@@ -130,9 +130,13 @@
                             <div class="read_info">
                                 <!--需要根据退款的流程来进行判断显示哪一个-->
                                 @if($refund->status == \App\Models\OrderRefund::ORDER_REFUND_STATUS_SHIPPING)
-                                    <p class="read_info_title">审核通过，等待买家发货</p>
+                                    <p class="read_info_title">
+                                        审核通过，等待买家发货
+                                    </p>
                                 @elseif($refund->status == \App\Models\OrderRefund::ORDER_REFUND_STATUS_RECEIVING)
-                                    <p class="read_info_title">卖家验货成功</p>
+                                    <p class="read_info_title">
+                                        等待卖家收货
+                                    </p>
                                 @endif
                                 <div class="read_address_info">
                                     <p>退货地址</p>
@@ -238,7 +242,13 @@
                                 <!--第四步退款成功-->
                         <div class="step_content step-4">
                             <div class="read_info">
-                                <p class="read_info_title">审核通过，退款成功</p>
+                                <p class="read_info_title">
+                                    审核通过，退款成功
+                                    <span>
+                                        退款成功！ {{ $order->total_amount }}
+                                        元已按照原打款路径退回。
+                                    </span>
+                                </p>
                                 <div class="read_address_info">
                                     <p>退货地址</p>
                                     <p><span>联系人：</span><span>{{ $refund->seller_info['name'] }}</span></p>
@@ -295,7 +305,12 @@
                                 <!--第五步退款失败-->
                         <div class="step_content step-5">
                             <div class="read_info last_level">
-                                <p class="read_info_title">审核未通过<span>，你可以联系在线客服或者拨打400电话</span></p>
+                                <p class="read_info_title">
+                                    审核未通过
+                                    <span>
+                                        你可以联系在线客服或者拨打400电话
+                                    </span>
+                                </p>
                                 <ul class="step-ul">
                                     <li>
                                         <span>退款金额：</span>
@@ -447,7 +462,7 @@
                 //非汉字的个数
                 abcnum = text.length - str;
                 total = str + abcnum;
-                console.log(total)
+                // console.log(total);
                 if (total > 200) {
                     $(this).val($(this).val().substring(0, 200));
                     $(".remainder").html('0');
@@ -501,12 +516,12 @@
                 });
             });
             //提交物流单据
-            $(".step-3-submit").on("click",function(){
-            	set_path("#step-3-form", 'photos_for_shipment');
+            $(".step-3-submit").on("click", function () {
+                set_path("#step-3-form", 'photos_for_shipment');
                 if (set_finish == true) {
                     $("#step-3-form").submit();
                 }
-            })
+            });
             //撤销退款申请
             $(".step-5-submit-2").on("click", function () {
                 var data = {
@@ -581,7 +596,7 @@
                 path_url += $(n).attr('data-path') + ",";
             });
             path_url = path_url.substring(0, path_url.length - 1);
-            
+
             $(dom).find("input[name='" + input_name + "']").val(path_url);
             set_finish = true;
             return set_finish;
