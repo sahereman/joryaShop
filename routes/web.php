@@ -180,7 +180,7 @@ Route::get('shipment_companies', 'ShipmentCompaniesController@index')->name('shi
 Route::post('easy_sms_send', 'IndexController@easySmsSend')->name('easy_sms_send');
 
 /*通用-快递100 API 实时查询订单物流状态*/
-Route::get('orders/{order}/shipment_query', 'OrdersController@shipmentQuery')->name('orders.shipment_query');
+// Route::get('orders/{order}/shipment_query', 'OrdersController@shipmentQuery')->name('orders.shipment_query');
 
 /*商品分类*/
 Route::get('product_categories/{category}', 'ProductCategoriesController@index')->name('product_categories.index'); // 一级分类及其商品列表 [完整展示] or 二级分类及其商品列表 [下拉加载更多]
@@ -190,6 +190,7 @@ Route::get('product_categories/{category}', 'ProductCategoriesController@index')
 Route::get('products/search', 'ProductsController@search')->name('products.search'); // 搜素结果 [下拉加载更多]
 Route::get('products/search_hint', 'ProductsController@searchHint')->name('products.search_hint'); // 模糊搜素提示结果 [10 records] [for Ajax request]
 Route::get('products/{product}', 'ProductsController@show')->name('products.show'); // 商品详情页
+Route::get('products/{product}/comment', 'ProductsController@comment')->name('products.comment'); // 获取商品评价 [for Ajax request]
 
 /*通用-单页展示*/
 Route::get('pages/{page}', 'PagesController@show')->name('pages.show');

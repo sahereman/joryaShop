@@ -11,7 +11,11 @@ class ShipmentCompaniesController extends Controller
     public function index(Request $request)
     {
         return response()->json([
-            'shipment_companies' => ShipmentCompany::all()->toArray(),
+            'code' => 200,
+            'message' => 'success',
+            'data' => [
+                'shipment_companies' => ShipmentCompany::all()->toArray(),
+            ],
         ]);
     }
 }

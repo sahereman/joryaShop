@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Http\Requests\ProductRequest;
 use App\Models\Product;
 use App\Models\ProductCategory;
+use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class ProductCategoriesController extends Controller
 {
@@ -28,33 +29,93 @@ class ProductCategoriesController extends Controller
             ]);
         } else {
             $this->validate($request, [
+                'sort' => [
+                    'bail',
+                    'sometimes',
+                    'nullable',
+                    'string',
+                    Rule::in(['index', 'heat', 'latest', 'price_asc', 'price_desc'])
+                ],
+                'min_price' => 'bail|sometimes|nullable|numeric',
+                'max_price' => 'bail|sometimes|nullable|numeric',
                 'page' => 'sometimes|required|integer|min:1',
             ], [], [
+                'query' => '搜索内容',
+                'sort' => '排序方式',
+                'min_price' => '最低价格',
+                'max_price' => '最高价格',
                 'page' => '页码',
             ]);
             $parent = $category->parent;
-            $current_page = $request->has('page') ? $request->input('page') : 1;
-            // on_sale: 是否在售 + index: 综合指数
-            $products = $category->products()
-                ->where('on_sale', 1)
-                ->orderByDesc('index')
-                ->simplePaginate(10);
-            $product_count = $products->count();
-            $page_count = ceil($product_count / 10);
-            $next_page = ($current_page < $page_count) ? ($current_page + 1) : false;
-            if ($next_page == false) {
-                $request_url = false;
-            } else {
-                $request_url = route('product_categories.index', [
-                        'category' => $category->id,
-                    ]) . '?page=' . $next_page;
+            if(! $request->has('page')){
+                // 第一次请求 route('product_categories.index') 打开待填充数据页面
+                return view('products.index', [
+                    'category' => $category,
+                ]);
+            }else{
+                // Ajax request for the 1st time: route('product_categories.index').'?page=1'
+                $current_page = $request->input('page');
+                // on_sale: 是否在售 + index: 综合指数
+                $products = $category->products()
+                    ->where('on_sale', 1);
+                $product_count = $products->count();
+                $page_count = ceil($product_count / 10);
+                $next_page = ($current_page < $page_count) ? ($current_page + 1) : false;
+
+                $query_data = [];
+                if($request->has('min_price')){
+                    $query_data['min_price'] = $request->input('min_price');
+                    $products = $products->where('price', '>', $request->input('min_price'));
+                }
+                if($request->has('max_price')){
+                    $query_data['max_price'] = $request->input('max_price');
+                    $products = $products->where('price', '<', $request->input('max_price'));
+                }
+                if($request->has('sort')){
+                    $query_data['sort'] = $request->input('sort');
+                    switch($request->input('sort')){
+                        case 'index':
+                            $products = $products->orderByDesc('index');
+                            break;
+                        case 'heat':
+                            $products = $products->orderByDesc('heat');
+                            break;
+                        case 'latest':
+                            $products = $products->orderByDesc('created_at');
+                            break;
+                        case 'price_asc':
+                            $products = $products->orderBy('price');
+                            break;
+                        case 'price_desc':
+                            $products = $products->orderByDesc('price');
+                            break;
+                        default:
+                            $products = $products->orderByDesc('index');
+                            break;
+                    }
+                }
+                $products = $products->simplePaginate(10);
+
+                if ($next_page == false) {
+                    $request_url = false;
+                } else {
+                    $query_data['page'] = $next_page;
+                    $request_url = route('product_categories.index', [
+                            'category' => $category->id,
+                        ]) . '?' . http_build_query($query_data);
+                }
+                return response()->json([
+                    'code' => 200,
+                    'message' => 'success',
+                    'data' => [
+                        'parent' => $parent,
+                        'category' => $category,
+                        'products' => $products,
+                        'request_url' => $request_url,
+                    ],
+                ]);
             }
-            return view('products.index', [
-                'parent' => $parent,
-                'category' => $category,
-                'products' => $products,
-                'request_url' => $request_url,
-            ]);
+
         }
     }
 }

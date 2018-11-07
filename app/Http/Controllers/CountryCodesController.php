@@ -11,7 +11,11 @@ class CountryCodesController extends Controller
     public function index(Request $request)
     {
         return response()->json([
-            'country_codes' => CountryCode::all()->toArray(),
+            'code' => 200,
+            'message' => 'success',
+            'data' => [
+                'country_codes' => CountryCode::all()->toArray(),
+            ],
         ]);
     }
 }
