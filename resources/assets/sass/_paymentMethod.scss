@@ -128,4 +128,52 @@
             }
         }
     }
+    .payment_success {
+        width: 990px;
+        height: 325px;
+        margin: auto;
+        background-color: #fff;
+        margin-top: 27px;
+        text-align: center;
+        padding-top: 67px;
+        img {
+            margin-bottom: 16px;
+        }
+        p {
+            &:first-of-type {
+                font-size: 14px;
+                color: #7ca442;
+            }
+            &:last-of-type {
+                margin-top: 36px;
+                a {
+                    display: inline-block;
+                    width: 110px;
+                    height: 34px;
+                    margin-right: 10px;
+                    border-radius: 2px;
+                    text-align: center;
+                    line-height: 34px;
+                    font-size: 12px;
+                    &:first-of-type {
+                        color: #fff;
+                        background-color: #7ca442;
+                        border: 1px solid #7ca442;
+                        &:hover {
+                            background: #698a39;
+                            border-color: #698a39;
+                        }
+                    }
+                    &:last-of-type {
+                        border: 1px solid #ebebeb;
+                        color: #666;
+                        &:hover {
+                            color: #7ca442;
+                            border-color: #7ca442;
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
