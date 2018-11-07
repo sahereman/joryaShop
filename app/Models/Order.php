@@ -49,15 +49,18 @@ class Order extends Model
      */
     protected $fillable = [
         'order_sn',
+        'user_id',
+        'user_info',
+        'status',
         'currency',
         'payment_method',
         'payment_sn',
         'shipment_company',
         'shipment_sn',
+        'snapshot',
         'total_shipping_fee',
         'total_amount',
         'remark',
-        'status',
     ];
 
     /**
@@ -87,6 +90,7 @@ class Order extends Model
         'shipped_at',
         'completed_at',
         'commented_at',
+        'deleted_at',
     ];
 
     /**

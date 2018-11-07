@@ -26,6 +26,7 @@ class CartRequest extends Request
     {
         return [
             'sku_id' => [
+                'bail',
                 'required',
                 'required_with:number',
                 'integer',
@@ -44,6 +45,7 @@ class CartRequest extends Request
                 },
             ],
             'number' => [
+                'bail',
                 'required',
                 'required_with:sku_id',
                 'integer',

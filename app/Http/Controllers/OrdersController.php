@@ -129,7 +129,7 @@ class OrdersController extends Controller
     {
         //$user = Auth::user();
         $user = $request->user();
-        $currency = $request->input('currency');
+        $currency = $request->has('currency') ? $request->input('currency') : 'CNY';
 
         // 开启事务
         $order = DB::transaction(function () use ($request, $user, $currency) {
@@ -142,14 +142,14 @@ class OrdersController extends Controller
             if ($request->has('cart_ids')) {
                 // 来自购物车的订单
                 $cartIds = explode(',', $request->input('cart_ids'));
-                foreach ($cartIds as $cartId) {
+                foreach ($cartIds as $key => $cartId) {
                     $cart = Cart::find($cartId);
                     $sku = $cart->sku;
                     $price = $sku->getRealPriceByCurrency($currency);
                     $skuIds[] = $sku->id;
-                    $snapshot[]['sku_id'] = $sku->id;
-                    $snapshot[]['price'] = $price;
-                    $snapshot[]['number'] = $cart->number;
+                    $snapshot[$key]['sku_id'] = $sku->id;
+                    $snapshot[$key]['price'] = $price;
+                    $snapshot[$key]['number'] = $cart->number;
                     $totalShippingFee += $sku->getRealShippingFeeByCurrency($currency) * $cart->number;
                     $totalAmount += $price * $cart->number;
                 }
@@ -160,9 +160,9 @@ class OrdersController extends Controller
                 $skuIds[] = $request->input('sku_id');
                 $sku = ProductSku::find($request->input('sku_id'));
                 $price = $sku->getRealPriceByCurrency($currency);
-                $snapshot[]['sku_id'] = $request->input('sku_id');
-                $snapshot[]['price'] = $price;
-                $snapshot[]['number'] = $request->input('number');
+                $snapshot[0]['sku_id'] = $request->input('sku_id');
+                $snapshot[0]['price'] = $price;
+                $snapshot[0]['number'] = $request->input('number');
                 $totalShippingFee += $sku->getRealShippingFeeByCurrency($currency) * $request->input('number');
                 $totalAmount += $price * $request->input('number');
             }
@@ -170,10 +170,10 @@ class OrdersController extends Controller
             // 创建一条订单记录
             $order = new Order([
                 'user_id' => $user->id,
-                'user_info' => collect($request->only(['name', 'phone', 'address']))->toJson(),
+                'user_info' => collect($request->only(['name', 'phone', 'address']))->toArray(),
                 'status' => 'paying',
                 'currency' => $request->input('currency'),
-                'snapshot' => collect($snapshot)->toJson(),
+                'snapshot' => collect($snapshot)->toArray(),
                 'total_shipping_fee' => $totalShippingFee,
                 'total_amount' => $totalAmount,
                 'remark' => $request->has('remark') ? $request->input('remark') : '',
@@ -189,7 +189,13 @@ class OrdersController extends Controller
         // 分派定时自动关闭订单任务
         $this->dispatch(new AutoCloseOrderJob($order, Config::config('time_to_close_order')));
 
-        return $order;
+        return response()->json([
+            'code' => 200,
+            'message' => 'success',
+            'data' => [
+                'order' => $order,
+            ],
+        ]);
     }
 
     // GET 选择地址+币种页面
@@ -224,7 +230,7 @@ class OrdersController extends Controller
         ]);
 
         if ($validator->passes()) {
-            $order->user_info = collect($request->only(['name', 'phone', 'address']))->toJson();
+            $order->user_info = collect($request->only(['name', 'phone', 'address']))->toArray();
             $order->currency = $request->input('currency');
             $order->save();
             return response()->json([

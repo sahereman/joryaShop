@@ -59,29 +59,58 @@ class CartsController extends Controller
     }
 
     // PATCH 更新 (增减数量)
-    public function update(CartRequest $request, Cart $cart)
+    public function update(Request $request, Cart $cart)
     {
         $this->authorize('update', $cart);
+
+        $this->validate($request, [
+            'number' => [
+                'bail',
+                'required',
+                'integer',
+                'min:1',
+                function ($attribute, $value, $fail) use ($cart) {
+                    if ($cart->sku->stock < $value) {
+                        $fail('该商品库存不足，请重新调整商品购买数量');
+                    }
+                },
+            ],
+        ], [], [
+            'number' => '商品购买数量',
+        ]);
+
         $cart->update([
-            'product_sku_id' => $request->input('sku_id'),
             'number' => $request->input('number'),
         ]);
-        return response()->json([]);
+
+        return response()->json([
+            'code' => 200,
+            'message' => 'success',
+        ]);
     }
 
     // DELETE 删除
     public function destroy(Request $request, Cart $cart)
     {
         $this->authorize('delete', $cart);
+
         $cart->user()->dissociate();
         $cart->delete();
-        return response()->json([]);
+
+        return response()->json([
+            'code' => 200,
+            'message' => 'success',
+        ]);
     }
 
     // DELETE 清空购物车
     public function flush(Request $request)
     {
         Cart::where(['user_id' => $request->user()->id])->delete();
-        return response()->json([]);
+
+        return response()->json([
+            'code' => 200,
+            'message' => 'success',
+        ]);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\ExchangeRate;
 use App\Models\ProductSku;
 use Illuminate\Validation\Rule;
 
@@ -14,8 +15,19 @@ class PostOrderRequest extends Request
     public function rules()
     {
         return [
-            'currency' => 'required|string|exists:exchange_rates',
+            'currency' => [
+                'bail',
+                'sometimes',
+                'required',
+                'string',
+                function ($attribute, $value, $fail) {
+                    if ($value != 'CNY' && ExchangeRate::where('currency', $value)->doesntExist()) {
+                        $fail('该币种支付暂不支持');
+                    }
+                },
+            ],
             'sku_id' => [
+                'bail',
                 'required_without:cart_ids',
                 'required_with:number',
                 'integer',
@@ -34,6 +46,7 @@ class PostOrderRequest extends Request
                 },
             ],
             'number' => [
+                'bail',
                 'required_without:cart_ids',
                 'required_with:sku_id',
                 'integer',
@@ -46,14 +59,15 @@ class PostOrderRequest extends Request
                 },
             ],
             'cart_ids' => [
+                'bail',
                 'required_without_all:sku_id,number',
                 'string',
                 'regex:/^\d(\,\d)*$/'
             ],
-            'name' => 'required|string',
-            'phone' => 'required|string',
-            'address' => 'required|string',
-            'remark' => 'sometimes|nullable|string',
+            'name' => 'bail|required|string',
+            'phone' => 'bail|required|string',
+            'address' => 'bail|required|string',
+            'remark' => 'bail|sometimes|nullable|string',
         ];
     }
 
@@ -74,7 +88,6 @@ class PostOrderRequest extends Request
     public function messages()
     {
         return [
-            'currency.exists' => '该币种支付暂不支持',
             'sku_id.exists' => '该商品不存在',
             'cart_ids.regex' => '购物车IDs格式不正确',
         ];
