@@ -584,13 +584,13 @@ class OrdersController extends Controller
             $order->refund->save();
         }
 
-        /*return redirect()->route('orders.refund_with_shipment', [
+        return redirect()->route('orders.refund_with_shipment', [
             'order' => $order->id,
-        ]);*/
-        return response()->json([
+        ]);
+        /*return response()->json([
             'code' => 200,
             'message' => 'success',
-        ]);
+        ]);*/
     }
 
     // PATCH 撤销退单申请 [订单恢复状态:status->shipping | receiving]
@@ -603,6 +603,8 @@ class OrdersController extends Controller
         } else {
             $order->status = 'receiving';
         }
+
+        $order->refund->delete();
 
         $order->save();
 

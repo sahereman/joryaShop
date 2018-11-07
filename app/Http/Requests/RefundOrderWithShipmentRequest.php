@@ -18,8 +18,8 @@ class RefundOrderWithShipmentRequest extends Request
             'remark_by_user' => 'bail|sometimes|required|string|min:3|max:255',
             'remark_by_seller' => 'bail|sometimes|nullable|string|min:3|max:255',
             'remark_by_shipment' => 'bail|sometimes|nullable|string|min:3|max:255',
-            'shipment_sn' => 'bail|required|string|min:3',
-            'shipment_company' => 'bail|required|string|min:3',
+            'shipment_sn' => 'bail|sometimes|required_with:shipment_company|string|min:3',
+            'shipment_company' => 'bail|sometimes|required_with:shipment_sn|string|min:3',
             'photos_for_refund' => 'bail|sometimes|nullable|string',
             'photos_for_shipment' => 'bail|sometimes|nullable|string',
         ];
