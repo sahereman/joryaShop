@@ -11,17 +11,6 @@
 支持Laravel 5.5 | PHP7.1 | MySql5.7 | Redis3.2
 Composer | Git客户端 | crond服务 | Supervisor进程管理工具
 
-mysql -u homestead -p
-secret
-//删除数据库
-# DROP DATABASE [IF EXISTS] `joryashop`;
-DROP DATABASE IF EXISTS `joryashop`;
-//创建数据库
-# CREATE DATABASE [IF NOT EXISTS] `joryashop` [DEFAULT] CHARACTER SET [=] 'utf8mb4' [DEFAULT] COLLATE [=] 'utf8mb4_general_ci';
-# or:
-# CREATE DATABASE [IF NOT EXISTS] `joryashop` [DEFAULT] CHARSET [=] 'utf8mb4' [DEFAULT] COLLATE [=] 'utf8mb4_general_ci';
-CREATE DATABASE IF NOT EXISTS `joryashop` DEFAULT CHARSET = 'utf8mb4' DEFAULT COLLATE = 'utf8mb4_general_ci';
-
 //安装
 composer install
 
@@ -39,7 +28,7 @@ sudo php artisan storage:link
 
 //运行 Laravel Mix
 yarn config set registry https://registry.npm.taobao.org
-SASS_BINARY_SITE=http://npm.taobao.org/mirrors/node-sass yarn
+sudo SASS_BINARY_SITE=http://npm.taobao.org/mirrors/node-sass yarn --no-bin-links
 
 //生产环境数据数据迁移
 php artisan migrate:refresh
