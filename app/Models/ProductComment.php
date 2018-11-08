@@ -36,19 +36,19 @@ class ProductComment extends Model
      * @var array
      */
     protected $appends = [
-        'photo_set',
+        'photo_urls',
     ];
 
-    public function getPhotoSetAttribute()
+    public function getPhotoUrlsAttribute()
     {
-        $photoSet = [];
+        $photo_urls = [];
         if ($this->attributes['photos'] != '') {
             $photos = explode(',', $this->attributes['photos']);
             foreach ($photos as $photo) {
-                $photoSet[] = generate_image_url($photo);
+                $photo_urls[] = generate_image_url($photo);
             }
         }
-        return $photoSet;
+        return $photo_urls;
     }
 
     public function children()

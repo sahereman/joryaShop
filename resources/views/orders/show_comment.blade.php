@@ -90,9 +90,9 @@
                                 <p class="eva_text">{{ $comments[$order_item['id']][0]->content }}</p>
                                 <div class="tm-m-photos">
                                     <ul class="evaluation_img">
-                                        @foreach($comments[$order_item['id']][0]->photo_set as $photo)
-                                            <li class="eva_img" data-src="{{ $photo }}">
-                                                <img src="{{ $photo }}">
+                                        @foreach($comments[$order_item['id']][0]->photo_urls as $photo_url)
+                                            <li class="eva_img" data-src="{{ $photo_url }}">
+                                                <img src="{{ $photo_url }}">
                                                 <b class="tm-photos-arrow"></b>
                                             </li>
                                         @endforeach

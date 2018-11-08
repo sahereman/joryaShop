@@ -15,39 +15,39 @@
                     <span>></span>
                     <a href="{{ route('product_categories.index', ['category' => $category->id]) }}">{{ $category->name_zh }}</a>
                     <span>></span>
-                    <a href="{{ route('products.show', ['product' => $product->id]) }}">{{ $product->name_zh }}</a>
+                    <a href="#">{{ $product->name_zh }}</a>
                 </p>
             </div>
             <!--详情上半部分-->
             <div class="commodity_parameters">
                 <!--商品放大镜效果-->
                 <div class="magnifierContainer">
-                    @if($product->photo_set)
+                    @if($product->photo_urls)
                         <div class="imgLeft">
                             <!-- 中号图片 -->
                             <div class="imgMedium" id="imgMedium">
                                 <!-- 放大镜 -->
                                 <div class="magnifier" id="magnifier">
-                                    <img src="{{ $product->photo_set[0] }}">
+                                    <img src="{{ $product->photo_urls[0] }}">
                                 </div>
                                 <!-- 图片 -->
                                 <div class="mediumContainer" id="mediumContainer">
-                                    <img src="{{ $product->photo_set[0] }}">
+                                    <img src="{{ $product->photo_urls[0] }}">
                                 </div>
                                 <div id="zhezhao"></div>
                             </div>
                             <!-- 缩略图 -->
                             <ul class="img_x" id="img_x">
-                                @foreach($product->photo_set as $photo)
-                                    <li><img code="{{ $photo }}"
-                                             src="{{ $photo }}"></li>
+                                @foreach($product->photo_urls as $photo_url)
+                                    <li><img code="{{ $photo_url }}"
+                                             src="{{ $photo_url }}"></li>
                                 @endforeach
                             </ul>
                         </div>
                         <div class="imgRight">
                             <!-- 大图 -->
                             <div class="img_u" id="img_u">
-                                <img src="{{ $product->photo_set[0] }}">
+                                <img src="{{ $product->photo_urls[0] }}">
                             </div>
                         </div>
                     @endif
@@ -112,7 +112,7 @@
                     <ul>
                         @foreach($guesses as $guess)
                             <li>
-                                <a>
+                                <a href="{{ route('products.show', ['product' => $guess->id]) }}">
                                     <div>
                                         <img src="{{ $guess->thumb_url }}">
                                     </div>
@@ -137,7 +137,7 @@
                         <ul class="pro-lists">
                             @foreach($hot_sales as $hot_sale)
                                 <li>
-                                    <a>
+                                    <a href="{{ route('products.show', ['product' => $hot_sale->id]) }}">
                                         <div>
                                             <img src="{{ $hot_sale->thumb_url }}">
                                         </div>
@@ -153,7 +153,7 @@
                         <ul class="pro-lists">
                             @foreach($best_sellers as $best_seller)
                                 <li>
-                                    <a>
+                                    <a href="{{ route('products.show', ['product' => $best_seller->id]) }}">
                                         <div>
                                             <img src="{{ $best_seller->thumb_url }}">
                                         </div>
