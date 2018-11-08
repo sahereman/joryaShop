@@ -11,30 +11,37 @@ let mix = require('laravel-mix');
  |
  */
 
+// PC 站
 mix.js('resources/assets/js/app.js', 'public/js')
-   .sass('resources/assets/sass/app.scss', 'public/css');
-   
-   
+    .sass('resources/assets/sass/app.scss', 'public/css');
+
+
 mix.copyDirectory('resources/assets/img', 'public/img');
 mix.copyDirectory('resources/assets/js/swiper', 'public/js/swiper');
 mix.copyDirectory('resources/assets/js/jquery.validate.min.js', 'public/js/jquery.validate.min.js');
 mix.copyDirectory('resources/assets/js/layer', 'public/js/layer');
 
-
 //mix.copyDirectory('resources/assets/js/main.js', 'public/js/');
 
+// Mobile 站
+mix.js('resources/assets/static_m/js/app.js', 'public/static_m/js')
+    .sass('resources/assets/static_m/sass/app.scss', 'public/static_m/css');
 
-mix.browserSync({
-    proxy: 'joryashop.test',
-    open: false,
-    scrollProportionally: false,
-    watchTask: true,
-    notify: false,
-    files: [
-            'public/css/app.css', 
-		    'public/js/*.js', 
-		    'resources/views/**/*.php'
-		   ]
-//  ui: false,
-});
+mix.copyDirectory('resources/assets/static_m/img', 'public/static_m/img');
+
+
+// dev
+// mix.browserSync({
+//     proxy: 'joryashop.test',
+//     open: false,
+//     scrollProportionally: false,
+//     watchTask: true,
+//     notify: false,
+//     files: [
+//         'public/css/app.css',
+//         'public/js/*.js',
+//         'resources/views/**/*.php'
+//     ]
+// //  ui: false,
+// });
 
