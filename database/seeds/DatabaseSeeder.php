@@ -40,6 +40,9 @@ class DatabaseSeeder extends Seeder
         $this->call(OrdersSeeder::class);
         $this->call(OrderItemsSeeder::class);
 
+        //菜单
+        $this->call(MenusSeeder::class);
+
         //评论
 //        $this->call(ProductCommentsSeeder::class);
 

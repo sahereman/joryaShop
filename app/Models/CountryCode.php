@@ -16,6 +16,7 @@ class CountryCode extends Model
         // 'country_name_zh',
         'country_iso',
         'country_code',
+        'sort',
     ];
 
     /**
