@@ -8,6 +8,7 @@ require('./bootstrap');
 //require('./components/UserAddressesCreateAndEdit');
 require('./components/jquery.lazyload/jquery.lazyload.min');
 require('./jquery.validate.min');
+//require('./autocompleter/jquery.autocompleter');
 
 //const app = new Vue({
 //  el: '#app'
@@ -243,11 +244,17 @@ $(function(){
         	url:"/register/send_sms_code",
         	data:data,
         	success:function(data){              
-				settime();        
+				settime();      
+				console.log(data)
 			},        
 			error:function(err){          
 				console.log(err);        
-			}      
+				if(err.status==422){
+				    layer.msg($.parseJSON(err.responseText).errors.phone[0]);
+				}
+			},
+			complete:function(data){
+			}
         });
 	});
 	//登录获取验证码
@@ -271,7 +278,10 @@ $(function(){
 				settime();        
 			},        
 			error:function(err){          
-				console.log(err);        
+				console.log(err);   
+				if(err.status==422){
+				    layer.msg($.parseJSON(err.responseText).errors.phone[0]);
+				}
 			}      
         });
 	});    
@@ -429,11 +439,11 @@ $(function(){
 	        }
 		}
 	})
-	//邮箱登录
+	//手机密码登录
 	$(".mailbox_btn").on("click",function(){
 		if ($("#mailbox_login").valid()) {
 			if($("#login_code").val()!=""){
-	            $('#register-form').submit();
+	            $('#mailbox_login').submit();
 	        }else {
 	        	$(".mailbox_error").css("display","block");
 	        }
@@ -445,5 +455,44 @@ $(function(){
     	$(this).parents(".register_phone").find("input").addClass("active");
     })
 })
-
-
+//顶部模糊搜索
+$(function(){
+	$(".selectInput").on('change', function(){
+		$.ajax({
+			type:"get",
+			url:"products/search_hint?",
+			data: {
+				"query": $(".selectInput").val()
+			},
+			success:function(json){
+				var html = "";
+				$.each(json.data.products, function(i,n) {
+					html+="<li>"+
+					          "<a code='" + n.id + "' >" + n.name_zh + "</a>"+
+                          "</li>"
+				});
+				$(".selectList ul").html("");
+				$(".selectList ul").append(html);
+				$(".selectList").removeClass("dis_n");
+			},
+			error:function(e){
+				console.log(e)
+				if(e.status==422){
+				}
+			}
+		});
+	})
+	//点击页面部分关闭搜索结果弹窗
+	$(document).on("click",function(){
+		$(".selectList").addClass("dis_n");
+		$(".selectList ul").html("");
+	})
+	//点击搜索结果赋值
+	$(".selectList ul").on("click","li",function(){
+		window.location.href = $(".selectList").attr("data-url")+"?query="+$(this).find("a").html();
+	})
+	//点击查找按钮
+	$(".search_btn").on("click",function(){
+		window.location.href = $(".selectList").attr("data-url")+"?query="+$(".selectInput_header").val();
+	})
+})

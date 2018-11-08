@@ -1,7 +1,6 @@
 @extends('layouts.app')
 @section('title', '购物车')
 @section('content')
-    @include('common.error')
     <div class="shopping_cart">
         <div class="m-wrapper">
             <div class="carts">
