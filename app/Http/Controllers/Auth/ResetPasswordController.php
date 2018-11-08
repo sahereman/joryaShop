@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
@@ -164,6 +165,8 @@ class ResetPasswordController extends Controller
             Cache::forget('reset_sms_code-' . $country_code . '-' . $phone_number);
         }*/
 
+        $request->session()->setExists('sms_code_verified');
+
         return redirect()->route('reset.override')->withInput(
             $request->only('country_code', 'phone', 'code')
         );
@@ -172,7 +175,11 @@ class ResetPasswordController extends Controller
     // GET 重复输入新密码页面
     public function override(Request $request)
     {
-        return view('auth.passwords.reset');
+        if ($request->session()->exists('sms_code_verified')) {
+            return view('auth.passwords.reset');
+        }
+
+        return redirect()->route('password.request');
     }
 
     // POST 重置密码为新密码
