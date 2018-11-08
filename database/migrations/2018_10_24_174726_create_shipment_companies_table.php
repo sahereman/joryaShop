@@ -17,6 +17,7 @@ class CreateShipmentCompaniesTable extends Migration
             $table->increments('id');
             $table->string('code')->nullable(false)->comment('编码');
             $table->string('name')->nullable(false)->comment('公司名称');
+            $table->unsignedSmallInteger('sort')->nullable(false)->default(0)->comment('排序值');
         });
     }
 

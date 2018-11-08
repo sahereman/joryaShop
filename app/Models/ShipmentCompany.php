@@ -13,6 +13,7 @@ class ShipmentCompany extends Model
     protected $fillable = [
         'code',
         'name',
+        'sort',
     ];
 
     /**
