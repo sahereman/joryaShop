@@ -3,10 +3,12 @@
 namespace App\Providers;
 
 use App\Models\Config;
+use App\Models\CountryCode;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
 use App\Observers\ConfigObserver;
+use App\Observers\CountryCodeObserver;
 use App\Observers\OrderObserver;
 use App\Observers\OrderItemObserver;
 use App\Observers\ProductsObserver;
@@ -22,6 +24,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Config::observe(ConfigObserver::class);
+        CountryCode::observe(CountryCodeObserver::class);
 
         Product::observe(ProductsObserver::class);
 
