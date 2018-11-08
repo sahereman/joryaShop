@@ -19,7 +19,6 @@ class CreateExchangeRatesTable extends Migration
             $table->string('name')->nullable()->comment('仅用于后台管理展示');
             $table->string('currency')->nullable(false)->comment('currency-type[币种]:CNY|USD|etc')->unique();
             $table->unsignedDecimal('rate')->nullable(false)->comment('exchange-rate-to-CNY-1.00-￥');
-            $table->unsignedSmallInteger('sort')->nullable(false)->default(0)->comment('排序值');
         });
     }
 
