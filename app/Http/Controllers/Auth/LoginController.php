@@ -14,6 +14,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
@@ -57,7 +59,12 @@ class LoginController extends Controller
 
     public function redirectTo()
     {
-        return redirect()->back();
+
+        return URL::previous();
+        // return url()->previous();
+        // return Redirect::back()->getTargetUrl();
+        // return redirect()->back()->getTargetUrl();
+        // return $request->headers->get('referer');
     }
 
 
@@ -251,8 +258,26 @@ class LoginController extends Controller
             } else {
                 Auth::login($user);
             }
+
+            // return $this->sendLoginResponse($request);
+
+            return response()->json([
+                'code' => 200,
+                'message' => 'success',
+                'data' => [
+                    'return_url' => URL::previous(),
+                    // 'return_url' => url()->previous(),
+                    // 'return_url' => Redirect::back()->getTargetUrl(),
+                    // 'return_url' => redirect()->back()->getTargetUrl(),
+                    // 'return_url' => $request->headers->get('referer'),
+                ],
+            ]);
         }
-        return $this->sendLoginResponse($request);
+
+        return response()->json([
+            'code' => 422,
+            'message' => '验证码不正确',
+        ]);
     }
 
     /**
@@ -285,17 +310,35 @@ class LoginController extends Controller
                 } else {
                     Auth::login($user);
                 }
-                return $this->sendLoginResponse($request);
+                // return $this->sendLoginResponse($request);
+
+                return response()->json([
+                    'code' => 200,
+                    'message' => 'success',
+                    'data' => [
+                        'return_url' => URL::previous(),
+                        // 'return_url' => url()->previous(),
+                        // 'return_url' => Redirect::back()->getTargetUrl(),
+                        // 'return_url' => redirect()->back()->getTargetUrl(),
+                        // 'return_url' => $request->headers->get('referer'),
+                    ],
+                ]);
+
                 break;
             }
         }
 
+        return response()->json([
+            'code' => 422,
+            'message' => '用户名或密码不正确',
+        ]);
+
         // If the login attempt was unsuccessful we will increment the number of attempts
         // to login and redirect the user back to the login form. Of course, when this
         // user surpasses their maximum number of attempts they will get locked out.
-        $this->incrementLoginAttempts($request);
+        // $this->incrementLoginAttempts($request);
 
-        return $this->sendFailedLoginResponse($request);
+        // return $this->sendFailedLoginResponse($request);
     }
 
 }

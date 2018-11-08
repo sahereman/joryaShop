@@ -14,6 +14,7 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Validator;
 
 class RegisterController extends Controller
@@ -180,7 +181,19 @@ class RegisterController extends Controller
 
         $this->guard()->login($user);
 
-        return $this->registered($request, $user)
-            ?: redirect($this->redirectPath());
+        /*return $this->registered($request, $user)
+            ?: redirect($this->redirectPath());*/
+
+        return response()->json([
+            'code' => 200,
+            'message' => 'success',
+            'data' => [
+                'return_url' => URL::previous(),
+                // 'return_url' => url()->previous(),
+                // 'return_url' => Redirect::back()->getTargetUrl(),
+                // 'return_url' => redirect()->back()->getTargetUrl(),
+                // 'return_url' => $request->headers->get('referer'),
+            ],
+        ]);
     }
 }

@@ -18,7 +18,7 @@ class ProductsController extends Controller
     public function search(Request $request)
     {
         $this->validate($request, [
-            'query' => 'bail|required|string|min:2',
+            'query' => 'bail|required|string|min:1',
             'sort' => [
                 'bail',
                 'sometimes',
@@ -46,7 +46,7 @@ class ProductsController extends Controller
             // on_sale: 是否在售 + index: 综合指数
             $products = Product::where('on_sale', 1)
                 ->where('name_en', 'like', '%' . $query . '%')
-                ->orWhere('name_en', 'like', '%' . $query . '%')
+                ->orWhere('name_zh', 'like', '%' . $query . '%')
                 ->orWhere('description_en', 'like', '%' . $query . '%')
                 ->orWhere('description_zh', 'like', '%' . $query . '%')
                 ->orWhere('content_en', 'like', '%' . $query . '%')
@@ -120,7 +120,7 @@ class ProductsController extends Controller
         // on_sale: 是否在售 + index: 综合指数
         $products = Product::where('on_sale', 1)
             ->where('name_en', 'like', '%' . $query . '%')
-            ->orWhere('name_en', 'like', '%' . $query . '%')
+            ->orWhere('name_zh', 'like', '%' . $query . '%')
             ->orderByDesc('index')
             ->limit(10)
             ->get();
