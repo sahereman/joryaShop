@@ -19,7 +19,7 @@ $factory->define(App\Models\Product::class, function (Faker $faker) {
         'content_en' => $faker->text(100).'-en',
         'content_zh' => $faker->text(100).'-zh',
         'thumb' => $faker->imageUrl(),
-        'photos' => json_encode(array($faker->imageUrl(), $faker->imageUrl(), $faker->imageUrl())),
+        'photos' => array($faker->imageUrl(), $faker->imageUrl(), $faker->imageUrl()),
         'shipping_fee' => $faker->randomFloat(2, 0, 20),
         'stock' => $faker->randomNumber(5, true),
         'price' => $faker->randomFloat(2, 10, 20),

@@ -50,6 +50,7 @@ class Product extends Model
      */
     protected $appends = [
         'thumb_url',
+        'photo_set',
     ];
 
     public function getThumbUrlAttribute()
@@ -58,7 +59,22 @@ class Product extends Model
         if (Str::startsWith($this->attributes['thumb'], ['http://', 'https://'])) {
             return $this->attributes['thumb'];
         }
-        return Storage::disk($this->attributes['disk'])->url($this->attributes['thumb']);
+        return Storage::disk('public')->url($this->attributes['thumb']);
+    }
+
+    public function getPhotoSetAttribute()
+    {
+        $photoSet = [];
+        $photos = json_decode($this->attributes['photos'], true);
+        if (count($photos) > 0) {
+            foreach ($photos as $photo) {
+                if (Str::startsWith($photo, ['http://', 'https://'])) {
+                    $photoSet[] = $photo;
+                }
+                $photoSet[] = Storage::disk('public')->url($photo);
+            }
+        }
+        return $photoSet;
     }
 
     public function category()

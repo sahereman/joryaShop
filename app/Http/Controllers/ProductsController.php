@@ -142,14 +142,21 @@ class ProductsController extends Controller
         if ($product->on_sale == 0) {
             throw new InvalidRequestException('该商品尚未上架');
         }
-        $category = $product->category()->with('parent')->get();
+
+        $category = $product->category()->with('parent')->first();
         $skus = $product->skus;
-        $comments = $product->comments;
+        $comment_count = $product->comments->count();
+        $guesses = Product::where(['is_index' => 1, 'on_sale' => 1])->orderByDesc('index')->limit(8)->get();
+        $hot_sales = Product::where(['is_index' => 1, 'on_sale' => 1])->orderByDesc('heat')->limit(8)->get();
+        $best_sellers = Product::where(['is_index' => 1, 'on_sale' => 1])->orderByDesc('sales')->limit(8)->get();
         return view('products.show', [
             'category' => $category,
             'product' => $product,
             'skus' => $skus,
-            'comments' => $comments,
+            'comment_count' => $comment_count,
+            'guesses' => $guesses,
+            'hot_sales' => $hot_sales,
+            'best_sellers' => $best_sellers,
         ]);
     }
 
