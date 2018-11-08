@@ -322,7 +322,7 @@ a {
             }
             .dropdown-menu {
                 width: 170px;
-                height: 345px;
+                min-height: 345px;
                 top: 183%;
                 border: 0;
                 border-radius: inherit;

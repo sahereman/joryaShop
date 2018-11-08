@@ -228,7 +228,7 @@
                     </ul>
                 </div>
                 <form id="login-form" class="active" action="{{ route('login.post') }}" method="POST">
-                    {{ csrf_field() }}
+                    <p id="commn_login_token_code" class="dis_n">{{ csrf_field() }}</p>
                     <input type="text" name="username" placeholder="请输入用户名或手机号" required>
                 	@if ($errors->has('username'))
 	                    <p class="login_error error_content">

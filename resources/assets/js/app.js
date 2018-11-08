@@ -238,14 +238,12 @@ $(function(){
 //      	password: $("#register_psw").val(),
             _toke: $("#register_token_code").find("input").val()
         }
-        console.log(data)
         $.ajax({
         	type:"post",
         	url:"/register/send_sms_code",
         	data:data,
         	success:function(data){              
 				settime();      
-				console.log(data)
 			},        
 			error:function(err){          
 				console.log(err);        
@@ -426,14 +424,66 @@ $(function(){
 	//普通登录
 	$(".commo_btn").on("click",function(){
 		if ($("#login-form").valid()) {
-            $('#login-form').submit();
+			var data = {
+				username: $("#login-form").find("input[name='username']").val(),
+				password: $("#login-form").find("input[name='password']").val(),
+				_toke: $("#commn_login_token_code").find("input").val(),
+			}
+//          $('#login-form').submit();
+            $.ajax({
+            	type:"post",
+            	url:"login",
+            	data: data,
+            	success:function(json){
+            		if(json.code==200){
+            		    window.location.reload();	
+            		}else {
+            			layer.alert(json.message);
+            		}
+            	},
+            	error: function(e){
+            		console.log(e)
+            	},
+            	complete:function(){
+            		
+            	}
+            });
         }
 	})
 	//注册
 	$("#register_btn").on("click",function(){
 		if ($("#register-form").valid()) {
 			if($("#register_code").val()!=""&&$("#agreement").prop("checked")!=false){
-	            $('#register-form').submit();
+//	            $('#register-form').submit();
+	            var data = {
+					name: $("#register-form").find("input[name='name']").val(),
+					password: $("#register-form").find("input[name='password']").val(),
+					phone: $("#register_email").val(),
+		        	country_code: $("#register_countryCode").val(),
+		            _toke: $("#register_token_code").find("input").val(),
+		            code: $("#register_code").val()
+				}
+	            $.ajax({
+	            	type:"post",
+	            	url:"register",
+	            	data: data,
+	            	success:function(json){
+	            		if(json.code==200){
+	            		    window.location.reload();	
+	            		}else {
+	            			layer.alert(json.message);
+	            		}
+	            	},
+	            	error: function(e){
+	            		console.log(e);
+	            		if(err.status==422){
+						    layer.msg($.parseJSON(err.responseText).errors.code[0]);
+						}
+	            	},
+	            	complete:function(){
+	            		
+	            	}
+	            });
 	        }else {
 	        	$(".register_error").css("display","block");
 	        }
@@ -443,7 +493,35 @@ $(function(){
 	$(".mailbox_btn").on("click",function(){
 		if ($("#mailbox_login").valid()) {
 			if($("#login_code").val()!=""){
-	            $('#mailbox_login').submit();
+//	            $('#mailbox_login').submit();
+	            var data = {
+					phone: $("#login_email").val(),
+		        	country_code: $("#login_countryCode").val(),
+		            _toke: $("#login_token_code").find("input").val(),
+		            code: $("#login_code").val()
+				}
+	            $.ajax({
+	            	type:"post",
+	            	url:"login/verify_sms_code",
+	            	data: data,
+	            	success:function(json){
+	            		if(json.code==200){
+	            		    window.location.reload();	
+	            		}else {
+	            			layer.alert(json.message);
+	            		}
+	            	},
+	            	error: function(e){
+	            		console.log(e);
+	            		if(err.status==422){
+						    layer.msg($.parseJSON(err.responseText).errors.code[0]);
+						}
+	            	},
+	            	complete:function(){
+	            		
+	            	}
+	            });
+	            
 	        }else {
 	        	$(".mailbox_error").css("display","block");
 	        }
