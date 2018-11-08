@@ -103,8 +103,6 @@ class OrdersController extends Controller
             $shipment_company = ShipmentCompany::where(['code' => $order->shipment_company])->first();
             if ($shipment_company instanceof ShipmentCompany) {
                 $shipment_company_name = $shipment_company->name;
-                // 快递100 实时查询API
-                // $order_shipment_traces = kuaidi100_shipment_query($order->shipment_company, $order->shipment_sn);
                 // 快递鸟(kdniao.com) 即时查询API
                 $order_shipment_traces = kdniao_shipment_query($order->shipment_company, $order->shipment_sn);
             }
@@ -638,8 +636,6 @@ class OrdersController extends Controller
         // 订单物流状态
         $order_shipment_traces = [];
         if ($order->shipment_company != null && $order->shipment_sn != null) {
-            // 快递100 实时查询API
-            // $order_shipment_traces = kuaidi100_shipment_query($order->shipment_company, $order->shipment_sn);
             // 快递鸟(kdniao.com) 即时查询API
             $order_shipment_traces = kdniao_shipment_query($order->shipment_company, $order->shipment_sn);
         }
