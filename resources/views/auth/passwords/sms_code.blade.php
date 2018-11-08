@@ -38,7 +38,7 @@
                                     <img src="{{ asset('img/sanjiao.png') }}">
                                     <select class="choose_tel_area" name="country_code">
                                         @foreach($country_codes as $country_code)
-				                		    <option value="{{ $country_code->country_code }}">{{ $country_code->country_iso }}</option>
+				                		    <option value="{{ $country_code->country_code }}">{{ $country_code->country_name }}</option>
 				                		@endforeach
                                     </select>
                                     <span class="areaCode_choosed"></span>

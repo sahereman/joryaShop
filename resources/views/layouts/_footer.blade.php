@@ -167,7 +167,7 @@
 	                <div class="register_phone">
 	                	<select class="choose_tel_area" name="country_code" id="register_countryCode">
 	                		@foreach($country_codes as $country_code)
-	                		    <option value="{{ $country_code->country_code }}">{{ $country_code->country_iso }}</option>
+	                		    <option value="{{ $country_code->country_code }}">{{ $country_code->country_name }}</option>
 	                		@endforeach
 		                </select>
 		                <div class="click_areaCode">
@@ -249,7 +249,7 @@
                     <div class="register_phone">
 	                	<select class="choose_tel_area" name="country_code" id="login_countryCode">
 		                	@foreach($country_codes as $country_code)
-	                		    <option value="{{ $country_code->country_code }}">{{ $country_code->country_iso }}</option>
+	                		    <option value="{{ $country_code->country_code }}">{{ $country_code->country_name }}</option>
 	                		@endforeach
 		                </select>
 		                <div class="click_areaCode">
