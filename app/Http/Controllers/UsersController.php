@@ -101,23 +101,23 @@ class UsersController extends Controller
     }
 
     // GET 绑定|修改手机页面
-    public function updatePhone(User $user)
+    public function phone(User $user)
     {
         $this->authorize('update', $user);
 
         $country_codes = CountryCode::all();
-        return view('users.update_phone', [
+        return view('users.phone', [
             'user' => $user,
             'country_codes' => $country_codes,
         ]);
     }
 
     // GET 绑定|修改Email页面
-    public function updateEmail(User $user)
+    public function email(User $user)
     {
         $this->authorize('update', $user);
 
-        return view('users.update_email', [
+        return view('users.email', [
             'user' => $user,
         ]);
     }

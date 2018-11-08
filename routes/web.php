@@ -85,10 +85,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('users', 'UsersController@home')->name('users.home'); // 主页
     Route::get('users/{user}/edit', 'UsersController@edit')->name('users.edit'); // 编辑个人信息页面
     Route::get('users/{user}/password', 'UsersController@password')->name('users.password'); // 修改密码页面
-    Route::put('users/{user}/update_password', 'UsersController@updatePassword')->name('users.update_password'); // 修改密码页面
-    // Route::get('users/{user}/update_phone', 'UsersController@updatePhone')->name('users.update_phone'); // 绑定|修改手机页面
+    Route::put('users/{user}/update_password', 'UsersController@updatePassword')->name('users.update_password'); // 修改密码提交
+    // Route::get('users/{user}/phone', 'UsersController@phone')->name('users.phone'); // 绑定|修改手机页面
     // Route::get('users/{user}/binding_phone', 'UsersController@bindingPhone')->name('users.binding_phone'); // 绑定手机页面
-    Route::get('users/{user}/update_email', 'UsersController@updateEmail')->name('users.update_email'); // 绑定|修改Email页面
+    Route::get('users/{user}/email', 'UsersController@email')->name('users.email'); // 绑定|修改Email页面
     // Route::get('users/{user}/binding_email', 'UsersController@bindingEmail')->name('users.binding_email'); // 绑定Email页面
     Route::put('users/{user}', 'UsersController@update')->name('users.update'); // 编辑个人信息提交 & 修改密码提交 & 绑定手机提交
 
