@@ -107,6 +107,8 @@ class ResetPasswordController extends Controller
     // POST 校验国家|地区码+手机号码，并跳转下一步
     public function sendSmsCode(SmsCodeResetRequest $request)
     {
+        $request->session()->setExists('phone_number_verified');
+
         return redirect()->route('reset.input_sms_code')->withInput(
             $request->only('country_code', 'phone')
         );
@@ -115,7 +117,11 @@ class ResetPasswordController extends Controller
     // GET 输入短信验证码页面
     public function inputSmsCode(Request $request)
     {
-        return view('auth.passwords.input_sms_code');
+        if($request->session()->exists('phone_number_verified')){
+            return view('auth.passwords.input_sms_code');
+        }
+
+        return redirect()->route('password.request');
     }
 
     // POST 发送短信验证码 [for Ajax request]
@@ -140,6 +146,9 @@ class ResetPasswordController extends Controller
         $response = easy_sms_send($data, $phone_number, $country_code);
 
         if ($response['aliyun']['status'] == 'success') {
+
+            $request->session()->setExists('sms_code_sent');
+
             return response()->json([
                 'code' => 200,
                 'message' => 'success',
@@ -175,7 +184,7 @@ class ResetPasswordController extends Controller
     // GET 重复输入新密码页面
     public function override(Request $request)
     {
-        if ($request->session()->exists('sms_code_verified')) {
+        if ($request->session()->exists('sms_code_sent') && $request->session()->exists('sms_code_verified')) {
             return view('auth.passwords.reset');
         }
 
