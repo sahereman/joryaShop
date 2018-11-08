@@ -21,7 +21,7 @@ class CreateProductSkusTable extends Migration
 
             $table->string('name_en')->nullable(false)->comment('英文名称');
             $table->string('name_zh')->nullable(false)->comment('中文名称');
-            $table->string('photo')->nullable()->comment('单一图片');
+            $table->string('photo')->nullable()->comment('单一图片'); // 备用字段
 
             $table->unsignedDecimal('price', 8, 2)->nullable(false)->comment('价格');
             $table->unsignedInteger('stock')->nullable(false)->default(0)->comment('库存');

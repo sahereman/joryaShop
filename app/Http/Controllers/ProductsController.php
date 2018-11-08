@@ -87,6 +87,8 @@ class ProductsController extends Controller
                         $products = $products->orderByDesc('index');
                         break;
                 }
+            } else {
+                $products = $products->orderByDesc('index');
             }
             $products = $products->simplePaginate(10);
 

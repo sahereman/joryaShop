@@ -72,7 +72,7 @@ class RegisterController extends Controller
                 'required',
                 'string',
                 'regex:/^\d+$/',
-                function ($attribute, $value, $fail) {
+                function ($attribute, $value, $fail) use ($data) {
                     if (isset($data['country_code'])) {
                         if (User::where([
                             'country_code' => $data['country_code'],
