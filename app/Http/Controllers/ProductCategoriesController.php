@@ -34,7 +34,7 @@ class ProductCategoriesController extends Controller
                     'sometimes',
                     'nullable',
                     'string',
-                    Rule::in(['index', 'heat', 'latest', 'price_asc', 'price_desc'])
+                    Rule::in(['index', 'heat', 'latest', 'sales', 'price_asc', 'price_desc'])
                 ],
                 'min_price' => 'bail|sometimes|nullable|numeric',
                 'max_price' => 'bail|sometimes|nullable|numeric',
@@ -82,6 +82,9 @@ class ProductCategoriesController extends Controller
                             break;
                         case 'latest':
                             $products = $products->orderByDesc('created_at');
+                            break;
+                        case 'sales':
+                            $products = $products->orderByDesc('sales');
                             break;
                         case 'price_asc':
                             $products = $products->orderBy('price');
