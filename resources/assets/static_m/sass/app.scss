@@ -11,6 +11,11 @@
 // 通用样式
 html{
     font-size: 16px;
+    font-family: "微软雅黑";
 }
+ a:link{text-decoration:none; }
+ a:visited{text-decoration:none; }
+ a:active{text-decoration:none; }
+ a:hover{text-decoration:none; }
 @import "footer";
 @import "index";
