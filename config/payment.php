@@ -7,10 +7,10 @@ return [
         'app_id' => env('ALI_APP_ID', 'app_id'),
 
         // 支付宝异步通知地址
-        // 'notify_url' => 'joryashop.test/payments/alipay/notify',
+        // 'notify_url' => route('payments.alipay.notify'),
 
         // 支付成功后同步通知地址
-        // 'return_url' => 'joryashop.test/payments/alipay/return',
+        // 'return_url' => route('payments.return'),
 
         // 阿里公共密钥，验证签名时使用
         'ali_public_key' => env('ALI_PUBLIC_KEY', 'ali_public_key'),

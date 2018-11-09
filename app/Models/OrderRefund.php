@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Ramsey\Uuid\Uuid;
 
 class OrderRefund extends Model
 {
@@ -78,6 +79,36 @@ class OrderRefund extends Model
         'refund_photo_urls',
         'shipment_photo_urls',
     ];
+
+    // TODO ...
+    protected static function boot()
+    {
+        parent::boot();
+        // 监听模型创建事件，在写入数据库之前触发
+        static::creating(function ($model) {
+            // 如果模型的 order_sn 字段为空
+            if (!$model->order_sn) {
+                // 调用 generateOrderSn 生成订单流水号
+                $model->order_sn = static::generateRefundSn();
+                // 如果生成失败，则终止创建订单
+                if (!$model->order_sn) {
+                    return false;
+                }
+            }
+        });
+    }
+
+    // TODO ...
+    public static function generateRefundSn()
+    {
+        do {
+            // Uuid类可以用来生成大概率不重复的字符串
+            $refund_sn = Uuid::uuid4()->getHex();
+            // 为了避免重复我们在生成之后在数据库中查询看看是否已经存在相同的退款订单号
+        } while (self::query()->where('refund_sn', $refund_sn)->exists());
+
+        return $refund_sn;
+    }
 
     public function getRefundPhotoUrlsAttribute()
     {

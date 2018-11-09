@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Exceptions\InvalidRequestException;
 use App\Models\Order;
+use App\Models\OrderRefund;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Yansongda\Pay\Pay;
@@ -22,7 +23,7 @@ class PaymentsController extends Controller
     public function alipay(Request $request, Order $order)
     {
         // 判断订单是否属于当前用户
-        if ($request->user()->id == $order->user_id) {
+        if ($request->user()->id !== $order->user_id) {
             throw new InvalidRequestException('您没有权限操作此订单');
         }
         // 判断当前订单状态是否支持支付
@@ -124,5 +125,25 @@ class PaymentsController extends Controller
     public function paypalNotify()
     {
         return view('payments.paypal_notify');
+    }
+
+    public function alipayRefund(Request $request, Order $order)
+    {
+        // 调用支付宝支付实例的 refund 方法
+        $response = Pay::alipay($this->getAlipayConfig())->refund([
+            'out_trade_no' => $order->order_sn, // 之前的订单流水号
+            'refund_amount' => bcadd($order->total_amount, $order->total_shipping_fee, 2), // 退款金额，单位元
+        ]);
+
+        // 根据支付宝的文档，如果返回值里有 sub_code 字段说明退款失败
+        if ($response->sub_code) {
+            Log::error(json_encode($response));
+        }
+
+        // 将订单的退款状态标记为退款成功并保存退款订单号
+        $order->refund->update([
+            'refunded_at' => now(), // 退款时间
+            'status' => OrderRefund::ORDER_REFUND_STATUS_REFUNDED,
+        ]);
     }
 }

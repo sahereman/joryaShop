@@ -200,3 +200,6 @@ Route::get('posters/{poster}', 'PostersController@show')->name('posters.show');
 Route::post('payments/alipay/notify', 'PaymentsController@alipayNotify')->name('payments.alipay.notify'); // 支付宝支付成功通知 [notify_url]
 Route::post('payments/wechat/notify', 'PaymentsController@wechatNotify')->name('payments.wechat.notify'); // 微信支付成功通知 [notify_url]
 Route::post('payments/paypal/notify', 'PaymentsController@paypalNotify')->name('payments.paypal.notify'); // PayPal支付成功通知 [notify_url]
+
+// for alipay test:
+Route::get('payments/alipay/refund', 'PaymentsController@alipayRefund')->name('payments.alipay.refund'); // 支付宝退款
