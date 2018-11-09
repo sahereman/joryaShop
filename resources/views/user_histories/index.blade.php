@@ -51,7 +51,7 @@
                                             <span class="new_price">¥ {{ $history->product->price }}</span>
                                             <span class="old_price">¥ {{ bcadd($history->product->price, random_int(300, 500), 2) }}</span>
                                         </p>
-                                        <a class="add_to_cart" href="">加入购物车</a>
+                                        <a class="add_to_cart" href="{{ route('products.show', $history->id) }}">查看详情</a>
                                         <a class="delete_mark" code="{{ route('user_histories.destroy', $history->id) }}" title="点击删除该商品"></a>
                                     </li>
                                 @endforeach

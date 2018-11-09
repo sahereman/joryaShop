@@ -8,7 +8,7 @@ require('./bootstrap');
 //require('./components/UserAddressesCreateAndEdit');
 require('./components/jquery.lazyload/jquery.lazyload.min');
 require('./jquery.validate.min');
-//require('./autocompleter/jquery.autocompleter');
+//require('./autocompleter/jquery.autocomplete');
 
 //const app = new Vue({
 //  el: '#app'
@@ -231,6 +231,7 @@ $(function(){
 			$(".register_error ").show();
            return false;
         }
+		settime();
         var data = {
         	phone: $("#register_email").val(),
         	country_code: $("#register_countryCode").val(),
@@ -242,9 +243,7 @@ $(function(){
         	type:"post",
         	url:"/register/send_sms_code",
         	data:data,
-        	success:function(data){              
-				settime();      
-			},        
+        	success:function(data){},        
 			error:function(err){          
 				console.log(err);        
 				if(err.status==422){
@@ -263,6 +262,7 @@ $(function(){
 		if(disabled){        
 			return false;      
 		}      
+		settime();
 		var data = {
         	phone: $("#login_email").val(),
         	country_code: $("#login_countryCode").val(),
@@ -272,9 +272,7 @@ $(function(){
         	type:"post",
         	url:"/login/send_sms_code",
         	data:data,
-        	success:function(data){              
-				settime();        
-			},        
+        	success:function(data){},        
 			error:function(err){          
 				console.log(err);   
 				if(err.status==422){
@@ -417,7 +415,7 @@ $(function(){
 	    },
 	    messages: {
 	        phone: {
-	            required: '请输入邮箱'
+	            required: '请输入正确有效的手机号'
 	        },
 	    }
 	});
@@ -513,8 +511,8 @@ $(function(){
 	            	},
 	            	error: function(e){
 	            		console.log(e);
-	            		if(err.status==422){
-						    layer.msg($.parseJSON(err.responseText).errors.code[0]);
+	            		if(e.status==422){
+						    layer.msg($.parseJSON(e.responseText).errors.code[0]);
 						}
 	            	},
 	            	complete:function(){
@@ -535,14 +533,15 @@ $(function(){
 })
 //顶部模糊搜索
 $(function(){
-	$(".selectInput").on('change', function(){
+	$(".selectInput_header").on('change', function(){
 		$.ajax({
 			type:"get",
 			url:"products/search_hint?",
 			data: {
-				"query": $(".selectInput").val()
+				"query": $(".selectInput_header").val()
 			},
 			success:function(json){
+				console.log(json)
 				var html = "";
 				$.each(json.data.products, function(i,n) {
 					html+="<li>"+

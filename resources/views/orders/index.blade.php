@@ -231,7 +231,7 @@
                                         <span class="new_price">¥ {{ $guess->price }}</span>
                                         <span class="old_price">¥ {{ bcadd($guess->price, random_int(300, 500), 2) }}</span>
                                     </p>
-                                    <a class="add_to_cart" href="">加入购物车</a>
+                                    <a class="add_to_cart" href="{{ route('products.show', $guess->id) }}">查看详情</a>
                                 </li>
                             @endforeach
                         </ul>
