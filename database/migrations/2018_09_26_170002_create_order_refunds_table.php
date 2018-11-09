@@ -15,6 +15,8 @@ class CreateOrderRefundsTable extends Migration
     {
         Schema::create('order_refunds', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('refund_sn')->nullable(false)->comment('refund-sn');
+            $table->unique('refund_sn');
 
             $table->unsignedInteger('order_id')->nullable(false)->comment('order-id');
             $table->foreign('order_id')->references('id')->on('orders');

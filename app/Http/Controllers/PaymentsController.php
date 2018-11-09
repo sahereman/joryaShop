@@ -54,6 +54,7 @@ class PaymentsController extends Controller
 
         // 正常来说不太可能出现支付了一笔不存在的订单，这个判断只是加强系统健壮性。
         if (!$order) {
+            Log::error('Alipay notifies with wrong out_trade_no: ' . $data->out_trade_no);
             return 'fail';
         }
 
@@ -67,7 +68,7 @@ class PaymentsController extends Controller
             'status' => Order::ORDER_STATUS_SHIPPING,
             'paid_at' => now(), // 支付时间
             'payment_method' => 'alipay', // 支付方式
-            'payment_no' => $data->trade_no, // 支付宝订单号
+            'payment_sn' => $data->trade_no, // 支付宝订单号
         ]);
 
         return Pay::alipay($this->getAlipayConfig())->success();
@@ -140,10 +141,10 @@ class PaymentsController extends Controller
             Log::error(json_encode($response));
         }
 
-        // 将订单的退款状态标记为退款成功并保存退款订单号
+        // 将退款订单的状态标记为退款成功并保存退款時間
         $order->refund->update([
-            'refunded_at' => now(), // 退款时间
             'status' => OrderRefund::ORDER_REFUND_STATUS_REFUNDED,
+            'refunded_at' => now(), // 退款时间
         ]);
     }
 }
