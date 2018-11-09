@@ -18,6 +18,17 @@ function route_class()
     return str_replace('.', '-', Route::currentRouteName());
 }
 
+function is_wechat_browser()
+{
+    if (strpos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') !== false)
+    {
+        return true;
+    } else
+    {
+        return false;
+    }
+}
+
 /**
  * Generate An Image Url.
  * @param $image string image path or url.
