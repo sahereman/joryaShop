@@ -5,39 +5,44 @@
     <div class="payment_method">
         <div class="m-wrapper">
             <div class="methods">
-            	<p class="trade_number">交易号：<span>20181012112935YXMPD</span></p>
-            	<div class="methods_choose">
-            		<p>支付方式</p>
-            		<ul>
-            			<li>
-            				<label class="cur_p clear">
-            				    <input type="radio" name="payMethod" value="1" id="alipay" checked>
-            					<img src="{{ asset('img/alipay.png') }}">
-            				</label>
-            			</li>
-            			<li>
-            				<label class="cur_p clear">
-            				    <input type="radio" name="payMethod" value="2" id="wxpay">
-            					<img src="{{ asset('img/wxpay.png') }}">
-            				</label>
-            			</li>
-            			<li>
-            				<label class="cur_p clear">
-            				    <input type="radio" name="payMethod" value="3" id="paypal">
-            					<img src="{{ asset('img/paypal.png') }}">
-            				</label>
-            			</li>
-            		</ul>
-            	</div>
-            	<div class="methods_footer clear">
-            		<div class="left">
-            			<p>实付：<span id="needToPay">&yen;888.00</span></p>
-            		</div>
-            		<div class="right">
-            			<button class="pay_btn">付款</button>
-            			<p class="cunt_down paying_time">剩余付款时间：<span>59分58秒</span></p>
-            		</div>
-            	</div>
+                <p class="trade_number">订单序列号：<span>{{ $order->order_sn }}</span></p>
+                <div class="methods_choose">
+                    <p>支付方式</p>
+                    <ul>
+                        <li>
+                            <label class="cur_p clear">
+                                <input type="radio" name="payMethod" value="1" id="alipay" checked>
+                                <img src="{{ asset('img/alipay.png') }}">
+                            </label>
+                        </li>
+                        <li>
+                            <label class="cur_p clear">
+                                <input type="radio" name="payMethod" value="2" id="wxpay">
+                                <img src="{{ asset('img/wxpay.png') }}">
+                            </label>
+                        </li>
+                        <li>
+                            <label class="cur_p clear">
+                                <input type="radio" name="payMethod" value="3" id="paypal">
+                                <img src="{{ asset('img/paypal.png') }}">
+                            </label>
+                        </li>
+                    </ul>
+                </div>
+                <div class="methods_footer clear">
+                    <div class="left">
+                        <p>
+                            实付：
+                            <span id="needToPay">&yen; {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}</span>
+                        </p>
+                    </div>
+                    <div class="right">
+                        <a href="{{ route('payment.alipay', ['order' => $order->id]) }}">
+                            <button class="pay_btn">付款</button>
+                        </a>
+                        <p class="cunt_down paying_time">剩余付款时间：<span>59分58秒</span></p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -45,7 +50,7 @@
 @section('scriptsAfterJs')
     <script type="text/javascript">
         $(function () {
-        	//倒计时方法封装
+            //倒计时方法封装
             function timeCount(remain_id, start_time, ending_time, type) {
                 function _fresh() {
                     var nowDate = new Date(); //当前时间

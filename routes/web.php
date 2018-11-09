@@ -149,14 +149,12 @@ Route::group(['middleware' => 'auth'], function () {
     Route::patch('orders/{order}/revoke_refund', 'OrdersController@revokeRefund')->name('orders.revoke_refund'); // 撤销退单申请 [订单恢复状态:status->shipping | receiving]
 
     /*支付*/
-    Route::post('payments/{order}/alipay', 'PaymentsController@alipay')->name('payments.alipay'); // 支付宝支付
-    Route::post('payments/{order}/wechat', 'PaymentsController@wechat')->name('payments.wechat'); // 微信支付
-    Route::post('payments/{order}/paypal', 'PaymentsController@paypal')->name('payments.paypal'); // PayPal支付
-    Route::get('payments/{order}/success', 'PaymentsController@success')->name('payments.success'); // 支付成功页面 [notify_url]
-    // Route::get('payments/{order}/alipay/notify', 'PaymentsController@alipayNotify')->name('payments.alipay.notify'); // 支付宝支付成功页面 [notify_url]
-    // Route::get('payments/{order}/wechat/notify', 'PaymentsController@wechatNotify')->name('payments.wechat.notify'); // 微信支付成功页面 [notify_url]
-    // Route::get('payments/{order}/paypal/notify', 'PaymentsController@paypalNotify')->name('payments.paypal.notify'); // PayPal支付成功页面 [notify_url]
+    Route::get('payments/{order}/alipay', 'PaymentsController@alipay')->name('payments.alipay'); // 支付宝支付 页面
+    Route::get('payments/{order}/wechat', 'PaymentsController@wechat')->name('payments.wechat'); // 微信支付 页面
+    Route::get('payments/{order}/paypal', 'PaymentsController@paypal')->name('payments.paypal'); // PayPal支付 页面
 
+    /*支付回调 [return_url]*/
+    Route::get('payments/return', 'PaymentsController@paymentReturn')->name('payments.return'); // 支付回调
 
 });
 
@@ -197,11 +195,6 @@ Route::get('pages/{page}', 'PagesController@show')->name('pages.show');
 
 /*通用-广告展示*/
 Route::get('posters/{poster}', 'PostersController@show')->name('posters.show');
-
-/*支付回调 [return_url]*/
-Route::post('payments/{order}/alipay/return', 'PaymentsController@alipayReturn')->name('payments.alipay.return'); // 支付宝支付回调
-Route::post('payments/{order}/wechat/return', 'PaymentsController@wechatReturn')->name('payments.wechat.return'); // 微信支付回调
-Route::post('payments/{order}/paypal/return', 'PaymentsController@paypalReturn')->name('payments.paypal.return'); // PayPal支付回调
 
 /*支付通知 [notify_url]*/
 Route::post('payments/alipay/notify', 'PaymentsController@alipayNotify')->name('payments.alipay.notify'); // 支付宝支付成功通知 [notify_url]
