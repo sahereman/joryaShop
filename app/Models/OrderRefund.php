@@ -75,32 +75,32 @@ class OrderRefund extends Model
      * @var array
      */
     protected $appends = [
-        'photo_set_for_refund',
-        'photo_set_for_shipment',
+        'refund_photo_urls',
+        'shipment_photo_urls',
     ];
 
-    public function getPhotoSetForRefundAttribute()
+    public function getRefundPhotoUrlsAttribute()
     {
-        $photo_set_for_refund = [];
+        $refund_photo_urls = [];
         if ($this->attributes['photos_for_refund'] != '') {
             $photos_for_refund = explode(',', $this->attributes['photos_for_refund']);
             foreach ($photos_for_refund as $photo_for_refund) {
-                $photo_set_for_refund[] = generate_image_url($photo_for_refund);
+                $refund_photo_urls[] = generate_image_url($photo_for_refund);
             }
         }
-        return $photo_set_for_refund;
+        return $refund_photo_urls;
     }
 
-    public function getPhotoSetForShipmentAttribute()
+    public function getShipmentPhotoUrlsAttribute()
     {
-        $photo_set_for_shipment = [];
+        $shipment_photo_urls = [];
         if ($this->attributes['photos_for_shipment'] != '') {
             $photos_for_shipment = explode(',', $this->attributes['photos_for_shipment']);
             foreach ($photos_for_shipment as $photo_for_shipment) {
-                $photo_set_for_shipment[] = generate_image_url($photo_for_shipment);
+                $shipment_photo_urls[] = generate_image_url($photo_for_shipment);
             }
         }
-        return $photo_set_for_shipment;
+        return $shipment_photo_urls;
     }
 
     public function order()

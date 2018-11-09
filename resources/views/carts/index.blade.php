@@ -37,25 +37,27 @@
                                 <input name="selectOne" type="checkbox">
                             </div>
                             <div class="left w110 shop-img">
-                                <a class="cur_p" href="">
+                                <a class="cur_p" href="{{ route('products.show', $cart->sku->product_id) }}">
                                     <img src="{{ $cart->sku->product->thumb_url }}">
                                 </a>
                             </div>
                             <div class="left w250 pro-info">
-                                <span>{{ $cart->sku->product->name_zh }}</span>
+                            	<a class="cur_p" href="{{ route('products.show', $cart->sku->product_id) }}">
+                                    <span>{{ $cart->sku->product->name_zh }}</span>
+                                </a>
                             </div>
                             <div class="left w120 center"><span>{{ $cart->sku->name_zh }}</span></div>
                             <div class="left w100 center">&yen;<span class="price">{{ $cart->sku->price }}</span></div>
                             <div class="left w150 center counter">
                                 <button class="left small-button">-</button>
-                                <input class="left center count" type="text" size="2" value="{{ $cart->number }}">
+                                <input class="left center count" data-url="{{ route('carts.update', $cart->id) }}" type="text" size="2" value="{{ $cart->number }}">
                                 <button class="left small-button">+</button>
                             </div>
                             <div class="left w100 s_total center">&yen;<span>{{ bcmul($cart->sku->price, $cart->number, 2) }}</span></div>
                             <div class="left w120 center">
                                 <p>
-                                    <a class="cur_p">加入收藏夹</a>
-                                    <a class="cur_p">删除</a>
+                                    <a class="cur_p add_favorites"  code = "{{ $cart->sku->product_id }}" data-url = "{{ route('user_favourites.store') }}">加入收藏夹</a>
+                                    <a class="cur_p single_delete" data-url = "{{ route('carts.destroy', $cart->id) }}">删除</a>
                                 </p>
                             </div>
                         </div>
@@ -67,7 +69,7 @@
                             <input id="selectAll-2" class="selectAll" type="checkbox">
                             <label for="selectAll-2">全选</label>
                         </div>
-                        <a id="clearSelected" href="javascript:void(0);">删除选中商品</a>
+                        <a id="clearSelected" href="javascript:void(0);" data-url = "{{ route('carts.flush') }}">清空购物车</a>
                         <!--随时解注-->
                         <!--<a id="clearInvalid" href="javascript:void(0);">清空失效商品</a>-->
                     </div>
@@ -108,17 +110,34 @@
                     $('.selectAll').prop('checked', false);
                 }
             });
-            // 为删除选中商品超链接绑定事件回调
+            // 为删除选中商品超链接绑定事件回调(清空购物车)
             $('#clearSelected').on('click', function () {
-                layer.alert('确定要删除所选商品吗', function (index) {
-                    $('.single-item').each(function () {
-                        if ($(this).find('input[name="selectOne"]').prop('checked')) {
-                            $(this).remove();
-                        }
-                    });
-                    $('.selectAll').prop('checked', false);
-                    calcTotal();
-                    layer.close(index);
+            	var clickDom = $(this);
+                layer.alert('确定要清空购物车吗', function (index) {
+//                  $('.single-item').each(function () {
+//                      if ($(this).find('input[name="selectOne"]').prop('checked')) {
+//                          $(this).remove();
+//                      }
+//                  });
+                    var data = {
+	                    _method: "DELETE",
+	                    _token: "{{ csrf_token() }}",
+	                };
+	                var url = clickDom.attr('data-url');
+	                $.ajax({
+	                    type: "post",
+	                    url: url,
+	                    data: data,
+	                    success: function (data) {
+	                    	$('.selectAll').prop('checked', false);
+	                    	location.reload();
+	                        calcTotal();
+                            layer.close(index);
+	                    },
+	                    error: function (err) {
+	                        console.log(err);
+	                    }
+	                });
                 });
             });
             // 为减少和添加商品数量的按钮绑定事件回调
@@ -129,6 +148,7 @@
                     if (count > 1) {
                         count -= 1;
                         $(this).next().val(count);
+                        update_pro_num($(this).next());
                     } else {
                         layer.msg('商品数量最少为1');
                     }
@@ -137,6 +157,7 @@
                     if (count < 200) {
                         count += 1;
                         $(this).prev().val(count);
+                        update_pro_num($(this).next());
                     } else {
                         layer.msg('商品数量最少为1');
                     }
@@ -146,24 +167,59 @@
                 calcTotal();
             });
             // 为单个商品项删除超链接绑定事件回调
-            $('.single-item a').on('click', function () {
+            $('.single-item').on('click',".single_delete",function () {
                 var clickDom = $(this);
-                layer.alert('确定要删除该项吗', function (index) {
-                    clickDom.parents('.single-item').remove();
-                    calcTotal();
-                    layer.close(index);
+                layer.alert('确定要删除该商品吗', function (index) {
+                    var data = {
+	                    _method: "DELETE",
+	                    _token: "{{ csrf_token() }}",
+	                };
+	                var url = clickDom.attr('data-url');
+	                $.ajax({
+	                    type: "post",
+	                    url: url,
+	                    data: data,
+	                    success: function (data) {
+	                        calcTotal();
+                            layer.close(index);
+	                    },
+	                    error: function (err) {
+	                        console.log(err);
+	                    }
+	                });
+                });
+            });
+            //加入收藏夹
+            $('.single-item').on('click',".add_favorites",function () {
+                var clickDom = $(this);
+                var data = {
+                    _token: "{{ csrf_token() }}",
+                    product_id: clickDom.attr("code")
+                };
+                var url = clickDom.attr('data-url');
+                $.ajax({
+                    type: "post",
+                    url: url,
+                    data: data,
+                    success: function (data) {
+                        calcTotal();
+                        layer.alert('成功加入收藏夹');
+                    },
+                    error: function (err) {
+                        console.log(err);
+                    }
                 });
             });
             // 为商品数量文本框绑定改变事件回调
             $('.single-item input[type="text"]').on('change', function () {
                 $(this).parent().parent().find('input[name="selectOne"]').prop('checked', true);
                 var count = parseInt($(this).val());
-
                 if (count != $(this).val() || count < 1 || count > 200) {
                     layer.msg('无效的商品数量值');
                     count = 1;
                     $(this).val(count);
                 }
+                update_pro_num($(this));
                 var price = parseFloat($(this).parent().prev().find('span').text());
                 $(this).parent().next().html('&yen;' + (price * count).toFixed(2));
                 calcTotal();
@@ -193,6 +249,26 @@
                 }
                 $('#totalCount').text(totalCount);
                 $('#totalPrice').html('&yen;' + totalPrice.toFixed(2));
+            }
+            //更新购物车记录（增减数量）
+            function update_pro_num(dom){
+            	var url= dom.attr("data-url");
+            	var data = {
+                    _method: "PATCH",
+                    _token: "{{ csrf_token() }}",
+                    number: dom.val()
+                };
+            	$.ajax({
+            		type:"post",
+            		url:url,
+            		data: data,
+            		success: function (data) {
+                        calcTotal();
+                    },
+                    error: function (err) {
+                        console.log(err);
+                    }
+            	});
             }
         });
     </script>

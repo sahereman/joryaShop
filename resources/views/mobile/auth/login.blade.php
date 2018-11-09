@@ -14,7 +14,7 @@
         @endforeach
     @endif
 
-    <form method="POST" action="{{ route('mobile.login') }}">
+    <form method="POST" action="{{ route('mobile.login.store') }}">
         {{ csrf_field() }}
 
         <label for="username">User Name / E-Mail Address</label>
