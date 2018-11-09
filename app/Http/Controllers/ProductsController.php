@@ -26,8 +26,8 @@ class ProductsController extends Controller
                 'string',
                 Rule::in(['index', 'heat', 'latest', 'sales', 'price_asc', 'price_desc'])
             ],
-            'min_price' => 'bail|sometimes|nullable|numeric',
-            'max_price' => 'bail|sometimes|nullable|numeric',
+            'min_price' => 'bail|sometimes|nullable|numeric|lte:max_price',
+            'max_price' => 'bail|sometimes|nullable|numeric|gte:min_price',
             'page' => 'sometimes|required|integer|min:1',
         ], [], [
             'query' => '搜索内容',
@@ -57,11 +57,11 @@ class ProductsController extends Controller
 
             $query_data = [];
             $query_data['query'] = $query;
-            if ($request->has('min_price')) {
+            if ($request->has('min_price') && $request->input('min_price')) {
                 $query_data['min_price'] = $request->input('min_price');
                 $products = $products->where('price', '>', $request->input('min_price'));
             }
-            if ($request->has('max_price')) {
+            if ($request->has('max_price') && $request->input('max_price')) {
                 $query_data['max_price'] = $request->input('max_price');
                 $products = $products->where('price', '<', $request->input('max_price'));
             }

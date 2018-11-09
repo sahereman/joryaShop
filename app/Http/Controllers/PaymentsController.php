@@ -63,6 +63,7 @@ class PaymentsController extends Controller
         }
 
         $order->update([
+            'status' => Order::ORDER_STATUS_SHIPPING,
             'paid_at' => now(), // 支付时间
             'payment_method' => 'alipay', // 支付方式
             'payment_no' => $data->trade_no, // 支付宝订单号

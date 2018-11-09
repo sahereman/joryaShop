@@ -36,8 +36,8 @@ class ProductCategoriesController extends Controller
                     'string',
                     Rule::in(['index', 'heat', 'latest', 'sales', 'price_asc', 'price_desc'])
                 ],
-                'min_price' => 'bail|sometimes|nullable|numeric',
-                'max_price' => 'bail|sometimes|nullable|numeric',
+                'min_price' => 'bail|sometimes|nullable|numeric|lte:max_price',
+                'max_price' => 'bail|sometimes|nullable|numeric|gte:min_price',
                 'page' => 'sometimes|required|integer|min:1',
             ], [], [
                 'query' => '搜索内容',
@@ -47,12 +47,12 @@ class ProductCategoriesController extends Controller
                 'page' => '页码',
             ]);
             $parent = $category->parent;
-            if(! $request->has('page')){
+            if (!$request->has('page')) {
                 // 第一次请求 route('product_categories.index') 打开待填充数据页面
                 return view('products.index', [
                     'category' => $category,
                 ]);
-            }else{
+            } else {
                 // Ajax request for the 1st time: route('product_categories.index').'?page=1'
                 $current_page = $request->input('page');
                 // on_sale: 是否在售 + index: 综合指数
@@ -63,17 +63,17 @@ class ProductCategoriesController extends Controller
                 $next_page = ($current_page < $page_count) ? ($current_page + 1) : false;
 
                 $query_data = [];
-                if($request->has('min_price')){
+                if ($request->has('min_price') && $request->input('min_price')) {
                     $query_data['min_price'] = $request->input('min_price');
                     $products = $products->where('price', '>', $request->input('min_price'));
                 }
-                if($request->has('max_price')){
+                if ($request->has('max_price') && $request->input('max_price')) {
                     $query_data['max_price'] = $request->input('max_price');
                     $products = $products->where('price', '<', $request->input('max_price'));
                 }
-                if($request->has('sort')){
+                if ($request->has('sort')) {
                     $query_data['sort'] = $request->input('sort');
-                    switch($request->input('sort')){
+                    switch ($request->input('sort')) {
                         case 'index':
                             $products = $products->orderByDesc('index');
                             break;
