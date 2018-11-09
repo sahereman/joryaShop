@@ -7,10 +7,10 @@ use GuzzleHttp\Psr7;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use Overtrue\EasySms\EasySms;
-use Overtrue\EasySms\Exceptions\Exception as EasySmsException;
+/*use Overtrue\EasySms\Exceptions\Exception as EasySmsException;
 use Overtrue\EasySms\Exceptions\GatewayErrorException;
 use Overtrue\EasySms\Exceptions\InvalidArgumentException;
-use Overtrue\EasySms\Exceptions\NoGatewayAvailableException;
+use Overtrue\EasySms\Exceptions\NoGatewayAvailableException;*/
 use Overtrue\EasySms\PhoneNumber;
 
 function route_class()
@@ -82,21 +82,24 @@ function easy_sms_send($data, $phone_number, $country_code)
         'data' => $data,
     ], ['aliyun']);*/
 
+    $response = [];
     try {
         $response = $easy_sms->send($universal_phone_number, [
             'content' => $content,
             'template' => $template,
             'data' => $data,
         ], ['aliyun']);
-    } catch (GatewayErrorException $e) {
-        $response = $e->getMessage();
-    } catch (InvalidArgumentException $e) {
-        $response = $e->getMessage();
-    } catch (NoGatewayAvailableException $e) {
-        // $response = $e->getMessage();
-        $response = $e->getExceptions();
-    } catch (EasySmsException $e) {
-        $response = $e->getMessage();
+    } catch (\Exception $e) {
+        /*$exceptions = $e->getExceptions();
+        $aliyun_exception = $exceptions['aliyun'];
+        info($exceptions['aliyun']);*/
+        $aliyun_exception = $e->getException('aliyun');
+        info($aliyun_exception);
+        $response['aliyun'] = [
+            'code' => 500,
+            'message' => $aliyun_exception->getMessage(),
+            'status' => 'Internal Server Error',
+        ];
     }
 
     return $response;

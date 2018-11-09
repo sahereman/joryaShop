@@ -212,17 +212,16 @@ class LoginController extends Controller
         }
 
         $code = random_int(100000, 999999);
-        $ttl = 10;
-        Cache::set('login_sms_code-' . $country_code . '-' . $phone_number, $code, $ttl);
-        // 60s内不允许重复发送邮箱验证码
-        Cache::set('login_sms_code_sent-' . $country_code . '-' . $phone_number, true, 1);
-        // Interruption For Test:
-        // dd($code);
-
         $data['code'] = $code;
         $response = easy_sms_send($data, $phone_number, $country_code);
 
         if ($response['aliyun']['status'] == 'success') {
+
+            $ttl = 10;
+            Cache::set('login_sms_code-' . $country_code . '-' . $phone_number, $code, $ttl);
+            // 60s内不允许重复发送邮箱验证码
+            Cache::set('login_sms_code_sent-' . $country_code . '-' . $phone_number, true, 1);
+
             return response()->json([
                 'code' => 200,
                 'message' => 'success',
@@ -230,11 +229,7 @@ class LoginController extends Controller
             ]);
         }
 
-        return response()->json([
-            'code' => 400,
-            'message' => 'Bad Request',
-            'response' => $response,
-        ], 400);
+        return response()->json($response, 500);
     }
 
     // POST 验证短信验证码 [for Ajax request]

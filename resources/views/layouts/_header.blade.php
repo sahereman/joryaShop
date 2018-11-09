@@ -77,27 +77,11 @@
                         <li>
                             <a href="{{ route('root') }}">首页</a>
                         </li>
-                        <li>
-                            <a href="{{ route('product_categories.index', 1) }}">穿搭</a>
-                        </li>
-                        <li>
-                            <a href="{{ route('product_categories.index', 1) }}">商务</a>
-                        </li>
-                        <li>
-                            <a href="{{ route('product_categories.index', 1) }}">简约</a>
-                        </li>
-                        <li>
-                            <a href="{{ route('product_categories.index', 1) }}">直发</a>
-                        </li>
-                        <li>
-                            <a href="{{ route('product_categories.index', 1) }}">卷发</a>
-                        </li>
-                        <li>
-                            <a href="{{ route('product_categories.index', 1) }}">时尚</a>
-                        </li>
-                        <li>
-                            <a href="{{ route('product_categories.index', 1) }}">正品保证</a>
-                        </li>
+                        @foreach(\App\Models\Menu::pcMenus() as $menu)
+                            <li>
+                                <a href="{{ $menu->link }}">{{ $menu->name_zh }}</a>
+                            </li>
+                        @endforeach
                     </ul>
                 </div>
             </div>
@@ -113,9 +97,9 @@
                         <a class="search_btn" href="javascript:void(0)">
                             <img src="{{ asset('img/search_magnifier.png') }}">
                         </a>
-						<div class="selectList dis_n" data-url="{{ route('products.search') }}">
-							<ul></ul>
-						</div>
+                        <div class="selectList dis_n" data-url="{{ route('products.search') }}">
+                            <ul></ul>
+                        </div>
                     </li>
                     <li>
                         <a href="{{ route('carts.index') }}" class="shop_cart">
