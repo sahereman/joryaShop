@@ -249,6 +249,10 @@ $(function(){
 				if(err.status==422){
 				    layer.msg($.parseJSON(err.responseText).errors.phone[0]);
 				}
+				if(err.status==500){
+					$("#getRegister_code").prop("disabled",false);
+					$("#getRegister_code").click();
+				}
 			},
 			complete:function(data){
 			}
@@ -272,11 +276,15 @@ $(function(){
         	type:"post",
         	url:"/login/send_sms_code",
         	data:data,
-        	success:function(data){},        
+        	success:function(data){},
 			error:function(err){          
 				console.log(err);   
 				if(err.status==422){
 				    layer.msg($.parseJSON(err.responseText).errors.phone[0]);
+				}
+				if(err.status==500){
+					$("#getLogin_code").prop("disabled",false);
+					$("#getLogin_code").click();
 				}
 			}      
         });
