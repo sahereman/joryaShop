@@ -33,9 +33,8 @@
             Login
         </button>
 
-        <a href="{{ route('password.request') }}">
-            Forgot Your Password?
-        </a>
+        <a href="{{ route('mobile.reset.sms.show') }}">忘记密码?</a>
+
     </form>
 
 

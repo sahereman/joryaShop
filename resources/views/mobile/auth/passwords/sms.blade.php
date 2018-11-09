@@ -8,6 +8,35 @@
 
     <h1>短信重置密码页面</h1>
 
+    @if (count($errors) > 0)
+        @foreach ($errors->all() as $error)
+            <li> {{ $error }}</li>
+        @endforeach
+    @endif
+
+    <form method="POST" action="{{ route('mobile.reset.sms.store') }}">
+        {{ csrf_field() }}
+
+
+        <label>country_code</label>
+
+        <select name="country_code">
+            @foreach(\App\Models\CountryCode::countryCodes() as $country_code)
+                <option value="{{ $country_code->country_code }}">{{ $country_code->country_name }}</option>
+            @endforeach
+        </select>
+
+        <label>Phone</label>
+        <input type="text" name="phone" value="{{ old('phone') }}">
+
+
+        <label>code 手机验证码</label>
+        <input type="text" name="code" value="">
+
+        <button type="submit">
+            submit
+        </button>
+    </form>
 
     {{--如果需要引入子视图--}}
     {{--@include('layouts._footer')--}}
