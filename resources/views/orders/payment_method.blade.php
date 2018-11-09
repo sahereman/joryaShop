@@ -37,7 +37,7 @@
                         </p>
                     </div>
                     <div class="right">
-                        <a href="{{ route('payment.alipay', ['order' => $order->id]) }}">
+                        <a href="{{ route('payments.alipay', ['order' => $order->id]) }}">
                             <button class="pay_btn">付款</button>
                         </a>
                         <p class="cunt_down paying_time">剩余付款时间：<span>59分58秒</span></p>
