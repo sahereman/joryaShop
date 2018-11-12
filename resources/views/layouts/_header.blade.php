@@ -101,9 +101,10 @@
                             <ul></ul>
                         </div>
                     </li>
-                    <li>
+                    <li class="shppingCart">
                         <a href="{{ route('carts.index') }}" class="shop_cart">
                             <img src="{{ asset('img/header/shop_car.png') }}">
+                            <span class="shop_cart_num">10</span>
                         </a>
                     </li>
                 </ul>
