@@ -170,27 +170,37 @@ class OrdersController extends Controller
             'cart_ids' => '购物车IDs',
         ]);
 
-        $skus = [];
+        $items = [];
         if ($request->has('sku_id') && $request->has('number')) {
             $sku = ProductSku::find($request->query('sku_id'));
-            $skus[0]['sku'] = $sku;
-            $skus[0]['product'] = $sku->product;
-            $skus[0]['number'] = $request->query('number');
+            $items[0]['sku'] = $sku;
+            $items[0]['product'] = $sku->product;
+            $items[0]['number'] = $request->query('number');
         } elseif ($request->has('cart_ids')) {
-            $cart_ids = explode(',', $request->query['cart_ids']);
+            $cart_ids = explode(',', $request->query('cart_ids'));
             foreach ($cart_ids as $key => $cart_id) {
                 $cart = Cart::find($cart_id);
-                $skus[$key]['sku'] = $cart->sku;
-                $skus[$key]['product'] = $cart->sku->product;
-                $skus[$key]['number'] = $cart->number;
+                $items[$key]['sku'] = $cart->sku;
+                $items[$key]['product'] = $cart->sku->product;
+                $items[$key]['number'] = $cart->number;
             }
         }
-        $user_addresses = UserAddress::where('user_id', $request->user()->id)->get();
+
+        $address = false;
+        $userAddress = UserAddress::where('user_id', $request->user()->id);
+        if ($userAddress->where('is_default', 1)->exists()) {
+            // 默认地址
+            $address = $userAddress->where('is_default', 1)->first();
+        } elseif ($userAddress->exists()) {
+            // 上次使用地址
+            $address = $userAddress->orderByDesc('last_used_at')->first();
+        }
+
         $exchange_rates = ExchangeRate::all();
 
         return view('orders.pre_payment', [
-            'skus' => $skus,
-            'user_addresses' => $user_addresses,
+            'items' => $items,
+            'address' => $address,
             'exchange_rates' => $exchange_rates,
         ]);
     }

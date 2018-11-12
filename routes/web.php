@@ -104,6 +104,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     /*收货地址*/
     Route::get('user_addresses', 'UserAddressesController@index')->name('user_addresses.index'); // 列表
+    Route::get('user_addresses/list_all', 'UserAddressesController@listAll')->name('user_addresses.list_all'); // 获取当前用户收货地址列表 [for Ajax request]
     Route::post('user_addresses', 'UserAddressesController@store')->name('user_addresses.store'); // 提交
     Route::put('user_addresses/{userAddress}', 'UserAddressesController@update')->name('user_addresses.update'); // 更新
     Route::delete('user_addresses/{userAddress}', 'UserAddressesController@destroy')->name('user_addresses.destroy'); // 删除
@@ -118,8 +119,8 @@ Route::group(['middleware' => 'auth'], function () {
 
     /*订单*/
     Route::get('orders', 'OrdersController@index')->name('orders.index'); // 订单列表
+    Route::get('orders/pre_payment', 'OrdersController@prePayment')->name('orders.pre_payment'); // 订单预支付页面：选择地址+币种页面
     Route::get('orders/{order}', 'OrdersController@show')->name('orders.show'); // 订单详情
-    Route::get('orders/pre_payment', 'OrdersController@prePayment')->name('orders.pre_payment'); // 选择地址+币种页面
     Route::post('orders', 'OrdersController@store')->name('orders.store'); // 提交订单
     Route::get('orders/{order}/payment_method', 'OrdersController@paymentMethod')->name('orders.payment_method'); // 选择支付方式页面
     Route::patch('orders/{order}/close', 'OrdersController@close')->name('orders.close'); // [主动]取消订单，交易关闭 [订单进入交易关闭状态:status->closed]
