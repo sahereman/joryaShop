@@ -1,7 +1,6 @@
 @extends('layouts.app')
 @section('title', $product->name_zh)
 @section('content')
-    @include('common.error')
     <div class="commodity-details">
         <div class="m-wrapper">
             <!--面包屑-->
@@ -28,7 +27,7 @@
                             <div class="imgMedium" id="imgMedium">
                                 <!-- 放大镜 -->
                                 <div class="magnifier" id="magnifier">
-                                    <img src="{{ $product->photo_urls[0] }}">
+                                    <img src="{{ asset('img/zoom_pup.png') }}">
                                 </div>
                                 <!-- 图片 -->
                                 <div class="mediumContainer" id="mediumContainer">
@@ -39,7 +38,8 @@
                             <!-- 缩略图 -->
                             <ul class="img_x" id="img_x">
                                 @foreach($product->photo_urls as $photo_url)
-                                    <li><img code="{{ $photo_url }}"
+                                    <li code="{{ $photo_url }}">
+                                    	<img class="lazy" code="{{ $photo_url }}"
                                              src="{{ $photo_url }}"></li>
                                 @endforeach
                             </ul>
@@ -96,9 +96,16 @@
                     </div>
                     <!--添加购物车与立即购买-->
                     <div class="addCart_buyNow">
-                        <a class="buy_now">立即购买</a>
-                        <a class="add_carts">加入购物车</a>
-                        <a class="add_favourites">
+                    	@guest
+                    	    <a class="buy_now for_show_login">立即购买</a>
+	                        <a class="add_carts for_show_login">加入购物车</a>
+						@else
+						    <a class="buy_now" data-url="{{ route('orders.pre_payment') }}">立即购买</a>
+	                        <a class="add_carts" data-url="{{ route('carts.store') }}">加入购物车</a>
+						@endguest
+                        <a class="add_favourites" code = "{{ $product->id }}" 
+                           data-url = "{{ route('user_favourites.store') }}"
+                           data-url_2 = "{{ route('user_favourites.destroy', $product->id) }}">
                             <span class="favourites_img"></span>
                             <span>收藏</span>
                         </a>
@@ -238,7 +245,7 @@
 @endsection
 @section('scriptsAfterJs')
     <script type="text/javascript">
-        $('#img_x li').eq(0).css('border', '2px solid coral');
+        $('#img_x li').eq(0).css('border', '2px solid #bc8c61');
         $('#zhezhao').mousemove(function (e) {
             $('#img_u').show();
             $('#magnifier').show();
@@ -267,7 +274,7 @@
         $('#img_x li').mouseover(function () {
             $(this).css('border', '2px solid #bc8c61').siblings().css('border', '2px solid transparent');
             $('#mediumContainer img').eq(0).attr('src', $(this).attr('code'));
-            $('#img_u img').eq(0).attr('src', $(this).attr('code-1'));
+            $('#img_u img').eq(0).attr('src', $(this).attr('code'));
         });
         //控制商品下单的数量显示
         $(".add").on("click", function () {
@@ -288,10 +295,44 @@
         });
         //点击添加收藏
         $(".add_favourites").on("click", function () {
-            if ($(this).hasClass('active') != true) {
-                $(this).addClass('active');
+        	var clickDom = $(this);
+            if (clickDom.hasClass('active') != true) {
+            	var data = {
+	                _token: "{{ csrf_token() }}",
+	                product_id: clickDom.attr("code")
+	            };
+	            var url = clickDom.attr('data-url');
+	            $.ajax({
+	                type: "post",
+	                url: url,
+	                data: data,
+	                success: function (data) {
+	                    clickDom.addClass('active');
+	                },
+	                error: function (err) {
+	                    console.log(err);
+	                    if(err.status==422){
+	                    	layer.msg($.parseJSON(err.responseText).errors.product_id[0]);
+	                    }
+	                }
+	            });
             } else {
-                $(this).removeClass('active');
+                var data = {
+                    _method: "DELETE",
+                    _token: "{{ csrf_token() }}",
+                };
+                var url = clickDom.attr('data-url_2');
+                $.ajax({
+                    type: "post",
+                    url: url,
+                    data: data,
+                    success: function (data) {
+                        clickDom.removeClass('active');
+                    },
+                    error: function (err) {
+                        console.log(err);
+                    }
+                });
             }
         });
         //Tab控制函数
@@ -309,5 +350,50 @@
             $(this).addClass('active');
             $(".changePrice_num").html("&yen;" + $(this).attr('code_price'));
         });
+        //加入购物车
+        $(".add_carts").on("click",function(){
+        	var clickDom = $(this);
+        	if($(".kindOfPro").find("li").hasClass('active')!=true){
+        			layer.msg("请选择规格");
+    		}else {
+    			if ($(this).hasClass('for_show_login') == true) {
+	        		$(".login").click();
+	        	}else {
+	        		var data = {
+	        			_token: "{{ csrf_token() }}",
+	        			sku_id: $(".kindOfPro ul").find("li.active").find("input").val(),
+	        			number: $("#pro_num").val()
+	        		}
+	        		var url = clickDom.attr('data-url');
+	                $.ajax({
+	                    type: "post",
+	                    url: url,
+	                    data: data,
+	                    success: function (data) {
+	                        layer.alert("购物车添加成功");
+	                        $(".header-search").load(location.href + " .header-search");
+	                    },
+	                    error: function (err) {
+	                        console.log(err);
+	                    }
+	                });
+	        	}	
+        	}
+
+        })
+        //立即购买
+        $(".buy_now").on("click",function(){
+        	var clickDom = $(this);
+        	if($(".kindOfPro").find("li").hasClass('active')!=true){
+        			layer.msg("请选择规格");
+    		}else {
+    			if ($(this).hasClass('for_show_login') == true) {
+	        		$(".login").click();
+	        	}else {
+	        		var url = clickDom.attr('data-url');
+	        		window.location.href=url+"?sku_id="+$(".kindOfPro ul").find("li.active").find("input").val()+"&number="+$("#pro_num").val();
+	        	}	
+        	}
+        })
     </script>
 @endsection

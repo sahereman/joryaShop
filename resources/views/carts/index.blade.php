@@ -34,7 +34,7 @@
                     @foreach($carts as $cart)
                         <div class="clear single-item">
                             <div class="left w20">
-                                <input name="selectOne" type="checkbox">
+                                <input name="selectOne" type="checkbox" value="{{ $cart->id }}">
                             </div>
                             <div class="left w110 shop-img">
                                 <a class="cur_p" href="{{ route('products.show', $cart->sku->product_id) }}">
@@ -76,7 +76,11 @@
                     <div class="right">
                         <!--<span>总共选中了<span id="totalCount">0</span>件商品</span>-->
                         <span>合计: <span id="totalPrice">&yen;0.00</span></span>
-                        <button class="big-button">结算</button>
+                        @guest
+                    	    <button class="big-button for_show_login">结算</button>
+						@else
+						    <button class="big-button" data-url="{{ route('orders.pre_payment') }}">结算</button>
+						@endguest
                     </div>
                 </div>
                 @endif
@@ -270,6 +274,30 @@
                     }
             	});
             }
+            //点击结算
+            $(".big-button").on("click",function(){
+            	var clickDom = $(this);
+            	if (clickDom.hasClass('for_show_login') == true) {
+	        		$(".login").click();
+	        	}else {
+	        		if(clickDom.hasClass("active")!=true){
+	        			layer.alert("请选择结算商品");
+	        		}else {
+	        			var cart_ids = "";
+	        			var cartIds = $(".cart-items").find("input[name='selectOne']:checked");
+	        			if(cartIds.length>0){
+	        				$.each(cartIds, function(i,n) {
+	        					cart_ids+=$(n).val()+","
+	        				});
+	        				cart_ids=cart_ids.substring(0,cart_ids.length-1);
+			        		var url = clickDom.attr('data-url');
+			        		window.location.href=url+"?cart_ids="+cart_ids;
+	        			}else {
+	        				layer.alert("请选择结算商品");
+	        			}
+	        		}
+	        	}	
+            })
         });
     </script>
 @endsection

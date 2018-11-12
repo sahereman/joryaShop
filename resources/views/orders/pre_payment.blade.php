@@ -33,7 +33,7 @@
                             @endif
                         </ul>
                         <div class="right">
-                            <a class="change_address" href="javascript:void(0)">切换地址</a>
+                            <a class="change_address" data-url="{{ route('user_addresses.list_all') }}" href="javascript:void(0)">切换地址</a>
                             <a class="add_new_address" href="javascript:void(0)">新建地址</a>
                         </div>
                     </div>
@@ -54,7 +54,7 @@
                                 <div class="clear single-item">
                                     <div class="left w110 shop-img">
                                         <a class="cur_p" href="">
-                                            <img src="{{ asset('img/list-1.png') }}">
+                                            <img src="{{ $item['product']->thumb }}">
                                         </a>
                                     </div>
                                     <div class="left w250 pro-info">
@@ -101,7 +101,7 @@
                             </p>
                             @if($address)
                                 <p class="address_info">
-                                    <span>收货人</span>
+                                    <span>{{ $address->name }}</span>
                                     <span>{{ substr_replace($address->phone, '*', 3, 4) }}</span>
                                 </p>
                                 <p class="address_info">{{ $address->address }}</p>
@@ -133,7 +133,7 @@
                         <ul>
                             <li>
                                 <p>
-                                    <span class="input_name"><i>*</i>收货人：</span>
+                                    <span class="input_name"><i>*</i>收&ensp;货&ensp;人：</span>
                                     <input class="user_name" name="name" type="text" placeholder="输入收货人姓名">
                                 </p>
                                 <p>
@@ -155,6 +155,10 @@
             </div>
         </div>
     </div>
+    <!--切换地址信息-->
+    <div class="changeAddress dis_n">
+    	<ul></ul>
+    </div>
 @endsection
 @section('scriptsAfterJs')
     <script type="text/javascript">
@@ -174,6 +178,77 @@
                 $(".address_location").html($(".new_receipt_address textarea").val());
                 $(".new_receipt_address").hide();
             });
+            //切换地址
+            $(".change_address").on("click",function(){
+            	var url = $(this).attr("data-url");
+            	var changeAdd;
+            	$.ajax({
+	            		type:"get",
+	            		url:url,
+	            		beforeSend:function(){
+	            			
+	            		},
+	            		success:function(json){
+	            			console.log(json)
+	            			if(json.code==200){
+	            				var dataObj = json.data.addresses;
+	            				if(dataObj.length>0){
+	            					var html = "";
+	            					$.each(dataObj, function(i,n) {
+	            						html+="<li class='clear'>"+
+	            						"<p class='clear'><span>收&ensp;货&ensp;人：</span><span class='name'>"+ n.name +"</span></p>"+
+	            						"<p class='clear'><span>联系方式：</span><span class='phone'>"+ n.phone +"</span></p>"+
+	            						"<p class='clear'><span>联系地址：</span><span class='address'>"+ n.address +"</span></p>"+
+	            						"</li>"
+	            					});
+	            					$(".changeAddress ul").html("");
+	            					$(".changeAddress ul").append(html);
+	            					changeAdd = layer.open({
+									      type: 1,
+									      area: ['600px','550px'],
+									      shadeClose: false, 
+									      title: '选择地址',
+									      content: $(".changeAddress"),
+									      btn: ['确定','取消'],
+									      btnAlign: 'c',
+									      success: function(){},
+									      yes: function(){   //确定
+									      	console.log($(".changeAddress").find("li.active"));
+									      	if($(".changeAddress").find("li.active").length<=0){
+									      		layer.msg("请选择收获地址");
+									      	}else {
+									      		$(".address_name").html($(".changeAddress").find("li.active").find(".name").html());
+									      		$(".address_phone").html($(".changeAddress").find("li.active").find(".phone").html());
+									      		$(".address_location").html($(".changeAddress").find("li.active").find(".address").html());
+									      		layer.close(changeAdd);
+									      	}
+									      },
+									      btn2: function(){     //取消
+									      	
+									      },
+									      end :function(){
+									      	$(".changeAddress ul").html("");
+									      }
+								    });
+	            				}else {
+	            					layer.close(changeAdd);
+	            					$(".new_receipt_address").show();
+	            				}
+	            			}
+	            		},
+	            		error:function(){
+	            			
+	            		},
+	            		complete:function(){
+	            			
+	            		}
+	            });
+            })
+            //点击选择收货地址
+            $(".changeAddress ul").on("click","li",function(){
+            	$(".changeAddress ul").find("li").removeClass("active");
+            	$(this).addClass("active");
+            })
         });
     </script>
 @endsection
