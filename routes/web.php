@@ -35,10 +35,10 @@ Route::get('password/reset/success', 'Auth\ResetPasswordController@success')->na
 // $this->post('password/reset', 'Auth\ResetPasswordController@reset');
 
 /*通过邮箱验证码注册*/
-// Route::post('register/send_email_code', 'Auth\RegisterController@sendEmailCode')->name('login.send_email_code'); // 发送邮箱验证码 [for Ajax request]
+// Route::post('register/send_email_code', 'Auth\RegisterController@sendEmailCode')->name('register.send_email_code'); // 发送邮箱验证码 [for Ajax request]
 
 /*通过短信验证码注册*/
-Route::post('register/send_sms_code', 'Auth\RegisterController@sendSmsCode')->name('login.send_sms_code'); // 发送短信验证码 [for Ajax request]
+Route::post('register/send_sms_code', 'Auth\RegisterController@sendSmsCode')->name('register.send_sms_code'); // 发送短信验证码 [for Ajax request]
 
 /*// Authentication Routes...
 $this->get('login', 'Auth\LoginController@showLoginForm')->name('login');
@@ -148,12 +148,14 @@ Route::group(['middleware' => 'auth'], function () {
     Route::patch('orders/{order}/revoke_refund', 'OrdersController@revokeRefund')->name('orders.revoke_refund'); // 撤销退单申请 [订单恢复状态:status->shipping | receiving]
 
     /*支付*/
-    Route::get('payments/{order}/alipay', 'PaymentsController@alipay')->name('payments.alipay'); // 支付宝支付 页面
-    Route::get('payments/{order}/wechat', 'PaymentsController@wechat')->name('payments.wechat'); // 微信支付 页面
-    Route::get('payments/{order}/paypal', 'PaymentsController@paypal')->name('payments.paypal'); // PayPal支付 页面
+    Route::get('payments/{order}/alipay', 'PaymentsController@alipay')->name('payments.alipay'); // Alipay 支付页面
+    Route::get('payments/{order}/wechat', 'PaymentsController@wechat')->name('payments.wechat'); // Wechat 支付页面
+    Route::get('payments/{order}/paypal', 'PaymentsController@paypal')->name('payments.paypal'); // PayPal 支付页面
 
     /*支付回调 [return_url]*/
-    Route::get('payments/return', 'PaymentsController@paymentReturn')->name('payments.return'); // 支付回调
+    Route::get('payments/alipay/return', 'PaymentsController@alipayReturn')->name('payments.alipay.return'); // Alipay 支付回调
+    Route::get('payments/wechat/return', 'PaymentsController@wechatReturn')->name('payments.wechat.return'); // Wechat 支付回调
+    Route::get('payments/paypal/return', 'PaymentsController@paypalReturn')->name('payments.paypal.return'); // PayPal 支付回调
 
 });
 
@@ -196,9 +198,11 @@ Route::get('pages/{page}', 'PagesController@show')->name('pages.show');
 Route::get('posters/{poster}', 'PostersController@show')->name('posters.show');
 
 /*支付通知 [notify_url]*/
-Route::post('payments/alipay/notify', 'PaymentsController@alipayNotify')->name('payments.alipay.notify'); // 支付宝支付成功通知 [notify_url]
-Route::post('payments/wechat/notify', 'PaymentsController@wechatNotify')->name('payments.wechat.notify'); // 微信支付成功通知 [notify_url]
-Route::post('payments/paypal/notify', 'PaymentsController@paypalNotify')->name('payments.paypal.notify'); // PayPal支付成功通知 [notify_url]
+Route::post('payments/alipay/notify', 'PaymentsController@alipayNotify')->name('payments.alipay.notify'); // Alipay 支付成功通知 [notify_url]
+Route::post('payments/wechat/notify', 'PaymentsController@wechatNotify')->name('payments.wechat.notify'); // Wechat 支付成功通知 [notify_url]
+Route::post('payments/paypal/notify', 'PaymentsController@paypalNotify')->name('payments.paypal.notify'); // PayPal 支付成功通知 [notify_url]
 
-// for alipay test:
-Route::get('payments/alipay/refund', 'PaymentsController@alipayRefund')->name('payments.alipay.refund'); // 支付宝退款
+// for test:
+Route::get('payments/alipay/refund', 'PaymentsController@alipayRefund')->name('payments.alipay.refund'); // Alipay 退款
+Route::get('payments/wechat/refund', 'PaymentsController@wechatRefund')->name('payments.wechat.refund'); // Wechat 退款
+Route::get('payments/paypal/refund', 'PaymentsController@paypalRefund')->name('payments.paypal.refund'); // Paypal 退款
