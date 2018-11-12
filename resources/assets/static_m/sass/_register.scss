@@ -1,0 +1,110 @@
+@media screen and (max-width: 325px){
+    .regMain{
+        padding-top: 4rem;
+        .formBox{
+               margin-top: 4rem;
+            }
+            .downBox{
+                bottom: .5rem;
+            }
+        }
+}
+.regMain{
+    
+    .formBox{
+        
+        .phoneBox{
+            width: 100%;
+            border-bottom: 1px solid #dcdcdc;
+            padding-bottom: .7rem;
+            padding-left: .3rem;
+            position: relative;
+            margin-top: 1.7rem;
+            .fImg{
+                width: .8rem;
+                vertical-align: middle;
+            }
+            .selCountry{
+                width: 1rem;
+                border: none;
+                color: #c4c6c1;
+            }
+            .valSpan{
+                display: inline-block;
+                border-left:1px solid #e0e0e0 ;
+                height: 1.2rem;
+                padding-left: .2rem;
+                color: #ababab;
+                margin-left: -.3rem;
+                position: absolute;
+                bottom: .8rem;
+            }
+            .phoneIpt{
+                border: none;
+                padding-left: 0;
+                margin-left: 1.5rem;
+            }
+            .tipBox{
+                float: right;
+                font-size: .65rem;
+                color: #bd8e64;
+                position: absolute;
+                right: 0;
+                bottom: .8rem;
+                img{
+                    width: .7rem;
+                    vertical-align: middle;
+                }
+                .tipSpan{
+                    vertical-align: middle;
+                }
+            }
+        }
+        .codeBox{
+            width: 100%;
+            border-bottom: 1px solid #dcdcdc;
+            padding-bottom: .7rem;
+            padding-left: .3rem;
+            position: relative;
+            margin-top: 1.7rem;
+            .fImg{
+                width: .9rem;
+                vertical-align: middle;
+            }
+            .codeIpt{
+                border: none;
+                width: 49%;
+            }
+            .getYBox{
+                float: right;
+                font-size: .65rem;
+//              padding: .4rem .4rem .3rem;
+                width: 6rem;
+                text-align: center;
+                
+                position: absolute;
+                bottom: .4rem;
+                right: 0;
+                height: 2.2rem;
+                line-height: 2.2rem;
+                .getY{
+                    display: inline-block;
+                    width: 100%;
+                    height: 100%;
+                    background: #7ca443;
+                    color: #fff;
+                    border-radius: 1.5rem;
+                }
+                .cutTime{
+                    display: none;
+                    width: 100%;
+                    height: 100%;
+                    background: #f5f7f4;
+                    color: #c3c5c0;
+                    border-radius: 1.5rem;
+                    font-size: .85rem;
+                }
+            }
+        }
+    }   
+}

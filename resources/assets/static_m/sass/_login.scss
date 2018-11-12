@@ -1,0 +1,129 @@
+.logMain,.regMain{
+    padding-top: 5rem;
+    .logoImgBox{
+        width: 100%;
+        text-align: center;
+        img{
+            width: 10rem;
+        }
+        
+    }
+    .formBox{
+        width: 80%;
+        margin: 0 auto;
+        margin-top: 6rem;
+        .nameBox{
+            width: 100%;
+            border-bottom: 1px solid #dcdcdc;
+            padding-bottom: .7rem;
+            padding-left: .3rem;
+            position: relative;
+            .fImg{
+                width: .9rem;
+                vertical-align: middle;
+            }
+            input{
+                width: 50%;
+                border: none;
+                vertical-align: middle;
+            }
+            input::-webkit-input-placeholder {
+                  /* placeholder颜色  */
+                 color: #ababab;
+            }
+            .tipBox{
+                float: right;
+                font-size: .65rem;
+                color: #bd8e64;
+                position: absolute;
+                right: 0;
+                bottom: .8rem;
+                img{
+                    width: .7rem;
+                    vertical-align: middle;
+                }
+                span{
+                    vertical-align: middle;
+                }
+            }
+        }
+        .psdBox{
+            width: 100%;
+            border-bottom: 1px solid #dcdcdc;
+            margin-top: 1.7rem;
+            padding-bottom: .7rem;
+            padding-left: .4rem;
+            position: relative;
+            .fImg{
+                width: .9rem;
+                vertical-align: middle;
+            }
+            input{
+                width: 50%;
+                border: none;
+                vertical-align: middle;
+            }
+            input::-webkit-input-placeholder {
+                  /* placeholder颜色  */
+                 color: #ababab;
+            }
+            .tipBox{
+                float: right;
+                font-size: .65rem;
+                color: #bd8e64;
+                position: absolute;
+                right: 0;
+                bottom: .8rem;
+                img{
+                    width: .7rem;
+                    vertical-align: middle;
+                }
+                span{
+                    vertical-align: middle;
+                }
+            }
+        }
+        .subBtn{
+            width: 100%;
+            background: #81ac27;
+            color: #fff;
+            border: none;
+            border-radius: 1.4rem;
+            height: 2.4rem;
+            letter-spacing: .5rem;
+            line-height: 2.4rem;
+            margin-top: 2.4rem;
+            box-shadow: 4px 7px 40px #e2e1c2;    
+         }
+    }
+    .logJump{
+     color: #82ae27;
+     width: 100%;
+     text-align: center;
+     margin-top: 1rem;
+     letter-spacing: .05rem;
+         a{
+             color: #82ae27;
+             font-weight: bold;
+             font-size: .78rem;
+         }
+     }
+    .downBox{
+        position: fixed;
+        bottom: 1rem;
+        left: 25%;
+        text-align: center;
+        color: #c7c7c7;
+        font-size: .75rem;
+    }
+    @media screen and (max-width: 325px){
+        .downBox{
+           left: 23%; 
+        }
+    }
+    @media screen and (min-width: 410px){
+        .downBox{
+           left: 26%; 
+        }
+    }
+}

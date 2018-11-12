@@ -1,41 +1,51 @@
 @extends('layouts.mobile')
-
+@section('title', '登录')
 @section('content')
     {{--如果需要引入子视图--}}
     {{--@include('layouts._header')--}}
 
     {{--填充页面内容--}}
+	<div class="logMain">
+		<div class="logoImgBox">
+			<img src="{{ asset('static_m/img/logo.png') }}" />
+		</div>
+	    <form method="POST" action="{{ route('mobile.login.store') }}" class="formBox">
+	        {{ csrf_field() }}
+			<div class="nameBox">
+				<img src="{{ asset('static_m/img/icon_name.png') }}" class="fImg"/>
+				<input id="username" type="text" name="username" value="{{ old('username') }}" placeholder="请输入用户名">
+				<div class="tipBox">
+					@if ($errors->has('username'))
+	                    <img src="{{ asset('static_m/img/icon_tip.png') }}"/>
+				        <span> {{ $errors->first('username') }}</span>
+	                @endif
+				</div>	
+			</div>
+	        <div class="psdBox">
+	        	<img src="{{ asset('static_m/img/icon_password.png') }}" class="fImg" />
+	        	<input id="password" type="password" name="password" placeholder="请输入密码" >
+	        		<div class="tipBox">
+					@if ($errors->has('password'))
+	                    <img src="{{ asset('static_m/img/icon_tip.png') }}"/>
+				        <span> {{ $errors->first('password') }}</span>
+	                @endif
+				</div>	
+	        </div>
+	        <button type="submit" class="subBtn">
+	            	登录
+	        </button>
+	    </form>
+	    <div class="logJump">
+        	<a href="{{ route('mobile.register.show') }}">账号注册></a>
+        	<span>|</span>
+        	<a href="{{ route('mobile.reset.sms.show') }}">忘记密码></a>
+        </div>
+        <div class="downBox">
+        	——— 卓雅美业有限公司  ———
+        </div>
+	</div>	
 
-    <h1>手机站登录页</h1>
-
-    @if (count($errors) > 0)
-        @foreach ($errors->all() as $error)
-            <li> {{ $error }}</li>
-        @endforeach
-    @endif
-
-    <form method="POST" action="{{ route('mobile.login.store') }}">
-        {{ csrf_field() }}
-
-        <label for="username">User Name / E-Mail Address</label>
-
-        <input id="username" type="text" name="username" value="{{ old('username') }}">
-
-
-        <label for="password">Password</label>
-
-        <input id="password" type="password" name="password">
-
-        <label>
-            <input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}> Remember Me
-        </label>
-        <button type="submit">
-            Login
-        </button>
-
-        <a href="{{ route('mobile.reset.sms.show') }}">忘记密码?</a>
-
-    </form>
+   
 
 
 
