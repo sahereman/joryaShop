@@ -220,6 +220,7 @@ $(function(){
 	var myReg = /^\d+$/;
 	//注册获取验证码
 	$("#getRegister_code").on("click",function(){      
+		var clickDome = $(this);
 		var disabled = $("#getRegister_code").attr("disabled");  
 		_generate_code = $("#getRegister_code");
 		countdown=60;
@@ -239,9 +240,11 @@ $(function(){
 //      	password: $("#register_psw").val(),
             _toke: $("#register_token_code").find("input").val()
         }
+        var url = clickDome.attr('data-url');
+        console.log(url)
         $.ajax({
         	type:"post",
-        	url:"/register/send_sms_code",
+        	url:url,
         	data:data,
         	success:function(data){},        
 			error:function(err){          
@@ -249,17 +252,14 @@ $(function(){
 				if(err.status==422){
 				    layer.msg($.parseJSON(err.responseText).errors.phone[0]);
 				}
-				if(err.status==500){
-					$("#getRegister_code").prop("disabled",false);
-					$("#getRegister_code").click();
-				}
 			},
 			complete:function(data){
 			}
         });
 	});
 	//登录获取验证码
-	$("#getLogin_code").on("click",function(){      
+	$("#getLogin_code").on("click",function(){    
+		var clickDome = $(this);
 		var disabled = $("#getLogin_code").attr("disabled");  
 		_generate_code = $("#getLogin_code");
 		countdown=60;
@@ -272,11 +272,14 @@ $(function(){
         	country_code: $("#login_countryCode").val(),
             _toke: $("#login_token_code").find("input").val()
        }
+		var url = clickDome.attr('data-url');
         $.ajax({
         	type:"post",
-        	url:"/login/send_sms_code",
+        	url:url,
         	data:data,
-        	success:function(data){},
+        	success:function(data){
+        		console.log(data)
+        	},
 			error:function(err){          
 				console.log(err);   
 				if(err.status==422){
@@ -290,32 +293,37 @@ $(function(){
         });
 	});    
 	//邮箱验证登录
-	$(".mailbox_btn").on("click",function(){
-		if ($("#login_code").val()==""||$("#login_code").val()==null) {
-			$(".error_content span").html("请输入正确的手机号和验证码");
-			$(".error_content").show();
-           return false;
-        }
-		var data = {
-            country_code: $("#login_countryCode").val(),
-            phone: $("#login_email").val(),
-            code: $("#login_code").val(),
-            _toke: $("#login_token_code").find("input").val()
-		}
-		$.ajax({
-        	type:"post",
-        	url:"/login/verify_sms_code",
-        	data:data,
-        	success:function(json){              
-//				json = json.replace(/\s+/g, "");
-//				var dataObj = $.parseJSON(json);
-				location.reload();
-			},        
-			error:function(err){          
-				console.log(err);        
-			}      
-        });
-	})
+//	$(".mailbox_btn").on("click",function(){
+//		var clickDome = $(this);
+//		if ($("#login_code").val()==""||$("#login_code").val()==null) {
+//			$(".error_content span").html("请输入正确的手机号和验证码");
+//			$(".error_content").show();
+//         return false;
+//      }
+//		var data = {
+//          country_code: $("#login_countryCode").val(),
+//          phone: $("#login_email").val(),
+//          code: $("#login_code").val(),
+//          _toke: $("#login_token_code").find("input").val()
+//		}
+//		var url = clickDome.attr('data-url');
+//		$.ajax({
+//      	type:"post",
+//      	url:url,
+//      	data:data,
+//      	success:function(json){              
+////				json = json.replace(/\s+/g, "");
+////				var dataObj = $.parseJSON(json);
+//				location.reload();
+//			},        
+//			error:function(err){          
+//				console.log(err);        
+//				if(e.status==422){
+//				    layer.msg($.parseJSON(e.responseText).errors.code[0]);
+//				}
+//			}      
+//      });
+//	})
 
 	function settime() {         
 		if (countdown == 0) {        
@@ -347,8 +355,8 @@ $(function(){
         return vars["action"];
     }
 	var action = "";
-	window.onload=function () {
-        if (getUrlVars() != undefined) {
+	$(document).ready(function(){
+		if (getUrlVars() != undefined) {
             action = getUrlVars()
         }
         switch (action) {
@@ -358,7 +366,19 @@ $(function(){
             default :
                 break;
         }
-   };
+	})
+//	window.onload=function () {
+//      if (getUrlVars() != undefined) {
+//          action = getUrlVars()
+//      }
+//      switch (action) {
+//          case "login":
+//              $(".login").click();
+//              break;
+//          default :
+//              break;
+//      }
+// };
 })
 
 $(function(){
@@ -429,6 +449,7 @@ $(function(){
 	});
 	//普通登录
 	$(".commo_btn").on("click",function(){
+		var clickDome = $(this);
 		if ($("#login-form").valid()) {
 			var data = {
 				username: $("#login-form").find("input[name='username']").val(),
@@ -436,9 +457,10 @@ $(function(){
 				_toke: $("#commn_login_token_code").find("input").val(),
 			}
 //          $('#login-form').submit();
+            var url = clickDome.attr('data-url');
             $.ajax({
             	type:"post",
-            	url:"login",
+            	url:url,
             	data: data,
             	success:function(json){
             		if(json.code==200){
@@ -458,6 +480,7 @@ $(function(){
 	})
 	//注册
 	$("#register_btn").on("click",function(){
+		var clickDome = $(this);
 		if ($("#register-form").valid()) {
 			if($("#register_code").val()!=""&&$("#agreement").prop("checked")!=false){
 //	            $('#register-form').submit();
@@ -469,9 +492,10 @@ $(function(){
 		            _toke: $("#register_token_code").find("input").val(),
 		            code: $("#register_code").val()
 				}
+	            var url = clickDome.attr('data-url');
 	            $.ajax({
 	            	type:"post",
-	            	url:"register",
+	            	url:url,
 	            	data: data,
 	            	success:function(json){
 	            		if(json.code==200){
@@ -482,8 +506,8 @@ $(function(){
 	            	},
 	            	error: function(e){
 	            		console.log(e);
-	            		if(err.status==422){
-						    layer.msg($.parseJSON(err.responseText).errors.code[0]);
+	            		if(e.status==422){
+						    layer.msg($.parseJSON(e.responseText).errors.code[0]);
 						}
 	            	},
 	            	complete:function(){
@@ -497,6 +521,7 @@ $(function(){
 	})
 	//手机密码登录
 	$(".mailbox_btn").on("click",function(){
+		var clickDome = $(this);
 		if ($("#mailbox_login").valid()) {
 			if($("#login_code").val()!=""){
 //	            $('#mailbox_login').submit();
@@ -506,9 +531,10 @@ $(function(){
 		            _toke: $("#login_token_code").find("input").val(),
 		            code: $("#login_code").val()
 				}
+	            var url = clickDome.attr('data-url');
 	            $.ajax({
 	            	type:"post",
-	            	url:"login/verify_sms_code",
+	            	url:url,
 	            	data: data,
 	            	success:function(json){
 	            		if(json.code==200){
@@ -542,14 +568,14 @@ $(function(){
 //顶部模糊搜索
 $(function(){
 	$(".selectInput_header").on('change', function(){
+		var clickDom = $(this);
 		$.ajax({
 			type:"get",
-			url:"products/search_hint?",
+			url:clickDom.attr("data-url"),
 			data: {
 				"query": $(".selectInput_header").val()
 			},
 			success:function(json){
-				console.log(json)
 				var html = "";
 				$.each(json.data.products, function(i,n) {
 					html+="<li>"+
