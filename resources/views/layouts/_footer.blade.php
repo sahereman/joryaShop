@@ -185,7 +185,7 @@
 	                @endif
                     <div class="verification_code">
                         <input type="text" id="register_code" class="code" name="code" placeholder="请输入验证码">
-                        <input type="button" class="generate_code" id="getRegister_code" value=" 获取验证码">
+                        <input type="button" class="generate_code" data-url="{{ route('register.send_sms_code') }}" id="getRegister_code" value=" 获取验证码">
                     </div>
                     <p class="register_error error_content">
 	                    <i></i>
@@ -205,7 +205,7 @@
                         <a href="{{ route('root') }}">《用户服务使用协议》</a>
                     </p>
                 </div>
-                <a class="btn_dialog register_btn" id="register_btn">注册</a>
+                <a class="btn_dialog register_btn" id="register_btn" data-url="{{ route('register') }}" >注册</a>
                 <div class="switch-back">
                     <p class="change_title">
                         <span>已有账号？</span>
@@ -267,7 +267,7 @@
 	                @endif
                     <div class="verification_code">
                         <input type="text" class="code" name="code" id="login_code" placeholder="请输入验证码">
-                        <input type="button" class="generate_code" id="getLogin_code" value=" 获取验证码">
+                        <input type="button" class="generate_code" data-url="{{ route('login.send_sms_code') }}" id="getLogin_code" value=" 获取验证码">
                     </div>
                     <p class="mailbox_error error_content">
 	                    <i></i>
@@ -284,8 +284,8 @@
                     <a code="1" class="rotary_btn register_btn pull-left">新用户注册</a>
                     <a class="forget_psw pull-right" href="{{ route('password.request') }}">忘记密码？</a>
                 </div>
-                <a class="btn_dialog commo_btn active">登录</a>
-                <a class="btn_dialog mailbox_btn">登录</a>
+                <a class="btn_dialog commo_btn active" data-url="{{ route('login') }}">登录</a>
+                <a class="btn_dialog mailbox_btn" data-url="{{ route('login.verify_sms_code') }}">登录</a>
             </div>
         </div>
         <div class="close">
