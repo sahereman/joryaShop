@@ -152,51 +152,52 @@
                     <p id="register_token_code" class="dis_n">{{ csrf_field() }}</p>
                     <input type="text" name="name" id="register_user" placeholder="请输入用户名" required>
                     @if ($errors->has('name'))
-	                    <p class="login_error error_content">
-		                    <i></i>
-		                    <span>{{ $errors->first('name') }}</span>
-		                </p>
-	                @endif
+                        <p class="login_error error_content">
+                            <i></i>
+                            <span>{{ $errors->first('name') }}</span>
+                        </p>
+                    @endif
                     <input type="password" name="password" id="register_psw" placeholder="请输入密码" required>
                     @if ($errors->has('password'))
-	                    <p class="login_error error_content">
-		                    <i></i>
-		                    <span>{{ $errors->first('password') }}</span>
-		                </p>
-	                @endif
-	                <div class="register_phone">
-	                	<select class="choose_tel_area" name="country_code" id="register_countryCode">
-	                		@foreach($country_codes as $country_code)
-	                		    <option value="{{ $country_code->country_code }}">{{ $country_code->country_name }}</option>
-	                		@endforeach
-		                </select>
-		                <div class="click_areaCode">
-		                	<img src="{{ asset('img/tel_phone.png') }}">
-		                	<img src="{{ asset('img/sanjiao.png') }}">
-		                </div>
-		                <span class="areaCode_val"></span>
-	                    <input type="text" name="phone" id="register_email" placeholder="请输入手机号" required>
-	                </div>
+                        <p class="login_error error_content">
+                            <i></i>
+                            <span>{{ $errors->first('password') }}</span>
+                        </p>
+                    @endif
+                    <div class="register_phone">
+                        <select class="choose_tel_area" name="country_code" id="register_countryCode">
+                            @foreach(\App\Models\CountryCode::countryCodes() as $country_code)
+                                <option value="{{ $country_code->country_code }}">{{ $country_code->country_name }}</option>
+                            @endforeach
+                        </select>
+                        <div class="click_areaCode">
+                            <img src="{{ asset('img/tel_phone.png') }}">
+                            <img src="{{ asset('img/sanjiao.png') }}">
+                        </div>
+                        <span class="areaCode_val"></span>
+                        <input type="text" name="phone" id="register_email" placeholder="请输入手机号" required>
+                    </div>
                     @if ($errors->has('phone'))
-	                    <p class="login_error error_content">
-		                    <i></i>
-		                    <span>{{ $errors->first('phone') }}</span>
-		                </p>
-	                @endif
+                        <p class="login_error error_content">
+                            <i></i>
+                            <span>{{ $errors->first('phone') }}</span>
+                        </p>
+                    @endif
                     <div class="verification_code">
                         <input type="text" id="register_code" class="code" name="code" placeholder="请输入验证码">
-                        <input type="button" class="generate_code" data-url="{{ route('register.send_sms_code') }}" id="getRegister_code" value=" 获取验证码">
+                        <input type="button" class="generate_code" data-url="{{ route('register.send_sms_code') }}"
+                               id="getRegister_code" value=" 获取验证码">
                     </div>
                     <p class="register_error error_content">
-	                    <i></i>
-	                    <span>请输入有效验证码阅读并同意服务协议</span>
-	                </p>
+                        <i></i>
+                        <span>请输入有效验证码阅读并同意服务协议</span>
+                    </p>
                     @if ($errors->has('code'))
-	                    <p class="login_error error_content">
-		                    <i></i>
-		                    <span>{{ $errors->first('code') }}</span>
-		                </p>
-	                @endif
+                        <p class="login_error error_content">
+                            <i></i>
+                            <span>{{ $errors->first('code') }}</span>
+                        </p>
+                    @endif
                 </form>
                 <div class="switch-back">
                     <p class="agreement_content">
@@ -205,7 +206,7 @@
                         <a href="{{ route('root') }}">《用户服务使用协议》</a>
                     </p>
                 </div>
-                <a class="btn_dialog register_btn" id="register_btn" data-url="{{ route('register') }}" >注册</a>
+                <a class="btn_dialog register_btn" id="register_btn" data-url="{{ route('register') }}">注册</a>
                 <div class="switch-back">
                     <p class="change_title">
                         <span>已有账号？</span>
@@ -230,55 +231,56 @@
                 <form id="login-form" class="active" action="{{ route('login.post') }}" method="POST">
                     <p id="commn_login_token_code" class="dis_n">{{ csrf_field() }}</p>
                     <input type="text" name="username" placeholder="请输入用户名或手机号" required>
-                	@if ($errors->has('username'))
-	                    <p class="login_error error_content">
-		                    <i></i>
-		                    <span>{{ $errors->first('username') }}</span>
-		                </p>
-	                @endif
+                    @if ($errors->has('username'))
+                        <p class="login_error error_content">
+                            <i></i>
+                            <span>{{ $errors->first('username') }}</span>
+                        </p>
+                    @endif
                     <input type="password" name="password" placeholder="请输入密码" required>
-                	@if ($errors->has('password'))
-	                    <p class="login_error error_content">
-		                    <i></i>
-		                    <span>{{ $errors->first('password') }}</span>
-		                </p>
-	                @endif
+                    @if ($errors->has('password'))
+                        <p class="login_error error_content">
+                            <i></i>
+                            <span>{{ $errors->first('password') }}</span>
+                        </p>
+                    @endif
                 </form>
                 <form id="mailbox_login" action="{{ route('login.verify_sms_code') }}" method="POST">
                     <p id="login_token_code" class="dis_n">{{ csrf_field() }}</p>
                     <div class="register_phone">
-	                	<select class="choose_tel_area" name="country_code" id="login_countryCode">
-		                	@foreach($country_codes as $country_code)
-	                		    <option value="{{ $country_code->country_code }}">{{ $country_code->country_name }}</option>
-	                		@endforeach
-		                </select>
-		                <div class="click_areaCode">
-		                	<img src="{{ asset('img/tel_phone.png') }}">
-		                	<img src="{{ asset('img/sanjiao.png') }}">
-		                </div>
-		                <span class="areaCode_val login_code"></span>
-	                    <input type="text" name="phone" id="login_email" placeholder="请输入手机号" required>
-	                </div>
+                        <select class="choose_tel_area" name="country_code" id="login_countryCode">
+                            @foreach(\App\Models\CountryCode::countryCodes() as $country_code)
+                                <option value="{{ $country_code->country_code }}">{{ $country_code->country_name }}</option>
+                            @endforeach
+                        </select>
+                        <div class="click_areaCode">
+                            <img src="{{ asset('img/tel_phone.png') }}">
+                            <img src="{{ asset('img/sanjiao.png') }}">
+                        </div>
+                        <span class="areaCode_val login_code"></span>
+                        <input type="text" name="phone" id="login_email" placeholder="请输入手机号" required>
+                    </div>
                     @if ($errors->has('phone'))
-	                    <p class="login_error error_content">
-		                    <i></i>
-		                    <span>{{ $errors->first('phone') }}</span>
-		                </p>
-	                @endif
+                        <p class="login_error error_content">
+                            <i></i>
+                            <span>{{ $errors->first('phone') }}</span>
+                        </p>
+                    @endif
                     <div class="verification_code">
                         <input type="text" class="code" name="code" id="login_code" placeholder="请输入验证码">
-                        <input type="button" class="generate_code" data-url="{{ route('login.send_sms_code') }}" id="getLogin_code" value=" 获取验证码">
+                        <input type="button" class="generate_code" data-url="{{ route('login.send_sms_code') }}"
+                               id="getLogin_code" value=" 获取验证码">
                     </div>
                     <p class="mailbox_error error_content">
-	                    <i></i>
-	                    <span>请输入正确有效验证码</span>
-	                </p>
+                        <i></i>
+                        <span>请输入正确有效验证码</span>
+                    </p>
                     @if ($errors->has('code'))
-	                    <p class="login_error error_content">
-		                    <i></i>
-		                    <span>{{ $errors->first('code') }}</span>
-		                </p>
-	                @endif
+                        <p class="login_error error_content">
+                            <i></i>
+                            <span>{{ $errors->first('code') }}</span>
+                        </p>
+                    @endif
                 </form>
                 <div class="switch-back">
                     <a code="1" class="rotary_btn register_btn pull-left">新用户注册</a>

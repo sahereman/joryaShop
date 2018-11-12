@@ -104,7 +104,9 @@
                     <li class="shppingCart">
                         <a href="{{ route('carts.index') }}" class="shop_cart">
                             <img src="{{ asset('img/header/shop_car.png') }}">
-                            <span class="shop_cart_num">10</span>
+                            @if($cart_count)
+                                <span class="shop_cart_num">{{ $cart_count }}</span>
+                            @endif
                         </a>
                     </li>
                 </ul>

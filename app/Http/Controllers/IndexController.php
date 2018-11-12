@@ -18,18 +18,14 @@ class IndexController extends Controller
 {
     public function root(Request $request)
     {
-        $cart_count = false;
-        if(Auth::check()){
-            $cart_count = Cart::where('user_id', Auth::id())->count();
-        }
-        $products = [];
         // TODO ... [投放广告页]
         $posters = Poster::where(['slug' => 'advertisement'])->latest()->limit(3)->get();
 
+        $products = [];
         $categories = ProductCategory::where(['parent_id' => 0, 'is_index' => 1])->get();
         foreach ($categories as $category) {
             $children = $category->children;
-            if($children->isEmpty()){
+            if ($children->isEmpty()) {
                 continue;
             }
             $children_ids = $children->pluck('id')->all();
@@ -38,8 +34,8 @@ class IndexController extends Controller
             $products[$category->id]['products'] = Product::where('is_index', 1)->whereIn('product_category_id', $children_ids)->orderByDesc('index')->limit(8)->get();
         }
         $guesses = Product::where(['is_index' => 1, 'on_sale' => 1])->orderByDesc('heat')->limit(8)->get();
+
         return view('index.root', [
-            'cart_count' => $cart_count,
             'posters' => $posters,
             'products' => $products,
             'guesses' => $guesses,

@@ -2,7 +2,7 @@
 
 return [
     // HTTP 请求的超时时间（秒）
-    'timeout' => env('KDNIAO_TIMEOUT', 3.0),
+    'timeout' => env('KDNIAO_TIMEOUT', 10.0),
     // 2: HTTP 请求|返回数据类型均为JSON格式
     'data_type' => env('KDNIAO_DATA_TYPE', 2),
     // 开发环境

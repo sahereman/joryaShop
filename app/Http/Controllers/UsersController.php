@@ -105,7 +105,7 @@ class UsersController extends Controller
     {
         $this->authorize('update', $user);
 
-        $country_codes = CountryCode::all();
+        $country_codes = CountryCode::countryCodes();
         return view('users.phone', [
             'user' => $user,
             'country_codes' => $country_codes,

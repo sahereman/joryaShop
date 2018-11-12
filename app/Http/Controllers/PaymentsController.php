@@ -11,23 +11,16 @@ use Yansongda\Pay\Pay;
 
 class PaymentsController extends Controller
 {
+    /*Alipay Payment*/
     protected function getAlipayConfig()
     {
         return array_merge(config('payment.alipay'), [
             'notify_url' => route('payments.alipay.notify'),
-            'return_url' => route('payments.return'),
+            'return_url' => route('payments.alipay.return'),
         ]);
     }
 
-    protected function getWechatConfig()
-    {
-        return array_merge(config('payment.wechat'), [
-            'notify_url' => route('payments.wechat.notify'),
-            // 'return_url' => route('payments.return'),
-        ]);
-    }
-
-    // GET Alipay 支付 页面
+    // GET Alipay 支付页面
     public function alipay(Request $request, Order $order)
     {
         // 判断订单是否属于当前用户
@@ -46,12 +39,12 @@ class PaymentsController extends Controller
         ]);
     }
 
-    // POST Alipay 支付通知 [notify_url]
     /**
      * 服务器端回调
      * @return string|\Symfony\Component\HttpFoundation\Response
      * @throws \Yansongda\Pay\Exceptions\InvalidSignException
      */
+    // POST Alipay 支付通知 [notify_url]
     public function alipayNotify()
     {
         // 校验输入参数
@@ -82,12 +75,12 @@ class PaymentsController extends Controller
         return Pay::alipay($this->getAlipayConfig())->success();
     }
 
-    // GET 支付回调 [return url]
     /**
      * 前端回调页面
      * @throws \Yansongda\Pay\Exceptions\InvalidSignException
      */
-    public function paymentReturn()
+    // GET Alipay 支付回调 [return url]
+    public function alipayReturn()
     {
         try {
             // 校验提交的参数是否合法
@@ -111,31 +104,7 @@ class PaymentsController extends Controller
         ]);
     }
 
-    // GET WeChat 支付 页面
-    public function wechat()
-    {
-        return view('payments.wechat');
-    }
-
-    // GET Paypal 支付 页面
-    public function paypal()
-    {
-        return view('payments.paypal');
-    }
-
-
-    // POST WeChat 支付通知 [notify_url]
-    public function wechatNotify()
-    {
-        return view('payments.wechat_notify');
-    }
-
-    // POST Paypal 支付通知 [notify_url]
-    public function paypalNotify()
-    {
-        return view('payments.paypal_notify');
-    }
-
+    // Alipay 退款
     public function alipayRefund(Request $request, Order $order)
     {
         // 调用支付宝支付实例的 refund 方法
@@ -156,9 +125,67 @@ class PaymentsController extends Controller
         ]);
     }
 
+    /*Wechat Payment*/
+    protected function getWechatConfig()
+    {
+        return array_merge(config('payment.wechat'), [
+            'notify_url' => route('payments.wechat.notify'),
+            // 'return_url' => route('payments.wechat.return'),
+        ]);
+    }
+
+    // GET WeChat 支付 页面
+    public function wechat(Request $request, Order $order)
+    {
+        // 判断订单是否属于当前用户
+        if ($request->user()->id !== $order->user_id) {
+            throw new InvalidRequestException('您没有权限操作此订单');
+        }
+        // 判断当前订单状态是否支持支付
+        if ($order->status !== Order::ORDER_STATUS_PAYING) {
+            throw new InvalidRequestException('当前订单状态不正确');
+        }
+        return view('payments.wechat');
+    }
+
+    // POST WeChat 支付通知 [notify_url]
+    public function wechatNotify()
+    {
+        // TODO ...
+    }
+
+    /**
+     * 前端回调页面
+     */
+    // GET Wechat 支付回调 [return url]
+    public function wechatReturn()
+    {
+        try {
+            // 校验提交的参数是否合法
+            $data = Pay::wechat($this->getAlipayConfig())->verify();
+        } catch (\Exception $e) {
+            // error_log($e->getMessage());
+            /*return view('pages.error', [
+                'msg' => '付款失败',
+            ]);*/
+            Log::error($e->getMessage());
+            return view('payments.error', [
+                'message' => $e->getMessage(),
+            ]);
+        }
+
+        /*return view('pages.success', [
+            'msg' => '付款成功',
+        ]);*/
+        return view('payments.success', [
+            'order' => $data,
+        ]);
+    }
+
+    // Wechat 退款
     public function wechatRefund(Request $request, Order $order)
     {
-        // 调用支付宝支付实例的 refund 方法
+        // 调用Wechat支付实例的 refund 方法
         $response = Pay::wechat($this->getWechatConfig())->refund([
             'out_trade_no' => $order->order_sn, // 之前的订单流水号
             'out_refund_no' => $order->refund->refund_sn, // 退款订单流水号
@@ -167,7 +194,7 @@ class PaymentsController extends Controller
             'refund_desc' => '这是来自 Jorya Shop 的退款订单' . $order->refund->refund_sn,
         ]);
 
-        // 根据支付宝的文档，如果返回值里有 sub_code 字段说明退款失败
+        // 根据Wechat的文档，如果返回值里有 sub_code 字段说明退款失败
         if ($response->sub_code) {
             Log::error(json_encode($response));
         }
@@ -177,5 +204,41 @@ class PaymentsController extends Controller
             'status' => OrderRefund::ORDER_REFUND_STATUS_REFUNDED,
             'refunded_at' => now(), // 退款时间
         ]);
+    }
+
+
+    protected function getPaypalConfig()
+    {
+        return array_merge(config('payment.paypal'), [
+            'notify_url' => route('payments.paypal.notify'),
+            'return_url' => route('payments.paypal.return'),
+        ]);
+    }
+
+    // GET Paypal 支付页面
+    public function paypal()
+    {
+        return view('payments.paypal');
+    }
+
+    // POST Paypal 支付通知 [notify_url]
+    public function paypalNotify()
+    {
+        // TODO ...
+    }
+
+    /**
+     * 前端回调页面
+     */
+    // GET Paypal 支付回调 [return url]
+    public function paypalReturn()
+    {
+        // TODO ...
+    }
+
+    // Paypal 退款
+    public function paypalRefund(Request $request, Order $order)
+    {
+        // TODO ...
     }
 }

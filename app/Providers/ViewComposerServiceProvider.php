@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Models\Cart;
 use App\Models\CountryCode;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
@@ -17,11 +19,13 @@ class ViewComposerServiceProvider extends ServiceProvider
     {
         // Using Closure based composers...
         View::composer([
-            'layouts._footer',
-            'auth.passwords.sms_code',
+            'layouts._header',
         ], function ($view) {
-            $country_codes = CountryCode::all();
-            $view->with('country_codes', $country_codes);
+            $cart_count = false;
+            if (Auth::check()) {
+                $cart_count = Cart::where('user_id', Auth::id());
+            }
+            $view->with('cart_count', $cart_count);
         });
     }
 

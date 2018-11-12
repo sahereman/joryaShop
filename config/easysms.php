@@ -3,7 +3,7 @@
 return [
 
     // HTTP 请求的超时时间（秒）
-    'timeout' => env('ALIYUN_SMS_TIMEOUT', 5.0),
+    'timeout' => env('ALIYUN_SMS_TIMEOUT', 10.0),
 
     // 默认发送配置
     'default' => [
