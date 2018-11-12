@@ -23,7 +23,7 @@ class ViewComposerServiceProvider extends ServiceProvider
         ], function ($view) {
             $cart_count = false;
             if (Auth::check()) {
-                $cart_count = Cart::where('user_id', Auth::id());
+                $cart_count = Cart::where('user_id', Auth::id())->count();
             }
             $view->with('cart_count', $cart_count);
         });
