@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Handlers\ImageUploadHandler;
 use App\Http\Requests\EasySmsSendRequest;
+use App\Models\Cart;
 use App\Models\Poster;
 use App\Models\Product;
 use App\Models\ProductCategory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Overtrue\EasySms\EasySms;
 use Overtrue\EasySms\PhoneNumber;
@@ -16,6 +18,10 @@ class IndexController extends Controller
 {
     public function root(Request $request)
     {
+        $cart_count = false;
+        if(Auth::check()){
+            $cart_count = Cart::where('user_id', Auth::id())->count();
+        }
         $products = [];
         // TODO ... [投放广告页]
         $posters = Poster::where(['slug' => 'advertisement'])->latest()->limit(3)->get();
@@ -33,6 +39,7 @@ class IndexController extends Controller
         }
         $guesses = Product::where(['is_index' => 1, 'on_sale' => 1])->orderByDesc('heat')->limit(8)->get();
         return view('index.root', [
+            'cart_count' => $cart_count,
             'posters' => $posters,
             'products' => $products,
             'guesses' => $guesses,

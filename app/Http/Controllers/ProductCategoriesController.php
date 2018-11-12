@@ -18,9 +18,9 @@ class ProductCategoriesController extends Controller
         $products = [];
         if ($category->parent_id == 0) {
             $children = $category->children;
-            $children->each(function (ProductCategory $child) use ($products) {
+            $children->each(function (ProductCategory $child) use (&$products) {
                 // on_sale: 是否在售 + index: 综合指数
-                $products[$child->id]['products'] = $child->products()->where('on_sale', 1)->orderByDesc('index')->limit(10)->get();
+                $products[$child->id] = $child->products()->where('on_sale', 1)->orderByDesc('index')->limit(10)->get();
             });
             return view('product_categories.index', [
                 'category' => $category,

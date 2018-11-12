@@ -119,9 +119,8 @@ Route::group(['middleware' => 'auth'], function () {
     /*订单*/
     Route::get('orders', 'OrdersController@index')->name('orders.index'); // 订单列表
     Route::get('orders/{order}', 'OrdersController@show')->name('orders.show'); // 订单详情
+    Route::get('orders/pre_payment', 'OrdersController@prePayment')->name('orders.pre_payment'); // 选择地址+币种页面
     Route::post('orders', 'OrdersController@store')->name('orders.store'); // 提交订单
-    Route::get('orders/{order}/pre_payment', 'OrdersController@prePayment')->name('orders.pre_payment'); // 选择地址+币种页面
-    Route::put('orders/{order}/update', 'OrdersController@prePayment')->name('orders.update'); // 提交表单更改[地址+币种]
     Route::get('orders/{order}/payment_method', 'OrdersController@paymentMethod')->name('orders.payment_method'); // 选择支付方式页面
     Route::patch('orders/{order}/close', 'OrdersController@close')->name('orders.close'); // [主动]取消订单，交易关闭 [订单进入交易关闭状态:status->closed]
     // Route::patch('orders/{order}/ship', 'OrdersController@ship')->name('orders.ship'); // 卖家配送发货 [订单进入待收货状态:status->receiving]

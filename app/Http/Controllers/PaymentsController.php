@@ -19,6 +19,14 @@ class PaymentsController extends Controller
         ]);
     }
 
+    protected function getWechatConfig()
+    {
+        return array_merge(config('payment.wechat'), [
+            'notify_url' => route('payments.wechat.notify'),
+            // 'return_url' => route('payments.return'),
+        ]);
+    }
+
     // GET Alipay 支付 页面
     public function alipay(Request $request, Order $order)
     {
@@ -134,6 +142,29 @@ class PaymentsController extends Controller
         $response = Pay::alipay($this->getAlipayConfig())->refund([
             'out_trade_no' => $order->order_sn, // 之前的订单流水号
             'refund_amount' => bcadd($order->total_amount, $order->total_shipping_fee, 2), // 退款金额，单位元
+        ]);
+
+        // 根据支付宝的文档，如果返回值里有 sub_code 字段说明退款失败
+        if ($response->sub_code) {
+            Log::error(json_encode($response));
+        }
+
+        // 将退款订单的状态标记为退款成功并保存退款時間
+        $order->refund->update([
+            'status' => OrderRefund::ORDER_REFUND_STATUS_REFUNDED,
+            'refunded_at' => now(), // 退款时间
+        ]);
+    }
+
+    public function wechatRefund(Request $request, Order $order)
+    {
+        // 调用支付宝支付实例的 refund 方法
+        $response = Pay::wechat($this->getWechatConfig())->refund([
+            'out_trade_no' => $order->order_sn, // 之前的订单流水号
+            'out_refund_no' => $order->refund->refund_sn, // 退款订单流水号
+            'total_fee' => bcadd($order->total_amount, $order->total_shipping_fee, 2), // 订单金额，单位元
+            'refund_fee' => bcadd($order->total_amount, $order->total_shipping_fee, 2), // 退款金额，单位元
+            'refund_desc' => '这是来自 Jorya Shop 的退款订单' . $order->refund->refund_sn,
         ]);
 
         // 根据支付宝的文档，如果返回值里有 sub_code 字段说明退款失败
