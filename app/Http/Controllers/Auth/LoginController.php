@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Events\EmailCodeLoginEvent;
+use App\Events\UserBrowsingHistoryEvent;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginEmailCodeRequest;
 use App\Http\Requests\LoginEmailCodeValidationRequest;
@@ -266,6 +267,10 @@ class LoginController extends Controller
 
             // return $this->sendLoginResponse($request);
 
+            // user browsing history - initialization
+            Cache::set($user->id . '-user_browsing_history_count', 0);
+            Cache::set($user->id . '-user_browsing_history_list', '');
+
             return response()->json([
                 'code' => 200,
                 'message' => 'success',
@@ -352,6 +357,11 @@ class LoginController extends Controller
 
     public function logout(Request $request)
     {
+        // user browsing history - expiration (firing an event)
+        if (Auth::check()) {
+            event(new UserBrowsingHistoryEvent(Auth::user()));
+        }
+
         $this->guard()->logout();
 
         return redirect('/');

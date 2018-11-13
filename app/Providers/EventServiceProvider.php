@@ -37,6 +37,9 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\OrderSnapshotEvent' => [
             'App\Listeners\OrderSnapshotEventListener',
         ],
+        'App\Events\UserBrowsingHistoryEvent' => [
+            'App\Listeners\UserBrowsingHistoryEventListener',
+        ],
         /*'Illuminate\Auth\Events\Authenticated' => [
             'App\Listeners\LogAuthenticatedListener'
         ],*/

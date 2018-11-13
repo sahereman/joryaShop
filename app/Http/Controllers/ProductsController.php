@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\UserBrowsingHistoryEvent;
 use App\Exceptions\InvalidRequestException;
 use App\Http\Requests\ProductRequest;
 use App\Models\Product;
@@ -9,6 +10,8 @@ use App\Models\ProductSku;
 use App\Models\ProductCategory;
 use App\Models\ProductComment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
@@ -152,6 +155,19 @@ class ProductsController extends Controller
         $guesses = Product::where(['is_index' => 1, 'on_sale' => 1])->orderByDesc('index')->limit(8)->get();
         $hot_sales = Product::where(['is_index' => 1, 'on_sale' => 1])->orderByDesc('heat')->limit(8)->get();
         $best_sellers = Product::where(['is_index' => 1, 'on_sale' => 1])->orderByDesc('sales')->limit(8)->get();
+
+        // user browsing history - appending (maybe firing an event)
+        if (Auth::check()) {
+            $user = Auth::user();
+            if (Cache::has($user->id . '-user_browsing_history_count') && Cache::has($user->id . '-user_browsing_history_list')) {
+                Cache::increment($user->id . '-user_browsing_history_count');
+                Cache::set($user->id . '-user_browsing_history_list', Cache::get($user->id . '-user_browsing_history_list') . ',' . $product->id);
+                if (Cache::get($user->id . '-user_browsing_history_count') >= 25) {
+                    event(new UserBrowsingHistoryEvent($user));
+                }
+            }
+        }
+
         return view('products.show', [
             'category' => $category,
             'product' => $product,
