@@ -764,6 +764,15 @@
                         }
                     }
                 }
+                &.product_info {
+                    background-color: #fff;
+                    padding: 25px;
+                    min-height: 1000px;
+                    overflow: hidden;
+                    img {
+                        width: 100%;
+                    }
+                }
             }
         }
     }

@@ -34,7 +34,7 @@
                     @foreach($carts as $cart)
                         <div class="clear single-item">
                             <div class="left w20">
-                                <input name="selectOne" type="checkbox" value="{{ $cart->id }}">
+                                <input name="selectOne" type="checkbox" code="{{ $cart->sku->id }}" value="{{ $cart->id }}">
                             </div>
                             <div class="left w110 shop-img">
                                 <a class="cur_p" href="{{ route('products.show', $cart->sku->product_id) }}">
@@ -301,6 +301,32 @@
 	        		}
 	        	}	
             })
+            //再次购买的特殊处理，如果从再次购买进入购物车则url中存在参数sku_id_lists用来判断哪些商品是通过再次购买添加至购物车中
+            //同时对这些对应的商品进行选择进行状态选中
+            function getUrlVars() {
+		        var vars = [], hash;
+		        var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+		        for (var i = 0; i < hashes.length; i++) {
+		            hash = hashes[i].split('=');
+		            vars.push(hash[0]);
+		            vars[hash[0]] = hash[1];
+		        }
+		        return vars["sku_id_lists"];
+		    }
+		    var action = "";
+		    var sku_id = [];
+		    $(document).ready(function(){
+				if (getUrlVars() != undefined) {
+		            action = getUrlVars();
+		            action = action.substring(0,action.length-1);
+		            sku_id = action.split(",");
+		            $.each(sku_id, function(i,n) {
+		            	console.log(n)
+		            	$(".cart-items").find("input[code='"+ n +"']").attr("checked",true);
+		            });
+		            calcTotal();
+		       }
+			})
         });
     </script>
 @endsection

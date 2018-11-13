@@ -567,32 +567,37 @@ $(function(){
 })
 //顶部模糊搜索
 $(function(){
-	$(".selectInput_header").on('change', function(){
-		var clickDom = $(this);
-		$.ajax({
-			type:"get",
-			url:clickDom.attr("data-url"),
-			data: {
-				"query": $(".selectInput_header").val()
-			},
-			success:function(json){
-				var html = "";
-				$.each(json.data.products, function(i,n) {
-					html+="<li>"+
-					          "<a code='" + n.id + "' >" + n.name_zh + "</a>"+
-                          "</li>"
+	var lastTime;
+	$(".selectInput_header").bind("input propertychange",function(event){
+	      lastTime = event.timeStamp;
+	      var clickDom = $(this);
+	      setTimeout(function () {
+	        if (lastTime - event.timeStamp == 0) {
+	            $.ajax({
+					type:"get",
+					url:clickDom.attr("data-url"),
+					data: {
+						"query": $(".selectInput_header").val()
+					},
+					success:function(json){
+						var html = "";
+						$.each(json.data.products, function(i,n) {
+							html+="<li>"+
+							          "<a code='" + n.id + "' >" + n.name_zh + "</a>"+
+		                          "</li>"
+						});
+						$(".selectList ul").html("");
+						$(".selectList ul").append(html);
+						$(".selectList").removeClass("dis_n");
+					},
+					error:function(e){
+						console.log(e)
+						if(e.status==422){}
+					}
 				});
-				$(".selectList ul").html("");
-				$(".selectList ul").append(html);
-				$(".selectList").removeClass("dis_n");
-			},
-			error:function(e){
-				console.log(e)
-				if(e.status==422){
-				}
-			}
-		});
-	})
+	        }
+	      }, 300);
+	});
 	//点击页面部分关闭搜索结果弹窗
 	$(document).on("click",function(){
 		$(".selectList").addClass("dis_n");
@@ -606,4 +611,10 @@ $(function(){
 	$(".search_btn").on("click",function(){
 		window.location.href = $(".selectList").attr("data-url")+"?query="+$(".selectInput_header").val();
 	})
+	//绑定回车键出发搜索
+	$(document).keyup(function(event){
+	  if(event.keyCode ==13){
+	    $(".search_btn").trigger("click");
+	  }
+	});
 })

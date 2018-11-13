@@ -110,7 +110,7 @@
                                             </td>
                                             <td class="col-pro-info">
                                                 <p class="p-info">
-                                                    <a href="{{ route('products.show', $order_item['sku']['product']['id']) }}">{{ $order_item['sku']['product']['name_zh'] }}</a>
+                                                    <a code="{{ $order_item['sku']['id'] }}" href="{{ route('products.show', $order_item['sku']['product']['id']) }}">{{ $order_item['sku']['product']['name_zh'] }}</a>
                                                 </p>
                                             </td>
                                             <td class="col-price">
@@ -144,7 +144,7 @@
                                                     <a class="cancellation" code="{{ route('orders.close', $order->id) }}">取消订单</a>
                                                     @elseif($order->status == \App\Models\Order::ORDER_STATUS_CLOSED)
                                                             <!--再次购买-->
-                                                    <a class="Buy_again" data-url="{{ route('carts.store') }}">再次购买</a>
+                                                    <a class="Buy_again"  data-url="{{ route('carts.store') }}">再次购买</a>
                                                     @elseif($order->status == \App\Models\Order::ORDER_STATUS_SHIPPING)
                                                             <!--订单待发货-->
                                                     <a class="reminding_shipments">提醒发货</a>
@@ -187,7 +187,7 @@
                                             </td>
                                             <td class="col-pro-info">
                                                 <p class="p-info">
-                                                    <a href="{{ route('products.show', $order_item['sku']['product']['id']) }}">{{ $order_item['sku']['product']['name_zh'] }}</a>
+                                                    <a code="{{ $order_item['sku']['id'] }}" href="{{ route('products.show', $order_item['sku']['product']['id']) }}">{{ $order_item['sku']['product']['name_zh'] }}</a>
                                                 </p>
                                             </td>
                                             <td class="col-price">
@@ -473,5 +473,68 @@
        $(".reminding_shipments").on('click',function(){
        	   layer.msg('已提醒卖家发货，请敬候佳音');
        })
+        var allHadAdd = 0;  //用来判断是否已经订单找那个全部的商品添加至购物车中
+    	var shops_list;  //单个订单中包含的商品的数量,用于再次购买时判断时候可以进行跳页
+    	var loading_animation;  //loading动画的全局name
+       //再次购买
+        $(".buy_more").on("click",function(){
+        	shops_list = $(this).parents("table").find("tr");
+        	var sku_id_lists = "";  //用于页面跳转在购物车页面通过判断这个参数的值选中商品
+        	var sku_id;
+        	var number;
+        	var url = $(this).attr("data-url");
+        	$.each(shops_list, function(i,n) {
+        		sku_id = $(n).find(".p-info").find("a").attr("code");
+        		number = $(n).find(".col-quty").html();
+        		sku_id_lists+=$(n).find(".p-info").find("a").attr("code")+",";
+        		allHadAdd++;
+        		add_to_carts(sku_id,number,url,sku_id_lists,allHadAdd);
+        	});
+        })
+        $(".Buy_again").on("click",function(){
+        	shops_list = $(this).parents("table").find("tr");
+        	var sku_id_lists = "";  //用于页面跳转在购物车页面通过判断这个参数的值选中商品
+        	var sku_id;
+        	var number;
+        	var url = $(this).attr("data-url");
+        	$.each(shops_list, function(i,n) {
+        		sku_id = $(n).find(".p-info").find("a").attr("code");
+        		number = $(n).find(".col-quty").html();
+        		sku_id_lists+=$(n).find(".p-info").find("a").attr("code")+",";
+        		allHadAdd++;
+        		add_to_carts(sku_id,number,url,sku_id_lists,allHadAdd);
+        	});
+        })
+        //添加购物车
+        function add_to_carts(sku_id,number,url,sku_id_lists,allHadAdd){
+        	var data = {
+    			_token: "{{ csrf_token() }}",
+    			sku_id: sku_id,
+    			number: number
+    		}
+            $.ajax({
+                type: "post",
+                url: url,
+                data: data,
+                beforeSend: function(){
+    			loading_animation = layer.msg('请稍候', {
+		                icon: 16,
+		                shade: 0.4,
+		                time:false //取消自动关闭
+					});
+        		},
+                success: function (data) {
+                	if(allHadAdd==shops_list.length){
+                		window.location.href=url+"?sku_id_lists="+sku_id_lists;	
+                	}
+                },
+                error: function (err) {
+                    console.log(err);
+                    if(allHadAdd==shops_list.length){
+                		layer.close(loading_animation);
+                	}
+                }
+            });
+        }
     </script>
 @endsection

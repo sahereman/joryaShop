@@ -144,7 +144,7 @@
                                             </td>
                                             <td class="col-pro-info">
                                                 <p class="p-info">
-                                                    <a href="{{ route('products.show', $item->sku->product->id) }}">{{ $item->sku->product->name_zh }}</a>
+                                                    <a code="{{ $item->sku->id }}" href="{{ route('products.show', $item->sku->product->id) }}">{{ $item->sku->product->name_zh }}</a>
                                                 </p>
                                             </td>
                                             <td class="col-price">
@@ -169,7 +169,7 @@
                                                         <a class="evaluate"
                                                            href="{{ route('orders.create_comment', $order->id) }}">评价</a>
                                                     @endif
-                                                    <a class="buy_more" href="{{ route('root') }}">再次购买</a>
+                                                    <a class="buy_more" data-url="{{ route('carts.store') }}" href="javascript:void(0)">再次购买</a>
                                                 </p>
                                             </td>
                                         </tr>
@@ -186,7 +186,7 @@
                                             </td>
                                             <td class="col-pro-info">
                                                 <p class="p-info">
-                                                    <a href="{{ route('products.show', $item->sku->product->id) }}">{{ $item->sku->product->name_zh }}</a>
+                                                    <a code="{{ $item->sku->id }}" href="{{ route('products.show', $item->sku->product->id) }}">{{ $item->sku->product->name_zh }}</a>
                                                 </p>
                                             </td>
                                             <td class="col-price">
@@ -206,10 +206,10 @@
                         @endforeach
                     </div>
                     <!--分页-->
-                    <div class="paging_box">
-                        <a class="pre_page" href="{{ route('users.home') }}">上一页</a>
-                        <a class="next_page" href="{{ route('users.home') }}">下一页</a>
-                    </div>
+                    <!--<div class="paging_box">
+                        <a class="pre_page" href="javascript:void(0)">上一页</a>
+                        <a class="next_page" href="javascript:void(0)">下一页</a>
+                    </div>-->
                     @endif
                 </div>
                 <!--猜你喜欢-->
@@ -265,6 +265,9 @@
 @section('scriptsAfterJs')
     <script type="text/javascript">
         $(function () {
+        	var allHadAdd = 0;  //用来判断是否已经订单找那个全部的商品添加至购物车中
+        	var shops_list;  //单个订单中包含的商品的数量,用于再次购买时判断时候可以进行跳页
+        	var loading_animation;  //loading动画的全局name
             $(".navigation_left ul li").removeClass("active");
             $(".user_index").addClass("active");
             $(".order-group").on('click', '.col-delete', function () {
@@ -289,6 +292,54 @@
                     }
                 });
             });
+            //再次购买
+            $(".buy_more").on("click",function(){
+            	shops_list = $(this).parents("table").find("tr");
+            	var sku_id_lists = "";  //用于页面跳转在购物车页面通过判断这个参数的值选中商品
+            	var sku_id;
+            	var number;
+            	var url = $(this).attr("data-url");
+            	$.each(shops_list, function(i,n) {
+            		sku_id = $(n).find(".p-info").find("a").attr("code");
+            		number = $(n).find(".col-quty").html();
+            		sku_id_lists+=$(n).find(".p-info").find("a").attr("code")+",";
+            		allHadAdd++;
+            		add_to_carts(sku_id,number,url,sku_id_lists,allHadAdd);
+            	});
+            })
+            //添加购物车
+            function add_to_carts(sku_id,number,url,sku_id_lists,allHadAdd){
+            	var data = {
+        			_token: "{{ csrf_token() }}",
+        			sku_id: sku_id,
+        			number: number
+        		}
+                $.ajax({
+                    type: "post",
+                    url: url,
+                    data: data,
+                    beforeSend: function(){
+        			loading_animation = layer.msg('请稍候', {
+			                icon: 16,
+			                shade: 0.4,
+			                time:false //取消自动关闭
+						});
+	        		},
+                    success: function (data) {
+                    	if(allHadAdd==shops_list.length){
+                    		window.location.href=url+"?sku_id_lists="+sku_id_lists;	
+                    	}
+                    },
+                    error: function (err) {
+                        console.log(err);
+                    },
+                    complete:function(){
+                    	if(allHadAdd==shops_list.length){
+                    		layer.close(loading_animation);
+                    	}
+                    }
+                });
+            }
         });
     </script>
 @endsection

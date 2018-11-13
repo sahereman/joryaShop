@@ -62,12 +62,12 @@
                                         <span>{{ $item['product']->name_zh }}</span>
                                     </div>
                                     <div class="left w150 center"><span>{{ $item['sku']->name_zh }}</span></div>
-                                    <div class="left w150 center">&yen; <span>{{ $item['sku']->price }}</span></div>
-                                    <div class="left w150 center">&#36; <span>{{ $item['sku']->price_en }}</span></div>
+                                    <div class="left w150 center RMB_num">&yen; <span>{{ $item['sku']->price }}</span></div>
+                                    <div class="left w150 dis_n center dollar_num">&#36; <span>{{ $item['sku']->price_en }}</span></div>
                                     <div class="left w150 center counter"><span>{{ $item['number'] }}</span></div>
-                                    <div class="left w150 s_total red center">&yen;
+                                    <div class="left w150 s_total red center RMB_num">&yen;
                                         <span>{{ $item['amount'] }}</span></div>
-                                    <div class="left w150 s_total red center">&#36;
+                                    <div class="left w150 s_total dis_n red dollar_num center">&#36;
                                         <span>{{ $item['amount_en'] }}</span></div>
                                 </div>
                             @endforeach
@@ -77,34 +77,34 @@
                 <div class="pre_payment_footer">
                     <p class="main_title">币种选择</p>
                     <p class="currency_selection">
-                        <a href="javascript:void(0)" class="active">人民币</a>
-                        <a href="javascript:void(0)">美金</a>
+                        <a href="javascript:void(0)" class="active" code="RMB">人民币</a>
+                        <a href="javascript:void(0)" code="dollar">美金</a>
                     </p>
                     <ul>
                         <li class="clear">
                             <span>订单备注：</span>
-                            <textarea placeholder="选填，给卖家留言（限50字）"></textarea>
+                            <textarea class="remark" maxlength="50" placeholder="选填，给卖家留言（限50字）"></textarea>
                         </li>
                         <li>
                             <p>
                                 <span>合计：</span>
-                                <span>&yen; <span>{{ $total_amount }}</span></span>
-                                <span>&#36; <span>{{ $total_amount_en }}</span></span>
+                                <span class="RMB_num amount_of_money">&yen; <span>{{ $total_amount }}</span></span>
+                                <span class="dis_ni dollar_num amount_of_money">&#36; <span>{{ $total_amount_en }}</span></span>
                             </p>
                             <p>
                                 <span>运费：</span>
-                                <span>&yen; <span>{{ $total_shipping_fee }}</span></span>
-                                <span>&&#36; <span>{{ $total_shipping_fee_en }}</span></span>
+                                <span class="RMB_num amount_of_money">&yen; <span>{{ $total_shipping_fee }}</span></span>
+                                <span class="dis_ni dollar_num amount_of_money">&#36; <span>{{ $total_shipping_fee_en }}</span></span>
                             </p>
                         </li>
                         <li>
                             <p>
                                 <span>应付金额：</span>
-                                <span class="red">&yen; <span>{{ $total_fee }}</span></span>
-                                <span class="red">&#36; <span>{{ $total_fee_en }}</span></span>
+                                <span class="red RMB_num amount_of_money">&yen; <span>{{ $total_fee }}</span></span>
+                                <span class="red dis_ni dollar_num amount_of_money">&#36; <span>{{ $total_fee_en }}</span></span>
                             </p>
                             <p>
-                                <a>付款</a>
+                                <a href="javascript:void(0)" class="payment_btn" data-url="{{ route('orders.store') }}">付款</a>
                             </p>
                             @if($address)
                                 <p class="address_info">
@@ -174,6 +174,22 @@
             $(".currency_selection a").on("click", function () {
                 $(".currency_selection a").removeClass("active");
                 $(this).addClass('active');
+                switch ($(this).attr("code")) {
+		            case "RMB":
+		                $(".RMB_num").removeClass("dis_n");
+		                $("span.RMB_num").removeClass("dis_ni");
+		                $(".dollar_num").addClass("dis_n");
+		                $("span.dollar_num").addClass("dis_ni");
+		                break;
+		            case "dollar":
+		                $(".RMB_num").addClass("dis_n");
+		                $("span.RMB_num").addClass("dis_ni");
+		                $(".dollar_num").removeClass("dis_n");
+		                $("span.dollar_num").removeClass("dis_ni");
+		                break;
+		            default :
+		                break;
+		        }
             });
             //新建收获地址
             $(".add_new_address").on("click", function () {
@@ -255,6 +271,99 @@
                 $(".changeAddress ul").find("li").removeClass("active");
                 $(this).addClass("active");
             })
+            //获取url,通过判断url中参数sendWay的值来确定从哪个页面进入，1、立即购买，2、购物车
+            var loading_animation;
+            function getUrlVars(url_name) {
+		        var vars = [], hash;
+		        var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+		        for (var i = 0; i < hashes.length; i++) {
+		            hash = hashes[i].split('=');
+		            vars.push(hash[0]);
+		            vars[hash[0]] = hash[1];
+		        }
+		        return vars[url_name];
+		    }
+		    $(".payment_btn").on("click",function(){
+		    	var url = $(this).attr("data-url");
+		    	var sendWay = getUrlVars("sendWay");
+		    	console.log(sendWay);
+		    	switch (sendWay) {
+		            case "1":
+		                var sku_id = getUrlVars("sku_id");
+		                var number = getUrlVars("number");
+		                payment_one(sku_id,number,url);
+		                break;
+		            case "2":
+		                var cart_ids = getUrlVars("cart_ids");
+		                payment_two(cart_ids,url);
+		                break;
+		            default :
+		                break;
+		        }
+		    })     
+		    //第一类创建订单（直接下单）
+		    function payment_one(sku_id,number,url){
+		    	var data = {
+		    		_token: "{{ csrf_token() }}",
+		    		sku_id: sku_id,
+		    		number: number,
+		    		name: $(".address_name").html(),
+		    		phone: $(".address_phone").html(),
+		    		address: $(".address_location").html(),
+		    		remark: $(".remark").val()
+		    	}
+		    	$.ajax({
+		    		type:"post",
+		    		url:url,
+		    		data:data,
+		    		beforeSend: function(){
+	        			loading_animation = layer.msg('请稍候', {
+			                icon: 16,
+			                shade: 0.4,
+			                time:false //取消自动关闭
+						});
+	        		},
+	        		success: function (json) {	
+	        			window.location.href = json.data.request_url;
+                    },
+                    error: function (err) {
+                        console.log(err);
+                    },
+                    complete:function(){
+                    }
+		    	});
+		    }
+		    //第二类创建订单（购物车下单）       
+		    function payment_two(cart_ids,url){
+		    	var data = {
+		    		_token: "{{ csrf_token() }}",
+		    		cart_ids: cart_ids,
+		    		name: $(".address_name").html(),
+		    		phone: $(".address_phone").html(),
+		    		address: $(".address_location").html(),
+		    		remark: $(".remark").val()
+		    	}
+		    	$.ajax({
+		    		type:"post",
+		    		url:url,
+		    		data:data,
+		    		beforeSend: function(){
+	        			loading_animation = layer.msg('请稍候', {
+			                icon: 16,
+			                shade: 0.4,
+			                time:false //取消自动关闭
+						});
+	        		},
+	        		success: function (json) {	
+	        			window.location.href = json.data.request_url;
+                    },
+                    error: function (err) {
+                        console.log(err);
+                    },
+                    complete:function(){
+                    }
+		    	});
+		    }
         });
     </script>
 @endsection

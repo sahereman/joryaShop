@@ -178,7 +178,7 @@
                         <li onclick="tabs('#comments_details',0)" class="curr">商品详情</li>
                         <li onclick="tabs('#comments_details',1)" class="shopping_eva" data-url="{{ route('products.comment',$product->id) }}">商品评价<strong>({{ $comment_count }})</strong></li>
                     </ul>
-                    <div class="mc tabcon">
+                    <div class="mc tabcon product_info">
                         {{ $product->content_zh }}
                     </div>
                     <div class="mc tabcon dis_n">
@@ -399,6 +399,10 @@
         			if(dataObj.length<=0){
         				$(".no_eva").removeClass('dis_n');
         				$(".comment-score h3").text("0.0");
+        				$(".pre_page").addClass("not_allow");
+        				$(".pre_page").attr("disabled",true);
+        				$(".next_page").addClass("not_allow");
+        				$(".next_page").attr("disabled",true);
         			}else {
         				var html = "";
         				$(".composite_index").text((json.data.composite_index).toFixed(1));
