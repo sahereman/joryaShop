@@ -71,6 +71,11 @@ class ProductComment extends Model
         return $this->belongsTo(Order::class);
     }
 
+    public function orderItem()
+    {
+        return $this->belongsTo(OrderItem::class);
+    }
+
     public function product()
     {
         return $this->belongsTo(Product::class);
