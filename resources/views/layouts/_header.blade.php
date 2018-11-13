@@ -4,25 +4,25 @@
             <div class="navbar-top-left pull-left">
                 <ul>
                     <li>
-                        <span>切换语言：</span>
+                        <span>@lang('app.switch language')：</span>
                     </li>
                     <li class="dropdown">
                         <button id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true"
                                 aria-expanded="false">
-                            <span>中文</span>
+                            <span>{{\Illuminate\Support\Facades\App::getLocale() == 'en' ? 'English' : '中文'}}</span>
                             <img src="{{ asset('img/header/down_arrow.png') }}">
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="dLabel">
                             <li>
-                                <a>
+                                <a href="{{route('locale.update','zh-CN')}}">
                                     <img src="{{ asset('img/header/cn_flag.png') }}">
                                     <span>中文</span>
                                 </a>
                             </li>
                             <li>
-                                <a>
+                                <a href="{{route('locale.update','en')}}">
                                     <img src="{{ asset('img/header/en_flag.png') }}">
-                                    <span>EN</span>
+                                    <span>English</span>
                                 </a>
                             </li>
                         </ul>
