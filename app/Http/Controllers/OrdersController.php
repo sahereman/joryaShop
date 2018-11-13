@@ -173,6 +173,7 @@ class OrdersController extends Controller
         $items = [];
         if ($request->has('sku_id') && $request->has('number')) {
             $sku = ProductSku::find($request->query('sku_id'));
+            $sku->price_en = ExchangeRate::exchangePriceByCurrency($sku->price, 'USD');
             $items[0]['sku'] = $sku;
             $items[0]['product'] = $sku->product;
             $items[0]['number'] = $request->query('number');
@@ -180,6 +181,7 @@ class OrdersController extends Controller
             $cart_ids = explode(',', $request->query('cart_ids'));
             foreach ($cart_ids as $key => $cart_id) {
                 $cart = Cart::find($cart_id);
+                $cart->sku->price_en = ExchangeRate::exchangePriceByCurrency($cart->sku->price, 'USD');
                 $items[$key]['sku'] = $cart->sku;
                 $items[$key]['product'] = $cart->sku->product;
                 $items[$key]['number'] = $cart->number;
@@ -196,12 +198,9 @@ class OrdersController extends Controller
             $address = $userAddress->orderByDesc('last_used_at')->first();
         }
 
-        $exchange_rates = ExchangeRate::all();
-
         return view('orders.pre_payment', [
             'items' => $items,
             'address' => $address,
-            'exchange_rates' => $exchange_rates,
         ]);
     }
 

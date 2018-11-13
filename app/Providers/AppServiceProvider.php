@@ -4,11 +4,13 @@ namespace App\Providers;
 
 use App\Models\Config;
 use App\Models\CountryCode;
+use App\Models\ExchangeRate;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
 use App\Observers\ConfigObserver;
 use App\Observers\CountryCodeObserver;
+use App\Observers\ExchangeRateObserver;
 use App\Observers\OrderObserver;
 use App\Observers\OrderItemObserver;
 use App\Observers\ProductsObserver;
@@ -25,6 +27,7 @@ class AppServiceProvider extends ServiceProvider
     {
         Config::observe(ConfigObserver::class);
         CountryCode::observe(CountryCodeObserver::class);
+        ExchangeRate::observe(ExchangeRateObserver::class);
 
         Product::observe(ProductsObserver::class);
 
