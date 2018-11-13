@@ -8,11 +8,10 @@
 		<div class="sucBox">
 			<img src="{{ asset('static_m/img/icon_Success.png') }}"/>
 			<div>新密码已设置成功</div>
+			<button type="submit" class="subBtn">
+	            <a href="{{route('mobile.login.show')}}">登录</a>
+	       </button>
 		</div>
-		<button type="submit" class="subBtn">
-            <a href="{{route('mobile.login.show')}}">登录</a>
-        </button>
-    	
 	</div>
 
 @endsection

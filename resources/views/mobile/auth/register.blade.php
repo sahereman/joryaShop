@@ -39,6 +39,7 @@
 	        </div>
 			<div class="phoneBox">
 				<img src="{{ asset('static_m/img/icon_phone.png') }}" class="fImg" />
+				<div class="triangle"></div>
 				<select name="country_code" class="selCountry" id="myselect">
 		            @foreach(\App\Models\CountryCode::countryCodes() as $country_code)
 		                <option value="{{ $country_code->country_code }}">{{ $country_code->country_name }}</option>
