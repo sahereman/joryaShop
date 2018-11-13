@@ -23,9 +23,11 @@ class IndexController extends Controller
 
         $products = [];
         $categories = ProductCategory::where(['parent_id' => 0, 'is_index' => 1])->get();
-        foreach ($categories as $category) {
+        foreach ($categories as $category)
+        {
             $children = $category->children;
-            if ($children->isEmpty()) {
+            if ($children->isEmpty())
+            {
                 continue;
             }
             $children_ids = $children->pluck('id')->all();
@@ -96,5 +98,14 @@ class IndexController extends Controller
     {
         $response = easy_sms_send($request->input('data'), $request->input('phone_number'), $request->input('country_code'));
         return response()->json($response);
+    }
+
+    public function localeUpdate(Request $request, $locale)
+    {
+
+        $request->session()->put('GlobalLocale', $locale);
+
+
+        return back();
     }
 }

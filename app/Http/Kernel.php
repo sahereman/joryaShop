@@ -34,6 +34,10 @@ class Kernel extends HttpKernel
             // \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
 
+
+            \App\Http\Middleware\SetGlobalLocale::class,
+
+
             \App\Http\Middleware\RedirectIfMobileBrowser::class,
         ],
 
