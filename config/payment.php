@@ -29,15 +29,15 @@ return [
             'max_file' => 30,
         ],
 
-        'http' => [ // optional
-            'timeout' => 5.0,
-            'connect_timeout' => 5.0,
-            // 更多配置项请参考 [Guzzle](https://guzzle-cn.readthedocs.io/zh_CN/latest/request-options.html)
-        ],
-
         // optional，设置此参数，将进入沙箱模式
         // 'mode' => 'dev',
         'mode' => 'dev',
+
+        'http' => [ // optional
+            'timeout' => 10.0,
+            'connect_timeout' => 10.0,
+            // 更多配置项请参考 [Guzzle](https://guzzle-cn.readthedocs.io/zh_CN/latest/request-options.html)
+        ],
     ],
 
     // Wechat 支付
@@ -81,6 +81,14 @@ return [
         // 'dev' 时为沙箱模式
         // 'hk' 时为东南亚节点
         // 'mode' => 'dev',
+        // 'mode' => 'dev', // optional, dev/hk;当为 `hk` 时，为香港 gateway。
+        'mode' => 'service', // optional, dev/hk;当为 `hk` 时，为香港 gateway。
+
+        'http' => [ // optional
+            'timeout' => 10.0,
+            'connect_timeout' => 10.0,
+            // 更多配置项请参考 [Guzzle](https://guzzle-cn.readthedocs.io/zh_CN/latest/request-options.html)
+        ],
     ],
 
     // Paypal 支付

@@ -157,9 +157,10 @@ Route::group(['middleware' => 'auth'], function () {
 
     /*支付回调 [return_url]*/
     Route::get('payments/alipay/return', 'PaymentsController@alipayReturn')->name('payments.alipay.return'); // Alipay 支付回调
-    Route::get('payments/wechat/return', 'PaymentsController@wechatReturn')->name('payments.wechat.return'); // Wechat 支付回调
+    Route::get('payments/{order}/wechat/return', 'PaymentsController@wechatReturn')->name('payments.wechat.return'); // Wechat 前端JS监听订单支付，回调成功|失败页面
     Route::get('payments/paypal/return', 'PaymentsController@paypalReturn')->name('payments.paypal.return'); // PayPal 支付回调
 
+    Route::get('payments/get_wechat_open_id', 'PaymentsController@getWechatOpenId')->name('payments.get_wechat_open_id'); // get wechat open_id
 });
 
 /*首页*/

@@ -31,7 +31,8 @@ class PaymentsController extends Controller
         if ($order->status !== Order::ORDER_STATUS_PAYING) {
             throw new InvalidRequestException('当前订单状态不正确');
         }
-        // 调用支付宝的网页支付
+
+        // 调用Alipay的电脑支付(网页支付)
         return Pay::alipay($this->getAlipayConfig())->web([
             'out_trade_no' => $order->order_sn, // 订单编号，需保证在商户端不重复
             'total_amount' => bcadd($order->total_amount, $order->total_shipping_fee, 2), // 订单金额，单位元，支持小数点后两位
@@ -45,7 +46,7 @@ class PaymentsController extends Controller
      * @throws \Yansongda\Pay\Exceptions\InvalidSignException
      */
     // POST Alipay 支付通知 [notify_url]
-    public function alipayNotify()
+    public function alipayNotify(Request $request)
     {
         // 校验输入参数
         $data = Pay::alipay($this->getAlipayConfig())->verify();
@@ -80,11 +81,12 @@ class PaymentsController extends Controller
      * @throws \Yansongda\Pay\Exceptions\InvalidSignException
      */
     // GET Alipay 支付回调 [return url]
-    public function alipayReturn()
+    public function alipayReturn(Request $request)
     {
+        $alipay = Pay::alipay($this->getAlipayConfig());
         try {
             // 校验提交的参数是否合法
-            $data = Pay::alipay($this->getAlipayConfig())->verify();
+            $data = $alipay->verify();
         } catch (\Exception $e) {
             // error_log($e->getMessage());
             /*return view('pages.error', [
@@ -99,9 +101,10 @@ class PaymentsController extends Controller
         /*return view('pages.success', [
             'msg' => '付款成功',
         ]);*/
-        return view('payments.success', [
+        /*return view('payments.success', [
             'order' => $data,
-        ]);
+        ]);*/
+        return $alipay->success();
     }
 
     // Alipay 退款
@@ -122,6 +125,12 @@ class PaymentsController extends Controller
         $order->refund->update([
             'status' => OrderRefund::ORDER_REFUND_STATUS_REFUNDED,
             'refunded_at' => now(), // 退款时间
+        ]);
+
+        return response()->json([
+            'code' => 200,
+            'message' => 'success',
+            'response' => $response,
         ]);
     }
 
@@ -145,24 +154,21 @@ class PaymentsController extends Controller
         if ($order->status !== Order::ORDER_STATUS_PAYING) {
             throw new InvalidRequestException('当前订单状态不正确');
         }
-        return view('payments.wechat');
-    }
 
-    // POST WeChat 支付通知 [notify_url]
-    public function wechatNotify()
-    {
-        // TODO ...
-    }
-
-    /**
-     * 前端回调页面
-     */
-    // GET Wechat 支付回调 [return url]
-    public function wechatReturn()
-    {
         try {
-            // 校验提交的参数是否合法
-            $data = Pay::wechat($this->getAlipayConfig())->verify();
+            // 调用Wechat的扫码支付(网页支付)
+            $result = Pay::wechat($this->getWechatConfig())->scan([
+                'out_trade_no' => $order->order_sn, // 订单编号，需保证在商户端不重复
+                'body' => '请支付来自 Jorya Shop 的订单：' . $order->order_sn, // 订单标题
+                'total_fee' => bcmul(bcadd($order->total_amount, $order->total_shipping_fee, 2), 100, 0), // 订单金额，单位分，参数值不能带小数点
+            ]);
+
+            // 二维码内容：
+            $qr_code_url = $result->code_url;
+
+            return view('payments.wechat', [
+                'qr_code_url' => $qr_code_url,
+            ]);
         } catch (\Exception $e) {
             // error_log($e->getMessage());
             /*return view('pages.error', [
@@ -173,13 +179,58 @@ class PaymentsController extends Controller
                 'message' => $e->getMessage(),
             ]);
         }
+    }
 
-        /*return view('pages.success', [
-            'msg' => '付款成功',
-        ]);*/
-        return view('payments.success', [
-            'order' => $data,
+    // POST WeChat 支付通知 [notify_url]
+    public function wechatNotify(Request $request)
+    {
+        // 校验输入参数
+        $data = Pay::wechat($this->getWechatConfig())->verify();
+
+        // $data->out_trade_no 拿到订单流水号，并在数据库中查询
+        $order = Order::where('order_sn', $data->out_trade_no)->first();
+
+        // 正常来说不太可能出现支付了一笔不存在的订单，这个判断只是加强系统健壮性。
+        if (!$order) {
+            Log::error('Wechat notifies with wrong out_trade_no: ' . $data->out_trade_no);
+            return 'fail';
+        }
+
+        // 如果这笔订单的状态已经是已支付
+        if ($order->paid_at) {
+            // 返回数据给 Wechat
+            return Pay::wechat($this->getWechatConfig())->success();
+        }
+
+        $order->update([
+            'status' => Order::ORDER_STATUS_SHIPPING,
+            'paid_at' => now(), // 支付时间
+            'payment_method' => 'wechat', // 支付方式
+            'payment_sn' => $data->trade_no, // Wechat 订单号
         ]);
+
+        return Pay::wechat($this->getWechatConfig())->success();
+    }
+
+    // GET Wechat 前端JS监听订单支付，回调成功|失败页面
+    public function wechatReturn(Request $request, Order $order)
+    {
+        // 判断订单是否属于当前用户
+        if ($request->user()->id !== $order->user_id) {
+            throw new InvalidRequestException('您没有权限操作此订单');
+        }
+
+        // 判断当前订单状态是否已经支付成功
+        if ($order->status === Order::ORDER_STATUS_SHIPPING) {
+            /*return view('pages.success', [
+                'msg' => '付款成功',
+            ]);*/
+            return view('payments.success', [
+                'order' => $order,
+            ]);
+        }
+
+        return;
     }
 
     // Wechat 退款
@@ -189,13 +240,13 @@ class PaymentsController extends Controller
         $response = Pay::wechat($this->getWechatConfig())->refund([
             'out_trade_no' => $order->order_sn, // 之前的订单流水号
             'out_refund_no' => $order->refund->refund_sn, // 退款订单流水号
-            'total_fee' => bcadd($order->total_amount, $order->total_shipping_fee, 2), // 订单金额，单位元
-            'refund_fee' => bcadd($order->total_amount, $order->total_shipping_fee, 2), // 退款金额，单位元
+            'total_fee' => bcmul(bcadd($order->total_amount, $order->total_shipping_fee, 2), 100, 0), // 订单金额，单位分，只能为整数
+            'refund_fee' => bcmul(bcadd($order->total_amount, $order->total_shipping_fee, 2), 100, 0), // 退款金额，单位分，只能为整数
             'refund_desc' => '这是来自 Jorya Shop 的退款订单' . $order->refund->refund_sn,
         ]);
 
         // 根据Wechat的文档，如果返回值里有 sub_code 字段说明退款失败
-        if ($response->sub_code) {
+        if ($response->return_code == 'FAIL') {
             Log::error(json_encode($response));
         }
 
@@ -203,6 +254,12 @@ class PaymentsController extends Controller
         $order->refund->update([
             'status' => OrderRefund::ORDER_REFUND_STATUS_REFUNDED,
             'refunded_at' => now(), // 退款时间
+        ]);
+
+        return response()->json([
+            'code' => 200,
+            'message' => 'success',
+            'response' => $response,
         ]);
     }
 
@@ -216,13 +273,22 @@ class PaymentsController extends Controller
     }
 
     // GET Paypal 支付页面
-    public function paypal()
+    public function paypal(Request $request, Order $order)
     {
+        // 判断订单是否属于当前用户
+        if ($request->user()->id !== $order->user_id) {
+            throw new InvalidRequestException('您没有权限操作此订单');
+        }
+        // 判断当前订单状态是否支持支付
+        if ($order->status !== Order::ORDER_STATUS_PAYING) {
+            throw new InvalidRequestException('当前订单状态不正确');
+        }
+
         return view('payments.paypal');
     }
 
     // POST Paypal 支付通知 [notify_url]
-    public function paypalNotify()
+    public function paypalNotify(Request $request)
     {
         // TODO ...
     }
@@ -231,7 +297,7 @@ class PaymentsController extends Controller
      * 前端回调页面
      */
     // GET Paypal 支付回调 [return url]
-    public function paypalReturn()
+    public function paypalReturn(Request $request)
     {
         // TODO ...
     }
@@ -240,5 +306,51 @@ class PaymentsController extends Controller
     public function paypalRefund(Request $request, Order $order)
     {
         // TODO ...
+    }
+
+    // joryashop.test/payments/get_wechat_open_id
+    public function getWechatOpenId(Request $request)
+    {
+        header("Content-type: text/html; charset=utf-8");
+        if (!isset($_GET['code'])) {
+            $app_id = config('payment.wechat.app_id'); // 公众号在微信的app_id
+            $redirect_uri = route('payments.get_wechat_open_id'); // 要请求的url
+            $scope = 'snsapi_base';
+            // $url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' . $app_id . '&redirect_uri=' . urlencode($redirect_uri) . '&response_type=code&scope=' . $scope . '&state=wx' . '#wechat_redirect';
+            $url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' . $app_id . '&redirect_uri=' . urlencode($redirect_uri) . '&response_type=code&scope=' . $scope . '&state=1' . '#wechat_redirect';
+            header("Location:" . $url);
+            exit();
+        } else {
+            $app_id = config('payment.wechat.app_id'); // 公众号在微信的app_id
+            $secret = config('payment.wechat.key'); // 公众号在微信的app secret
+            // $code = $_GET["code"];
+            $code = $request->query('code');
+            $get_token_url = 'https://api.weixin.qq.com/sns/oauth2/access_token?appid=' . $app_id . '&secret=' . $secret . '&code=' . $code . '&grant_type=authorization_code';
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $get_token_url);
+            curl_setopt($ch, CURLOPT_HEADER, 0);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
+            $res = curl_exec($ch);
+            curl_close($ch);
+            $json_obj = json_decode($res, true);
+            //根据openid和access_token查询用户信息
+            $access_token = $json_obj['access_token'];
+            $openid = $json_obj['openid'];
+            $get_user_info_url = 'https://api.weixin.qq.com/sns/userinfo?access_token=' . $access_token . '&openid=' . $openid . '&lang=zh_CN';
+
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $get_user_info_url);
+            curl_setopt($ch, CURLOPT_HEADER, 0);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
+            $res = curl_exec($ch);
+            curl_close($ch);
+
+            //解析json
+            $user_obj = json_decode($res, true);
+            $_SESSION['user'] = $user_obj;
+            print_r($user_obj);
+        }
     }
 }
