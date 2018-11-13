@@ -311,6 +311,9 @@ class OrdersController extends Controller
             'message' => 'success',
             'data' => [
                 'order' => $order,
+                'request_url' => route('orders.payment_method', [
+                    'order' => $order->id,
+                ]),
             ],
         ]);
     }
