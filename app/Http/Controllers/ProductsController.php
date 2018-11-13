@@ -188,7 +188,7 @@ class ProductsController extends Controller
                     'product' => $product->id,
                 ]) . '?page=' . $next_page;
         }
-        $comments = ProductComment::where('product_id', $product->id)->with(['user', 'order_item.sku'])->simplePaginate(10);
+        $comments = ProductComment::where('product_id', $product->id)->with(['user', 'orderItem.sku'])->simplePaginate(10);
         $composite_index = ProductComment::where('product_id', $product->id)->average('composite_index');
         $description_index = ProductComment::where('product_id', $product->id)->average('description_index');
         $shipment_index = ProductComment::where('product_id', $product->id)->average('shipment_index');
