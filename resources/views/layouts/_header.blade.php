@@ -9,7 +9,7 @@
                     <li class="dropdown">
                         <button id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true"
                                 aria-expanded="false">
-                            <span>{{\Illuminate\Support\Facades\App::getLocale() == 'en' ? 'English' : '中文'}}</span>
+                            <span>{{App::getLocale() == 'en' ? 'English' : '中文'}}</span>
                             <img src="{{ asset('img/header/down_arrow.png') }}">
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="dLabel">
