@@ -726,6 +726,13 @@
                             }
                         }
                     }
+                    .no_eva {
+                        width: 100%;
+                        height: 300px;
+                        text-align: center;
+                        line-height: 300px;
+                        font-size: 20px;
+                    }
                 }
                 .paging_box {
                     width: 100%;
@@ -745,6 +752,15 @@
                         &:hover {
                             background-color: $hover-color;
                             color: #fff;
+                        }
+                        &.not_allow {
+                            color: #ebebeb;
+                            border-color: #ebebeb;
+                            cursor: not-allowed;
+                            &:hover {
+                                background-color: transparent;
+                                color: #ebebeb;
+                            }
                         }
                     }
                 }

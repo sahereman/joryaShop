@@ -167,7 +167,7 @@
                                                 <p class="p-button">
                                                     @if($order->status == 'completed' && $order->commented_at == null)
                                                         <a class="evaluate"
-                                                           href="{{ route('users.home') }}">评价</a>
+                                                           href="{{ route('orders.create_comment', $order->id) }}">评价</a>
                                                     @endif
                                                     <a class="buy_more" href="{{ route('root') }}">再次购买</a>
                                                 </p>

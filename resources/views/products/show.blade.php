@@ -176,7 +176,7 @@
                 <div class="comments_details_right pull-left" id="comments_details">
                     <ul class="tab">
                         <li onclick="tabs('#comments_details',0)" class="curr">商品详情</li>
-                        <li onclick="tabs('#comments_details',1)">商品评价<strong>({{ $comment_count }})</strong></li>
+                        <li onclick="tabs('#comments_details',1)" class="shopping_eva" data-url="{{ route('products.comment',$product->id) }}">商品评价<strong>({{ $comment_count }})</strong></li>
                     </ul>
                     <div class="mc tabcon">
                         {{ $product->content_zh }}
@@ -185,57 +185,31 @@
                         <ul class="comment-score">
                             <li>
                                 <span>综合评分</span>
-                                <h3>4.8</h3>
-                                <img src="{{ asset('img/star-5.png') }}">
+                                <h3 class="composite_index">4.8</h3>
                             </li>
                             <li>
                                 <span>描述相符</span>
-                                <h3>4.8</h3>
-                                <img src="{{ asset('img/star-5.png') }}">
+                                <h3 class="description_index">4.8</h3>
                             </li>
                             <li>
                                 <span>物流服务</span>
-                                <h3>4.8</h3>
-                                <img src="{{ asset('img/star-5.png') }}">
+                                <h3 class="shipment_index">4.8</h3>
                             </li>
                         </ul>
                         <div class="comment-items">
                             <div class="items-title">
-                                <a class="active">商品评价<strong>(900+)</strong></a>
-                                <a>图片评价</a>
+                                <a class="active">商品评价<strong>({{ $comment_count }})</strong></a>
+                                <!--<a>图片评价</a>-->
                             </div>
-                            @for ($e = 0; $e < 4; $e++)
-                                <div class="item">
-                                    <div class="evaluation_results_left">
-                                        <div class="eva_user_img">
-                                            <img src="{{ asset('img/eva_user.png') }}">
-                                        </div>
-                                        <span>用户昵称</span>
-                                    </div>
-                                    <div class="evaluation_results_right">
-                                        <div class="five_star_evaluation">
-                                            <img src="{{ asset('img/star-5.png') }}">
-                                        </div>
-                                        <p class="product_parameters">
-                                            <span>尺寸1.8cm   颜色：深棕色</span>
-                                        </p>
-                                        <p class="eva_text">送貨快、包裝好、希望產品品質也一樣好，等下水洗過就知道囉 140*140</p>
-                                        <ul class="evaluation_img">
-                                            @for ($d = 0; $d < 4; $d++)
-                                                <li class="eva_img">
-                                                    <img src="{{ asset('img/ad_5.png') }}">
-                                                </li>
-                                            @endfor
-                                        </ul>
-                                        <p class="eva_date">2018-09-18 13:44</p>
-                                    </div>
-                                </div>
-                            @endfor
+                            <!--暂无评价-->
+                            <div class="no_eva dis_n">
+                            	<p>暂无评价信息</p>
+                            </div>
                         </div>
                         <!--分页-->
                         <div class="paging_box">
-                            <a class="pre_page" href="{{ route('users.home') }}">上一页</a>
-                            <a class="next_page" href="{{ route('users.home') }}">下一页</a>
+                            <a class="pre_page" href="javascript:void(0)">上一页</a>
+                            <a class="next_page" href="javascript:void(0)">下一页</a>
                         </div>
                     </div>
                 </div>
@@ -245,6 +219,10 @@
 @endsection
 @section('scriptsAfterJs')
     <script type="text/javascript">
+    	var loading_animation;  //loading动画的全局name
+    	var current_page;  //评价的当前页
+    	var next_page;   //下一页的页码
+    	var pre_page;   //上一页的页码
         $('#img_x li').eq(0).css('border', '2px solid #bc8c61');
         $('#zhezhao').mousemove(function (e) {
             $('#img_u').show();
@@ -343,6 +321,9 @@
             //根据参数决定显示内容
             $(tabId + " .tabcon").hide();
             $(tabId + " .tabcon").eq(tabNum).show();
+            if(tabNum==1){
+            	getEva(1);
+            }
         }
         //切换
         $(".kindOfPro").on("click", "li", function () {
@@ -391,9 +372,99 @@
 	        		$(".login").click();
 	        	}else {
 	        		var url = clickDom.attr('data-url');
-	        		window.location.href=url+"?sku_id="+$(".kindOfPro ul").find("li.active").find("input").val()+"&number="+$("#pro_num").val();
+	        		window.location.href=url+"?sku_id="+$(".kindOfPro ul").find("li.active").find("input").val()+"&number="+$("#pro_num").val()+"&sendWay=1";
 	        	}	
         	}
+        })
+        //获取评价内容
+        function getEva(page){
+        	var data = {
+        		page: page
+        	}
+        	var url = $(".shopping_eva").attr("data-url");
+        	$.ajax({
+        		type:"get",
+        		url:url,
+        		beforeSend: function(){
+        			loading_animation = layer.msg('加载中请稍候', {
+		                icon: 16,
+		                shade: 0.4,
+		                time:false //取消自动关闭
+					});
+        		},
+        		success: function(json){
+        			console.log(json);
+        			var dataObj = json.data.comments.data;
+        			var dataObj_photo ;
+        			if(dataObj.length<=0){
+        				$(".no_eva").removeClass('dis_n');
+        				$(".comment-score h3").text("0.0");
+        			}else {
+        				var html = "";
+        				$(".composite_index").text((json.data.composite_index).toFixed(1));
+        				$(".description_index").text((json.data.description_index).toFixed(1));
+        				$(".shipment_index").text((json.data.shipment_index).toFixed(1));
+        				$.each(dataObj, function(i,n) {
+        					dataObj_photo = n.photo_urls;
+        					html+= "<div class='item'>"
+        					html+= "<div class='evaluation_results_left'>"
+        					html+= "<div class='eva_user_img'>"
+        					html+= "<img src='"+ n.user.avatar_url +"'>"
+        					html+= "</div>"
+        					html+= "<span>"+ n.user.name +"</span>"
+        					html+= "</div>"
+        					html+= "<div class='evaluation_results_right'>"
+        					html+= "<div class='five_star_evaluation'>"
+        					html+= "<img src='../img/star-"+ n.composite_index +".png') }}'>"
+        					html+= "</div>"
+          					html+= "<p class='product_parameters'>"
+                            html+= "<span>"+ n.order_item.sku.name_zh +"</span>"
+                            html+= "</p>"
+                            html+= "<p class='eva_text'>"+ n.content +"</p>"
+                            html+= "<ul class='evaluation_img'>"
+                            $.each(dataObj_photo, function(a,b) {
+                            	html+= "<li class='eva_img'>"
+                            	html+= "<img src='"+ b +"'>"
+                            	html+= "</li>"
+                            });
+                            html+= "</ul>"
+                            html+= "<p class='eva_date'>"+ n.created_at +"</p>"
+                            html+= "</div>"        
+                            html+= "</div>"
+        				});
+        				$(".comment-items .no_eva").nextAll().remove();
+        				$(".comment-items").append(html);
+        				$(".pre_page").attr("data-url",json.data.comments.prev_page_url);
+        				$(".next_page").attr("data-url",json.data.comments.next_page_url);
+        				$(".pre_page").attr("code",json.data.comments.from);
+        				$(".next_page").attr("code",json.data.comments.to);
+        				if(json.data.comments.prev_page_url == null){
+        					$(".pre_page").addClass("not_allow");
+        					$(".pre_page").attr("disabled",true);
+        				}
+        				if(json.data.comments.next_page_url==null){
+        					$(".next_page").addClass("not_allow");
+        					$(".next_page").attr("disabled",true);
+        				}
+        			}
+        			
+        		},
+        		error: function(e){
+        			console.log(e)
+        		},
+        		complete: function(){
+        			layer.close(loading_animation);
+        		}
+        	});
+        }
+        //点击分页
+        //上一页
+        $(".pre_page").on("click",function(){
+        	getEva($(this).attr("code"));
+        })
+        //下一页
+        $(".next_page").on("click",function(){
+        	getEva($(this).attr("code"));
         })
     </script>
 @endsection

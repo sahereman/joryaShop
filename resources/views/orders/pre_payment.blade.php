@@ -53,7 +53,7 @@
                             @foreach($items as $item)
                                 <div class="clear single-item">
                                     <div class="left w110 shop-img">
-                                        <a class="cur_p" href="">
+                                        <a class="cur_p" href="#">
                                             <img src="{{ $item['product']->thumb }}">
                                         </a>
                                     </div>
@@ -101,10 +101,10 @@
                             </p>
                             @if($address)
                                 <p class="address_info">
-                                    <span>{{ $address->name }}</span>
-                                    <span>{{ substr_replace($address->phone, '*', 3, 4) }}</span>
+                                    <span class="address_name">{{ $address->name }}</span>
+                                    <span class="address_phone">{{ substr_replace($address->phone, '*', 3, 4) }}</span>
                                 </p>
-                                <p class="address_info">{{ $address->address }}</p>
+                                <p class="address_info address_location">{{ $address->address }}</p>
                             @else
                                 <p class="address_info">
                                     <span>收货人</span>
@@ -189,7 +189,6 @@
 	            			
 	            		},
 	            		success:function(json){
-	            			console.log(json)
 	            			if(json.code==200){
 	            				var dataObj = json.data.addresses;
 	            				if(dataObj.length>0){
@@ -213,7 +212,6 @@
 									      btnAlign: 'c',
 									      success: function(){},
 									      yes: function(){   //确定
-									      	console.log($(".changeAddress").find("li.active"));
 									      	if($(".changeAddress").find("li.active").length<=0){
 									      		layer.msg("请选择收获地址");
 									      	}else {
@@ -224,7 +222,7 @@
 									      	}
 									      },
 									      btn2: function(){     //取消
-									      	
+									      	layer.close(changeAdd);
 									      },
 									      end :function(){
 									      	$(".changeAddress ul").html("");

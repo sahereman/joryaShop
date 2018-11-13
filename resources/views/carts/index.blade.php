@@ -209,8 +209,11 @@
                         calcTotal();
                         layer.alert('成功加入收藏夹');
                     },
-                    error: function (err) {
-                        console.log(err);
+                    error: function (e) {
+                        console.log(e);
+                        if(e.status==422){
+                        	layer.msg($.parseJSON(e.responseText).errors.product_id[0]);
+                        }
                     }
                 });
             });
@@ -291,7 +294,7 @@
 	        				});
 	        				cart_ids=cart_ids.substring(0,cart_ids.length-1);
 			        		var url = clickDom.attr('data-url');
-			        		window.location.href=url+"?cart_ids="+cart_ids;
+			        		window.location.href=url+"?cart_ids="+cart_ids+"&sendWay=2";
 	        			}else {
 	        				layer.alert("请选择结算商品");
 	        			}
