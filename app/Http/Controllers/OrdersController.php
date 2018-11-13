@@ -170,23 +170,52 @@ class OrdersController extends Controller
             'cart_ids' => '购物车IDs',
         ]);
 
+        $total_amount = 0;
+        $total_amount_en = 0;
+        $total_shipping_fee = 0;
+        $total_shipping_fee_en = 0;
         $items = [];
         if ($request->has('sku_id') && $request->has('number')) {
             $sku = ProductSku::find($request->query('sku_id'));
             $sku->price_en = ExchangeRate::exchangePriceByCurrency($sku->price, 'USD');
+            $product = $sku->product;
+            $product->shipping_fee_en = ExchangeRate::exchangePriceByCurrency($product->shipping_fee, 'USD');
+            $number = $request->query('number');
             $items[0]['sku'] = $sku;
-            $items[0]['product'] = $sku->product;
-            $items[0]['number'] = $request->query('number');
+            $items[0]['product'] = $product;
+            $items[0]['number'] = $number;
+            $items[0]['amount'] = bcmul($sku->price, $number, 2);
+            $items[0]['amount_en'] = bcmul($sku->price_en, $number, 2);
+            $items[0]['shipping_fee'] = bcmul($product->shipping_fee, $number, 2);
+            $items[0]['shipping_fee_en'] = bcmul($product->shipping_fee_en, $number, 2);
+            $total_amount = bcmul($sku->price, $number, 2);
+            $total_amount_en = bcmul($sku->price_en, $number, 2);
+            $total_shipping_fee = bcmul($product->shipping_fee, $number, 2);
+            $total_shipping_fee_en = bcmul($product->shipping_fee_en, $number, 2);
         } elseif ($request->has('cart_ids')) {
             $cart_ids = explode(',', $request->query('cart_ids'));
             foreach ($cart_ids as $key => $cart_id) {
                 $cart = Cart::find($cart_id);
-                $cart->sku->price_en = ExchangeRate::exchangePriceByCurrency($cart->sku->price, 'USD');
-                $items[$key]['sku'] = $cart->sku;
-                $items[$key]['product'] = $cart->sku->product;
-                $items[$key]['number'] = $cart->number;
+                $number = $cart->number;
+                $sku = $cart->sku;
+                $sku->price_en = ExchangeRate::exchangePriceByCurrency($sku->price, 'USD');
+                $product = $sku->product;
+                $product->shipping_fee_en = ExchangeRate::exchangePriceByCurrency($product->shipping_fee, 'USD');
+                $items[$key]['sku'] = $sku;
+                $items[$key]['product'] = $product;
+                $items[$key]['number'] = $number;
+                $items[$key]['amount'] = bcmul($sku->price, $number, 2);
+                $items[$key]['amount_en'] = bcmul($sku->price_en, $number, 2);
+                $items[$key]['shipping_fee'] = bcmul($product->shipping_fee, $number, 2);
+                $items[$key]['shipping_fee_en'] = bcmul($product->shipping_fee_en, $number, 2);
+                $total_amount += bcmul($sku->price, $number, 2);
+                $total_amount_en += bcmul($sku->price_en, $number, 2);
+                $total_shipping_fee += bcmul($product->shipping_fee, $number, 2);
+                $total_shipping_fee_en += bcmul($product->shipping_fee_en, $number, 2);
             }
         }
+        $total_fee = bcadd($total_amount, $total_shipping_fee, 2);
+        $total_fee_en = bcadd($total_amount_en, $total_shipping_fee_en, 2);
 
         $address = false;
         $userAddress = UserAddress::where('user_id', $request->user()->id);
@@ -201,13 +230,18 @@ class OrdersController extends Controller
         return view('orders.pre_payment', [
             'items' => $items,
             'address' => $address,
+            'total_amount' => $total_amount,
+            'total_amount_en' => $total_amount_en,
+            'total_shipping_fee' => $total_shipping_fee,
+            'total_shipping_fee_en' => $total_shipping_fee_en,
+            'total_fee' => $total_fee,
+            'total_fee_en' => $total_fee_en,
         ]);
     }
 
     // POST 提交创建订单
     public function store(PostOrderRequest $request)
     {
-        //$user = Auth::user();
         $user = $request->user();
         $currency = $request->has('currency') ? $request->input('currency') : 'CNY';
 
@@ -215,36 +249,39 @@ class OrdersController extends Controller
         $order = DB::transaction(function () use ($request, $user, $currency) {
 
             // 生成子订单信息快照 snapshot
-            $skuIds = [];
             $snapshot = [];
-            $totalShippingFee = 0;
-            $totalAmount = 0;
+            $total_shipping_fee = 0;
+            $total_amount = 0;
             if ($request->has('cart_ids')) {
                 // 来自购物车的订单
                 $cartIds = explode(',', $request->input('cart_ids'));
                 foreach ($cartIds as $key => $cartId) {
                     $cart = Cart::find($cartId);
+                    $number = $cart->number;
                     $sku = $cart->sku;
-                    $price = $sku->getRealPriceByCurrency($currency);
-                    $skuIds[] = $sku->id;
+                    $product = $sku->product;
+                    $price = ExchangeRate::exchangePriceByCurrency($sku->price, $currency);
                     $snapshot[$key]['sku_id'] = $sku->id;
                     $snapshot[$key]['price'] = $price;
                     $snapshot[$key]['number'] = $cart->number;
-                    $totalShippingFee += $sku->getRealShippingFeeByCurrency($currency) * $cart->number;
-                    $totalAmount += $price * $cart->number;
+                    $total_shipping_fee += bcmul($product->shipping_fee, $number, 2);
+                    $total_amount += bcmul($price, $number, 2);
                 }
+                $total_shipping_fee = ExchangeRate::exchangePriceByCurrency($total_shipping_fee, $currency);
                 // 删除相关购物车记录
                 Cart::destroy($cartIds);
             } else {
                 // 来自SKU的订单
-                $skuIds[] = $request->input('sku_id');
-                $sku = ProductSku::find($request->input('sku_id'));
-                $price = $sku->getRealPriceByCurrency($currency);
-                $snapshot[0]['sku_id'] = $request->input('sku_id');
+                $sku_id = $request->input('sku_id');
+                $number = $request->input('number');
+                $sku = ProductSku::find($sku_id);
+                $product = $sku->product;
+                $price = ExchangeRate::exchangePriceByCurrency($sku->price, $currency);
+                $snapshot[0]['sku_id'] = $sku_id;
                 $snapshot[0]['price'] = $price;
-                $snapshot[0]['number'] = $request->input('number');
-                $totalShippingFee += $sku->getRealShippingFeeByCurrency($currency) * $request->input('number');
-                $totalAmount += $price * $request->input('number');
+                $snapshot[0]['number'] = $number;
+                $total_shipping_fee = ExchangeRate::exchangePriceByCurrency(bcmul($product->shipping_fee, $number, 2), $currency);
+                $total_amount = bcmul($price, $number, 2);
             }
 
             // 创建一条订单记录
@@ -252,10 +289,10 @@ class OrdersController extends Controller
                 'user_id' => $user->id,
                 'user_info' => collect($request->only(['name', 'phone', 'address']))->toArray(),
                 'status' => 'paying',
-                'currency' => $request->input('currency'),
+                'currency' => $currency,
                 'snapshot' => collect($snapshot)->toArray(),
-                'total_shipping_fee' => $totalShippingFee,
-                'total_amount' => $totalAmount,
+                'total_shipping_fee' => $total_shipping_fee,
+                'total_amount' => $total_amount,
                 'remark' => $request->has('remark') ? $request->input('remark') : '',
             ]);
 

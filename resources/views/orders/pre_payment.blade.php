@@ -33,7 +33,8 @@
                             @endif
                         </ul>
                         <div class="right">
-                            <a class="change_address" data-url="{{ route('user_addresses.list_all') }}" href="javascript:void(0)">切换地址</a>
+                            <a class="change_address" data-url="{{ route('user_addresses.list_all') }}"
+                               href="javascript:void(0)">切换地址</a>
                             <a class="add_new_address" href="javascript:void(0)">新建地址</a>
                         </div>
                     </div>
@@ -62,9 +63,12 @@
                                     </div>
                                     <div class="left w150 center"><span>{{ $item['sku']->name_zh }}</span></div>
                                     <div class="left w150 center">&yen; <span>{{ $item['sku']->price }}</span></div>
+                                    <div class="left w150 center">&#36; <span>{{ $item['sku']->price_en }}</span></div>
                                     <div class="left w150 center counter"><span>{{ $item['number'] }}</span></div>
                                     <div class="left w150 s_total red center">&yen;
-                                        <span>{{ bcmul($item['sku']->price, $item['number'], 2) }}</span></div>
+                                        <span>{{ $item['amount'] }}</span></div>
+                                    <div class="left w150 s_total red center">&#36;
+                                        <span>{{ $item['amount_en'] }}</span></div>
                                 </div>
                             @endforeach
                         @endif
@@ -84,17 +88,20 @@
                         <li>
                             <p>
                                 <span>合计：</span>
-                                <span>&yen;<span>138.00</span></span>
+                                <span>&yen; <span>{{ $total_amount }}</span></span>
+                                <span>&#36; <span>{{ $total_amount_en }}</span></span>
                             </p>
                             <p>
                                 <span>运费：</span>
-                                <span>&yen;<span>138.00</span></span>
+                                <span>&yen; <span>{{ $total_shipping_fee }}</span></span>
+                                <span>&&#36; <span>{{ $total_shipping_fee_en }}</span></span>
                             </p>
                         </li>
                         <li>
                             <p>
                                 <span>应付金额：</span>
-                                <span class="red">&yen;<span>138.00</span></span>
+                                <span class="red">&yen; <span>{{ $total_fee }}</span></span>
+                                <span class="red">&#36; <span>{{ $total_fee_en }}</span></span>
                             </p>
                             <p>
                                 <a>付款</a>
@@ -157,7 +164,7 @@
     </div>
     <!--切换地址信息-->
     <div class="changeAddress dis_n">
-    	<ul></ul>
+        <ul></ul>
     </div>
 @endsection
 @section('scriptsAfterJs')
@@ -179,73 +186,74 @@
                 $(".new_receipt_address").hide();
             });
             //切换地址
-            $(".change_address").on("click",function(){
-            	var url = $(this).attr("data-url");
-            	var changeAdd;
-            	$.ajax({
-	            		type:"get",
-	            		url:url,
-	            		beforeSend:function(){
-	            			
-	            		},
-	            		success:function(json){
-	            			if(json.code==200){
-	            				var dataObj = json.data.addresses;
-	            				if(dataObj.length>0){
-	            					var html = "";
-	            					$.each(dataObj, function(i,n) {
-	            						html+="<li class='clear'>"+
-	            						"<p class='clear'><span>收&ensp;货&ensp;人：</span><span class='name'>"+ n.name +"</span></p>"+
-	            						"<p class='clear'><span>联系方式：</span><span class='phone'>"+ n.phone +"</span></p>"+
-	            						"<p class='clear'><span>联系地址：</span><span class='address'>"+ n.address +"</span></p>"+
-	            						"</li>"
-	            					});
-	            					$(".changeAddress ul").html("");
-	            					$(".changeAddress ul").append(html);
-	            					changeAdd = layer.open({
-									      type: 1,
-									      area: ['600px','550px'],
-									      shadeClose: false, 
-									      title: '选择地址',
-									      content: $(".changeAddress"),
-									      btn: ['确定','取消'],
-									      btnAlign: 'c',
-									      success: function(){},
-									      yes: function(){   //确定
-									      	if($(".changeAddress").find("li.active").length<=0){
-									      		layer.msg("请选择收获地址");
-									      	}else {
-									      		$(".address_name").html($(".changeAddress").find("li.active").find(".name").html());
-									      		$(".address_phone").html($(".changeAddress").find("li.active").find(".phone").html());
-									      		$(".address_location").html($(".changeAddress").find("li.active").find(".address").html());
-									      		layer.close(changeAdd);
-									      	}
-									      },
-									      btn2: function(){     //取消
-									      	layer.close(changeAdd);
-									      },
-									      end :function(){
-									      	$(".changeAddress ul").html("");
-									      }
-								    });
-	            				}else {
-	            					layer.close(changeAdd);
-	            					$(".new_receipt_address").show();
-	            				}
-	            			}
-	            		},
-	            		error:function(){
-	            			
-	            		},
-	            		complete:function(){
-	            			
-	            		}
-	            });
+            $(".change_address").on("click", function () {
+                var url = $(this).attr("data-url");
+                var changeAdd;
+                $.ajax({
+                    type: "get",
+                    url: url,
+                    beforeSend: function () {
+
+                    },
+                    success: function (json) {
+                        if (json.code == 200) {
+                            var dataObj = json.data.addresses;
+                            if (dataObj.length > 0) {
+                                var html = "";
+                                $.each(dataObj, function (i, n) {
+                                    html += "<li class='clear'>" +
+                                            "<p class='clear'><span>收&ensp;货&ensp;人：</span><span class='name'>" + n.name + "</span></p>" +
+                                            "<p class='clear'><span>联系方式：</span><span class='phone'>" + n.phone + "</span></p>" +
+                                            "<p class='clear'><span>联系地址：</span><span class='address'>" + n.address + "</span></p>" +
+                                            "</li>"
+                                });
+                                $(".changeAddress ul").html("");
+                                $(".changeAddress ul").append(html);
+                                changeAdd = layer.open({
+                                    type: 1,
+                                    area: ['600px', '550px'],
+                                    shadeClose: false,
+                                    title: '选择地址',
+                                    content: $(".changeAddress"),
+                                    btn: ['确定', '取消'],
+                                    btnAlign: 'c',
+                                    success: function () {
+                                    },
+                                    yes: function () {   //确定
+                                        if ($(".changeAddress").find("li.active").length <= 0) {
+                                            layer.msg("请选择收获地址");
+                                        } else {
+                                            $(".address_name").html($(".changeAddress").find("li.active").find(".name").html());
+                                            $(".address_phone").html($(".changeAddress").find("li.active").find(".phone").html());
+                                            $(".address_location").html($(".changeAddress").find("li.active").find(".address").html());
+                                            layer.close(changeAdd);
+                                        }
+                                    },
+                                    btn2: function () {     //取消
+                                        layer.close(changeAdd);
+                                    },
+                                    end: function () {
+                                        $(".changeAddress ul").html("");
+                                    }
+                                });
+                            } else {
+                                layer.close(changeAdd);
+                                $(".new_receipt_address").show();
+                            }
+                        }
+                    },
+                    error: function () {
+
+                    },
+                    complete: function () {
+
+                    }
+                });
             })
             //点击选择收货地址
-            $(".changeAddress ul").on("click","li",function(){
-            	$(".changeAddress ul").find("li").removeClass("active");
-            	$(this).addClass("active");
+            $(".changeAddress ul").on("click", "li", function () {
+                $(".changeAddress ul").find("li").removeClass("active");
+                $(this).addClass("active");
             })
         });
     </script>
