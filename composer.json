@@ -20,6 +20,7 @@
         "laravel/tinker": "~1.0",
         "overtrue/easy-sms": "^1.1",
         "overtrue/laravel-lang": "^3.0",
+        "simplesoftwareio/simple-qrcode": "~2",
         "yansongda/pay": "^2.5"
     },
     "require-dev": {

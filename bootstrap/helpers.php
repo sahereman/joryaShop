@@ -7,10 +7,6 @@ use GuzzleHttp\Psr7;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use Overtrue\EasySms\EasySms;
-/*use Overtrue\EasySms\Exceptions\Exception as EasySmsException;
-use Overtrue\EasySms\Exceptions\GatewayErrorException;
-use Overtrue\EasySms\Exceptions\InvalidArgumentException;
-use Overtrue\EasySms\Exceptions\NoGatewayAvailableException;*/
 use Overtrue\EasySms\PhoneNumber;
 
 function route_class()
@@ -20,11 +16,9 @@ function route_class()
 
 function is_wechat_browser()
 {
-    if (strpos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') !== false)
-    {
+    if (strpos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') !== false) {
         return true;
-    } else
-    {
+    } else {
         return false;
     }
 }
@@ -49,11 +43,7 @@ function generate_image_url($image)
  * @param array $data 短信内容 format: ['code' => '888888']
  * @param string $phone_number 手机号码 eg. 18888888888.
  * @param string $country_code 国家|地区码 eg. 86.
- *
  * @return array $response
- *
- * @throws \Overtrue\EasySms\Exceptions\InvalidArgumentException
- * @throws \Overtrue\EasySms\Exceptions\NoGatewayAvailableException
  */
 /**
  * Successful Response Demo:
@@ -394,4 +384,22 @@ function kdniao_send_post_query($request_url, $request_data)
 function kdniao_encrypt($request_data, $api_key)
 {
     return urlencode(base64_encode(md5($request_data . $api_key)));
+}
+
+/**
+ * Generate a qr_code through a qr_code_url.
+ * @param string $qr_code_url
+ * @param string $format options: ['png', 'eps', 'svg']
+ * @param integer $size
+ * @param string $encoding options: ['UTF-8', 'ISO-8859-1', ...]
+ * @param string $errorCorrection options: ['L', 'M', 'Q', 'H']
+ * @return string
+ * Common usage:
+ * <img src="{!! generate_qr_code($qr_code_url) !!}">
+ */
+function generate_qr_code($qr_code_url, $format = 'png', $size = 300, $encoding = 'UTF-8', $errorCorrection = 'H')
+{
+    return "data:image/png;base64, " . base64_encode(
+        QrCode::format($format)->size($size)->encoding($encoding)->errorCorrection($errorCorrection)->generate($qr_code_url)
+    );
 }
