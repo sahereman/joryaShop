@@ -189,9 +189,9 @@ class ProductsController extends Controller
                 ]) . '?page=' . $next_page;
         }
         $comments = ProductComment::where('product_id', $product->id)->with(['user', 'orderItem.sku'])->simplePaginate(10);
-        $composite_index = ProductComment::where('product_id', $product->id)->average('composite_index');
-        $description_index = ProductComment::where('product_id', $product->id)->average('description_index');
-        $shipment_index = ProductComment::where('product_id', $product->id)->average('shipment_index');
+        $composite_index = ProductComment::where('product_id', $product->id)->get()->average('composite_index');
+        $description_index = ProductComment::where('product_id', $product->id)->get()->average('description_index');
+        $shipment_index = ProductComment::where('product_id', $product->id)->get()->average('shipment_index');
 
         return response()->json([
             'code' => 200,
