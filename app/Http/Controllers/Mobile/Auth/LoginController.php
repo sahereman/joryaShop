@@ -101,15 +101,4 @@ class LoginController extends Controller
 
         return $this->sendFailedLoginResponse($request);
     }
-
-    public function logout(Request $request)
-    {
-
-        $this->guard()->logout();
-
-        $request->session()->invalidate();
-
-        return redirect()->route('mobile.root');
-    }
-
 }

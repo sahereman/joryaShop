@@ -4,10 +4,23 @@
 
 Route::get('test', function () {
 
-    dd(session()->all());
+    App::setLocale('en');
 
-    //    dd(\App\Models\CountryCode::countryCodes());
-    dd('test mobile');
+
+    return 'test';
+
+
+//    dd(
+//        $locale = App::getLocale()
+//
+//    );
+//
+//    return true;
+//
+//    dd(session()->all());
+//
+//    //    dd(\App\Models\CountryCode::countryCodes());
+//    dd('test mobile');
 });
 
 
@@ -18,7 +31,6 @@ Route::get('/', 'IndexController@root')->name('mobile.root'); // 首页
 /*注册与登录*/
 Route::get('login', 'Auth\LoginController@showLoginForm')->name('mobile.login.show'); // 登录 页面
 Route::post('login', 'Auth\LoginController@login')->name('mobile.login.store'); // 登录 请求
-Route::post('logout', 'Auth\LoginController@logout')->name('mobile.logout'); // 退出登录
 Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('mobile.register.show'); // 注册 页面
 Route::post('register', 'Auth\RegisterController@register')->name('mobile.register.store'); // 注册 请求
 
@@ -50,8 +62,6 @@ Route::get('user_addresses/{address}/edit', 'UserAddressesController@edit')->nam
 //Route::put('user_addresses/{userAddress}', 'UserAddressesController@update')->name('user_addresses.update'); // 编辑 请求
 //Route::delete('user_addresses/{userAddress}', 'UserAddressesController@destroy')->name('user_addresses.destroy'); // 删除 请求
 //Route::patch('user_addresses/{userAddress}/set_default', 'UserAddressesController@setDefault')->name('user_addresses.set_default'); // 设置默认
-
-
 
 
 //});

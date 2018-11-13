@@ -25,6 +25,7 @@ class SetGlobalLocale
         $locale = in_array($request->session()->get('GlobalLocale', $defaultLocale), ['zh-cn', 'en']) ?
             $request->session()->get('GlobalLocale', $defaultLocale) : $defaultLocale;
 
+
         App::setLocale($locale);
 
         return $next($request);
