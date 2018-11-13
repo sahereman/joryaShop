@@ -16,7 +16,11 @@
 
         <a href="{{ route('mobile.reset.sms.show') }}">忘记密码?</a>
 
+
     @else
+        <a href="{{ route('mobile.users.home') }}">用户中心</a>
+
+
         <h2>用户名: {{Auth::user()->name}}</h2>
 
         <a href="{{ route('mobile.logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();">退出登录</a>

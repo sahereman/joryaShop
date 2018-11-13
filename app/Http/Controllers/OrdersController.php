@@ -122,6 +122,89 @@ class OrdersController extends Controller
         ]);
     }
 
+    // GET 选择地址+币种页面
+    public function prePayment(Request $request)
+    {
+        $this->validate($request, [
+            'sku_id' => [
+                'bail',
+                'required_without:cart_ids',
+                'required_with:number',
+                'integer',
+                'exists:product_skus,id',
+                function ($attribute, $value, $fail) {
+                    $sku = ProductSku::find($value);
+                    if ($sku->product->on_sale == 0) {
+                        $fail('该商品已下架');
+                    }
+                    if ($sku->stock == 0) {
+                        $fail('该商品已售罄');
+                    }
+                    /*if ($sku->stock < $this->input('number')) {
+                        $fail('该商品库存不足，请重新调整商品购买数量');
+                    }*/
+                },
+            ],
+            'number' => [
+                'bail',
+                'required_without:cart_ids',
+                'required_with:sku_id',
+                'integer',
+                'min:1',
+                function ($attribute, $value, $fail) use ($request) {
+                    $sku = ProductSku::find($request->input('sku_id'));
+                    if ($sku->stock < $value) {
+                        $fail('该商品库存不足，请重新调整商品购买数量');
+                    }
+                },
+            ],
+            'cart_ids' => [
+                'bail',
+                'required_without_all:sku_id,number',
+                'string',
+                'regex:/^\d(\,\d)*$/'
+            ],
+        ], [], [
+            'sku_id' => '商品SKU-ID',
+            'number' => '商品购买数量',
+            'cart_ids' => '购物车IDs',
+        ]);
+
+        $items = [];
+        if ($request->has('sku_id') && $request->has('number')) {
+            $sku = ProductSku::find($request->query('sku_id'));
+            $items[0]['sku'] = $sku;
+            $items[0]['product'] = $sku->product;
+            $items[0]['number'] = $request->query('number');
+        } elseif ($request->has('cart_ids')) {
+            $cart_ids = explode(',', $request->query('cart_ids'));
+            foreach ($cart_ids as $key => $cart_id) {
+                $cart = Cart::find($cart_id);
+                $items[$key]['sku'] = $cart->sku;
+                $items[$key]['product'] = $cart->sku->product;
+                $items[$key]['number'] = $cart->number;
+            }
+        }
+
+        $address = false;
+        $userAddress = UserAddress::where('user_id', $request->user()->id);
+        if ($userAddress->where('is_default', 1)->exists()) {
+            // 默认地址
+            $address = $userAddress->where('is_default', 1)->first();
+        } elseif ($userAddress->exists()) {
+            // 上次使用地址
+            $address = $userAddress->orderByDesc('last_used_at')->first();
+        }
+
+        $exchange_rates = ExchangeRate::all();
+
+        return view('orders.pre_payment', [
+            'items' => $items,
+            'address' => $address,
+            'exchange_rates' => $exchange_rates,
+        ]);
+    }
+
     // POST 提交创建订单
     public function store(PostOrderRequest $request)
     {
@@ -194,53 +277,6 @@ class OrdersController extends Controller
                 'order' => $order,
             ],
         ]);
-    }
-
-    // GET 选择地址+币种页面
-    public function prePayment(Request $request, Order $order)
-    {
-        $this->authorize('pay', $order);
-
-        $user_addresses = UserAddress::where('user_id', $request->user()->id)->get();
-        $exchange_rates = ExchangeRate::all();
-        return view('orders.pre_payment', [
-            'order' => $order,
-            'user_addresses' => $user_addresses,
-            'exchange_rates' => $exchange_rates,
-        ]);
-    }
-
-    // PUT 提交表单更改[地址+币种]
-    public function update(Request $request, Order $order)
-    {
-        $this->authorize('pay', $order);
-
-        $validator = Validator::make($request->only(['name', 'phone', 'address', 'currency']), [
-            'name' => 'required|string',
-            'phone' => 'required|string',
-            'address' => 'required|string',
-            'currency' => 'required|string|exists:exchange_rates',
-        ], [], [
-            'name' => '收货人',
-            'phone' => '手机号码',
-            'address' => '详细地址',
-            'currency' => '货币种类',
-        ]);
-
-        if ($validator->passes()) {
-            $order->user_info = collect($request->only(['name', 'phone', 'address']))->toArray();
-            $order->currency = $request->input('currency');
-            $order->save();
-            return response()->json([
-                'code' => 200,
-                'message' => 'success',
-            ]);
-        } else {
-            return response()->json([
-                'code' => 422,
-                'message' => 'Unprocessable Entity',
-            ], 422);
-        }
     }
 
     // GET 选择支付方式页面

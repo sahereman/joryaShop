@@ -93,7 +93,7 @@
             <div class="pull-right header-search">
                 <ul>
                     <li>
-                        <input type="search" class="selectInput_header" placeholder="请输入您要搜索的商品">
+                        <input type="search" data-url="{{ route('products.search_hint') }}" class="selectInput_header" placeholder="请输入您要搜索的商品">
                         <a class="search_btn" href="javascript:void(0)">
                             <img src="{{ asset('img/search_magnifier.png') }}">
                         </a>
@@ -101,9 +101,12 @@
                             <ul></ul>
                         </div>
                     </li>
-                    <li>
+                    <li class="shppingCart">
                         <a href="{{ route('carts.index') }}" class="shop_cart">
                             <img src="{{ asset('img/header/shop_car.png') }}">
+                            @if($cart_count)
+                                <span class="shop_cart_num">{{ $cart_count }}</span>
+                            @endif
                         </a>
                     </li>
                 </ul>

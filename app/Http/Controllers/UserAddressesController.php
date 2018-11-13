@@ -20,6 +20,18 @@ class UserAddressesController extends Controller
         ]);
     }
 
+    // GET 获取当前用户收货地址列表 [for Ajax request]
+    public function listAll(Request $request)
+    {
+        return response()->json([
+            'code' => 200,
+            'message' => 'success',
+            'data' => [
+                'addresses' => $request->user()->addresses,
+            ],
+        ], 200);
+    }
+
     // POST 创建提交
     public function store(UserAddressRequest $request)
     {

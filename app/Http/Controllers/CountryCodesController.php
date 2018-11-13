@@ -14,7 +14,7 @@ class CountryCodesController extends Controller
             'code' => 200,
             'message' => 'success',
             'data' => [
-                'country_codes' => CountryCode::all()->toArray(),
+                'country_codes' => CountryCode::countryCodes()->toArray(),
             ],
         ]);
     }

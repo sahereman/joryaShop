@@ -37,9 +37,9 @@
                                     <span>手机号</span>
                                     <img src="{{ asset('img/sanjiao.png') }}">
                                     <select class="choose_tel_area" name="country_code">
-                                        @foreach($country_codes as $country_code)
-				                		    <option value="{{ $country_code->country_code }}">{{ $country_code->country_name }}</option>
-				                		@endforeach
+                                        @foreach(\App\Models\CountryCode::countryCodes() as $country_code)
+                                            <option value="{{ $country_code->country_code }}">{{ $country_code->country_name }}</option>
+                                        @endforeach
                                     </select>
                                     <span class="areaCode_choosed"></span>
                                     <input id="email" type="phone" name="phone" value="{{ old('phone') }}" required

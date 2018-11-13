@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Handlers\ImageUploadHandler;
 use App\Http\Requests\EasySmsSendRequest;
+use App\Models\Cart;
 use App\Models\Poster;
 use App\Models\Product;
 use App\Models\ProductCategory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Overtrue\EasySms\EasySms;
 use Overtrue\EasySms\PhoneNumber;
@@ -16,14 +18,14 @@ class IndexController extends Controller
 {
     public function root(Request $request)
     {
-        $products = [];
         // TODO ... [投放广告页]
         $posters = Poster::where(['slug' => 'advertisement'])->latest()->limit(3)->get();
 
+        $products = [];
         $categories = ProductCategory::where(['parent_id' => 0, 'is_index' => 1])->get();
         foreach ($categories as $category) {
             $children = $category->children;
-            if($children->isEmpty()){
+            if ($children->isEmpty()) {
                 continue;
             }
             $children_ids = $children->pluck('id')->all();
@@ -32,6 +34,7 @@ class IndexController extends Controller
             $products[$category->id]['products'] = Product::where('is_index', 1)->whereIn('product_category_id', $children_ids)->orderByDesc('index')->limit(8)->get();
         }
         $guesses = Product::where(['is_index' => 1, 'on_sale' => 1])->orderByDesc('heat')->limit(8)->get();
+
         return view('index.root', [
             'posters' => $posters,
             'products' => $products,

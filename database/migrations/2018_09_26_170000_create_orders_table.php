@@ -6,21 +6,6 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreateOrdersTable extends Migration
 {
-
-
-    /*
-     * 订单表字段设计问题
-     *
-     * 1.  支付成功 字段冗余
-     * 2.  关闭订单 字段冗余
-     * 3.  收货时间 字段不需要
-     * 4.  订单完成 字段不需要
-     * 5.  上传证件图片集 字段???
-     * 6.  评论时间 字段不合理
-     * 7.  用户收货地址问题(重要) , 问题思考: 假设用户下订单后,更改了用户收货地址 , 订单数据将出现 原始性问题
-     */
-
-
     /**
      * Run the migrations.
      *

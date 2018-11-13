@@ -123,10 +123,10 @@ class Order extends Model
         $prefix = date('YmdHis');
         for ($i = 0; $i < 10; $i++) {
             // 随机生成 6 位的数字
-            $orderSn = $prefix . str_pad(random_int(0, 999999), 6, '0', STR_PAD_LEFT);
+            $order_sn = $prefix . str_pad(random_int(0, 999999), 6, '0', STR_PAD_LEFT);
             // 判断是否已经存在
-            if (!static::query()->where('order_sn', $orderSn)->exists()) {
-                return $orderSn;
+            if (!static::query()->where('order_sn', $order_sn)->exists()) {
+                return $order_sn;
             }
         }
         Log::error('generating order sn failed');

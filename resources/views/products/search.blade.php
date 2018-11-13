@@ -8,7 +8,7 @@
                 <p class="Crumbs">
                     <a href="{{ route('root') }}">全部结果</a>
                     <span>></span>
-                    <a href="{{ route('users.home') }}">商品分类</a>
+                    <a href="#">商品分类</a>
                 </p>
             </div>
             <div class="search-level">

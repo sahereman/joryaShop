@@ -3,7 +3,7 @@
 @section('content')
     @include('common.error')
     <div class="productCate my_orders">
-    	 <!--商品分类导图-->
+        <!--商品分类导图-->
         <div class="swiper-container Taxonomy" id="Taxonomy">
             <div class="swiper-wrapper">
                 <div class="swiper-slide">
@@ -14,66 +14,59 @@
             </div>
         </div>
         <div class="m-wrapper">
-        	<!--面包屑-->
+            <!--面包屑-->
             <div>
                 <p class="Crumbs">
                     <a href="{{ route('root') }}">首页</a>
                     <span>></span>
-                    <a href="{{ route('users.home') }}">商品分类</a>
+                    <a href="#">商品分类</a>
                 </p>
             </div>
             <div class="classification-level">
-            	<p class="level_title">分类：</p>
-            	<ul>
-            		<li class="active">
-            			<span>全部</span>
-            		</li>
-            		<li>
-            			<span>上衣</span>
-            		</li>
-            		<li>
-            			<span>秋季小香风</span>
-            		</li>
-            		<li>
-            			<span>连衣裙</span>
-            		</li>
-            		<li>
-            			<span>a字裙</span>
-            		</li>
-            	</ul>
+                <p class="level_title">分类：</p>
+                <ul>
+                    <li class="active">
+                        <a href="#"><span>全部</span></a>
+                    </li>
+                    @foreach($children as $child)
+                        <li>
+                            <a href="{{ route('product_categories.index', ['category' => $child->id]) }}"><span>{{ $child->name_zh }}</span></a>
+                        </li>
+                    @endforeach
+                </ul>
             </div>
             <!--商品分类展示-->
-            @for ($i = 0; $i < 2; $i++)
-			    <div class="classified-display">
-			    	<div class="classified-title">
-			    		<h3>进口好材料，温柔拖住你的美丽</h3>
-			    		<p>严选材料，随时随地烫拉染</p>
-			    	</div>
-			    	<div class="classified-products">
-			    		<ul class="classified-lists">
-			    			@for ($a = 0; $a < 20; $a++)
-			    				<li>
-			    					<div class="list-img">
-			    						<img src="{{ asset('img/kinds-pro.png') }}">
-			    					</div>
-			    					<div class="list-info">
-			    						<p class="list-info-title">时尚渐变色</p>
-			    						<p>
-			    							<span class="new-price"><i>￥</i>2556.00</span>
-			    							<span class="old-price"><i>￥</i>580.00</span>
-			    						</p>
-			    					</div>
-			    				</li>
-			    			@endfor
-			    		</ul>
-			    	</div>
+            @foreach($children as $child)
+                <div class="classified-display">
+                    <div class="classified-title">
+                        <h3>{{ $child->name_zh }}</h3>
+                        <p>{{ $child->description_zh }}</p>
+                    </div>
+                    <div class="classified-products">
+                        <ul class="classified-lists">
+                            @foreach($products[$child->id] as $product)
+                                <li>
+                                    <div class="list-img">
+                                        <img src="{{ $product->thumb_url }}">
+                                    </div>
+                                    <div class="list-info">
+                                        <p class="list-info-title">{{ $product->name_zh }}</p>
+                                        <p>
+                                            <span class="old-price"><i>&yen; </i>{{ bcadd($product->price, random_int(100, 300), 2) }}</span>
+                                            <span class="new-price"><i>&yen; </i>{{ $product->price }}</span>
+                                        </p>
+                                    </div>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </div>
                 </div>
-			@endfor
+            @endforeach
         </div>
     </div>
 @endsection
 @section('scriptsAfterJs')
     <script type="text/javascript">
-    	
+
     </script>
 @endsection

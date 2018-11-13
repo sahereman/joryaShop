@@ -223,3 +223,37 @@
         }
     }
 }
+//切换地址弹窗
+.changeAddress {
+    ul {
+        padding: 10px 50px;
+        li {
+            border: 1px solid #e8e8e8;
+            width: 100%;
+            margin-bottom: 10px;
+            padding: 10px 25px;
+            cursor: pointer;
+            position: relative;
+            p {
+                line-height: 24px;
+                overflow: hidden;
+                span {
+                    display: inline-block;
+                    float: left;
+                    &:first-of-type {
+                        color: #999;
+                        width: 70px;
+                        text-align: center;
+                    }
+                    &:last-of-type {
+                        max-width: 720px;
+                    }
+                }
+            }
+            &.active {
+                border: 2px solid $hover-color;
+                padding: 9px 25px;
+            }
+        }
+    }
+}

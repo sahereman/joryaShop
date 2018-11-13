@@ -42,7 +42,7 @@
                             <div>
                                 <h2>糖果色片染</h2>
                                 <p>修颜减龄，风格前卫</p>
-                                <a class="info_more" href="{{ route('root') }}">查看更多</a>
+                                <!--<a class="info_more" href="{{ route('root') }}">查看更多</a>-->
                             </div>
                         </div>
                         <div class="product_left_bottom">
@@ -50,7 +50,7 @@
                             <div>
                                 <h2>欧式BOBO紫灰</h2>
                                 <p>修颜减龄，风格前卫</p>
-                                <a class="info_more" href="{{ route('root') }}">查看更多</a>
+                                <!--<a class="info_more" href="{{ route('root') }}">查看更多</a>-->
                             </div>
                         </div>
                     </div>
@@ -58,7 +58,7 @@
                         <img src="{{ asset('img/new_pro_2.png') }}">
                         <div>
                             <h2>时尚渐变色 风格前卫</h2>
-                            <a class="info_more" href="{{ route('root') }}">查看更多</a>
+                            <!--<a class="info_more" href="{{ route('root') }}">查看更多</a>-->
                         </div>
                     </div>
                 @endif
