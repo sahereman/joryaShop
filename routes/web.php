@@ -163,7 +163,6 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('payments/{order}/success', 'PaymentsController@success')->name('payments.success'); // 通用 - 支付成功页面
 
-    Route::get('payments/get_wechat_open_id', 'PaymentsController@getWechatOpenId')->name('payments.get_wechat_open_id'); // get wechat open_id
 });
 
 /*首页*/
@@ -213,3 +212,5 @@ Route::post('payments/paypal/notify', 'PaymentsController@paypalNotify')->name('
 Route::get('payments/alipay/refund', 'PaymentsController@alipayRefund')->name('payments.alipay.refund'); // Alipay 退款
 Route::get('payments/wechat/refund', 'PaymentsController@wechatRefund')->name('payments.wechat.refund'); // Wechat 退款
 Route::get('payments/paypal/refund', 'PaymentsController@paypalRefund')->name('payments.paypal.refund'); // Paypal 退款
+
+Route::get('payments/get_wechat_open_id', 'PaymentsController@getWechatOpenId')->name('payments.get_wechat_open_id'); // get wechat open_id
