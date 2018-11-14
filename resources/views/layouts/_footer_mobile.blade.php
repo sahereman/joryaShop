@@ -51,5 +51,6 @@
 		$(".itemsL img").attr("src","{{ asset('static_m/img/Unchecked_classification.png') }}");
 		$(".itemsG img").attr("src","{{ asset('static_m/img/Unchecked_Shopping.png') }}");
 		$(".itemsW img").attr("src","{{ asset('static_m/img/Select_my.png') }}");
+		window.location.href = "{{ route('mobile.users.home')}}";
 	});
 </script>
