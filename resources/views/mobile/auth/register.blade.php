@@ -78,10 +78,23 @@
     <script type="text/javascript">
         //页面单独JS写这里
         $(".getY").on("click",function(){
-        	$(this).css("display","none");
-        	$(".cutTime").css("display","inline-block");
-        	settime();
-        });
+        	var phoneVal = $(".phoneIpt").val();
+        	if(phoneVal == ""){
+        		//未填手机号
+        		layer.open({
+			      content: '请填写手机号'
+			      ,time: 2
+			      ,skin: 'msg'
+			    });
+        		
+        	}else{
+        		$(this).css("display","none");
+        		$(".cutTime").css("display","inline-block");
+        		//触发倒计时
+        		settime();
+        		//调取获取动态验证码接口(TODO)
+        	}
+	     });
         //短信发送倒计时器
 		var countdown = 10;
 		var settime = function () {
@@ -106,6 +119,19 @@
 		    $(".valSpan").html(opt);
 		    $(".phoneIpt").attr("placeholder","请输入手机号");
 		});
+		$(".phoneIpt").on("focus",function(){
+			var countryCode = $(".valSpan").html();
+			if(countryCode == ""){
+				$(this).blur();
+				layer.open({
+			      content: '请先选择国家'
+			      ,time: 2
+			      ,skin: 'msg'
+			    });
+			}
+			
+		});
+		
         
     </script>
 @endsection

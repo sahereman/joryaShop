@@ -5,7 +5,7 @@
 		<div class="searchBox">
 			<div class="searchCon">
 				<img src="{{ asset('static_m/img/Unchecked_search.png') }}"/>
-				<input type="text" name="" id="" value="" placeholder="搜索商品123，供12351款好货"/>
+				<input type="text" name="" id="" value="" placeholder="搜索商品，供12351款好货"/>
 			</div>
 		</div>
 		<!-- Swiper -->
