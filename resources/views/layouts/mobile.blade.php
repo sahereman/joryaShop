@@ -12,7 +12,6 @@
     <!-- 样式 -->
     <link href="{{ asset('static_m/css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('js/swiper/css/swiper_m.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('static_m/js/layer_mobile/layer.css') }}" rel="stylesheet">	
 
 </head>
 <body>

@@ -79,6 +79,7 @@
         //页面单独JS写这里
         $(".getY").on("click", function () {
             var phoneVal = $(".phoneIpt").val();
+            var countryCode = $(".valSpan").html();
             if (phoneVal == "") {
                 //未填手机号
                 layer.open({
@@ -88,32 +89,44 @@
                 });
 
             } else {
-                $(this).css("display", "none");
-                $(".cutTime").css("display", "inline-block");
-                //触发倒计时
-                settime();
                 //调取获取动态验证码接口(TODO)
-
                 $.ajax({
                     url: "{{route('register.send_sms_code')}}",    //请求的url地址
                     type: "POST",   //请求方式
                     dataType: "json",   //返回格式为json
                     data: {
                         "_token": "{{csrf_token()}}",
-                        "country_code": "86",
-                        "phone": "18600982820"
+                        "country_code": countryCode,
+                        "phone": phoneVal
                     },
                     success: function (response, status, xhr) {
                         //请求成功时处理
-                        console.log(response);
+//                      console.log(response);
+                        layer.open({
+		                    content: "发送成功"
+		                    , time: 2
+		                    , skin: 'msg'
+		                });
+                        $(this).css("display", "none");
+		                $(".cutTime").css("display", "inline-block");
+		                //触发倒计时
+		                settime();
                     },
                     error: function (xhr, errorText, errorStatus) {
                         //请求出错处理
                         if (xhr.status === 422) {
                             // http 状态码为 422 代表用户输入校验失败
-                            console.log(xhr.responseJSON);
+                            layer.open({
+			                    content: xhr.responseJSON.errors.phone[0]
+			                    , time: 2
+			                    , skin: 'msg'
+			                });
                         } else {
-                            console.log('系统错误');
+                            layer.open({
+			                    content: "系统错误"
+			                    , time: 2
+			                    , skin: 'msg'
+			                });
                         }
                     }
                 });
