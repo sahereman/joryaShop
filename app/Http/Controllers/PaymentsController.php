@@ -316,7 +316,8 @@ class PaymentsController extends Controller
         if (!isset($_GET['code'])) {
             $app_id = config('payment.wechat.app_id'); // 公众号在微信的app_id
             $redirect_uri = route('payments.get_wechat_open_id'); // 要请求的url
-            $scope = 'snsapi_base';
+            // $scope = 'snsapi_base';
+            $scope = 'snsapi_userinfo';
             // $url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' . $app_id . '&redirect_uri=' . urlencode($redirect_uri) . '&response_type=code&scope=' . $scope . '&state=wx' . '#wechat_redirect';
             $url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' . $app_id . '&redirect_uri=' . urlencode($redirect_uri) . '&response_type=code&scope=' . $scope . '&state=1' . '#wechat_redirect';
             header("Location:" . $url);
@@ -332,12 +333,16 @@ class PaymentsController extends Controller
             curl_setopt($ch, CURLOPT_HEADER, 0);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
             curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
-            $res = curl_exec($ch);
+            $response = curl_exec($ch);
             curl_close($ch);
-            $json_obj = json_decode($res, true);
+            $response_array = json_decode($response, true);
             //根据openid和access_token查询用户信息
-            $access_token = $json_obj['access_token'];
-            $openid = $json_obj['openid'];
+            $access_token = $response_array['access_token'];
+            $openid = $response_array['openid'];
+
+            session(['wechat_mp_userinfo' => $response]);
+            // return $response_array;
+
             $get_user_info_url = 'https://api.weixin.qq.com/sns/userinfo?access_token=' . $access_token . '&openid=' . $openid . '&lang=zh_CN';
 
             $ch = curl_init();
@@ -345,11 +350,13 @@ class PaymentsController extends Controller
             curl_setopt($ch, CURLOPT_HEADER, 0);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
             curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
-            $res = curl_exec($ch);
+            $response = curl_exec($ch);
             curl_close($ch);
 
             //解析json
-            $user_obj = json_decode($res, true);
+            $user_obj = json_decode($response, true);
+            $wechat_mp_userinfo = session('wechat_mp_userinfo');
+            dump($wechat_mp_userinfo);
             $_SESSION['user'] = $user_obj;
             print_r($user_obj);
         }
