@@ -162,7 +162,7 @@ class OrdersController extends Controller
                 'bail',
                 'required_without_all:sku_id,number',
                 'string',
-                'regex:/^\d(\,\d)*$/'
+                'regex:/^\d(\,\d)*$/',
             ],
         ], [], [
             'sku_id' => '商品SKU-ID',

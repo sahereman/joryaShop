@@ -31,7 +31,19 @@ return [
 
         // optional，设置此参数，将进入沙箱模式
         // 'mode' => 'dev',
+        // 'mode' => 'normal',
         'mode' => 'dev',
+
+        // TODO ... (for production)
+        /*
+        'log' => [
+            'file' => storage_path('logs/alipay.log'),
+            'level' => 'info',
+            'type' => 'daily', // optional, 可选 daily.
+            'max_file' => 30,
+        ],
+        'mode' => 'normal',
+        */
 
         'http' => [ // optional
             'timeout' => 10.0,
@@ -82,7 +94,19 @@ return [
         // 'hk' 时为东南亚节点
         // 'mode' => 'dev',
         // 'mode' => 'dev', // optional, dev/hk;当为 `hk` 时，为香港 gateway。
+        // 'mode' => 'normal', // optional, dev/hk;当为 `hk` 时，为香港 gateway。
         'mode' => 'service', // optional, dev/hk;当为 `hk` 时，为香港 gateway。
+
+        // TODO ... (for production)
+        /*
+        'log' => [
+            'file' => storage_path('logs/wechat.log'),
+            'level' => 'info',
+            'type' => 'daily', // optional, 可选 daily.
+            'max_file' => 30,
+        ],
+        'mode' => 'normal',
+        */
 
         'http' => [ // optional
             'timeout' => 10.0,

@@ -145,7 +145,6 @@ class RegisterController extends Controller
         $data['code'] = $code;
         $response = easy_sms_send($data, $phone_number, $country_code);
 
-        dd($response);
         if ($response['aliyun']['status'] == 'success') {
 
             $ttl = 10;
