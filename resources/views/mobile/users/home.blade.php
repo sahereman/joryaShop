@@ -23,6 +23,9 @@
     <a href="{{ route('mobile.orders.index') }}">我的订单 列表</a> /
     <a href="{{ route('mobile.orders.show',\App\Models\Order::where('user_id',Auth::id())->first()) }}"> 我的订单 详情</a> /
 
+    <a href="{{ route('mobile.orders.create_comment',\App\Models\Order::where('user_id',Auth::id())->where('status','completed')->first()) }}"> 创建评价</a> /
+    <a href="{{ route('mobile.orders.show_comment',\App\Models\Order::where('user_id',Auth::id())->where('status','completed')->first()) }}"> 查看评价</a> /
+
 
     {{--如果需要引入子视图--}}
     {{--@include('layouts._footer')--}}
