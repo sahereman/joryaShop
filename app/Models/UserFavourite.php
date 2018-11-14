@@ -11,6 +11,7 @@ class UserFavourite extends Model
      * @var array
      */
     protected $fillable = [
+        'user_id',
         'product_id',
     ];
 
@@ -19,7 +20,7 @@ class UserFavourite extends Model
      * @var array
      */
     protected $hidden = [
-        'user_id'
+        //
     ];
 
     public function user()

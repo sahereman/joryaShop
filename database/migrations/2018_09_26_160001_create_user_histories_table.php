@@ -20,8 +20,9 @@ class CreateUserHistoriesTable extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 
             $table->unsignedInteger('product_id')->nullable(false)->comment('product-id');
+            $table->foreign('product_id')->references('id')->on('products');
 
-            $table->timestamps();
+            $table->timestamp('browsed_at')->nullable()->comment('用户浏览时间');
         });
     }
 
