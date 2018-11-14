@@ -16,9 +16,8 @@ class UserHistoriesController extends Controller
         // refresh user browsing history ...
         $user = $request->user();
         if (Cache::has($user->id . '-user_browsing_history_count') && Cache::has($user->id . '-user_browsing_history_list')) {
-            if (Cache::get($user->id . '-user_browsing_history_count') > 0 && Cache::get($user->id . '-user_browsing_history_list') !== '[]') {
-                $user_browsing_history_list = json_decode(Cache::get($user->id . '-user_browsing_history_list'), true);
-                // dd($user_browsing_history_list);
+            if (Cache::get($user->id . '-user_browsing_history_count') > 0 && Cache::get($user->id . '-user_browsing_history_list') !== []) {
+                $user_browsing_history_list = Cache::get($user->id . '-user_browsing_history_list');
                 foreach ($user_browsing_history_list as $user_browsing_history) {
                     $user_browsing_history['user_id'] = $user->id;
                     UserHistory::create($user_browsing_history);
@@ -27,7 +26,7 @@ class UserHistoriesController extends Controller
         }
         // refresh cache ...
         Cache::forever($user->id . '-user_browsing_history_count', 0);
-        Cache::forever($user->id . '-user_browsing_history_list', '[]');
+        Cache::forever($user->id . '-user_browsing_history_list', []);
 
         $this->validate($request, [
             'page' => 'sometimes|required|integer|min:1',
@@ -77,7 +76,7 @@ class UserHistoriesController extends Controller
         $user = $request->user();
         if (Cache::has($user->id . '-user_browsing_history_count') && Cache::has($user->id . '-user_browsing_history_list')) {
             Cache::forever($user->id . '-user_browsing_history_count', 0);
-            Cache::forever($user->id . '-user_browsing_history_list', '[]');
+            Cache::forever($user->id . '-user_browsing_history_list', []);
         }
 
         if ($result) {

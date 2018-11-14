@@ -162,12 +162,12 @@ class ProductsController extends Controller
             $user = Auth::user();
             if (Cache::has($user->id . '-user_browsing_history_count') && Cache::has($user->id . '-user_browsing_history_list')) {
                 Cache::increment($user->id . '-user_browsing_history_count');
-                $user_browsing_history_list = json_decode(Cache::get($user->id . '-user_browsing_history_list'), true);
+                $user_browsing_history_list = Cache::get($user->id . '-user_browsing_history_list');
                 $user_browsing_history_list[] = [
                     'product_id' => $product->id,
                     'browsed_at' => now()->toDateTimeString(),
                 ];
-                Cache::forever($user->id . '-user_browsing_history_list', collect($user_browsing_history_list)->toJson());
+                Cache::forever($user->id . '-user_browsing_history_list', $user_browsing_history_list);
                 if (Cache::get($user->id . '-user_browsing_history_count') >= 25) {
                     event(new UserBrowsingHistoryEvent($user));
                 }

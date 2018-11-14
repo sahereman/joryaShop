@@ -181,7 +181,7 @@ class RegisterController extends Controller
 
         // user browsing history - initialization
         Cache::forever($user->id . '-user_browsing_history_count', 0);
-        Cache::forever($user->id . '-user_browsing_history_list', '[]');
+        Cache::forever($user->id . '-user_browsing_history_list', []);
 
         return response()->json([
             'code' => 200,

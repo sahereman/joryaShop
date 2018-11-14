@@ -7,6 +7,7 @@ use App\Models\Order;
 use App\Models\OrderRefund;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Session;
 use Yansongda\Pay\Pay;
 
 class PaymentsController extends Controller
@@ -309,40 +310,52 @@ class PaymentsController extends Controller
         // TODO ...
     }
 
+    /**
+     * Reference:
+     * https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421140842
+     */
     // joryashop.test/payments/get_wechat_open_id
     public function getWechatOpenId(Request $request)
     {
         header("Content-type: text/html; charset=utf-8");
         if (!isset($_GET['code'])) {
+            /*Step-1*/
             $app_id = config('payment.wechat.app_id'); // 公众号在微信的app_id
             $redirect_uri = route('payments.get_wechat_open_id'); // 要请求的url
-            // $scope = 'snsapi_base';
-            $scope = 'snsapi_userinfo';
+
+            // $scope = 'snsapi_userinfo'; // for access to advanced user info.
             // $url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' . $app_id . '&redirect_uri=' . urlencode($redirect_uri) . '&response_type=code&scope=' . $scope . '&state=wx' . '#wechat_redirect';
+            $scope = 'snsapi_base'; // for access to basic user info.
             $url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' . $app_id . '&redirect_uri=' . urlencode($redirect_uri) . '&response_type=code&scope=' . $scope . '&state=1' . '#wechat_redirect';
+
             header("Location:" . $url);
             exit();
         } else {
+            /*Step-2*/
+            //根据code查询用户基础信息：openid和access_token
             $app_id = config('payment.wechat.app_id'); // 公众号在微信的app_id
             $app_secret = config('payment.wechat.app_secret'); // 公众号在微信的app_secret
-            // $code = $_GET["code"];
             $code = $request->query('code');
-            $get_token_url = 'https://api.weixin.qq.com/sns/oauth2/access_token?appid=' . $app_id . '&secret=' . $app_secret . '&code=' . $code . '&grant_type=authorization_code';
+            $get_access_token_url = 'https://api.weixin.qq.com/sns/oauth2/access_token?appid=' . $app_id . '&secret=' . $app_secret . '&code=' . $code . '&grant_type=authorization_code';
+
             $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, $get_token_url);
+            curl_setopt($ch, CURLOPT_URL, $get_access_token_url);
             curl_setopt($ch, CURLOPT_HEADER, 0);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
             curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
             $response = curl_exec($ch);
             curl_close($ch);
+
             $response_array = json_decode($response, true);
-            //根据openid和access_token查询用户信息
-            $access_token = $response_array['access_token'];
-            $openid = $response_array['openid'];
-
-            session(['wechat_mp_userinfo' => $response]);
+            Session::put('wechat-basic_user_info', $response_array);
+            // session(['wechat-basic_user_info' => $response_array]);
             // return $response_array;
+            // dd($response_array);
 
+            /*Step-3*/
+            //根据openid和access_token查询用户信息
+            /*$access_token = $response_array['access_token'];
+            $openid = $response_array['openid'];
             $get_user_info_url = 'https://api.weixin.qq.com/sns/userinfo?access_token=' . $access_token . '&openid=' . $openid . '&lang=zh_CN';
 
             $ch = curl_init();
@@ -353,12 +366,11 @@ class PaymentsController extends Controller
             $response = curl_exec($ch);
             curl_close($ch);
 
-            //解析json
-            $user_obj = json_decode($response, true);
-            $wechat_mp_userinfo = session('wechat_mp_userinfo');
-            dump($wechat_mp_userinfo);
-            $_SESSION['user'] = $user_obj;
-            print_r($user_obj);
+            $response_array = json_decode($response, true);
+            Session::put('wechat-advanced_user_info', $response_array);*/
+            // session(['wechat-advanced_user_info' => $response_array]);
+            // return $response_array;
+            // dd($response_array);
         }
     }
 

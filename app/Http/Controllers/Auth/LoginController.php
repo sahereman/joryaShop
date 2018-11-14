@@ -178,7 +178,7 @@ class LoginController extends Controller
 
             // user browsing history - initialization
             Cache::forever($user->id . '-user_browsing_history_count', 0);
-            Cache::forever($user->id . '-user_browsing_history_list', '[]');
+            Cache::forever($user->id . '-user_browsing_history_list', []);
 
             return $this->sendLoginResponse($request);
         }
@@ -274,7 +274,7 @@ class LoginController extends Controller
 
             // user browsing history - initialization
             Cache::forever($user->id . '-user_browsing_history_count', 0);
-            Cache::forever($user->id . '-user_browsing_history_list', '[]');
+            Cache::forever($user->id . '-user_browsing_history_list', []);
 
             return response()->json([
                 'code' => 200,
@@ -333,7 +333,7 @@ class LoginController extends Controller
 
                 // user browsing history - initialization
                 Cache::forever($user->id . '-user_browsing_history_count', 0);
-                Cache::forever($user->id . '-user_browsing_history_list', '[]');
+                Cache::forever($user->id . '-user_browsing_history_list', []);
 
                 return response()->json([
                     'code' => 200,
@@ -368,7 +368,7 @@ class LoginController extends Controller
     {
         // user browsing history - expiration (firing an event)
         if (Auth::check()) {
-            event(new UserBrowsingHistoryEvent(Auth::user()));
+            event(new UserBrowsingHistoryEvent(Auth::user(), true));
         }
 
         $this->guard()->logout();

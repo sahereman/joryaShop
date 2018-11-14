@@ -32,8 +32,8 @@ class UserBrowsingHistoryEventListener implements ShouldQueue
         // creating history records ...
         $user = $event->getUser();
         if (Cache::has($user->id . '-user_browsing_history_count') && Cache::has($user->id . '-user_browsing_history_list')) {
-            if (Cache::get($user->id . '-user_browsing_history_count') > 0 && Cache::get($user->id . '-user_browsing_history_list') !== '[]') {
-                $user_browsing_history_list = json_decode(Cache::get($user->id . '-user_browsing_history_list'), true);
+            if (Cache::get($user->id . '-user_browsing_history_count') > 0 && Cache::get($user->id . '-user_browsing_history_list') !== []) {
+                $user_browsing_history_list = Cache::get($user->id . '-user_browsing_history_list');
                 foreach ($user_browsing_history_list as $user_browsing_history) {
                     $user_browsing_history['user_id'] = $user->id;
                     UserHistory::create($user_browsing_history);
@@ -46,7 +46,7 @@ class UserBrowsingHistoryEventListener implements ShouldQueue
             Cache::forget($user->id . '-user_browsing_history_list');
         } else {
             Cache::forever($user->id . '-user_browsing_history_count', 0);
-            Cache::forever($user->id . '-user_browsing_history_list', '[]');
+            Cache::forever($user->id . '-user_browsing_history_list', []);
         }
     }
 }
