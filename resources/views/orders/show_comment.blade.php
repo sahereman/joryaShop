@@ -1,7 +1,6 @@
 @extends('layouts.app')
 @section('title', '个人中心-我的订单')
 @section('content')
-    @include('common.error')
     <div class="evaluate_commont">
         <div class="m-wrapper">
             <div>

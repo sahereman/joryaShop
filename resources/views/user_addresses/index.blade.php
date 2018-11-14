@@ -1,7 +1,6 @@
 @extends('layouts.app')
 @section('title', '个人中心-收货地址')
 @section('content')
-    @include('common.error')
     <div class="User_addresses">
         <div class="m-wrapper">
             <div>

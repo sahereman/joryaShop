@@ -77,8 +77,8 @@
                 <div class="pre_payment_footer">
                     <p class="main_title">币种选择</p>
                     <p class="currency_selection">
-                        <a href="javascript:void(0)" class="active" code="RMB">人民币</a>
-                        <a href="javascript:void(0)" code="dollar">美金</a>
+                        <a href="javascript:void(0)" class="active" code="RMB" country="CNY">人民币</a>
+                        <a href="javascript:void(0)" code="dollar" country="USD">美金</a>
                     </p>
                     <ul>
                         <li class="clear">
@@ -286,7 +286,6 @@
 		    $(".payment_btn").on("click",function(){
 		    	var url = $(this).attr("data-url");
 		    	var sendWay = getUrlVars("sendWay");
-		    	console.log(sendWay);
 		    	switch (sendWay) {
 		            case "1":
 		                var sku_id = getUrlVars("sku_id");
@@ -310,7 +309,8 @@
 		    		name: $(".address_name").html(),
 		    		phone: $(".address_phone").html(),
 		    		address: $(".address_location").html(),
-		    		remark: $(".remark").val()
+		    		remark: $(".remark").val(),
+		    		currency: $(".currency_selection").find("a.active").attr("country")
 		    	}
 		    	$.ajax({
 		    		type:"post",
@@ -328,6 +328,7 @@
                     },
                     error: function (err) {
                         console.log(err);
+                        layer.msg($.parseJSON(err.responseText).errors.currency[0])
                     },
                     complete:function(){
                     }
@@ -341,7 +342,8 @@
 		    		name: $(".address_name").html(),
 		    		phone: $(".address_phone").html(),
 		    		address: $(".address_location").html(),
-		    		remark: $(".remark").val()
+		    		remark: $(".remark").val(),
+		    		currency: $(".currency_selection").find("a.active").attr("country")
 		    	}
 		    	$.ajax({
 		    		type:"post",
@@ -359,6 +361,7 @@
                     },
                     error: function (err) {
                         console.log(err);
+                        layer.msg($.parseJSON(err.responseText).errors.currency[0])
                     },
                     complete:function(){
                     }

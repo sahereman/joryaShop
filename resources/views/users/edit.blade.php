@@ -1,7 +1,6 @@
 @extends('layouts.app')
 @section('title', '个人中心-账户信息')
 @section('content')
-    @include('common.error')
     <div class="User_center_edit User_center">
         <div class="m-wrapper">
             <div>

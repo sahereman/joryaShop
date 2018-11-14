@@ -1,7 +1,6 @@
 @extends('layouts.app')
 @section('title', '商品分类')
 @section('content')
-    @include('common.error')
     <div class="productCate my_orders">
         <!--商品分类导图-->
         <div class="swiper-container Taxonomy" id="Taxonomy">

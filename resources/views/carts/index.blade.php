@@ -92,6 +92,19 @@
 @section('scriptsAfterJs')
     <script type="text/javascript">
         $(function () {
+        	var action = "";
+		    var sku_id = [];
+//		    $(document).ready(function(){
+				if (getUrlVars() != undefined) {
+		            action = getUrlVars();
+		            action = action.substring(0,action.length-1);
+		            sku_id = action.split(",");
+		            $.each(sku_id, function(i,n) {
+		            	$(".cart-items").find("input[code='"+ n +"']").attr("checked",true);
+		            });
+		            calcTotal();
+		       }
+//			})
             //全选
             $('.selectAll').on('change', function (evt) {
                 if ($(this).prop('checked')) {
@@ -161,7 +174,7 @@
                     if (count < 200) {
                         count += 1;
                         $(this).prev().val(count);
-                        update_pro_num($(this).next());
+                        update_pro_num($(this).prev());
                     } else {
                         layer.msg('商品数量最少为1');
                     }
@@ -265,6 +278,7 @@
                     _token: "{{ csrf_token() }}",
                     number: dom.val()
                 };
+                console.log(data);
             	$.ajax({
             		type:"post",
             		url:url,
@@ -294,7 +308,7 @@
 	        				});
 	        				cart_ids=cart_ids.substring(0,cart_ids.length-1);
 			        		var url = clickDom.attr('data-url');
-			        		window.location.href=url+"?cart_ids="+cart_ids+"&sendWay=2";
+			        		window.location.href = url+"?cart_ids="+cart_ids+"&sendWay=2";
 	        			}else {
 	        				layer.alert("请选择结算商品");
 	        			}
@@ -313,20 +327,6 @@
 		        }
 		        return vars["sku_id_lists"];
 		    }
-		    var action = "";
-		    var sku_id = [];
-		    $(document).ready(function(){
-				if (getUrlVars() != undefined) {
-		            action = getUrlVars();
-		            action = action.substring(0,action.length-1);
-		            sku_id = action.split(",");
-		            $.each(sku_id, function(i,n) {
-		            	console.log(n)
-		            	$(".cart-items").find("input[code='"+ n +"']").attr("checked",true);
-		            });
-		            calcTotal();
-		       }
-			})
         });
     </script>
 @endsection

@@ -4,7 +4,6 @@
 
     @include('layouts._header')
 
-    @include('common.error')
 
     <h1>个人设置</h1>
 

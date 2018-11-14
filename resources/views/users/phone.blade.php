@@ -1,7 +1,6 @@
 @extends('layouts.app')
 @section('title', '个人中心-修改绑定邮箱')
 @section('content')
-    @include('common.error')
     <div class="User_psw_edit User_center">
         <div class="m-wrapper">
             <div>

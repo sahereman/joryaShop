@@ -115,10 +115,12 @@
                     font-size: 18px;
                     margin-top: 20px;
                     margin-bottom: 8px;
+                    margin-left: 190px;
                 }
                 p {
                     font-size: 12px;
                     color: #999;
+                    width: 370px;
                     span {
                         font-size: 14px;
                         color: #db4320;
@@ -130,7 +132,7 @@
     }
     .payment_success {
         width: 990px;
-        height: 325px;
+        min-height: 325px;
         margin: auto;
         background-color: #fff;
         margin-top: 27px;
@@ -176,4 +178,65 @@
             }
         }
     }
+    //微信支付页面
+    .wechat_title {
+        width: 990px;
+        margin: auto;
+        position: relative;
+        padding: 20px;
+        background-color: #fff;
+        line-height: 1;
+        margin-top: 50px;
+        p {
+            margin: 10px;
+            &.title {
+                font-weight: 600;
+                font-size: 16px;
+            }
+            &.yxTradeNo {
+                display: inline-block;
+            }
+            &.actualPrice {
+                display: inline-block;
+                float: right;
+                span {
+                    &.red {
+                        font-size: 16px;
+                        font-weight: 600;
+                        margin-right: 40px;
+                    }
+                }
+            }
+        }
+    }
+    .payment_success {
+        &.wechat {
+            margin-top: 0;
+        }
+        .bd {
+            display: inline-block;
+            vertical-align: middle;
+            .code {
+                margin-top: 59px;
+                margin-right: 117px;
+                .bd {
+                    width: 160px;
+                    height: 160px;
+                    margin-bottom: 11px;
+                    border: 1px solid #f3f3f3;
+                    img {
+                        width: 100%;
+                        height: auto;
+                    }
+                }
+                .text {
+                    line-height: 1;
+                    font-size: 18px;
+                    font-weight: 700;
+                    margin-top: 0;
+                }
+            }
+        }
+    }
+    
 }

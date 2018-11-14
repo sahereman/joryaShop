@@ -285,6 +285,9 @@ a {
                         &:last-of-type {
                             padding-left: 60px;
                         }
+                        &.touser_center {
+                            padding-left: 8px;
+                        }
                     }
                 }
             }
@@ -325,7 +328,6 @@ a {
             }
             .dropdown-menu {
                 width: 170px;
-                min-height: 345px;
                 top: 183%;
                 border: 0;
                 border-radius: inherit;
@@ -979,7 +981,7 @@ footer {
             float: left;
             h4 {
                 margin-top: 60px;
-                font-size: 22px;
+                font-size: 20px;
                 color: #000;
             }
             p {

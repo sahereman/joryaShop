@@ -1,7 +1,6 @@
 @extends('layouts.app')
 @section('title', '个人中心-我的收藏')
 @section('content')
-    @include('common.error')
     <div class="User_collection">
         <div class="m-wrapper">
             <div>

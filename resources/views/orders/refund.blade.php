@@ -1,7 +1,6 @@
 @extends('layouts.app')
 @section('title', '个人中心-我的订单')
 @section('content')
-    @include('common.error')
     <div class="User_center my_orders">
         <div class="m-wrapper">
             <div>
