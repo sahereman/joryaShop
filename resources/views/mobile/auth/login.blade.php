@@ -15,9 +15,9 @@
 				<img src="{{ asset('static_m/img/icon_name.png') }}" class="fImg"/>
 				<input id="username" type="text" name="username" value="{{ old('username') }}" placeholder="请输入用户名">
 				<div class="tipBox">
-					@if ($errors->has('username'))
+					@if ($errors->has('name'))
 	                    <img src="{{ asset('static_m/img/icon_tip.png') }}"/>
-				        <span> {{ $errors->first('username') }}</span>
+				        <span> {{ $errors->first('name') }}</span>
 	                @endif
 				</div>	
 			</div>
