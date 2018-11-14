@@ -110,19 +110,28 @@
                                             </td>
                                             <td class="col-pro-info">
                                                 <p class="p-info">
-                                                    <a code="{{ $order_item['sku']['id'] }}" href="{{ route('products.show', $order_item['sku']['product']['id']) }}">{{ $order_item['sku']['product']['name_zh'] }}</a>
+                                                    <a code="{{ $order_item['sku']['id'] }}"
+                                                       href="{{ route('products.show', $order_item['sku']['product']['id']) }}">{{ $order_item['sku']['product']['name_zh'] }}</a>
                                                 </p>
                                             </td>
                                             <td class="col-price">
                                                 <p class="p-price">
-                                                    <em>¥</em>
+                                                    @if($order->currency === 'CNY')
+                                                        <em>&yen; </em>
+                                                    @else
+                                                        <em>&#36; </em>
+                                                    @endif
                                                     <span>{{ $order_item['price'] }}</span>
                                                 </p>
                                             </td>
                                             <td class="col-quty">{{ $order_item['number'] }}</td>
                                             <td rowspan="{{ count($order->snapshot) }}" class="col-pay">
                                                 <p>
-                                                    <em>¥</em>
+                                                    @if($order->currency === 'CNY')
+                                                        <em>&yen; </em>
+                                                    @else
+                                                        <em>&#36; </em>
+                                                    @endif
                                                     <span>{{ $order->total_amount }}</span>
                                                 </p>
                                             </td>
@@ -140,11 +149,13 @@
                                                           class="paying_time count_down"
                                                           created_at="{{ strtotime($order->created_at) }}"
                                                           time_to_close_order="{{ \App\Models\Config::config('time_to_close_order') * 3600 }}">{{ generate_order_ttl_message($order->create_at, \App\Models\Order::ORDER_STATUS_PAYING) }}</span>
-                                                    <a class="payment" href="{{ route('orders.payment_method', $order->id) }}">付款</a>
-                                                    <a class="cancellation" code="{{ route('orders.close', $order->id) }}">取消订单</a>
+                                                    <a class="payment"
+                                                       href="{{ route('orders.payment_method', $order->id) }}">付款</a>
+                                                    <a class="cancellation"
+                                                       code="{{ route('orders.close', $order->id) }}">取消订单</a>
                                                     @elseif($order->status == \App\Models\Order::ORDER_STATUS_CLOSED)
                                                             <!--再次购买-->
-                                                    <a class="Buy_again"  data-url="{{ route('carts.store') }}">再次购买</a>
+                                                    <a class="Buy_again" data-url="{{ route('carts.store') }}">再次购买</a>
                                                     @elseif($order->status == \App\Models\Order::ORDER_STATUS_SHIPPING)
                                                             <!--订单待发货-->
                                                     <a class="reminding_shipments">提醒发货</a>
@@ -162,14 +173,14 @@
                                                             <!--订单待评价-->
                                                     <a class="evaluate"
                                                        href="{{ route('orders.create_comment', $order->id) }}">去评价</a>
-                                                            <!--再次购买-->
+                                                    <!--再次购买-->
                                                     <a class="buy_more" data-url="{{ route('carts.store') }}">再次购买</a>
                                                     @elseif($order->status == \App\Models\Order::ORDER_STATUS_COMPLETED && $order->commented_at != null)
                                                             <!--订单已评价-->
                                                     <!--查看评价-->
                                                     <a class="View_evaluation"
                                                        href="{{  route('orders.show_comment', $order->id) }}">查看评价</a>
-                                                            <!--再次购买-->
+                                                    <!--再次购买-->
                                                     <a class="buy_more" data-url="{{ route('carts.store') }}">再次购买</a>
                                                     @endif
                                                 </p>
@@ -187,12 +198,17 @@
                                             </td>
                                             <td class="col-pro-info">
                                                 <p class="p-info">
-                                                    <a code="{{ $order_item['sku']['id'] }}" href="{{ route('products.show', $order_item['sku']['product']['id']) }}">{{ $order_item['sku']['product']['name_zh'] }}</a>
+                                                    <a code="{{ $order_item['sku']['id'] }}"
+                                                       href="{{ route('products.show', $order_item['sku']['product']['id']) }}">{{ $order_item['sku']['product']['name_zh'] }}</a>
                                                 </p>
                                             </td>
                                             <td class="col-price">
                                                 <p class="p-price">
-                                                    <em>¥</em>
+                                                    @if($order->currency === 'CNY')
+                                                        <em>&yen; </em>
+                                                    @else
+                                                        <em>&#36; </em>
+                                                    @endif
                                                     <span>{{ $order_item['price'] }}</span>
                                                 </p>
                                             </td>
@@ -228,8 +244,8 @@
                                     </div>
                                     <p class="commodity_title">{{ $guess->name_zh }}</p>
                                     <p class="collection_price">
-                                        <span class="new_price">¥ {{ $guess->price }}</span>
-                                        <span class="old_price">¥ {{ bcadd($guess->price, random_int(300, 500), 2) }}</span>
+                                        <span class="new_price">&yen; {{ $guess->price }}</span>
+                                        <span class="old_price">&yen; {{ bcadd($guess->price, random_int(300, 500), 2) }}</span>
                                     </p>
                                     <a class="add_to_cart" href="{{ route('products.show', $guess->id) }}">查看详情</a>
                                 </li>
@@ -327,10 +343,10 @@
                     error: function (err) {
                         console.log(err.status);
                         if (err.status == 403) {
-                        	layer.open({
-							  type: 1, 
-							  content: '无法处理请求' 
-							});
+                            layer.open({
+                                type: 1,
+                                content: '无法处理请求'
+                            });
                         }
                     }
                 });
@@ -338,16 +354,17 @@
             var action = "";
             var data = new Date();
             //获取url参数
-			function getUrlVars() {
-		        var vars = [], hash;
-		        var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
-		        for (var i = 0; i < hashes.length; i++) {
-		            hash = hashes[i].split('=');
-		            vars.push(hash[0]);
-		            vars[hash[0]] = hash[1];
-		        }
-		        return vars["status"];
-		    }
+            function getUrlVars() {
+                var vars = [], hash;
+                var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+                for (var i = 0; i < hashes.length; i++) {
+                    hash = hashes[i].split('=');
+                    vars.push(hash[0]);
+                    vars[hash[0]] = hash[1];
+                }
+                return vars["status"];
+            }
+
             window.onload = function () {
                 if (getUrlVars() != undefined) {
                     action = getUrlVars();
@@ -415,17 +432,17 @@
             _fresh();
             var sh = setInterval(_fresh, 1000);
         }
-        
+
         //取消订单
-        $(".cancellation").on('click',function(){
-        	$(".order_cancel .textarea_content").find("span").attr("code", $(this).attr("code"));
-          	$(".order_cancel").show();
+        $(".cancellation").on('click', function () {
+            $(".order_cancel .textarea_content").find("span").attr("code", $(this).attr("code"));
+            $(".order_cancel").show();
         })
-        $(".order_cancel").on('click','.success',function(){
-        	var data = {
+        $(".order_cancel").on('click', '.success', function () {
+            var data = {
                 _method: "PATCH",
                 _token: "{{ csrf_token() }}",
-           };
+            };
             var url = $(".order_cancel .textarea_content").find("span").attr('code');
             $.ajax({
                 type: "post",
@@ -437,20 +454,20 @@
                 error: function (err) {
                     if (err.status == 403) {
                         layer.open({
-						  type: 1, 
-						  content: '无法处理请求' 
-						});
+                            type: 1,
+                            content: '无法处理请求'
+                        });
                     }
                 }
             });
         })
-        
-       //确认收货
-       $(".confirmation_receipt").on('click',function(){
-       	   var data = {
+
+        //确认收货
+        $(".confirmation_receipt").on('click', function () {
+            var data = {
                 _method: "PATCH",
                 _token: "{{ csrf_token() }}",
-           };
+            };
             var url = $(this).attr('code');
             $.ajax({
                 type: "post",
@@ -462,77 +479,77 @@
                 error: function (err) {
                     if (err.status == 403) {
                         layer.open({
-						  type: 1, 
-						  content: '无法处理请求' 
-						});
+                            type: 1,
+                            content: '无法处理请求'
+                        });
                     }
                 }
             });
-       })
-       //提醒发货
-       $(".reminding_shipments").on('click',function(){
-       	   layer.msg('已提醒卖家发货，请敬候佳音');
-       })
-        var allHadAdd = 0;  //用来判断是否已经订单找那个全部的商品添加至购物车中
-    	var shops_list;  //单个订单中包含的商品的数量,用于再次购买时判断时候可以进行跳页
-    	var loading_animation;  //loading动画的全局name
-       //再次购买
-        $(".buy_more").on("click",function(){
-        	shops_list = $(this).parents("table").find("tr");
-        	var sku_id_lists = "";  //用于页面跳转在购物车页面通过判断这个参数的值选中商品
-        	var sku_id;
-        	var number;
-        	var url = $(this).attr("data-url");
-        	$.each(shops_list, function(i,n) {
-        		sku_id = $(n).find(".p-info").find("a").attr("code");
-        		number = $(n).find(".col-quty").html();
-        		sku_id_lists+=$(n).find(".p-info").find("a").attr("code")+",";
-        		allHadAdd++;
-        		add_to_carts(sku_id,number,url,sku_id_lists,allHadAdd);
-        	});
         })
-        $(".Buy_again").on("click",function(){
-        	shops_list = $(this).parents("table").find("tr");
-        	var sku_id_lists = "";  //用于页面跳转在购物车页面通过判断这个参数的值选中商品
-        	var sku_id;
-        	var number;
-        	var url = $(this).attr("data-url");
-        	$.each(shops_list, function(i,n) {
-        		sku_id = $(n).find(".p-info").find("a").attr("code");
-        		number = $(n).find(".col-quty").html();
-        		sku_id_lists+=$(n).find(".p-info").find("a").attr("code")+",";
-        		allHadAdd++;
-        		add_to_carts(sku_id,number,url,sku_id_lists,allHadAdd);
-        	});
+        //提醒发货
+        $(".reminding_shipments").on('click', function () {
+            layer.msg('已提醒卖家发货，请敬候佳音');
+        })
+        var allHadAdd = 0;  //用来判断是否已经订单找那个全部的商品添加至购物车中
+        var shops_list;  //单个订单中包含的商品的数量,用于再次购买时判断时候可以进行跳页
+        var loading_animation;  //loading动画的全局name
+        //再次购买
+        $(".buy_more").on("click", function () {
+            shops_list = $(this).parents("table").find("tr");
+            var sku_id_lists = "";  //用于页面跳转在购物车页面通过判断这个参数的值选中商品
+            var sku_id;
+            var number;
+            var url = $(this).attr("data-url");
+            $.each(shops_list, function (i, n) {
+                sku_id = $(n).find(".p-info").find("a").attr("code");
+                number = $(n).find(".col-quty").html();
+                sku_id_lists += $(n).find(".p-info").find("a").attr("code") + ",";
+                allHadAdd++;
+                add_to_carts(sku_id, number, url, sku_id_lists, allHadAdd);
+            });
+        })
+        $(".Buy_again").on("click", function () {
+            shops_list = $(this).parents("table").find("tr");
+            var sku_id_lists = "";  //用于页面跳转在购物车页面通过判断这个参数的值选中商品
+            var sku_id;
+            var number;
+            var url = $(this).attr("data-url");
+            $.each(shops_list, function (i, n) {
+                sku_id = $(n).find(".p-info").find("a").attr("code");
+                number = $(n).find(".col-quty").html();
+                sku_id_lists += $(n).find(".p-info").find("a").attr("code") + ",";
+                allHadAdd++;
+                add_to_carts(sku_id, number, url, sku_id_lists, allHadAdd);
+            });
         })
         //添加购物车
-        function add_to_carts(sku_id,number,url,sku_id_lists,allHadAdd){
-        	var data = {
-    			_token: "{{ csrf_token() }}",
-    			sku_id: sku_id,
-    			number: number
-    		}
+        function add_to_carts(sku_id, number, url, sku_id_lists, allHadAdd) {
+            var data = {
+                _token: "{{ csrf_token() }}",
+                sku_id: sku_id,
+                number: number
+            }
             $.ajax({
                 type: "post",
                 url: url,
                 data: data,
-                beforeSend: function(){
-    			loading_animation = layer.msg('请稍候', {
-		                icon: 16,
-		                shade: 0.4,
-		                time:false //取消自动关闭
-					});
-        		},
+                beforeSend: function () {
+                    loading_animation = layer.msg('请稍候', {
+                        icon: 16,
+                        shade: 0.4,
+                        time: false //取消自动关闭
+                    });
+                },
                 success: function (data) {
-                	if(allHadAdd==shops_list.length){
-                		window.location.href=url+"?sku_id_lists="+sku_id_lists;	
-                	}
+                    if (allHadAdd == shops_list.length) {
+                        window.location.href = url + "?sku_id_lists=" + sku_id_lists;
+                    }
                 },
                 error: function (err) {
                     console.log(err);
-                    if(allHadAdd==shops_list.length){
-                		layer.close(loading_animation);
-                	}
+                    if (allHadAdd == shops_list.length) {
+                        layer.close(loading_animation);
+                    }
                 }
             });
         }

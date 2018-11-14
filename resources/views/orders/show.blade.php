@@ -226,7 +226,11 @@
                                     </td>
                                     <td class="col-price">
                                         <p class="p-price">
-                                            <em>¥</em>
+                                            @if($order->currency === 'CNY')
+                                                <em>&yen; </em>
+                                            @else
+                                                <em>&#36; </em>
+                                            @endif
                                             <span>{{ $order_item['price'] }}</span>
                                         </p>
                                     </td>
@@ -235,7 +239,11 @@
                                     </td>
                                     <td rowspan="{{ count($order->snapshot) }}" class="col-pay">
                                         <p>
-                                            <em>¥</em>
+                                            @if($order->currency === 'CNY')
+                                                <em>&yen; </em>
+                                            @else
+                                                <em>&#36; </em>
+                                            @endif
                                             <span>{{ $order->total_amount }}</span>
                                         </p>
                                     </td>
@@ -261,7 +269,11 @@
                                     </td>
                                     <td class="col-price">
                                         <p class="p-price">
-                                            <em>¥</em>
+                                            @if($order->currency === 'CNY')
+                                                <em>&yen; </em>
+                                            @else
+                                                <em>&#36; </em>
+                                            @endif
                                             <span>{{ $order_item['price'] }}</span>
                                         </p>
                                     </td>
@@ -276,15 +288,15 @@
                     <div class="order_settlement">
                         <p class="commodity_cost">
                             <span>商品合计：</span>
-                            <span>¥ {{ $order->total_amount }}</span>
+                            <span>&yen; {{ $order->total_amount }}</span>
                         </p>
                         <p class="freight">
                             <span>运  费：</span>
-                            <span>¥ {{ $order->total_shipping_fee }}</span>
+                            <span>&yen; {{ $order->total_shipping_fee }}</span>
                         </p>
                         <p class="total_cost">
                             <span>应付总额：</span>
-                            <span class="cost_of_total">¥ {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}</span>
+                            <span class="cost_of_total">&yen; {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}</span>
                         </p>
                     </div>
                 </div>
@@ -444,8 +456,8 @@
                     }
                 });
             });
-            $(".reminding_shipments").on("click",function(){
-            	layer.msg("提醒发货成功");
+            $(".reminding_shipments").on("click", function () {
+                layer.msg("提醒发货成功");
             })
         });
     </script>
