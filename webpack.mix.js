@@ -28,7 +28,7 @@ mix.js('resources/assets/static_m/js/app.js', 'public/static_m/js')
     .sass('resources/assets/static_m/sass/app.scss', 'public/static_m/css');
 
 mix.copyDirectory('resources/assets/static_m/img', 'public/static_m/img');
-
+mix.copyDirectory('resources/assets/static_m/js/layer_mobile', 'public/static_m/js/layer_mobile');
 
 // dev
 // mix.browserSync({
