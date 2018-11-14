@@ -54,8 +54,11 @@ return [
 
     // Wechat 支付
     'wechat' => [
-        // 公众号 APPID
-        'app_id' => env('WECHAT_APP_ID', 'app_id'),
+        // 公众号[MP] AppId
+        'app_id' => env('WECHAT_MP_APP_ID', 'app_id'),
+
+        // 公众号[MP] AppSecret
+        'app_secret' => env('WECHAT_MP_APP_SECRET', 'app_secret'),
 
         // 小程序 APPID
         'miniapp_id' => env('WECHAT_MINIAPP_ID', 'miniapp_id'),

@@ -323,10 +323,10 @@ class PaymentsController extends Controller
             exit();
         } else {
             $app_id = config('payment.wechat.app_id'); // 公众号在微信的app_id
-            $secret = config('payment.wechat.key'); // 公众号在微信的app secret
+            $app_secret = config('payment.wechat.app_secret'); // 公众号在微信的app_secret
             // $code = $_GET["code"];
             $code = $request->query('code');
-            $get_token_url = 'https://api.weixin.qq.com/sns/oauth2/access_token?appid=' . $app_id . '&secret=' . $secret . '&code=' . $code . '&grant_type=authorization_code';
+            $get_token_url = 'https://api.weixin.qq.com/sns/oauth2/access_token?appid=' . $app_id . '&secret=' . $app_secret . '&code=' . $code . '&grant_type=authorization_code';
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $get_token_url);
             curl_setopt($ch, CURLOPT_HEADER, 0);
