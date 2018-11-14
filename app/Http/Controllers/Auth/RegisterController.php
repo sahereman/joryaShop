@@ -181,8 +181,8 @@ class RegisterController extends Controller
             ?: redirect($this->redirectPath());*/
 
         // user browsing history - initialization
-        Cache::set($user->id . '-user_browsing_history_count', 0);
-        Cache::set($user->id . '-user_browsing_history_list', '');
+        Cache::forever($user->id . '-user_browsing_history_count', 0);
+        Cache::forever($user->id . '-user_browsing_history_list', '[]');
 
         return response()->json([
             'code' => 200,

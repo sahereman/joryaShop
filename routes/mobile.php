@@ -64,6 +64,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('orders', 'OrdersController@index')->name('mobile.orders.index'); // 列表 页面
     Route::get('orders/list', 'OrdersController@list')->name('mobile.orders.list'); // 获取订单数据 请求 [for Ajax request]
     Route::get('orders/{order}', 'OrdersController@show')->name('mobile.orders.show'); // 详情 页面
+    Route::get('orders/{order}/show_shipment', 'OrdersController@showShipment')->name('mobile.orders.show_shipment'); // 物流详情 页面
 
+    // 订单评价
+    Route::get('orders/{order}/create_comment', 'OrdersController@createComment')->name('mobile.orders.create_comment'); // 创建订单评价 页面
+    Route::post('orders/{order}/store_comment', 'OrdersController@storeComment')->name('mobile.orders.store_comment'); // 发布订单评价 请求 [每款产品都必须发布评价 + 评分]
+    Route::get('orders/{order}/show_comment', 'OrdersController@showComment')->name('mobile.orders.show_comment'); // 查看订单评价 页面
 
 });

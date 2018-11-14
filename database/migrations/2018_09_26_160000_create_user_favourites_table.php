@@ -21,6 +21,7 @@ class CreateUserFavouritesTable extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 
             $table->unsignedInteger('product_id')->nullable(false)->comment('product-id');
+            $table->foreign('product_id')->references('id')->on('products');
 
             $table->timestamps();
         });

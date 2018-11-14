@@ -17,11 +17,10 @@ class UserHistoriesSeeder extends Seeder
 
             $products = Product::all()->random(random_int(10, 20));
 
-            foreach ($products as $key => $item)
-            {
+            foreach ($products as $key => $product) {
                 factory(UserHistory::class)->create([
                     'user_id' => $user->id,
-                    'product_id' => $item->id,
+                    'product_id' => $product->id,
                 ]);
             }
         });
