@@ -49,25 +49,34 @@ class Handler extends ExceptionHandler
 
     protected function unauthenticated($request, AuthenticationException $exception)
     {
-        $parsedUrl = parse_url(redirect()->back()->getTargetUrl());
-        $urlArray = [];
-        if (isset($parsedUrl['query']))
+        if (\Browser::isMobile())
         {
-            parse_str($parsedUrl['query'], $urlArray);
+            return $request->expectsJson()
+                ? response()->json(['message' => $exception->getMessage()], 401)
+                : redirect()->guest(route('mobile.login.show'));
+        } else
+        {
+            $parsedUrl = parse_url(redirect()->back()->getTargetUrl());
+            $urlArray = [];
+            if (isset($parsedUrl['query']))
+            {
+                parse_str($parsedUrl['query'], $urlArray);
+            }
+            $urlArray['action'] = 'login';
+            $redirectUrl = '';
+            $redirectUrl .= isset($parsedUrl['scheme']) ? $parsedUrl['scheme'] . '://' : 'http://';
+            $redirectUrl .= $parsedUrl['host'];
+            $redirectUrl .= isset($parsedUrl['port']) ? ':' . $parsedUrl['port'] : '';
+            $redirectUrl .= isset($parsedUrl['path']) ? $parsedUrl['path'] : '';
+            $redirectUrl .= '?' . http_build_query($urlArray);
+            $redirectUrl .= isset($parsedUrl['fragment']) ? '#' . $parsedUrl['fragment'] : '';
+            return $request->expectsJson()
+                ? response()->json([
+                    'action' => 'login',
+                    'message' => $exception->getMessage(),
+                ], 401)
+                : redirect()->intended($redirectUrl);
         }
-        $urlArray['action'] = 'login';
-        $redirectUrl = '';
-        $redirectUrl .= isset($parsedUrl['scheme']) ? $parsedUrl['scheme'] . '://' : 'http://';
-        $redirectUrl .= $parsedUrl['host'];
-        $redirectUrl .= isset($parsedUrl['port']) ? ':' . $parsedUrl['port'] : '';
-        $redirectUrl .= isset($parsedUrl['path']) ? $parsedUrl['path'] : '';
-        $redirectUrl .= '?' . http_build_query($urlArray);
-        $redirectUrl .= isset($parsedUrl['fragment']) ? '#' . $parsedUrl['fragment'] : '';
-        return $request->expectsJson()
-            ? response()->json([
-                'action' => 'login',
-                'message' => $exception->getMessage(),
-            ], 401)
-            : redirect()->intended($redirectUrl);
+
     }
 }

@@ -20,6 +20,10 @@
     <a href="{{ route('mobile.user_addresses.create') }}">收货地址 新增</a> /
 
 
+    <a href="{{ route('mobile.orders.index') }}">我的订单 列表</a> /
+    <a href="{{ route('mobile.orders.show',\App\Models\Order::where('user_id',Auth::id())->first()) }}"> 我的订单 详情</a> /
+
+
     {{--如果需要引入子视图--}}
     {{--@include('layouts._footer')--}}
 @endsection
