@@ -167,6 +167,7 @@ class PaymentsController extends Controller
             $qr_code_url = $result->code_url;
 
             return view('payments.wechat', [
+                'order' => $order,
                 'qr_code_url' => $qr_code_url,
             ]);
         } catch (\Exception $e) {
@@ -352,5 +353,22 @@ class PaymentsController extends Controller
             $_SESSION['user'] = $user_obj;
             print_r($user_obj);
         }
+    }
+
+    // GET 通用 - 支付成功页面
+    public function success(Request $request, Order $order)
+    {
+        // 判断订单是否属于当前用户
+        if ($request->user()->id !== $order->user_id) {
+            throw new InvalidRequestException('您没有权限操作此订单');
+        }
+        // 判断当前订单状态是否支持支付
+        if (in_array($order->status, [Order::ORDER_STATUS_PAYING, Order::ORDER_STATUS_CLOSED])) {
+            throw new InvalidRequestException('当前订单状态不正确');
+        }
+
+        return view('payments.success', [
+            'order' => $order,
+        ]);
     }
 }

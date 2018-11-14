@@ -328,6 +328,35 @@ class OrdersController extends Controller
         ]);
     }
 
+    // GET 查看订单是否支付成功 [for Ajax request]
+    public function isPaid(Request $request, Order $order)
+    {
+        $this->authorize('view', $order);
+
+        $is_paid = $order->status === Order::ORDER_STATUS_SHIPPING;
+
+        if($is_paid){
+            return response()->json([
+                'code' => 200,
+                'message' => 'success',
+                'data' => [
+                    'order_id' => $order->id,
+                    'is_paid' => $is_paid,
+                    'request_url' => route('payments.success', ['order' => $order->id]),
+                ],
+            ]);
+        }else{
+            return response()->json([
+                'code' => 200,
+                'message' => 'success',
+                'data' => [
+                    'order_id' => $order->id,
+                    'is_paid' => $is_paid,
+                ],
+            ]);
+        }
+    }
+
     // PATCH [主动]取消订单，交易关闭 [订单进入交易关闭状态:status->closed]
     public function close(Request $request, Order $order)
     {

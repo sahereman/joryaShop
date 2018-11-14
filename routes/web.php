@@ -136,6 +136,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('orders/{order}/show_comment', 'OrdersController@showComment')->name('orders.show_comment'); // 查看订单评价页面
     // Route::post('orders/{order}/append_comment', 'OrdersController@appendComment')->name('orders.append_comment'); // 追加订单评价 [可针对某一款产品单独追加评论]
 
+    Route::get('orders/{order}/is_paid', 'OrdersController@isPaid')->name('orders.is_paid'); // 查看订单是否支付成功 [for Ajax request]
+
     // 售后订单 [仅退款]
     Route::get('orders/{order}/refund', 'OrdersController@refund')->name('orders.refund'); // 退单申请页面
     Route::post('orders/{order}/store_refund', 'OrdersController@storeRefund')->name('orders.store_refund'); // 发起退单申请 [订单进入售后状态:status->refunding]
@@ -157,8 +159,9 @@ Route::group(['middleware' => 'auth'], function () {
 
     /*支付回调 [return_url]*/
     Route::get('payments/alipay/return', 'PaymentsController@alipayReturn')->name('payments.alipay.return'); // Alipay 支付回调
-    Route::get('payments/{order}/wechat/return', 'PaymentsController@wechatReturn')->name('payments.wechat.return'); // Wechat 前端JS监听订单支付，回调成功|失败页面
     Route::get('payments/paypal/return', 'PaymentsController@paypalReturn')->name('payments.paypal.return'); // PayPal 支付回调
+
+    Route::get('payments/{order}/success', 'PaymentsController@success')->name('payments.success'); // 通用 - 支付成功页面
 
     Route::get('payments/get_wechat_open_id', 'PaymentsController@getWechatOpenId')->name('payments.get_wechat_open_id'); // get wechat open_id
 });
