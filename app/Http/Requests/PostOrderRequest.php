@@ -62,7 +62,7 @@ class PostOrderRequest extends Request
                 'bail',
                 'required_without_all:sku_id,number',
                 'string',
-                'regex:/^\d(\,\d)*$/'
+                'regex:/^\d+(\,\d+)*$/'
             ],
             'name' => 'bail|required|string',
             'phone' => 'bail|required|string',

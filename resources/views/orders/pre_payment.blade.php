@@ -24,7 +24,7 @@
                                 </li>
                                 <li>
                                     <span>联系方式：</span>
-                                    <span class="address_phone">{{ substr_replace($address->phone, '*', 3, 4) }}</span>
+                                    <span class="address_phone">{{ $address->phone }}</span>
                                 </li>
                                 <li>
                                     <span>联系地址：</span>
