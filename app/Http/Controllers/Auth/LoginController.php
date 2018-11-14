@@ -175,6 +175,11 @@ class LoginController extends Controller
             {
                 Auth::login($user);
             }
+
+            // user browsing history - initialization
+            Cache::set($user->id . '-user_browsing_history_count', 0);
+            Cache::set($user->id . '-user_browsing_history_list', '');
+
             return $this->sendLoginResponse($request);
         }
 
@@ -325,6 +330,10 @@ class LoginController extends Controller
                     Auth::login($user);
                 }
                 // return $this->sendLoginResponse($request);
+
+                // user browsing history - initialization
+                Cache::set($user->id . '-user_browsing_history_count', 0);
+                Cache::set($user->id . '-user_browsing_history_list', '');
 
                 return response()->json([
                     'code' => 200,

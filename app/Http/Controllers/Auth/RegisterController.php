@@ -180,6 +180,10 @@ class RegisterController extends Controller
         /*return $this->registered($request, $user)
             ?: redirect($this->redirectPath());*/
 
+        // user browsing history - initialization
+        Cache::set($user->id . '-user_browsing_history_count', 0);
+        Cache::set($user->id . '-user_browsing_history_list', '');
+
         return response()->json([
             'code' => 200,
             'message' => 'success',
