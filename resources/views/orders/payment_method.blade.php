@@ -9,24 +9,27 @@
                 <div class="methods_choose">
                     <p>支付方式</p>
                     <ul>
-                        <li>
-                            <label class="cur_p clear">
-                                <input type="radio" name="payMethod" value="1" id="alipay" checked>
-                                <img src="{{ asset('img/alipay.png') }}">
-                            </label>
-                        </li>
-                        <li>
-                            <label class="cur_p clear">
-                                <input type="radio" name="payMethod" value="2" id="wxpay">
-                                <img src="{{ asset('img/wxpay.png') }}">
-                            </label>
-                        </li>
-                        <li>
-                            <label class="cur_p clear">
-                                <input type="radio" name="payMethod" value="3" id="paypal">
-                                <img src="{{ asset('img/paypal.png') }}">
-                            </label>
-                        </li>
+                        @if($order->currency == 'CNY')
+                            <li>
+                                <label class="cur_p clear">
+                                    <input type="radio" name="payMethod" value="1" id="alipay" checked>
+                                    <img src="{{ asset('img/alipay.png') }}">
+                                </label>
+                            </li>
+                            <li>
+                                <label class="cur_p clear">
+                                    <input type="radio" name="payMethod" value="2" id="wxpay">
+                                    <img src="{{ asset('img/wxpay.png') }}">
+                                </label>
+                            </li>
+                        @else
+                            <li>
+                                <label class="cur_p clear">
+                                    <input type="radio" name="payMethod" value="3" id="paypal">
+                                    <img src="{{ asset('img/paypal.png') }}">
+                                </label>
+                            </li>
+                        @endif
                     </ul>
                 </div>
                 <div class="methods_footer clear">
@@ -40,7 +43,9 @@
                         <a href="{{ route('payments.wechat', ['order' => $order->id]) }}">
                             <button class="pay_btn">付款</button>
                         </a>
-                        <p class="cunt_down paying_time">剩余付款时间：<span>59分58秒</span></p>
+                        <p class="cunt_down paying_time"
+                           created_at="{{ strtotime($order->created_at) }}"
+                           time_to_close_order="{{ \App\Models\Config::config('time_to_close_order') * 3600 }}">{{ generate_order_ttl_message($order->create_at, \App\Models\Order::ORDER_STATUS_PAYING) }}</p>
                     </div>
                 </div>
             </div>
