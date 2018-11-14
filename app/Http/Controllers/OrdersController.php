@@ -36,42 +36,42 @@ class OrdersController extends Controller
         $status = $request->has('status') ? $request->input('status') : 'all';
         switch ($status) {
             // 待付款订单
-            case 'paying':
+            case Order::ORDER_STATUS_PAYING:
                 $orders = $user->orders()
                     // ->with('items.sku.product')
-                    ->where('status', 'paying')
+                    ->where('status', Order::ORDER_STATUS_PAYING)
                     ->orderByDesc('created_at')
                     ->simplePaginate(5);
                 break;
             // 待收货订单
-            case 'receiving':
+            case Order::ORDER_STATUS_RECEIVING:
                 $orders = $user->orders()
                     // ->with('items.sku.product')
-                    ->where('status', 'receiving')
+                    ->where('status', Order::ORDER_STATUS_RECEIVING)
                     ->orderByDesc('shipped_at')
                     ->simplePaginate(5);
                 break;
             // 待评价订单
-            case 'uncommented':
+            case Order::ORDER_STATUS_UNCOMMENTED:
                 $orders = $user->orders()
                     // ->with('items.sku.product')
-                    ->where(['status' => 'completed', 'commented_at' => null])
+                    ->where(['status' => Order::ORDER_STATUS_COMPLETED, 'commented_at' => null])
                     ->orderByDesc('completed_at')
                     ->simplePaginate(5);
                 break;
             // 售后订单
-            case 'refunding':
+            case Order::ORDER_STATUS_REFUNDING:
                 $orders = $user->orders()
                     // ->with('items.sku.product')
-                    ->where('status', 'refunding')
+                    ->where('status', Order::ORDER_STATUS_REFUNDING)
                     ->orderByDesc('updated_at')
                     ->simplePaginate(5);
                 break;
             // 已完成订单
-            case 'completed':
+            case Order::ORDER_STATUS_COMPLETED:
                 $orders = $user->orders()
                     // ->with('items.sku.product')
-                    ->where('status', 'completed')
+                    ->where('status', Order::ORDER_STATUS_COMPLETED)
                     ->orderByDesc('completed_at')
                     ->simplePaginate(5);
                 break;
@@ -162,7 +162,7 @@ class OrdersController extends Controller
                 'bail',
                 'required_without_all:sku_id,number',
                 'string',
-                'regex:/^\d(\,\d)*$/',
+                'regex:/^\d+(\,\d+)*$/',
             ],
         ], [], [
             'sku_id' => '商品SKU-ID',
@@ -288,7 +288,7 @@ class OrdersController extends Controller
             $order = new Order([
                 'user_id' => $user->id,
                 'user_info' => collect($request->only(['name', 'phone', 'address']))->toArray(),
-                'status' => 'paying',
+                'status' => Order::ORDER_STATUS_PAYING,
                 'currency' => $currency,
                 'snapshot' => collect($snapshot)->toArray(),
                 'total_shipping_fee' => $total_shipping_fee,
@@ -304,7 +304,7 @@ class OrdersController extends Controller
         });
 
         // 分派定时自动关闭订单任务
-        $this->dispatch(new AutoCloseOrderJob($order, Config::config('time_to_close_order')));
+        $this->dispatch(new AutoCloseOrderJob($order, Config::config('time_to_close_order') * 60)); // 系统自动关闭订单时间（单位：分钟）
 
         return response()->json([
             'code' => 200,
@@ -367,7 +367,7 @@ class OrdersController extends Controller
     {
         $this->authorize('complete', $order);
 
-        $order->status = 'completed';
+        $order->status = Order::ORDER_STATUS_COMPLETED;
         $order->completed_at = Carbon::now()->toDateTimeString();
         $order->save();
         return response()->json([]);
@@ -496,7 +496,7 @@ class OrdersController extends Controller
             // 'photos_for_refund' => $request->has('photos_for_refund') ? $request->input('photos_for_refund') : '',
         ]);
 
-        $order->status = 'refunding';
+        $order->status = Order::ORDER_STATUS_REFUNDING;
         $order->save();
 
         return redirect()->route('orders.refund', [
@@ -592,7 +592,7 @@ class OrdersController extends Controller
             'photos_for_refund' => $request->has('photos_for_refund') ? $request->input('photos_for_refund') : '',
         ]);
 
-        $order->status = 'refunding';
+        $order->status = Order::ORDER_STATUS_REFUNDING;
         $order->save();
 
         return redirect()->route('orders.refund_with_shipment', [
@@ -678,9 +678,9 @@ class OrdersController extends Controller
         $this->authorize('revoke_refund', $order);
 
         if ($order->refund->type == 'refund') {
-            $order->status = 'shipping';
+            $order->status = Order::ORDER_STATUS_SHIPPING;
         } else {
-            $order->status = 'receiving';
+            $order->status = Order::ORDER_STATUS_RECEIVING;
         }
 
         $order->refund->delete();
