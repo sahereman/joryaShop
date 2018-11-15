@@ -1229,8 +1229,8 @@ footer {
                 }
             }
             .fenxiang_info {
-                width: 210px;
-                height: 60px;
+                min-width: 210px;
+                min-height: 60px;
                 position: absolute;
                 display: none;
                 right: 60px;
@@ -1268,7 +1268,8 @@ footer {
                             top: -240px;
                         }
                         .share-component {
-                            margin-top: 10px;
+                            margin: 10px 15px;
+                            text-align: left;
                         }
                     }
                 }

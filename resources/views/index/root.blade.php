@@ -90,7 +90,7 @@
                                     <li>
                                         <a href="{{ route('products.show', ['product' => $product->id]) }}">
                                             <img src="{{ $product->thumb_url }}">
-                                            <h5>{{ $product->name_zh }}</h5>
+                                            <h5>{{App::isLocale('en') ? $product->name_en : $product->name_zh }}</h5>
                                             <span>{{ $product->description_zh }}</span>
                                             <p class="product_price">@lang('basic.currency.symbol') {{ $product->price }}</p>
                                         </a>

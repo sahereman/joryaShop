@@ -269,8 +269,8 @@
             $(".address_list table").on("click", ".edit_address", function () {
                 $("#edit-form").prop("action", $(this).attr("url"));
                 $(".edit_harvest_address").find(".user_name").val($(this).parents("tr").find(".address_name").html());
-                $(".edit_harvest_address").find(".user_tel").val($(this).parents("tr").find(".address_info").html());
-                $(".edit_harvest_address").find("textarea").val($(this).parents("tr").find(".address_tel").html());
+                $(".edit_harvest_address").find(".user_tel").val($(this).parents("tr").find(".address_tel").html());
+                $(".edit_harvest_address").find("textarea").val($(this).parents("tr").find(".address_info").html());
                 var isdefault = $(this).parents("tr").find(".setDefaultAddress ").hasClass("haddefault");
                 if(isdefault==true){
                 	$(".edit_harvest_address").find("#edit_default").attr("checked",true);

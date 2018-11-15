@@ -116,10 +116,19 @@
                 <img src="{{ asset('img/fenxiang.png') }}">
             </a>
             <div class="fenxiang_info">
-               <!--<p class="share_title">分享到</p>-->
                <ul>
                	  <li class="row">
-			        <div class="share-component" data-disabled="qzone, tencent, douban, diandian, google, linkedin"></div>
+			        <!--<div class="share-component " data-disabled="qzone, tencent, douban, diandian, google, linkedin"></div>-->
+			        <div class="social-share" data-initialized="true" data-url="http://test.joryahair.com/"  data-title="卓雅美发">
+			            <a href="#" class="social-share-icon icon-weibo"></a>
+			            <a href="#" class="social-share-icon icon-wechat"></a>
+			            <a href="#" class="social-share-icon icon-qq"></a>
+			            <a href="#" class="social-share-icon icon-qzone"></a>
+			            <a href="#" class="social-share-icon icon-linkedin"></a>
+			            <a href="#" class="social-share-icon icon-facebook"></a>
+			            <a href="#" class="social-share-icon icon-twitter"></a>
+			            <a href="#" class="social-share-icon icon-google"></a>
+			        </div>
 			      </li>
                </ul>
             </div>

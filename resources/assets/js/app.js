@@ -119,6 +119,8 @@ $(function(){
     }, function() {
         $(".fenxiang_info").stop(true, true).fadeOut();
     })
+    //配置网站分享
+    
 })
 
 //登陆注册弹窗
