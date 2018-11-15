@@ -111,8 +111,31 @@ class BannersController extends Controller
     {
         $form = new Form(new Banner);
 
-        $form->text('type', '类型')->help('可使用的标示 : index | mobile ');;
-        $form->image('image', 'Banner图');
+        $form->select('type', '类型')->options([
+            'index' => 'PC站首页',
+            'mobile' => 'Mobile站首页'
+        ])->rules('required');
+        //        $form->image('image', 'Banner图')->resize(1920, 780)->uniqueName()->move('banner')->rules('required|image');
+        $form->image('image', 'Banner图')->rules('required|image');
+
+
+        //保存前回调
+        $form->saving(function (Form $form) {
+
+            switch ($form->input('type'))
+            {
+                case 'index' :
+                    $form->builder()->field('image')->resize(1920, 780)->uniqueName()->move('banner');
+                    break;
+                case 'mobile' :
+                    $form->builder()->field('image')->resize(960, 390)->uniqueName()->move('banner');
+                    break;
+                default :
+                    $form->builder()->field('image')->uniqueName()->move('banner');
+                    break;
+            }
+
+        });
 
         return $form;
     }
