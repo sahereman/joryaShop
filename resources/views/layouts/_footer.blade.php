@@ -116,9 +116,11 @@
                 <img src="{{ asset('img/fenxiang.png') }}">
             </a>
             <div class="fenxiang_info">
-               <p class="share_title">分享到</p>
+               <!--<p class="share_title">分享到</p>-->
                <ul>
-               	  <li></li>
+               	  <li class="row">
+			        <div class="share-component" data-disabled="qzone, tencent, douban, diandian, google, linkedin"></div>
+			      </li>
                </ul>
             </div>
         </li>

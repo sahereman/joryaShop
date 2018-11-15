@@ -10,6 +10,7 @@
     <!-- 样式 -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('js/swiper/css/swiper.css') }}" rel="stylesheet">
+    <link href="{{ asset('js/shareJS/css/share.min.css') }}" rel="stylesheet">
 </head>
 <body>
 <div id="app" class="{{ route_class() }}-page">
@@ -20,9 +21,7 @@
 <!-- JS 脚本 -->
 <script src="{{ asset('js/app.js') }}"></script>
 <script src="{{ asset('js/layer/layer.js') }}"></script>
-
-
-
+<script src="{{ asset('js/shareJS/js/jquery.share.min.js') }}"></script>
 @yield('scriptsAfterJs')
 </body>
 </html>
