@@ -51,8 +51,8 @@
                                     <div class="list-info">
                                         <p class="list-info-title">{{ $product->name_zh }}</p>
                                         <p>
-                                            <span class="old-price"><i>&yen; </i>{{ bcadd($product->price, random_int(100, 300), 2) }}</span>
-                                            <span class="new-price"><i>&yen; </i>{{ $product->price }}</span>
+                                            <span class="old-price"><i>@lang('basic.currency.symbol') </i>{{ bcmul($product->price, 1.2, 2) }}</span>
+                                            <span class="new-price"><i>@lang('basic.currency.symbol') </i>{{ $product->price }}</span>
                                         </p>
                                     </div>
                                 </li>

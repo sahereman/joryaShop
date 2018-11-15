@@ -28,4 +28,9 @@ class Poster extends Model
         }
         return Storage::disk($this->attributes['disk'])->url($this->attributes['image']);
     }
+
+    public static function getPosterBySlug($slug)
+    {
+        return self::where('slug', $slug)->first();
+    }
 }

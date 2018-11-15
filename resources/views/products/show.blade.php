@@ -39,7 +39,7 @@
                             <ul class="img_x" id="img_x">
                                 @foreach($product->photo_urls as $photo_url)
                                     <li code="{{ $photo_url }}">
-                                    	<img class="lazy" code="{{ $photo_url }}"
+                                        <img class="lazy" code="{{ $photo_url }}"
                                              src="{{ $photo_url }}"></li>
                                 @endforeach
                             </ul>
@@ -59,11 +59,11 @@
                     <div class="price_service">
                         <p class="original_price">
                             <span>原价</span>
-                            <span><i>&yen; </i>{{ bcadd($product->price, random_int(100, 300), 2) }}</span>
+                            <span><i>@lang('basic.currency.symbol') </i>{{ bcmul($product->price, 1.2, 2) }}</span>
                         </p>
                         <p class="present_price">
                             <span>现价</span>
-                            <span class="changePrice_num"><i>&yen; </i>{{ $product->price }}</span>
+                            <span class="changePrice_num"><i>@lang('basic.currency.symbol') </i>{{ $product->price }}</span>
                         </p>
                         <p class="service">
                             <span>服务</span>
@@ -73,7 +73,7 @@
                     </div>
                     <div class="priceOfpro">
                         <span>运费</span>
-                        <span><i>&yen; </i>{{ $product->shipping_fee }}</span>
+                        <span><i>@lang('basic.currency.symbol') </i>{{ $product->shipping_fee }}</span>
                     </div>
                     <div class="priceOfpro kindOfPro">
                         <span>分类</span>
@@ -96,19 +96,19 @@
                     </div>
                     <!--添加购物车与立即购买-->
                     <div class="addCart_buyNow">
-                    	@guest
-                    	    <a class="buy_now for_show_login">立即购买</a>
-	                        <a class="add_carts for_show_login">加入购物车</a>
-						@else
-						    <a class="buy_now" data-url="{{ route('orders.pre_payment') }}">立即购买</a>
-	                        <a class="add_carts" data-url="{{ route('carts.store') }}">加入购物车</a>
-						@endguest
-                        <a class="add_favourites" code = "{{ $product->id }}" 
-                           data-url = "{{ route('user_favourites.store') }}"
-                           data-url_2 = "{{ route('user_favourites.destroy', $product->id) }}">
-                            <span class="favourites_img"></span>
-                            <span>收藏</span>
-                        </a>
+                        @guest
+                        <a class="buy_now for_show_login">立即购买</a>
+                        <a class="add_carts for_show_login">加入购物车</a>
+                        @else
+                            <a class="buy_now" data-url="{{ route('orders.pre_payment') }}">立即购买</a>
+                            <a class="add_carts" data-url="{{ route('carts.store') }}">加入购物车</a>
+                            @endguest
+                            <a class="add_favourites" code="{{ $product->id }}"
+                               data-url="{{ route('user_favourites.store') }}"
+                               data-url_2="{{ route('user_favourites.destroy', $product->id) }}">
+                                <span class="favourites_img"></span>
+                                <span>收藏</span>
+                            </a>
                     </div>
                 </div>
                 <!--猜你喜欢-->
@@ -124,8 +124,8 @@
                                         <img src="{{ $guess->thumb_url }}">
                                     </div>
                                     <p>
-                                        <span class="present_price"><i>&yen;</i>{{ $guess->price }}</span>
-                                        <span class="original_price"><i>&yen;</i>{{ bcadd($guess->price, random_int(300, 500), 2) }}</span>
+                                        <span class="present_price"><i>@lang('basic.currency.symbol')</i>{{ $guess->price }}</span>
+                                        <span class="original_price"><i>@lang('basic.currency.symbol')</i>{{ bcmul($guess->price, 1.2, 2) }}</span>
                                     </p>
                                 </a>
                             </li>
@@ -149,7 +149,7 @@
                                             <img src="{{ $hot_sale->thumb_url }}">
                                         </div>
                                         <p>
-                                            <span class="present_price"><i>&yen; </i>{{ $hot_sale->price }}</span>
+                                            <span class="present_price"><i>@lang('basic.currency.symbol') </i>{{ $hot_sale->price }}</span>
                                         </p>
                                     </a>
                                 </li>
@@ -165,7 +165,7 @@
                                             <img src="{{ $best_seller->thumb_url }}">
                                         </div>
                                         <p>
-                                            <span class="present_price"><i>&yen; </i>{{ $best_seller->price }}</span>
+                                            <span class="present_price"><i>@lang('basic.currency.symbol') </i>{{ $best_seller->price }}</span>
                                         </p>
                                     </a>
                                 </li>
@@ -176,7 +176,9 @@
                 <div class="comments_details_right pull-left" id="comments_details">
                     <ul class="tab">
                         <li onclick="tabs('#comments_details',0)" class="curr">商品详情</li>
-                        <li onclick="tabs('#comments_details',1)" class="shopping_eva" data-url="{{ route('products.comment',$product->id) }}">商品评价<strong>({{ $comment_count }})</strong></li>
+                        <li onclick="tabs('#comments_details',1)" class="shopping_eva"
+                            data-url="{{ route('products.comment',$product->id) }}">商品评价<strong>({{ $comment_count }}
+                                )</strong></li>
                     </ul>
                     <div class="mc tabcon product_info">
                         {{ $product->content_zh }}
@@ -203,7 +205,7 @@
                             </div>
                             <!--暂无评价-->
                             <div class="no_eva dis_n">
-                            	<p>暂无评价信息</p>
+                                <p>暂无评价信息</p>
                             </div>
                         </div>
                         <!--分页-->
@@ -219,10 +221,10 @@
 @endsection
 @section('scriptsAfterJs')
     <script type="text/javascript">
-    	var loading_animation;  //loading动画的全局name
-    	var current_page;  //评价的当前页
-    	var next_page;   //下一页的页码
-    	var pre_page;   //上一页的页码
+        var loading_animation;  //loading动画的全局name
+        var current_page;  //评价的当前页
+        var next_page;   //下一页的页码
+        var pre_page;   //上一页的页码
         $('#img_x li').eq(0).css('border', '2px solid #bc8c61');
         $('#zhezhao').mousemove(function (e) {
             $('#img_u').show();
@@ -273,27 +275,27 @@
         });
         //点击添加收藏
         $(".add_favourites").on("click", function () {
-        	var clickDom = $(this);
+            var clickDom = $(this);
             if (clickDom.hasClass('active') != true) {
-            	var data = {
-	                _token: "{{ csrf_token() }}",
-	                product_id: clickDom.attr("code")
-	            };
-	            var url = clickDom.attr('data-url');
-	            $.ajax({
-	                type: "post",
-	                url: url,
-	                data: data,
-	                success: function (data) {
-	                    clickDom.addClass('active');
-	                },
-	                error: function (err) {
-	                    console.log(err);
-	                    if(err.status==422){
-	                    	layer.msg($.parseJSON(err.responseText).errors.product_id[0]);
-	                    }
-	                }
-	            });
+                var data = {
+                    _token: "{{ csrf_token() }}",
+                    product_id: clickDom.attr("code")
+                };
+                var url = clickDom.attr('data-url');
+                $.ajax({
+                    type: "post",
+                    url: url,
+                    data: data,
+                    success: function (data) {
+                        clickDom.addClass('active');
+                    },
+                    error: function (err) {
+                        console.log(err);
+                        if (err.status == 422) {
+                            layer.msg($.parseJSON(err.responseText).errors.product_id[0]);
+                        }
+                    }
+                });
             } else {
                 var data = {
                     _method: "DELETE",
@@ -321,154 +323,153 @@
             //根据参数决定显示内容
             $(tabId + " .tabcon").hide();
             $(tabId + " .tabcon").eq(tabNum).show();
-            if(tabNum==1){
-            	getEva(1);
+            if (tabNum == 1) {
+                getEva(1);
             }
         }
         //切换
         $(".kindOfPro").on("click", "li", function () {
             $(".kindOfPro").find('li').removeClass("active");
             $(this).addClass('active');
-            $(".changePrice_num").html("&yen;" + $(this).attr('code_price'));
+            $(".changePrice_num").html("@lang('basic.currency.symbol')" + $(this).attr('code_price'));
         });
         //加入购物车
-        $(".add_carts").on("click",function(){
-        	var clickDom = $(this);
-        	if($(".kindOfPro").find("li").hasClass('active')!=true){
-        			layer.msg("请选择规格");
-    		}else {
-    			if ($(this).hasClass('for_show_login') == true) {
-	        		$(".login").click();
-	        	}else {
-	        		var data = {
-	        			_token: "{{ csrf_token() }}",
-	        			sku_id: $(".kindOfPro ul").find("li.active").find("input").val(),
-	        			number: $("#pro_num").val()
-	        		}
-	        		var url = clickDom.attr('data-url');
-	                $.ajax({
-	                    type: "post",
-	                    url: url,
-	                    data: data,
-	                    success: function (data) {
-	                        layer.alert("购物车添加成功");
-	                        $(".header-search").load(location.href + " .header-search");
-	                    },
-	                    error: function (err) {
-	                        console.log(err);
-	                    }
-	                });
-	        	}	
-        	}
+        $(".add_carts").on("click", function () {
+            var clickDom = $(this);
+            if ($(".kindOfPro").find("li").hasClass('active') != true) {
+                layer.msg("请选择规格");
+            } else {
+                if ($(this).hasClass('for_show_login') == true) {
+                    $(".login").click();
+                } else {
+                    var data = {
+                        _token: "{{ csrf_token() }}",
+                        sku_id: $(".kindOfPro ul").find("li.active").find("input").val(),
+                        number: $("#pro_num").val()
+                    };
+                    var url = clickDom.attr('data-url');
+                    $.ajax({
+                        type: "post",
+                        url: url,
+                        data: data,
+                        success: function (data) {
+                            layer.alert("购物车添加成功");
+                            $(".header-search").load(location.href + " .header-search");
+                        },
+                        error: function (err) {
+                            console.log(err);
+                        }
+                    });
+                }
+            }
 
-        })
+        });
         //立即购买
-        $(".buy_now").on("click",function(){
-        	var clickDom = $(this);
-        	if($(".kindOfPro").find("li").hasClass('active')!=true){
-        			layer.msg("请选择规格");
-    		}else {
-    			if ($(this).hasClass('for_show_login') == true) {
-	        		$(".login").click();
-	        	}else {
-	        		var url = clickDom.attr('data-url');
-	        		window.location.href=url+"?sku_id="+$(".kindOfPro ul").find("li.active").find("input").val()+"&number="+$("#pro_num").val()+"&sendWay=1";
-	        	}	
-        	}
-        })
+        $(".buy_now").on("click", function () {
+            var clickDom = $(this);
+            if ($(".kindOfPro").find("li").hasClass('active') != true) {
+                layer.msg("请选择规格");
+            } else {
+                if ($(this).hasClass('for_show_login') == true) {
+                    $(".login").click();
+                } else {
+                    var url = clickDom.attr('data-url');
+                    window.location.href = url + "?sku_id=" + $(".kindOfPro ul").find("li.active").find("input").val() + "&number=" + $("#pro_num").val() + "&sendWay=1";
+                }
+            }
+        });
         //获取评价内容
-        function getEva(page){
-        	var data = {
-        		page: page
-        	}
-        	var url = $(".shopping_eva").attr("data-url");
-        	$.ajax({
-        		type:"get",
-        		url:url,
-        		beforeSend: function(){
-        			loading_animation = layer.msg('加载中请稍候', {
-		                icon: 16,
-		                shade: 0.4,
-		                time:false //取消自动关闭
-					});
-        		},
-        		success: function(json){
-        			console.log(json);
-        			var dataObj = json.data.comments.data;
-        			var dataObj_photo ;
-        			if(dataObj.length<=0){
-        				$(".no_eva").removeClass('dis_n');
-        				$(".comment-score h3").text("0.0");
-        				$(".pre_page").addClass("not_allow");
-        				$(".pre_page").attr("disabled",true);
-        				$(".next_page").addClass("not_allow");
-        				$(".next_page").attr("disabled",true);
-        			}else {
-        				var html = "";
-        				$(".composite_index").text((json.data.composite_index).toFixed(1));
-        				$(".description_index").text((json.data.description_index).toFixed(1));
-        				$(".shipment_index").text((json.data.shipment_index).toFixed(1));
-        				$.each(dataObj, function(i,n) {
-        					dataObj_photo = n.photo_urls;
-        					html+= "<div class='item'>"
-        					html+= "<div class='evaluation_results_left'>"
-        					html+= "<div class='eva_user_img'>"
-        					html+= "<img src='"+ n.user.avatar_url +"'>"
-        					html+= "</div>"
-        					html+= "<span>"+ n.user.name +"</span>"
-        					html+= "</div>"
-        					html+= "<div class='evaluation_results_right'>"
-        					html+= "<div class='five_star_evaluation'>"
-        					html+= "<img src='../img/star-"+ n.composite_index +".png') }}'>"
-        					html+= "</div>"
-          					html+= "<p class='product_parameters'>"
-                            html+= "<span>"+ n.order_item.sku.name_zh +"</span>"
-                            html+= "</p>"
-                            html+= "<p class='eva_text'>"+ n.content +"</p>"
-                            html+= "<ul class='evaluation_img'>"
-                            $.each(dataObj_photo, function(a,b) {
-                            	html+= "<li class='eva_img'>"
-                            	html+= "<img src='"+ b +"'>"
-                            	html+= "</li>"
+        function getEva(page) {
+            var data = {
+                page: page
+            };
+            var url = $(".shopping_eva").attr("data-url");
+            $.ajax({
+                type: "get",
+                url: url,
+                beforeSend: function () {
+                    loading_animation = layer.msg('加载中请稍候', {
+                        icon: 16,
+                        shade: 0.4,
+                        time: false //取消自动关闭
+                    });
+                },
+                success: function (json) {
+                    console.log(json);
+                    var dataObj = json.data.comments.data;
+                    var dataObj_photo;
+                    if (dataObj.length <= 0) {
+                        $(".no_eva").removeClass('dis_n');
+                        $(".comment-score h3").text("0.0");
+                        $(".pre_page").addClass("not_allow");
+                        $(".pre_page").attr("disabled", true);
+                        $(".next_page").addClass("not_allow");
+                        $(".next_page").attr("disabled", true);
+                    } else {
+                        var html = "";
+                        $(".composite_index").text((json.data.composite_index).toFixed(1));
+                        $(".description_index").text((json.data.description_index).toFixed(1));
+                        $(".shipment_index").text((json.data.shipment_index).toFixed(1));
+                        $.each(dataObj, function (i, n) {
+                            dataObj_photo = n.photo_urls;
+                            html += "<div class='item'>";
+                            html += "<div class='evaluation_results_left'>";
+                            html += "<div class='eva_user_img'>";
+                            html += "<img src='" + n.user.avatar_url + "'>";
+                            html += "</div>";
+                            html += "<span>" + n.user.name + "</span>";
+                            html += "</div>";
+                            html += "<div class='evaluation_results_right'>";
+                            html += "<div class='five_star_evaluation'>";
+                            html += "<img src='../img/star-" + n.composite_index + ".png') }}'>";
+                            html += "</div>";
+                            html += "<p class='product_parameters'>";
+                            html += "<span>" + n.order_item.sku.name_zh + "</span>";
+                            html += "</p>";
+                            html += "<p class='eva_text'>" + n.content + "</p>";
+                            html += "<ul class='evaluation_img'>";
+                            $.each(dataObj_photo, function (a, b) {
+                                html += "<li class='eva_img'>";
+                                html += "<img src='" + b + "'>";
+                                html += "</li>";
                             });
-                            html+= "</ul>"
-                            html+= "<p class='eva_date'>"+ n.created_at +"</p>"
-                            html+= "</div>"        
-                            html+= "</div>"
-        				});
-        				$(".comment-items .no_eva").nextAll().remove();
-        				$(".comment-items").append(html);
-        				$(".pre_page").attr("data-url",json.data.comments.prev_page_url);
-        				$(".next_page").attr("data-url",json.data.comments.next_page_url);
-        				$(".pre_page").attr("code",json.data.comments.from);
-        				$(".next_page").attr("code",json.data.comments.to);
-        				if(json.data.comments.prev_page_url == null){
-        					$(".pre_page").addClass("not_allow");
-        					$(".pre_page").attr("disabled",true);
-        				}
-        				if(json.data.comments.next_page_url==null){
-        					$(".next_page").addClass("not_allow");
-        					$(".next_page").attr("disabled",true);
-        				}
-        			}
-        			
-        		},
-        		error: function(e){
-        			console.log(e)
-        		},
-        		complete: function(){
-        			layer.close(loading_animation);
-        		}
-        	});
+                            html += "</ul>";
+                            html += "<p class='eva_date'>" + n.created_at + "</p>";
+                            html += "</div>";
+                            html += "</div>";
+                        });
+                        $(".comment-items .no_eva").nextAll().remove();
+                        $(".comment-items").append(html);
+                        $(".pre_page").attr("data-url", json.data.comments.prev_page_url);
+                        $(".next_page").attr("data-url", json.data.comments.next_page_url);
+                        $(".pre_page").attr("code", json.data.comments.from);
+                        $(".next_page").attr("code", json.data.comments.to);
+                        if (json.data.comments.prev_page_url == null) {
+                            $(".pre_page").addClass("not_allow");
+                            $(".pre_page").attr("disabled", true);
+                        }
+                        if (json.data.comments.next_page_url == null) {
+                            $(".next_page").addClass("not_allow");
+                            $(".next_page").attr("disabled", true);
+                        }
+                    }
+                },
+                error: function (e) {
+                    console.log(e);
+                },
+                complete: function () {
+                    layer.close(loading_animation);
+                }
+            });
         }
         //点击分页
         //上一页
-        $(".pre_page").on("click",function(){
-        	getEva($(this).attr("code"));
-        })
+        $(".pre_page").on("click", function () {
+            getEva($(this).attr("code"));
+        });
         //下一页
-        $(".next_page").on("click",function(){
-        	getEva($(this).attr("code"));
-        })
+        $(".next_page").on("click", function () {
+            getEva($(this).attr("code"));
+        });
     </script>
 @endsection

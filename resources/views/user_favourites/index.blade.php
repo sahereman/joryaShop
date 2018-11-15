@@ -36,8 +36,8 @@
                                     </div>
                                     <p class="commodity_title">{{ $favourite->product->name_zh }}</p>
                                     <p class="collection_price">
-                                        <span class="new_price">¥ {{ $favourite->product->price }}</span>
-                                        <span class="old_price">¥ {{ bcadd($favourite->product->price, random_int(300, 500), 2) }}</span>
+                                        <span class="new_price">@lang('basic.currency.symbol') {{ $favourite->product->price }}</span>
+                                        <span class="old_price">@lang('basic.currency.symbol') {{ bcmul($favourite->product->price, 1.2, 2) }}</span>
                                     </p>
                                     <a class="add_to_cart" href="{{ route('products.show', $favourite->id) }}">加入购物车</a>
                                     <a class="delete_mark" code="{{ route('user_favourites.destroy', $favourite->id) }}"

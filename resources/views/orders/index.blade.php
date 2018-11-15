@@ -245,7 +245,7 @@
                                     <p class="commodity_title">{{ $guess->name_zh }}</p>
                                     <p class="collection_price">
                                         <span class="new_price">&yen; {{ $guess->price }}</span>
-                                        <span class="old_price">&yen; {{ bcadd($guess->price, random_int(300, 500), 2) }}</span>
+                                        <span class="old_price">&yen; {{ bcmul($guess->price, 1.2, 2) }}</span>
                                     </p>
                                     <a class="add_to_cart" href="{{ route('products.show', $guess->id) }}">查看详情</a>
                                 </li>

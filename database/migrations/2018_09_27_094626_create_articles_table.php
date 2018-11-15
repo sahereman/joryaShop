@@ -18,7 +18,7 @@ class CreateArticlesTable extends Migration
             $table->increments('id');
 
             $table->string('name')->nullable()->comment('name-in-Chinese:仅用于后台管理展示');
-            $table->string('slug')->nullable()->comment('调用使用时的标示位');
+            $table->string('slug')->nullable()->unique()->comment('调用使用时的标示位');
             $table->string('content_en')->nullable()->comment('article-content-in-English');
             $table->string('content_zh')->nullable()->comment('article-content-in-Chinese');
 
