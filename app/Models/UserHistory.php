@@ -25,6 +25,14 @@ class UserHistory extends Model
     ];
 
     /**
+     * The attributes that should be cast to native types.
+     * @var array
+     */
+    protected $casts = [
+        'browsed_at' => 'datetime:Y-m-d',
+    ];
+
+    /**
      * Indicates if the model should be timestamped.
      * @var bool
      */

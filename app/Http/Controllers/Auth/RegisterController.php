@@ -9,6 +9,7 @@ use App\Http\Requests\RegisterEmailCodeValidationRequest;
 use App\Http\Requests\SmsCodeRegisterRequest;
 use App\Http\Requests\SmsCodeRegisterValidationRequest;
 use App\Models\User;
+use App\Models\UserHistory;
 use App\Rules\RegisterSmsCodeValidRule;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -180,8 +181,7 @@ class RegisterController extends Controller
             ?: redirect($this->redirectPath());*/
 
         // user browsing history - initialization
-        Cache::forever($user->id . '-user_browsing_history_count', 0);
-        Cache::forever($user->id . '-user_browsing_history_list', []);
+        $this->initializeUserBrowsingHistoryCacheByUser($user);
 
         return response()->json([
             'code' => 200,
@@ -193,6 +193,24 @@ class RegisterController extends Controller
                 // 'return_url' => redirect()->back()->getTargetUrl(),
                 // 'return_url' => $request->headers->get('referer'),
             ],
+        ]);
+    }
+
+    // user browsing history - initialization
+    protected function initializeUserBrowsingHistoryCacheByUser(User $user)
+    {
+        $browsed_at = today()->toDateString();
+        Cache::forever($user->id . '-user_browsing_history_count', 0);
+        Cache::forever($user->id . '-user_browsing_history_list', [
+            $browsed_at => [],
+        ]);
+        $user_browsing_histories = UserHistory::where('user_id', $user->id)
+            ->where('browsed_at', '>=', $browsed_at)
+            ->get()
+            ->pluck('product_id')
+            ->toArray();
+        Cache::forever($user->id . '-user_browsing_history_list_stored', [
+            $browsed_at => $user_browsing_histories,
         ]);
     }
 }

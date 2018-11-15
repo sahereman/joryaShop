@@ -10,6 +10,7 @@ use App\Http\Requests\LoginEmailCodeValidationRequest;
 use App\Http\Requests\SmsCodeLoginRequest;
 use App\Http\Requests\SmsCodeLoginValidationRequest;
 use App\Models\User;
+use App\Models\UserHistory;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -177,8 +178,7 @@ class LoginController extends Controller
             }
 
             // user browsing history - initialization
-            Cache::forever($user->id . '-user_browsing_history_count', 0);
-            Cache::forever($user->id . '-user_browsing_history_list', []);
+            $this->initializeUserBrowsingHistoryCacheByUser($user);
 
             return $this->sendLoginResponse($request);
         }
@@ -273,8 +273,7 @@ class LoginController extends Controller
             // return $this->sendLoginResponse($request);
 
             // user browsing history - initialization
-            Cache::forever($user->id . '-user_browsing_history_count', 0);
-            Cache::forever($user->id . '-user_browsing_history_list', []);
+            $this->initializeUserBrowsingHistoryCacheByUser($user);
 
             return response()->json([
                 'code' => 200,
@@ -332,8 +331,7 @@ class LoginController extends Controller
                 // return $this->sendLoginResponse($request);
 
                 // user browsing history - initialization
-                Cache::forever($user->id . '-user_browsing_history_count', 0);
-                Cache::forever($user->id . '-user_browsing_history_list', []);
+                $this->initializeUserBrowsingHistoryCacheByUser($user);
 
                 return response()->json([
                     'code' => 200,
@@ -376,4 +374,21 @@ class LoginController extends Controller
         return redirect('/');
     }
 
+    // user browsing history - initialization
+    protected function initializeUserBrowsingHistoryCacheByUser(User $user)
+    {
+        $browsed_at = today()->toDateString();
+        Cache::forever($user->id . '-user_browsing_history_count', 0);
+        Cache::forever($user->id . '-user_browsing_history_list', [
+            $browsed_at => [],
+        ]);
+        $user_browsing_histories = UserHistory::where('user_id', $user->id)
+            ->where('browsed_at', '>=', $browsed_at)
+            ->get()
+            ->pluck('product_id')
+            ->toArray();
+        Cache::forever($user->id . '-user_browsing_history_list_stored', [
+            $browsed_at => $user_browsing_histories,
+        ]);
+    }
 }

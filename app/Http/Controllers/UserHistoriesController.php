@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\UserBrowsingHistoryEvent;
 use App\Models\User;
 use App\Models\UserHistory;
 use Illuminate\Http\Request;
@@ -15,18 +14,27 @@ class UserHistoriesController extends Controller
     {
         // refresh user browsing history ...
         $user = $request->user();
-        if (Cache::has($user->id . '-user_browsing_history_count') && Cache::has($user->id . '-user_browsing_history_list')) {
+        if (Cache::has($user->id . '-user_browsing_history_count') && Cache::has($user->id . '-user_browsing_history_list') && Cache::has($user->id . '-user_browsing_history_list_stored')) {
             if (Cache::get($user->id . '-user_browsing_history_count') > 0 && Cache::get($user->id . '-user_browsing_history_list') !== []) {
                 $user_browsing_history_list = Cache::get($user->id . '-user_browsing_history_list');
-                foreach ($user_browsing_history_list as $user_browsing_history) {
-                    $user_browsing_history['user_id'] = $user->id;
-                    UserHistory::create($user_browsing_history);
+                $user_browsing_history_list_stored = Cache::get($user->id . '-user_browsing_history_list_stored');
+                foreach ($user_browsing_history_list as $browsed_at => $product_ids) {
+                    foreach ($product_ids as $product_id) {
+                        $user_browsing_history['user_id'] = $user->id;
+                        $user_browsing_history['product_id'] = $product_id;
+                        $user_browsing_history['browsed_at'] = $browsed_at;
+                        UserHistory::create($user_browsing_history);
+                    }
+                    $user_browsing_history_list_stored[$browsed_at] = array_merge($user_browsing_history_list_stored[$browsed_at], $user_browsing_history_list[$browsed_at]);
                 }
+                // refresh cache ...
+                Cache::forever($user->id . '-user_browsing_history_count', 0);
+                Cache::forever($user->id . '-user_browsing_history_list', [
+                    today()->toDateString() => [],
+                ]);
+                Cache::forever($user->id . '-user_browsing_history_list_stored', $user_browsing_history_list_stored);
             }
         }
-        // refresh cache ...
-        Cache::forever($user->id . '-user_browsing_history_count', 0);
-        Cache::forever($user->id . '-user_browsing_history_list', []);
 
         $this->validate($request, [
             'page' => 'sometimes|required|integer|min:1',

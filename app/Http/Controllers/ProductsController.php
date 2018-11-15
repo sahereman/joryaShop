@@ -9,6 +9,7 @@ use App\Models\Product;
 use App\Models\ProductSku;
 use App\Models\ProductCategory;
 use App\Models\ProductComment;
+use App\Models\UserHistory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -160,14 +161,26 @@ class ProductsController extends Controller
         // user browsing history - appending (maybe firing an event)
         if (Auth::check()) {
             $user = Auth::user();
-            if (Cache::has($user->id . '-user_browsing_history_count') && Cache::has($user->id . '-user_browsing_history_list')) {
-                Cache::increment($user->id . '-user_browsing_history_count');
+            if (Cache::has($user->id . '-user_browsing_history_count') && Cache::has($user->id . '-user_browsing_history_list') && Cache::has($user->id . '-user_browsing_history_list_stored')) {
+                $browsed_at = today()->toDateString();
                 $user_browsing_history_list = Cache::get($user->id . '-user_browsing_history_list');
-                $user_browsing_history_list[] = [
-                    'product_id' => $product->id,
-                    'browsed_at' => now()->toDateTimeString(),
-                ];
+                $user_browsing_history_list_stored = Cache::get($user->id . '-user_browsing_history_list_stored');
+                if (!isset($user_browsing_history_list[$browsed_at]) || !isset($user_browsing_history_list_stored[$browsed_at])) {
+                    $user_browsing_history_list[$browsed_at] = [];
+                    $user_browsing_histories = UserHistory::where('user_id', $user->id)
+                        ->where('browsed_at', '>=', $browsed_at)
+                        ->get()
+                        ->pluck('product_id')
+                        ->toArray();
+                    $user_browsing_history_list_stored[$browsed_at] = $user_browsing_histories;
+                }
+                $user_browsing_histories = array_merge($user_browsing_history_list_stored[$browsed_at], $user_browsing_history_list[$browsed_at]);
+                if (!in_array($product->id, $user_browsing_histories)) {
+                    $user_browsing_history_list[$browsed_at][] = $product->id;
+                    Cache::increment($user->id . '-user_browsing_history_count');
+                }
                 Cache::forever($user->id . '-user_browsing_history_list', $user_browsing_history_list);
+                Cache::forever($user->id . '-user_browsing_history_list_stored', $user_browsing_history_list_stored);
                 if (Cache::get($user->id . '-user_browsing_history_count') >= 25) {
                     event(new UserBrowsingHistoryEvent($user));
                 }
