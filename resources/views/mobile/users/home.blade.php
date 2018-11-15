@@ -48,41 +48,57 @@
 				<a href="{{ route('mobile.orders.index') }}">查看全部订单></a>
 			</div>
 			<div class="userOrderMain">
-				<div class="userOrderMainItem">
-					<img src="{{ asset('static_m/img/icon_Pendingpayment.png') }}"/>
-					<span>待付款</span>
-				</div>
-				<div class="userOrderMainItem">
-					<label class="num">3</label>
-					<img src="{{ asset('static_m/img/icon_Goodstobereceived2.png') }}"/>
-					<span>待收货</span>
-				</div>
-				<div class="userOrderMainItem">
-					<img src="{{ asset('static_m/img/icon_stayevaluate.png') }}"/>
-					<span>待评价</span>
-				</div>
-				<div class="userOrderMainItem">
-					<img src="{{ asset('static_m/img/icon_After-saleorder.png') }}"/>
-					<span>售后订单</span>
-				</div>
+				<a href="">
+					<div class="userOrderMainItem">
+						<img src="{{ asset('static_m/img/icon_Pendingpayment.png') }}"/>
+						<span>待付款</span>
+					</div>
+				</a>
+				<a href="">
+					<div class="userOrderMainItem">
+						<label class="num">3</label>
+						<img src="{{ asset('static_m/img/icon_Goodstobereceived2.png') }}"/>
+						<span>待收货</span>
+					</div>
+				</a>
+				<a href="">
+					<div class="userOrderMainItem">
+						<img src="{{ asset('static_m/img/icon_stayevaluate.png') }}"/>
+						<span>待评价</span>
+					</div>
+				</a>
+				<a href="">
+					<div class="userOrderMainItem">
+						<img src="{{ asset('static_m/img/icon_After-saleorder.png') }}"/>
+						<span>售后订单</span>
+					</div>
+				</a>
+				
 			</div>
 		</div>
 		<div class="userItemBox">
-			<div class="userItem userItemCollection">
-				<img src="{{ asset('static_m/img/icon_Collection.png') }}" class="userItemImgF"/>
-				<span>我的收藏</span>
-				<img src="{{ asset('static_m/img/icon_more.png') }}" class="userItemBack"/>
-			</div>
-			<div class="userItem userItemAddress">
-				<img src="{{ asset('static_m/img/icon_Myaddress.png') }}" class="userItemImgD"/>
-				<span>我的地址</span>
-				<img src="{{ asset('static_m/img/icon_more.png') }}" class="userItemBack"/>
-			</div>
-			<div class="userItem userItemFootprint">
-				<img src="{{ asset('static_m/img/icon_MyTracks.png') }}" class="userItemImgF"/>
-				<span>我的足迹</span>
-				<img src="{{ asset('static_m/img/icon_more.png') }}" class="userItemBack"/>
-			</div>
+			<a href="">
+				<div class="userItem userItemCollection">
+					<img src="{{ asset('static_m/img/icon_Collection.png') }}" class="userItemImgF"/>
+					<span>我的收藏</span>
+					<img src="{{ asset('static_m/img/icon_more.png') }}" class="userItemBack"/>
+				</div>
+			</a>
+			<a href="{{ route('mobile.user_addresses.index') }}">
+				<div class="userItem userItemAddress">
+					<img src="{{ asset('static_m/img/icon_Myaddress.png') }}" class="userItemImgD"/>
+					<span>我的地址</span>
+					<img src="{{ asset('static_m/img/icon_more.png') }}" class="userItemBack"/>
+				</div>
+			</a>
+			<a href="">
+				<div class="userItem userItemFootprint">
+					<img src="{{ asset('static_m/img/icon_MyTracks.png') }}" class="userItemImgF"/>
+					<span>我的足迹</span>
+					<img src="{{ asset('static_m/img/icon_more.png') }}" class="userItemBack"/>
+				</div>
+			</a>
+			
 		</div>
 	</div>
 
@@ -108,20 +124,6 @@
         $(".setImg").on("click",function(){
         	//跳转设置页面
         	window.location.href = "{{route('mobile.users.setting',Auth::id())}}";
-        });
-        $(".searchImg").on("click",function(){
-        	//跳转搜索页面
-        	window.location.href = "{{route('mobile.users.setting',Auth::id())}}";
-        });
-        $(".userItemCollection").on("click",function(){
-        	//跳转收藏页面
-        });
-        $(".userItemAddress").on("click",function(){
-        	//跳转我的地址页面
-        	window.location.href = "{{route('mobile.user_addresses.index')}}";
-        });
-        $(".userItemFootprint").on("click",function(){
-        	//跳转我的足迹页面
         });
     </script>
 @endsection

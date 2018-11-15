@@ -12,17 +12,34 @@
 html{
     font-size: 16px;
     font-family: "微软雅黑";
+    
 }
- a:link{text-decoration:none; }
- a:visited{text-decoration:none; }
- a:active{text-decoration:none; }
- a:hover{text-decoration:none; }
+ a:link{text-decoration:none;color: #000; }
+ a:visited{text-decoration:none;color: #000; }
+ a:active{text-decoration:none;color: #000; }
+ a:hover{text-decoration:none;color: #000; }
  input{
      padding-left: .5rem;
+     border: none;
  }
  input::-webkit-input-placeholder {
       /* placeholder颜色  */
      color: #ababab;
+}
+//部分页面头标题样式
+.headerBar{
+    padding: .6rem 1rem;
+    border-bottom: 1px solid #e0e0e0;
+    background: #fff;
+    img{
+        width: .6rem;
+    }
+    span{
+        display: inline-block;
+        width: 94%;
+        text-align: center;
+        font-size: 1rem;
+    }
 }
 @import "footer";
 @import "index";
@@ -30,3 +47,5 @@ html{
 @import "register";
 @import "success";
 @import "user";
+@import "user";
+@import "orderList";
