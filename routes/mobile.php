@@ -35,7 +35,7 @@ Route::group(['middleware' => 'auth'], function () {
     /*用户中心*/
     Route::get('users', 'UsersController@home')->name('mobile.users.home'); // 个人中心 页面
     Route::get('users/{user}/edit', 'UsersController@edit')->name('mobile.users.edit'); // 编辑个人信息 页面
-    Route::put('users/{user}', 'UsersController@update')->name('users.update'); // 编辑个人信息提交 请求
+    Route::put('users/{user}', 'UsersController@update')->name('mobile.users.update'); // 编辑个人信息提交 请求
     Route::get('users/{user}/password', 'UsersController@password')->name('mobile.users.password'); // 修改密码 页面
     Route::put('users/{user}/update_password', 'UsersController@updatePassword')->name('mobile.users.update_password'); // 修改密码 请求
     Route::get('users/{user}/setting', 'UsersController@settingShow')->name('mobile.users.setting'); // 设置 页面
