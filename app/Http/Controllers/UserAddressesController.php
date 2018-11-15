@@ -49,7 +49,7 @@ class UserAddressesController extends Controller
         $userAddress->name = $request->input('name');
         $userAddress->phone = $request->input('phone');
         $userAddress->address = $request->input('address');
-        if ($request->filled('is_default')) {
+        if ($request->filled('is_default') || $userAddressCount == 0) {
             UserAddress::where(['user_id' => $request->user()->id, 'is_default' => true])
                 ->update(['is_default' => false]);
             $userAddress->is_default = true;
@@ -84,7 +84,12 @@ class UserAddressesController extends Controller
             UserAddress::where(['user_id' => $request->user()->id, 'is_default' => true])
                 ->where('id', '<>', $userAddress->id)
                 ->update(['is_default' => false]);
-            $address = UserAddress::where('user_id', $request->user()->id)->latest('last_used_at')->first();
+            $address = UserAddress::where('user_id', $request->user()->id)
+                ->where('id', '<>', $userAddress->id)
+                ->latest('last_used_at')
+                ->latest('updated_at')
+                ->latest()
+                ->first();
             $address->is_default = true;
             $address->save();
         }

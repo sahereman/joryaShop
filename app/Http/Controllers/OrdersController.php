@@ -221,10 +221,14 @@ class OrdersController extends Controller
         $userAddress = UserAddress::where('user_id', $request->user()->id);
         if ($userAddress->where('is_default', 1)->exists()) {
             // 默认地址
-            $address = $userAddress->where('is_default', 1)->first();
+            $address = $userAddress->where('is_default', 1)
+                ->first();
         } elseif ($userAddress->exists()) {
             // 上次使用地址
-            $address = $userAddress->orderByDesc('last_used_at')->first();
+            $address = $userAddress->latest('last_used_at')
+                ->latest('updated_at')
+                ->latest()
+                ->first();
         }
 
         return view('orders.pre_payment', [
