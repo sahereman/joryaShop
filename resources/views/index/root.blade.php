@@ -33,7 +33,7 @@
             <div class="m-wrapper">
                 <h3>新品首发</h3>
                 <div class="new_product_left pull-left">
-                    @if($poster = \App\Models\Poster::getPosterBySlug('index_left_top'))
+                    @if($poster = \App\Models\Poster::getPosterBySlug('pc_index_left_top'))
                         <div class="product_left_top">
                             <img src="{{ $poster->image_url }}">
                         </div>
@@ -47,7 +47,7 @@
                             </div>
                         </div>
                     @endif
-                    @if($poster = \App\Models\Poster::getPosterBySlug('index_left_bottom'))
+                    @if($poster = \App\Models\Poster::getPosterBySlug('pc_index_left_bottom'))
                         <div class="product_left_bottom">
                             <img src="{{ $poster->image_url }}">
                         </div>
@@ -62,7 +62,7 @@
                         </div>
                     @endif
                 </div>
-                @if($poster = \App\Models\Poster::getPosterBySlug('index_right'))
+                @if($poster = \App\Models\Poster::getPosterBySlug('pc_index_right'))
                     <div class="new_product_right pull-left">
                         <a href="{{ $poster->link }}"><img src="{{ $poster->image_url }}"></a>
                     </div>
@@ -132,7 +132,7 @@
                             </ul>
                         </div>
                         <div class="customization_banner">
-                            @if($poster = \App\Models\Poster::getPosterBySlug('index_common_' . $key))
+                            @if($poster = \App\Models\Poster::getPosterBySlug('pc_index_floor_' . $key))
                                 <img src="{{ $poster->image_url }}">
                                 <a class="buy_now" href="{{ $poster->link }}">@lang('product.buy_now')</a>
                             @else
