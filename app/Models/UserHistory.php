@@ -29,7 +29,7 @@ class UserHistory extends Model
      * @var array
      */
     protected $casts = [
-        'browsed_at' => 'datetime:Y-m-d',
+        //
     ];
 
     /**
