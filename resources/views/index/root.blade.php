@@ -39,12 +39,7 @@
                         </div>
                     @else
                         <div class="product_left_top">
-                            <img src="{{ asset('img/new_pro_1.png') }}">
-                            <div>
-                                <h2>糖果色片染</h2>
-                                <p>修颜减龄，风格前卫</p>
-                                {{--<a class="info_more" href="{{ route('root') }}">查看更多</a>--}}
-                            </div>
+                            <img src="{{ asset('defaults/default_pc_index_left_top.png') }}">
                         </div>
                     @endif
                     @if($poster = \App\Models\Poster::getPosterBySlug('pc_index_left_bottom'))
@@ -53,12 +48,7 @@
                         </div>
                     @else
                         <div class="product_left_bottom">
-                            <img src="{{ asset('img/new_pro_3.png') }}">
-                            <div>
-                                <h2>欧式BOBO紫灰</h2>
-                                <p>修颜减龄，风格前卫</p>
-                                {{--<a class="info_more" href="{{ route('root') }}">查看更多</a>--}}
-                            </div>
+                            <img src="{{ asset('defaults/default_pc_index_left_bottom.png') }}">
                         </div>
                     @endif
                 </div>
@@ -68,11 +58,7 @@
                     </div>
                 @else
                     <div class="new_product_right pull-left">
-                        <img src="{{ asset('img/new_pro_2.png') }}">
-                        <div>
-                            <h2>时尚渐变色 风格前卫</h2>
-                            {{--<a class="info_more" href="{{ route('root') }}">查看更多</a>--}}
-                        </div>
+                        <img src="{{ asset('defaults/default_pc_index_right.png') }}">
                     </div>
                 @endif
             </div>
@@ -136,7 +122,7 @@
                                 <img src="{{ $poster->image_url }}">
                                 <a class="buy_now" href="{{ $poster->link }}">@lang('product.buy_now')</a>
                             @else
-                                <img src="{{ asset('img/ad_1.png') }}">
+                                <img src="{{ asset('defaults/default_pc_index_floor_even.png') }}">
                                 <a class="buy_now" href="{{ route('root') }}">@lang('product.buy_now')</a>
                             @endif
                         </div>
