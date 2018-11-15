@@ -57,6 +57,18 @@ class AdminTablesSeeder extends Seeder
                 'http_method' => '',
                 'http_path' => "/exchange_rates",
             ],
+            [
+                'name' => '手机号国家管理',
+                'slug' => 'country_codes',
+                'http_method' => '',
+                'http_path' => "/country_codes",
+            ],
+            [
+                'name' => '快递公司管理',
+                'slug' => 'shipment_companies',
+                'http_method' => '',
+                'http_path' => "/shipment_companies",
+            ],
         ];
 
     /*自定义添加的菜单*/
@@ -107,10 +119,10 @@ class AdminTablesSeeder extends Seeder
             ],
             [
                 'parent_id' => 0,
-                'order' => 9,
-                'title' => '汇率管理',
+                'order' => 20,
+                'title' => '其他设置',
                 'icon' => 'fa-list',
-                'uri' => 'exchange_rates',
+                'uri' => '',
             ],
 
 
@@ -138,6 +150,30 @@ class AdminTablesSeeder extends Seeder
                 'icon' => 'fa-list',
                 'uri' => 'orders',
             ],
+
+            //其他设置
+            [
+                'parent_id' => 18,
+                'order' => 1,
+                'title' => '汇率管理',
+                'icon' => 'fa-list',
+                'uri' => 'exchange_rates',
+            ],
+            [
+                'parent_id' => 18,
+                'order' => 2,
+                'title' => '手机号国家管理',
+                'icon' => 'fa-list',
+                'uri' => 'country_codes',
+            ],
+            [
+                'parent_id' => 18,
+                'order' => 3,
+                'title' => '快递公司管理',
+                'icon' => 'fa-list',
+                'uri' => 'shipment_companies',
+            ],
+
 
         ];
 

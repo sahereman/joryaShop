@@ -52,6 +52,11 @@ Route::group([
     /*汇率管理*/
     $router->resource('exchange_rates', ExchangeRatesController::class)->names('admin.exchange_rates');
 
+    /*手机号国家管理*/
+    $router->resource('country_codes', CountryCodesController::class)->names('admin.country_codes');
+
+    /*快递公司管理*/
+    $router->resource('shipment_companies', ShipmentCompaniesController::class)->names('admin.shipment_companies');
 
     //    $router->resource('example', ExampleController::class)->names('admin.example');
     //    $router->get('example', 'ExampleController@index')->name('admin.example.index');
