@@ -267,8 +267,16 @@
 
             //点击表格中的编辑
             $(".address_list table").on("click", ".edit_address", function () {
-                console.log($(this).attr("url"));
                 $("#edit-form").prop("action", $(this).attr("url"));
+                $(".edit_harvest_address").find(".user_name").val($(this).parents("tr").find(".address_name").html());
+                $(".edit_harvest_address").find(".user_tel").val($(this).parents("tr").find(".address_info").html());
+                $(".edit_harvest_address").find("textarea").val($(this).parents("tr").find(".address_tel").html());
+                var isdefault = $(this).parents("tr").find(".setDefaultAddress ").hasClass("haddefault");
+                if(isdefault==true){
+                	$(".edit_harvest_address").find("#edit_default").attr("checked",true);
+                }else {
+                	$(".edit_harvest_address").find("#edit_default").attr("checked",false);
+                }
                 $(".edit_harvest_address").show();
             });
             //编辑收获地址时进行表单验证

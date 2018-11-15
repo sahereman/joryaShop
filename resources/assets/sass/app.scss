@@ -461,6 +461,7 @@ a {
             display: block;
             overflow: hidden;
             width: 100%;
+            height: 100%;
             img {
                 width: 100%;
                 transition: all .2s;
@@ -1157,6 +1158,11 @@ footer {
                     margin: auto;
                     margin-top: 30%;
                 }
+                &.fenxiang {
+                    img {
+                        margin-top: 5px;
+                    }
+                }
             }
             .customer_info {
                 width: 200px;
@@ -1222,6 +1228,13 @@ footer {
                     margin-top: 15px;
                 }
             }
+            .fenxiang_info {
+                @extend .customer_info;
+                .share_title {
+                    color: $hover-color;
+                    font-size: 16px;
+                }
+            }
         }
     }
     
@@ -1234,6 +1247,13 @@ footer {
     >div {
         width: 100%;
         min-width: 1200px;
+        &.swiper-container {
+            height: 780px;
+            img {
+                width: 100%;
+                height: 100%;
+            }
+        }
     }
     .product-part {
         h3 {
@@ -1419,6 +1439,7 @@ footer {
                     }
                     img {
                         width: 100%;
+                        min-height: 216px;
                     }
                     &:nth-of-type(4) {
                         margin-right: 0;

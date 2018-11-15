@@ -114,6 +114,11 @@ $(function(){
             scrollTop: 0
         }, 400);
     });
+    $(".show_fenxaing").hover(function(){
+    	$(".fenxiang_info").stop(true, true).fadeIn();
+    }, function() {
+        $(".fenxiang_info").stop(true, true).fadeOut();
+    })
 })
 
 //登陆注册弹窗

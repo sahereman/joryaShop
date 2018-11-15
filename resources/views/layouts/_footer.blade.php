@@ -111,6 +111,17 @@
 <!--右侧导航栏-->
 <div class="right_navigation">
     <ul>
+    	<li class="show_fenxaing">
+            <a class="fenxiang">
+                <img src="{{ asset('img/fenxiang.png') }}">
+            </a>
+            <div class="fenxiang_info">
+               <p class="share_title">分享到</p>
+               <ul>
+               	  <li></li>
+               </ul>
+            </div>
+        </li>
         <li class="show_customer">
             <a>
                 <img src="{{ asset('img/Customer_tip.png') }}">

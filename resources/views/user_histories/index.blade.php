@@ -27,7 +27,7 @@
                         <!--浏览历史列表-->
                 <div class="receive_collection">
                     <div class="history_operation_area">
-                        <a class="history_empty pull-right">
+                        <a class="history_empty pull-right" data-url="{{ route('user_histories.flush') }}">
                             <img src="{{ asset('img/empty_history.png') }}">
                             <span>清空所有浏览历史</span>
                         </a>
@@ -125,6 +125,7 @@
 @section('scriptsAfterJs')
     <script type="text/javascript">
         $(function () {
+        	var loading_animation;
             $(".navigation_left ul li").removeClass("active");
             $(".browse_history").addClass("active");
             //点击表格中的删除
@@ -157,17 +158,27 @@
                 });
             })
             $(".history_empty").on("click", function () {
+            	var data_url = $(this).attr("data-url");
+            	$(".empty_history_dia form").attr("data-url",data_url);
                 $(".empty_history_dia").show();
             });
-            $(".empty_history_dia").on("click","success",function(){
+            $(".empty_history_dia").on("click",".success",function(){
             	var data = {
                     _method: "DELETE",
                     _token: "{{ csrf_token() }}",
-                }
+              }
+                var url = $(".empty_history_dia form").attr("data-url");
                 $.ajax({
                     type: "post",
-                    url: "{{ route('user_histories.flush') }}",
+                    url: url,
                     data: data,
+                    beforeSend:function(){
+	        			loading_animation = layer.msg('请稍候', {
+			                icon: 16,
+			                shade: 0.4,
+			                time:false //取消自动关闭
+						});
+	        		},
                     success: function (data) {
                     	window.location.reload();
                     },
@@ -179,7 +190,10 @@
 							  ,content: '无法完成操作'
 							});     
                         }
-                    }
+                    },
+                    complete:function(){
+	        	    	layer.close(loading_animation);
+	        	    }
                 });
             })
         });
