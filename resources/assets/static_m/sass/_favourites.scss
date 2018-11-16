@@ -1,0 +1,136 @@
+.fixHeader{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3rem;
+    line-height: 3rem;
+    padding: 0 1rem;
+    border-bottom: 1px solid #e0e0e0;
+    background: #fff;
+    z-index: 12;
+    span{
+        display: inline-block;
+        width: 94%;
+        text-align: center;
+        font-size: 1rem;
+    }
+    img{
+        width: .6rem;
+    }
+}
+.editFav{
+    display: none;
+}
+.favBox,.editFav{
+    margin: 3rem 0;
+    .favItem{
+        padding: .7rem 1rem;
+        border-bottom: 1px solid #e0e0e0;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        
+        img{
+            width: 6rem;
+            height: 6rem;
+            margin-right: .7rem;
+        }
+        .favDetail{
+            position: relative;
+            .goodsName{
+                width: 100%;
+            } 
+            .goodsPri{
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                position: absolute;
+                bottom: 0;
+                left: 0;             
+                img{
+                    width: 1.6rem;
+                    height:1.6rem;
+                    margin-right: 0;
+                    position: absolute;
+                    right: -6.8rem;
+                }
+                .realPri{
+                    color: #bc8c61;
+                    margin-right: .2rem;
+                    font-size: .95rem;
+                }
+                s{
+                    color: #999999;
+                    font-size: .8rem;
+                }
+            }
+        }
+        .favItemLab{
+            width: 3rem;
+            text-align: center;
+            position: relative;
+            input[type="checkbox"]{
+                opacity: 0;
+                position: absolute;
+                top: 2.5rem;
+                left: .5rem;
+            }
+            span{
+                display: inline-block;
+                position: absolute;
+                top: 2.5rem;
+                left: 0;
+                width: 1.4rem;
+                height: 1.4rem;
+                background-image: url("../img/icon_Boxselection.png");
+                background-repeat: no-repeat;
+                background-size: 1.4rem 1.4rem;
+                z-index: -1;
+            }
+            input[type="checkbox"]:checked+span{
+                display: inline-block;
+                position: absolute;
+                top: 2.5rem;
+                left: 0;
+                width: 1.4rem;
+                height: 1.4rem;
+                background-image: url("../img/icon_Select.png");
+                background-repeat: no-repeat;
+                background-size: 1.4rem 1.4rem;
+                z-index: -1;
+                
+            }
+        }
+    }
+}
+.editFixt{
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    background: #fff;
+    padding: 0 1rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    width: 100%;
+    height: 3rem;
+    line-height: 3rem;
+    span{
+        display: inline-block;
+        width: 5.2rem;
+        text-align: center;
+        height: 2rem;
+        line-height: 2rem;
+        border-radius: 1rem;
+        color: #fff;
+    }
+    .editBtn{
+        background: #bc8c61;
+        margin-right: .5rem;
+    }
+    .cancelBtn{
+        background: #dcdcdc;
+    }
+}
