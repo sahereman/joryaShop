@@ -11,6 +11,11 @@ class UserHistoriesController extends Controller
     // GET 列表
     public function index(Request $request)
     {
+
+        return view('mobile.user_histories.index');
+
+
+        
         $this->validate($request, [
             'page' => 'sometimes|required|integer|min:1',
         ], [], [
@@ -24,7 +29,7 @@ class UserHistoriesController extends Controller
         $page_count = ceil($history_count / 5);
         $previous_page = ($current_page > 1) ? ($current_page - 1) : false;
         $next_page = ($current_page < $page_count) ? ($current_page + 1) : false;
-        return view('user_histories.index', [
+        return view('mobile.user_histories.index', [
             'histories' => $histories->forpage($current_page, 5),
             'previous_page' => $previous_page,
             'next_page' => $next_page,
