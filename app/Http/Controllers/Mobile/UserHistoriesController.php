@@ -15,7 +15,7 @@ class UserHistoriesController extends Controller
         return view('mobile.user_histories.index');
 
 
-        
+
         $this->validate($request, [
             'page' => 'sometimes|required|integer|min:1',
         ], [], [
