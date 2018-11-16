@@ -13,7 +13,7 @@ class UserFavouritesController extends Controller
     // GET 列表
     public function index(Request $request)
     {
-        return view('user_favourites.index', [
+        return view('mobile.user_favourites.index', [
             'favourites' => $request->user()->favourites()->with('product')->get(),
         ]);
     }
