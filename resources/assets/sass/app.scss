@@ -56,7 +56,13 @@ a {
         text-decoration: none;
     }
 }
-
+img {
+    &.lazy {
+        min-width: 30px;
+        background: url(../img/loading.gif) center no-repeat;
+        
+    }
+}
 .m-wrapper {
    margin: auto;
     width: 1200px;

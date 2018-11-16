@@ -38,22 +38,22 @@
                             </div>
                             <div class="left w110 shop-img">
                                 <a class="cur_p" href="{{ route('products.show', $cart->sku->product_id) }}">
-                                    <img src="{{ $cart->sku->product->thumb_url }}">
+                                    <img class="lazy" data-src="{{ $cart->sku->product->thumb_url }}">
                                 </a>
                             </div>
                             <div class="left w250 pro-info">
                             	<a class="cur_p" href="{{ route('products.show', $cart->sku->product_id) }}">
-                                    <span>{{ $cart->sku->product->name_zh }}</span>
+                                    <span>{{ App::isLocale('en') ? $cart->sku->product->name_en : $cart->sku->product->name_zh }}</span>
                                 </a>
                             </div>
-                            <div class="left w120 center"><span>{{ $cart->sku->name_zh }}</span></div>
-                            <div class="left w100 center">&yen;<span class="price">{{ $cart->sku->price }}</span></div>
+                            <div class="left w120 center"><span>{{ App::isLocale('en') ? $cart->sku->name_en : $cart->sku->name_zh }}</span></div>
+                            <div class="left w100 center">{{ App::isLocale('en') ? '&#36;' : '&yen;' }} <span class="price">{{ $cart->sku->price }}</span></div>
                             <div class="left w150 center counter">
                                 <button class="left small-button">-</button>
                                 <input class="left center count" data-url="{{ route('carts.update', $cart->id) }}" type="text" size="2" value="{{ $cart->number }}">
                                 <button class="left small-button">+</button>
                             </div>
-                            <div class="left w100 s_total center">&yen;<span>{{ bcmul($cart->sku->price, $cart->number, 2) }}</span></div>
+                            <div class="left w100 s_total center">{{ App::isLocale('en') ? '&#36;' : '&yen;' }} <span>{{ bcmul($cart->sku->price, $cart->number, 2) }}</span></div>
                             <div class="left w120 center">
                                 <p>
                                     <a class="cur_p add_favorites"  code = "{{ $cart->sku->product_id }}" data-url = "{{ route('user_favourites.store') }}">加入收藏夹</a>
@@ -75,7 +75,7 @@
                     </div>
                     <div class="right">
                         <!--<span>总共选中了<span id="totalCount">0</span>件商品</span>-->
-                        <span>合计: <span id="totalPrice">&yen;0.00</span></span>
+                        <span>合计: <span id="totalPrice">{{ App::isLocale('en') ? '&#36;' : '&yen;' }}0.00</span></span>
                         @guest
                     	    <button class="big-button for_show_login">结算</button>
 						@else

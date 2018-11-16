@@ -87,18 +87,21 @@
 	        		success:function(json){
 						var dataobj = json.data.products.data;
 						var html = "";
+						var country = $("#dLabel").find("span").html();
+						var name;
 						if(dataobj.length>0){
 							$.each(dataobj, function(i,n) {
+								name = (country=="中文") ? n.name_zh : n.name_en;
 								html+="<li>"+
 								        "<a href='/products/"+ n.product_category_id +"'>"+
 		                                  "<div class='list-img'>"+
 		                                  	  "<img src='"+ n.thumb +"'>"+
 		                                  "</div>"+
 		                                  "<div class='list-info'>"+
-			                                  "<p class='list-info-title'>"+ n.name_zh +"</p>"+
+			                                  "<p class='list-info-title'>"+ name +"</p>"+
 			                                  "<p>"+
-			                                  "<span class='new-price'><i>&yen;</i>"+ n.price +"</span>"+
-			                                  "<span class='old-price'><i>&yen;</i>"+ n.price +"</span>"+
+			                                  "<span class='new-price'><i>{{ App::isLocale('en') ? '&#36;' : '&yen;' }}</i>"+ n.price +"</span>"+
+			                                  "<span class='old-price'><i>{{ App::isLocale('en') ? '&#36;' : '&yen;' }}</i>"+ n.price +"</span>"+
 			                                  "</p>"+
 		                                  "</div>"+
 		                                  "</a>"

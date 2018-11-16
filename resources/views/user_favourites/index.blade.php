@@ -32,9 +32,9 @@
                             @foreach($favourites as $favourite)
                                 <li>
                                     <div class="collection_shop_img">
-                                        <img src="{{ $favourite->product->thumb_url }}">
+                                        <img class="lazy" data-src="{{ $favourite->product->thumb_url }}">
                                     </div>
-                                    <p class="commodity_title">{{ $favourite->product->name_zh }}</p>
+                                    <p class="commodity_title">{{ App::isLocale('en') ? $favourite->product->name_en : $favourite->product->name_zh }}</p>
                                     <p class="collection_price">
                                         <span class="new_price">@lang('basic.currency.symbol') {{ $favourite->product->price }}</span>
                                         <span class="old_price">@lang('basic.currency.symbol') {{ bcmul($favourite->product->price, 1.2, 2) }}</span>

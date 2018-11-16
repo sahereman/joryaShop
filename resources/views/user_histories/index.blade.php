@@ -43,9 +43,9 @@
                                 @foreach($historySet as $history)
                                     <li>
                                         <div class="collection_shop_img">
-                                            <img src="{{ $history->product->thumb_url }}">
+                                            <img class="lazy" data-src="{{ $history->product->thumb_url }}">
                                         </div>
-                                        <p class="commodity_title">{{ $history->product->name_zh }}</p>
+                                        <p class="commodity_title">{{ App::isLocale('en') ? $history->product->name_en : $history->product->name_zh }}</p>
                                         <p class="collection_price">
                                             <span class="new_price">@lang('basic.currency.symbol') {{ $history->product->price }}</span>
                                             <span class="old_price">@lang('basic.currency.symbol') {{ bcmul($history->product->price, 1.2, 2) }}</span>

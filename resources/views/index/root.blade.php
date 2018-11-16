@@ -161,9 +161,9 @@
                         @endif
                         <li>
                             <div class="guess_list_img">
-                                <div class="guess_list_tips">
+                                <!--<div class="guess_list_tips">
                                     <img class="lazy" data-src="{{ asset('img/guess_tips.png') }}">
-                                </div>
+                                </div>-->
                                 <img  class="lazy" data-src="{{ $guess->thumb_url }}">
                             </div>
                             <h5>{{ App::isLocale('en') ? $guess->name_en : $guess->name_zh }}</h5>
