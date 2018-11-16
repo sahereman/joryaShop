@@ -24,7 +24,8 @@ return [
             'sign_name' => env('ALIYUN_SMS_SIGN_NAME', 'sign_name'),
         ],
         'errorlog' => [
-            'file' => '/tmp/easy-sms.log',
+            // 'file' => '/tmp/easy-sms.log',
+            'file' => storage_path('logs/easy_sms.log'),
         ],
         // ...
     ],
@@ -34,5 +35,6 @@ return [
     'international_template' => env('ALIYUN_SMS_INTERNATIONAL_TEMPLATE', 'international_template'),
 
     // errorlog
-    'file' => '/tmp/easy-sms.log',
+    // 'file' => '/tmp/easy-sms.log',
+    'file' => storage_path('logs/easy_sms.log'),
 ];
