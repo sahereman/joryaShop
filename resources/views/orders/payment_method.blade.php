@@ -35,7 +35,7 @@
                     <div class="left">
                         <p>
                             实付：
-                            <span id="needToPay">&yen; {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}</span>
+                            <span id="needToPay">{{ App::isLocale('en') ? '&#36;' : '&yen;' }} {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}</span>
                         </p>
                     </div>
                     <div class="right">

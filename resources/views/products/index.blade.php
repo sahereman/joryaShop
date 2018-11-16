@@ -8,7 +8,7 @@
                 <p class="Crumbs">
                     <a href="{{ route('root') }}">全部结果</a>
                     <span>></span>
-                    <a href="#">{{ $category->name_zh }}</a>
+                    <a href="#">{{ App::isLocale('en') ? $category->name_en : $category->name_zh }}</a>
                 </p>
             </div>
             <div class="search-level">
@@ -36,9 +36,9 @@
                     </li>
                 </ul>
                 <div>
-                    <input type="text" class="min_price" placeholder="￥"/>
+                    <input type="text" class="min_price" placeholder="{{ App::isLocale('en') ? '&#36;' : '&yen;' }}"/>
                     <span></span>
-                    <input type="text" class="max_price" placeholder="￥"/>
+                    <input type="text" class="max_price" placeholder="{{ App::isLocale('en') ? '&#36;' : '&yen;' }}"/>
                     <button class="searchByPrice">确定</button>
                 </div>
             </div>
@@ -85,7 +85,6 @@
 						});
 	        		},
 	        		success:function(json){
-	        			console.log(json)
 						var dataobj = json.data.products.data;
 						var html = "";
 						if(dataobj.length>0){
@@ -93,7 +92,7 @@
 								html+="<li>"+
 								        "<a href='/products/"+ n.product_category_id +"'>"+
 		                                  "<div class='list-img'>"+
-		                                  	  "<img src='"+ n.thumb +"'>"+
+		                                  	  "<img class='lazy' src='"+ n.thumb +"'>"+
 		                                  "</div>"+
 		                                  "<div class='list-info'>"+
 			                                  "<p class='list-info-title'>"+ n.name_zh +"</p>"+

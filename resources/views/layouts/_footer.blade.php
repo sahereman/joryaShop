@@ -161,7 +161,7 @@
     </ul>
 </div>
 <!--登陆注册弹出层-->
-<div class="dialog_iframe dis_n">
+<div class="dialog_iframe dis_n" id="dialog_iframe">
     <div class="login_frame">
         <div class="dialog_logo">
             <img src="{{ asset('img/logo.png') }}">

@@ -55,13 +55,13 @@
                                 <div class="clear single-item">
                                     <div class="left w110 shop-img">
                                         <a class="cur_p" href="#">
-                                            <img src="{{ $item['product']->thumb }}">
+                                            <img class="lazy" data-src="{{ $item['product']->thumb }}">
                                         </a>
                                     </div>
                                     <div class="left w250 pro-info">
-                                        <span>{{ $item['product']->name_zh }}</span>
+                                        <span>{{ App::isLocale('en') ? $item['product']->name_en : $item['product']->name_zh }}</span>
                                     </div>
-                                    <div class="left w150 center"><span>{{ $item['sku']->name_zh }}</span></div>
+                                    <div class="left w150 center"><span>{{ App::isLocale('en') ? $item['sku']->name_en : $item['sku']->name_zh }}</span></div>
                                     <div class="left w150 center RMB_num">&yen; <span>{{ $item['sku']->price }}</span></div>
                                     <div class="left w150 dis_n center dollar_num">&#36; <span>{{ $item['sku']->price_en }}</span></div>
                                     <div class="left w150 center counter"><span>{{ $item['number'] }}</span></div>

@@ -212,16 +212,16 @@
                                 <tr>
                                     <td class="col-pro-img">
                                         <a href="">
-                                            <img src="{{ $order_item['sku']['product']['thumb_url'] }}">
+                                            <img class="lazy" data-src="{{ $order_item['sku']['product']['thumb_url'] }}">
                                         </a>
                                     </td>
                                     <td class="col-pro-info">
                                         <p class="p-info">
                                             <a class="commodity_description"
-                                               href="{{ route('products.show', ['product' => $order_item['sku']['product']['id']]) }}">{{ $order_item['sku']['product']['name_zh'] }}</a>
+                                               href="{{ route('products.show', ['product' => $order_item['sku']['product']['id']]) }}">{{ App::isLocale('en') ? $order_item['sku']['product']['name_en'] : $order_item['sku']['product']['name_zh'] }}</a>
                                             <br><br>
                                             <a class="commodity_description"
-                                               href="{{ route('products.show', ['product' => $order_item['sku']['product']['id']]) }}">{{ $order_item['sku']['name_zh'] }}</a>
+                                               href="{{ route('products.show', ['product' => $order_item['sku']['product']['id']]) }}">{{ App::isLocale('en') ? $order_item['sku']['name_en'] : $order_item['sku']['name_zh'] }}</a>
                                         </p>
                                     </td>
                                     <td class="col-price">
@@ -255,16 +255,16 @@
                                 <tr>
                                     <td class="col-pro-img">
                                         <a href="">
-                                            <img src="{{ $order_item['sku']['product']['thumb_url'] }}">
+                                            <img class="lazy" data-src="{{ $order_item['sku']['product']['thumb_url'] }}">
                                         </a>
                                     </td>
                                     <td class="col-pro-info">
                                         <p class="p-info">
                                             <a class="commodity_description"
-                                               href="{{ route('products.show', ['product' => $order_item['sku']['product']['id']]) }}">{{ $order_item['sku']['product']['name_zh'] }}</a>
+                                               href="{{ route('products.show', ['product' => $order_item['sku']['product']['id']]) }}">{{ App::isLocale('en') ? $order_item['sku']['product']['name_en'] : $order_item['sku']['product']['name_zh'] }}</a>
                                             <br><br>
                                             <a class="commodity_description"
-                                               href="{{ route('products.show', ['product' => $order_item['sku']['product']['id']]) }}">{{ $order_item['sku']['name_zh'] }}</a>
+                                               href="{{ route('products.show', ['product' => $order_item['sku']['product']['id']]) }}">{{ App::isLocale('en') ? $order_item['sku']['name_en'] : $order_item['sku']['name_zh'] }}</a>
                                         </p>
                                     </td>
                                     <td class="col-price">
@@ -288,15 +288,15 @@
                     <div class="order_settlement">
                         <p class="commodity_cost">
                             <span>商品合计：</span>
-                            <span>&yen; {{ $order->total_amount }}</span>
+                            <span>{{ App::isLocale('en') ? '&#36;' : '&yen;' }} {{ $order->total_amount }}</span>
                         </p>
                         <p class="freight">
                             <span>运  费：</span>
-                            <span>&yen; {{ $order->total_shipping_fee }}</span>
+                            <span>{{ App::isLocale('en') ? '&#36;' : '&yen;' }} {{ $order->total_shipping_fee }}</span>
                         </p>
                         <p class="total_cost">
                             <span>应付总额：</span>
-                            <span class="cost_of_total">&yen; {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}</span>
+                            <span class="cost_of_total">{{ App::isLocale('en') ? '&#36;' : '&yen;' }} {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}</span>
                         </p>
                     </div>
                 </div>

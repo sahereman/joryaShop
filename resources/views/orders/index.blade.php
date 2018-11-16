@@ -104,14 +104,14 @@
                                             <td class="col-pro-img">
                                                 <p class="p-img">
                                                     <a href="{{ route('products.show', $order_item['sku']['product']['id']) }}">
-                                                        <img src="{{ $order_item['sku']['product']['thumb_url'] }}">
+                                                        <img class="lazy" data-src="{{ $order_item['sku']['product']['thumb_url'] }}">
                                                     </a>
                                                 </p>
                                             </td>
                                             <td class="col-pro-info">
                                                 <p class="p-info">
                                                     <a code="{{ $order_item['sku']['id'] }}"
-                                                       href="{{ route('products.show', $order_item['sku']['product']['id']) }}">{{ $order_item['sku']['product']['name_zh'] }}</a>
+                                                       href="{{ route('products.show', $order_item['sku']['product']['id']) }}">{{ App::isLocale('en') ? $order_item['sku']['product']['name_en'] : $order_item['sku']['product']['name_zh'] }}</a>
                                                 </p>
                                             </td>
                                             <td class="col-price">
@@ -199,7 +199,7 @@
                                             <td class="col-pro-info">
                                                 <p class="p-info">
                                                     <a code="{{ $order_item['sku']['id'] }}"
-                                                       href="{{ route('products.show', $order_item['sku']['product']['id']) }}">{{ $order_item['sku']['product']['name_zh'] }}</a>
+                                                       href="{{ route('products.show', $order_item['sku']['product']['id']) }}">{{ App::isLocale('en') ? $order_item['sku']['product']['name_en'] : $order_item['sku']['product']['name_zh'] }}</a>
                                                 </p>
                                             </td>
                                             <td class="col-price">
@@ -240,12 +240,12 @@
                             @foreach($guesses as $guess)
                                 <li class="swiper-slide">
                                     <div class="collection_shop_img">
-                                        <img src="{{ $guess->thumb_url }}">
+                                        <img class="lazy" data-src="{{ $guess->thumb_url }}">
                                     </div>
-                                    <p class="commodity_title">{{ $guess->name_zh }}</p>
+                                    <p class="commodity_title">{{ App::isLocale('en') ? $guess->name_en : $guess->name_zh }}</p>
                                     <p class="collection_price">
-                                        <span class="new_price">&yen; {{ $guess->price }}</span>
-                                        <span class="old_price">&yen; {{ bcmul($guess->price, 1.2, 2) }}</span>
+                                        <span class="new_price">{{ App::isLocale('en') ? '&#36;' : '&yen;' }} {{ $guess->price }}</span>
+                                        <span class="old_price">{{ App::isLocale('en') ? '&#36;' : '&yen;' }} {{ bcmul($guess->price, 1.2, 2) }}</span>
                                     </p>
                                     <a class="add_to_cart" href="{{ route('products.show', $guess->id) }}">查看详情</a>
                                 </li>

@@ -75,11 +75,11 @@
                 <div class="dropdown-menu" aria-labelledby="menu">
                     <ul>
                         <li>
-                            <a href="{{ route('root') }}">首页</a>
+                            <a href="{{ route('root') }}">@lang('basic.home')</a>
                         </li>
                         @foreach(\App\Models\Menu::pcMenus() as $menu)
                             <li>
-                                <a href="{{ $menu->link }}">{{ $menu->name_zh }}</a>
+                                <a href="{{ $menu->link }}">{{ App::isLocale('en') ? $menu->name_en : $menu->name_zh }}</a>
                             </li>
                         @endforeach
                     </ul>

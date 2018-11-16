@@ -36,9 +36,9 @@
                     </li>
                 </ul>
                 <div>
-                    <input type="text" class="min_price"  placeholder="&yen;"/>
+                    <input type="text" class="min_price"  placeholder="{{ App::isLocale('en') ? '&#36;' : '&yen;' }}"/>
                     <span></span>
-                    <input type="text" class="max_price" placeholder="&yen;"/>
+                    <input type="text" class="max_price" placeholder="{{ App::isLocale('en') ? '&#36;' : '&yen;' }}"/>
                     <button class="searchByPrice">确定</button>
                 </div>
             </div>
@@ -85,7 +85,6 @@
 						});
 	        		},
 	        		success:function(json){
-	        			console.log(json)
 						var dataobj = json.data.products.data;
 						var html = "";
 						if(dataobj.length>0){
@@ -231,7 +230,6 @@
 		    }
 		    $(document).ready(function(){
 		    	var text = decodeURIComponent(getUrlVars());
-		    	console.log(text)
 		    	$(".selectInput_header").val(text);
 		    })
 		    

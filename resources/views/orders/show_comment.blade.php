@@ -35,24 +35,24 @@
                             <tr>
                                 <td class="col-pro-img">
                                     <a href="">
-                                        <img src="{{ $order_item['sku']['product']['thumb_url'] }}">
+                                        <img class="lazy" data-src="{{ $order_item['sku']['product']['thumb_url'] }}">
                                     </a>
                                 </td>
                                 <td class="col-pro-info">
                                     <p class="p-info">
                                         <a class="commodity_description"
-                                           href="{{ route('products.show', $order_item['sku']['product']['id']) }}">{{ $order_item['sku']['product']['name_zh'] }}</a>
+                                           href="{{ route('products.show', $order_item['sku']['product']['id']) }}">{{ App::isLocale('en') ? $order_item['sku']['product']['name_en'] : $order_item['sku']['product']['name_zh'] }}</a>
                                     </p>
                                 </td>
                                 <td class="col-pro-speci">
                                     <p class="p-info">
                                         <a class="specifications"
-                                           href="{{ route('products.show', $order_item['sku']['product']['id']) }}">{{ $order_item['sku']['product']['description_zh'] }}</a>
+                                           href="{{ route('products.show', $order_item['sku']['product']['id']) }}">{{ App::isLocale('en') ? $order_item['sku']['product']['description_en'] : $order_item['sku']['product']['description_zh'] }}</a>
                                     </p>
                                 </td>
                                 <td class="col-price">
                                     <p class="p-price">
-                                        <em>¥</em>
+                                        <em>{{ App::isLocale('en') ? '&#36;' : '&yen;' }}</em>
                                         <span>{{ $order_item['price'] }}</span>
                                     </p>
                                 </td>
@@ -61,7 +61,7 @@
                                 </td>
                                 <td class="col-pay">
                                     <p>
-                                        <em>¥</em>
+                                        <em>{{ App::isLocale('en') ? '&#36;' : '&yen;' }}</em>
                                         <span>{{ $order_item['price'] * $order_item['number'] }}</span>
                                     </p>
                                 </td>
@@ -79,19 +79,19 @@
                                 <div class="five_star_evaluation">
                                     <div class="five_star_one star_area">
                                         <div class="starability-basic">
-                                            <img src="{{ asset('img/star-' . $comments[$order_item['id']][0]['composite_index'] . '.png') }}">
+                                            <img class="lazy" data-src="{{ asset('img/star-' . $comments[$order_item['id']][0]['composite_index'] . '.png') }}">
                                         </div>
                                     </div>
                                 </div>
                                 <p class="product_parameters">
-                                    <span>{{ $order_item['sku']['name_zh'] }}</span>
+                                    <span>{{ App::isLocale('en') ? $order_item['sku']['name_en'] : $order_item['sku']['name_zh'] }}</span>
                                 </p>
                                 <p class="eva_text">{{ $comments[$order_item['id']][0]->content }}</p>
                                 <div class="tm-m-photos">
                                     <ul class="evaluation_img">
                                         @foreach($comments[$order_item['id']][0]->photo_urls as $photo_url)
                                             <li class="eva_img" data-src="{{ $photo_url }}">
-                                                <img src="{{ $photo_url }}">
+                                                <img class="lazy" data-src="{{ $photo_url }}">
                                                 <b class="tm-photos-arrow"></b>
                                             </li>
                                         @endforeach

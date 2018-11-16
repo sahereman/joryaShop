@@ -21,7 +21,7 @@ var $win = $(window),
     $doc = $(document),
     $body = $('body', $doc),
     winW = $win.width();
-
+    var enter_event="default";
 $(window).resize(function() {
     winW = $win.width();
 })
@@ -142,7 +142,9 @@ $(function(){
 			$(".dialog_logo").addClass('login_active');
 			$(".close").addClass('login_active');
 			$(".login_form").removeClass("dis_n");
+			$(".common_login").click();
 		}else {
+			enter_event="register"
 			$(".login_form").addClass("dis_n");
 			$(".login_frame").removeClass("dialog_close_active");    //弹窗翻转
 			$(".register_form").removeClass("dialog_close_active");
@@ -195,8 +197,10 @@ $(function(){
         $(".dialog_iframe").removeClass("dis_n");
 		$(".login_form").removeClass("dis_n");
 		$(".register_form").addClass("dis_n");
+		$(".common_login").click();
 	})
 	$(".register").on("click",function(){
+		enter_event="register";
 		$(".dialog_iframe").removeClass("dis_n");
 		$(".login_form").addClass("dis_n");
 		$(".register_form").removeClass("dis_n");
@@ -204,6 +208,7 @@ $(function(){
 	
 	//切换登录方式
 	$(".common_login").on("click",function(){
+		enter_event="common_login";
 		$(".login_type ul li").removeClass('active');
 		$(this).addClass("active");
 		$(".login_form form").removeClass("active");
@@ -212,6 +217,7 @@ $(function(){
 		$(".commo_btn").addClass("active");
 	})
 	$(".mailbox_login").on("click",function(){
+		enter_event="mailbox_login";
 		$(".login_type ul li").removeClass('active');
 		$(this).addClass("active");
 		$(".login_form form").removeClass("active");
@@ -596,6 +602,7 @@ $(function(){
 						$(".selectList ul").html("");
 						$(".selectList ul").append(html);
 						$(".selectList").removeClass("dis_n");
+						enter_event="header_search";
 					},
 					error:function(e){
 						console.log(e)
@@ -619,9 +626,26 @@ $(function(){
 		window.location.href = $(".selectList").attr("data-url")+"?query="+$(".selectInput_header").val();
 	})
 	//绑定回车键出发搜索
-	$(document).keyup(function(event){
-	  if(event.keyCode ==13){
-	    $(".search_btn").trigger("click");
-	  }
-	});
+	//回车键事件函数
+		$(document).keyup(function(event){
+		  if(event.keyCode ==13){
+		  	switch (enter_event) {
+	            case "header_search":    //搜索
+	            	$(".search_btn").trigger("click");
+	                break;
+	            case "common_login":    //普通登陆
+	                $(".commo_btn").click();
+	                break;
+	            case "mailbox_login":    //手机验证码登陆
+	                $(".mailbox_btn").click();
+	                break;
+	            case "register":    //注册
+	                $("#register_btn").trigger("click");
+	                break;
+	            default :
+	                break;
+	       }
+		  }
+		});
+	
 })

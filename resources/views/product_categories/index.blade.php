@@ -7,7 +7,7 @@
             <div class="swiper-wrapper">
                 <div class="swiper-slide">
                     <a>
-                        <img src="{{ asset('img/banner-2.png') }}">
+                        <img class="lazy" data-src="{{ asset('img/banner-2.png') }}">
                     </a>
                 </div>
             </div>
@@ -29,7 +29,7 @@
                     </li>
                     @foreach($children as $child)
                         <li>
-                            <a href="{{ route('product_categories.index', ['category' => $child->id]) }}"><span>{{ $child->name_zh }}</span></a>
+                            <a href="{{ route('product_categories.index', ['category' => $child->id]) }}"><span>{{ App::isLocale('en') ? $child->name_en : $child->name_zh }}</span></a>
                         </li>
                     @endforeach
                 </ul>
@@ -38,18 +38,18 @@
             @foreach($children as $child)
                 <div class="classified-display">
                     <div class="classified-title">
-                        <h3>{{ $child->name_zh }}</h3>
-                        <p>{{ $child->description_zh }}</p>
+                        <h3>{{ App::isLocale('en') ? $child->name_en : $child->name_zh }}</h3>
+                        <p>{{ App::isLocale('en') ? $child->description_en : $child->description_zh }}</p>
                     </div>
                     <div class="classified-products">
                         <ul class="classified-lists">
                             @foreach($products[$child->id] as $product)
                                 <li>
                                     <div class="list-img">
-                                        <img src="{{ $product->thumb_url }}">
+                                        <img class="lazy" data-src="{{ $product->thumb_url }}">
                                     </div>
                                     <div class="list-info">
-                                        <p class="list-info-title">{{ $product->name_zh }}</p>
+                                        <p class="list-info-title">{{ App::isLocale('en') ? $product->name_en : $product->name_zh }}</p>
                                         <p>
                                             <span class="old-price"><i>@lang('basic.currency.symbol') </i>{{ bcmul($product->price, 1.2, 2) }}</span>
                                             <span class="new-price"><i>@lang('basic.currency.symbol') </i>{{ $product->price }}</span>

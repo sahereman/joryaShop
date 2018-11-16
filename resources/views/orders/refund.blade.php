@@ -154,9 +154,9 @@
                                             <img src="{{ $order_item['sku']['product']['thumb_url'] }}">
                                         </div>
                                         <div class="order_lists_info">
-                                            <p><span>{{ $order_item['sku']['product']['name_zh'] }}</span></p>
-                                            <p>{{ $order_item['sku']['name_zh'] }}</p>
-                                            <p>单价：¥ {{ $order_item['price'] }} x {{ $order_item['number'] }}</p>
+                                            <p><span>{{ pp::isLocale('en') ? $order_item['sku']['product']['name_en'] : $order_item['sku']['product']['name_zh'] }}</span></p>
+                                            <p>{{ App::isLocale('en') ? $order_item['sku']['name_en'] : $order_item['sku']['name_zh'] }}</p>
+                                            <p>单价：{{ App::isLocale('en') ? '&#36;' : '&yen;' }} {{ $order_item['price'] }} x {{ $order_item['number'] }}</p>
                                         </div>
                                     </a>
                                 </li>

@@ -9,12 +9,12 @@
                     <a href="{{ route('root') }}">首页</a>
                     @if($category->parent)
                         <span>></span>
-                        <a href="{{ route('product_categories.index', ['category' => $category->parent->id]) }}">{{ $category->parent->name_zh }}</a>
+                        <a href="{{ route('product_categories.index', ['category' => $category->parent->id]) }}">{{ App::isLocale('en') ? $category->parent->name_en : $category->parent->name_zh }}</a>
                     @endif
                     <span>></span>
-                    <a href="{{ route('product_categories.index', ['category' => $category->id]) }}">{{ $category->name_zh }}</a>
+                    <a href="{{ route('product_categories.index', ['category' => $category->id]) }}">{{ App::isLocale('en') ? $category->name_en : $category->name_zh }}</a>
                     <span>></span>
-                    <a href="#">{{ $product->name_zh }}</a>
+                    <a href="#">{{ App::isLocale('en') ? $product->name_en : $product->name_zh }}</a>
                 </p>
             </div>
             <!--详情上半部分-->
@@ -31,7 +31,7 @@
                                 </div>
                                 <!-- 图片 -->
                                 <div class="mediumContainer" id="mediumContainer">
-                                    <img src="{{ $product->photo_urls[0] }}">
+                                    <img class="lazy" data-src="{{ $product->photo_urls[0] }}">
                                 </div>
                                 <div id="zhezhao"></div>
                             </div>
@@ -40,7 +40,7 @@
                                 @foreach($product->photo_urls as $photo_url)
                                     <li code="{{ $photo_url }}">
                                         <img class="lazy" code="{{ $photo_url }}"
-                                             src="{{ $photo_url }}"></li>
+                                            data-src="{{ $photo_url }}"></li>
                                 @endforeach
                             </ul>
                         </div>
@@ -54,8 +54,8 @@
                 </div>
                 <!--商品参数-->
                 <div class="parameters_content">
-                    <h4>{{ $product->name_zh }}</h4>
-                    <p class="small_title">{{ $product->description_zh }}</p>
+                    <h4>{{ App::isLocale('en') ? $product->name_en : $product->name_zh }}</h4>
+                    <p class="small_title">{{ App::isLocale('en') ? $product->description_en : $product->description_zh }}</p>
                     <div class="price_service">
                         <p class="original_price">
                             <span>原价</span>
@@ -80,7 +80,7 @@
                         <ul>
                             @foreach($skus as $sku)
                                 <li code_price='{{ $sku->price }}'>
-                                    <span>{{ $sku->name_zh }}</span>
+                                    <span>{{ App::isLocale('en') ? $sku->name_en : $sku->name_zh }}</span>
                                     <input type="hidden" name="sku_id" value="{{ $sku->id }}">
                                 </li>
                             @endforeach
@@ -121,7 +121,7 @@
                             <li>
                                 <a href="{{ route('products.show', ['product' => $guess->id]) }}">
                                     <div>
-                                        <img src="{{ $guess->thumb_url }}">
+                                        <img class="lazy" data-src="{{ $guess->thumb_url }}">
                                     </div>
                                     <p>
                                         <span class="present_price"><i>@lang('basic.currency.symbol')</i>{{ $guess->price }}</span>
@@ -146,7 +146,7 @@
                                 <li>
                                     <a href="{{ route('products.show', ['product' => $hot_sale->id]) }}">
                                         <div>
-                                            <img src="{{ $hot_sale->thumb_url }}">
+                                            <img class="lazy" data-src="{{ $hot_sale->thumb_url }}">
                                         </div>
                                         <p>
                                             <span class="present_price"><i>@lang('basic.currency.symbol') </i>{{ $hot_sale->price }}</span>
@@ -162,7 +162,7 @@
                                 <li>
                                     <a href="{{ route('products.show', ['product' => $best_seller->id]) }}">
                                         <div>
-                                            <img src="{{ $best_seller->thumb_url }}">
+                                            <img class="lazy" data-src="{{ $best_seller->thumb_url }}">
                                         </div>
                                         <p>
                                             <span class="present_price"><i>@lang('basic.currency.symbol') </i>{{ $best_seller->price }}</span>
@@ -181,7 +181,7 @@
                                 )</strong></li>
                     </ul>
                     <div class="mc tabcon product_info">
-                        {{ $product->content_zh }}
+                        {{ App::isLocale('en') ? $product->content_en : $product->content_zh }}
                     </div>
                     <div class="mc tabcon dis_n">
                         <ul class="comment-score">

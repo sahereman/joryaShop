@@ -38,24 +38,24 @@
 	                            <tr>
 	                                <td class="col-pro-img" >
 	                                    <a href="">
-	                                        <img src="{{ $order_item['sku']['product']['thumb_url'] }}">
+	                                        <img class="lazy" data-src="{{ $order_item['sku']['product']['thumb_url'] }}">
 	                                    </a>
 	                                </td>
 	                                <td class="col-pro-info">
 	                                    <p class="p-info">
 	                                        <a class="commodity_description"
-	                                           href="{{ route('products.show', ['product' => $order_item['sku']['product']['id']]) }}">{{ $order_item['sku']['product']['name_zh'] }}</a>
+	                                           href="{{ route('products.show', ['product' => $order_item['sku']['product']['id']]) }}">{{ App::isLocale('en') ? $order_item['sku']['product']['name_en'] : $order_item['sku']['product']['name_zh'] }}</a>
 	                                    </p>
 	                                </td>
 	                                <td class="col-pro-speci">
 	                                    <p class="p-info">
 	                                        <a class="specifications"
-	                                           href="{{ route('products.show', ['product' => $order_item['sku']['product']['id']]) }}">{{ $order_item['sku']['name_zh'] }}</a>
+	                                           href="{{ route('products.show', ['product' => $order_item['sku']['product']['id']]) }}">{{App::isLocale('en') ? $order_item['sku']['name_en'] : $order_item['sku']['name_zh'] }}</a>
 	                                    </p>
 	                                </td>
 	                                <td class="col-price">
 	                                    <p class="p-price">
-	                                        <em>¥</em>
+	                                        <span>{{ App::isLocale('en') ? '&#36;' : '&yen;' }}</span>
 	                                        <span>{{ $order_item['price'] }}</span>
 	                                    </p>
 	                                </td>
@@ -64,7 +64,7 @@
 	                                </td>
 	                                <td class="col-pay">
 	                                    <p>
-	                                        <em>¥</em>
+	                                        <span>{{ App::isLocale('en') ? '&#36;' : '&yen;' }}</span>
 	                                        <span>{{ bcmul($order_item['price'], $order_item['number'], 2) }}</span>
 	                                    </p>
 	                                </td>
