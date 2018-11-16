@@ -1,0 +1,139 @@
+.adsBox{
+    .notAds{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin-top: 3rem;
+        color: #afafaf;
+        font-size: .9rem;
+        letter-spacing: .1rem;
+        img{
+            width: 7rem;
+            margin-bottom: 1rem;
+        }
+    }
+    .btnBox{
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        text-align: center;
+        background: #fff;
+        padding: .7rem 0;
+        .doneBtn{
+            display: inline-block;
+            width: 90%;
+            text-align: center;
+            height: 2.4rem;
+            line-height: 2.4rem;
+            background: #bd8c61;
+            color: #fff;
+            border-radius: 1.5rem;
+            border: none;
+        }
+    }
+    .adsList{
+        padding: 0 1rem;
+        .adsItem{
+            border-bottom: 1px solid #e0e0e0;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            height: 3.4rem;
+            .adsName{
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                .defaultAds{
+                    color: #bc8c5e;
+                    padding: .1rem .2rem 0;
+                    font-size: .6rem;
+                    border: 1px solid #bc8c5e;
+                }
+            }
+            .adsDetail{
+                display: flex;
+                flex-direction: column;
+                justify-content:  flex-start;
+                align-items: stretch;
+                width: 60%;
+                
+                .adsP{
+                    font-size: .95rem;
+                }
+                .adsD{
+                    font-size: .7rem;
+                    color: #666666;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                }
+            }
+            .adsEdit{
+                .adsE{
+                    width: 1.1rem;
+                }
+                .adsD{
+                    width: 1.2rem;
+                    margin-left: 1rem;
+                }
+            }
+        }
+    }
+}
+//新增收获地址页面样式
+.addAdsBox{
+    position: fixed;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #f4f4f4;
+    .addAdsForm{
+        padding:0 1rem;
+        background: #fff;
+        .addAdsItem{
+            padding: .7rem 0;
+            border-bottom: 1px solid #e0e0e0;
+            .must:before{
+                content: "*";
+                color: #f95b5c;
+            }
+            label{
+                width: 5rem;
+            }
+            input{
+                width: 70%;
+            }
+        }
+        .doneBtn{
+            display: inline-block;
+            width: 90%;
+            text-align: center;
+            height: 2.4rem;
+            line-height: 2.4rem;
+            background: #bd8c61;
+            color: #fff;
+            border-radius: 1.5rem;
+            border: none;
+            position: fixed;
+            bottom: .7rem;
+            left: 1rem;
+        }
+    }
+    .defaultBox{
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 1rem;
+        background: #fff;
+        padding: .7rem 1rem;
+        img{
+            width: 2.2rem;
+        }
+    }
+}

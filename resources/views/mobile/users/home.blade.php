@@ -77,7 +77,7 @@
 			</div>
 		</div>
 		<div class="userItemBox">
-			<a href="">
+			<a href="{{ route('mobile.user_favourites.index') }}">
 				<div class="userItem userItemCollection">
 					<img src="{{ asset('static_m/img/icon_Collection.png') }}" class="userItemImgF"/>
 					<span>我的收藏</span>
@@ -91,7 +91,7 @@
 					<img src="{{ asset('static_m/img/icon_more.png') }}" class="userItemBack"/>
 				</div>
 			</a>
-			<a href="">
+			<a href="{{ route('mobile.user_histories.index') }}">
 				<div class="userItem userItemFootprint">
 					<img src="{{ asset('static_m/img/icon_MyTracks.png') }}" class="userItemImgF"/>
 					<span>我的足迹</span>
