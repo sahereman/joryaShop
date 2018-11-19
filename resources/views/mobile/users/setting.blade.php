@@ -3,7 +3,7 @@
 @section('content')
     {{--填充页面内容--}}
 	<div class="headerBar">
-		<img src="{{ asset('static_m/img/icon_backtop.png') }}" class="backImg"/>
+		<img src="{{ asset('static_m/img/icon_backtop.png') }}" class="backImg" onclick="javascript:history.back(-1);"/>
 		<span>设置</span>
 	</div>
 	<div class="setBox">

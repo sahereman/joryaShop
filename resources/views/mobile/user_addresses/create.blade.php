@@ -2,7 +2,7 @@
 @section('title', '新增地址')
 @section('content')
 	<div class="headerBar">
-		<img src="{{ asset('static_m/img/icon_backtop.png') }}" class="backImg"/>
+		<img src="{{ asset('static_m/img/icon_backtop.png') }}" class="backImg" onclick="javascript:history.back(-1);"/>
 		<span>新增收货地址</span>
 	</div>
 	<div class="addAdsBox">

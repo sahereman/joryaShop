@@ -6,7 +6,7 @@
 
     {{--填充页面内容--}}
     <div class="headerBar" style="border: none;">
-		<img src="{{ asset('static_m/img/icon_backtop.png') }}" class="backImg"/>
+		<img src="{{ asset('static_m/img/icon_backtop.png') }}" class="backImg" onclick="javascript:history.back(-1);"/>
 		<span>个人信息</span>
 	</div>
 	<div class="editUser">

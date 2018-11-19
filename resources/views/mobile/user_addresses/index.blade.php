@@ -2,7 +2,7 @@
 @section('title', '地址列表')
 @section('content')
 	<div class="headerBar">
-		<img src="{{ asset('static_m/img/icon_backtop.png') }}" class="backImg"/>
+		<img src="{{ asset('static_m/img/icon_backtop.png') }}" class="backImg" onclick="javascript:history.back(-1);"/>
 		<span>地址管理</span>
 	</div>
 	<div class="adsBox">
