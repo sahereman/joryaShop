@@ -5,9 +5,9 @@
         <div class="m-wrapper">
             <div>
                 <p class="Crumbs">
-                    <a href="{{ route('root') }}">首页</a>
+                    <a href="{{ route('root') }}">@lang('basic.home')</a>
                     <span>></span>
-                    <a href="{{ route('users.home') }}">个人中心</a>
+                    <a href="{{ route('users.home') }}">@lang('basic.users.Personal_Center')</a>
                 </p>
             </div>
             <!--左侧导航栏-->
@@ -21,31 +21,31 @@
                             <img class="lazy" data-src="{{ $user->avatar_url }}">
                         </div>
                         <div class="user_name">
-                            <span>昵称：{{ $user->name }}</span>
-                            <a href="{{ route('users.edit', $user->id) }}">修改个人信息></a>
+                            <span>@lang('basic.users.nickname')：{{ $user->name }}</span>
+                            <a href="{{ route('users.edit', $user->id) }}">@lang('basic.users.Modify_Personal_Information')></a>
                         </div>
                     </li>
                     <li>
                         <a href="{{ route('user_favourites.index') }}">
-                            <span>我的收藏</span>
+                            <span>@lang('basic.users.My_collection')</span>
                             <img src="{{ asset('img/collection.png') }}">
                         </a>
                     </li>
                     <li>
                         <a href="{{ route('user_addresses.index') }}">
-                            <span>收货地址</span>
+                            <span>@lang('basic.users.Receiving_address')</span>
                             <img src="{{ asset('img/receive_address.png') }}">
                         </a>
                     </li>
                     <li>
                         <a href="{{ route('orders.index') }}">
-                            <span>我的订单</span>
+                            <span>@lang('basic.users.My_order')</span>
                             <img src="{{ asset('img/record.png') }}">
                         </a>
                     </li>
                     <li>
                         <a href="{{ route('user_histories.index') }}">
-                            <span>浏览历史</span>
+                            <span>@lang('basic.users.Browse_history')</span>
                             <img src="{{ asset('img/history_record.png') }}">
                         </a>
                     </li>
@@ -55,46 +55,46 @@
                     <li>
                         <a href="{{ route('orders.index') . '?status=paying' }}">
                             <img src="{{ asset('img/tobe_paid.png') }}">
-                            <span>待付款</span>
+                            <span>@lang('basic.users.Pending_payment')</span>
                         </a>
                     </li>
                     <li>
                         <a href="{{ route('orders.index') . '?status=receiving' }}">
                             <img src="{{ asset('img/tobe_received.png') }}">
-                            <span>待收货</span>
+                            <span>@lang('basic.users.On_the_receiving_line')</span>
                         </a>
                     </li>
                     <li>
                         <a href="{{ route('orders.index') . '?status=uncommented' }}">
                             <img src="{{ asset('img/tobe_evaluated.png') }}">
-                            <span>待评价</span>
+                            <span>@lang('basic.users.Pending_feedback')</span>
                         </a>
                     </li>
                     <li>
                         <a href="{{ route('orders.index') . '?status=refunding' }}">
                             <img src="{{ asset('img/after-sale.png') }}">
-                            <span>售后订单</span>
+                            <span>@lang('basic.users.After_sales_order')</span>
                         </a>
                     </li>
                 </ul>
                 <ul class="ordertable_title">
                     <li class="order_details">
-                        <span>订单详情</span>
+                        <span>@lang('basic.users.The_order_details')</span>
                     </li>
                     <li class="order_price">
-                        <span>单价</span>
+                        <span>@lang('basic.users.The_unit_price')</span>
                     </li>
                     <li class="order_num">
-                        <span>数量</span>
+                        <span>@lang('basic.users.quantity')</span>
                     </li>
                     <li class="order_pay">
-                        <span>实付款</span>
+                        <span>@lang('basic.users.The_final_payment')</span>
                     </li>
                     <li class="order_status">
-                        <span>订单状态</span>
+                        <span>@lang('basic.users.Order_Status')</span>
                     </li>
                     <li class="order_operation">
-                        <span>操作</span>
+                        <span>@lang('basic.users.operating')</span>
                     </li>
                 </ul>
                 <!--订单列表分为两部分，1、暂无订单时展现其他时候隐藏。2、存在订单时显示.需进行判断-->
@@ -103,8 +103,8 @@
                             <!--暂无订单部分-->
                     <div class="no_order">
                         <img src="{{ asset('img/no_order.png') }}">
-                        <p>还没有任何订单哦~</p>
-                        <a href="{{ route('root') }}">去逛逛</a>
+                        <p>@lang('basic.users.No_orders_yet')</p>
+                        <a href="{{ route('root') }}">@lang('product.shopping_cart.Go_shopping')</a>
                     </div>
                     @else
                             <!--订单部分-->
@@ -114,7 +114,7 @@
                                 <div class="o-info">
                                     <div class="col-info pull-left">
                                      <span class="o-no">
-                                         订单编号：
+                                         @lang('basic.users.Order_number')：
                                          <a href="{{ route('orders.show', $order->id) }}">{{ $order->order_sn }}</a>
                                      </span>
                                     </div>
@@ -166,9 +166,9 @@
                                                 <p class="p-button">
                                                     @if($order->status == 'completed' && $order->commented_at == null)
                                                         <a class="evaluate"
-                                                           href="{{ route('orders.create_comment', $order->id) }}">评价</a>
+                                                           href="{{ route('orders.create_comment', $order->id) }}">@lang('basic.users.feedback')</a>
                                                     @endif
-                                                    <a class="buy_more" data-url="{{ route('carts.store') }}" href="javascript:void(0)">再次购买</a>
+                                                    <a class="buy_more" data-url="{{ route('carts.store') }}" href="javascript:void(0)">@lang('basic.users.Once_again_to_buy')</a>
                                                 </p>
                                             </td>
                                         </tr>
@@ -214,7 +214,7 @@
                 <!--猜你喜欢-->
                 <div class="guess_like">
                     <div class="ordertable_title">
-                        <p>猜你喜欢</p>
+                        <p>@lang('app.you may also like')</p>
                     </div>
                     <div class="guess_like_content">
                         <ul>
@@ -228,7 +228,7 @@
                                         <span class="new_price">{{ App::isLocale('en') ? '&#36;' : '&yen;' }} {{ $guess->price }}</span>
                                         <span class="old_price">{{ App::isLocale('en') ? '&#36;' : '&yen;' }} {{ bcmul($guess->price, 1.2, 2) }}</span>
                                     </p>
-                                    <a class="add_to_cart" href="{{ route('products.show', $guess->id) }}">查看详情</a>
+                                    <a class="add_to_cart" href="{{ route('products.show', $guess->id) }}">@lang('app.see details')</a>
                                 </li>
                             @endforeach
                         </ul>
@@ -245,18 +245,18 @@
             </div>
             <div class="dialog_textarea">
                 <div class="textarea_title">
-                    <span>提示</span>
+                    <span>@lang('app.Prompt')</span>
                 </div>
                 <div class="textarea_content">
                     <p>
                         <img src="{{ asset('img/warning.png') }}">
-                        <span class="tips_content">确定要删除订单信息？</span>
+                        <span class="tips_content">@lang('basic.users.Make_sure_to_delete')</span>
                     </p>
                 </div>
             </div>
             <div class="btn_area">
-                <a class="cancel">取消</a>
-                <a class="success">确定</a>
+                <a class="cancel">@lang('app.cancel')</a>
+                <a class="success">@lang('app.determine')</a>
             </div>
         </div>
     </div>
@@ -318,7 +318,7 @@
                     url: url,
                     data: data,
                     beforeSend: function(){
-        			loading_animation = layer.msg('请稍候', {
+        			loading_animation = layer.msg("@lang('app.Please wait')", {
 			                icon: 16,
 			                shade: 0.4,
 			                time:false //取消自动关闭

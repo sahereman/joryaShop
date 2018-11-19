@@ -5,11 +5,11 @@
         <div class="m-wrapper">
             <div>
                 <p class="Crumbs">
-                    <a href="{{ route('root') }}">首页</a>
+                    <a href="{{ route('root') }}">@lang('basic.home')</a>
                     <span>></span>
-                    <a href="{{ route('users.home') }}">个人中心</a>
+                    <a href="{{ route('users.home') }}">@lang('basic.users.Personal_Center')</a>
                     <span>></span>
-                    <a href="{{ route('users.edit', $user->id) }}">修改绑定邮箱</a>
+                    <a href="{{ route('users.edit', $user->id) }}">@lang('basic.users.Modify the bound mailbox')</a>
                 </p>
             </div>
             <!--左侧导航栏-->
@@ -17,7 +17,7 @@
                     <!--右侧内容-->
             <div class="UserInfo_content">
                 <div class="UserInfo_content_title">
-                    <p>修改绑定邮箱</p>
+                    <p>@lang('basic.users.Modify the bound mailbox')</p>
                 </div>
                 <div class="psw_edit_content">
                     <form method="POST" action="{{ route('users.update_password', $user->id) }}"
@@ -26,7 +26,7 @@
                         <input type="hidden" name="_method" value="PUT">
                         <ul>
                             <li>
-                                <span>邮箱账号</span>
+                                <span>@lang('basic.users.email_address')</span>
                                 <input type="email" name="password_original" placeholder="输入新邮箱" value="" required>
                                 @if ($errors->has('password_original'))
                                     <span class="help-block">

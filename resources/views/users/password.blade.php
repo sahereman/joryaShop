@@ -6,11 +6,11 @@
         <div class="m-wrapper">
             <div>
                 <p class="Crumbs">
-                    <a href="{{ route('root') }}">首页</a>
+                    <a href="{{ route('root') }}">@lang('basic.home')</a>
                     <span>></span>
-                    <a href="{{ route('users.home') }}">个人中心</a>
+                    <a href="{{ route('users.home') }}">@lang('basic.users.Personal_Center')</a>
                     <span>></span>
-                    <a href="{{ route('users.edit', $user->id) }}">修改密码</a>
+                    <a href="{{ route('users.edit', $user->id) }}">@lang('basic.users.Change_Password')</a>
                 </p>
             </div>
             <!--左侧导航栏-->
@@ -18,7 +18,7 @@
                     <!--右侧内容-->
             <div class="UserInfo_content">
                 <div class="UserInfo_content_title">
-                    <p>修改密码</p>
+                    <p>@lang('basic.users.Change_Password')</p>
                 </div>
                 <div class="psw_edit_content">
                     <form method="POST" action="{{ route('users.update_password', $user->id) }}"
@@ -27,8 +27,8 @@
                         <input type="hidden" name="_method" value="PUT">
                         <ul>
                             <li>
-                                <span>原密码</span>
-                                <input type="password" name="password_original" placeholder="输入原密码" value="" required>
+                                <span>@lang('basic.users.old_password')</span>
+                                <input type="password" name="password_original" placeholder="@lang('basic.users.Enter_original_password')" value="" required>
                                 @if ($errors->has('password_original'))
                                     <span class="help-block">
                                     <img src="{{ asset('img/error_fork.png') }}">
@@ -37,8 +37,8 @@
                                 @endif
                             </li>
                             <li>
-                                <span>新密码</span>
-                                <input type="password" name="password" value="" placeholder="输入新密码" required>
+                                <span>@lang('basic.users.new_password')</span>
+                                <input type="password" name="password" value="" placeholder="@lang('basic.users.Enter_new_password')" required>
                                 @if ($errors->has('password'))
                                     <span class="help-block">
                                     <img src="{{ asset('img/error_fork.png') }}">
@@ -47,8 +47,8 @@
                                 @endif
                             </li>
                             <li>
-                                <span>确认密码</span>
-                                <input type="password" name="password_confirmation" value="" placeholder="再次输入新密码" required>
+                                <span>@lang('basic.users.confirma_password')</span>
+                                <input type="password" name="password_confirmation" value="" placeholder="@lang('basic.users.Enter_new_password_again')" required>
                                 @if ($errors->has('password_confirmation'))
                                     <span class="help-block">
                                     <img src="{{ asset('img/error_fork.png') }}">
@@ -57,7 +57,7 @@
                                 @endif
                             </li>
                         </ul>
-                        <button type="submit">完成</button>
+                        <button type="submit">@lang('basic.users.submit')</button>
                     </form>
                 </div>
             </div>

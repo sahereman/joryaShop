@@ -1,37 +1,37 @@
 <div class="navigation_left">
     <ul class="staircase_navigation">
         <li class="navigation_title user_index">
-            <a href="{{ route('users.home') }}">首页</a>
+            <a href="{{ route('users.home') }}">@lang('basic.home')</a>
         </li>
         <li class="navigation_title">
-            <a href="#">个人中心</a>
+            <a href="#">@lang('basic.users.Personal_Center')</a>
         </li>
         <li class="account_info">
-            <a href="{{ route('users.edit',['user' =>1]) }}">账户信息</a>
+            <a href="{{ route('users.edit',['user' =>1]) }}">@lang('basic.users.Account_information')</a>
         </li>
         <li class="change_psw">
-            <a href="{{ route('users.password',['user' => 1]) }}">修改密码</a>
+            <a href="{{ route('users.password',['user' => 1]) }}">@lang('basic.users.Change_Password')</a>
         </li>
         <li class="user_address">
-            <a href="{{ route('user_addresses.index') }}">收货地址</a>
+            <a href="{{ route('user_addresses.index') }}">@lang('basic.users.Receiving_address')</a>
         </li>
         <li class="my_collection">
-            <a href="{{ route('user_favourites.index') }}">我的收藏</a>
+            <a href="{{ route('user_favourites.index') }}">@lang('basic.users.My_collection')</a>
         </li>
         <li class="browse_history">
-            <a href="{{ route('user_histories.index') }}">浏览历史</a>
+            <a href="{{ route('user_histories.index') }}">@lang('basic.users.Browse_history')</a>
         </li>
         <li class="navigation_title">
-            <a>交易管理</a>
+            <a>@lang('basic.users.Transaction_management')</a>
         </li>
         <li class="my_order">
-            <a href="{{ route('orders.index') }}">我的订单</a>
+            <a href="{{ route('orders.index') }}">@lang('basic.users.My_order')</a>
         </li>
         <li class="navigation_title">
-            <a>服务中心</a>
+            <a>@lang('basic.users.Service_Centre')</a>
         </li>
         <li class="after_sale">
-            <a href="{{ route('root') }}">售后服务</a>
+            <a href="{{ route('root') }}">@lang('basic.users.After-sale_service')</a>
         </li>
     </ul>
 </div>

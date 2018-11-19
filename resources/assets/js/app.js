@@ -22,6 +22,7 @@ var $win = $(window),
     $body = $('body', $doc),
     winW = $win.width();
     var enter_event="default";
+    var CONUTRY = $("#dLabel").find("span").html();
 $(window).resize(function() {
     winW = $win.width();
 })
@@ -417,16 +418,16 @@ $(function(){
 	    },
 	    messages: {
 	        username: {
-	            required: '请输入用户名或邮箱'
+	            required: (CONUTRY == "中文") ? '请输入用户名或邮箱' : 'Please enter a username or email box'
 	        },
 	        password: {
-	            required: '请输入密码'
+	            required: (CONUTRY == "中文") ? '请输入密码' : 'Please input a password'
 	        }
 	    }
 	});
 	$("#register-form").validate({
 	    rules: {
-	        username: {
+	        name: {
 	            required: true
 	        },
 	        password: {
@@ -437,14 +438,14 @@ $(function(){
 	        }
 	    },
 	    messages: {
-	        username: {
-	            required: '请输入用户名'
+	        name: {
+	            required: (CONUTRY == "中文") ? '请输入用户名' : 'Enter one user name'
 	        },
 	        password: {
-	            required: '请输入密码'
+	            required: (CONUTRY == "中文") ? '请输入密码' : 'Please input a password'
 	        },
 	        phone: {
-	        	required: '输入手机号'
+	        	required: (CONUTRY == "中文") ? '输入手机号' : 'Enter cell phone number'
 	        }
 	    }
 	});
@@ -456,7 +457,7 @@ $(function(){
 	    },
 	    messages: {
 	        phone: {
-	            required: '请输入正确有效的手机号'
+	            required: (CONUTRY == "中文") ? '请输入正确有效的手机号' : 'Please input the correct cell phone number'
 	        },
 	    }
 	});

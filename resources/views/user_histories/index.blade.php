@@ -5,11 +5,11 @@
         <div class="m-wrapper">
             <div>
                 <p class="Crumbs">
-                    <a href="{{ route('root') }}">首页</a>
+                    <a href="{{ route('root') }}">@lang('basic.home')</a>
                     <span>></span>
-                    <a href="{{ route('users.home') }}">个人中心</a>
+                    <a href="{{ route('users.home') }}">@lang('basic.users.Personal_Center')</a>
                     <span>></span>
-                    <a href="{{ route('user_histories.index') }}">浏览历史</a>
+                    <a href="{{ route('user_histories.index') }}">@lang('basic.users.Browse_history')</a>
                 </p>
             </div>
             <!--左侧导航栏-->
@@ -20,8 +20,8 @@
                         <!--当没有收藏列表时显示,如需显示当前内容需要调整一下样式-->
                 <div class="no_collectionList">
                     <img src="{{ asset('img/no_history.png') }}">
-                    <p>还没有任何足迹哦~</p>
-                    <a class="new_address" href="{{ route('root') }}">去逛逛</a>
+                    <p>@lang('product.No footprint yet')</p>
+                    <a class="new_address" href="{{ route('root') }}">@lang('product.shop_now')</a>
                 </div>
                 @else
                         <!--浏览历史列表-->
@@ -29,7 +29,7 @@
                     <div class="history_operation_area">
                         <a class="history_empty pull-right" data-url="{{ route('user_histories.flush') }}">
                             <img src="{{ asset('img/empty_history.png') }}">
-                            <span>清空所有浏览历史</span>
+                            <span>@lang('product.Clear all browsing history')</span>
                         </a>
                     </div>
                     <!--浏览历史列表-->
@@ -50,8 +50,8 @@
                                             <span class="new_price">@lang('basic.currency.symbol') {{ $history->product->price }}</span>
                                             <span class="old_price">@lang('basic.currency.symbol') {{ bcmul($history->product->price, 1.2, 2) }}</span>
                                         </p>
-                                        <a class="add_to_cart" href="{{ route('products.show', $history->id) }}">查看详情</a>
-                                        <a class="delete_mark" code="{{ route('user_histories.destroy', $history->id) }}" title="点击删除该商品"></a>
+                                        <a class="add_to_cart" href="{{ route('products.show', $history->id) }}">@lang('app.see details')</a>
+                                        <a class="delete_mark" code="{{ route('user_histories.destroy', $history->id) }}" title="@lang('app.Click to remove the item')"></a>
                                     </li>
                                 @endforeach
                             </ul>
@@ -62,11 +62,11 @@
                     <!--自定义分页-->
                     @if($previous_page)
                         <a class="pre_page"
-                           href="{{ route('user_histories.index') . '?page=' . $previous_page }}">上一页</a>
+                           href="{{ route('user_histories.index') . '?page=' . $previous_page }}">@lang('app.Previous page')</a>
                     @endif
                     @if($next_page)
                         <a class="next_page"
-                           href="{{ route('user_histories.index') . '?page=' . $next_page }}">下一页</a>
+                           href="{{ route('user_histories.index') . '?page=' . $next_page }}">@lang('app.Next page')</a>
                     @endif
                 </div>
                 @endif
@@ -130,72 +130,148 @@
             $(".browse_history").addClass("active");
             //点击表格中的删除
             $(".address_list ul").on("click", ".delete_mark", function () {
-            	$(".confirm_delete .textarea_content").find("span").attr("code",$(this).attr("code"));
-                $(".confirm_delete").show();
+//          	$(".confirm_delete .textarea_content").find("span").attr("code",$(this).attr("code"));
+//              $(".confirm_delete").show();
+                var url = $(this).attr("code");
+                var index = layer.open({
+				  title: "@lang('app.Prompt')",
+				  content: "@lang('product.Are you sure you want to delete this record')",
+				  btn: ["@lang('app.determine')","@lang('app.cancel')"],
+				  yes:function(){
+				  	 var data = {
+	                    _method: "DELETE",
+	                    _token: "{{ csrf_token() }}",
+	               }
+	                $.ajax({
+	                    type: "post",
+	                    url: url,
+	                    data: data,
+	                    success: function (data) {
+	                    	window.location.reload();
+	                    },
+	                    error: function (err) {
+	                        console.log(err);
+	                        if (err.status==403) {
+	                        	layer.open({
+								  title: "@lang('app.Prompt')",
+								  content: "@lang('app.Unable to complete operation')",
+								  btn: ["@lang('app.determine')","@lang('app.cancel')"],
+								});     
+	                        }
+	                    }
+	                });
+				  },
+				  btn2:function(){
+				  	layer.close(index);
+				  }
+				});    
             });
-            $(".confirm_delete").on("click",".success",function(){
-            	var data = {
-                    _method: "DELETE",
-                    _token: "{{ csrf_token() }}",
-                }
-                var url = $(".textarea_content span").attr('code');
-                $.ajax({
-                    type: "post",
-                    url: url,
-                    data: data,
-                    success: function (data) {
-                    	window.location.reload();
-                    },
-                    error: function (err) {
-                        console.log(err);
-                        if (err.status==403) {
-                        	layer.open({
-							  title: '提示'
-							  ,content: '无法完成操作'
-							});     
-                        }
-                    }
-                });
-            })
+//          $(".confirm_delete").on("click",".success",function(){
+//          	var data = {
+//                  _method: "DELETE",
+//                  _token: "{{ csrf_token() }}",
+//              }
+//              var url = $(".textarea_content span").attr('code');
+//              $.ajax({
+//                  type: "post",
+//                  url: url,
+//                  data: data,
+//                  success: function (data) {
+//                  	window.location.reload();
+//                  },
+//                  error: function (err) {
+//                      console.log(err);
+//                      if (err.status==403) {
+//                      	layer.open({
+//							  title: '提示'
+//							  ,content: '无法完成操作'
+//							});     
+//                      }
+//                  }
+//              });
+//          })
             $(".history_empty").on("click", function () {
-            	var data_url = $(this).attr("data-url");
-            	$(".empty_history_dia form").attr("data-url",data_url);
-                $(".empty_history_dia").show();
+            	var url = $(this).attr("data-url");
+//          	$(".empty_history_dia form").attr("data-url",data_url);
+//              $(".empty_history_dia").show();
+//              var url = $(this).attr("code");
+                var index = layer.open({
+				  title: "@lang('app.Prompt')",
+				  content: "@lang('product.Cannot be recovered after emptying, continue to continue')",
+				  btn: ["@lang('app.determine')","@lang('app.cancel')"],
+				  yes:function(){
+				  	var data = {
+		                    _method: "DELETE",
+		                    _token: "{{ csrf_token() }}",
+		           }
+	                $.ajax({
+	                    type: "post",
+	                    url: url,
+	                    data: data,
+	                    beforeSend:function(){
+		        			loading_animation = layer.msg("@lang('app.Please wait')", {
+				                icon: 16,
+				                shade: 0.4,
+				                time:false //取消自动关闭
+							});
+		        		},
+	                    success: function (data) {
+	                    	window.location.reload();
+	                    },
+	                    error: function (err) {
+	                        console.log(err);
+	                        if (err.status==403) {
+	                        	layer.open({
+								  title: "@lang('app.Prompt')",
+								  content: "@lang('app.Unable to complete operation')",
+								  btn: ["@lang('app.determine')","@lang('app.cancel')"],
+								});     
+	                        }
+	                    },
+	                    complete:function(){
+		        	    	layer.close(loading_animation);
+		        	    }
+	                });
+				  },
+				  btn2:function(){
+				  	layer.close(index);
+				  }
+				});    
             });
-            $(".empty_history_dia").on("click",".success",function(){
-            	var data = {
-                    _method: "DELETE",
-                    _token: "{{ csrf_token() }}",
-              }
-                var url = $(".empty_history_dia form").attr("data-url");
-                $.ajax({
-                    type: "post",
-                    url: url,
-                    data: data,
-                    beforeSend:function(){
-	        			loading_animation = layer.msg('请稍候', {
-			                icon: 16,
-			                shade: 0.4,
-			                time:false //取消自动关闭
-						});
-	        		},
-                    success: function (data) {
-                    	window.location.reload();
-                    },
-                    error: function (err) {
-                        console.log(err);
-                        if (err.status==403) {
-                        	layer.open({
-							  title: '提示'
-							  ,content: '无法完成操作'
-							});     
-                        }
-                    },
-                    complete:function(){
-	        	    	layer.close(loading_animation);
-	        	    }
-                });
-            })
+//          $(".empty_history_dia").on("click",".success",function(){
+//          	var data = {
+//                  _method: "DELETE",
+//                  _token: "{{ csrf_token() }}",
+//            }
+//              var url = $(".empty_history_dia form").attr("data-url");
+//              $.ajax({
+//                  type: "post",
+//                  url: url,
+//                  data: data,
+//                  beforeSend:function(){
+//	        			loading_animation = layer.msg('请稍候', {
+//			                icon: 16,
+//			                shade: 0.4,
+//			                time:false //取消自动关闭
+//						});
+//	        		},
+//                  success: function (data) {
+//                  	window.location.reload();
+//                  },
+//                  error: function (err) {
+//                      console.log(err);
+//                      if (err.status==403) {
+//                      	layer.open({
+//							  title: '提示'
+//							  ,content: '无法完成操作'
+//							});     
+//                      }
+//                  },
+//                  complete:function(){
+//	        	    	layer.close(loading_animation);
+//	        	    }
+//              });
+//          })
         });
     </script>
 @endsection

@@ -5,11 +5,11 @@
         <div class="m-wrapper">
             <div>
                 <p class="Crumbs">
-                    <a href="{{ route('root') }}">首页</a>
+                    <a href="{{ route('root') }}">@lang('basic.home')</a>
                     <span>></span>
-                    <a href="{{ route('users.home') }}">个人中心</a>
+                    <a href="{{ route('users.home') }}">@lang('basic.users.Personal_Center')</a>
                     <span>></span>
-                    <a href="{{ route('user_favourites.index') }}">我的收藏</a>
+                    <a href="{{ route('user_favourites.index') }}">@lang('basic.users.My_collection')</a>
                 </p>
             </div>
             <!--左侧导航栏-->
@@ -20,8 +20,8 @@
                         <!--当没有收藏列表时显示,如需显示当前内容需要调整一下样式-->
                 <div class="no_collectionList">
                     <img src="{{ asset('img/no_collection.png') }}">
-                    <p>还没有任何收藏哦~</p>
-                    <a class="new_address" href="{{ route('root') }}">去逛逛</a>
+                    <p>@lang('product.No collection yet')</p>
+                    <a class="new_address" href="{{ route('root') }}">@lang('product.shop_now')</a>
                 </div>
                 @else
                         <!--存在收藏列表-->
@@ -39,9 +39,9 @@
                                         <span class="new_price">@lang('basic.currency.symbol') {{ $favourite->product->price }}</span>
                                         <span class="old_price">@lang('basic.currency.symbol') {{ bcmul($favourite->product->price, 1.2, 2) }}</span>
                                     </p>
-                                    <a class="add_to_cart" href="{{ route('products.show', $favourite->id) }}">加入购物车</a>
+                                    <a class="add_to_cart" href="{{ route('products.show', $favourite->id) }}">@lang('app.Add to Shopping Cart')</a>
                                     <a class="delete_mark" code="{{ route('user_favourites.destroy', $favourite->id) }}"
-                                       title="点击删除该商品"></a>
+                                       title="@lang('app.Click to remove the item')"></a>
                                 </li>
                             @endforeach
                         </ul>
@@ -82,27 +82,60 @@
             $(".my_collection").addClass("active");
             //点击表格中的删除
             $(".address_list ul").on("click", ".delete_mark", function () {
-                $(".confirm_delete .textarea_content").find("span").attr("code", $(this).attr("code"));
-                $(".confirm_delete").show();
+//              $(".confirm_delete .textarea_content").find("span").attr("code", $(this).attr("code"));
+//              $(".confirm_delete").show();
+                var url = $(this).attr("code");
+                var index = layer.open({
+				  title: "@lang('app.Prompt')",
+				  content: "@lang('product.Are you sure you want to delete this record')",
+				  btn: ["@lang('app.determine')","@lang('app.cancel')"],
+				  yes:function(){
+				  	 var data = {
+	                    _method: "DELETE",
+	                    _token: "{{ csrf_token() }}",
+	               }
+	                $.ajax({
+	                    type: "post",
+	                    url: url,
+	                    data: data,
+	                    success: function (data) {
+	                    	window.location.reload();
+	                    },
+	                    error: function (err) {
+	                        console.log(err);
+	                        if (err.status==403) {
+	                        	layer.open({
+								  title: "@lang('app.Prompt')",
+								  content: "@lang('app.Unable to complete operation')",
+								  btn: ["@lang('app.determine')","@lang('app.cancel')"],
+								});     
+	                        }
+	                    }
+	                });
+				  },
+				  btn2:function(){
+				  	layer.close(index);
+				  }
+				});    
             });
-            $(".confirm_delete").on("click", ".success", function () {
-                var data = {
-                    _method: "DELETE",
-                    _token: "{{ csrf_token() }}",
-                };
-                var url = $(".textarea_content span").attr('code');
-                $.ajax({
-                    type: "post",
-                    url: url,
-                    data: data,
-                    success: function (data) {
-                        window.location.reload();
-                    },
-                    error: function (err) {
-                        console.log(err);
-                    }
-                });
-            });
+//          $(".confirm_delete").on("click", ".success", function () {
+//              var data = {
+//                  _method: "DELETE",
+//                  _token: "{{ csrf_token() }}",
+//              };
+//              var url = $(".textarea_content span").attr('code');
+//              $.ajax({
+//                  type: "post",
+//                  url: url,
+//                  data: data,
+//                  success: function (data) {
+//                      window.location.reload();
+//                  },
+//                  error: function (err) {
+//                      console.log(err);
+//                  }
+//              });
+//          });
         });
     </script>
 @endsection

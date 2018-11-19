@@ -5,11 +5,11 @@
         <div class="m-wrapper">
             <div>
                 <p class="Crumbs">
-                    <a href="{{ route('root') }}">首页</a>
+                    <a href="{{ route('root') }}">@lang('basic.home')</a>
                     <span>></span>
-                    <a href="{{ route('users.home') }}">个人中心</a>
+                    <a href="{{ route('users.home') }}">@lang('basic.users.Personal_Center')</a>
                     <span>></span>
-                    <a href="{{ route('user_addresses.index') }}">收货地址</a>
+                    <a href="{{ route('user_addresses.index') }}">@lang('basic.users.Receiving_address')</a>
                 </p>
             </div>
             <!--左侧导航栏-->
@@ -20,18 +20,18 @@
                         <!--当没有收获地址列表时显示,如需显示当前内容需要调整一下样式-->
                 <div class="no_addressList">
                     <img src="{{ asset('img/location.png') }}">
-                    <p>您还没有收货地址</p>
-                    <a class="new_address">新建收货地址</a>
+                    <p>@lang('basic.users.shipping address yet')</p>
+                    <a class="new_address">@lang('basic.users.Set up a new shipping address')</a>
                 </div>
                 @else
                         <!--存在收获地址列表-->
                 <div class="receive_address">
                     <div class="address_note">
                         <div class="pull-left">
-                            <p>已保存收货地址（地址最多{{ $max }}条，还能保存<span class="residual">{{ $max - $count }}</span>条）</p>
+                            <p>@lang('basic.users.Stored shipping address')（@lang('basic.users.Up to'){{ $max }}@lang('basic.users.addresses_and can save')<span class="residual">{{ $max - $count }}</span>）</p>
                         </div>
                         <div class="pull-right">
-                            <a class="new_address">+新建地址</a>
+                            <a class="new_address">+@lang('basic.address.The new address')</a>
                         </div>
                     </div>
                     <!--地址列表-->
@@ -39,10 +39,10 @@
                         <table>
                             <thead>
                             <tr>
-                                <th class="address_name">收货人</th>
-                                <th class="address_info">地址</th>
-                                <th class="address_tel">联系方式</th>
-                                <th class="address_operation">操作</th>
+                                <th class="address_name">@lang('basic.address.The consignee')</th>
+                                <th class="address_info">@lang('basic.address.address')</th>
+                                <th class="address_tel">@lang('basic.address.Contact')</th>
+                                <th class="address_operation">@lang('basic.users.operating')</th>
                                 <th class="default_address"></th>
                             </tr>
                             </thead>
@@ -55,17 +55,17 @@
                                     <td class="address_tel">{{ $address->phone }}</td>
                                     <td class="address_operation">
                                         <a url="{{ route('user_addresses.update', $address->id) }}"
-                                           class="edit_address">编辑</a>
+                                           class="edit_address">@lang('basic.address.edit')</a>
                                         <a url="{{ route('user_addresses.destroy', $address->id) }}"
-                                           class="delete_address">删除</a>
+                                           class="delete_address">@lang('basic.delete')</a>
                                     </td>
                                     <td class="default_address">
                                         <!--两种情况，正式情况只能显示一种，且默认地址只有一个-->
                                         @if($address->is_default)
-                                            <a class="setDefaultAddress haddefault">默认地址</a>
+                                            <a class="setDefaultAddress haddefault">@lang('basic.address.Default address')</a>
                                         @else
                                             <a url="{{ route('user_addresses.set_default', $address->id) }}"
-                                               class="setDefaultAddress">设为默认地址</a>
+                                               class="setDefaultAddress">@lang('basic.address.Set to the default')</a>
                                         @endif
                                     </td>
                                 </tr>
@@ -86,18 +86,18 @@
             </div>
             <div class="dialog_textarea">
                 <div class="textarea_title">
-                    <span>提示</span>
+                    <span>@lang('app.Prompt')</span>
                 </div>
                 <div class="textarea_content">
                     <p>
                         <img src="{{ asset('img/warning.png') }}">
-                        <span>确定要删除此地址？</span>
+                        <span>@lang('basic.address.Are you sure you want to delete this address')</span>
                     </p>
                 </div>
             </div>
             <div class="btn_area">
-                <a class="cancel">取消</a>
-                <a class="success">确定</a>
+                <a class="success">@lang('app.determine')</a>
+                <a class="cancel">@lang('app.cancel')</a>
             </div>
         </div>
     </div>
@@ -108,17 +108,17 @@
             </div>
             <div class="dialog_textarea">
                 <div class="textarea_title">
-                    <span>提示</span>
+                    <span>@lang('app.Prompt')</span>
                 </div>
                 <div class="textarea_content">
                     <p>
                         <img src="{{ asset('img/warning.png') }}">
-                        <span>收货地址数量超过上限</span>
+                        <span>@lang('basic.address.The number of delivery addresses exceeds the upper limit')</span>
                     </p>
                 </div>
             </div>
             <div class="btn_area">
-                <a class="cancel">取消</a>
+                <a class="cancel">@lang('app.cancel')</a>
             </div>
         </div>
     </div>
@@ -130,7 +130,7 @@
             </div>
             <div class="dialog_textarea">
                 <div class="textarea_title">
-                    <span>新建地址</span>
+                    <span>@lang('basic.address.The new address')</span>
                 </div>
                 <div class="textarea_content">
                     <form method="POST" action="{{ route('user_addresses.store') }}" enctype="multipart/form-data"
@@ -139,23 +139,23 @@
                         <ul>
                             <li>
                                 <p>
-                                    <span class="input_name"><i>*</i>收货人：</span>
-                                    <input class="user_name" name="name" type="text" placeholder="输入收货人姓名">
+                                    <span class="input_name"><i>*</i>@lang('basic.address.The consignee')：</span>
+                                    <input class="user_name" name="name" type="text" placeholder="@lang('basic.address.Enter the consignee name')">
                                 </p>
                                 <p>
-                                    <span class="input_name"><i>*</i>手机号码：</span>
-                                    <input class="user_tel" name="phone" type="text" placeholder="输入真实有效的手机号">
+                                    <span class="input_name"><i>*</i>@lang('basic.address.Contact')：</span>
+                                    <input class="user_tel" name="phone" type="text" placeholder="@lang('basic.address.Enter the real and valid mobile phone number')">
                                 </p>
                             </li>
                             <li>
-                                <span class="input_name"><i>*</i>详细地址：</span>
-                                <textarea name="address" placeholder="详细地址，街道、门牌号等"></textarea>
+                                <span class="input_name"><i>*</i>@lang('basic.address.Detailed address')：</span>
+                                <textarea name="address" placeholder="@lang('basic.address.Detailed_address')"></textarea>
                             </li>
                             <li>
                                 <p class="default_address_set">
                                     <label>
                                         <input type="checkbox" name="is_default" class="setas_default">
-                                        <span>设为默认地址</span>
+                                        <span>@lang('basic.address.Set to the default')</span>
                                     </label>
                                 </p>
                             </li>
@@ -164,8 +164,8 @@
                 </div>
             </div>
             <div class="btn_area">
-                <a class="cancel">取消</a>
-                <a class="success">确定</a>
+            	<a class="success">@lang('app.determine')</a>
+                <a class="cancel">@lang('app.cancel')</a>
             </div>
         </div>
     </div>
@@ -177,7 +177,7 @@
             </div>
             <div class="dialog_textarea">
                 <div class="textarea_title">
-                    <span>编辑收获地址</span>
+                    <span>@lang('basic.address.Edit harvest address')</span>
                 </div>
                 <div class="textarea_content">
                     <!--这个表单的userAddress值是不确定的，需要根据点击的按钮对应的那一行数据的值-->
@@ -188,24 +188,24 @@
                         <ul>
                             <li>
                                 <p>
-                                    <span class="input_name"><i>*</i>收货人：</span>
-                                    <input class="user_name" name="name" type="text" placeholder="输入收货人姓名">
+                                    <span class="input_name"><i>*</i>@lang('basic.address.The consignee')：</span>
+                                    <input class="user_name" name="name" type="text" placeholder="@lang('basic.address.Enter the consignee name')">
                                 </p>
                                 <p>
-                                    <span class="input_name"><i>*</i>手机号码：</span>
-                                    <input class="user_tel" name="phone" type="text" placeholder="输入真实有效的手机号">
+                                    <span class="input_name"><i>*</i>@lang('basic.address.Contact')：</span>
+                                    <input class="user_tel" name="phone" type="text" placeholder="@lang('basic.address.Enter the real and valid mobile phone number')">
                                 </p>
                             </li>
                             <li>
-                                <span class="input_name"><i>*</i>详细地址：</span>
-                                <textarea name="address" placeholder="详细地址，街道、门牌号等"></textarea>
+                                <span class="input_name"><i>*</i>@lang('basic.address.Detailed address')：</span>
+                                <textarea name="address" placeholder="@lang('basic.address.Detailed_address')"></textarea>
                             </li>
                             <li>
                                 <p class="default_address_set">
                                     <label>
                                         <input type="checkbox" name="is_default" class="setas_default"
                                                id="edit_default">
-                                        <span>设为默认地址</span>
+                                        <span>@lang('basic.address.Set to the default')</span>
                                     </label>
                                 </p>
                             </li>
@@ -214,8 +214,8 @@
                 </div>
             </div>
             <div class="btn_area">
-                <a class="cancel">取消</a>
-                <a class="success">确定</a>
+                <a class="success">@lang('app.determine')</a>
+                <a class="cancel">@lang('app.cancel')</a>
             </div>
         </div>
     </div>
@@ -248,13 +248,13 @@
                 },
                 messages: {
                     name: {
-                        required: '请输入收货人姓名'
+                        required: "@lang('Please enter the consignee name')"
                     },
                     phone: {
-                        required: '请输入收货人联系方式'
+                        required: "@lang('Please enter the consignee contact information')"
                     },
                     address: {
-                        required: '请输入详细收货地址'
+                        required: "@lang('Please enter the detailed shipping address')"
                     }
                 }
             });
@@ -294,13 +294,13 @@
                 },
                 messages: {
                     name: {
-                        required: '请输入收货人姓名'
+                        required: "@lang('Please enter the consignee name')"
                     },
                     phone: {
-                        required: '请输入收货人联系方式'
+                        required: "@lang('Please enter the consignee contact information')"
                     },
                     address: {
-                        required: '请输入详细收货地址'
+                        required: "@lang('Please enter the detailed shipping address')"
                     }
                 }
             });

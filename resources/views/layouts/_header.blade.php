@@ -31,9 +31,9 @@
             </div>
             <div class="navbar-top-right pull-right">
                 @guest
-                <a class="login">登录</a>
-                <a class="register">注册</a>
-                <a class="about-us" href="{{ route('root') }}">关于我们</a>
+                <a class="login">@lang('app.Sign_in')</a>
+                <a class="register">@lang('app.Registered')</a>
+                <a class="about-us" href="{{ route('root') }}">@lang('app.About_us')</a>
                 @else
                     <a id="user_info_btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
                        class="user_name">{{ Auth::user()->name }}</a>
@@ -44,16 +44,16 @@
                                     <span>
                                         <img class="user_img" src="{{ Auth::user()->avatar_url }}">
                                     </span>
-                                <span>账户信息</span>
+                                <span>@lang('app.Account_information')</span>
                             </a>
                         </li>
                         <li>
                             <a href="{{ route('logout') }}"
-                               onclick="event.preventDefault();document.getElementById('logout-form').submit();">退出登录</a>
+                               onclick="event.preventDefault();document.getElementById('logout-form').submit();">@lang('app.Sign_out')</a>
                         </li>
                     </ul>
                     <img src="{{ asset('img/header/down_arrow.png') }}">
-                    <a class="about-us" href="{{ route('root') }}">关于我们</a>
+                    <a class="about-us" href="{{ route('root') }}">@lang('app.About_us')</a>
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                         {{ csrf_field() }}
                     </form>

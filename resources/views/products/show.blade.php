@@ -6,7 +6,7 @@
             <!--面包屑-->
             <div>
                 <p class="Crumbs">
-                    <a href="{{ route('root') }}">首页</a>
+                    <a href="{{ route('root') }}">@lang('basic.home')</a>
                     @if($category->parent)
                         <span>></span>
                         <a href="{{ route('product_categories.index', ['category' => $category->parent->id]) }}">{{ App::isLocale('en') ? $category->parent->name_en : $category->parent->name_zh }}</a>
@@ -58,25 +58,25 @@
                     <p class="small_title">{{ App::isLocale('en') ? $product->description_en : $product->description_zh }}</p>
                     <div class="price_service">
                         <p class="original_price">
-                            <span>原价</span>
+                            <span>@lang('product.product_details.the original price')</span>
                             <span><i>@lang('basic.currency.symbol') </i>{{ bcmul($product->price, 1.2, 2) }}</span>
                         </p>
                         <p class="present_price">
-                            <span>现价</span>
+                            <span>@lang('product.product_details.the current price')</span>
                             <span class="changePrice_num"><i>@lang('basic.currency.symbol') </i>{{ $product->price }}</span>
                         </p>
                         <p class="service">
-                            <span>服务</span>
-                            <span class="service-kind"><i>•</i>7天无理由退款</span>
-                            <span class="service-kind"><i>•</i>48小时快速退款</span>
+                            <span>@lang('product.product_details.service')</span>
+                            <span class="service-kind"><i>•</i>@lang('product.product_details.no reason for a refund within seven days')</span>
+                            <span class="service-kind"><i>•</i>@lang('product.product_details.Quick refund in 48 hours')</span>
                         </p>
                     </div>
                     <div class="priceOfpro">
-                        <span>运费</span>
+                        <span>@lang('product.product_details.freight')</span>
                         <span><i>@lang('basic.currency.symbol') </i>{{ $product->shipping_fee }}</span>
                     </div>
                     <div class="priceOfpro kindOfPro">
-                        <span>分类</span>
+                        <span>@lang('product.product_details.classification')</span>
                         <ul>
                             @foreach($skus as $sku)
                                 <li code_price='{{ $sku->price }}'>
@@ -87,7 +87,7 @@
                         </ul>
                     </div>
                     <div class="priceOfpro">
-                        <span class="buy_numbers">数量</span>
+                        <span class="buy_numbers">@lang('product.product_details.Quantity')</span>
                         <div class="quantity_control">
                             <span class="reduce no_allow"><i>-</i></span>
                             <input name="number" id="pro_num" type="number" value="1" min="1" max="99">
@@ -97,17 +97,17 @@
                     <!--添加购物车与立即购买-->
                     <div class="addCart_buyNow">
                         @guest
-                        <a class="buy_now for_show_login">立即购买</a>
-                        <a class="add_carts for_show_login">加入购物车</a>
+                        <a class="buy_now for_show_login">@lang('product.product_details.Buy now')</a>
+                        <a class="add_carts for_show_login">@lang('app.Add to Shopping Cart')<</a>
                         @else
-                            <a class="buy_now" data-url="{{ route('orders.pre_payment') }}">立即购买</a>
-                            <a class="add_carts" data-url="{{ route('carts.store') }}">加入购物车</a>
+                            <a class="buy_now" data-url="{{ route('orders.pre_payment') }}">@lang('product.product_details.Buy now')</a>
+                            <a class="add_carts" data-url="{{ route('carts.store') }}">@lang('app.Add to Shopping Cart')</a>
                             @endguest
                             <a class="add_favourites" code="{{ $product->id }}"
                                data-url="{{ route('user_favourites.store') }}"
                                data-url_2="{{ route('user_favourites.destroy', $product->id) }}">
                                 <span class="favourites_img"></span>
-                                <span>收藏</span>
+                                <span>@lang('product.product_details.Collection')</span>
                             </a>
                     </div>
                 </div>
@@ -137,8 +137,8 @@
             <div class="comments_details">
                 <div class="comments_details_left pull-left" id="list">
                     <ul class="tab">
-                        <li onclick="tabs('#list',0)" class="curr">热销榜</li>
-                        <li onclick="tabs('#list',1)">人气榜</li>
+                        <li onclick="tabs('#list',0)" class="curr">@lang('product.product_details.Hot sales')</li>
+                        <li onclick="tabs('#list',1)">@lang('product.product_details.Popular sales')</li>
                     </ul>
                     <div class="mc tabcon">
                         <ul class="pro-lists">
@@ -175,9 +175,9 @@
                 </div>
                 <div class="comments_details_right pull-left" id="comments_details">
                     <ul class="tab">
-                        <li onclick="tabs('#comments_details',0)" class="curr">商品详情</li>
+                        <li onclick="tabs('#comments_details',0)" class="curr">@lang('product.product_details.Commodity details')</li>
                         <li onclick="tabs('#comments_details',1)" class="shopping_eva"
-                            data-url="{{ route('products.comment',$product->id) }}">商品评价<strong>({{ $comment_count }}
+                            data-url="{{ route('products.comment',$product->id) }}">@lang('product.product_details.Commodity feedback')<strong>({{ $comment_count }}
                                 )</strong></li>
                     </ul>
                     <div class="mc tabcon product_info">
@@ -186,32 +186,32 @@
                     <div class="mc tabcon dis_n">
                         <ul class="comment-score">
                             <li>
-                                <span>综合评分</span>
+                                <span>@lang('product.product_details.Overall rating')</span>
                                 <h3 class="composite_index">4.8</h3>
                             </li>
                             <li>
-                                <span>描述相符</span>
+                                <span>@lang('product.product_details.Description match')</span>
                                 <h3 class="description_index">4.8</h3>
                             </li>
                             <li>
-                                <span>物流服务</span>
+                                <span>@lang('product.product_details.Logistics Services')</span>
                                 <h3 class="shipment_index">4.8</h3>
                             </li>
                         </ul>
                         <div class="comment-items">
                             <div class="items-title">
-                                <a class="active">商品评价<strong>({{ $comment_count }})</strong></a>
+                                <a class="active">@lang('product.product_details.Commodity feedback')<strong>({{ $comment_count }})</strong></a>
                                 <!--<a>图片评价</a>-->
                             </div>
                             <!--暂无评价-->
                             <div class="no_eva dis_n">
-                                <p>暂无评价信息</p>
+                                <p>@lang('product.product_details.No evaluation information yet')</p>
                             </div>
                         </div>
                         <!--分页-->
                         <div class="paging_box">
-                            <a class="pre_page" href="javascript:void(0)">上一页</a>
-                            <a class="next_page" href="javascript:void(0)">下一页</a>
+                            <a class="pre_page" href="javascript:void(0)">@lang('app.Previous page')</a>
+                            <a class="next_page" href="javascript:void(0)">@lang('app.Next page')</a>
                         </div>
                     </div>
                 </div>
@@ -337,7 +337,7 @@
         $(".add_carts").on("click", function () {
             var clickDom = $(this);
             if ($(".kindOfPro").find("li").hasClass('active') != true) {
-                layer.msg("请选择规格");
+                layer.msg("@lang('product.product_details.Shopping cart added successfully')");
             } else {
                 if ($(this).hasClass('for_show_login') == true) {
                     $(".login").click();
@@ -353,7 +353,7 @@
                         url: url,
                         data: data,
                         success: function (data) {
-                            layer.alert("购物车添加成功");
+                            layer.alert("@lang('product.product_details.Shopping cart added successfully')");
                             $(".header-search").load(location.href + " .header-search");
                         },
                         error: function (err) {
@@ -368,7 +368,7 @@
         $(".buy_now").on("click", function () {
             var clickDom = $(this);
             if ($(".kindOfPro").find("li").hasClass('active') != true) {
-                layer.msg("请选择规格");
+                layer.msg("@lang('product.product_details.Please select specifications')");
             } else {
                 if ($(this).hasClass('for_show_login') == true) {
                     $(".login").click();
@@ -388,7 +388,7 @@
                 type: "get",
                 url: url,
                 beforeSend: function () {
-                    loading_animation = layer.msg('加载中请稍候', {
+                    loading_animation = layer.msg("@lang('app.Please wait')", {
                         icon: 16,
                         shade: 0.4,
                         time: false //取消自动关闭

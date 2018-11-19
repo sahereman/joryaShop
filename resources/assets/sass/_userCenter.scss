@@ -11,16 +11,16 @@
             background-color: #fff;
             overflow: hidden;
             li {
-                width: 98px;
+                width: 110px;
                 height: 98px;
                 float: left;
-                margin: 50px 75px;
-                margin: 30px 39px;
+                margin: 30px 30px;
                 text-align: center;
                 transition: all .2s;
                 &:first-of-type {
-                    margin-left: 45px;
-                    width: 210px;
+                    margin-left: 20px;
+                    margin-right: 5px;
+                    width: 280px;
                     text-align: left;
                     position: relative;
                     &:hover {
@@ -33,7 +33,7 @@
                         border: 0px;
                         border-right: 1px dashed #e7e7e7;
                         position: absolute;
-                        left: 120%;
+                        left: 110%;
                     }
                 }
                 .user_img {
@@ -42,8 +42,8 @@
                     border-radius: 50%;
                     overflow: hidden;
                     float: left;
-                    margin-right: 25px;
-                    margin-top: 20px;
+                    margin-right: 15px;
+                    margin-top: 16px;
                     img {
                         width: 100%;
                         height: 100%;
@@ -71,8 +71,9 @@
             overflow: hidden;
             margin-top: 20px;
             li {
+                min-width: 115px;
                 float: left;
-                margin: 20px 90px;
+                margin: 20px 65px;
                 text-align: center;
                 transition: all .2s;
                 span {
@@ -589,7 +590,7 @@
                 }
                 a {
                     display: block;
-                    width: 145px;
+                    width: 190px;
                     height: 40px;
                     margin: auto;
                     color: #bababa;

@@ -5,30 +5,30 @@
         <div class="m-wrapper">
             <div class="carts">
                 <p class="Crumbs">
-                    <a href="{{ route('root') }}">首页</a>
+                    <a href="{{ route('root') }}">@lang('basic.home')</a>
                     <span>></span>
-                    <a href="#">购物车</a>
+                    <a href="#">@lang('product.shopping_cart.Shop_cart')</a>
                 </p>
-                @if(!$carts)
+                @if($carts->isEmpty())
                         <!--当购物车内容为空时显示-->
                 <div class="empty_shopping_cart">
                     <div></div>
-                    <p>购物车还是空滴</p>
-                    <a href="{{ route('root') }}">去逛逛</a>
+                    <p>@lang('product.shopping_cart.shopping_cart_still_empty')</p>
+                    <a href="{{ route('root') }}">@lang('product.shopping_cart.Go_shopping')</a>
                 </div>
                 @else
                         <!--购物车有商品时显示下方内容包括cart-header，cart-items，cart-footer-->
                 <div class="cart-header">
                     <div class="left w130">
                         <input id="selectAll" class="selectAll" type="checkbox">
-                        <label for="selectAll">全选</label>
+                        <label for="selectAll">@lang('product.shopping_cart.all_selected')</label>
                     </div>
-                    <div class="left w250">商品信息</div>
-                    <div class="left w120 center">规格</div>
-                    <div class="left w100 center">单价</div>
-                    <div class="left w150 center">数量</div>
-                    <div class="left w100 center">小计</div>
-                    <div class="left w120 center">操作</div>
+                    <div class="left w250">@lang('product.shopping_cart.Product_information')</div>
+                    <div class="left w120 center">@lang('product.shopping_cart.Specifications')</div>
+                    <div class="left w100 center">@lang('product.shopping_cart.Unit_price')</div>
+                    <div class="left w150 center">@lang('product.shopping_cart.Quantity')</div>
+                    <div class="left w100 center">@lang('product.shopping_cart.Subtotal')</div>
+                    <div class="left w120 center">@lang('product.shopping_cart.Operating')</div>
                 </div>
                 <div class="cart-items">
                     @foreach($carts as $cart)
@@ -56,8 +56,8 @@
                             <div class="left w100 s_total center">{{ App::isLocale('en') ? '&#36;' : '&yen;' }} <span>{{ bcmul($cart->sku->price, $cart->number, 2) }}</span></div>
                             <div class="left w120 center">
                                 <p>
-                                    <a class="cur_p add_favorites"  code = "{{ $cart->sku->product_id }}" data-url = "{{ route('user_favourites.store') }}">加入收藏夹</a>
-                                    <a class="cur_p single_delete" data-url = "{{ route('carts.destroy', $cart->id) }}">删除</a>
+                                    <a class="cur_p add_favorites"  code = "{{ $cart->sku->product_id }}" data-url = "{{ route('user_favourites.store') }}">@lang('product.shopping_cart.Move_to_favorites')</a>
+                                    <a class="cur_p single_delete" data-url = "{{ route('carts.destroy', $cart->id) }}">@lang('basic.delete')</a>
                                 </p>
                             </div>
                         </div>
@@ -67,9 +67,9 @@
                     <div class="clear left left-control">
                         <div class="left w100">
                             <input id="selectAll-2" class="selectAll" type="checkbox">
-                            <label for="selectAll-2">全选</label>
+                            <label for="selectAll-2">@lang('product.shopping_cart.all_selected')</label>
                         </div>
-                        <a id="clearSelected" href="javascript:void(0);" data-url = "{{ route('carts.flush') }}">清空购物车</a>
+                        <a id="clearSelected" href="javascript:void(0);" data-url = "{{ route('carts.flush') }}">@lang('product.shopping_cart.empty_cart')</a>
                         <!--随时解注-->
                         <!--<a id="clearInvalid" href="javascript:void(0);">清空失效商品</a>-->
                     </div>
@@ -77,9 +77,9 @@
                         <!--<span>总共选中了<span id="totalCount">0</span>件商品</span>-->
                         <span>合计: <span id="totalPrice">{{ App::isLocale('en') ? '&#36;' : '&yen;' }}0.00</span></span>
                         @guest
-                    	    <button class="big-button for_show_login">结算</button>
+                    	    <button class="big-button for_show_login">@lang('product.shopping_cart.Settlement')</button>
 						@else
-						    <button class="big-button" data-url="{{ route('orders.pre_payment') }}">结算</button>
+						    <button class="big-button" data-url="{{ route('orders.pre_payment') }}">@lang('product.shopping_cart.Settlement')</button>
 						@endguest
                     </div>
                 </div>
@@ -94,6 +94,7 @@
         $(function () {
         	var action = "";
 		    var sku_id = [];
+		    var CONUTRY = $("#dLabel").find("span").html();
 //		    $(document).ready(function(){
 				if (getUrlVars() != undefined) {
 		            action = getUrlVars();
@@ -130,13 +131,38 @@
             // 为删除选中商品超链接绑定事件回调(清空购物车)
             $('#clearSelected').on('click', function () {
             	var clickDom = $(this);
-                layer.alert('确定要清空购物车吗', function (index) {
+//              layer.alert((CONUTRY == "中文") ? '确定要清空购物车吗' : 'Are you sure you want to empty the shopping cart?', function (index) {
 //                  $('.single-item').each(function () {
 //                      if ($(this).find('input[name="selectOne"]').prop('checked')) {
 //                          $(this).remove();
 //                      }
 //                  });
-                    var data = {
+//                  var data = {
+//	                    _method: "DELETE",
+//	                    _token: "{{ csrf_token() }}",
+//	                };
+//	                var url = clickDom.attr('data-url');
+//	                $.ajax({
+//	                    type: "post",
+//	                    url: url,
+//	                    data: data,
+//	                    success: function (data) {
+//	                    	$('.selectAll').prop('checked', false);
+//	                    	location.reload();
+//	                        calcTotal();
+//                          layer.close(index);
+//	                    },
+//	                    error: function (err) {
+//	                        console.log(err);
+//	                    }
+//	                });
+//              });
+                var index = layer.open({
+				  title: "@lang('app.Prompt')",
+				  content: "@lang('product.shopping_cart.sure_to_empty_cart')",
+				  btn: ["@lang('app.determine')","@lang('app.cancel')"],
+				  yes:function(){
+				  	 var data = {
 	                    _method: "DELETE",
 	                    _token: "{{ csrf_token() }}",
 	                };
@@ -155,7 +181,11 @@
 	                        console.log(err);
 	                    }
 	                });
-                });
+				  },
+				  btn2:function(){
+				  	layer.close(index);
+				  }
+				});    
             });
             // 为减少和添加商品数量的按钮绑定事件回调
             $('.single-item button').on('click', function (evt) {
@@ -167,7 +197,7 @@
                         $(this).next().val(count);
                         update_pro_num($(this).next());
                     } else {
-                        layer.msg('商品数量最少为1');
+                        layer.msg((CONUTRY == "中文") ? '商品数量最少为1' : 'The number of goods is at least 1');
                     }
                 } else {
                     var count = parseInt($(this).prev().val());
@@ -176,7 +206,7 @@
                         $(this).prev().val(count);
                         update_pro_num($(this).prev());
                     } else {
-                        layer.msg('商品数量最少为1');
+                        layer.msg((CONUTRY == "中文") ? '商品数量最少为1' : 'The number of goods is at least 1');
                     }
                 }
                 var price = parseFloat($(this).parent().prev().find('span').text());
@@ -186,8 +216,31 @@
             // 为单个商品项删除超链接绑定事件回调
             $('.single-item').on('click',".single_delete",function () {
                 var clickDom = $(this);
-                layer.alert('确定要删除该商品吗', function (index) {
-                    var data = {
+//              layer.alert((CONUTRY == "中文") ? '确定要删除该商品吗' : 'Are you sure you want to delete the product?', function (index) {
+//                  var data = {
+//	                    _method: "DELETE",
+//	                    _token: "{{ csrf_token() }}",
+//	                };
+//	                var url = clickDom.attr('data-url');
+//	                $.ajax({
+//	                    type: "post",
+//	                    url: url,
+//	                    data: data,
+//	                    success: function (data) {
+//	                        calcTotal();
+//                          layer.close(index);
+//	                    },
+//	                    error: function (err) {
+//	                        console.log(err);
+//	                    }
+//	                });
+//              });
+                var index = layer.open({
+				  title: "@lang('app.Prompt')",
+				  content: "@lang('product.shopping_cart.sure_to_delete_product')",
+				  btn: ["@lang('app.determine')","@lang('app.cancel')"],
+				  yes:function(){
+				  	var data = {
 	                    _method: "DELETE",
 	                    _token: "{{ csrf_token() }}",
 	                };
@@ -197,6 +250,7 @@
 	                    url: url,
 	                    data: data,
 	                    success: function (data) {
+	                    	location.reload();
 	                        calcTotal();
                             layer.close(index);
 	                    },
@@ -204,7 +258,11 @@
 	                        console.log(err);
 	                    }
 	                });
-                });
+				  },
+				  btn2:function(){
+				  	layer.close(index);
+				  }
+				});    
             });
             //加入收藏夹
             $('.single-item').on('click',".add_favorites",function () {
@@ -220,7 +278,11 @@
                     data: data,
                     success: function (data) {
                         calcTotal();
-                        layer.alert('成功加入收藏夹');
+                        layer.open({
+						  title: "@lang('app.Prompt')",
+						  content: "@lang('product.shopping_cart.Add_favorites_successfully')",
+						  btn: "@lang('app.determine')"
+						});     
                     },
                     error: function (e) {
                         console.log(e);
@@ -235,7 +297,7 @@
                 $(this).parent().parent().find('input[name="selectOne"]').prop('checked', true);
                 var count = parseInt($(this).val());
                 if (count != $(this).val() || count < 1 || count > 200) {
-                    layer.msg('无效的商品数量值');
+                    layer.msg("@lang('product.invalid_commodity_quantity')");
                     count = 1;
                     $(this).val(count);
                 }
@@ -298,7 +360,11 @@
 	        		$(".login").click();
 	        	}else {
 	        		if(clickDom.hasClass("active")!=true){
-	        			layer.alert("请选择结算商品");
+	        			layer.open({
+						  title: "@lang('app.Prompt')",
+						  content: "@lang('product.choose_settlement')",
+						  btn: "@lang('app.determine')"
+						});     
 	        		}else {
 	        			var cart_ids = "";
 	        			var cartIds = $(".cart-items").find("input[name='selectOne']:checked");
@@ -310,7 +376,11 @@
 			        		var url = clickDom.attr('data-url');
 			        		window.location.href = url+"?cart_ids="+cart_ids+"&sendWay=2";
 	        			}else {
-	        				layer.alert("请选择结算商品");
+	        				layer.open({
+							  title: "@lang('app.Prompt')",
+							  content: "@lang('product.choose_settlement')",
+							  btn: "@lang('app.determine')"
+							});     
 	        			}
 	        		}
 	        	}	

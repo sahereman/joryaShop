@@ -5,11 +5,11 @@
         <div class="m-wrapper">
             <div>
                 <p class="Crumbs">
-                    <a href="{{ route('root') }}">首页</a>
+                    <a href="{{ route('root') }}">@lang('basic.home')</a>
                     <span>></span>
-                    <a href="{{ route('users.home') }}">个人中心</a>
+                    <a href="{{ route('users.home') }}">@lang('basic.users.Personal_Center')</a>
                     <span>></span>
-                    <a href="{{ route('users.edit', ['user' => $user->id]) }}">账户信息</a>
+                    <a href="{{ route('users.edit', ['user' => $user->id]) }}">@lang('basic.users.Account_information')</a>
                 </p>
             </div>
             <!--左侧导航栏-->
@@ -17,7 +17,7 @@
                     <!--右侧内容-->
             <div class="UserInfo_content">
                 <div class="UserInfo_content_title">
-                    <p>编辑账户信息</p>
+                    <p>@lang('basic.users.Edit_account_information')</p>
                 </div>
                 <div class="edit_content">
                     <form method="POST" action="{{ route('users.update', ['user' => $user->id]) }}" enctype="multipart/form-data" id="img_form">
@@ -26,7 +26,7 @@
 
                         <ul>
                             <li class="user_header_img">
-                                <span>头像</span>
+                                <span>@lang('basic.users.User_profile_picture')</span>
                                 <div class="user_Avatar">
                                     <img src="{{ $user->avatar_url }}" width="80">
                                     <input type="file" name="avatar" value="{{ $user->avatar_url }}" id="upload_head" onchange="imgChange(this)">
@@ -35,41 +35,41 @@
                                 <img src="{{ asset('img/photograph.png') }}" class="photograph">
                             </li>
                             <li>
-                                <span>用户名</span>
-                                <input type="text" name="name" value="{{ $user->name }}" placeholder="用户名用于登录" readonly
+                                <span>@lang('basic.users.Username')</span>
+                                <input type="text" name="name" value="{{ $user->name }}" placeholder="@lang('basic.users.Username')" readonly
                                        required>
                             </li>
                             <li>
-                                <span>真实姓名</span>
-                                <input type="text" name="real_name" value="{{ $user->real_name }}" placeholder="输入真实姓名">
+                                <span>@lang('basic.users.Real_name')</span>
+                                <input type="text" name="real_name" value="{{ $user->real_name }}" placeholder="@lang('basic.users.Real_name')">
                             </li>
                             <li class="sexChoose">
-                                <span>性别</span>
+                                <span>@lang('basic.users.Gender')</span>
                                 <div>
                                     @if($user->gender == null || $user->gender == 'male')
                                         <label>
-                                            <input type="radio" name="gender" value="male" class="radioclass" checked>男
+                                            <input type="radio" name="gender" value="male" class="radioclass" checked>@lang('basic.users.Male')
                                         </label>
                                         <label>
-                                            <input type="radio" name="gender" value="female" class="radioclass">女
+                                            <input type="radio" name="gender" value="female" class="radioclass">@lang('basic.users.Female')
                                         </label>
                                     @else
                                         <label>
-                                            <input type="radio" name="gender" value="male" class="radioclass">男
+                                            <input type="radio" name="gender" value="male" class="radioclass">@lang('basic.users.Male')
                                         </label>
                                         <label>
-                                            <input type="radio" name="gender" value="female" class="radioclass" checked>女
+                                            <input type="radio" name="gender" value="female" class="radioclass" checked>@lang('basic.users.Female')
                                         </label>
                                     @endif
                                 </div>
                             </li>
                             <li>
                                 <span>QQ</span>
-                                <input type="text" name="qq" value="{{ $user->qq }}" placeholder="输入QQ账号">
+                                <input type="text" name="qq" value="{{ $user->qq }}" placeholder="@lang('basic.users.Enter_QQ_account')">
                             </li>
                             <li>
-                                <span>微信</span>
-                                <input type="text" name="wechat" value="{{ $user->wechat }}" placeholder="输入微信账号">
+                                <span>@lang('basic.users.Wechat')</span>
+                                <input type="text" name="wechat" value="{{ $user->wechat }}" placeholder="@lang('basic.users.Enter_WeChat_account')">
                             </li>
                             <!--<li>
                                 <span>国家|地区码</span>
@@ -81,11 +81,11 @@
                             </li>-->
                             <li>
                                 <span>Facebook</span>
-                                <input type="text" name="facebook" value="{{ $user->facebook }}" placeholder="输入Facebook账号">
+                                <input type="text" name="facebook" value="{{ $user->facebook }}" placeholder="@lang('basic.users.Enter_your_Facebook_account')">
                             </li>
                             <li>
-                                <span>邮箱</span>
-                                <input type="email" name="email" value="{{ $user->email }}" placeholder="邮箱可用于登录"
+                                <span>@lang('basic.users.email_address')</span>
+                                <input type="email" name="email" value="{{ $user->email }}" placeholder="@lang('basic.users.Enter_email_address')"
                                        required>
                             </li>
                             <!--<li>
@@ -97,7 +97,7 @@
                             <input type="password" name="password_confirmation" value="{{ $user->password }}">
                         </li>-->
                         </ul>
-                        <button type="submit">保存</button>
+                        <button type="submit">@lang('basic.users.Save')</button>
                     </form>
                 </div>
             </div>
@@ -128,7 +128,11 @@
                     UpLoadImg();
 	            }else{
 	                $(".showFileName").html("");
-	                $(".fileerrorTip").html("您未选择图片，或者您上传文件格式有误！（当前支持图片格式：jpg，png，jpeg，gif，bmp）").show();
+	                layer.open({
+					  title: "@lang('app.Prompt')",
+					  content: "@lang('app.picture_type_error')",
+					  btn: "@lang('app.determine')"
+					});     
 	                upLoadBtnSwitch = 0;
 	                return false 
 	            }
