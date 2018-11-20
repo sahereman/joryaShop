@@ -155,14 +155,20 @@ Route::group(['middleware' => 'auth'], function () {
     /*支付*/
     Route::get('payments/{order}/alipay', 'PaymentsController@alipay')->name('payments.alipay'); // Alipay 支付页面
     Route::get('payments/{order}/wechat', 'PaymentsController@wechat')->name('payments.wechat'); // Wechat 支付页面
-    Route::get('payments/{order}/paypal', 'PaymentsController@paypal')->name('payments.paypal'); // PayPal 支付页面
+    Route::get('payments/{order}/paypal/create', 'PaymentsController@paypalCreate')->name('payments.paypal.create'); // PayPal: create a payment
+    Route::get('payments/{order}/paypal/get', 'PaymentsController@paypalGet')->name('payments.paypal.get'); // PayPal: get the info of a payment
+    Route::get('payments/paypal/execute', 'PaymentsController@paypalExecute')->name('payments.paypal.execute'); // PayPal: execute[approve|cancel] a payment
 
     /*支付回调 [return_url]*/
     Route::get('payments/alipay/return', 'PaymentsController@alipayReturn')->name('payments.alipay.return'); // Alipay 支付回调
-    Route::get('payments/paypal/return', 'PaymentsController@paypalReturn')->name('payments.paypal.return'); // PayPal 支付回调
 
-    Route::get('payments/{order}/success', 'PaymentsController@success')->name('payments.success'); // 通用 - 支付成功页面
+    /*退款*/
+    Route::get('payments/{order}/alipay/refund', 'PaymentsController@alipayRefund')->name('payments.alipay.refund'); // Alipay 退款
+    Route::get('payments/{order}/wechat/refund', 'PaymentsController@wechatRefund')->name('payments.wechat.refund'); // Wechat 退款
+    Route::get('payments/{order}/paypal/refund', 'PaymentsController@paypalRefund')->name('payments.paypal.refund'); // Paypal 退款
 
+    /*支付成功: Wechat & Paypal*/
+    Route::get('payments/{order}/success', 'PaymentsController@success')->name('payments.success'); // 通用 - 支付成功页面 [Wechat & Paypal]
 });
 
 /*首页*/
@@ -208,9 +214,5 @@ Route::post('payments/alipay/notify', 'PaymentsController@alipayNotify')->name('
 Route::post('payments/wechat/notify', 'PaymentsController@wechatNotify')->name('payments.wechat.notify'); // Wechat 支付成功通知 [notify_url]
 Route::post('payments/paypal/notify', 'PaymentsController@paypalNotify')->name('payments.paypal.notify'); // PayPal 支付成功通知 [notify_url]
 
-// for test:
-Route::get('payments/alipay/refund', 'PaymentsController@alipayRefund')->name('payments.alipay.refund'); // Alipay 退款
-Route::get('payments/wechat/refund', 'PaymentsController@wechatRefund')->name('payments.wechat.refund'); // Wechat 退款
-Route::get('payments/paypal/refund', 'PaymentsController@paypalRefund')->name('payments.paypal.refund'); // Paypal 退款
-
+/*手机端 - 微信浏览器内获取用户 open id*/
 Route::get('payments/get_wechat_open_id', 'PaymentsController@getWechatOpenId')->name('payments.get_wechat_open_id'); // get wechat open_id
