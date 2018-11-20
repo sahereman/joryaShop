@@ -1,0 +1,207 @@
+.commentBox{
+    position: relative;
+    top: 3rem;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #f4f4f4;
+    padding: .7rem 0;
+    .ordDetail{
+        padding: .7rem .5rem .7rem 1rem;
+        border-bottom: 1px solid #e0e0e0;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        background: #fff;
+        img{
+            width: 5rem;
+            height: 5rem;
+            margin-right: .7rem;
+        }
+        .ordDetailName{
+            width: 15.5rem;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        @media screen and (max-width: 325px) {
+            .ordDetailName{
+                width: 12.5rem;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+        }
+        @media screen and (min-width: 376px){
+            .ordDetailName{
+                width: 17.5rem;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+        }
+        .ordDetailPri{
+            margin-top: 1rem;
+            font-weight: bold;
+        }
+    }
+    .commentCon{
+        border-bottom: 1px solid #e0e0e0;
+        textarea{
+            border: none;
+            width: 100%;
+            padding-left: 1rem;
+            padding-top: .5rem;
+            font-size: .75rem;
+        }
+        .goodspicture{
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content:   flex-start;
+            align-items: center;
+            background: #fff;
+            padding: .5rem 1rem 1.1rem;
+            margin-top: -.4rem;
+            .goodsChoice{
+                width: 4.2rem;
+                height: 4.2rem;
+                border: 1px  dashed #dbdbdb;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                margin-bottom: .5rem;
+                img{
+                   width: 1.2rem;
+                   height: 1.2rem; 
+                }
+                span{
+                    font-size: .7rem;
+                    color: #acacac;
+                    margin-top: .2rem;
+                }
+            }
+            .goodsItem{
+                width: 4.2rem;
+                height: 4.2rem;
+                position: relative;
+                margin-right: .7rem;
+                margin-bottom: .5rem;
+                .goodsItemPicImg{
+                    width: 100%;
+                    height: 100%;
+                }
+                .closeImg{
+                    position: absolute;
+                    top: -.4rem;
+                    right: -.4rem;
+                    width: 1rem;
+                    height: 1rem;
+                }
+            }
+        }
+        
+    }
+    .commentScore{
+        background: #fff;
+        .commentScoreTitle{
+            padding: .7rem 1rem;
+            font-size: .95rem;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .commentScoreMain{
+            background: #FFF;
+            padding: .7rem 3rem .7rem 1rem;
+            .commentScoreItem{
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+                height: 1.6rem;
+                color: #666666;
+                .star{
+                        img{
+                            width: 1.2rem;
+                            margin-right: .5rem;
+                        }
+                }
+            }
+            
+        }
+    }
+    .fixedBtn{
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            background: #fff;
+            padding: .7rem 0;
+      button{
+             display: inline-block;
+            width: 90%;
+            text-align: center;
+            height: 2.4rem;
+            line-height: 2.4rem;
+            background: #bd8c61;
+            color: #fff;
+            border-radius: 1.5rem;
+            border: none;
+      }  
+    }
+}
+
+//查看评价页面样式
+.showCommentBox{
+    .commentDetail{
+        background: #fff;
+        padding: .7rem 1rem;
+        .comUser{
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            align-items: center;
+            .userHead{
+                width: 2.2rem;
+                height: 2.2rem;
+            }
+            .starBox{
+                padding-bottom: .3rem;
+                img{
+                    width: 1rem;
+                    
+                }
+            }
+            span{
+                font-size: 1rem;
+                margin: 0 1rem 0 .5rem;
+            }    
+        }
+        .comSku{
+            font-size: .7rem;
+            color: #989898;
+            margin-top: .8rem;
+            margin-bottom: 1rem;
+        }
+        .comCon{
+            color: #666666;
+        }
+        .comPicture{
+            margin-top: 1rem;
+            img{
+                width: 6.9rem;
+                height: 8rem;
+                border: 1px solid #ebebeb;
+                margin-bottom: .5rem;
+                box-sizing: border-box;
+            }
+        }
+        .comDate{
+            font-size: .7rem;
+            color: #989898;
+        }
+    }
+}
+
+

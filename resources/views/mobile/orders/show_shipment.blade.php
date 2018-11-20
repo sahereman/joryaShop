@@ -1,5 +1,5 @@
 @extends('layouts.mobile')
-
+@section('title', '物流详情')
 @section('content')
     {{--如果需要引入子视图--}}
     {{--@include('layouts._header')--}}

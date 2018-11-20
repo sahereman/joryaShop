@@ -26,6 +26,10 @@ html{
       /* placeholder颜色  */
      color: #ababab;
 }
+.must:before {
+  content: "*";
+  color: #f95b5c;
+}
 //部分页面头标题样式
 .headerBar{
     padding: .6rem 1rem;
@@ -52,3 +56,4 @@ html{
 @import "address";
 @import "favourites";
 @import "orderDetail";
+@import "comment";

@@ -12,7 +12,8 @@
     <!-- 样式 -->
     <link href="{{ asset('static_m/css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('js/swiper/css/swiper_m.min.css') }}" rel="stylesheet">
-
+	<link href="{{ asset('static_m/js/raty/jquery.raty.css') }}" rel="stylesheet">
+		
 </head>
 <body>
 <div id="app" class="{{ route_class() }}-page">
@@ -23,6 +24,7 @@
 <script src="{{ asset('static_m/js/app.js') }}"></script>
 <script src="{{ asset('js/swiper/js/swiper_m.min.js') }}"></script>
 <script src="{{ asset('static_m/js/layer_mobile/layer.js') }}"></script>
+<script src="{{ asset('static_m/js/raty/jquery.raty.js') }}"></script>
 
 @yield('scriptsAfterJs')
 </body>
