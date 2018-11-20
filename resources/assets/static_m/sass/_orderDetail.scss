@@ -1,0 +1,178 @@
+.orderDetailBox{
+    .orderDHead{
+        width: 100%;
+        height: 8rem;
+        background:-webkit-linear-gradient(180deg,#957e5f,#c7b192);
+        margin-top: 3rem;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 1.5rem 1.5rem 2rem;
+        color: #fff;
+        font-size: 1rem;
+        .odrHeadLeft{
+            img{
+                width: 1.5rem;
+            }
+            .odrLeftS{
+                font-size: .85rem;
+                margin-left: 2rem;
+            }
+        }
+        .odrHeadRight{
+            div{
+                text-align: right;
+            }    
+            .odrHeadRightPri{
+                font-size: .85rem;
+                margin-top: .2rem;
+            }
+            img{
+                width: 4rem;
+            }
+        }
+    }
+    .ordUser{
+        width: 90%;
+        margin: -3rem auto 0;
+        border-radius: .4rem;
+        background: #fff;
+        box-shadow: 0px 4px 10px #d3d0d0;
+        .ordUserInfo{
+            padding: 1.3rem 1rem;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            img{
+                width: 1rem;
+                height: 1.4rem;
+                margin-right: .5rem;
+            }
+        }
+        .orderUserLogistics{
+            padding: 1.1rem 1rem;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            border-bottom: 1px solid #e0e0e0;
+            img{
+                width: 1.3rem;
+                height: 1.1rem;
+                margin-right: .5rem;
+            }
+            .ordUserInfoRight{
+                position: relative;
+                .logisticsBox{
+                    color: #3f8fd4;
+                }
+                .logisticsDate{
+                    color: #999999;
+                }
+                img{
+                    position: absolute;
+                    right: -1rem;
+                    top: 1.6rem;
+                    width: .5rem;
+                    height: .8rem;
+                }
+            }
+        }
+    }
+    .ordDetail{
+        padding: .7rem .5rem .7rem 1.3rem;
+        border-top: 1px solid #e0e0e0;
+        margin-top: 1rem;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        img{
+            width: 5rem;
+            height: 5rem;
+            margin-right: .7rem;
+        }
+        .ordDetailName{
+            width: 15.5rem;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        @media screen and (max-width: 325px) {
+            .ordDetailName{
+                width: 12.5rem;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+        }
+        @media screen and (min-width: 376px){
+            .ordDetailName{
+                width: 17.5rem;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+        }
+        .ordDetailPri{
+            margin-top: 1rem;
+            font-weight: bold;
+        }
+    }
+    .ordDetailCode{
+        padding: .7rem 0;
+        background: #f4f4f4;
+        div:first-child{
+            background: #fff;
+            padding: 1rem 1rem 0;
+        }
+        div:last-child{
+            background: #fff;
+            padding: .7rem 1rem 1rem;
+        }
+    }
+    .ordPriBox{
+        padding:  1rem;
+        .ordPriItem{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+        }
+    }
+    .ordDetailRealPri{
+        padding: .5rem 1rem;
+        border-bottom: 1px solid #eeeeee;
+        border-top: 1px solid #eeeeee;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        align-items: flex-end;
+        span{
+            font-size: 1.3rem;
+            color: #c49976;
+            margin-left: .5rem;
+        }
+    }
+    .ordDetailBtn{
+        padding: 1rem;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        align-items: center;
+        button{
+            background: #fff;
+            
+            border-radius: 1rem;
+            font-size: .65rem;
+            padding: .25rem .6rem .2rem;
+            margin-left: .5rem;
+        }
+        .ordDetailBtnC{
+            color: #666666;
+            border: 1px solid #666666;
+        }
+        .ordDetailBtnS{
+            border: 1px solid #c39a75;
+            color: #c39a75;
+        }
+    }
+}
