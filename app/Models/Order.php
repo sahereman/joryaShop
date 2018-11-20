@@ -61,6 +61,12 @@ class Order extends Model
         'total_shipping_fee',
         'total_amount',
         'remark',
+        'paid_at',
+        'closed_at',
+        'shipped_at',
+        'completed_at',
+        'commented_at',
+        'deleted_at',
     ];
 
     /**

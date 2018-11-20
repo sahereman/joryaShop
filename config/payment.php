@@ -46,6 +46,7 @@ return [
         // optional，设置此参数，将进入沙箱模式
         // 'mode' => 'dev',
         // 'mode' => 'normal',
+        // 'mode' => env('APP_ENV', 'production') == 'production' ? 'normal' : 'dev',
         'mode' => 'dev',
 
         // TODO ... (for production)
@@ -113,7 +114,9 @@ return [
         // 'mode' => 'dev',
         // 'mode' => 'dev', // optional, dev/hk;当为 `hk` 时，为香港 gateway。
         // 'mode' => 'normal', // optional, dev/hk;当为 `hk` 时，为香港 gateway。
-        'mode' => 'service', // optional, dev/hk;当为 `hk` 时，为香港 gateway。
+        // 'mode' => 'service', // optional, dev/hk;当为 `hk` 时，为香港 gateway。
+        // 'mode' => env('APP_ENV', 'production') == 'production' ? 'normal' : 'dev',
+        'mode' => 'normal', // optional, dev/hk;当为 `hk` 时，为香港 gateway。
 
         // TODO ... (for production)
         /*
@@ -159,6 +162,7 @@ return [
         'redirect_urls' => [
             'return_url' => env('APP_URL', $url) . '/payments/paypal/execute',
             'cancel_url' => env('APP_URL', $url) . '/payments/paypal/execute',
+            // 'notify_url' => env('APP_URL', $url) . '/payments/paypal/notify',
         ],
 
         'log' => [
@@ -168,8 +172,9 @@ return [
         ],
 
         // MODE: sandbox or live
-        // 'mode' => env('PAYPAL_ENVIRONMENT', 'live'),
-        'mode' => env('PAYPAL_ENVIRONMENT', 'sandbox'),
+        // 'mode' => env('PAYPAL_ENVIRONMENT', 'sandbox'),
+        // 'mode' => env('APP_ENV', 'production') == 'production' ? 'live' : 'sandbox',
+        'mode' => env('PAYPAL_ENVIRONMENT', 'live'),
 
         // Scenarios: sandbox | live
         'sandbox' => [

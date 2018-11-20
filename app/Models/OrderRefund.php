@@ -39,6 +39,10 @@ class OrderRefund extends Model
         'shipment_company',
         'photos_for_refund',
         'photos_for_shipment',
+        'checked_at',
+        'shipped_at',
+        'refunded_at',
+        'declined_at',
     ];
 
     /**

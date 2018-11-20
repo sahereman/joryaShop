@@ -17,13 +17,10 @@ use PayPal\Api\Payment;
 use PayPal\Api\PaymentExecution;
 use PayPal\Api\RedirectUrls;
 use PayPal\Api\Sale;
-use PayPal\Api\ShippingAddress;
 use PayPal\Api\Transaction;
 use PayPal\Auth\OAuthTokenCredential;
-use PayPal\Exception\PayPalConnectionException;
 use PayPal\Rest\ApiContext;
 use PayPal\Transport\PayPalRestCall;
-use PHPUnit\TextUI\ResultPrinter;
 use Yansongda\Pay\Pay;
 
 class PaymentsController extends Controller
@@ -90,7 +87,7 @@ class PaymentsController extends Controller
 
         $order->update([
             'status' => Order::ORDER_STATUS_SHIPPING,
-            'paid_at' => now(), // 支付时间
+            'paid_at' => Carbon::now()->toDateTimeString(), // 支付时间
             'payment_method' => 'alipay', // 支付方式
             'payment_sn' => $data->trade_no, // 支付宝订单号
         ]);
@@ -148,7 +145,7 @@ class PaymentsController extends Controller
         // 将退款订单的状态标记为退款成功并保存退款時間
         $order->refund->update([
             'status' => OrderRefund::ORDER_REFUND_STATUS_REFUNDED,
-            'refunded_at' => now(), // 退款时间
+            'refunded_at' => Carbon::now()->toDateTimeString(), // 退款时间
         ]);
 
         Log::info('A New Alipay Refund Completed: order refund id - ' . $order->refund->id);
@@ -233,7 +230,7 @@ class PaymentsController extends Controller
 
         $order->update([
             'status' => Order::ORDER_STATUS_SHIPPING,
-            'paid_at' => now(), // 支付时间
+            'paid_at' => Carbon::now()->toDateTimeString(), // 支付时间
             'payment_method' => 'wechat', // 支付方式
             'payment_sn' => $data->trade_no, // Wechat 订单号
         ]);
@@ -283,7 +280,7 @@ class PaymentsController extends Controller
         // 将退款订单的状态标记为退款成功并保存退款時間
         $order->refund->update([
             'status' => OrderRefund::ORDER_REFUND_STATUS_REFUNDED,
-            'refunded_at' => now(), // 退款时间
+            'refunded_at' => Carbon::now()->toDateTimeString(), // 退款时间
         ]);
 
         Log::info('A New Wechat Refund Completed: order refund id - ' . $order->refund->id);
@@ -301,9 +298,25 @@ class PaymentsController extends Controller
             'redirect_urls' => [
                 'return_url' => route('payments.paypal.execute'),
                 'cancel_url' => route('payments.paypal.execute'),
+                'notify_url' => route('payments.paypal.notify'),
             ],
         ]);
         // return config('payment.paypal');
+    }
+
+    // Paypal: get a sale object through a payment object
+    protected function paypalGetSaleByPayment(Payment $payment)
+    {
+        $transactions = $payment->getTransactions();
+        $relatedResources = $transactions[0]->getRelatedResources();
+        $sale = $relatedResources[0]->getSale();
+        // $saleId = $sale->getId();
+
+        /*$payer = $payment->getPayer();
+        $payerInfo = $payer->getPayerInfo();
+        $payerId = $payerInfo->getPayerId();*/
+
+        return $sale;
     }
 
     // GET Paypal: create a new payment
@@ -382,6 +395,7 @@ class PaymentsController extends Controller
 
         $transaction = new Transaction($apiContext);
         $transaction->setAmount($amount);
+        $transaction->setNotifyUrl($config['redirect_urls']['notify_url']);
 
         $redirectUrls = new RedirectUrls();
         $redirectUrls->setReturnUrl($config['redirect_urls']['return_url'])
@@ -460,6 +474,20 @@ class PaymentsController extends Controller
         $paymentId = $order->payment_sn;
         $payment = Payment::get($paymentId, $apiContext, $restCall);
 
+        $transactions = $payment->getTransactions();
+        $relatedResources = $transactions[0]->getRelatedResources();
+        $sale = $relatedResources[0]->getSale();
+        $saleId = $sale->getId();
+
+        $payer = $payment->getPayer();
+        $payerInfo = $payer->getPayerInfo();
+        $payerId = $payerInfo->getPayerId();
+
+        dd($payment->getTransactions());
+        dd($payerId);
+
+        dd($saleId);
+
     }
 
     // GET Paypal: execute[approve|cancel] an approved|cancelled PayPal payment. 支付同步通知
@@ -529,7 +557,7 @@ class PaymentsController extends Controller
                         // 'payment_sn' => $payment->getId(),
                         'payment_sn' => $paymentId,
                         'status' => 'shipping',
-                        'paid_at' => now(),
+                        'paid_at' => Carbon::now()->toDateTimeString(),
                     ]);
                     Log::info("A New Paypal Payment Executed: " . $payment->toJSON());
                     return response()->json([
@@ -697,7 +725,7 @@ class PaymentsController extends Controller
                         // 'payment_sn' => $payment->getId(),
                         'payment_sn' => $paymentId,
                         'status' => 'shipping',
-                        'paid_at' => now(),
+                        'paid_at' => Carbon::now()->toDateTimeString(),
                     ]);
                     Log::info("A New Paypal Payment Executed: " . $payment->toJson());
                     return response()->json([
