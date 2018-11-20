@@ -88,7 +88,7 @@
 			<div>
 				<div class="ordDetailName">卓业美业长直假发片卓业美业长直假发片卓业美业长直假发片卓业美业长直假发片</div>
 				<div>
-					<span>数量：2</span>
+					<span>数量：2 &nbsp;&nbsp;</span>
 					<span>颜色：黄</span>
 				</div>
 				<div class="ordDetailPri">￥500.00</div>
@@ -113,15 +113,16 @@
 			<span>￥500.00</span>
 		</div>
 		<div class="ordDetailBtn">
-			<button class="ordDetailBtnC">取消订单</button>
-			<button class="ordDetailBtnS">立即付款</button>
+			<a class="ordDetailBtnC">取消订单</a>
+			<a class="ordDetailBtnS">立即付款</a>
 		</div>
 	</div>
 @endsection
-
-
 @section('scriptsAfterJs')
     <script type="text/javascript">
         //页面单独JS写这里
+          
     </script>
 @endsection
+
+
