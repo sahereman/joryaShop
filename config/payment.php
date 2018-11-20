@@ -3,14 +3,14 @@
 /**
  * For the Url Config of Payments.
  */
-if (isset($_SERVER['SERVER_NAME'])) {
+/*if (isset($_SERVER['SERVER_NAME'])) {
     $url = @($_SERVER['HTTPS'] != 'on') ? 'http://' . $_SERVER['SERVER_NAME'] : 'https://' . $_SERVER['SERVER_NAME'];
     $url .= ($_SERVER['SERVER_PORT'] !== 80) ? ':' . $_SERVER['SERVER_PORT'] : '';
     $url .= $_SERVER['REQUEST_URI'];
 } else {
     // $url = '';
     $url = 'http://localhost';
-}
+}*/
 
 return [
     // Alipay 支付
@@ -20,11 +20,11 @@ return [
 
         // 支付宝异步通知地址
         // 'notify_url' => route('payments.alipay.notify'),
-        'notify_url' => env('APP_URL', $url) . '/payments/alipay/notify',
+        // 'notify_url' => env('APP_URL', $url) . '/payments/alipay/notify',
 
         // 支付成功后同步通知地址
         // 'return_url' => route('payments.return'),
-        'return_url' => env('APP_URL', $url) . '/payments/alipay/return',
+        // 'return_url' => env('APP_URL', $url) . '/payments/alipay/return',
 
         // 阿里公共密钥，验证签名时使用
         'ali_public_key' => env('ALI_PUBLIC_KEY', 'ali_public_key'),
@@ -86,7 +86,7 @@ return [
 
         // 微信支付异步通知地址
         // 'notify_url' => route('payments.wechat.notify'),
-        'notify_url' => env('APP_URL', $url) . '/payments/wechat/notify',
+        // 'notify_url' => env('APP_URL', $url) . '/payments/wechat/notify',
 
         // 微信支付签名秘钥
         'key' => env('WECHAT_KEY', 'key'),
@@ -159,11 +159,11 @@ return [
         ],
 
         // redirect urls: return(success) | cancel
-        'redirect_urls' => [
+        /*'redirect_urls' => [
             'return_url' => env('APP_URL', $url) . '/payments/paypal/execute',
             'cancel_url' => env('APP_URL', $url) . '/payments/paypal/execute',
-            // 'notify_url' => env('APP_URL', $url) . '/payments/paypal/notify',
-        ],
+            'notify_url' => env('APP_URL', $url) . '/payments/paypal/notify',
+        ],*/
 
         'log' => [
             'log.LogEnabled' => true,
@@ -171,6 +171,7 @@ return [
             'log.LogLevel' => 'DEBUG',
         ],
 
+        // TODO ... (for production)
         // MODE: sandbox or live
         // 'mode' => env('PAYPAL_ENVIRONMENT', 'sandbox'),
         // 'mode' => env('APP_ENV', 'production') == 'production' ? 'live' : 'sandbox',

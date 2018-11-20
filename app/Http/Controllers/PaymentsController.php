@@ -16,6 +16,7 @@ use PayPal\Api\PayerInfo;
 use PayPal\Api\Payment;
 use PayPal\Api\PaymentExecution;
 use PayPal\Api\RedirectUrls;
+use PayPal\Api\RefundRequest;
 use PayPal\Api\Sale;
 use PayPal\Api\Transaction;
 use PayPal\Auth\OAuthTokenCredential;
@@ -26,11 +27,11 @@ use Yansongda\Pay\Pay;
 class PaymentsController extends Controller
 {
     /*Alipay Payment*/
-    protected function getAlipayConfig()
+    protected function getAlipayConfig(Order $order)
     {
         return array_merge(config('payment.alipay'), [
-            'notify_url' => route('payments.alipay.notify'),
-            'return_url' => route('payments.alipay.return'),
+            'notify_url' => route('payments.alipay.notify', ['order' => $order->id]),
+            'return_url' => route('payments.alipay.return', ['order' => $order->id]),
         ]);
     }
 
@@ -49,7 +50,7 @@ class PaymentsController extends Controller
         Log::info('A New Alipay Pc-Web Payment Created: order id - ' . $order->id);
 
         // 调用Alipay的电脑支付(网页支付)
-        return Pay::alipay($this->getAlipayConfig())->web([
+        return Pay::alipay($this->getAlipayConfig($order))->web([
             'out_trade_no' => $order->order_sn, // 订单编号，需保证在商户端不重复
             'total_amount' => bcadd($order->total_amount, $order->total_shipping_fee, 2), // 订单金额，单位元，支持小数点后两位
             'subject' => '请支付来自 Jorya Hair 的订单：' . $order->order_sn, // 订单标题
@@ -62,27 +63,27 @@ class PaymentsController extends Controller
      * @throws \Yansongda\Pay\Exceptions\InvalidSignException
      */
     // POST Alipay 支付通知 [notify_url]
-    public function alipayNotify(Request $request)
+    public function alipayNotify(Request $request, Order $order)
     {
         Log::info('A Payment Notification From Alipay: ' . collect($request->all())->toJson());
 
         // 校验输入参数
-        $data = Pay::alipay($this->getAlipayConfig())->verify();
+        $data = Pay::alipay($this->getAlipayConfig($order))->verify();
 
-        // $data->out_trade_no 拿到订单流水号，并在数据库中查询
+        /*// $data->out_trade_no 拿到订单流水号，并在数据库中查询
         $order = Order::where('order_sn', $data->out_trade_no)->first();
 
         // 正常来说不太可能出现支付了一笔不存在的订单，这个判断只是加强系统健壮性。
         if (!$order) {
             Log::error('Alipay Notified With Wrong Out_Trade_No: ' . $data->out_trade_no);
             return 'fail';
-        }
+        }*/
 
         // 如果这笔订单的状态已经是已支付
         if ($order->paid_at) {
             // 返回数据给支付宝
             Log::info('A Paid Wechat Payment Notified Again: order id - ' . $order->id);
-            return Pay::alipay($this->getAlipayConfig())->success();
+            return Pay::alipay($this->getAlipayConfig($order))->success();
         }
 
         $order->update([
@@ -93,7 +94,7 @@ class PaymentsController extends Controller
         ]);
 
         Log::info('A New Alipay Payment Completed: order id - ' . $order->id);
-        return Pay::alipay($this->getAlipayConfig())->success();
+        return Pay::alipay($this->getAlipayConfig($order))->success();
     }
 
     /**
@@ -101,9 +102,9 @@ class PaymentsController extends Controller
      * @throws \Yansongda\Pay\Exceptions\InvalidSignException
      */
     // GET Alipay 支付回调 [return url]
-    public function alipayReturn(Request $request)
+    public function alipayReturn(Request $request, Order $order)
     {
-        $alipay = Pay::alipay($this->getAlipayConfig());
+        $alipay = Pay::alipay($this->getAlipayConfig($order));
         try {
             // 校验提交的参数是否合法
             $data = $alipay->verify();
@@ -132,7 +133,7 @@ class PaymentsController extends Controller
     public function alipayRefund(Request $request, Order $order)
     {
         // 调用支付宝支付实例的 refund 方法
-        $response = Pay::alipay($this->getAlipayConfig())->refund([
+        $response = Pay::alipay($this->getAlipayConfig($order))->refund([
             'out_trade_no' => $order->order_sn, // 之前的订单流水号
             'refund_amount' => bcadd($order->total_amount, $order->total_shipping_fee, 2), // 退款金额，单位元
         ]);
@@ -157,10 +158,10 @@ class PaymentsController extends Controller
     }
 
     /*Wechat Payment*/
-    protected function getWechatConfig()
+    protected function getWechatConfig(Order $order)
     {
         return array_merge(config('payment.wechat'), [
-            'notify_url' => route('payments.wechat.notify'),
+            'notify_url' => route('payments.wechat.notify', ['order' => $order->id]),
         ]);
     }
 
@@ -178,7 +179,7 @@ class PaymentsController extends Controller
 
         try {
             // 调用Wechat的扫码支付(网页支付)
-            $result = Pay::wechat($this->getWechatConfig())->scan([
+            $result = Pay::wechat($this->getWechatConfig($order))->scan([
                 'out_trade_no' => $order->order_sn, // 订单编号，需保证在商户端不重复
                 'body' => '请支付来自 Jorya Hair 的订单：' . $order->order_sn, // 订单标题
                 'total_fee' => bcmul(bcadd($order->total_amount, $order->total_shipping_fee, 2), 100, 0), // 订单金额，单位分，参数值不能带小数点
@@ -205,27 +206,27 @@ class PaymentsController extends Controller
     }
 
     // POST WeChat 支付通知 [notify_url]
-    public function wechatNotify(Request $request)
+    public function wechatNotify(Request $request, Order $order)
     {
         Log::info('A Payment Notification From Wechat: ' . collect($request->all())->toJson());
 
         // 校验输入参数
-        $data = Pay::wechat($this->getWechatConfig())->verify();
+        $data = Pay::wechat($this->getWechatConfig($order))->verify();
 
-        // $data->out_trade_no 拿到订单流水号，并在数据库中查询
+        /*// $data->out_trade_no 拿到订单流水号，并在数据库中查询
         $order = Order::where('order_sn', $data->out_trade_no)->first();
 
         // 正常来说不太可能出现支付了一笔不存在的订单，这个判断只是加强系统健壮性。
         if (!$order) {
             Log::error('Wechat Notified With Wrong Out_Trade_No: ' . $data->out_trade_no);
             return 'fail';
-        }
+        }*/
 
         // 如果这笔订单的状态已经是已支付
         if ($order->paid_at) {
             // 返回数据给 Wechat
             Log::info('A Paid Wechat Payment Notified Again: order id - ' . $order->id);
-            return Pay::wechat($this->getWechatConfig())->success();
+            return Pay::wechat($this->getWechatConfig($order))->success();
         }
 
         $order->update([
@@ -236,7 +237,7 @@ class PaymentsController extends Controller
         ]);
 
         Log::info('A New Wechat Payment Completed: order id - ' . $order->id);
-        return Pay::wechat($this->getWechatConfig())->success();
+        return Pay::wechat($this->getWechatConfig($order))->success();
     }
 
     // GET Wechat 前端JS监听订单支付，回调成功|失败页面
@@ -264,7 +265,7 @@ class PaymentsController extends Controller
     public function wechatRefund(Request $request, Order $order)
     {
         // 调用Wechat支付实例的 refund 方法
-        $response = Pay::wechat($this->getWechatConfig())->refund([
+        $response = Pay::wechat($this->getWechatConfig($order))->refund([
             'out_trade_no' => $order->order_sn, // 之前的订单流水号
             'out_refund_no' => $order->refund->refund_sn, // 退款订单流水号
             'total_fee' => bcmul(bcadd($order->total_amount, $order->total_shipping_fee, 2), 100, 0), // 订单金额，单位分，只能为整数
@@ -292,31 +293,16 @@ class PaymentsController extends Controller
     }
 
     /*Paypal Payment*/
-    protected function getPaypalConfig()
+    protected function getPaypalConfig(Order $order)
     {
         return array_merge(config('payment.paypal'), [
             'redirect_urls' => [
-                'return_url' => route('payments.paypal.execute'),
-                'cancel_url' => route('payments.paypal.execute'),
-                'notify_url' => route('payments.paypal.notify'),
+                'return_url' => route('payments.paypal.execute', ['order' => $order->id]),
+                'cancel_url' => route('payments.paypal.execute', ['order' => $order->id]),
+                'notify_url' => route('payments.paypal.notify', ['order' => $order->id]),
             ],
         ]);
         // return config('payment.paypal');
-    }
-
-    // Paypal: get a sale object through a payment object
-    protected function paypalGetSaleByPayment(Payment $payment)
-    {
-        $transactions = $payment->getTransactions();
-        $relatedResources = $transactions[0]->getRelatedResources();
-        $sale = $relatedResources[0]->getSale();
-        // $saleId = $sale->getId();
-
-        /*$payer = $payment->getPayer();
-        $payerInfo = $payer->getPayerInfo();
-        $payerId = $payerInfo->getPayerId();*/
-
-        return $sale;
     }
 
     // GET Paypal: create a new payment
@@ -378,7 +364,7 @@ class PaymentsController extends Controller
         }
 
         // Step-1: get an access token && create the api context
-        $config = $this->getPaypalConfig();
+        $config = $this->getPaypalConfig($order);
         $oAuthTokenCredential = new OAuthTokenCredential($config[$config['mode']]['client_id'], $config[$config['mode']]['client_secret']);
         $apiContext = new ApiContext($oAuthTokenCredential);
         $apiContext->setConfig($config['log']);
@@ -412,7 +398,8 @@ class PaymentsController extends Controller
                 $order->update([
                     // 'payment_method' => $payment->getPayer()->getPaymentMethod(), // paypal
                     'payment_method' => 'paypal',
-                    'payment_sn' => $payment->getToken(), // token
+                    // 'payment_sn' => $payment->getToken(), // token
+                    'payment_sn' => $payment->getId(), // paymentId
                 ]);
                 Log::info("A New Paypal Pc Payment Created: " . $payment->toJSON());
                 return response()->json([
@@ -465,7 +452,7 @@ class PaymentsController extends Controller
             throw new InvalidRequestException('Paypal暂不支持当前订单支付币种: ' . $order->currency);
         }
 
-        $config = $this->getPaypalConfig();
+        $config = $this->getPaypalConfig($order);
         $oAuthTokenCredential = new OAuthTokenCredential($config[$config['mode']]['client_id'], $config[$config['mode']]['client_secret']);
         $apiContext = new ApiContext($oAuthTokenCredential);
         $apiContext->setConfig($config['log']);
@@ -474,26 +461,32 @@ class PaymentsController extends Controller
         $paymentId = $order->payment_sn;
         $payment = Payment::get($paymentId, $apiContext, $restCall);
 
-        $transactions = $payment->getTransactions();
+        /*$transactions = $payment->getTransactions();
         $relatedResources = $transactions[0]->getRelatedResources();
         $sale = $relatedResources[0]->getSale();
         $saleId = $sale->getId();
 
         $payer = $payment->getPayer();
         $payerInfo = $payer->getPayerInfo();
-        $payerId = $payerInfo->getPayerId();
+        $payerId = $payerInfo->getPayerId();*/
 
-        dd($payment->getTransactions());
-        dd($payerId);
-
-        dd($saleId);
-
+        return response()->json([
+            'code' => 200,
+            'message' => 'success',
+            'data' => [
+                'payment' => $payment->toArray(),
+                // 'transaction' => $transactions[0]->toArray(),
+                // 'sale' => $sale->toArray(),
+                // 'payer' => $payer->toArray(),
+            ],
+        ]);
     }
 
-    // GET Paypal: execute[approve|cancel] an approved|cancelled PayPal payment. 支付同步通知
-    public function paypalExecute(Request $request)
+    // GET Paypal: synchronously execute[approve|cancel] an approved|cancelled PayPal payment. 支付同步通知
+    public function paypalExecute(Request $request, Order $order)
     {
-        Log::info('An Approved|Cancelled Payment Redirection From Paypal - Synchronous: ' . $request->getUri());
+        Log::info('Paypal Payment Synchronous Redirection Url: ' . $request->getUri());
+        Log::info('An Approved|Cancelled Payment Redirection From Paypal - Synchronously: ' . collect($request->all())->toJson());
 
         // Step-3: execute an approved PayPal payment.
         if ($request->query('paymentId') && $request->query('token') && $request->query('PayerID')) {
@@ -502,7 +495,7 @@ class PaymentsController extends Controller
             $token = $request->query('token');
             $payerId = $request->query('PayerID');
 
-            $order = Order::where('payment_method', 'paypal')
+            /*$order = Order::where('payment_method', 'paypal')
                 ->where('payment_sn', $token)
                 ->first();
 
@@ -518,19 +511,19 @@ class PaymentsController extends Controller
                         'message' => 'Paypal Notified With Wrong Payment Id: ' . $paymentId . ' or Wrong Token: ' . $token,
                     ], 400);
                 }
-            }
+            }*/
 
             // 如果这笔订单的状态已经是已支付
             if ($order->paid_at) {
                 // 返回数据给 Paypal
-                Log::info('A Paid Paypal Payment Notified Again: order id - ' . $order->id);
+                Log::info('A Paid Paypal Payment Notified Again - Synchronously: order id - ' . $order->id);
                 return response()->json([
                     'code' => 200,
-                    'message' => 'Paypal Payment Paid Already',
+                    'message' => 'Paypal Payment Paid Already - Synchronously',
                 ]);
             }
 
-            $config = $this->getPaypalConfig();
+            $config = $this->getPaypalConfig($order);
             $oAuthTokenCredential = new OAuthTokenCredential($config[$config['mode']]['client_id'], $config[$config['mode']]['client_secret']);
             $apiContext = new ApiContext($oAuthTokenCredential);
             $apiContext->setConfig($config['log']);
@@ -556,22 +549,22 @@ class PaymentsController extends Controller
                         'payment_method' => 'paypal',
                         // 'payment_sn' => $payment->getId(),
                         'payment_sn' => $paymentId,
-                        'status' => 'shipping',
+                        'status' => Order::ORDER_STATUS_SHIPPING,
                         'paid_at' => Carbon::now()->toDateTimeString(),
                     ]);
-                    Log::info("A New Paypal Payment Executed: " . $payment->toJSON());
+                    Log::info("A New Paypal Payment Executed - Synchronously: " . $payment->toJSON());
                     return response()->json([
                         'code' => 200,
-                        'message' => 'Paypal Payment Executed',
+                        'message' => 'Paypal Payment Executed - Synchronously',
                         'data' => [
                             'payment' => $payment->toArray(),
                         ],
                     ]);
                 } else {
-                    Log::info("A New Paypal Pc Payment Execution Failed: " . $payment->toJSON());
+                    Log::info("A New Paypal Pc Payment Execution Failed - Synchronously: " . $payment->toJSON());
                     return response()->json([
                         'code' => 400,
-                        'message' => 'A New Paypal Pc Payment Execution Failed',
+                        'message' => 'A New Paypal Pc Payment Execution Failed - Synchronously',
                         'data' => [
                             'payment' => $payment->toArray(),
                             'failure_reason' => $payment->getFailureReason(),
@@ -598,12 +591,12 @@ class PaymentsController extends Controller
             if (!$token) {
                 return response()->json([
                     'code' => 400,
-                    'message' => 'PayPal Notified With Wrong Parameters: Cancel Url Without Token',
+                    'message' => 'PayPal Notified With Wrong Parameters: Cancel Url Without Token - Synchronously',
                     'data' => $request->all(),
                 ], 400);
             }
 
-            $order = Order::where('payment_method', 'paypal')
+            /*$order = Order::where('payment_method', 'paypal')
                 ->where('payment_sn', $token)
                 ->first();
 
@@ -614,235 +607,129 @@ class PaymentsController extends Controller
                     'code' => 400,
                     'message' => 'Paypal Notified With Wrong Token: ' . $token,
                 ], 400);
-            }
+            }*/
 
             // 如果这笔订单的状态已经是已支付
             if ($order->paid_at) {
                 // 返回数据给 Paypal
-                Log::info('A Paid Paypal Payment Notified Again: order id - ' . $order->id);
+                Log::info('A Paid Paypal Payment Notified Again - Synchronously: order id - ' . $order->id);
                 return response()->json([
                     'code' => 200,
-                    'message' => 'Paypal Payment Paid Already',
+                    'message' => 'Paypal Payment Paid Already - Synchronously',
                 ]);
             }
 
-            $order->update([
+            /*$order->update([
                 'payment_method' => '',
                 'payment_sn' => '',
-            ]);
+            ]);*/
 
             return response()->json([
                 'code' => 200,
-                'message' => 'Paypal Payment Cancelled',
+                'message' => 'Paypal Payment Cancelled - Synchronously',
             ]);
         }
     }
 
     // POST Paypal 支付异步通知 [notify_url]
-    public function paypalNotify(Request $request)
+    public function paypalNotify(Request $request, Order $order)
     {
-        Log::info('Paypal Payment Notification Url: ' . $request->getUri());
-        Log::info('An Approved|Cancelled Payment Notification From Paypal - Asynchronous: ' . collect($request->all())->toJson());
+        Log::info('Paypal Payment Asynchronous Notification Url: ' . $request->getUri());
+        Log::info('An Approved|Cancelled Payment Notification From Paypal - Asynchronously: ' . collect($request->all())->toJson());
 
         // ### Approval Status
         // Determine if the user approved the payment or not
-        // if (isset($_GET['success']) && $_GET['success'] == 'true') {
-        if ($request->query('success') == 'true' && $request->query('PayerID')) {
+        if ($request->input('payment_status') == 'Completed' && $request->input('payer_status') == 'verified') {
             // Payment approved.
-            $paymentId = $request->query('paymentId') ?: $request->input('paymentId');
-            $token = $request->query('token') ?: $request->input('token');
-            $payerId = $request->query('PayerID') ?: $request->input('PayerID');
-
-            $order = Order::where('payment_method', 'paypal')
-                ->where('payment_sn', $token)
-                ->first();
-
-            // 正常来说不太可能出现支付了一笔不存在的订单，这个判断只是加强系统健壮性。
-            if (!$order) {
-                $order = Order::where('payment_method', 'paypal')
-                    ->where('payment_sn', $paymentId)
-                    ->first();
-                if (!$order) {
-                    Log::error('Paypal Notified With Wrong Payment Id: ' . $paymentId . ' or Wrong Token: ' . $token);
-                    return response()->json([
-                        'code' => 400,
-                        'message' => 'Paypal Notified With Wrong Payment Id: ' . $paymentId . ' or Wrong Token: ' . $token,
-                    ], 400);
-                }
-            }
-
             // 如果这笔订单的状态已经是已支付
             if ($order->paid_at) {
                 // 返回数据给 Paypal
-                Log::info('A Paid Paypal Payment Notified Again: order id - ' . $order->id);
+                Log::info('A Paid Paypal Payment Notified Again - Asynchronously: order id - ' . $order->id);
                 return response()->json([
                     'code' => 200,
-                    'message' => 'Paypal Payment Paid Already',
-                ]);
-            }
-
-            $config = $this->getPaypalConfig();
-            $oAuthTokenCredential = new OAuthTokenCredential($config[$config['mode']]['client_id'], $config[$config['mode']]['client_secret']);
-            $apiContext = new ApiContext($oAuthTokenCredential);
-            $apiContext->setConfig($config['log']);
-            $restCall = new PayPalRestCall($apiContext);
-
-            // Get the payment Object by passing paymentId
-            // payment id was previously stored in session in
-            // CreatePaymentUsingPayPal.php
-            // $paymentId = $_GET['paymentId'];
-            $payment = Payment::get($paymentId, $apiContext, $restCall);
-
-            // ### Optional Changes to Amount
-            // If you wish to update the amount that you wish to charge the customer,
-            // based on the shipping address or any other reason, you could
-            // do that by passing the transaction object with just `amount` field in it.
-            // Here is the example on how we changed the shipping to $1 more than before.
-            $amount = new Amount();
-            $totalFee = bcadd($order->total_amount, $order->total_shipping_fee, 2);
-            $amount->setTotal($totalFee);
-            $amount->setCurrency($order->currency);
-
-            $transaction = new Transaction($apiContext);
-            $transaction->setAmount($amount);
-
-            // ### Payment Execute
-            // PaymentExecution object includes information necessary
-            // to execute a PayPal account payment.
-            // The payer_id is added to the request query parameters
-            // when the user is redirected from paypal back to your site
-            $paymentExecution = new PaymentExecution();
-            $paymentExecution->setPayerId($payerId);
-            // $paymentExecution->setPayerId($_GET['PayerID']);
-            // Add the above transaction object inside our Execution object.
-            // $paymentExecution->addTransaction($transaction);
-            $paymentExecution->setTransactions(array($transaction));
-            try {
-                $payment->execute($paymentExecution, $apiContext, $restCall);
-                if ($payment->getState() == 'approved') {
-                    $order->update([
-                        'payment_method' => 'paypal',
-                        // 'payment_sn' => $payment->getId(),
-                        'payment_sn' => $paymentId,
-                        'status' => 'shipping',
-                        'paid_at' => Carbon::now()->toDateTimeString(),
-                    ]);
-                    Log::info("A New Paypal Payment Executed: " . $payment->toJson());
-                    return response()->json([
-                        'code' => 200,
-                        'message' => 'Paypal Payment Executed',
-                        'data' => [
-                            'payment' => $payment->toArray(),
-                        ],
-                    ]);
-                } else {
-                    Log::info("A New Paypal Pc Payment Execution Failed: " . $payment->toJSON());
-                    return response()->json([
-                        'code' => 400,
-                        'message' => 'A New Paypal Pc Payment Execution Failed',
-                        'data' => [
-                            'payment' => $payment->toArray(),
-                            'failure_reason' => $payment->getFailureReason(),
-                        ],
-                    ]);
-                }
-            } catch (\Exception $e) {
-                // error_log($e->getMessage());
-                /*return view('pages.error', [
-                    'msg' => '付款失败',
-                ]);*/
-                Log::error($e->getMessage());
-                return response()->json([
-                    'code' => $e->getCode(),
-                    'message' => $e->getMessage(),
-                ]);
-                /*return view('payments.error', [
-                    'message' => $e->getMessage(),
-                ]);*/
-            }
-        } else {
-            // Payment Cancelled.
-            $token = $request->query('token');
-            if (!$token) {
-                return response()->json([
-                    'code' => 400,
-                    'message' => 'PayPal Notified With Wrong Parameters: Cancel Url Without Token',
-                    'data' => $request->all(),
-                ], 400);
-            }
-
-            $order = Order::where('payment_method', 'paypal')
-                ->where('payment_sn', $token)
-                ->first();
-
-            // 正常来说不太可能出现支付了一笔不存在的订单，这个判断只是加强系统健壮性。
-            if (!$order) {
-                Log::error('Paypal Notified With Wrong Token: ' . $token);
-                return response()->json([
-                    'code' => 400,
-                    'message' => 'Paypal Notified With Wrong Token: ' . $token,
-                ], 400);
-            }
-
-            // 如果这笔订单的状态已经是已支付
-            if ($order->paid_at) {
-                // 返回数据给 Paypal
-                Log::info('A Paid Paypal Payment Notified Again: order id - ' . $order->id);
-                return response()->json([
-                    'code' => 200,
-                    'message' => 'Paypal Payment Paid Already',
+                    'message' => 'Paypal Payment Paid Already - Asynchronously',
                 ]);
             }
 
             $order->update([
+                'payment_method' => 'paypal',
+                // 'payment_sn' => $payment->getId(),
+                // 'payment_sn' => $paymentId,
+                'status' => Order::ORDER_STATUS_SHIPPING,
+                'paid_at' => Carbon::now()->toDateTimeString(),
+            ]);
+            Log::info("A New Paypal Payment Executed - Asynchronously: order id - " . $order->id);
+            return response()->json([
+                'code' => 200,
+                'message' => 'Paypal Payment Executed - Asynchronously',
+            ]);
+        } else {
+            // Payment Cancelled.
+            // 如果这笔订单的状态已经是已支付
+            if ($order->paid_at) {
+                // 返回数据给 Paypal
+                Log::info('A Paid Paypal Payment Notified Again - Asynchronously: order id - ' . $order->id);
+                return response()->json([
+                    'code' => 200,
+                    'message' => 'Paypal Payment Paid Already - Asynchronously',
+                ]);
+            }
+
+            /*$order->update([
                 'payment_method' => '',
                 'payment_sn' => '',
-            ]);
+            ]);*/
 
             return response()->json([
                 'code' => 200,
-                'message' => 'the paypal payment is cancelled',
+                'message' => 'Paypal Payment Cancelled - Asynchronously',
             ]);
-            /*return response()->json([
-                'code' => 400,
-                'message' => 'PayPal返回回调地址参数错误',
-                'data' => $request->all(),
-            ], 400);*/
         }
     }
 
     // Paypal 退款
     public function paypalRefund(Request $request, Order $order)
     {
-        $config = $this->getPaypalConfig();
+        $config = $this->getPaypalConfig($order);
         $oAuthTokenCredential = new OAuthTokenCredential($config[$config['mode']]['client_id'], $config[$config['mode']]['client_secret']);
         $apiContext = new ApiContext($oAuthTokenCredential);
         $apiContext->setConfig($config['log']);
+        $restCall = new PayPalRestCall($apiContext);
 
-        $sale = new Sale();
-        $sale->setId($order->payment_sn);
+        $paymentId = $order->payment_sn;
+        $payment = Payment::get($paymentId, $apiContext, $restCall);
 
-        $payer = new Payer();
-        $payer->setPaymentMethod('paypal');
+        $transactions = $payment->getTransactions();
+        $amount = $transactions[0]->getAmount();
+        $relatedResources = $transactions[0]->getRelatedResources();
+        $sale = $relatedResources[0]->getSale();
+        // $saleId = $sale->getId();
+        // $sale->setAmount($amount);
+        $sale->setReceiptId($order->payment_sn);
 
-        $amount = new Amount();
-        $totalFee = bcadd($order->total_amount, $order->total_shipping_fee, 2);
-        $amount->setTotal($totalFee);
-        $amount->setCurrency($order->currency);
+        /*$payer = $payment->getPayer();
+        $payerInfo = $payer->getPayerInfo();
+        $payerId = $payerInfo->getPayerId();*/
 
-        $sale->setAmount($amount);
-        $sale->setPaymentMode('INSTANT_TRANSFER');
-        $sale->setReceiptId();
-
-        // TODO ...
-        // You can retrieve the sale Id from Related Resources for each transactions.
-        $saleId = 'enter your sale id';
-
+        $refundRequest = new RefundRequest();
+        $refundRequest->setAmount($amount); // refund with the same amount & currency as previously.
+        $refundRequest->setDescription('This is a refund order from Jorya Hair. ['.$order->refund->refund_sn.']');
+        $refundRequest->setReason($order->refund->remark_by_user);
         try {
-            // ### Retrieve the sale object
-            // Pass the ID of the sale
-            // transaction from your payment resource.
-            $sale = Sale::get($saleId, $apiContext);
+            $detailedRefund = $sale->refundSale($refundRequest, $apiContext, $restCall);
+            Log::info("A New Paypal Payment Refund Created: " . $detailedRefund->toJSON());
+
+            $detailedRefund->getState();
+            $refundId = $detailedRefund->getId();
+            $refundToPayer = $detailedRefund->getRefundToPayer();
+
+            return response()->json([
+                'code' => 200,
+                'message' => 'success',
+                'data' => [
+                    'detailedRefund' => $detailedRefund->toArray(),
+                ],
+            ]);
         } catch (\Exception $e) {
             // error_log($e->getMessage());
             /*return view('pages.error', [

@@ -157,10 +157,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('payments/{order}/wechat', 'PaymentsController@wechat')->name('payments.wechat'); // Wechat 支付页面
     Route::get('payments/{order}/paypal/create', 'PaymentsController@paypalCreate')->name('payments.paypal.create'); // PayPal: create a payment
     Route::get('payments/{order}/paypal/get', 'PaymentsController@paypalGet')->name('payments.paypal.get'); // PayPal: get the info of a payment
-    Route::get('payments/paypal/execute', 'PaymentsController@paypalExecute')->name('payments.paypal.execute'); // PayPal: execute[approve|cancel] a payment
+    Route::get('payments/{order}/paypal/execute', 'PaymentsController@paypalExecute')->name('payments.paypal.execute'); // PayPal: execute[approve|cancel] a payment
 
     /*支付回调 [return_url]*/
-    Route::get('payments/alipay/return', 'PaymentsController@alipayReturn')->name('payments.alipay.return'); // Alipay 支付回调
+    Route::get('payments/{order}/alipay/return', 'PaymentsController@alipayReturn')->name('payments.alipay.return'); // Alipay 支付回调
 
     /*退款*/
     Route::get('payments/{order}/alipay/refund', 'PaymentsController@alipayRefund')->name('payments.alipay.refund'); // Alipay 退款
@@ -210,9 +210,9 @@ Route::get('pages/{page}', 'PagesController@show')->name('pages.show');
 Route::get('posters/{poster}', 'PostersController@show')->name('posters.show');
 
 /*支付通知 [notify_url]*/
-Route::post('payments/alipay/notify', 'PaymentsController@alipayNotify')->name('payments.alipay.notify'); // Alipay 支付成功通知 [notify_url]
-Route::post('payments/wechat/notify', 'PaymentsController@wechatNotify')->name('payments.wechat.notify'); // Wechat 支付成功通知 [notify_url]
-Route::post('payments/paypal/notify', 'PaymentsController@paypalNotify')->name('payments.paypal.notify'); // PayPal 支付成功通知 [notify_url]
+Route::post('payments/{order}/alipay/notify', 'PaymentsController@alipayNotify')->name('payments.alipay.notify'); // Alipay 支付成功通知 [notify_url]
+Route::post('payments/{order}/wechat/notify', 'PaymentsController@wechatNotify')->name('payments.wechat.notify'); // Wechat 支付成功通知 [notify_url]
+Route::post('payments/{order}/paypal/notify', 'PaymentsController@paypalNotify')->name('payments.paypal.notify'); // PayPal 支付成功通知 [notify_url]
 
 /*手机端 - 微信浏览器内获取用户 open id*/
 Route::get('payments/get_wechat_open_id', 'PaymentsController@getWechatOpenId')->name('payments.get_wechat_open_id'); // get wechat open_id
