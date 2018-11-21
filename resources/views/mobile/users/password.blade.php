@@ -10,22 +10,24 @@
 		<span>修改密码</span>
 	</div>
 	<div class="editPsdBox">
-		<div class="editPsdMain">
-			<div class="editPsdItem">
-				 <label>原密码</label>
-				 <input type="text" name="" id="" value="" placeholder="请输入原密码"/>
+		<form action="" method="post">
+			<div class="editPsdMain">
+				<div class="editPsdItem">
+					 <label>原密码</label>
+					 <input type="text" name="" id="" value="" placeholder="请输入原密码"/>
+				</div>
+				<div class="editPsdItem">
+					 <label>新密码</label>
+					 <input type="text" name="" id="" value="" placeholder="请输入新密码" class="changePsd"/>
+					 <img src="{{ asset('static_m/img/icon_eyesopen.png') }}" class="clickEye"/>
+				</div>
+				<div class="editPsdItem">
+					 <label>确认密码</label>
+					 <input type="text" name="" id="" value="" placeholder="请再次输入密码"/>
+				</div>
 			</div>
-			<div class="editPsdItem">
-				 <label>新密码</label>
-				 <input type="text" name="" id="" value="" placeholder="请输入新密码" class="changePsd"/>
-				 <img src="{{ asset('static_m/img/icon_eyesopen.png') }}" class="clickEye"/>
-			</div>
-			<div class="editPsdItem">
-				 <label>确认密码</label>
-				 <input type="text" name="" id="" value="" placeholder="请再次输入密码"/>
-			</div>
-		</div>
-		<button class="doneBtn">完成</button>
+			<button type="submit" class="doneBtn">完成</button>
+		</form>
 	</div>
 
 

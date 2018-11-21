@@ -17,38 +17,40 @@
 			<p>点击修改头像</p>
 		</div>
 		<div class="editUserMain">
-			<div class="editUserItem">
-				<label>用户名</label>
-				<input type="text" name="" id="" value="胡巴" />
-			</div>
-			<div class="editUserItem">
-				<label>真实姓名</label>
-				<input type="text" name="" id="" value="谭某某" />
-			</div>
-			<div class="editUserItem">
-				<label>性别</label>
-				<div class="radioBox">
-					<input type="radio" name="sex" id="male" value=""/>
-					<span></span>
-					<label for="male">男</label>
+			<form action="" method="post">
+				<div class="editUserItem">
+					<label>用户名</label>
+					<input type="text" name="" id="" value="胡巴" />
 				</div>
-				<div class="radioBox">
-					<input type="radio" name="sex" id="female" value="" />
-					<span></span>
-					<label for="female">女</label>
+				<div class="editUserItem">
+					<label>真实姓名</label>
+					<input type="text" name="" id="" value="谭某某" />
 				</div>
-				
-			</div>
-			<div class="editUserItem">
-				<label>QQ</label>
-				<input type="text" name="" id="" value="15254544554" />
-			</div>
-			<div class="editUserItem editUserItemLast">
-				<label>微信</label>
-				<input type="text" name="" id="" value="454545545" />
-			</div>
+				<div class="editUserItem">
+					<label>性别</label>
+					<div class="radioBox">
+						<input type="radio" name="sex" id="male" value=""/>
+						<span></span>
+						<label for="male">男</label>
+					</div>
+					<div class="radioBox">
+						<input type="radio" name="sex" id="female" value="" />
+						<span></span>
+						<label for="female">女</label>
+					</div>
+					
+				</div>
+				<div class="editUserItem">
+					<label>QQ</label>
+					<input type="text" name="" id="" value="15254544554" />
+				</div>
+				<div class="editUserItem editUserItemLast">
+					<label>微信</label>
+					<input type="text" name="" id="" value="454545545" />
+				</div>
+				<button type="submit" class="doneBtn">保存</button>
+			</form>
 		</div>
-		<button class="doneBtn">保存</button>
 	</div>
 
 @endsection
