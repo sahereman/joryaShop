@@ -223,11 +223,8 @@
                     color: #666;
                     span {
                         display: inline-block;
-                        min-width: 105px;
+                        min-width: 85px;
                         text-align: left;
-                        &.title {
-                            text-align: right;
-                        }
                     }
                 }
             }
@@ -331,9 +328,6 @@
                         display: inline-block;
                         min-width: 105px;
                         text-align: left;
-                        &.title {
-                            text-align: right;
-                        }
                     }
                 }
             }

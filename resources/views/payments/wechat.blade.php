@@ -36,12 +36,11 @@
 					type:"get",
 					url:$(".yxTradeNo").attr("data-url"),
 					success: function(json){
-						console.log(json);
-						if(json.code==200){
+						if (json.data.is_paid=="success"){
 							clearInterval(sh);
 							window.location.href = $(".text").attr("data-url")
-						}
-						if(json.code==202){
+						}else {
+							window.location.reload();
 							clearInterval(sh);
 						}
 					}

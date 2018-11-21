@@ -194,11 +194,12 @@ Route::post('easy_sms_send', 'IndexController@easySmsSend')->name('easy_sms_send
 // Route::get('orders/{order}/shipment_query', 'OrdersController@shipmentQuery')->name('orders.shipment_query');
 
 /*商品分类*/
-Route::get('product_categories/{category}', 'ProductCategoriesController@index')->name('product_categories.index'); // 一级分类及其商品列表 [完整展示] or 二级分类及其商品列表 [下拉加载更多]
+Route::get('product_categories/{category}', 'ProductCategoriesController@index')->name('product_categories.index'); // 一级分类及其商品列表 [完整展示页面] or 二级分类及其商品列表 [仅展示页面]
+Route::get('product_categories/{category}/more', 'ProductCategoriesController@more')->name('product_categories.more'); // 二级分类及其商品列表 下拉加载更多 [for Ajax request]
 
 /*商品*/
-// Route::get('products', 'ProductsController@index')->name('products.index'); // 二级分类及其商品列表 [下拉加载更多]
-Route::get('products/search', 'ProductsController@search')->name('products.search'); // 搜素结果 [下拉加载更多]
+Route::get('products/search', 'ProductsController@search')->name('products.search'); // 搜素结果 [仅展示页面]
+Route::get('products/search_more', 'ProductsController@searchMore')->name('products.search_more'); // 搜素结果 [下拉加载更多] [for Ajax request]
 Route::get('products/search_hint', 'ProductsController@searchHint')->name('products.search_hint'); // 模糊搜素提示结果 [10 records] [for Ajax request]
 Route::get('products/{product}', 'ProductsController@show')->name('products.show'); // 商品详情页
 Route::get('products/{product}/comment', 'ProductsController@comment')->name('products.comment'); // 获取商品评价 [for Ajax request]

@@ -42,8 +42,8 @@
                             </p>
                             <p class="operation_area">
                                 <a class="main_operation"
-                                   href="{{ route('orders.payment_method', ['order' => $order->id]) }}">@lang('order.Immediate payment')</a>
-                                <a data-url="{{ route('orders.close', ['order' => $order->id]) }}">@lang('app.cancel')</a>
+                                   href="{{ route('orders.payment_method', ['order' => $order->id]) }}">立即付款</a>
+                                <a data-url="{{ route('orders.close', ['order' => $order->id]) }}">取消</a>
                             </p>
                         </div>
                         @elseif($order->status == \App\Models\Order::ORDER_STATUS_SHIPPING)
@@ -52,11 +52,11 @@
                             <p>
                                 <img src="{{ asset('img/pending.png') }}">
                                 <span>@lang('basic.users.Order_Status')：</span>
-                                <span class="order_status_tips">@lang('order.The buyer has paid, waiting for the seller to ship')</span>
+                                <span class="order_status_tips">买家已付款，等待卖家发货</span>
                             </p>
                             <p class="operation_area">
-                                <a class="main_operation reminding_shipments">@lang('basic.orders.Remind shipments')</a>
-                                <a href="{{ route('orders.refund', ['order' => $order->id]) }}">@lang('order.Request a refund')</a>
+                                <a class="main_operation reminding_shipments">提醒发货</a>
+                                <a href="{{ route('orders.refund', ['order' => $order->id]) }}">申请退款</a>
                             </p>
                         </div>
                         @elseif($order->status == \App\Models\Order::ORDER_STATUS_RECEIVING)
@@ -65,7 +65,7 @@
                             <p>
                                 <img src="{{ asset('img/pending.png') }}">
                                 <span>@lang('basic.users.Order_Status')：</span>
-                                <span class="order_status_tips">@lang('order.The seller has shipped, waiting for the buyer to receive the goods') </span>
+                                <span class="order_status_tips">卖家已发货，等待买家收货 </span>
                             </p>
                             <p id="{{ $order->order_sn }}" mark="{{ $order->order_sn }}"
                                class="cunt_down tobe_received_count"
@@ -152,21 +152,21 @@
                         @endif
                     </div>
                     <!--订单信息-->
-                    <div class="pull-right number_infor">
+                    <div class="pull-left number_infor">
                         <p>
-                            <span class="title">@lang('order.Order time')：</span>
+                            <span>订单时间：</span>
                             <span>{{ $order->created_at }}</span>
                         </p>
                         <p>
-                            <span class="title">@lang('order.Order number')：</span>
+                            <span>订单编号：</span>
                             <span>{{ $order->order_sn }}</span>
                         </p>
                         <p>
-                            <span class="title">@lang('order.Receiver')：</span>
+                            <span>收货人：</span>
                             <span>{{ $order->user_info['name'] }}</span>
                         </p>
                         <p>
-                            <span class="title">@lang('order.Shipping address')：</span>
+                            <span>收货地址：</span>
                             <span>{{ $order->user_info['address'] }}</span>
                         </p>
                     </div>
@@ -174,22 +174,22 @@
                 @if(!empty($order_shipment_traces))
                         <!--物流信息根据需要判断是否显示，目前显示的订单状态：待收货、未评价、已评价、退款订单-->
                 <div class="logistics_infor">
-                    <p class="logistics_title">@lang('order.Logistics information')</p>
+                    <p class="logistics_title">物流信息</p>
                     <ul class="logistics_lists">
                         <li>
-                            <span>@lang('order.Shipping method')：</span>
-                            <span>@lang('order.express delivery')</span>
+                            <span>发货方式：</span>
+                            <span>快递</span>
                         </li>
                         <li>
-                            <span>@lang('order.Logistics company')：</span>
+                            <span>物流公司：</span>
                             <span>{{ $shipment_company }}</span>
                         </li>
                         <li>
-                            <span>@lang('order.Waybill number')：</span>
+                            <span>运单号码：</span>
                             <span>{{ $shipment_sn }}</span>
                         </li>
                         <li>
-                            <span>@lang('order.Logistics tracking')：</span>
+                            <span>物理跟踪：</span>
                         </li>
                         @foreach($order_shipment_traces as $order_shipment_trace)
                             <li>
@@ -206,11 +206,11 @@
                     <table>
                         <thead>
                         <th></th>
-                        <th>@lang('order.commodity')</th>
-                        <th>@lang('order.Unit Price')</th>
-                        <th>@lang('order.Quantity')</th>
-                        <th>@lang('order.Subtotal')</th>
-                        <th>@lang('basic.users.Order_Status')</th>
+                        <th>商品</th>
+                        <th>单价</th>
+                        <th>数量</th>
+                        <th>小计</th>
+                        <th>订单状态</th>
                         </thead>
                         <tbody>
                         @foreach($order->snapshot as $key => $order_item)
@@ -283,16 +283,16 @@
                     </table>
                     <div class="order_settlement">
                         <p class="commodity_cost">
-                            <span class="title">@lang('order.Total product')：</span>
-                            <span>{{ ($order->currency == 'USD') ? '&#36;' : '&yen;' }} {{ $order->total_amount }}</span>
+                            <span>商品合计：</span>
+                            <span>{{ App::isLocale('en') ? '&#36;' : '&yen;' }} {{ $order->total_amount }}</span>
                         </p>
                         <p class="freight">
-                            <span class="title">@lang('order.Shipping fee')：</span>
-                            <span>{{ ($order->currency == 'USD') ? '&#36;' : '&yen;' }} {{ $order->total_shipping_fee }}</span>
+                            <span>运  费：</span>
+                            <span>{{ App::isLocale('en') ? '&#36;' : '&yen;' }} {{ $order->total_shipping_fee }}</span>
                         </p>
                         <p class="total_cost">
-                            <span class="title">@lang('order.Total amount payable')：</span>
-                            <span class="cost_of_total">{{ ($order->currency == 'USD') ? '&#36;' : '&yen;' }} {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}</span>
+                            <span>应付总额：</span>
+                            <span class="cost_of_total">{{ App::isLocale('en') ? '&#36;' : '&yen;' }} {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}</span>
                         </p>
                     </div>
                 </div>
@@ -307,18 +307,18 @@
             </div>
             <div class="dialog_textarea">
                 <div class="textarea_title">
-                    <span>@lang('app.Prompt')</span>
+                    <span>提示</span>
                 </div>
                 <div class="textarea_content">
                     <p>
                         <img src="{{ asset('img/warning.png') }}">
-                        <span>@lang('order.Make sure to delete the order information')</span>
+                        <span>确定要删除订单信息？</span>
                     </p>
                 </div>
             </div>
             <div class="btn_area">
-                <a class="success">@lang('app.determine')</a>
-                <a class="cancel">@lang('app.cancel')</a>
+                <a class="cancel">取消</a>
+                <a class="success">确定</a>
             </div>
         </div>
     </div>
@@ -330,18 +330,18 @@
             </div>
             <div class="dialog_textarea">
                 <div class="textarea_title">
-                    <span>@lang('app.Prompt')</span>
+                    <span>提示</span>
                 </div>
                 <div class="textarea_content">
                     <p>
                         <img src="{{ asset('img/warning.png') }}">
-                        <span>@lang('order.Make sure to apply after withdrawing sales')</span>
+                        <span>确定要撤销售后申请？</span>
                     </p>
                 </div>
             </div>
             <div class="btn_area">
-                <a class="success">@lang('app.determine')</a>
-                <a class="cancel">@lang('app.cancel')</a>
+                <a class="cancel">取消</a>
+                <a class="success">确定</a>
             </div>
         </div>
     </div>
@@ -359,62 +359,33 @@
                 var val = $(this).attr("mark");
                 var start_time = $(this).attr("created_at") * 1000;
                 var ending_time = $(this).attr('time_to_close_order');
-                var seconds_to_close_order = $(this).attr('seconds_to_close_order');
-                timeCount(val, seconds_to_close_order, '1');
+                timeCount(val, start_time, ending_time, '1');
             });
             //待收货订单
             $(".tobe_received_count").each(function (index, element) {
                 var val = $(this).attr("mark");
                 var start_time = $(this).attr("shipped_at") * 1000;
                 var ending_time = $(this).attr('time_to_complete_order');
-                var seconds_to_complete_order = $(this).attr('seconds_to_complete_order');
-                timeCount(val, seconds_to_complete_order, "2");
+                timeCount(val, start_time, ending_time, "2");
             });
             //倒计时方法封装
-            function timeCount(remain_id, totalS, type) {
+            function timeCount(remain_id, start_time, ending_time, type) {
                 function _fresh() {
-//                  var nowDate = new Date(); //当前时间
+                    var nowDate = new Date(); //当前时间
                     var id = $('#' + remain_id).attr("order_id"); //当前订单的id
-//                  var addTime = new Date(parseInt(start_time));               //返回的时间戳转换成时间格式
-//                  var auto_totalS = ending_time; //订单支付有效时长
-//                  var ad_totalS = parseInt((addTime.getTime() / 1000) + auto_totalS); ///下单总秒数
-//                  var totalS = parseInt(ad_totalS - (nowDate.getTime() / 1000)); ///支付时长
-                    totalS--;
+                    var addTime = new Date(parseInt(start_time));               //返回的时间戳转换成时间格式
+                    var auto_totalS = ending_time; //订单支付有效时长
+                    var ad_totalS = parseInt((addTime.getTime() / 1000) + auto_totalS); ///下单总秒数
+                    var totalS = parseInt(ad_totalS - (nowDate.getTime() / 1000)); ///支付时长
                     if (totalS > 0) {
                         var _day = parseInt((totalS / 3600) % 24 / 24);
                         var _hour = parseInt((totalS / 3600) % 24);
                         var _minute = parseInt((totalS / 60) % 60);
                         var _second = parseInt(totalS % 60);
-                        if(_day<10){
-	                    	_day = "0"+_day;
-	                    }else {
-	                    	_day = _day;
-	                    }
-	                    if(_hour<10){
-	                    	_hour = "0"+_hour;
-	                    }else {
-	                    	_hour = _hour;
-	                    }
-	                    if(_minute<10){
-	                    	_minute = "0"+_minute;
-	                    }else {
-	                    	_minute = _minute;
-	                    }
-	                    if(_second<10){
-	                    	_second = "0"+_second;
-	                    }else {
-	                    	_second = _second;
-	                    }
                         if (type == '1') {
-                            $('#' + remain_id).html("@lang('basic.orders.Remaining')" + _hour + ':' + _minute + ':' + _second + "@lang('order.payment')(@lang('order.If the order is not paid out, the system will automatically cancel the order'))");
+                            $('#' + remain_id).html('剩余' + _hour + '时' + _minute + '分' + _second + '秒支付（若超时未支付订单，系统将自动取消订单）');
                         } else {
-                            $('#' + remain_id).html("@lang('basic.orders.Remaining')" + _day + ':' + _hour + ':' + _minute + ':'+ _second + "@lang('order.for confirmation')(@lang('order.not confirmed after the timeout'))");
-                        }
-                    }else {
-                    	if (type == '1') {
-                            $('#' + remain_id).html("@lang('Order has timed out')(@lang('order.If the order is not paid out, the system will automatically cancel the order'))");
-                        } else {
-                            $('#' + remain_id).html("@lang('Order has timed out')(@lang('order.not confirmed after the timeout'))");
+                            $('#' + remain_id).html('剩余' + _day + '天' + _hour + '时' + _minute + '分确认（若超时未确认订单，系统将自动确认订单）');
                         }
                     }
                 }
@@ -445,10 +416,9 @@
                         console.log(err);
                         if (err.status == 403) {
                             layer.open({
-							  title: "@lang('app.Prompt')",
-							  content: "@lang('app.Unable to complete operation')",
-							  btn: ["@lang('app.determine')","@lang('app.cancel')"],
-							});     
+                                type: 1,
+                                content: '您无权限执行此操作！',
+                            });
                         }
                     }
                 });
@@ -475,16 +445,15 @@
                         console.log(err);
                         if (err.status == 403) {
                             layer.open({
-							  title: "@lang('app.Prompt')",
-							  content: "@lang('app.Unable to complete operation')",
-							  btn: ["@lang('app.determine')","@lang('app.cancel')"],
-							});     
+                                type: 1,
+                                content: '您无权限执行此操作！',
+                            });
                         }
                     }
                 });
             });
             $(".reminding_shipments").on("click", function () {
-                layer.msg("@lang('basic.orders.The seller has been reminded to ship the goods, please wait for good news')");
+                layer.msg("提醒发货成功");
             })
         });
     </script>
