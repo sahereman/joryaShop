@@ -39,15 +39,10 @@ class DatabaseSeeder extends Seeder
         //订单
         $this->call(OrdersSeeder::class);
         $this->call(OrderItemsSeeder::class);
+        $this->call(OrderRefundsSeeder::class);
+        // $this->call(ProductCommentsSeeder::class);
 
         //菜单
         $this->call(MenusSeeder::class);
-
-        //评论
-//        $this->call(ProductCommentsSeeder::class);
-
-        // Pertaining Order
-        // $this->call(OrderRefundsSeeder::class);
-        // $this->call(ProductCommentsSeeder::class);
     }
 }

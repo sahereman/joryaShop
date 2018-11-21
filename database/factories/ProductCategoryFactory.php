@@ -13,10 +13,10 @@ $factory->define(App\Models\ProductCategory::class, function (Faker $faker) {
     $created_at = $faker->dateTimeThisMonth($updated_at);
 
     return [
-        'name_en' => $faker->name.'-en',
-        'name_zh' => $faker->name.'-zh',
-        'description_en' => $faker->text(20).'-en',
-        'description_zh' => $faker->text(20).'-zh',
+        'name_en' => 'Test Product Category - ' . $faker->name . '-en',
+        'name_zh' => '测试商品分类 - ' . $faker->name . '-zh',
+        'description_en' => 'Test Product Category - ' . $faker->text(20) . '-en',
+        'description_zh' => '测试商品分类 - ' . $faker->text(20) . '-zh',
         'banner' => $faker->imageUrl(),
         'created_at' => $created_at,
         'updated_at' => $updated_at,

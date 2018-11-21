@@ -12,12 +12,12 @@ $factory->define(App\Models\Product::class, function (Faker $faker) {
 
 
     return [
-        'name_en' => $faker->company.'-en',
-        'name_zh' => $faker->company.'-zh',
-        'description_en' =>  $faker->text(20).'-en',
-        'description_zh' =>  $faker->text(20).'-zh',
-        'content_en' => $faker->text(100).'-en',
-        'content_zh' => $faker->text(100).'-zh',
+        'name_en' => 'Test Product - ' . $faker->company.'-en',
+        'name_zh' => '测试商品分类 - ' . $faker->company.'-zh',
+        'description_en' =>  'Test Product - ' . $faker->text(20).'-en',
+        'description_zh' =>  '测试商品分类 - ' . $faker->text(20).'-zh',
+        'content_en' => 'Test Product - ' . $faker->text(100).'-en',
+        'content_zh' => '测试商品分类 - ' . $faker->text(100).'-zh',
         'thumb' => $faker->imageUrl(),
         'photos' => array($faker->imageUrl(), $faker->imageUrl(), $faker->imageUrl()),
         'shipping_fee' => $faker->randomFloat(2, 0, 20),
