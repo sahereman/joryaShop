@@ -13,6 +13,7 @@ Route::get('test', function () {
 
 /*首页*/
 Route::get('/', 'IndexController@root')->name('mobile.root'); // 首页
+Route::get('locale', 'IndexController@localeShow')->name('mobile.locale.show'); // 修改网站语言 页面
 
 
 /*注册与登录*/

@@ -14,4 +14,11 @@ class IndexController extends Controller
 
         ]);
     }
+
+    public function localeShow()
+    {
+        return view('mobile.index.locale', [
+
+        ]);
+    }
 }
