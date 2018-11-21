@@ -21,4 +21,11 @@ class IndexController extends Controller
 
         ]);
     }
+
+    public function search()
+    {
+        return view('mobile.index.search', [
+
+        ]);
+    }
 }
