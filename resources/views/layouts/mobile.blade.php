@@ -25,6 +25,7 @@
 <script src="{{ asset('js/swiper/js/swiper_m.min.js') }}"></script>
 <script src="{{ asset('static_m/js/layer_mobile/layer.js') }}"></script>
 <script src="{{ asset('static_m/js/raty/jquery.raty.js') }}"></script>
+<script src="{{ asset('static_m/js/jquery.countdown-2.2.0/jquery.countdown.js') }}"></script>
 
 @yield('scriptsAfterJs')
 </body>

@@ -16,7 +16,7 @@
 					<div class="odrHeadRight">
 						<div>
 							<span>剩余:</span>
-							<span>00:58:45支付</span>
+							<span id="getting-started"></span>
 						</div>
 						<div class="odrHeadRightPri">
 							<span>需付款:</span>
@@ -121,7 +121,14 @@
 @section('scriptsAfterJs')
     <script type="text/javascript">
         //页面单独JS写这里
-          
+          $("#getting-started")
+			  .countdown("2018/11/22 10:00", function(event) {
+			    $(this).text(
+			      event.strftime('%H:%M:%S')
+			    );
+			  });
+			  
+			  
     </script>
 @endsection
 
