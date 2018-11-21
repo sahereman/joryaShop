@@ -7,6 +7,10 @@
 				<img src="{{ asset('static_m/img/Unchecked_search.png') }}"/>
 				<input type="text" name="" id="" value="" placeholder="搜索商品，供12351款好货"/>
 			</div>
+			<a href="{{route('mobile.locale.show')}}" class="LanguageSwitch">
+				<img src="{{ asset('static_m/img/chinese.png')}}"  alt="" class="langImg"/>
+				<span></span>
+			</a>
 		</div>
 		<!-- Swiper -->
 	    <div class="swiper-container swiper-containerL" >		
