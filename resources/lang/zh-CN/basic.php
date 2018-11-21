@@ -108,5 +108,26 @@ return [
 		'Please enter the detailed shipping address' => '请输入详细收货地址'
 
     ],
+    'orders' => [
+        'All orders' => '所有订单',
+        'Pending payment' => '待付款',
+        'Pending receipt' => '待收货',
+        'comment' => '待评价',
+        'After-sale order' => '售后订单',
+        'payment' => '付款',
+        'cancel order' => '取消订单',
+        'buy again' => '再次购买',
+        'Remind shipments' => '提醒发货',
+        'Confirm receipt' => '确认收货',
+        'To evaluate' => '去评价',
+        'View reviews' => '查看评价',
+        'Remaining' => '剩余',
+        'The seller has been reminded to ship the goods, please wait for good news' => '已提醒卖家发货，请敬候佳音',
+        'Make sure to cancel the order' => '确定要取消订单？',
+        'Waiting for buyers payment' => '等待买家付款',
+        'Immediate payment' => '立即付款',
+        'The buyer has paid, waiting for the seller to ship' => '买家已付款，等待卖家发货',
+        'Request a refund' => '申请退款',
+    ],
 
 ];

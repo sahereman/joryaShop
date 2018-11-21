@@ -6,48 +6,48 @@
         <div class="m-wrapper">
             <div class="pre_payment_content">
                 <p class="Crumbs">
-                    <a href="{{ route('root') }}">首页</a>
+                    <a href="{{ route('root') }}">@lang('basic.home')</a>
                     <span>></span>
-                    <a href="#">确认订单</a>
+                    <a href="#">@lang('order.Confirm Order')</a>
                 </p>
                 <div class="pre_payment_header">
                     <div class="address_info clear">
                         <ul class="left">
                             <li class="clear">
                                 <img src="{{ asset('img/sure_ad_local.png') }}">
-                                <span>默认地址</span>
+                                <span>@lang('order.default address')</span>
                             </li>
                             @if($address)
                                 <li>
-                                    <span>联&ensp;系&ensp;人：</span>
+                                    <span>@lang('order.Contact')：</span>
                                     <span class="address_name">{{ $address->name }}</span>
                                 </li>
                                 <li>
-                                    <span>联系方式：</span>
+                                    <span>@lang('order.Contact information')：</span>
                                     <span class="address_phone">{{ $address->phone }}</span>
                                 </li>
                                 <li>
-                                    <span>联系地址：</span>
+                                    <span>@lang('order.contact address')：</span>
                                     <span class="address_location">{{ $address->address }}</span>
                                 </li>
                             @endif
                         </ul>
                         <div class="right">
                             <a class="change_address" data-url="{{ route('user_addresses.list_all') }}"
-                               href="javascript:void(0)">切换地址</a>
-                            <a class="add_new_address" href="javascript:void(0)">新建地址</a>
+                               href="javascript:void(0)">@lang('order.Switch address')</a>
+                            <a class="add_new_address" href="javascript:void(0)">@lang('order.New address')</a>
                         </div>
                     </div>
                 </div>
                 <div class="pre_payment_main">
-                    <p class="main_title">商品清单</p>
+                    <p class="main_title">@lang('order.Product list')</p>
                     <div class="pre_payment_main_header">
                         <div class="left w110"></div>
-                        <div class="left w250">商品信息</div>
-                        <div class="left w150 center">规格</div>
-                        <div class="left w150 center">单价</div>
-                        <div class="left w150 center">数量</div>
-                        <div class="left w150 center">小计</div>
+                        <div class="left w250">@lang('order.Product information')</div>
+                        <div class="left w150 center">@lang('product.shopping_cart.Specifications')</div>
+                        <div class="left w150 center">@lang('product.shopping_cart.Unit_price')</div>
+                        <div class="left w150 center">@lang('product.shopping_cart.Quantity')</div>
+                        <div class="left w150 center">@lang('product.shopping_cart.Subtotal')</div>
                     </div>
                     <div class="pre_payment-items">
                         @if($items)
@@ -75,36 +75,36 @@
                     </div>
                 </div>
                 <div class="pre_payment_footer">
-                    <p class="main_title">币种选择</p>
+                    <p class="main_title">@lang('order.currency option')</p>
                     <p class="currency_selection">
-                        <a href="javascript:void(0)" class="active" code="RMB" country="CNY">人民币</a>
-                        <a href="javascript:void(0)" code="dollar" country="USD">美金</a>
+                        <a href="javascript:void(0)" class="active" code="RMB" country="CNY">@lang('order.RMB')</a>
+                        <a href="javascript:void(0)" code="dollar" country="USD">@lang('order.Dollars')</a>
                     </p>
                     <ul>
                         <li class="clear">
-                            <span>订单备注：</span>
-                            <textarea class="remark" maxlength="50" placeholder="选填，给卖家留言（限50字）"></textarea>
+                            <span>@lang('order.order note')：</span>
+                            <textarea class="remark" maxlength="50" placeholder="@lang('order.Optional message')"></textarea>
                         </li>
                         <li>
                             <p>
-                                <span>合计：</span>
+                                <span>@lang('order.A total of')：</span>
                                 <span class="RMB_num amount_of_money">&yen; <span>{{ $total_amount }}</span></span>
                                 <span class="dis_ni dollar_num amount_of_money">&#36; <span>{{ $total_amount_en }}</span></span>
                             </p>
                             <p>
-                                <span>运费：</span>
+                                <span>@lang('order.freight')：</span>
                                 <span class="RMB_num amount_of_money">&yen; <span>{{ $total_shipping_fee }}</span></span>
                                 <span class="dis_ni dollar_num amount_of_money">&#36; <span>{{ $total_shipping_fee_en }}</span></span>
                             </p>
                         </li>
                         <li>
                             <p>
-                                <span>应付金额：</span>
+                                <span>@lang('order.Amount payable')：</span>
                                 <span class="red RMB_num amount_of_money">&yen; <span>{{ $total_fee }}</span></span>
                                 <span class="red dis_ni dollar_num amount_of_money">&#36; <span>{{ $total_fee_en }}</span></span>
                             </p>
                             <p>
-                                <a href="javascript:void(0)" class="payment_btn" data-url="{{ route('orders.store') }}">付款</a>
+                                <a href="javascript:void(0)" class="payment_btn" data-url="{{ route('orders.store') }}">@lang('order.payment')</a>
                             </p>
                             @if($address)
                                 <p class="address_info">
@@ -133,32 +133,32 @@
             </div>
             <div class="dialog_textarea">
                 <div class="textarea_title">
-                    <span>新建地址</span>
+                    <span>@lang('basic.address.The new address')</span>
                 </div>
                 <div class="textarea_content">
                     <form id="creat-form">
                         <ul>
                             <li>
                                 <p>
-                                    <span class="input_name"><i>*</i>收&ensp;货&ensp;人：</span>
-                                    <input class="user_name" name="name" type="text" placeholder="输入收货人姓名">
+                                    <span class="input_name"><i>*</i>@lang('basic.address.The consignee')：</span>
+                                    <input class="user_name" name="name" type="text" placeholder="@lang('basic.address.Enter the consignee name')">
                                 </p>
                                 <p>
-                                    <span class="input_name"><i>*</i>手机号码：</span>
-                                    <input class="user_tel" name="phone" type="text" placeholder="输入真实有效的手机号">
+                                    <span class="input_name"><i>*</i>@lang('basic.address.Contact')：</span>
+                                    <input class="user_tel" name="phone" type="text" placeholder="@lang('basic.address.Enter the real and valid mobile phone number')">
                                 </p>
                             </li>
                             <li>
-                                <span class="input_name"><i>*</i>详细地址：</span>
-                                <textarea name="address" placeholder="详细地址，街道、门牌号等"></textarea>
+                                <span class="input_name"><i>*</i>@lang('basic.address.Detailed address')：</span>
+                                <textarea name="address" placeholder="@lang('basic.address.Detailed_address')"></textarea>
                             </li>
                         </ul>
                     </form>
                 </div>
             </div>
             <div class="btn_area">
-                <a class="cancel">取消</a>
-                <a class="success">确定</a>
+                <a class="success">@lang('app.determine')</a>
+                <a class="cancel">@lang('app.cancel')</a>
             </div>
         </div>
     </div>
@@ -218,9 +218,9 @@
                                 var html = "";
                                 $.each(dataObj, function (i, n) {
                                     html += "<li class='clear'>" +
-                                            "<p class='clear'><span>收&ensp;货&ensp;人：</span><span class='name'>" + n.name + "</span></p>" +
-                                            "<p class='clear'><span>联系方式：</span><span class='phone'>" + n.phone + "</span></p>" +
-                                            "<p class='clear'><span>联系地址：</span><span class='address'>" + n.address + "</span></p>" +
+                                            "<p class='clear'><span>@lang('order.Contact')：</span><span class='name'>" + n.name + "</span></p>" +
+                                            "<p class='clear'><span>@lang('order.Contact information')：</span><span class='phone'>" + n.phone + "</span></p>" +
+                                            "<p class='clear'><span>@lang('order.contact address')：</span><span class='address'>" + n.address + "</span></p>" +
                                             "</li>"
                                 });
                                 $(".changeAddress ul").html("");
@@ -229,15 +229,15 @@
                                     type: 1,
                                     area: ['600px', '550px'],
                                     shadeClose: false,
-                                    title: '选择地址',
+                                    title: "@lang('order.Select address')",
                                     content: $(".changeAddress"),
-                                    btn: ['确定', '取消'],
+                                    btn: ["@lang('app.determine')", "@lang('app.cancel')"],
                                     btnAlign: 'c',
                                     success: function () {
                                     },
                                     yes: function () {   //确定
                                         if ($(".changeAddress").find("li.active").length <= 0) {
-                                            layer.msg("请选择收获地址");
+                                            layer.msg("@lang('order.Please choose the harvest address')");
                                         } else {
                                             $(".address_name").html($(".changeAddress").find("li.active").find(".name").html());
                                             $(".address_phone").html($(".changeAddress").find("li.active").find(".phone").html());
@@ -317,7 +317,7 @@
 		    		url:url,
 		    		data:data,
 		    		beforeSend: function(){
-	        			loading_animation = layer.msg('请稍候', {
+	        			loading_animation = layer.msg("@lang('app.Please wait')", {
 			                icon: 16,
 			                shade: 0.4,
 			                time:false //取消自动关闭
@@ -350,7 +350,7 @@
 		    		url:url,
 		    		data:data,
 		    		beforeSend: function(){
-	        			loading_animation = layer.msg('请稍候', {
+	        			loading_animation = layer.msg("@lang('app.Please wait')", {
 			                icon: 16,
 			                shade: 0.4,
 			                time:false //取消自动关闭

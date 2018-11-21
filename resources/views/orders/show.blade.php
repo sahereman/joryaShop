@@ -5,13 +5,13 @@
         <div class="m-wrapper">
             <div>
                 <p class="Crumbs">
-                    <a href="{{ route('root') }}">首页</a>
+                    <a href="{{ route('root') }}">@lang('basic.home')</a>
                     <span>></span>
-                    <a href="{{ route('users.home') }}">个人中心</a>
+                    <a href="{{ route('users.home') }}">@lang('basic.users.Personal_Center')</a>
                     <span>></span>
-                    <a href="{{ route('orders.index') }}">我的订单</a>
+                    <a href="{{ route('orders.index') }}">@lang('basic.users.My_order')</a>
                     <span>></span>
-                    <a href="#">订单详情</a>
+                    <a href="#">@lang('basic.users.The_order_details')</a>
                 </p>
             </div>
             <!--左侧导航栏-->
@@ -30,8 +30,8 @@
                         <div class="pending_payment status_area">
                             <p>
                                 <img src="{{ asset('img/exclamation.png') }}">
-                                <span>订单状态：</span>
-                                <span class="order_status_tips">等待买家付款</span>
+                                <span>@lang('basic.users.Order_Status')：</span>
+                                <span class="order_status_tips">@lang('basic.orders.Waiting for buyers payment')</span>
                             </p>
                             <p id="{{ $order->order_sn }}" mark="{{ $order->order_sn }}" class="cunt_down paying_time"
                                created_at="{{ strtotime($order->created_at) }}"
@@ -51,7 +51,7 @@
                         <div class="pending_delivery status_area">
                             <p>
                                 <img src="{{ asset('img/pending.png') }}">
-                                <span>订单状态：</span>
+                                <span>@lang('basic.users.Order_Status')：</span>
                                 <span class="order_status_tips">买家已付款，等待卖家发货</span>
                             </p>
                             <p class="operation_area">
@@ -64,7 +64,7 @@
                         <div class="pending_payment status_area">
                             <p>
                                 <img src="{{ asset('img/pending.png') }}">
-                                <span>订单状态：</span>
+                                <span>@lang('basic.users.Order_Status')：</span>
                                 <span class="order_status_tips">卖家已发货，等待买家收货 </span>
                             </p>
                             <p id="{{ $order->order_sn }}" mark="{{ $order->order_sn }}"
@@ -86,7 +86,7 @@
                         <div class="pending_delivery status_area">
                             <p>
                                 <img src="{{ asset('img/pending.png') }}">
-                                <span>订单状态：</span>
+                                <span>@lang('basic.users.Order_Status')：</span>
                                 <span class="order_status_tips">交易完成</span>
                             </p>
                             <p class="operation_area">
@@ -101,7 +101,7 @@
                         <div class="pending_delivery status_area">
                             <p>
                                 <img src="{{ asset('img/pending.png') }}">
-                                <span>订单状态：</span>
+                                <span>@lang('basic.users.Order_Status')：</span>
                                 <span class="order_status_tips">交易完成</span>
                             </p>
                             <p class="operation_area">
@@ -116,7 +116,7 @@
                         <div class="pending_delivery status_area">
                             <p>
                                 <img src="{{ asset('img/pending.png') }}">
-                                <span>订单状态：</span>
+                                <span>@lang('basic.users.Order_Status')：</span>
                                 <span class="order_status_tips">交易已关闭</span>
                             </p>
                             <p class="operation_area">
@@ -129,7 +129,7 @@
                         <div class="pending_delivery status_area">
                             <p>
                                 <img src="{{ asset('img/pending.png') }}">
-                                <span>订单状态：</span>
+                                <span>@lang('basic.users.Order_Status')：</span>
                                 <span class="order_status_tips">售后中</span>
                             </p>
                             <p class="operation_area">
@@ -233,11 +233,7 @@
                                     </td>
                                     <td class="col-price">
                                         <p class="p-price">
-                                            @if($order->currency === 'CNY')
-                                                <em>&yen; </em>
-                                            @else
-                                                <em>&#36; </em>
-                                            @endif
+                                            <span>{{ App::isLocale('en') ? '&#36;' : '&yen;' }}</span>
                                             <span>{{ $order_item['price'] }}</span>
                                         </p>
                                     </td>
@@ -246,11 +242,7 @@
                                     </td>
                                     <td rowspan="{{ count($order->snapshot) }}" class="col-pay">
                                         <p>
-                                            @if($order->currency === 'CNY')
-                                                <em>&yen; </em>
-                                            @else
-                                                <em>&#36; </em>
-                                            @endif
+                                            <span>{{ App::isLocale('en') ? '&#36;' : '&yen;' }}</span>
                                             <span>{{ $order->total_amount }}</span>
                                         </p>
                                     </td>
@@ -277,11 +269,7 @@
                                     </td>
                                     <td class="col-price">
                                         <p class="p-price">
-                                            @if($order->currency === 'CNY')
-                                                <em>&yen; </em>
-                                            @else
-                                                <em>&#36; </em>
-                                            @endif
+                                            <span>{{ App::isLocale('en') ? '&#36;' : '&yen;' }}</span>
                                             <span>{{ $order_item['price'] }}</span>
                                         </p>
                                     </td>

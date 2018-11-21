@@ -107,5 +107,26 @@ return [
 		'Please enter the detailed shipping address' => 'Please enter the detailed shipping address'
 
     ],
+    'orders' => [
+        'All orders' => 'All orders',
+        'Pending payment' => 'Pending payment',
+        'Pending receipt' => 'Pending receipt',
+        'comment' => 'Comment',
+        'After-sale order' => 'After-sale order',
+        'payment' => 'Payment',
+        'cancel order' => 'Cancel order',
+        'buy again' => 'Buy again',
+        'Remind shipments' => 'Remind shipments',
+        'Confirm receipt' => 'Confirm receipt',
+        'To evaluate' => 'To evaluate',
+        'View reviews' => 'View reviews',
+        'Remaining' => 'Remaining',
+        'The seller has been reminded to ship the goods, please wait for good news' => 'The seller has been reminded to ship the goods, please wait for good news',
+        'Make sure to cancel the order' => 'Make sure to cancel the order?',
+        'Waiting for buyers payment' => 'Waiting for buyers payment',
+        'Immediate payment' => 'Immediate payment',
+        'The buyer has paid, waiting for the seller to ship' => 'The buyer has paid, waiting for the seller to ship',
+        'Request a refund' => 'Request a refund',
+    ],
 
 ];

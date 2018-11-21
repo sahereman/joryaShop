@@ -255,8 +255,8 @@
                 </div>
             </div>
             <div class="btn_area">
+            	<a class="success">@lang('app.determine')</a>
                 <a class="cancel">@lang('app.cancel')</a>
-                <a class="success">@lang('app.determine')</a>
             </div>
         </div>
     </div>

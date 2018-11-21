@@ -5,15 +5,15 @@
         <div class="m-wrapper">
             <div>
                 <p class="Crumbs">
-                    <a href="{{ route('root') }}">首页</a>
+                    <a href="{{ route('root') }}">@lang('basic.home')</a>
                     <span>></span>
-                    <a href="{{ route('users.home') }}">个人中心</a>
+                    <a href="{{ route('users.home') }}">@lang('basic.users.Personal_Center')</a>
                     <span>></span>
-                    <a href="{{ route('orders.index') }}">我的订单</a>
+                    <a href="{{ route('orders.index') }}">@lang('basic.users.My_order')</a>
                     <span>></span>
-                    <a href="{{ route('orders.show', ['order' => $order->id]) }}">订单详情</a>
+                    <a href="{{ route('orders.show', ['order' => $order->id]) }}">@lang('basic.users.The_order_details')</a>
                     <span>></span>
-                    <a href="#">评价</a>
+                    <a href="#">@lang('basic.users.feedback')</a>
                 </p>
             </div>
             <!--左侧导航栏-->
@@ -28,11 +28,11 @@
 	                        <table>
 	                            <thead>
 	                            <th></th>
-	                            <th>商品</th>
-	                            <th>规格</th>
-	                            <th>单价</th>
-	                            <th>数量</th>
-	                            <th>小计</th>
+	                            <th>@lang('product.comments.commodity')</th>
+	                            <th>@lang('product.comments.specification')</th>
+	                            <th>@lang('product.comments.Unit Price')</th>
+	                            <th>@lang('product.comments.Quantity')</th>
+	                            <th>@lang('product.comments.Subtotal')</th>
 	                            </thead>
 	                            <tbody>
 	                            <tr>
@@ -72,7 +72,7 @@
 	                            </tbody>
 	                        </table>
 	                        <div class="evaluation_content">
-	                            <p class="evaluat_title">请填写您宝贵的建议</p>
+	                            <p class="evaluat_title">@lang('product.comments.Please fill in your valuable suggestions')</p>
 	                            {{--**
 	                                * 注：循环是请把下面的所有的{{ $order_item->id }}切换成对应循环的下标值，即第几个否则评价的五星会失效
 	                                * 切记！！！！
@@ -81,7 +81,7 @@
 	                                <div class="five_star_one star_area">
 	                                    <p>
 	                                        <i>*</i>
-	                                        <span>综合评分</span>
+	                                        <span>@lang('product.composite_index')</span>
 	                                    </p>
 	                                    <div class="starability-basic">
 	
@@ -109,7 +109,7 @@
 	                                <div class="five_star_two star_area">
 	                                    <p>
 	                                        <i>*</i>
-	                                        <span>描述相符</span>
+	                                        <span>@lang('product.description_index')</span>
 	                                    </p>
 	                                    <div class="starability-basic">
 	                                        <input type="radio" id="rate5-2_{{ $order_item['id'] }}"
@@ -136,7 +136,7 @@
 	                                <div class="five_star_three star_area">
 	                                    <p>
 	                                        <i>*</i>
-	                                        <span>物流服务</span>
+	                                        <span>@lang('product.shipping_index')</span>
 	                                    </p>
 	                                    <div class="starability-basic">
 	                                        <input type="radio" id="rate5-3_{{ $order_item['id'] }}"
@@ -161,14 +161,14 @@
 	                                    </div>
 	                                </div>
 	                            </div>
-	                            <textarea name="content[{{ $order_item['id'] }}]" placeholder="请输入少于200字的商品评价"></textarea>
+	                            <textarea name="content[{{ $order_item['id'] }}]" maxlength="200" placeholder="@lang('product.comments.Please enter a product evaluation of less than 200 words')"></textarea>
 	                            <!--<input id="imgPath-[{{ $order_item['id'] }}]" type="hidden" name="photos[{{ $order_item['id'] }}]"-->
 	                                 
 	                            <div class="picture_area">
 	                            	<input id="imgPath-[{{ $order_item['id'] }}]" type="hidden" name="photos[{{ $order_item['id'] }}]"  value="">
 	                                <p>
 	                                    <i>*</i>
-	                                    <span>上传图片</span>
+	                                    <span>@lang('app.upload image')</span>
 	                                </p>
 	                                <div class="pictures" code="{{ $order_item['id'] }}">
 	                                    <div class="pictures_btn" code="{{ $order_item['id'] }}">
@@ -181,7 +181,7 @@
 	                    </div>
 	                @endforeach
 	                <div class="sub_evaluation_area">
-	                    <a class="sub_evaluation">提交</a>
+	                    <a class="sub_evaluation">@lang('app.submit')</a>
 	                </div>
 	            </form>
             </div>
@@ -213,8 +213,9 @@
                 UpLoadImg(obj);
             }else{
                 layer.open({
-				  title: '提示',
-				  content: '您未选择图片，或者您上传文件格式有误！（当前支持图片格式：jpg，png，jpeg，gif，bmp）'
+				    title: "@lang('app.Prompt')",
+				    content: "@lang('app.picture_type_error')",
+					btn: "@lang('app.determine')"
 				});
                 upLoadBtnSwitch = 0;
                 return false 

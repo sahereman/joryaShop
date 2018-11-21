@@ -41,14 +41,12 @@
                         <li>
 
                             <a class="touser_center" href="{{ route('users.home') }}">
-                                    <span>
-                                        <img class="user_img" src="{{ Auth::user()->avatar_url }}">
-                                    </span>
+                                <img class="user_img" src="{{ Auth::user()->avatar_url }}">
                                 <span>@lang('app.Account_information')</span>
                             </a>
                         </li>
                         <li>
-                            <a href="{{ route('logout') }}"
+                            <a href="{{ route('logout') }}" class="login_out_a"
                                onclick="event.preventDefault();document.getElementById('logout-form').submit();">@lang('app.Sign_out')</a>
                         </li>
                     </ul>
@@ -93,7 +91,7 @@
             <div class="pull-right header-search">
                 <ul>
                     <li>
-                        <input type="search" data-url="{{ route('products.search_hint') }}" class="selectInput_header" placeholder="请输入您要搜索的商品">
+                        <input type="search" data-url="{{ route('products.search_hint') }}" class="selectInput_header" placeholder="@lang('app.Please enter the item you are searching for')">
                         <a class="search_btn" href="javascript:void(0)">
                             <img src="{{ asset('img/search_magnifier.png') }}">
                         </a>

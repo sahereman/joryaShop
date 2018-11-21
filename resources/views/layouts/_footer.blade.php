@@ -32,34 +32,34 @@
         <div class="m-wrapper">
             <div class="contact_us">
                 <h4>400-100-5678 </h4>
-                <p>周一至周日 9:00-21:00</p>
-                <a href="{{ route('root') }}">联系客服</a>
+                <p>@lang('app.Monday-Sunday') 9:00-21:00</p>
+                <a href="{{ route('root') }}">@lang('app.Contact Customer Service')</a>
             </div>
             <div class="footer-top-center">
                 <ul>
                     <li>
-                        <p>使用帮助</p>
-                        <a href="{{ route('root') }}">新手指南</a>
-                        <a href="{{ route('root') }}">常见问题</a>
-                        <a href="{{ route('root') }}">用户协议</a>
+                        <p>@lang('app.Help')</p>
+                        <a href="{{ route('root') }}">@lang('app.Newbie Guide')</a>
+                        <a href="{{ route('root') }}">@lang('app.Common problems')</a>
+                        <a href="{{ route('root') }}">@lang('app.User Agreement')</a>
                     </li>
                     <li>
-                        <p>支付方式</p>
-                        <a href="{{ route('root') }}">支付宝</a>
-                        <a href="{{ route('root') }}">微信</a>
+                        <p>@lang('app.Method of Payment')</p>
+                        <a href="{{ route('root') }}">@lang('app.ALIPAY')</a>
+                        <a href="{{ route('root') }}">@lang('app.WeChat Pay')</a>
                         <a href="{{ route('root') }}">paypal</a>
                     </li>
                     <li>
-                        <p>售后服务</p>
-                        <a href="{{ route('root') }}">售后咨询</a>
-                        <a href="{{ route('root') }}">退货政策</a>
-                        <a href="{{ route('root') }}">退货办理</a>
+                        <p>@lang('app.After-sales Service')</p>
+                        <a href="{{ route('root') }}">@lang('app.After Consulting')</a>
+                        <a href="{{ route('root') }}">@lang('app.Return Policy')</a>
+                        <a href="{{ route('root') }}">@lang('app.Return to deal with')</a>
                     </li>
                     <li>
-                        <p>关于我们</p>
-                        <a href="{{ route('root') }}">公司简介</a>
-                        <a href="{{ route('root') }}">产品特色</a>
-                        <a href="{{ route('root') }}">联系我们</a>
+                        <p>@lang('app.About us')</p>
+                        <a href="{{ route('root') }}">@lang('app.Company profile')</a>
+                        <a href="{{ route('root') }}">@lang('app.Products features')</a>
+                        <a href="{{ route('root') }}">@lang('app.Contact us')</a>
                     </li>
                 </ul>
             </div>
@@ -96,15 +96,15 @@
             </ul>
             <ul class="friendship_link">
                 <li>
-                    <p>友情链接：</p>
+                    <p>@lang('app.Friendship link')：</p>
                 </li>
                 @for ($i = 0; $i < 8; $i++)
                     <li>
-                        <a href="{{ route('root') }}">尚禾维曼</a>
+                        <a href="http://sahereman.com/" target="view_window">尚禾维曼</a>
                     </li>
                 @endfor
             </ul>
-            <p>Copyright 2018 卓雅美发 版权所有</p>
+            <p>Copyright 2018 @lang('app.Joryashop All rights reserved')</p>
         </div>
     </div>
 </footer>
@@ -119,7 +119,7 @@
                <ul>
                	  <li class="row">
 			        <!--<div class="share-component " data-disabled="qzone, tencent, douban, diandian, google, linkedin"></div>-->
-			        <div class="social-share" data-initialized="true" data-url="{{config('app.url')}}"  data-title="卓雅美发">
+			        <div class="social-share" data-initialized="true" data-url="{{config('app.url')}}"  data-title="Jorya卓雅美业">
 			            <a href="#" class="social-share-icon icon-weibo"></a>
 			            <a href="#" class="social-share-icon icon-wechat"></a>
 			            <a href="#" class="social-share-icon icon-qq"></a>
@@ -153,7 +153,7 @@
                 <p>关注公众号</p>
             </div>
         </li>
-        <li class="backtop" title="点击返回顶部">
+        <li class="backtop" title="@lang('app.Click to return to the top')">
             <a>
                 <img src="{{ asset('img/top_tip.png') }}">
             </a>
@@ -169,17 +169,17 @@
         <!--注册-->
         <div class="register_form part_frame">
             <div class="holder">
-                <div class="with-line">新用户注册</div>
+                <div class="with-line">@lang('app.New User Registration')</div>
                 <form id="register-form" action="{{ route('register') }}" method="POST">
                     <p id="register_token_code" class="dis_n">{{ csrf_field() }}</p>
-                    <input type="text" name="name" id="register_user" placeholder="请输入用户名" required>
+                    <input type="text" name="name" id="register_user" placeholder="@lang('app.please enter user name')" required>
                     @if ($errors->has('name'))
                         <p class="login_error error_content">
                             <i></i>
                             <span>{{ $errors->first('name') }}</span>
                         </p>
                     @endif
-                    <input type="password" name="password" id="register_psw" placeholder="请输入密码" required>
+                    <input type="password" name="password" id="register_psw" placeholder="@lang('app.Please enter your password')" required>
                     @if ($errors->has('password'))
                         <p class="login_error error_content">
                             <i></i>
@@ -197,7 +197,7 @@
                             <img src="{{ asset('img/sanjiao.png') }}">
                         </div>
                         <span class="areaCode_val"></span>
-                        <input type="text" name="phone" id="register_email" placeholder="请输入手机号" required>
+                        <input type="text" name="phone" id="register_email" placeholder="@lang('app.Please enter phone number')" required>
                     </div>
                     @if ($errors->has('phone'))
                         <p class="login_error error_content">
@@ -206,13 +206,13 @@
                         </p>
                     @endif
                     <div class="verification_code">
-                        <input type="text" id="register_code" class="code" name="code" placeholder="请输入验证码">
+                        <input type="text" id="register_code" class="code" name="code" placeholder="@lang('app.please enter verification code')">
                         <input type="button" class="generate_code" data-url="{{ route('register.send_sms_code') }}"
-                               id="getRegister_code" value=" 获取验证码">
+                               id="getRegister_code" value=" @lang('app.get verification code')">
                     </div>
                     <p class="register_error error_content">
                         <i></i>
-                        <span>请输入有效验证码阅读并同意服务协议</span>
+                        <span>@lang('app.Please enter a valid verification code')</span>
                     </p>
                     @if ($errors->has('code'))
                         <p class="login_error error_content">
@@ -224,15 +224,15 @@
                 <div class="switch-back">
                     <p class="agreement_content">
                         <input type="checkbox" id="agreement" class="agree_agreement">
-                        <span>我已阅读并同意</span>
-                        <a href="{{ route('root') }}">《用户服务使用协议》</a>
+                        <span>@lang('app.I have read and agreed')</span>
+                        <a href="{{ route('root') }}">《@lang('app.User Service Use Agreement')》</a>
                     </p>
                 </div>
-                <a class="btn_dialog register_btn" id="register_btn" data-url="{{ route('register') }}">注册</a>
+                <a class="btn_dialog register_btn" id="register_btn" data-url="{{ route('register') }}">@lang('app.Registered')</a>
                 <div class="switch-back">
                     <p class="change_title">
-                        <span>已有账号？</span>
-                        <a code="0" class="login_btn rotary_btn">登录>></a>
+                        <span>@lang('app.Existing account')</span>
+                        <a code="0" class="login_btn rotary_btn">@lang('app.Sign_in')>></a>
                     </p>
                 </div>
             </div>
@@ -243,23 +243,23 @@
                 <div class="login_type">
                     <ul>
                         <li class="common_login active">
-                            <a>普通登录</a>
+                            <a>@lang('app.Normal login')</a>
                         </li>
                         <li class="mailbox_login">
-                            <a>手机动态密码登录</a>
+                            <a>@lang('app.Mobile phone dynamic code login')</a>
                         </li>
                     </ul>
                 </div>
                 <form id="login-form" class="active" action="{{ route('login.post') }}" method="POST">
                     <p id="commn_login_token_code" class="dis_n">{{ csrf_field() }}</p>
-                    <input type="text" name="username" placeholder="请输入用户名或手机号" required>
+                    <input type="text" name="username" placeholder="@lang('app.Please enter your username or phone number')" required>
                     @if ($errors->has('username'))
                         <p class="login_error error_content">
                             <i></i>
                             <span>{{ $errors->first('username') }}</span>
                         </p>
                     @endif
-                    <input type="password" name="password" placeholder="请输入密码" required>
+                    <input type="password" name="password" placeholder="@lang('app.Please enter your password')" required>
                     @if ($errors->has('password'))
                         <p class="login_error error_content">
                             <i></i>
@@ -280,7 +280,7 @@
                             <img src="{{ asset('img/sanjiao.png') }}">
                         </div>
                         <span class="areaCode_val login_code"></span>
-                        <input type="text" name="phone" id="login_email" placeholder="请输入手机号" required>
+                        <input type="text" name="phone" id="login_email" placeholder="@lang('app.Please enter phone number')" required>
                     </div>
                     @if ($errors->has('phone'))
                         <p class="login_error error_content">
@@ -289,13 +289,13 @@
                         </p>
                     @endif
                     <div class="verification_code">
-                        <input type="text" class="code" name="code" id="login_code" placeholder="请输入验证码">
+                        <input type="text" class="code" name="code" id="login_code" placeholder="@lang('app.please enter verification code')">
                         <input type="button" class="generate_code" data-url="{{ route('login.send_sms_code') }}"
-                               id="getLogin_code" value=" 获取验证码">
+                               id="getLogin_code" value=" @lang('app.get verification code')">
                     </div>
                     <p class="mailbox_error error_content">
                         <i></i>
-                        <span>请输入正确有效验证码</span>
+                        <span>@lang('app.Please enter a valid verification code')</span>
                     </p>
                     @if ($errors->has('code'))
                         <p class="login_error error_content">
@@ -305,11 +305,11 @@
                     @endif
                 </form>
                 <div class="switch-back">
-                    <a code="1" class="rotary_btn register_btn pull-left">新用户注册</a>
-                    <a class="forget_psw pull-right" href="{{ route('password.request') }}">忘记密码？</a>
+                    <a code="1" class="rotary_btn register_btn pull-left">@lang('app.New User Registration')</a>
+                    <a class="forget_psw pull-right" href="{{ route('password.request') }}">@lang('app.forget password')</a>
                 </div>
-                <a class="btn_dialog commo_btn active" data-url="{{ route('login') }}">登录</a>
-                <a class="btn_dialog mailbox_btn" data-url="{{ route('login.verify_sms_code') }}">登录</a>
+                <a class="btn_dialog commo_btn active" data-url="{{ route('login') }}">@lang('app.Sign_in')</a>
+                <a class="btn_dialog mailbox_btn" data-url="{{ route('login.verify_sms_code') }}">@lang('app.Sign_in')</a>
             </div>
         </div>
         <div class="close">

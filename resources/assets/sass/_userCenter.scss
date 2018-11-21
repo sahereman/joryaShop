@@ -106,7 +106,7 @@
                 color: #333;
                 text-align: center;
                 &.order_details {
-                    width: 486px;
+                    width: 460px;
                 }
                 &.order_price {
                     width: 95px;
@@ -213,14 +213,14 @@
                                 border-left: 1px solid #ebebeb;
                             }
                             .col-operate {
-                                width: 122px;
+                                min-width: 155px;
                                 border-left: 1px solid #ebebeb;
                                 a {
                                     cursor: pointer;
                                     display: inline-block;
-                                    margin: 5px 0;
+                                    margin: 5px 1px;
                                     &.evaluate {
-                                        min-width: 85px;
+                                        min-width: 100px;
                                         height: 30px;
                                         border: 1px solid #dcdcdc;
                                         border-radius: 2px;
@@ -239,6 +239,9 @@
                                             color: $hover-color;
                                         }
                                     }  
+                                    &.cancellation {
+                                        width: 100%;
+                                    }
                                 }
                             }
                             .order_top {

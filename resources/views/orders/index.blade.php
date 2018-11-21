@@ -6,11 +6,11 @@
         <div class="m-wrapper">
             <div>
                 <p class="Crumbs">
-                    <a href="{{ route('root') }}">首页</a>
+                    <a href="{{ route('root') }}">@lang('basic.home')</a>
                     <span>></span>
-                    <a href="{{ route('users.home') }}">个人中心</a>
+                    <a href="{{ route('users.home') }}">@lang('basic.users.Personal_Center')</a>
                     <span>></span>
-                    <a href="{{ route('orders.index') }}">我的订单</a>
+                    <a href="{{ route('orders.index') }}">@lang('basic.users.My_order')</a>
                 </p>
             </div>
             <!--左侧导航栏-->
@@ -20,48 +20,48 @@
                 <ul class="myorder_classification">
                     <li class="all_orders">
                         <a href="{{ route('orders.index') }}">
-                            <span>所有订单</span>
+                            <span>@lang('basic.orders.All orders')</span>
                         </a>
                     </li>
                     <li class="order_paying">
                         <a href="{{ route('orders.index') . '?status=paying' }}">
-                            <span>待付款</span>
+                            <span>@lang('basic.orders.Pending payment')</span>
                         </a>
                     </li>
                     <li class="order_receiving">
                         <a href="{{ route('orders.index') . '?status=receiving' }}">
-                            <span>待收货</span>
+                            <span>@lang('basic.orders.Pending receipt')</span>
                         </a>
                     </li>
                     <li class="order_uncommented">
                         <a href="{{ route('orders.index') . '?status=uncommented' }}">
-                            <span>待评价</span>
+                            <span>@lang('basic.orders.comment')</span>
                         </a>
                     </li>
                     <li class="order_refunding">
                         <a href="{{ route('orders.index') . '?status=refunding' }}">
-                            <span>售后订单</span>
+                            <span>@lang('basic.orders.After-sale order')</span>
                         </a>
                     </li>
                 </ul>
                 <ul class="ordertable_title">
                     <li class="order_details">
-                        <span>订单详情</span>
+                        <span>@lang('basic.users.The_order_details')</span>
                     </li>
                     <li class="order_price">
-                        <span>单价</span>
+                        <span>@lang('basic.users.The_unit_price')</span>
                     </li>
                     <li class="order_num">
-                        <span>数量</span>
+                        <span>@lang('basic.users.quantity')</span>
                     </li>
                     <li class="order_pay">
-                        <span>实付款</span>
+                        <span>@lang('basic.users.The_final_payment')</span>
                     </li>
                     <li class="order_status">
-                        <span>订单状态</span>
+                        <span>@lang('basic.users.Order_Status')</span>
                     </li>
                     <li class="order_operation">
-                        <span>操作</span>
+                        <span>@lang('basic.users.operating')</span>
                     </li>
                 </ul>
                 <!--订单列表分为两部分，1、暂无订单时展现其他时候隐藏。2、存在订单时显示.需进行判断-->
@@ -70,8 +70,8 @@
                             <!--暂无订单部分-->
                     <div class="no_order">
                         <img src="{{ asset('img/no_order.png') }}">
-                        <p>还没有任何订单哦~</p>
-                        <a href="{{ route('root') }}">去逛逛</a>
+                        <p>@lang('basic.users.No_orders_yet')</p>
+                        <a href="{{ route('root') }}">@lang('product.shopping_cart.Go_shopping')</a>
                     </div>
                     @else
                             <!--订单部分-->
@@ -81,7 +81,7 @@
                                 <div class="o-info">
                                     <div class="col-info pull-left">
                                      <span class="o-no">
-                                         订单编号：
+                                         @lang('basic.users.Order_number')：
                                          <a href="{{ route('orders.show', $order->id) }}">{{ $order->order_sn }}</a>
                                      </span>
                                     </div>
@@ -150,19 +150,19 @@
                                                           class="paying_time count_down"
                                                           created_at="{{ strtotime($order->created_at) }}"
                                                           time_to_close_order="{{ \App\Models\Config::config('time_to_close_order') * 60 }}"
-                                                          seconds_to_close_order="{{ time() + \App\Models\Order::getSecondsToCloseOrder() - strtotime($order->created_at) }}">
+                                                          seconds_to_close_order="{{ strtotime($order->created_at) + \App\Models\Order::getSecondsToCloseOrder() - time() }}">
                                                         {{ generate_order_ttl_message($order->create_at, \App\Models\Order::ORDER_STATUS_PAYING) }}
                                                     </span>
                                                     <a class="payment"
-                                                       href="{{ route('orders.payment_method', $order->id) }}">付款</a>
+                                                       href="{{ route('orders.payment_method', $order->id) }}">@lang('basic.orders.payment')</a>
                                                     <a class="cancellation"
-                                                       code="{{ route('orders.close', $order->id) }}">取消订单</a>
+                                                       code="{{ route('orders.close', $order->id) }}">@lang('basic.orders.cancel order')</a>
                                                     @elseif($order->status == \App\Models\Order::ORDER_STATUS_CLOSED)
                                                             <!--再次购买-->
-                                                    <a class="Buy_again" data-url="{{ route('carts.store') }}">再次购买</a>
+                                                    <a class="Buy_again" data-url="{{ route('carts.store') }}">@lang('basic.orders.buy again')</a>
                                                     @elseif($order->status == \App\Models\Order::ORDER_STATUS_SHIPPING)
                                                             <!--订单待发货-->
-                                                    <a class="reminding_shipments">提醒发货</a>
+                                                    <a class="reminding_shipments">@lang('basic.orders.Remind shipments')</a>
                                                     @elseif($order->status == \App\Models\Order::ORDER_STATUS_RECEIVING)
                                                             <!--订单待收货-->
                                                     <!--确认收货-->
@@ -171,24 +171,24 @@
                                                           class="tobe_received_count count_down"
                                                           shipped_at="{{ strtotime($order->shipped_at) }}"
                                                           time_to_complete_order="{{ \App\Models\Config::config('time_to_complete_order') * 3600 * 24 }}"
-                                                          seconds_to_complete_order="{{ time() + \App\Models\Order::getSecondsToCompleteOrder() - strtotime($order->shipped_at) }}">
+                                                          seconds_to_complete_order="{{ strtotime($order->shipped_at) + \App\Models\Order::getSecondsToCompleteOrder() - time() }}">
                                                         {{ generate_order_ttl_message($order->shipped_at, \App\Models\Order::ORDER_STATUS_RECEIVING) }}
                                                     </span>
                                                     <a class="confirmation_receipt"
-                                                       code="{{ route('orders.complete', $order->id) }}">确认收货</a>
+                                                       code="{{ route('orders.complete', $order->id) }}">@lang('basic.orders.Confirm receipt')</a>
                                                     @elseif($order->status == \App\Models\Order::ORDER_STATUS_COMPLETED && $order->commented_at == null)
                                                             <!--订单待评价-->
                                                     <a class="evaluate"
-                                                       href="{{ route('orders.create_comment', $order->id) }}">去评价</a>
+                                                       href="{{ route('orders.create_comment', $order->id) }}">@lang('basic.orders.To evaluate')</a>
                                                     <!--再次购买-->
-                                                    <a class="buy_more" data-url="{{ route('carts.store') }}">再次购买</a>
+                                                    <a class="buy_more" data-url="{{ route('carts.store') }}">@lang('basic.orders.buy again')</a>
                                                     @elseif($order->status == \App\Models\Order::ORDER_STATUS_COMPLETED && $order->commented_at != null)
                                                             <!--订单已评价-->
                                                     <!--查看评价-->
                                                     <a class="View_evaluation"
-                                                       href="{{  route('orders.show_comment', $order->id) }}">查看评价</a>
+                                                       href="{{  route('orders.show_comment', $order->id) }}">@lang('basic.orders.View reviews')</a>
                                                     <!--再次购买-->
-                                                    <a class="buy_more" data-url="{{ route('carts.store') }}">再次购买</a>
+                                                    <a class="buy_more" data-url="{{ route('carts.store') }}">@lang('basic.orders.buy again')</a>
                                                     @endif
                                                 </p>
                                             </td>
@@ -232,15 +232,15 @@
                     <!--分页-->
                     {{ $orders->appends(['status' => $status])->links() }}
                     {{--<div class="paging_box">
-                        <a class="pre_page" href="{{ route('orders.index') }}">上一页</a>
-                        <a class="next_page" href="{{ route('orders.index') }}">下一页</a>
+                        <a class="pre_page" href="{{ route('orders.index') }}">@lang('app.Previous page')</a>
+                        <a class="next_page" href="{{ route('orders.index') }}">@lang('app.Next page')</a>
                     </div>--}}
                     @endif
                 </div>
                 <!--猜你喜欢-->
                 <div class="guess_like">
                     <div class="ordertable_title">
-                        <p>猜你喜欢</p>
+                        <p>@lang('app.you may also like')</p>
                     </div>
                     <div class="guess_like_content swiper-container">
                         <ul class="swiper-wrapper">
@@ -254,7 +254,7 @@
                                         <span class="new_price">{{ App::isLocale('en') ? '&#36;' : '&yen;' }} {{ $guess->price }}</span>
                                         <span class="old_price">{{ App::isLocale('en') ? '&#36;' : '&yen;' }} {{ bcmul($guess->price, 1.2, 2) }}</span>
                                     </p>
-                                    <a class="add_to_cart" href="{{ route('products.show', $guess->id) }}">查看详情</a>
+                                    <a class="add_to_cart" href="{{ route('products.show', $guess->id) }}">@lang('app.see details')</a>
                                 </li>
                             @endforeach
                         </ul>
@@ -272,18 +272,18 @@
             </div>
             <div class="dialog_textarea">
                 <div class="textarea_title">
-                    <span>提示</span>
+                    <span>@lang('app.Prompt')</span>
                 </div>
                 <div class="textarea_content">
                     <p>
                         <img src="{{ asset('img/warning.png') }}">
-                        <span>确定要删除订单信息？</span>
+                        <span>@lang('basic.users.Make_sure_to_delete')</span>
                     </p>
                 </div>
             </div>
             <div class="btn_area">
-                <a class="cancel">取消</a>
-                <a class="success">确定</a>
+                <a class="success">@lang('app.determine')</a>
+                <a class="cancel">@lang('app.cancel')</a>
             </div>
         </div>
     </div>
@@ -295,18 +295,18 @@
             </div>
             <div class="dialog_textarea">
                 <div class="textarea_title">
-                    <span>提示</span>
+                    <span>@lang('app.Prompt')</span>
                 </div>
                 <div class="textarea_content">
                     <p>
                         <img src="{{ asset('img/warning.png') }}">
-                        <span>确定要取消订单？</span>
+                        <span>@lang('basic.users.Make sure to cancel the order')</span>
                     </p>
                 </div>
             </div>
             <div class="btn_area">
-                <a class="cancel">取消</a>
-                <a class="success">确定</a>
+                <a class="success">@lang('app.determine')</a>
+                <a class="cancel">@lang('app.cancel')</a>
             </div>
         </div>
     </div>
@@ -351,9 +351,10 @@
                         console.log(err.status);
                         if (err.status == 403) {
                             layer.open({
-                                type: 1,
-                                content: '无法处理请求'
-                            });
+							  title: "@lang('app.Prompt')",
+							  content: "@lang('app.Unable to complete operation')",
+							  btn: ["@lang('app.determine')","@lang('app.cancel')"],
+							});     
                         }
                     }
                 });
@@ -386,7 +387,8 @@
                             var val = $(this).attr("mark");
                             var start_time = $(this).attr("created_at") * 1000;
                             var ending_time = $(this).attr('time_to_close_order');
-                            timeCount(val, start_time, ending_time, '1');
+                            var seconds_to_close_order = $(this).attr("seconds_to_close_order");
+                            timeCount(val, seconds_to_close_order, '1');
                         });
                         break;
                     case "receiving":   //待收货
@@ -415,14 +417,14 @@
             };
         });
         //倒计时方法封装
-        function timeCount(remain_id, start_time, ending_time, type) {
+        function timeCount(remain_id, totalS, type) {
             function _fresh() {
-                var nowDate = new Date(); //当前时间
+//              var nowDate = new Date(); //当前时间
                 var id = $('#' + remain_id).attr("order_id"); //当前订单的id
-                var addTime = new Date(parseInt(start_time));               //返回的时间戳转换成时间格式
-                var auto_totalS = ending_time; //订单支付有效时长
-                var ad_totalS = parseInt((addTime.getTime() / 1000) + auto_totalS); ///下单总秒数
-                var totalS = parseInt(ad_totalS - (nowDate.getTime() / 1000)); ///支付时长
+//              var addTime = new Date(parseInt(start_time));               //返回的时间戳转换成时间格式
+//              var auto_totalS = ending_time; //订单支付有效时长
+//              var ad_totalS = parseInt((addTime.getTime() / 1000) + auto_totalS); ///下单总秒数
+//              var totalS = parseInt(ad_totalS - (nowDate.getTime() / 1000)); ///支付时长
                 if (totalS > 0) {
                     var _day = parseInt((totalS / 3600) % 24 / 24);
                     var _hour = parseInt((totalS / 3600) % 24);
@@ -461,9 +463,10 @@
                 error: function (err) {
                     if (err.status == 403) {
                         layer.open({
-                            type: 1,
-                            content: '无法处理请求',
-                        });
+							  title: "@lang('app.Prompt')",
+							  content: "@lang('app.Unable to complete operation')",
+							  btn: ["@lang('app.determine')","@lang('app.cancel')"],
+						});     
                     }
                 }
             });
@@ -486,16 +489,17 @@
                 error: function (err) {
                     if (err.status == 403) {
                         layer.open({
-                            type: 1,
-                            content: '无法处理请求',
-                        });
+						  title: "@lang('app.Prompt')",
+						  content: "@lang('app.Unable to complete operation')",
+						  btn: ["@lang('app.determine')","@lang('app.cancel')"],
+						});     
                     }
                 }
             });
         });
         //提醒发货
         $(".reminding_shipments").on('click', function () {
-            layer.msg('已提醒卖家发货，请敬候佳音');
+            layer.msg("@lang('basic.orders.The seller has been reminded to ship the goods, please wait for good news')");
         });
         var allHadAdd = 0;  //用来判断是否已经订单找那个全部的商品添加至购物车中
         var shops_list;  //单个订单中包含的商品的数量,用于再次购买时判断时候可以进行跳页
@@ -541,7 +545,7 @@
                 url: url,
                 data: data,
                 beforeSend: function () {
-                    loading_animation = layer.msg('请稍候', {
+                    loading_animation = layer.msg("@lang('app.Please wait')", {
                         icon: 16,
                         shade: 0.4,
                         time: false //取消自动关闭

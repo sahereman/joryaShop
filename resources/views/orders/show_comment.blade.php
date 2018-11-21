@@ -5,15 +5,15 @@
         <div class="m-wrapper">
             <div>
                 <p class="Crumbs">
-                    <a href="{{ route('root') }}">首页</a>
+                    <a href="{{ route('root') }}">@lang('basic.home')</a>
                     <span>></span>
-                    <a href="{{ route('users.home') }}">个人中心</a>
+                    <a href="{{ route('users.home') }}">@lang('basic.users.Personal_Center')</a>
                     <span>></span>
-                    <a href="{{ route('orders.index') }}">我的订单</a>
+                    <a href="{{ route('orders.index') }}">@lang('basic.users.My_order')</a>
                     <span>></span>
-                    <a href="{{ route('orders.index') }}">订单详情</a>
+                    <a href="{{ route('orders.index') }}">@lang('basic.users.The_order_details')</a>
                     <span>></span>
-                    <a href="{{ route('orders.index') }}">评价</a>
+                    <a href="{{ route('orders.index') }}">@lang('basic.users.feedback')</a>
                 </p>
             </div>
             <!--左侧导航栏-->
@@ -25,11 +25,11 @@
                         <table>
                             <thead>
                             <th></th>
-                            <th>商品</th>
-                            <th>规格</th>
-                            <th>单价</th>
-                            <th>数量</th>
-                            <th>小计</th>
+                            <th>@lang('product.comments.commodity')</th>
+                            <th>@lang('product.comments.specification')</th>
+                            <th>@lang('product.comments.Unit Price')</th>
+                            <th>@lang('product.comments.Quantity')</th>
+                            <th>@lang('product.comments.Subtotal')</th>
                             </thead>
                             <tbody>
                             <tr>
@@ -79,7 +79,7 @@
                                 <div class="five_star_evaluation">
                                     <div class="five_star_one star_area">
                                         <div class="starability-basic">
-                                            <img class="lazy" data-src="{{ asset('img/star-' . $comments[$order_item['id']][0]['composite_index'] . '.png') }}">
+                                            <img src="{{ asset('img/star-' . $comments[$order_item['id']][0]['composite_index'] . '.png') }}">
                                         </div>
                                     </div>
                                 </div>

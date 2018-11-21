@@ -5,14 +5,14 @@
         <div class="m-wrapper">
             <div class="payment_success">
                 <img src="{{ asset('img/reset_success.png') }}">
-                <p>订单支付成功</p>
+                <p>@lang('order.Order payment success')</p>
                 <p class="clear">
                 	@if(isset($order))
-                    <a href="{{ route('orders.show', ['order' =>  $order->id]) }}">查看订单详情</a>
+                    <a href="{{ route('orders.show', ['order' =>  $order->id]) }}">@lang('order.View order details')</a>
                     @else
-                    <a href="{{ route('orders.index') }}">查看订单列表</a>
+                    <a href="{{ route('orders.index') }}">@lang('order.View order list')</a>
                     @endif
-                    <a href="{{ route('root') }}">继续购买</a>
+                    <a href="{{ route('root') }}">@lang('order.Continue to buy')</a>
                 </p>
             </div>
         </div>

@@ -62,9 +62,28 @@ return [
 	    'No evaluation information yet' => '暂无评价信息',
 	    'Shopping cart added successfully' => '购物车添加成功',
 	    'Please select specifications' => '请选择规格',
-	    
-	    
-
+    ],
+    'Categories' => '商品分类',
+    'All' => '全部',
+    'All results' => '全部结果',
+    'Comprehensive' => '综合',
+    'Popularity' => '人气',
+    'New product' => '新品',
+    'Sales volume' => '销量',
+    'price' => '价格',
+    'not found ' => '很抱歉没有找到',
+    'related products' => '相关的商品',
+    'All content has been loaded' => '全部内容已加载完',
+    'Please enter the correct price range' => '请输入正确的价格区间',
+    'comments' => [
+        'commodity' => '商品',
+        'specification' => '规格',
+        'Unit Price' => '单价',
+        'Quantity' => '数量',
+        'Subtotal' => '小计',
+        'Please fill in your valuable suggestions' => '请填写您宝贵的建议',
+        'Please enter a product evaluation of less than 200 words' => '请输入少于200字的商品评价',
+        
     ],
 
 ];

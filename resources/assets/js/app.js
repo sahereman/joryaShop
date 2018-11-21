@@ -242,7 +242,7 @@ $(function(){
 			return false;      
 		}      
 		if (!myReg.test($("#register_email").val())||$("#register_user").val()==""||$("#register_psw").val()=="") {
-			$(".register_error  span").html("请将信息填写完整!");
+			$(".register_error  span").html((CONUTRY == "中文") ? '请将信息填写完整' : 'Please enter a username or email box');
 			$(".register_error ").show();
            return false;
         }
@@ -255,7 +255,6 @@ $(function(){
             _toke: $("#register_token_code").find("input").val()
         }
         var url = clickDome.attr('data-url');
-        console.log(url)
         $.ajax({
         	type:"post",
         	url:url,
@@ -292,7 +291,6 @@ $(function(){
         	url:url,
         	data:data,
         	success:function(data){
-        		console.log(data)
         	},
 			error:function(err){          
 				console.log(err);   
@@ -343,7 +341,7 @@ $(function(){
 		if (countdown == 0) {        
 			_generate_code.attr("disabled",false);
 			_generate_code.css({backgroundColor:"#7ca442",color:"#fff",cursor:"pointer"});
-			_generate_code.val("获取验证码");        
+			_generate_code.val((CONUTRY == "中文") ? '获取验证码' : 'Verification code');        
 			countdown = 60;        
 			return false;      
 		} else {        

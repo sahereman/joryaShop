@@ -6,28 +6,28 @@
             <!--面包屑-->
             <div>
                 <p class="Crumbs">
-                    <a href="{{ route('root') }}">全部结果</a>
+                    <a href="{{ route('root') }}">@lang('product.All results')</a>
                     <span>></span>
-                    <a href="#">商品分类</a>
+                    <a href="#">@lang('product.Categories')</a>
                 </p>
             </div>
             <div class="search-level">
                 <ul>
                     <li class="active default">
-                        <a code='index'>综合</a>
+                        <a code='index'>@lang('product.Comprehensive')</a>
                     </li>
                     <li>
-                        <a code='heat'>人气</a>
+                        <a code='heat'>@lang('product.Popularity')</a>
                     </li>
                     <li>
-                        <a code='latest'>新品</a>
+                        <a code='latest'>@lang('product.New product')</a>
                     </li>
                     <li>
-                        <a code='sales'>销量</a>
+                        <a code='sales'>@lang('product.Sales volume')</a>
                     </li>
                     <li class="icon">
                         <a code='0'>
-                            <span>价格</span>
+                            <span>@lang('product.price')</span>
                             <div>
                                 <i code='price_asc' class="w-icon-arrow arrow-up"></i>
                                 <i code='price_desc' class="w-icon-arrow arrow-down"></i>
@@ -39,7 +39,7 @@
                     <input type="text" class="min_price"  placeholder="{{ App::isLocale('en') ? '&#36;' : '&yen;' }}"/>
                     <span></span>
                     <input type="text" class="max_price" placeholder="{{ App::isLocale('en') ? '&#36;' : '&yen;' }}"/>
-                    <button class="searchByPrice">确定</button>
+                    <button class="searchByPrice">@lang('app.determine')</button>
                 </div>
             </div>
             <!--商品分类展示-->
@@ -78,7 +78,7 @@
 	        		data:data,
 	        		async: type,
 	        		beforeSend:function(){
-	        			loading_animation = layer.msg('加载中请稍候', {
+	        			loading_animation = layer.msg("@lang('app.Please wait')", {
 			                icon: 16,
 			                shade: 0.4,
 			                time:false //取消自动关闭
@@ -113,13 +113,13 @@
 								html = "<li class='empty_tips'>"+
 										"<p>"+
 										"<img src='{{ asset('img/warning.png') }}'>"+
-										"很抱歉没有找到"+
-										"“<span class='red'>"+ getQueryString("query") +"</span>”相关的商品"+
+										"@lang('product.not found')"+
+										"“<span class='red'>"+ getQueryString("query") +"</span>”lang('product.related products')"+
 										"</p>"+
 										"</li>"	
 							}else {
 								html ="<li class='ending_empty_tips'>"+
-										"<p>暂无其他内容</p>"+
+										"<p>@lang('product.All content has been loaded')</p>"+
 										"</li>"	
 							}
 							loading = true;    //当返回数组内容为空时阻止滚动条滚动
@@ -205,7 +205,7 @@
 		    	$(".search-level ul").find('li').removeClass("active");
 		    	$(".search-level ul").find('.default').addClass("active");
 		    	if(parseInt($(".min_price").val())>=parseInt($(".max_price").val())){
-		    		layer.msg('请输入正确的价格区间');
+		    		layer.msg("@lang('product.Please enter the correct price range')");
 		    	}else {
 		    	    if($(".min_price").val()!=""&&$(".max_price").val()!=""){
 		    	    	dataoption_2={
@@ -217,7 +217,7 @@
 					    $(".classified-lists").html("");
 			            getResults(dataoption_2,true);
 			    	}else {
-			    		layer.msg("请输入正确的价格区间")
+			    		layer.msg("@lang('product.Please enter the correct price range')")
 			    	}	
 		    	}
 		    })

@@ -16,16 +16,16 @@
             <!--面包屑-->
             <div>
                 <p class="Crumbs">
-                    <a href="{{ route('root') }}">首页</a>
+                    <a href="{{ route('root') }}">@lang('basic.home')</a>
                     <span>></span>
-                    <a href="#">商品分类</a>
+                    <a href="#">@lang('product.Categories')</a>
                 </p>
             </div>
             <div class="classification-level">
-                <p class="level_title">分类：</p>
+                <p class="level_title">@lang('product.product_details.classification')：</p>
                 <ul>
                     <li class="active">
-                        <a href="#"><span>全部</span></a>
+                        <a href="#"><span>@lang('product.All')</span></a>
                     </li>
                     @foreach($children as $child)
                         <li>

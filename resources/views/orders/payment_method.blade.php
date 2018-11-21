@@ -4,9 +4,9 @@
     <div class="payment_method">
         <div class="m-wrapper">
             <div class="methods">
-                <p class="trade_number">订单序列号：<span>{{ $order->order_sn }}</span></p>
+                <p class="trade_number">@lang('order.Order_serial_number')：<span>{{ $order->order_sn }}</span></p>
                 <div class="methods_choose">
-                    <p>支付方式</p>
+                    <p>@lang('order.payment method')</p>
                     <ul>
                         @if($order->currency == 'CNY')
                             <li>
@@ -34,15 +34,16 @@
                 <div class="methods_footer clear">
                     <div class="left">
                         <p>
-                            实付：
+                            @lang('order.Actually paid')：
                             <span id="needToPay">{{ App::isLocale('en') ? '&#36;' : '&yen;' }} {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}</span>
                         </p>
                     </div>
                     <div class="right">
-                            <button class="pay_btn">付款</button>
+                            <button class="pay_btn">@lang('order.payment')</button>
                         <p class="cunt_down paying_time" id="time_to_pay"
                            created_at="{{ strtotime($order->created_at) }}"
-                           time_to_close_order="{{ \App\Models\Config::config('time_to_close_order') * 3600 }}">{{ generate_order_ttl_message($order->create_at, \App\Models\Order::ORDER_STATUS_PAYING) }}</p>
+                           time_to_close_order="{{ \App\Models\Config::config('time_to_close_order') * 3600 }}"
+                           seconds_to_close_order="{{ strtotime($order->created_at) + \App\Models\Order::getSecondsToCloseOrder() - time() }}">{{ generate_order_ttl_message($order->create_at, \App\Models\Order::ORDER_STATUS_PAYING) }}</p>
                     </div>
                 </div>
             </div>
@@ -69,7 +70,7 @@
 		            case "3":          //paypal
 		                break;
 		            default :
-		                layer.alert("请选择支付方式");
+		                layer.alert("lang('order.Please select the payment method')");
 		                break;
 		        }
         	})
