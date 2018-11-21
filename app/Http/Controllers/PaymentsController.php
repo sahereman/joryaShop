@@ -130,8 +130,24 @@ class PaymentsController extends Controller
     }
 
     // Alipay 退款
-    public function alipayRefund(Request $request, Order $order)
+    public function alipayRefund(Request $request)
     {
+        $this->validate($request, [
+            'order_id' => 'required|integer|exists:orders,id',
+        ], [
+            'order_id.exists' => '该订单不存在',
+        ], [
+            'order_id' => '订单ID',
+        ]);
+        $order = Order::find($request->input('order_id'));
+
+        // TODO ... (for production)
+        /*if ($order->status !== Order::ORDER_STATUS_REFUNDING) {
+            throw new InvalidRequestException('当前订单状态不正确');
+        }*/
+
+        Log::info('A New Alipay Refund Begins: order refund id - ' . $order->refund->id);
+
         // 调用支付宝支付实例的 refund 方法
         $response = Pay::alipay($this->getAlipayConfig($order))->refund([
             'out_trade_no' => $order->order_sn, // 之前的订单流水号
@@ -262,8 +278,24 @@ class PaymentsController extends Controller
     }
 
     // Wechat 退款
-    public function wechatRefund(Request $request, Order $order)
+    public function wechatRefund(Request $request)
     {
+        $this->validate($request, [
+            'order_id' => 'required|integer|exists:orders,id',
+        ], [
+            'order_id.exists' => '该订单不存在',
+        ], [
+            'order_id' => '订单ID',
+        ]);
+        $order = Order::find($request->input('order_id'));
+
+        // TODO ... (for production)
+        /*if ($order->status !== Order::ORDER_STATUS_REFUNDING) {
+            throw new InvalidRequestException('当前订单状态不正确');
+        }*/
+
+        Log::info('A New Wechat Refund Begins: order refund id - ' . $order->refund->id);
+
         // 调用Wechat支付实例的 refund 方法
         $response = Pay::wechat($this->getWechatConfig($order))->refund([
             'out_trade_no' => $order->order_sn, // 之前的订单流水号
@@ -688,8 +720,24 @@ class PaymentsController extends Controller
     }
 
     // Paypal 退款
-    public function paypalRefund(Request $request, Order $order)
+    public function paypalRefund(Request $request)
     {
+        $this->validate($request, [
+            'order_id' => 'required|integer|exists:orders,id',
+        ], [
+            'order_id.exists' => '该订单不存在',
+        ], [
+            'order_id' => '订单ID',
+        ]);
+        $order = Order::find($request->input('order_id'));
+
+        // TODO ... (for production)
+        /*if ($order->status !== Order::ORDER_STATUS_REFUNDING) {
+            throw new InvalidRequestException('当前订单状态不正确');
+        }*/
+
+        Log::info('A New Paypal Refund Begins: order refund id - ' . $order->refund->id);
+
         $config = $this->getPaypalConfig($order);
         $oAuthTokenCredential = new OAuthTokenCredential($config[$config['mode']]['client_id'], $config[$config['mode']]['client_secret']);
         $apiContext = new ApiContext($oAuthTokenCredential);
@@ -713,15 +761,19 @@ class PaymentsController extends Controller
 
         $refundRequest = new RefundRequest();
         $refundRequest->setAmount($amount); // refund with the same amount & currency as previously.
-        $refundRequest->setDescription('This is a refund order from Jorya Hair. ['.$order->refund->refund_sn.']');
+        $refundRequest->setDescription('This is a refund order from Jorya Hair. [' . $order->refund->refund_sn . ']');
         $refundRequest->setReason($order->refund->remark_by_user);
         try {
             $detailedRefund = $sale->refundSale($refundRequest, $apiContext, $restCall);
             Log::info("A New Paypal Payment Refund Created: " . $detailedRefund->toJSON());
 
-            $detailedRefund->getState();
+            $state = $detailedRefund->getState();
             $refundId = $detailedRefund->getId();
             $refundToPayer = $detailedRefund->getRefundToPayer();
+
+            if ($detailedRefund->getState()) {
+                // TODO ...
+            }
 
             return response()->json([
                 'code' => 200,

@@ -41,12 +41,14 @@ class CreateOrdersTable extends Migration
             $table->string('payment_sn')->nullable()->comment('payment-sn');
             $table->timestamp('paid_at')->nullable()->comment('支付订单时间');
 
+            $table->timestamp('to_be_closed_at')->nullable()->comment('系统自动关闭订单时间');
             $table->timestamp('closed_at')->nullable()->comment('取消订单，交易关闭时间');
 
-            $table->string('shipment_sn')->nullable()->comment('shipment-sn');
             $table->string('shipment_company')->nullable()->comment('shipment-company');
+            $table->string('shipment_sn')->nullable()->comment('shipment-sn');
             $table->timestamp('shipped_at')->nullable()->comment('卖家配送发货时间');
 
+            $table->timestamp('to_be_completed_at')->nullable()->comment('系统自动确认订单时间');
             $table->timestamp('completed_at')->nullable()->comment('确认收货，交易结束时间');
             $table->timestamp('commented_at')->nullable()->comment('订单商品评价时间');
 

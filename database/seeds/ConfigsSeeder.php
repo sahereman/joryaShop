@@ -36,9 +36,9 @@ class ConfigsSeeder extends Seeder
                 'configs' =>
                     [
                         ['name' => '用户保存收货地址数目上限', 'code' => 'max_user_address_count', 'type' => "text", 'sort' => 10, 'value' => '20'],
-                        ['name' => '系统自动关闭订单时间', 'code' => 'time_to_close_order', 'type' => "text", 'sort' => 20, 'value' => 5, 'help' => '用户下单后未支付，系统自动关闭订单的时间（单位：分钟）'],
+                        ['name' => '系统自动关闭订单时间', 'code' => 'time_to_close_order', 'type' => "text", 'sort' => 20, 'value' => 240, 'help' => '用户下单后未支付，系统自动关闭订单的时间（单位：分钟）'],
                         ['name' => '系统自动确认订单时间', 'code' => 'time_to_complete_order', 'type' => "text", 'sort' => 30, 'value' => 10, 'help' => '卖家发货后，买家未及时确认订单，系统自动确认订单的时间（单位：天）'],
-                        ['name' => '系统自动拒绝售后申请时间', 'code' => 'time_to_decline_order_refund', 'type' => "text", 'sort' => 40, 'value' => 5, 'help' => '对于退货并退款的售后申请，卖家审核通过后，买家未及时发货，系统自动拒绝售后申请的时间（单位：天）'],
+                        ['name' => '系统自动拒绝售后申请时间', 'code' => 'time_to_decline_order_refund', 'type' => "text", 'sort' => 40, 'value' => 7, 'help' => '对于退货并退款的售后申请，卖家审核通过后，买家未及时发货，系统自动拒绝售后申请的时间（单位：天）'],
                     ]
             ],
 

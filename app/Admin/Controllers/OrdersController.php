@@ -4,13 +4,16 @@ namespace App\Admin\Controllers;
 
 use App\Exceptions\InvalidRequestException;
 use App\Http\Requests\Request;
+use App\Models\Config;
 use App\Models\Order;
 use App\Http\Controllers\Controller;
+use App\Jobs\AutoCompleteOrderJob;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
+use Illuminate\Support\Carbon;
 
 class OrdersController extends Controller
 {
@@ -61,13 +64,11 @@ class OrdersController extends Controller
     public function ship(Order $order, Request $request)
     {
         // 判断当前订单是否已支付
-        if (!$order->paid_at)
-        {
+        if (!$order->paid_at) {
             throw new InvalidRequestException('该订单未付款');
         }
         // 判断当前订单发货状态是否为待发货
-        if ($order->status !== Order::ORDER_STATUS_SHIPPING)
-        {
+        if ($order->status !== Order::ORDER_STATUS_SHIPPING) {
             throw new InvalidRequestException('该订单已发货');
         }
 
@@ -85,7 +86,11 @@ class OrdersController extends Controller
             'status' => Order::ORDER_STATUS_RECEIVING,
             'shipment_company' => $data['shipment_company'],
             'shipment_sn' => $data['shipment_sn'],
+            'to_be_completed_at' => Carbon::now()->addSeconds(Order::getSecondsToCompleteOrder())
         ]);
+
+        // 分派定时自动关闭订单任务
+        $this->dispatch(new AutoCompleteOrderJob($order, Order::getSecondsToCompleteOrder()));
 
         // 返回上一页
         return redirect()->back();

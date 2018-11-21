@@ -42,6 +42,7 @@ class OrderRefund extends Model
         'checked_at',
         'shipped_at',
         'refunded_at',
+        'to_be_declined_at',
         'declined_at',
     ];
 
@@ -72,6 +73,7 @@ class OrderRefund extends Model
         'checked_at',
         'shipped_at',
         'refunded_at',
+        'to_be_declined_at',
         'declined_at',
     ];
 
@@ -145,5 +147,10 @@ class OrderRefund extends Model
     public function translateStatus($status)
     {
         return $this->orderRefundStatusMap[$status];
+    }
+
+    public static function getSecondsToDeclineOrderRefund()
+    {
+        return (integer)(Config::config('time_to_decline_order_refund')) * 3600 * 24;
     }
 }

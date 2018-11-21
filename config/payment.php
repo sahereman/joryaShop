@@ -33,12 +33,12 @@ return [
         'private_key' => env('ALI_PRIVATE_KEY', 'private_key'),
 
         // optional，默认 warning；日志路径为：sys_get_temp_dir().'/logs/yansongda.pay.log'
-        'log' => [
+        /*'log' => [
             'file' => storage_path('logs/alipay.log'),
             //  'level' => 'debug',
             //  'type' => 'single', // optional, 可选 daily.
             //  'max_file' => 30,
-            'level' => 'debug',
+            'level' => 'debug', // debug | info | notice | warning | error | critical | alert | emergency
             'type' => 'single', // optional, 可选 daily.
             'max_file' => 30,
         ],
@@ -47,18 +47,16 @@ return [
         // 'mode' => 'dev',
         // 'mode' => 'normal',
         // 'mode' => env('APP_ENV', 'production') == 'production' ? 'normal' : 'dev',
-        'mode' => 'dev',
+        'mode' => 'dev',*/
 
         // TODO ... (for production)
-        /*
         'log' => [
             'file' => storage_path('logs/alipay.log'),
-            'level' => 'info',
+            'level' => 'info', // 'error'
             'type' => 'daily', // optional, 可选 daily.
             'max_file' => 30,
         ],
         'mode' => 'normal',
-        */
 
         'http' => [ // optional
             'timeout' => 10.0,
@@ -98,12 +96,12 @@ return [
         'cert_key' => env('WECHAT_API_CLIENT_KEY_PATH', 'cert_key'),
 
         // optional，默认 warning；日志路径为：sys_get_temp_dir().'/logs/yansongda.pay.log'
-        'log' => [
+        /*'log' => [
             'file' => storage_path('logs/wechat.log'),
             //  'level' => 'debug',
             //  'type' => 'single', // optional, 可选 daily.
             //  'max_file' => 30,
-            'level' => 'debug',
+            'level' => 'debug', // debug | info | notice | warning | error | critical | alert | emergency
             'type' => 'single', // optional, 可选 daily.
             'max_file' => 30,
         ],
@@ -116,18 +114,16 @@ return [
         // 'mode' => 'normal', // optional, dev/hk;当为 `hk` 时，为香港 gateway。
         // 'mode' => 'service', // optional, dev/hk;当为 `hk` 时，为香港 gateway。
         // 'mode' => env('APP_ENV', 'production') == 'production' ? 'normal' : 'dev',
-        'mode' => 'normal', // optional, dev/hk;当为 `hk` 时，为香港 gateway。
+        'mode' => 'normal', // optional, dev/hk;当为 `hk` 时，为香港 gateway。*/
 
         // TODO ... (for production)
-        /*
         'log' => [
             'file' => storage_path('logs/wechat.log'),
-            'level' => 'info',
+            'level' => 'info', // 'error'
             'type' => 'daily', // optional, 可选 daily.
             'max_file' => 30,
         ],
         'mode' => 'normal',
-        */
 
         'http' => [ // optional
             'timeout' => 10.0,
@@ -165,17 +161,26 @@ return [
             'notify_url' => env('APP_URL', $url) . '/payments/paypal/notify',
         ],*/
 
-        'log' => [
+        /*'log' => [
             'log.LogEnabled' => true,
             'log.FileName' => storage_path('logs/paypal.log'),
-            'log.LogLevel' => 'DEBUG',
+            'log.LogLevel' => 'DEBUG', // DEBUG | INFO | NOTICE | WARNING | ERROR | CRITICAL | ALERT | EMERGENCY
         ],
 
-        // TODO ... (for production)
         // MODE: sandbox or live
         // 'mode' => env('PAYPAL_ENVIRONMENT', 'sandbox'),
         // 'mode' => env('APP_ENV', 'production') == 'production' ? 'live' : 'sandbox',
-        'mode' => env('PAYPAL_ENVIRONMENT', 'live'),
+        'mode' => env('PAYPAL_ENVIRONMENT', 'live'),*/
+
+        // TODO ... (for production)
+        'log' => [
+            'log.LogEnabled' => true,
+            'log.FileName' => storage_path('logs/paypal.log'),
+            'log.LogLevel' => 'INFO',
+        ],
+
+        // MODE: sandbox or live
+        'mode' => 'live',
 
         // Scenarios: sandbox | live
         'sandbox' => [

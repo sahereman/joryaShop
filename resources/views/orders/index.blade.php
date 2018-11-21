@@ -104,7 +104,8 @@
                                             <td class="col-pro-img">
                                                 <p class="p-img">
                                                     <a href="{{ route('products.show', $order_item['sku']['product']['id']) }}">
-                                                        <img class="lazy" data-src="{{ $order_item['sku']['product']['thumb_url'] }}">
+                                                        <img class="lazy"
+                                                             data-src="{{ $order_item['sku']['product']['thumb_url'] }}">
                                                     </a>
                                                 </p>
                                             </td>
@@ -148,7 +149,10 @@
                                                     <span id="{{ $order->order_sn }}" mark="{{ $order->order_sn }}"
                                                           class="paying_time count_down"
                                                           created_at="{{ strtotime($order->created_at) }}"
-                                                          time_to_close_order="{{ \App\Models\Config::config('time_to_close_order') * 3600 }}">{{ generate_order_ttl_message($order->create_at, \App\Models\Order::ORDER_STATUS_PAYING) }}</span>
+                                                          time_to_close_order="{{ \App\Models\Config::config('time_to_close_order') * 60 }}"
+                                                          seconds_to_close_order="{{ time() + \App\Models\Order::getSecondsToCloseOrder() - strtotime($order->created_at) }}">
+                                                        {{ generate_order_ttl_message($order->create_at, \App\Models\Order::ORDER_STATUS_PAYING) }}
+                                                    </span>
                                                     <a class="payment"
                                                        href="{{ route('orders.payment_method', $order->id) }}">付款</a>
                                                     <a class="cancellation"
@@ -166,7 +170,10 @@
                                                     <span id="{{ $order->order_sn }}" mark="{{ $order->order_sn }}"
                                                           class="tobe_received_count count_down"
                                                           shipped_at="{{ strtotime($order->shipped_at) }}"
-                                                          time_to_complete_order="{{ \App\Models\Config::config('time_to_complete_order') * 3600 * 24 }}">{{ generate_order_ttl_message($order->shipped_at, \App\Models\Order::ORDER_STATUS_RECEIVING) }}</span>
+                                                          time_to_complete_order="{{ \App\Models\Config::config('time_to_complete_order') * 3600 * 24 }}"
+                                                          seconds_to_complete_order="{{ time() + \App\Models\Order::getSecondsToCompleteOrder() - strtotime($order->shipped_at) }}">
+                                                        {{ generate_order_ttl_message($order->shipped_at, \App\Models\Order::ORDER_STATUS_RECEIVING) }}
+                                                    </span>
                                                     <a class="confirmation_receipt"
                                                        code="{{ route('orders.complete', $order->id) }}">确认收货</a>
                                                     @elseif($order->status == \App\Models\Order::ORDER_STATUS_COMPLETED && $order->commented_at == null)
@@ -437,7 +444,7 @@
         $(".cancellation").on('click', function () {
             $(".order_cancel .textarea_content").find("span").attr("code", $(this).attr("code"));
             $(".order_cancel").show();
-        })
+        });
         $(".order_cancel").on('click', '.success', function () {
             var data = {
                 _method: "PATCH",
@@ -455,12 +462,12 @@
                     if (err.status == 403) {
                         layer.open({
                             type: 1,
-                            content: '无法处理请求'
+                            content: '无法处理请求',
                         });
                     }
                 }
             });
-        })
+        });
 
         //确认收货
         $(".confirmation_receipt").on('click', function () {
@@ -480,16 +487,16 @@
                     if (err.status == 403) {
                         layer.open({
                             type: 1,
-                            content: '无法处理请求'
+                            content: '无法处理请求',
                         });
                     }
                 }
             });
-        })
+        });
         //提醒发货
         $(".reminding_shipments").on('click', function () {
             layer.msg('已提醒卖家发货，请敬候佳音');
-        })
+        });
         var allHadAdd = 0;  //用来判断是否已经订单找那个全部的商品添加至购物车中
         var shops_list;  //单个订单中包含的商品的数量,用于再次购买时判断时候可以进行跳页
         var loading_animation;  //loading动画的全局name
@@ -507,7 +514,7 @@
                 allHadAdd++;
                 add_to_carts(sku_id, number, url, sku_id_lists, allHadAdd);
             });
-        })
+        });
         $(".Buy_again").on("click", function () {
             shops_list = $(this).parents("table").find("tr");
             var sku_id_lists = "";  //用于页面跳转在购物车页面通过判断这个参数的值选中商品
@@ -521,14 +528,14 @@
                 allHadAdd++;
                 add_to_carts(sku_id, number, url, sku_id_lists, allHadAdd);
             });
-        })
+        });
         //添加购物车
         function add_to_carts(sku_id, number, url, sku_id_lists, allHadAdd) {
             var data = {
                 _token: "{{ csrf_token() }}",
                 sku_id: sku_id,
                 number: number
-            }
+            };
             $.ajax({
                 type: "post",
                 url: url,

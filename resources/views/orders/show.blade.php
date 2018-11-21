@@ -35,8 +35,11 @@
                             </p>
                             <p id="{{ $order->order_sn }}" mark="{{ $order->order_sn }}" class="cunt_down paying_time"
                                created_at="{{ strtotime($order->created_at) }}"
-                               time_to_close_order="{{ \App\Models\Config::config('time_to_close_order') * 3600 }}">{{ generate_order_ttl_message($order->create_at, \App\Models\Order::ORDER_STATUS_PAYING) }}
-                                支付（若超时未支付订单，系统将自动取消订单）</p>
+                               time_to_close_order="{{ \App\Models\Config::config('time_to_close_order') * 60 }}"
+                               seconds_to_close_order="{{ $seconds_to_close_order }}">
+                                {{ generate_order_ttl_message($order->create_at, \App\Models\Order::ORDER_STATUS_PAYING) }}
+                                支付（若超时未支付订单，系统将自动取消订单）
+                            </p>
                             <p class="operation_area">
                                 <a class="main_operation"
                                    href="{{ route('orders.payment_method', ['order' => $order->id]) }}">立即付款</a>
@@ -67,8 +70,11 @@
                             <p id="{{ $order->order_sn }}" mark="{{ $order->order_sn }}"
                                class="cunt_down tobe_received_count"
                                shipped_at="{{ strtotime($order->shipped_at) }}"
-                               time_to_complete_order="{{ \App\Models\Config::config('time_to_complete_order') * 3600 * 24 }}">{{ generate_order_ttl_message($order->shipped_at, \App\Models\Order::ORDER_STATUS_RECEIVING) }}
-                                确认（若超时未确认订单，系统将自动确认订单）</p>
+                               time_to_complete_order="{{ \App\Models\Config::config('time_to_complete_order') * 3600 * 24 }}"
+                               seconds_to_complete_order="{{ $seconds_to_complete_order }}">
+                                {{ generate_order_ttl_message($order->shipped_at, \App\Models\Order::ORDER_STATUS_RECEIVING) }}
+                                确认（若超时未确认订单，系统将自动确认订单）
+                            </p>
                             <p class="operation_area">
                                 <a class="main_operation"
                                    data-url="{{ route('orders.complete', ['order' => $order->id]) }}">确认收货</a>
@@ -212,7 +218,8 @@
                                 <tr>
                                     <td class="col-pro-img">
                                         <a href="">
-                                            <img class="lazy" data-src="{{ $order_item['sku']['product']['thumb_url'] }}">
+                                            <img class="lazy"
+                                                 data-src="{{ $order_item['sku']['product']['thumb_url'] }}">
                                         </a>
                                     </td>
                                     <td class="col-pro-info">
@@ -255,7 +262,8 @@
                                 <tr>
                                     <td class="col-pro-img">
                                         <a href="">
-                                            <img class="lazy" data-src="{{ $order_item['sku']['product']['thumb_url'] }}">
+                                            <img class="lazy"
+                                                 data-src="{{ $order_item['sku']['product']['thumb_url'] }}">
                                         </a>
                                     </td>
                                     <td class="col-pro-info">
@@ -421,7 +429,7 @@
                         if (err.status == 403) {
                             layer.open({
                                 type: 1,
-                                content: '您无权限执行此操作！'
+                                content: '您无权限执行此操作！',
                             });
                         }
                     }
@@ -450,7 +458,7 @@
                         if (err.status == 403) {
                             layer.open({
                                 type: 1,
-                                content: '您无权限执行此操作！'
+                                content: '您无权限执行此操作！',
                             });
                         }
                     }

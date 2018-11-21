@@ -113,12 +113,29 @@ class OrdersController extends Controller
             $order_refund_type = $order->refund->type;
         }
 
+        $seconds_to_close_order = 0;
+        $seconds_to_complete_order = 0;
+        if($order->status == Order::ORDER_STATUS_PAYING){
+            $seconds_to_close_order = time() + Order::getSecondsToCloseOrder() - strtotime($order->created_at);
+            if($seconds_to_close_order < 0){
+                $seconds_to_close_order = 0;
+            }
+        }
+        if($order->status == Order::ORDER_STATUS_RECEIVING){
+            $seconds_to_complete_order = time() + Order::getSecondsToCompleteOrder() - strtotime($order->shipped_at);
+            if($seconds_to_complete_order < 0){
+                $seconds_to_complete_order = 0;
+            }
+        }
+
         return view('orders.show', [
             'order' => $order,
             'shipment_sn' => $order->shipment_sn,
             'shipment_company' => $shipment_company_name,
             'order_shipment_traces' => $order_shipment_traces,
             'order_refund_type' => $order_refund_type,
+            'seconds_to_close_order' => $seconds_to_close_order,
+            'seconds_to_complete_order' => $seconds_to_complete_order,
         ]);
     }
 
@@ -298,6 +315,7 @@ class OrdersController extends Controller
                 'total_shipping_fee' => $total_shipping_fee,
                 'total_amount' => $total_amount,
                 'remark' => $request->has('remark') ? $request->input('remark') : '',
+                'to_be_close_at' => Carbon::now()->addSeconds(Order::getSecondsToCloseOrder())->toDateTimeString(),
             ]);
 
             $order->user()->associate($user);
@@ -308,7 +326,7 @@ class OrdersController extends Controller
         });
 
         // 分派定时自动关闭订单任务
-        $this->dispatch(new AutoCloseOrderJob($order, Config::config('time_to_close_order') * 60)); // 系统自动关闭订单时间（单位：分钟）
+        $this->dispatch(new AutoCloseOrderJob($order, Order::getSecondsToCloseOrder())); // 系统自动关闭订单时间（单位：分钟）
 
         return response()->json([
             'code' => 200,
@@ -339,7 +357,7 @@ class OrdersController extends Controller
 
         $is_paid = $order->status === Order::ORDER_STATUS_SHIPPING;
 
-        if($is_paid){
+        if ($is_paid) {
             return response()->json([
                 'code' => 200,
                 'message' => 'success',
@@ -349,7 +367,7 @@ class OrdersController extends Controller
                     'request_url' => route('payments.success', ['order' => $order->id]),
                 ],
             ]);
-        }else{
+        } else {
             return response()->json([
                 'code' => 200,
                 'message' => 'success',
@@ -382,17 +400,6 @@ class OrdersController extends Controller
             }
         });
         return response()->json([]);
-    }
-
-    // PATCH 卖家配送发货 [订单进入待收货状态:status->receiving]
-    public function ship(Request $request, Order $order)
-    {
-        // TODO ...
-
-        // 分派定时自动关闭订单任务
-        $this->dispatch(new AutoCompleteOrderJob($order, Config::config('time_to_complete_order') * 3600 * 24));
-
-        return $order;
     }
 
     // PATCH 确认收货，交易关闭 [订单进入交易结束状态:status->completed]

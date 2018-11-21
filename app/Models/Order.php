@@ -63,8 +63,10 @@ class Order extends Model
         'remark',
         'paid_at',
         'closed_at',
+        'to_be_closed_at',
         'shipped_at',
         'completed_at',
+        'to_be_completed_at',
         'commented_at',
         'deleted_at',
     ];
@@ -92,8 +94,10 @@ class Order extends Model
      */
     protected $dates = [
         'paid_at',
+        'to_be_closed_at',
         'closed_at',
         'shipped_at',
+        'to_be_completed_at',
         'completed_at',
         'commented_at',
         'deleted_at',
@@ -167,5 +171,15 @@ class Order extends Model
     public function translatePaymentMethod($paymentMethod)
     {
         return self::$paymentMethodMap[$paymentMethod];
+    }
+
+    public static function getSecondsToCloseOrder()
+    {
+        return (integer)(Config::config('time_to_close_order')) * 60;
+    }
+
+    public static function getSecondsToCompleteOrder()
+    {
+        return (integer)(Config::config('time_to_complete_order')) * 3600 * 24;
     }
 }
