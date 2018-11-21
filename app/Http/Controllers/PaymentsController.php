@@ -89,7 +89,7 @@ class PaymentsController extends Controller
         $order->update([
             'status' => Order::ORDER_STATUS_SHIPPING,
             'paid_at' => Carbon::now()->toDateTimeString(), // 支付时间
-            'payment_method' => 'alipay', // 支付方式
+            'payment_method' => Order::PAYMENT_METHOD_ALIPAY, // 支付方式
             'payment_sn' => $data->trade_no, // 支付宝订单号
         ]);
 
@@ -221,6 +221,21 @@ class PaymentsController extends Controller
         }
     }
 
+    // GET 判断订单是否已经支付 [for Ajax request]
+    public function isPaid(Request $request, Order $order)
+    {
+        if ($order->status != Order::ORDER_STATUS_PAYING && $order->paid_at != null && $order->payment_sn != null) {
+            return response()->json([
+                'code' => 200,
+                'message' => 'Order is paid already',
+            ]);
+        }
+        return response()->json([
+            'code' => 202,
+            'message' => 'Order is not paid yet',
+        ]);
+    }
+
     // POST WeChat 支付通知 [notify_url]
     public function wechatNotify(Request $request, Order $order)
     {
@@ -228,6 +243,7 @@ class PaymentsController extends Controller
 
         // 校验输入参数
         $data = Pay::wechat($this->getWechatConfig($order))->verify();
+        Log::info('A Payment Notification From Wechat With Verified Data: ' . $data->toJson());
 
         /*// $data->out_trade_no 拿到订单流水号，并在数据库中查询
         $order = Order::where('order_sn', $data->out_trade_no)->first();
@@ -248,7 +264,7 @@ class PaymentsController extends Controller
         $order->update([
             'status' => Order::ORDER_STATUS_SHIPPING,
             'paid_at' => Carbon::now()->toDateTimeString(), // 支付时间
-            'payment_method' => 'wechat', // 支付方式
+            'payment_method' => Order::PAYMENT_METHOD_WECHAT, // 支付方式
             'payment_sn' => $data->trade_no, // Wechat 订单号
         ]);
 
@@ -404,7 +420,7 @@ class PaymentsController extends Controller
 
         // Step-2: create a new payment
         $payer = new Payer();
-        $payer->setPaymentMethod('paypal');
+        $payer->setPaymentMethod(Order::PAYMENT_METHOD_PAYPAL);
 
         $amount = new Amount();
         $totalFee = bcadd($order->total_amount, $order->total_shipping_fee, 2);
@@ -429,7 +445,7 @@ class PaymentsController extends Controller
             if ($payment->getState() == 'created') {
                 $order->update([
                     // 'payment_method' => $payment->getPayer()->getPaymentMethod(), // paypal
-                    'payment_method' => 'paypal',
+                    'payment_method' => Order::PAYMENT_METHOD_PAYPAL,
                     // 'payment_sn' => $payment->getToken(), // token
                     'payment_sn' => $payment->getId(), // paymentId
                 ]);
@@ -476,7 +492,7 @@ class PaymentsController extends Controller
         if ($request->user()->id !== $order->user_id) {
             throw new InvalidRequestException('您没有权限操作此订单');
         }
-        if ($order->payment_method !== 'paypal') {
+        if ($order->payment_method !== Order::PAYMENT_METHOD_PAYPAL) {
             throw new InvalidRequestException('This order is not a payment from paypal: payment method - ' . $order->payment_method);
         }
         // 判断PayPal是否支持当前订单支付币种
@@ -527,13 +543,13 @@ class PaymentsController extends Controller
             $token = $request->query('token');
             $payerId = $request->query('PayerID');
 
-            /*$order = Order::where('payment_method', 'paypal')
+            /*$order = Order::where('payment_method', Order::PAYMENT_METHOD_PAYPAL)
                 ->where('payment_sn', $token)
                 ->first();
 
             // 正常来说不太可能出现支付了一笔不存在的订单，这个判断只是加强系统健壮性。
             if (!$order) {
-                $order = Order::where('payment_method', 'paypal')
+                $order = Order::where('payment_method', Order::PAYMENT_METHOD_PAYPAL)
                     ->where('payment_sn', $paymentId)
                     ->first();
                 if (!$order) {
@@ -578,7 +594,7 @@ class PaymentsController extends Controller
                 $payment->execute($paymentExecution, $apiContext, $restCall);
                 if ($payment->getState() == 'approved') {
                     $order->update([
-                        'payment_method' => 'paypal',
+                        'payment_method' => Order::PAYMENT_METHOD_PAYPAL,
                         // 'payment_sn' => $payment->getId(),
                         'payment_sn' => $paymentId,
                         'status' => Order::ORDER_STATUS_SHIPPING,
@@ -628,7 +644,7 @@ class PaymentsController extends Controller
                 ], 400);
             }
 
-            /*$order = Order::where('payment_method', 'paypal')
+            /*$order = Order::where('payment_method', Order::PAYMENT_METHOD_PAYPAL)
                 ->where('payment_sn', $token)
                 ->first();
 
@@ -684,7 +700,7 @@ class PaymentsController extends Controller
             }
 
             $order->update([
-                'payment_method' => 'paypal',
+                'payment_method' => Order::PAYMENT_METHOD_PAYPAL,
                 // 'payment_sn' => $payment->getId(),
                 // 'payment_sn' => $paymentId,
                 'status' => Order::ORDER_STATUS_SHIPPING,
