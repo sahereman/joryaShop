@@ -116,13 +116,13 @@ class OrdersController extends Controller
         $seconds_to_close_order = 0;
         $seconds_to_complete_order = 0;
         if($order->status == Order::ORDER_STATUS_PAYING){
-            $seconds_to_close_order = time() + Order::getSecondsToCloseOrder() - strtotime($order->created_at);
+            $seconds_to_close_order = strtotime($order->created_at) + Order::getSecondsToCloseOrder() - time();
             if($seconds_to_close_order < 0){
                 $seconds_to_close_order = 0;
             }
         }
         if($order->status == Order::ORDER_STATUS_RECEIVING){
-            $seconds_to_complete_order = time() + Order::getSecondsToCompleteOrder() - strtotime($order->shipped_at);
+            $seconds_to_complete_order = strtotime($order->shipped_at) + Order::getSecondsToCompleteOrder() - time();
             if($seconds_to_complete_order < 0){
                 $seconds_to_complete_order = 0;
             }

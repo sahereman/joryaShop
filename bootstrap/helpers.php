@@ -114,12 +114,11 @@ function easy_sms_send($data, $phone_number, $country_code)
  * */
 function generate_order_ttl_message($datetime, $type)
 {
-    $timestamp = time() - strtotime($datetime);
     $order_ttl_message = '';
     switch ($type) {
         case \App\Models\Order::ORDER_STATUS_PAYING:
             // time_to_close_order 系统自动关闭订单时间 （单位：分钟）
-            $ttl = (integer)(\App\Models\Order::getSecondsToCloseOrder()) - $timestamp;
+            $ttl = strtotime($datetime) + \App\Models\Order::getSecondsToCloseOrder() - time();
             $minutes = floor($ttl / 60);
             $seconds = $ttl % 60;
             if ($minutes < 0 || $seconds < 0) {
@@ -130,7 +129,7 @@ function generate_order_ttl_message($datetime, $type)
             break;
         case \App\Models\Order::ORDER_STATUS_RECEIVING:
             // time_to_complete_order 系统自动确认订单时间 （单位：天）
-            $ttl = (integer)(\App\Models\Order::getSecondsToCompleteOrder()) - $timestamp;
+            $ttl = strtotime($datetime) + \App\Models\Order::getSecondsToCompleteOrder() - time();
             $days = ceil($ttl / (3600 * 24));
             if ($days < 0) {
                 $order_ttl_message = "剩余0天";
