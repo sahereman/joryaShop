@@ -1,0 +1,91 @@
+.logisticsBox{
+    margin-top: 3rem;
+    .lgtHead{
+        background:#f0f0f0;
+        padding-bottom: .7rem;
+        .lgtHeadMain{
+            background: #fff;
+            padding: 1rem;
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            align-items: center;
+            img{
+                width: 2.7rem;
+                height: 2.7rem;
+                margin-right: 1rem;
+            }
+            .lgtHeadInfo{
+                width: 80%;
+                .lgtHeadInfoCode{
+                    font-size: .8rem;
+                    margin-top: .3rem;
+                }
+            }
+        }
+    }
+    .lgtCon{
+        padding: 1rem .7rem;
+        .lgtConItem{
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            align-items: inherit;
+            height: 4rem;
+            .lgtConItemDate{
+                display: inline-block;
+                width: 20%;
+                height: 100%;
+                text-align: right;
+                padding-right: 1.3rem;
+                color: #868686;
+                .lgtConItemDateTime{
+                    font-size: .7rem;
+                }
+            }
+            .lgtConRight{
+                border-left: 1px solid #f0f0f0;
+                position: relative;
+                width: 80%;
+                height: 100%;
+                img{
+                    width: 2rem;
+                    height: 2rem;
+                    position: absolute;
+                    top: 0rem;
+                    left: -1rem;
+                }
+                .lgtConRightMain{
+                    width: 90%;
+                    margin-left: 1.5rem;
+                    font-size: .75rem;
+                    color: #878787;
+                    div{
+                        padding-left: .4rem;
+                    }
+                }
+                .lgtConRightFrist{
+                    color: #333!important;
+                }
+                .dot{
+                    position: absolute;
+                    top: .3rem;
+                    left: -.3rem;
+                    width: 0.6rem;
+                    height: .6rem;
+                    border-radius: 1rem;
+                    background: #dddddd;
+                }
+            }
+        }
+        .lgtConItemC{
+            height: 3.5rem;
+        }
+        .lgtConItemLast{
+            height: 3.5rem;
+            .lgtConRight{
+                border: none;
+            }
+        }
+    }
+}
