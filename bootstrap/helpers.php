@@ -257,17 +257,8 @@ function kdniao_shipment_query($shipment_company, $shipment_sn, $order_sn = '')
             'form_params' => $data,
         ]);
         $response_body_content = json_decode($response->getBody()->getContents(), true);
-    } catch (ClientException $e) {
-        echo Psr7\str($e->getRequest());
-        if ($e->hasResponse()) {
-            echo Psr7\str($e->getResponse());
-        }
-        return [];
-    } catch (RequestException $e) {
-        echo Psr7\str($e->getRequest());
-        if ($e->hasResponse()) {
-            echo Psr7\str($e->getResponse());
-        }
+    } catch (\Exception $e) {
+        Log::error('KDNiao Shipment Query Failed: order sn - ' . $order_sn . '; With Error Message: ' . $e->getMessage());
         return [];
     }
     /**

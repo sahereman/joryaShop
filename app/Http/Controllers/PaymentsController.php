@@ -57,55 +57,101 @@ class PaymentsController extends Controller
         ]);
     }
 
-    /**
-     * 服务器端回调
-     * @return string|\Symfony\Component\HttpFoundation\Response
-     * @throws \Yansongda\Pay\Exceptions\InvalidSignException
-     */
     // POST Alipay 支付通知 [notify_url]
+    /**
+     * Sample Verified Data:
+     */
+    /*{
+        "gmt_create": "2018-11-22 13:53:38",
+        "charset": "GBK",
+        "gmt_payment": "2018-11-22 13:53:44",
+        "notify_time": "2018-11-22 13:53:45",
+        "subject": "请支付来自 Jorya Hair 的订单：20181122100018412042",
+        "sign": "e86+m7dAGOgEm5YgWqZiMPxFuyAXpZs2AvehVHuwP8iO2aAvuXbCTty9R2CA0fbK87+gpuEP8Btadr4Oc/3tPxWovks9dXcNuF4Q28T4kAikaRAI9zamvAdKq2ImT6OQTPTDePNQMjFtjJ7FVumCNxRUisdPGZElE3fXQ+dwqYJzqVwCH1CnUGq6jQC4p/+HAxnOetkLGH80ohXXR+d6370fvGH8W7WDAKuXhIvPHdfZeGveoOKRY6Yrvev8RCrOi1I/LeHFdU+lk8Zk1j0zevZYu9pr/FhEAASYcPWJEuwCduMHYpnmESScGajwqnmTbkO1gRMpn7greZlDBQCkxQ==",
+        "buyer_id": "2088802499494690",
+        "invoice_amount": "0.01",
+        "version": "1.0",
+        "notify_id": "2018112200222135345094691026908145",
+        "fund_bill_list": "[{\"amount\":\"0.01\",\"fundChannel\":\"ALIPAYACCOUNT\"}]",
+        "notify_type": "trade_status_sync",
+        "out_trade_no": "20181122100018412042",
+        "total_amount": "0.01",
+        "trade_status": "TRADE_SUCCESS",
+        "trade_no": "2018112222001494691008861677",
+        "auth_app_id": "2018112162269732",
+        "receipt_amount": "0.01",
+        "point_amount": "0.00",
+        "app_id": "2018112162269732",
+        "buyer_pay_amount": "0.01",
+        "sign_type": "RSA2",
+        "seller_id": "2088231964255230"
+    }*/
     public function alipayNotify(Request $request, Order $order)
     {
         Log::info('Alipay Payment Notification Url: ' . $request->getUri());
 
-        // 校验输入参数
-        $data = Pay::alipay($this->getAlipayConfig($order))->verify();
-        Log::info('A Payment Notification From Alipay With Verified Data: ' . $data->toJson());
+        try {
+            // 如果这笔订单的状态已经是已支付
+            if ($order->paid_at) {
+                // 返回数据给支付宝
+                Log::info('A Paid Wechat Payment Notified Again: order id - ' . $order->id);
+                return Pay::alipay($this->getAlipayConfig($order))->success();
+            }
 
-        // $data->out_trade_no 拿到订单流水号，并在数据库中查询
-        $alipayOrder = Order::where('order_sn', $data->out_trade_no)->first();
+            // 校验输入参数
+            $data = Pay::alipay($this->getAlipayConfig($order))->verify();
+            Log::info('A Payment Notification From Alipay With Verified Data: ' . $data->toJson());
 
-        // 正常来说不太可能出现支付了一笔不存在的订单，这个判断只是加强系统健壮性。
-        if (!$alipayOrder || $alipayOrder->id != $order->id) {
-            Log::error('Alipay Notified With Wrong Out_Trade_No: ' . $data->out_trade_no);
-            return 'fail';
-        }
+            // $data->out_trade_no 拿到订单流水号，并在数据库中查询
+            $alipayOrder = Order::where('order_sn', $data->out_trade_no)->first();
 
-        // 如果这笔订单的状态已经是已支付
-        if ($order->paid_at) {
-            // 返回数据给支付宝
-            Log::info('A Paid Wechat Payment Notified Again: order id - ' . $order->id);
-            return Pay::alipay($this->getAlipayConfig($order))->success();
-        }
+            // 正常来说不太可能出现支付了一笔不存在的订单，这个判断只是加强系统健壮性。
+            if (!$alipayOrder || $alipayOrder->id != $order->id) {
+                Log::error('Alipay Notified With Wrong Out_Trade_No: ' . $data->out_trade_no);
+                return '';
+            }
 
-        // 支付通知数据校验 [谨慎起见]
-        if ($data->trade_status == 'TRADE_SUCCESS' && $data->receipt_amount == $data->buyer_pay_amount && $data->receipt_amount == bcadd($order->total_amount, $order->total_shipping_fee, 2)) {
-            $order->update([
-                'status' => Order::ORDER_STATUS_SHIPPING,
-                'paid_at' => Carbon::now()->toDateTimeString(), // 支付时间
-                'payment_method' => Order::PAYMENT_METHOD_ALIPAY, // 支付方式
-                'payment_sn' => $data->trade_no, // 支付宝订单号
-            ]);
-            Log::info('A New Alipay Payment Completed: order id - ' . $order->id);
+            // 支付通知数据校验 [谨慎起见]
+            if ($data->trade_status == 'TRADE_SUCCESS' && $data->total_amount == bcadd($order->total_amount, $order->total_shipping_fee, 2)) {
+                $order->update([
+                    'status' => Order::ORDER_STATUS_SHIPPING,
+                    'paid_at' => Carbon::now()->toDateTimeString(), // 支付时间
+                    'payment_method' => Order::PAYMENT_METHOD_ALIPAY, // 支付方式
+                    'payment_sn' => $data->trade_no, // 支付宝订单号
+                ]);
+                Log::info('A New Alipay Payment Completed: order id - ' . $order->id);
+            } else {
+                Log::error('A New Alipay Payment Failed: order id - ' . $order->id . '; With Wrong Data: ' . $data->toJson());
+            }
+        } catch (\Exception $e) {
+            // error_log($e->getMessage());
+            /*return view('pages.error', [
+                'msg' => '付款失败',
+            ]);*/
+            Log::error('A New Alipay Payment Notification Failed: order id - ' . $order->id . '; With Error Message: ' . $e->getMessage());
         }
 
         return Pay::alipay($this->getAlipayConfig($order))->success();
     }
 
-    /**
-     * 前端回调页面
-     * @throws \Yansongda\Pay\Exceptions\InvalidSignException
-     */
     // GET Alipay 支付回调 [return url]
+    /**
+     * Sample Verified Data:
+     */
+    /*{
+        "charset": "GBK",
+        "out_trade_no": "20181122100018412042",
+        "method": "alipay.trade.page.pay.return",
+        "total_amount": "0.01",
+        "sign": "idyslD5/a1EoCa8vgU7iQo97jnWrOTzhgZLWWidFpKUNViobxs3FFqvq2kRfFA2SqCOOKnY1cxy4W7Cqsd0anH/A/VPSCSZc+bhAfKmE/KqOFXlQw2XumOtRJYYB4ozKQbIu7VY+xmK0cml8h53e7MxyUxhoWUoAwqBM+JfiKm9Lj1m5dclD34WbLhYZVOr2E3LXu404hDv/rvfNJwPeQf/7rrY7643/lkYFu1CKN7Y+i1AVaAgIYWFFm+p6CETCYYEX8Pa2T82/rRbo2ZX8epCnqeAVkdXhT3kCtM7dhQ4B46YW/K4w2cRE3DK7strZqeDz8ntzrw9BDJaY69uZqA==",
+        "trade_no": "2018112222001494691008861677",
+        "auth_app_id": "2018112162269732",
+        "version": "1.0",
+        "app_id": "2018112162269732",
+        "sign_type": "RSA2",
+        "seller_id": "2088231964255230",
+        "timestamp": "2018-11-22 13:53:52"
+    }*/
     public function alipayReturn(Request $request, Order $order)
     {
         Log::info('Alipay Payment Return-Url : ' . $request->getUri());
@@ -114,27 +160,46 @@ class PaymentsController extends Controller
             // 校验提交的参数是否合法
             $data = Pay::alipay($this->getAlipayConfig($order))->verify();
             Log::info('Alipay Payment Return With Verified Data: ' . $data->toJson());
+
+            //return $alipay->success();
+            /*return view('pages.success', [
+                'msg' => '付款成功',
+            ]);*/
+            return view('payments.success', [
+                'order' => $order,
+            ]);
         } catch (\Exception $e) {
             // error_log($e->getMessage());
             /*return view('pages.error', [
                 'msg' => '付款失败',
             ]);*/
-            Log::error($e->getMessage());
+            Log::error('Alipay Payment Return Failed: order id - ' . $order->id . '; With Error Message: ' . $e->getMessage());
             return view('payments.error', [
                 'message' => $e->getMessage(),
             ]);
         }
-
-        //return $alipay->success();
-        /*return view('pages.success', [
-            'msg' => '付款成功',
-        ]);*/
-        return view('payments.success', [
-            'order' => $data,
-        ]);
     }
 
     // Alipay 退款
+    /**
+     * Sample Response:
+     */
+    /*{
+        "code": 200,
+        "message": "success",
+        "response": {
+            "code": "10000",
+            "msg": "Success",
+            "buyer_logon_id": "152****0075",
+            "buyer_user_id": "2088802499494690",
+            "fund_change": "Y",
+            "gmt_refund_pay": "2018-11-22 13:54:13",
+            "out_trade_no": "20181122100018412042",
+            "refund_fee": "0.01",
+            "send_back_fee": "0.00",
+            "trade_no": "2018112222001494691008861677"
+        }
+    }*/
     public function alipayRefund(Request $request)
     {
         $this->validate($request, [
@@ -153,31 +218,43 @@ class PaymentsController extends Controller
 
         Log::info('A New Alipay Refund Begins: order refund id - ' . $order->refund->id);
 
-        // 调用支付宝支付实例的 refund 方法
-        $response = Pay::alipay($this->getAlipayConfig($order))->refund([
-            'out_trade_no' => $order->order_sn, // 之前的订单流水号
-            'refund_amount' => bcadd($order->total_amount, $order->total_shipping_fee, 2), // 退款金额，单位元
-        ]);
+        try {
+            // 调用支付宝支付实例的 refund 方法
+            $response = Pay::alipay($this->getAlipayConfig($order))->refund([
+                'out_trade_no' => $order->order_sn, // 之前的订单流水号
+                'refund_amount' => bcadd($order->total_amount, $order->total_shipping_fee, 2), // 退款金额，单位元
+            ]);
 
-        Log::info('A New Alipay Refund Responded: ' . $response->toJson());
+            Log::info('A New Alipay Refund Responded: ' . $response->toJson());
 
-        // 根据支付宝的文档，如果返回值里有 sub_code 字段说明退款失败
-        if ($response->sub_code) {
-            Log::error('A New Alipay Refund Failed: ' . json_encode($response));
+            // 根据支付宝的文档，如果返回值里有 sub_code 字段说明退款失败
+            if ($response->sub_code || $response->code != 10000 || $response->msg != 'Success') {
+                Log::error('A New Alipay Refund Failed: ' . json_encode($response));
+            }
+
+            // 将退款订单的状态标记为退款成功并保存退款時間
+            $order->refund->update([
+                'status' => OrderRefund::ORDER_REFUND_STATUS_REFUNDED,
+                'refunded_at' => Carbon::now()->toDateTimeString(), // 退款时间
+            ]);
+
+            Log::info('A New Alipay Refund Completed: order refund id - ' . $order->refund->id);
+            return response()->json([
+                'code' => 200,
+                'message' => 'success',
+                'response' => $response,
+            ]);
+        } catch (\Exception $e) {
+            // error_log($e->getMessage());
+            /*return view('pages.error', [
+                'msg' => '付款失败',
+            ]);*/
+            Log::error('A New Alipay Refund Completed: order refund id - ' . $order->refund->id . '; With Error Message: ' . $e->getMessage());
+            return response()->json([
+                'code' => $e->getCode(),
+                'message' => $e->getMessage(),
+            ]);
         }
-
-        // 将退款订单的状态标记为退款成功并保存退款時間
-        $order->refund->update([
-            'status' => OrderRefund::ORDER_REFUND_STATUS_REFUNDED,
-            'refunded_at' => Carbon::now()->toDateTimeString(), // 退款时间
-        ]);
-
-        Log::info('A New Alipay Refund Completed: order refund id - ' . $order->refund->id);
-        return response()->json([
-            'code' => 200,
-            'message' => 'success',
-            'response' => $response,
-        ]);
     }
 
     /*Wechat Payment*/
@@ -189,6 +266,21 @@ class PaymentsController extends Controller
     }
 
     // GET WeChat 支付 页面
+    /**
+     * Sample Response:
+     */
+    /*{
+        "return_code": "SUCCESS",
+        "return_msg": "OK",
+        "appid": "wx0b3f800e268b1e85",
+        "mch_id": "1516915751",
+        "nonce_str": "GPkXE1Ys7nwxLsBg",
+        "sign": "E985BBC0F922FCB7FBF43DECAD3102E5",
+        "result_code": "SUCCESS",
+        "prepay_id": "wx22124515680415b6b9fc61ba2782759201",
+        "trade_type": "NATIVE",
+        "code_url": "weixin://wxpay/bizpayurl?pr=fHd7mdg"
+    }*/
     public function wechat(Request $request, Order $order)
     {
         // 判断订单是否属于当前用户
@@ -208,33 +300,17 @@ class PaymentsController extends Controller
                 'total_fee' => bcmul(bcadd($order->total_amount, $order->total_shipping_fee, 2), 100, 0), // 订单金额，单位分，参数值不能带小数点
             ]);
 
-            /**
-             * Sample Response:
-             */
-            /*{
-                "return_code": "SUCCESS",
-                "return_msg": "OK",
-                "appid": "wx0b3f800e268b1e85",
-                "mch_id": "1516915751",
-                "nonce_str": "GPkXE1Ys7nwxLsBg",
-                "sign": "E985BBC0F922FCB7FBF43DECAD3102E5",
-                "result_code": "SUCCESS",
-                "prepay_id": "wx22124515680415b6b9fc61ba2782759201",
-                "trade_type": "NATIVE",
-                "code_url": "weixin://wxpay/bizpayurl?pr=fHd7mdg"
-            }*/
-
             if ($response->return_code == 'SUCCESS' && $response->result_code == 'SUCCESS' && $response->return_msg == 'OK' && $response->code_url) {
                 // 二维码内容：
                 $qr_code_url = $response->code_url;
 
-                Log::info('A New Wechat Pc-Scan Payment Created: ' . $response->toJSON() . '; Qr Code Url: ' . $qr_code_url);
+                Log::info('A New Wechat Pc-Scan Payment Created: ' . $response->toJSON() . '; With Qr Code Url: ' . $qr_code_url);
                 return view('payments.wechat', [
                     'order' => $order,
                     'qr_code_url' => $qr_code_url,
                 ]);
             } else {
-                Log::info('A New Wechat Pc-Scan Payment Responded With Wrong Response: ' . $response->toJSON());
+                Log::error('A New Wechat Pc-Scan Payment Responded With Wrong Response: ' . $response->toJSON());
                 return view('payments.error', [
                     'message' => $response->toJson(),
                 ]);
@@ -244,7 +320,7 @@ class PaymentsController extends Controller
             /*return view('pages.error', [
                 'msg' => '付款失败',
             ]);*/
-            Log::error($e->getMessage());
+            Log::error('A New Wechat Pc-Scan Payment Failed: order id - ' . $order->id . '; With Error Message: ' . $e->getMessage());
             return view('payments.error', [
                 'message' => $e->getMessage(),
             ]);
@@ -252,60 +328,72 @@ class PaymentsController extends Controller
     }
 
     // POST WeChat 支付通知 [notify_url]
+    /**
+     * Sample Verified Data:
+     */
+    /*{
+        "appid": "wx0b3f800e268b1e85",
+        "bank_type": "CFT",
+        "cash_fee": "1",
+        "fee_type": "CNY",
+        "is_subscribe": "N",
+        "mch_id": "1516915751",
+        "nonce_str": "L8xzvnU1iVBHLOQQ",
+        "openid": "owS050gDeK9SQSD0Np1R9DfwZP3Y",
+        "out_trade_no": "20181122100018304978",
+        "result_code": "SUCCESS",
+        "return_code": "SUCCESS",
+        "sign": "763FFA33DAEB535AB8C7F85FC8518649",
+        "time_end": "20181122124550",
+        "total_fee": "1",
+        "trade_type": "NATIVE",
+        "transaction_id": "4200000228201811224246112891"
+    }*/
     public function wechatNotify(Request $request, Order $order)
     {
         Log::info('Wechat Payment Notification Url: ' . $request->getUri());
 
-        // 校验输入参数
-        $data = Pay::wechat($this->getWechatConfig($order))->verify();
-        Log::info('A Payment Notification From Wechat With Verified Data: ' . $data->toJson());
+        try {
+            // 如果这笔订单的状态已经是已支付
+            if ($order->paid_at) {
+                // 返回数据给 Wechat
+                Log::info('A Paid Wechat Payment Notified Again: order id - ' . $order->id);
+                return Pay::wechat($this->getWechatConfig($order))->success();
+            }
 
-        /**
-         * Sample Verified Data:
-         */
-        /*{
-            "appid": "wx0b3f800e268b1e85",
-            "bank_type": "CFT",
-            "cash_fee": "1",
-            "fee_type": "CNY",
-            "is_subscribe": "N",
-            "mch_id": "1516915751",
-            "nonce_str": "L8xzvnU1iVBHLOQQ",
-            "openid": "owS050gDeK9SQSD0Np1R9DfwZP3Y",
-            "out_trade_no": "20181122100018304978",
-            "result_code": "SUCCESS",
-            "return_code": "SUCCESS",
-            "sign": "763FFA33DAEB535AB8C7F85FC8518649",
-            "time_end": "20181122124550",
-            "total_fee": "1",
-            "trade_type": "NATIVE",
-            "transaction_id": "4200000228201811224246112891"
-        }*/
-        // $data->out_trade_no 拿到订单流水号，并在数据库中查询
-        $wechatOrder = Order::where('order_sn', $data->out_trade_no)->first();
+            // 校验输入参数
+            $data = Pay::wechat($this->getWechatConfig($order))->verify();
+            Log::info('A Payment Notification From Wechat With Verified Data: ' . $data->toJson());
 
-        // 正常来说不太可能出现支付了一笔不存在的订单，这个判断只是加强系统健壮性。
-        if (!$wechatOrder || $wechatOrder->id != $order->id) {
-            Log::error('Wechat Notified With Wrong Out_Trade_No: ' . $data->out_trade_no);
-            return 'fail';
+            // $data->out_trade_no 拿到订单流水号，并在数据库中查询
+            $wechatOrder = Order::where('order_sn', $data->out_trade_no)->first();
+
+            // 正常来说不太可能出现支付了一笔不存在的订单，这个判断只是加强系统健壮性。
+            if (!$wechatOrder || $wechatOrder->id != $order->id) {
+                Log::error('Wechat Notified With Wrong Out_Trade_No: ' . $data->out_trade_no);
+                return '';
+            }
+
+            // 支付通知数据校验 [谨慎起见]
+            if ($data->result_code == 'SUCCESS' && $data->return_code == 'SUCCESS' && $data->total_fee == bcmul(bcadd($order->total_amount, $order->total_shipping_fee, 2), 100, 0)) {
+                $order->update([
+                    'status' => Order::ORDER_STATUS_SHIPPING,
+                    'paid_at' => Carbon::now()->toDateTimeString(), // 支付时间
+                    'payment_method' => Order::PAYMENT_METHOD_WECHAT, // 支付方式
+                    'payment_sn' => $data->transaction_id, // Wechat 订单号
+                ]);
+                Log::info('A New Wechat Payment Completed: order id - ' . $order->id);
+            } else {
+                Log::error('A New Wechat Payment Failed: order id - ' . $order->id . '; With Wrong Data: ' . $data->toJson());
+            }
+        } catch (\Exception $e) {
+            // error_log($e->getMessage());
+            /*return view('pages.error', [
+                'msg' => '付款失败',
+            ]);*/
+            Log::error('A New Wechat Payment Notification Failed: order id - ' . $order->id . '; With Error Message: ' . $e->getMessage());
         }
 
-        // 如果这笔订单的状态已经是已支付
-        if ($order->paid_at) {
-            // 返回数据给 Wechat
-            Log::info('A Paid Wechat Payment Notified Again: order id - ' . $order->id);
-            return Pay::wechat($this->getWechatConfig($order))->success();
-        }
-
-        // 支付通知数据校验 [谨慎起见]
-        $order->update([
-            'status' => Order::ORDER_STATUS_SHIPPING,
-            'paid_at' => Carbon::now()->toDateTimeString(), // 支付时间
-            'payment_method' => Order::PAYMENT_METHOD_WECHAT, // 支付方式
-            'payment_sn' => $data->trade_no, // Wechat 订单号
-        ]);
-
-        Log::info('A New Wechat Payment Completed: order id - ' . $order->id);
         return Pay::wechat($this->getWechatConfig($order))->success();
     }
 
@@ -355,34 +443,46 @@ class PaymentsController extends Controller
 
         Log::info('A New Wechat Refund Begins: order refund id - ' . $order->refund->id);
 
-        // 调用Wechat支付实例的 refund 方法
-        $response = Pay::wechat($this->getWechatConfig($order))->refund([
-            'out_trade_no' => $order->order_sn, // 之前的订单流水号
-            'out_refund_no' => $order->refund->refund_sn, // 退款订单流水号
-            'total_fee' => bcmul(bcadd($order->total_amount, $order->total_shipping_fee, 2), 100, 0), // 订单金额，单位分，只能为整数
-            'refund_fee' => bcmul(bcadd($order->total_amount, $order->total_shipping_fee, 2), 100, 0), // 退款金额，单位分，只能为整数
-            'refund_desc' => '这是来自 Jorya Hair 的退款订单' . $order->refund->refund_sn,
-        ]);
+        try {
+            // 调用Wechat支付实例的 refund 方法
+            $response = Pay::wechat($this->getWechatConfig($order))->refund([
+                'out_trade_no' => $order->order_sn, // 之前的订单流水号
+                'out_refund_no' => $order->refund->refund_sn, // 退款订单流水号
+                'total_fee' => bcmul(bcadd($order->total_amount, $order->total_shipping_fee, 2), 100, 0), // 订单金额，单位分，只能为整数
+                'refund_fee' => bcmul(bcadd($order->total_amount, $order->total_shipping_fee, 2), 100, 0), // 退款金额，单位分，只能为整数
+                'refund_desc' => '这是来自 Jorya Hair 的退款订单' . $order->refund->refund_sn,
+            ]);
 
-        Log::info('A New Wechat Refund Responded: ' . $response->toJson());
+            Log::info('A New Wechat Refund Responded: ' . $response->toJson());
 
-        // 根据Wechat的文档，如果返回值里有 sub_code 字段说明退款失败
-        if ($response->return_code != 'SUCCESS' || $response->result_code != 'SUCCESS') {
-            Log::error('A New Wechat Refund Failed: ' . json_encode($response));
+            // 根据Wechat的文档，如果返回值里有 sub_code 字段说明退款失败
+            if ($response->return_code != 'SUCCESS' || $response->result_code != 'SUCCESS') {
+                Log::error('A New Wechat Refund Failed: ' . json_encode($response));
+            }
+
+            // 将退款订单的状态标记为退款成功并保存退款時間
+            $order->refund->update([
+                'status' => OrderRefund::ORDER_REFUND_STATUS_REFUNDED,
+                'refunded_at' => Carbon::now()->toDateTimeString(), // 退款时间
+            ]);
+
+            Log::info('A New Wechat Refund Completed: order refund id - ' . $order->refund->id);
+            return response()->json([
+                'code' => 200,
+                'message' => 'success',
+                'response' => $response,
+            ]);
+        } catch (\Exception $e) {
+            // error_log($e->getMessage());
+            /*return view('pages.error', [
+                'msg' => '付款失败',
+            ]);*/
+            Log::error('A New Wechat Refund Completed: order refund id - ' . $order->refund->id . '; With Error Message: ' . $e->getMessage());
+            return response()->json([
+                'code' => $e->getCode(),
+                'message' => $e->getMessage(),
+            ]);
         }
-
-        // 将退款订单的状态标记为退款成功并保存退款時間
-        $order->refund->update([
-            'status' => OrderRefund::ORDER_REFUND_STATUS_REFUNDED,
-            'refunded_at' => Carbon::now()->toDateTimeString(), // 退款时间
-        ]);
-
-        Log::info('A New Wechat Refund Completed: order refund id - ' . $order->refund->id);
-        return response()->json([
-            'code' => 200,
-            'message' => 'success',
-            'response' => $response,
-        ]);
     }
 
     /*Paypal Payment*/
@@ -504,7 +604,7 @@ class PaymentsController extends Controller
                     ],
                 ]);
             } else {
-                Log::info("A New Paypal Pc Payment Creation Failed: " . $payment->toJSON());
+                Log::error("A New Paypal Pc Payment Creation Failed: " . $payment->toJSON());
                 return response()->json([
                     'code' => 400,
                     'message' => 'A New Paypal Pc Payment Creation Failed',
@@ -519,7 +619,7 @@ class PaymentsController extends Controller
             /*return view('pages.error', [
                 'msg' => '付款失败',
             ]);*/
-            Log::error($e->getMessage());
+            Log::error("A New Paypal Pc Payment Creation Failed: order id - " . $order->id . '; With Error Message: ' . $e->getMessage());
             return response()->json([
                 'code' => $e->getCode(),
                 'message' => $e->getMessage(),
@@ -683,7 +783,7 @@ class PaymentsController extends Controller
                 /*return view('pages.error', [
                     'msg' => '付款失败',
                 ]);*/
-                Log::error($e->getMessage());
+                Log::error("A New Paypal Pc Payment Execution Failed: order id - " . $order->id . '; With Error Message: ' . $e->getMessage());
                 return response()->json([
                     'code' => $e->getCode(),
                     'message' => $e->getMessage(),
@@ -864,7 +964,7 @@ class PaymentsController extends Controller
             /*return view('pages.error', [
                 'msg' => '付款失败',
             ]);*/
-            Log::error($e->getMessage());
+            Log::error("A New Paypal Pc Payment Refund Failed: order refund id - " . $order->refund->id . '; With Error Message: ' . $e->getMessage());
             return response()->json([
                 'code' => $e->getCode(),
                 'message' => $e->getMessage(),
