@@ -1,5 +1,10 @@
 @extends('layouts.app')
+
+@if(App::isLocale('en'))
+@section('title', 'Personal Center-My favorites')
+@else
 @section('title', '个人中心-我的收藏')
+@endif
 @section('content')
     <div class="User_collection">
         <div class="m-wrapper">

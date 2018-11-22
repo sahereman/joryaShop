@@ -114,7 +114,11 @@
                 <!--猜你喜欢-->
                 <div class="guess_like">
                     <p>
-                        <img src="{{ asset('img/guess-like-title.png') }}">
+                    	<span class="line"></span>
+                    	<span>&bull;</span>
+                    	<span>@lang('app.you may also like')</span>
+                    	<span>&bull;</span>
+                    	<span class="line"></span>
                     </p>
                     <ul>
                         @foreach($guesses as $guess)

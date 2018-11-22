@@ -1,5 +1,9 @@
 @extends('layouts.app')
+@if(App::isLocale('en'))
+@section('title', 'Personal Center-my order')
+@else
 @section('title', '个人中心-我的订单')
+@endif
 @section('content')
     <div class="User_center my_orders">
         <div class="m-wrapper">

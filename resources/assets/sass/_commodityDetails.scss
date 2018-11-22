@@ -490,6 +490,15 @@
         >p {
             text-align: center;
             margin: 10px 0;
+            span {
+                &.line {
+                    display: inline-block;
+                    width: 30px;
+                    border-top: 1px solid #ccc ;
+                    vertical-align: 4px;
+
+                }
+            }
         }
         ul {
             padding: 0 28px;

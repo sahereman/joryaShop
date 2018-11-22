@@ -1,5 +1,10 @@
 @extends('layouts.app')
+
+@if(App::isLocale('en'))
+@section('title', 'WeChat payment')
+@else
 @section('title', '微信支付')
+@endif
 @section('content')
     <div class="payment_method">
         <div class="m-wrapper">

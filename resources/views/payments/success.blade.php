@@ -1,5 +1,10 @@
 @extends('layouts.app')
+
+@if(App::isLocale('en'))
+@section('title', 'Payment success')
+@else
 @section('title', '支付成功')
+@endif
 @section('content')
     <div class="payment_method">
         <div class="m-wrapper">

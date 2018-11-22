@@ -1,5 +1,9 @@
 @extends('layouts.app')
+@if(App::isLocale('en'))
+@section('title', 'Confirm the Order')
+@else
 @section('title', '确认订单')
+@endif
 @section('content')
     <div class="pre_payment">
         <div class="m-wrapper">

@@ -1,6 +1,9 @@
 @extends('layouts.app')
+@if(App::isLocale('en'))
+@section('title', 'Joryahair')
+@else
 @section('title', '卓雅美业')
-
+@endif
 @section('content')
     <div class="home-page">
         <div class="swiper-container banner" id="banner">

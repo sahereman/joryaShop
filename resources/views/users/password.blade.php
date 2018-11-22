@@ -1,5 +1,9 @@
 @extends('layouts.app')
+@if(App::isLocale('en'))
+@section('title', 'Personal Center-Modify password')
+@else
 @section('title', '个人中心-修改密码')
+@endif
 @section('content')
     @include('common.error')
     <div class="User_psw_edit User_center">
