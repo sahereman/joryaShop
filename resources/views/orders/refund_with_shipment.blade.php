@@ -5,13 +5,13 @@
         <div class="m-wrapper">
             <div class="refun_crumbs">
                 <p class="Crumbs">
-                    <a href="{{ route('root') }}">首页</a>
+                    <a href="{{ route('root') }}">@lang('basic.home')</a>
                     <span>></span>
-                    <a href="{{ route('users.home') }}">个人中心</a>
+                    <a href="{{ route('users.home') }}">@lang('basic.users.Personal_Center')</a>
                     <span>></span>
-                    <a href="{{ route('orders.index') }}">我的订单</a>
+                    <a href="{{ route('orders.index') }}">@lang('basic.users.My_order')</a>
                     <span>></span>
-                    <a href="{{ route('orders.show', ['order' => $order->id]) }}">订单详情</a>
+                    <a href="{{ route('orders.show', ['order' => $order->id]) }}">@lang('basic.users.The_order_details')</a>
                     <span>></span>
                     <a href="#">申请售后</a>
                 </p>
@@ -354,9 +354,13 @@
                                             <img src="{{ $order_item['sku']['product']['thumb_url'] }}">
                                         </div>
                                         <div class="order_lists_info">
-                                            <p><span>{{ App::isLocale('en') ? $order_item['sku']['product']['name_en'] : $order_item['sku']['product']['name_zh'] }}</span></p>
+                                            <p>
+                                                <span>{{ App::isLocale('en') ? $order_item['sku']['product']['name_en'] : $order_item['sku']['product']['name_zh'] }}</span>
+                                            </p>
                                             <p>{{ App::isLocale('en') ? $order_item['sku']['name_en'] : $order_item['sku']['name_zh'] }}</p>
-                                            <p>单价：{{ App::isLocale('en') ? '&#36;' : '&yen;' }} {{ $order_item['price'] }} x {{ $order_item['number'] }}</p>
+                                            <p>
+                                                单价：{{ App::isLocale('en') ? '&#36;' : '&yen;' }} {{ $order_item['price'] }}
+                                                x {{ $order_item['number'] }}</p>
                                         </div>
                                     </a>
                                 </li>

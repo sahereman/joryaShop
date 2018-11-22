@@ -223,8 +223,11 @@
                     color: #666;
                     span {
                         display: inline-block;
-                        min-width: 85px;
+                        min-width: 105px;
                         text-align: left;
+                        &.title {
+                            text-align: right;
+                        }
                     }
                 }
             }
@@ -261,7 +264,7 @@
             background-color: #fff;
             margin-top: 25px;
             .ordertable_title {
-                
+
             }
             table {
                 width: 100%;
@@ -328,6 +331,9 @@
                         display: inline-block;
                         min-width: 105px;
                         text-align: left;
+                        &.title {
+                            text-align: right;
+                        }
                     }
                 }
             }

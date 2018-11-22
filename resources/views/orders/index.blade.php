@@ -150,7 +150,7 @@
                                                           class="paying_time count_down"
                                                           created_at="{{ strtotime($order->created_at) }}"
                                                           time_to_close_order="{{ \App\Models\Config::config('time_to_close_order') * 60 }}"
-                                                          seconds_to_close_order="{{ strtotime($order->created_at) + \App\Models\Order::getSecondsToCloseOrder() - time() }}">
+                                                          seconds_to_close_order="{{ (strtotime($order->created_at) + \App\Models\Order::getSecondsToCloseOrder() - time()) > 0 ? (strtotime($order->created_at) + \App\Models\Order::getSecondsToCloseOrder() - time()) : 0 }}">
                                                         {{ generate_order_ttl_message($order->create_at, \App\Models\Order::ORDER_STATUS_PAYING) }}
                                                     </span>
                                                     <a class="payment"
@@ -159,7 +159,8 @@
                                                        code="{{ route('orders.close', $order->id) }}">@lang('basic.orders.cancel order')</a>
                                                     @elseif($order->status == \App\Models\Order::ORDER_STATUS_CLOSED)
                                                             <!--再次购买-->
-                                                    <a class="Buy_again" data-url="{{ route('carts.store') }}">@lang('basic.orders.buy again')</a>
+                                                    <a class="Buy_again"
+                                                       data-url="{{ route('carts.store') }}">@lang('basic.orders.buy again')</a>
                                                     @elseif($order->status == \App\Models\Order::ORDER_STATUS_SHIPPING)
                                                             <!--订单待发货-->
                                                     <a class="reminding_shipments">@lang('basic.orders.Remind shipments')</a>
@@ -171,7 +172,7 @@
                                                           class="tobe_received_count count_down"
                                                           shipped_at="{{ strtotime($order->shipped_at) }}"
                                                           time_to_complete_order="{{ \App\Models\Config::config('time_to_complete_order') * 3600 * 24 }}"
-                                                          seconds_to_complete_order="{{ strtotime($order->shipped_at) + \App\Models\Order::getSecondsToCompleteOrder() - time() }}">
+                                                          seconds_to_complete_order="{{ (strtotime($order->shipped_at) + \App\Models\Order::getSecondsToCompleteOrder() - time()) > 0 ? (strtotime($order->shipped_at) + \App\Models\Order::getSecondsToCompleteOrder() - time()) : 0 }}">
                                                         {{ generate_order_ttl_message($order->shipped_at, \App\Models\Order::ORDER_STATUS_RECEIVING) }}
                                                     </span>
                                                     <a class="confirmation_receipt"
@@ -181,14 +182,16 @@
                                                     <a class="evaluate"
                                                        href="{{ route('orders.create_comment', $order->id) }}">@lang('basic.orders.To evaluate')</a>
                                                     <!--再次购买-->
-                                                    <a class="buy_more" data-url="{{ route('carts.store') }}">@lang('basic.orders.buy again')</a>
+                                                    <a class="buy_more"
+                                                       data-url="{{ route('carts.store') }}">@lang('basic.orders.buy again')</a>
                                                     @elseif($order->status == \App\Models\Order::ORDER_STATUS_COMPLETED && $order->commented_at != null)
                                                             <!--订单已评价-->
                                                     <!--查看评价-->
                                                     <a class="View_evaluation"
                                                        href="{{  route('orders.show_comment', $order->id) }}">@lang('basic.orders.View reviews')</a>
                                                     <!--再次购买-->
-                                                    <a class="buy_more" data-url="{{ route('carts.store') }}">@lang('basic.orders.buy again')</a>
+                                                    <a class="buy_more"
+                                                       data-url="{{ route('carts.store') }}">@lang('basic.orders.buy again')</a>
                                                     @endif
                                                 </p>
                                             </td>
@@ -254,7 +257,8 @@
                                         <span class="new_price">{{ App::isLocale('en') ? '&#36;' : '&yen;' }} {{ $guess->price }}</span>
                                         <span class="old_price">{{ App::isLocale('en') ? '&#36;' : '&yen;' }} {{ bcmul($guess->price, 1.2, 2) }}</span>
                                     </p>
-                                    <a class="add_to_cart" href="{{ route('products.show', $guess->id) }}">@lang('app.see details')</a>
+                                    <a class="add_to_cart"
+                                       href="{{ route('products.show', $guess->id) }}">@lang('app.see details')</a>
                                 </li>
                             @endforeach
                         </ul>
@@ -351,10 +355,10 @@
                         console.log(err.status);
                         if (err.status == 403) {
                             layer.open({
-							  title: "@lang('app.Prompt')",
-							  content: "@lang('app.Unable to complete operation')",
-							  btn: ["@lang('app.determine')","@lang('app.cancel')"],
-							});     
+                                title: "@lang('app.Prompt')",
+                                content: "@lang('app.Unable to complete operation')",
+                                btn: ["@lang('app.determine')", "@lang('app.cancel')"],
+                            });
                         }
                     }
                 });
@@ -398,7 +402,8 @@
                             var val = $(this).attr("mark");
                             var start_time = $(this).attr("shipped_at") * 1000;
                             var ending_time = $(this).attr('time_to_complete_order');
-                            timeCount(val, start_time, ending_time, "2");
+                            var seconds_to_complete_order = $(this).attr("seconds_to_complete_order");
+                            timeCount(val, seconds_to_complete_order, "2");
                         });
                         break;
                     case "uncommented":   //待评价
@@ -425,11 +430,32 @@
 //              var auto_totalS = ending_time; //订单支付有效时长
 //              var ad_totalS = parseInt((addTime.getTime() / 1000) + auto_totalS); ///下单总秒数
 //              var totalS = parseInt(ad_totalS - (nowDate.getTime() / 1000)); ///支付时长
+                totalS--;
                 if (totalS > 0) {
                     var _day = parseInt((totalS / 3600) % 24 / 24);
                     var _hour = parseInt((totalS / 3600) % 24);
                     var _minute = parseInt((totalS / 60) % 60);
                     var _second = parseInt(totalS % 60);
+                    if (_day < 10) {
+                        _day = "0" + _day;
+                    } else {
+                        _day = _day;
+                    }
+                    if (_hour < 10) {
+                        _hour = "0" + _hour;
+                    } else {
+                        _hour = _hour;
+                    }
+                    if (_minute < 10) {
+                        _minute = "0" + _minute;
+                    } else {
+                        _minute = _minute;
+                    }
+                    if (_second < 10) {
+                        _second = "0" + _second;
+                    } else {
+                        _second = _second;
+                    }
                     if (type == '1') {
                         $('#' + remain_id).html('剩余' + _hour + '时' + _minute + '分' + _second + '秒');
                     } else {
@@ -463,10 +489,10 @@
                 error: function (err) {
                     if (err.status == 403) {
                         layer.open({
-							  title: "@lang('app.Prompt')",
-							  content: "@lang('app.Unable to complete operation')",
-							  btn: ["@lang('app.determine')","@lang('app.cancel')"],
-						});     
+                            title: "@lang('app.Prompt')",
+                            content: "@lang('app.Unable to complete operation')",
+                            btn: ["@lang('app.determine')", "@lang('app.cancel')"],
+                        });
                     }
                 }
             });
@@ -489,10 +515,10 @@
                 error: function (err) {
                     if (err.status == 403) {
                         layer.open({
-						  title: "@lang('app.Prompt')",
-						  content: "@lang('app.Unable to complete operation')",
-						  btn: ["@lang('app.determine')","@lang('app.cancel')"],
-						});     
+                            title: "@lang('app.Prompt')",
+                            content: "@lang('app.Unable to complete operation')",
+                            btn: ["@lang('app.determine')", "@lang('app.cancel')"],
+                        });
                     }
                 }
             });
