@@ -65,17 +65,17 @@ class PaymentsController extends Controller
     // POST Alipay 支付通知 [notify_url]
     public function alipayNotify(Request $request, Order $order)
     {
-        Log::info('A Payment Notification From Alipay: ' . collect($request->all())->toJson());
+        Log::info('Alipay Payment Notification Url: ' . $request->getUri());
 
         // 校验输入参数
         $data = Pay::alipay($this->getAlipayConfig($order))->verify();
         Log::info('A Payment Notification From Alipay With Verified Data: ' . $data->toJson());
 
         // $data->out_trade_no 拿到订单流水号，并在数据库中查询
-        $alipay_order = Order::where('order_sn', $data->out_trade_no)->first();
+        $alipayOrder = Order::where('order_sn', $data->out_trade_no)->first();
 
         // 正常来说不太可能出现支付了一笔不存在的订单，这个判断只是加强系统健壮性。
-        if (!$alipay_order || $alipay_order->id != $order->id) {
+        if (!$alipayOrder || $alipayOrder->id != $order->id) {
             Log::error('Alipay Notified With Wrong Out_Trade_No: ' . $data->out_trade_no);
             return 'fail';
         }
@@ -87,14 +87,17 @@ class PaymentsController extends Controller
             return Pay::alipay($this->getAlipayConfig($order))->success();
         }
 
-        $order->update([
-            'status' => Order::ORDER_STATUS_SHIPPING,
-            'paid_at' => Carbon::now()->toDateTimeString(), // 支付时间
-            'payment_method' => Order::PAYMENT_METHOD_ALIPAY, // 支付方式
-            'payment_sn' => $data->trade_no, // 支付宝订单号
-        ]);
+        // 支付通知数据校验 [谨慎起见]
+        if ($data->trade_status == 'TRADE_SUCCESS' && $data->receipt_amount == $data->buyer_pay_amount && $data->receipt_amount == bcadd($order->total_amount, $order->total_shipping_fee, 2)) {
+            $order->update([
+                'status' => Order::ORDER_STATUS_SHIPPING,
+                'paid_at' => Carbon::now()->toDateTimeString(), // 支付时间
+                'payment_method' => Order::PAYMENT_METHOD_ALIPAY, // 支付方式
+                'payment_sn' => $data->trade_no, // 支付宝订单号
+            ]);
+            Log::info('A New Alipay Payment Completed: order id - ' . $order->id);
+        }
 
-        Log::info('A New Alipay Payment Completed: order id - ' . $order->id);
         return Pay::alipay($this->getAlipayConfig($order))->success();
     }
 
@@ -105,11 +108,12 @@ class PaymentsController extends Controller
     // GET Alipay 支付回调 [return url]
     public function alipayReturn(Request $request, Order $order)
     {
-        Log::info('Alipay Payment Return Url : ' . collect($request->all())->toJson());
-        $alipay = Pay::alipay($this->getAlipayConfig($order));
+        Log::info('Alipay Payment Return-Url : ' . $request->getUri());
+
         try {
             // 校验提交的参数是否合法
-            $data = $alipay->verify();
+            $data = Pay::alipay($this->getAlipayConfig($order))->verify();
+            Log::info('Alipay Payment Return With Verified Data: ' . $data->toJson());
         } catch (\Exception $e) {
             // error_log($e->getMessage());
             /*return view('pages.error', [
@@ -154,6 +158,8 @@ class PaymentsController extends Controller
             'out_trade_no' => $order->order_sn, // 之前的订单流水号
             'refund_amount' => bcadd($order->total_amount, $order->total_shipping_fee, 2), // 退款金额，单位元
         ]);
+
+        Log::info('A New Alipay Refund Responded: ' . $response->toJson());
 
         // 根据支付宝的文档，如果返回值里有 sub_code 字段说明退款失败
         if ($response->sub_code) {
@@ -232,10 +238,10 @@ class PaymentsController extends Controller
         Log::info('A Payment Notification From Wechat With Verified Data: ' . $data->toJson());
 
         // $data->out_trade_no 拿到订单流水号，并在数据库中查询
-        $wechat_order = Order::where('order_sn', $data->out_trade_no)->first();
+        $wechatOrder = Order::where('order_sn', $data->out_trade_no)->first();
 
         // 正常来说不太可能出现支付了一笔不存在的订单，这个判断只是加强系统健壮性。
-        if (!$wechat_order || $wechat_order->id != $order->id) {
+        if (!$wechatOrder || $wechatOrder->id != $order->id) {
             Log::error('Wechat Notified With Wrong Out_Trade_No: ' . $data->out_trade_no);
             return 'fail';
         }
@@ -247,6 +253,7 @@ class PaymentsController extends Controller
             return Pay::wechat($this->getWechatConfig($order))->success();
         }
 
+        // 支付通知数据校验 [谨慎起见]
         $order->update([
             'status' => Order::ORDER_STATUS_SHIPPING,
             'paid_at' => Carbon::now()->toDateTimeString(), // 支付时间
@@ -256,27 +263,6 @@ class PaymentsController extends Controller
 
         Log::info('A New Wechat Payment Completed: order id - ' . $order->id);
         return Pay::wechat($this->getWechatConfig($order))->success();
-    }
-
-    // GET Wechat 前端JS监听订单支付，回调成功|失败页面
-    public function wechatReturn(Request $request, Order $order)
-    {
-        // 判断订单是否属于当前用户
-        if ($request->user()->id !== $order->user_id) {
-            throw new InvalidRequestException('您没有权限操作此订单');
-        }
-
-        // 判断当前订单状态是否已经支付成功
-        if ($order->status === Order::ORDER_STATUS_SHIPPING) {
-            /*return view('pages.success', [
-                'msg' => '付款成功',
-            ]);*/
-            return view('payments.success', [
-                'order' => $order,
-            ]);
-        }
-
-        return;
     }
 
     // Wechat 退款
@@ -306,6 +292,8 @@ class PaymentsController extends Controller
             'refund_fee' => bcmul(bcadd($order->total_amount, $order->total_shipping_fee, 2), 100, 0), // 退款金额，单位分，只能为整数
             'refund_desc' => '这是来自 Jorya Hair 的退款订单' . $order->refund->refund_sn,
         ]);
+
+        Log::info('A New Wechat Refund Responded: ' . $response->toJson());
 
         // 根据Wechat的文档，如果返回值里有 sub_code 字段说明退款失败
         if ($response->return_code == 'FAIL') {
@@ -471,7 +459,7 @@ class PaymentsController extends Controller
         }
     }
 
-    // GET Paypal: get the info of a payment
+    // GET Paypal: get the info of a payment [Test API]
     public function paypalGet(Request $request, Order $order)
     {
         // 判断订单是否属于当前用户
@@ -533,6 +521,7 @@ class PaymentsController extends Controller
                 ->where('payment_sn', $token)
                 ->first();
 
+            // 拿到订单流水号 payment_sn [$paymentId]，并在数据库中查询
             // 正常来说不太可能出现支付了一笔不存在的订单，这个判断只是加强系统健壮性。
             if (!$order) {
                 $order = Order::where('payment_method', Order::PAYMENT_METHOD_PAYPAL)
@@ -546,6 +535,19 @@ class PaymentsController extends Controller
                     ], 400);
                 }
             }*/
+
+            // 拿到订单流水号 payment_sn [$paymentId]，并在数据库中查询
+            $paypalOrder = Order::where('payment_method', Order::PAYMENT_METHOD_PAYPAL)
+                ->where('payment_sn', $paymentId)
+                ->first();
+            // 正常来说不太可能出现支付了一笔不存在的订单，这个判断只是加强系统健壮性。
+            if (!$paypalOrder || $paypalOrder->id != $order->id) {
+                Log::error('Paypal Notified With Wrong Payment Id: ' . $paymentId . ' or Wrong Token: ' . $token);
+                return response()->json([
+                    'code' => 400,
+                    'message' => 'Paypal Notified With Wrong Payment Id: ' . $paymentId . ' or Wrong Token: ' . $token,
+                ], 400);
+            }
 
             // 如果这笔订单的状态已经是已支付
             if ($order->paid_at) {
@@ -653,6 +655,7 @@ class PaymentsController extends Controller
                 ]);
             }
 
+            // Do Nothing
             /*$order->update([
                 'payment_method' => '',
                 'payment_sn' => '',
@@ -709,6 +712,7 @@ class PaymentsController extends Controller
                 ]);
             }
 
+            // Do Nothing
             /*$order->update([
                 'payment_method' => '',
                 'payment_sn' => '',
