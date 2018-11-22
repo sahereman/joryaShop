@@ -192,7 +192,7 @@ class PaymentsController extends Controller
             "msg": "Success",
             "buyer_logon_id": "152****0075",
             "buyer_user_id": "2088802499494690",
-            "fund_change": "Y",
+            "fund_change": "Y", // 重复发起退款请求时，Y -> N
             "gmt_refund_pay": "2018-11-22 13:54:13",
             "out_trade_no": "20181122100018412042",
             "refund_fee": "0.01",
@@ -503,43 +503,44 @@ class PaymentsController extends Controller
      * Sample Response:
      */
     /*{
-    "intent": "sale",
-    "payer": {
-        "payment_method": "paypal"
-    },
-    "transactions": [
+        "intent": "sale",
+        "payer": {
+            "payment_method": "paypal"
+        },
+        "transactions": [
             {
                 "amount": {
-                "total": "1.00",
-                "currency": "USD"
+                    "total": "0.01",
+                    "currency": "USD"
+                },
+                "related_resources": [],
+                "notify_url": "https://test.joryahair.com/payments/7/paypal/notify"
+            }
+        ],
+        "redirect_urls": {
+            "return_url": "https://test.joryahair.com/payments/7/paypal/execute",
+            "cancel_url": "https://test.joryahair.com/payments/7/paypal/execute"
+        },
+        "id": "PAYID-LP3G6EQ7KL05583F3463784B",
+        "state": "created",
+        "create_time": "2018-11-22T08:55:46Z",
+        "links": [
+            {
+                "href": "https://api.paypal.com/v1/payments/payment/PAYID-LP3G6EQ7KL05583F3463784B",
+                "rel": "self",
+                "method": "GET"
             },
-            "related_resources": []
-        }
-    ],
-    "redirect_urls": {
-        "return_url": "https://example.com/your_redirect_url.html",
-        "cancel_url": "https://example.com/your_cancel_url.html"
-    },
-    "id": "PAY-3MC96102SY030652JLHXXPMA",
-    "state": "created",
-    "create_time": "2017-10-24T17:26:07Z",
-    "links": [
-        {
-            "href": "https://api.sandbox.paypal.com/v1/payments/payment/PAY-3MC96102SY030652JLHXXPMA",
-            "rel": "self",
-            "method": "GET"
-        },
-        {
-            "href": "https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token=EC-1NT485541R0509947",
-            "rel": "approval_url",
-            "method": "REDIRECT"
-        },
-        {
-            "href": "https://api.sandbox.paypal.com/v1/payments/payment/PAY-3MC96102SY030652JLHXXPMA/execute",
-            "rel": "execute",
-            "method": "POST"
-        }
-    ]
+            {
+                "href": "https://www.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token=EC-97L263940M076301C",
+                "rel": "approval_url",
+                "method": "REDIRECT"
+            },
+            {
+                "href": "https://api.paypal.com/v1/payments/payment/PAYID-LP3G6EQ7KL05583F3463784B/execute",
+                "rel": "execute",
+                "method": "POST"
+            }
+        ]
     }*/
     public function paypalCreate(Request $request, Order $order)
     {
@@ -565,7 +566,7 @@ class PaymentsController extends Controller
 
         // Step-2: create a new payment
         $payer = new Payer();
-        $payer->setPaymentMethod(Order::PAYMENT_METHOD_PAYPAL);
+        $payer->setPaymentMethod(Order::PAYMENT_METHOD_PAYPAL); // paypal
 
         $amount = new Amount();
         $totalFee = bcadd($order->total_amount, $order->total_shipping_fee, 2);
@@ -688,25 +689,6 @@ class PaymentsController extends Controller
             $token = $request->query('token');
             $payerId = $request->query('PayerID');
 
-            /*$order = Order::where('payment_method', Order::PAYMENT_METHOD_PAYPAL)
-                ->where('payment_sn', $token)
-                ->first();
-
-            // 拿到订单流水号 payment_sn [$paymentId]，并在数据库中查询
-            // 正常来说不太可能出现支付了一笔不存在的订单，这个判断只是加强系统健壮性。
-            if (!$order) {
-                $order = Order::where('payment_method', Order::PAYMENT_METHOD_PAYPAL)
-                    ->where('payment_sn', $paymentId)
-                    ->first();
-                if (!$order) {
-                    Log::error('Paypal Notified With Wrong Payment Id: ' . $paymentId . ' or Wrong Token: ' . $token);
-                    return response()->json([
-                        'code' => 400,
-                        'message' => 'Paypal Notified With Wrong Payment Id: ' . $paymentId . ' or Wrong Token: ' . $token,
-                    ], 400);
-                }
-            }*/
-
             // 拿到订单流水号 payment_sn [$paymentId]，并在数据库中查询
             $paypalOrder = Order::where('payment_method', Order::PAYMENT_METHOD_PAYPAL)
                 ->where('payment_sn', $paymentId)
@@ -760,23 +742,29 @@ class PaymentsController extends Controller
                         'paid_at' => Carbon::now()->toDateTimeString(),
                     ]);
                     Log::info("A New Paypal Payment Executed - Synchronously: " . $payment->toJSON());
-                    return response()->json([
+                    return view('payments.success', [
+                        'order' => $order,
+                    ]);
+                    /*return response()->json([
                         'code' => 200,
                         'message' => 'Paypal Payment Executed - Synchronously',
                         'data' => [
                             'payment' => $payment->toArray(),
                         ],
-                    ]);
+                    ]);*/
                 } else {
                     Log::info("A New Paypal Pc Payment Execution Failed - Synchronously: " . $payment->toJSON());
-                    return response()->json([
+                    return view('payments.error', [
+                        'message' => "A New Paypal Pc Payment Execution Failed - Synchronously: " . $payment->toJSON(),
+                    ]);
+                    /*return response()->json([
                         'code' => 400,
                         'message' => 'A New Paypal Pc Payment Execution Failed - Synchronously',
                         'data' => [
                             'payment' => $payment->toArray(),
                             'failure_reason' => $payment->getFailureReason(),
                         ],
-                    ]);
+                    ]);*/
                 }
             } catch (\Exception $e) {
                 // error_log($e->getMessage());
@@ -784,10 +772,13 @@ class PaymentsController extends Controller
                     'msg' => '付款失败',
                 ]);*/
                 Log::error("A New Paypal Pc Payment Execution Failed: order id - " . $order->id . '; With Error Message: ' . $e->getMessage());
-                return response()->json([
+                return view('payments.error', [
+                    'message' => "A New Paypal Pc Payment Execution Failed - Synchronously: " . $e->getMessage(),
+                ]);
+                /*return response()->json([
                     'code' => $e->getCode(),
                     'message' => $e->getMessage(),
-                ]);
+                ]);*/
                 /*return view('payments.error', [
                     'message' => $e->getMessage(),
                 ]);*/
@@ -802,19 +793,6 @@ class PaymentsController extends Controller
                     'data' => $request->all(),
                 ], 400);
             }
-
-            /*$order = Order::where('payment_method', Order::PAYMENT_METHOD_PAYPAL)
-                ->where('payment_sn', $token)
-                ->first();
-
-            // 正常来说不太可能出现支付了一笔不存在的订单，这个判断只是加强系统健壮性。
-            if (!$order) {
-                Log::error('Paypal Notified With Wrong Token: ' . $token);
-                return response()->json([
-                    'code' => 400,
-                    'message' => 'Paypal Notified With Wrong Token: ' . $token,
-                ], 400);
-            }*/
 
             // 如果这笔订单的状态已经是已支付
             if ($order->paid_at) {
@@ -1056,6 +1034,18 @@ class PaymentsController extends Controller
         /*if ($order->status !== Order::ORDER_STATUS_REFUNDING) {
             throw new InvalidRequestException('当前订单状态不正确');
         }*/
+
+        if ($order->refund->status == OrderRefund::ORDER_REFUND_STATUS_REFUNDED) {
+            return response()->json([
+                'code' => 200,
+                'message' => 'Order Refunded Already',
+            ]);
+        } else if ($order->refund->status == OrderRefund::ORDER_REFUND_STATUS_DECLINED) {
+            return response()->json([
+                'code' => 400,
+                'message' => 'Order Refund Declined',
+            ]);
+        }
 
         switch ($order->payment_method) {
             case Order::PAYMENT_METHOD_ALIPAY:

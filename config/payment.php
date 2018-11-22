@@ -174,9 +174,9 @@ return [
 
         // TODO ... (for production)
         'log' => [
-            'log.LogEnabled' => true,
-            'log.FileName' => storage_path('logs/paypal.log'),
-            'log.LogLevel' => 'INFO',
+            'LogEnabled' => true,
+            'FileName' => storage_path('logs/paypal.log'),
+            'LogLevel' => 'INFO',
         ],
 
         // MODE: sandbox or live
