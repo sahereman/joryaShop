@@ -560,7 +560,7 @@ class PaymentsController extends Controller
         $config = $this->getPaypalConfig($order);
         $oAuthTokenCredential = new OAuthTokenCredential($config[$config['mode']]['client_id'], $config[$config['mode']]['client_secret']);
         $apiContext = new ApiContext($oAuthTokenCredential);
-        $apiContext->setConfig($config['log']);
+        $apiContext->setConfig($config);
         $restCall = new PayPalRestCall($apiContext);
 
         // Step-2: create a new payment
@@ -648,7 +648,7 @@ class PaymentsController extends Controller
         $config = $this->getPaypalConfig($order);
         $oAuthTokenCredential = new OAuthTokenCredential($config[$config['mode']]['client_id'], $config[$config['mode']]['client_secret']);
         $apiContext = new ApiContext($oAuthTokenCredential);
-        $apiContext->setConfig($config['log']);
+        $apiContext->setConfig($config);
         $restCall = new PayPalRestCall($apiContext);
 
         $paymentId = $order->payment_sn;
@@ -733,7 +733,7 @@ class PaymentsController extends Controller
             $config = $this->getPaypalConfig($order);
             $oAuthTokenCredential = new OAuthTokenCredential($config[$config['mode']]['client_id'], $config[$config['mode']]['client_secret']);
             $apiContext = new ApiContext($oAuthTokenCredential);
-            $apiContext->setConfig($config['log']);
+            $apiContext->setConfig($config);
             $restCall = new PayPalRestCall($apiContext);
 
             $payment = Payment::get($paymentId, $apiContext, $restCall);
@@ -918,7 +918,7 @@ class PaymentsController extends Controller
         $config = $this->getPaypalConfig($order);
         $oAuthTokenCredential = new OAuthTokenCredential($config[$config['mode']]['client_id'], $config[$config['mode']]['client_secret']);
         $apiContext = new ApiContext($oAuthTokenCredential);
-        $apiContext->setConfig($config['log']);
+        $apiContext->setConfig($config);
         $restCall = new PayPalRestCall($apiContext);
 
         $paymentId = $order->payment_sn;
