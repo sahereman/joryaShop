@@ -106,6 +106,12 @@
                             height: 80px;
                             margin-left: 15px;
                         }
+                        &.pro-info {
+                            span {
+                                display: inline-block;
+                                line-height: 25px;
+                            }
+                        }
                     }
                 }
             }

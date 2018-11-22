@@ -1,19 +1,23 @@
 @extends('layouts.app')
+@if(App::isLocale('en'))
+@section('title', 'Personal Center-my order')
+@else
 @section('title', '个人中心-我的订单')
+@endif
 @section('content')
     <div class="User_center my_orders">
         <div class="m-wrapper">
             <div>
                 <p class="Crumbs">
-                    <a href="{{ route('root') }}">首页</a>
+                    <a href="{{ route('root') }}">@lang('basic.home')</a>
                     <span>></span>
-                    <a href="{{ route('users.home') }}">个人中心</a>
+                    <a href="{{ route('users.home') }}">@lang('basic.users.Personal_Center')</a>
                     <span>></span>
-                    <a href="{{ route('orders.index') }}">我的订单</a>
+                    <a href="{{ route('orders.index') }}">@lang('basic.users.My_order')</a>
                     <span>></span>
-                    <a href="{{ route('orders.show', ['order' => $order->id]) }}">订单详情</a>
+                    <a href="{{ route('orders.show', ['order' => $order->id]) }}">@lang('basic.users.The_order_details')</a>
                     <span>></span>
-                    <a href="#">申请售后</a>
+                    <a href="#">@lang('order.Apply for after sale')</a>
                 </p>
             </div>
             <!--申请内容-->
@@ -42,21 +46,21 @@
                                 <input type="hidden" name="order_id" value="{{ $order->id }}">
                                 <ul class="step-1-ul step-ul">
                                     <li>
-                                        <span><i class="red">*</i>退款金额：</span>
+                                        <span><i class="red">*</i>@lang('order.Refund amount')：</span>
                                         <input name="amount" type="text" class="refund_amount"
                                                value="{{ $order->total_amount }}"
                                                readonly>
                                     </li>
                                     <li>
-                                        <span><i class="red">*</i>申请说明：</span>
+                                        <span><i class="red">*</i>@lang('order.Application description')：</span>
                                         <textarea name="remark_by_user" class="reasons_for_refunds"
-                                                  placeholder="请填写退款原因"></textarea>
+                                                  placeholder="@lang('order.Please fill in the reason for the refund')"></textarea>
                                         <span class="remainder">200</span>
                                     </li>
                                 </ul>
                             </form>
                             <p class="btn_submit_area">
-                                <a class="step-1-submit step-submit">提交</a>
+                                <a class="step-1-submit step-submit">@lang('app.submit')</a>
                             </p>
                         </div>
                         @elseif(isset($refund) && $refund->status == \App\Models\OrderRefund::ORDER_REFUND_STATUS_CHECKING)
@@ -69,23 +73,23 @@
                                 <input type="hidden" name="order_id" value="{{ $order->id }}">
                                 <ul class="step-1-ul step-ul">
                                     <li>
-                                        <span><i class="red">*</i>退款金额：</span>
+                                        <span><i class="red">*</i>@lang('order.Refund amount')：</span>
                                         <input name="amount" type="text" class="refund_amount no_border"
                                                value="¥ {{ $order->total_amount }}" readonly>
                                     </li>
                                     <li>
-                                        <span><i class="red">*</i>申请说明：</span>
+                                        <span><i class="red">*</i>@lang('order.Application description')：</span>
                                         <textarea name="remark_by_user" class="reasons_for_refunds no_border" readonly
-                                                  placeholder="请填写退款原因">{{ $refund->remark_by_user }}</textarea>
+                                                  placeholder="@lang('order.Please fill in the reason for the refund')">{{ $refund->remark_by_user }}</textarea>
                                         <span class="remainder hidden">200</span>
                                     </li>
                                 </ul>
                             </form>
                             <p class="btn_submit_area">
-                                <a class="step-2-submit-1 step-submit">修改申请</a>
-                                <a class="step-2-submit-2 step-submit dis_ni">保存修改</a>
+                                <a class="step-2-submit-1 step-submit">@lang('order.Modify')</a>
+                                <a class="step-2-submit-2 step-submit dis_ni">@lang('order.Save changes')</a>
                                 <a class="step-2-submit-3 normal-submit"
-                                   code="{{ route('orders.revoke_refund', ['order' => $order->id]) }}">撤销申请</a>
+                                   code="{{ route('orders.revoke_refund', ['order' => $order->id]) }}">@lang('order.Revocation of application')</a>
                             </p>
                         </div>
                         @elseif(isset($refund) && $refund->status == \App\Models\OrderRefund::ORDER_REFUND_STATUS_REFUNDED)
@@ -93,18 +97,18 @@
                         <div class="step_content step-3">
                             <div class="read_info last_level">
                                 <p class="read_info_title">
-                                    审核通过，退款成功
+                                   @lang('order.Audit passed, successful refund')
                                     <span>
-                                        退款成功！ {{ $order->total_amount }}元已按照原打款路径退回。
+                                        @lang('order.Refunds were successful'), {{ $order->total_amount }}@lang('order.It has been returned according to the original hit path')
                                     </span>
                                 </p>
                                 <ul class="step-ul">
                                     <li>
-                                        <span>退款金额：</span>
-                                        <span class="amount_num">¥ {{ $order->total_amount }}</span>
+                                        <span>@lang('order.Refund amount')：</span>
+                                        <span class="amount_num">{{ ($order->currency == 'USD') ? '&#36;' : '&yen;' }} {{ $order->total_amount }}</span>
                                     </li>
                                     <li>
-                                        <span>退款说明：</span>
+                                        <span>@lang('order.Application description')：</span>
                                         <p>{{ $refund->remark_by_user }}</p>
                                     </li>
                                 </ul>
@@ -115,29 +119,29 @@
                         <div class="step_content step-4">
                             <div class="read_info last_level">
                                 <p class="read_info_title">
-                                    审核未通过
+                                    @lang('order.Audit not passed')
                                     <span>
-                                        你可以联系在线客服或者拨打400电话
+                                        @lang('order.You can contact online customer service')
                                     </span>
                                 </p>
                                 <ul class="step-ul">
                                     <li>
-                                        <span>退款金额：</span>
-                                        <span class="amount_num">¥ {{ $order->total_amount }}</span>
+                                        <span>@lang('order.Refund amount')：</span>
+                                        <span class="amount_num">{{ ($order->currency == 'USD') ? '&#36;' : '&yen;' }} {{ $order->total_amount }}</span>
                                     </li>
                                     <li>
-                                        <span>退款说明：</span>
+                                        <span>@lang('order.Application description')：</span>
                                         <p>{{ $refund->remark_by_user }}</p>
                                     </li>
                                     <li class="red">
-                                        <span>卖家回复：</span>
+                                        <span>@lang('order.Seller reply')：</span>
                                         <p>{{ $refund->remark_by_seller }}</p>
                                     </li>
                                 </ul>
                                 <p class="btn_submit_area">
-                                    <a class="step-5-submit-1 step-submit">确定</a>
+                                    <a class="step-5-submit-1 step-submit">@lang('order.determine')</a>
                                     <a class="step-5-submit-2 normal-submit"
-                                       code="{{ route('orders.revoke_refund', ['order' => $order->id]) }}">撤销申请</a>
+                                       code="{{ route('orders.revoke_refund', ['order' => $order->id]) }}">@lang('order.Revocation of application')</a>
                                 </p>
                             </div>
                         </div>
@@ -145,7 +149,7 @@
                     </div>
                     <!--右侧订单信息-->
                     <div class="pull-left order_lists">
-                        <p class="step_content_title">订单信息</p>
+                        <p class="step_content_title">@lang('order.Order Info')</p>
                         <ul>
                             @foreach($snapshot as $order_item)
                                 <li>
@@ -154,30 +158,30 @@
                                             <img src="{{ $order_item['sku']['product']['thumb_url'] }}">
                                         </div>
                                         <div class="order_lists_info">
-                                            <p><span>{{ pp::isLocale('en') ? $order_item['sku']['product']['name_en'] : $order_item['sku']['product']['name_zh'] }}</span></p>
+                                            <p><span>{{ App::isLocale('en') ? $order_item['sku']['product']['name_en'] : $order_item['sku']['product']['name_zh'] }}</span></p>
                                             <p>{{ App::isLocale('en') ? $order_item['sku']['name_en'] : $order_item['sku']['name_zh'] }}</p>
-                                            <p>单价：{{ App::isLocale('en') ? '&#36;' : '&yen;' }} {{ $order_item['price'] }} x {{ $order_item['number'] }}</p>
+                                            <p>@lang('order.Unit Price')：{{ ($order->currency == 'USD') ? '&#36;' : '&yen;' }} {{ $order_item['price'] }} &#215; {{ $order_item['number'] }}</p>
                                         </div>
                                     </a>
                                 </li>
                             @endforeach
                             <li class="order_lists_total">
                                 <p>
-                                    <span>订单时间：</span>
+                                    <span>@lang('order.Order time')：</span>
                                     <span>{{ $order->created_at }}</span>
                                 </p>
                                 <p>
-                                    <span>订单编号：</span>
+                                    <span>@lang('order.Order number')：</span>
                                     <span>{{ $order->order_sn }}</span>
                                 </p>
                                 <p>
-                                    <span>邮费：</span>
-                                    <span><i>¥ </i>{{ $order->total_shipping_fee }}</span>
+                                    <span>@lang('order.Postage')：</span>
+                                    <span><i>{{ ($order->currency == 'USD') ? '&#36;' : '&yen;' }} </i>{{ $order->total_shipping_fee }}</span>
                                 </p>
                                 <p>
-                                    <span>合计：</span>
-                                    <span><i>¥ </i>{{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}
-                                        （含邮费）</span>
+                                    <span>@lang('order.A total of')：</span>
+                                    <span><i>{{ ($order->currency == 'USD') ? '&#36;' : '&yen;' }} </i>{{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}
+                                        （@lang('order.Postage included')）</span>
                                 </p>
                             </li>
                         </ul>
@@ -206,7 +210,7 @@
                 if (img_num.length < 3) {
                     $("#refunds_photos_file").click();
                 } else {
-                    layer.msg('最多上传3张图片！！');
+                    layer.msg("@lang('order.Upload up to 3 images')");
                 }
             });
             $(".refunds_2").on("click", function () {
@@ -214,7 +218,7 @@
                 if (img_num.length < 3) {
                     $("#refunds_photos_2").click();
                 } else {
-                    layer.msg('最多上传3张图片！！');
+                    layer.msg("@lang('order.Upload up to 3 images')");
                 }
             });
             //图片删除
@@ -239,7 +243,7 @@
                 if (total > 200) {
                     $(this).val($(this).val().substring(0, 200));
                     $(".remainder").html('0');
-                    layer.msg('字数超过上限')
+                    layer.msg("@lang('order.The number of words exceeds the upper limit')");
                 } else {
                     var num = 200 - total;
                     $(".remainder").html(num);
@@ -256,7 +260,7 @@
                 if (total > 200) {
                     $(this).val($(this).val().substring(0, 200));
                     $(".remainder").html('0');
-                    layer.msg('字数超过上限')
+                    layer.msg("@lang('order.The number of words exceeds the upper limit')");
                 } else {
                     var num = 200 - total;
                     $(".remainder").html(num);
@@ -298,8 +302,9 @@
                         console.log(err);
                         if (err.status == 403) {
                             layer.open({
-                                type: 1,
-                                content: '您无权限执行此操作！'
+                                title: "@lang('app.Prompt')",
+                                content: "@lang('app.Unable to complete operation')",
+                                btn: ["@lang('app.determine')", "@lang('app.cancel')"],
                             });
                         }
                     }
@@ -323,8 +328,9 @@
                         console.log(err);
                         if (err.status == 403) {
                             layer.open({
-                                type: 1,
-                                content: '您无权限执行此操作！'
+                                title: "@lang('app.Prompt')",
+                                content: "@lang('app.Unable to complete operation')",
+                                btn: ["@lang('app.determine')", "@lang('app.cancel')"],
                             });
                         }
                     }
@@ -341,9 +347,10 @@
                 UpLoadImg(obj);
             } else {
                 layer.open({
-                    title: '提示',
-                    content: '您未选择图片，或者您上传文件格式有误！（当前支持图片格式：jpg，png，jpeg，gif，bmp）'
-                });
+				  title: "@lang('app.Prompt')",
+				  content: "@lang('app.picture_type_error')",
+				  btn: "@lang('app.determine')"
+				});     
                 upLoadBtnSwitch = 0;
                 return false;
             }

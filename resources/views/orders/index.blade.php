@@ -1,7 +1,6 @@
 @extends('layouts.app')
 @section('title', '个人中心-我的订单')
 @section('content')
-    @include('common.error')
     <div class="User_center my_orders">
         <div class="m-wrapper">
             <div>
@@ -254,8 +253,8 @@
                                     </div>
                                     <p class="commodity_title">{{ App::isLocale('en') ? $guess->name_en : $guess->name_zh }}</p>
                                     <p class="collection_price">
-                                        <span class="new_price">{{ App::isLocale('en') ? '&#36;' : '&yen;' }} {{ $guess->price }}</span>
-                                        <span class="old_price">{{ App::isLocale('en') ? '&#36;' : '&yen;' }} {{ bcmul($guess->price, 1.2, 2) }}</span>
+                                        <span class="new_price">{{ App::isLocale('en') ? '&#36;' : '&#165;' }} {{ $guess->price }}</span>
+                                        <span class="old_price">{{ App::isLocale('en') ? '&#36;' : '&#165;' }} {{ bcmul($guess->price, 1.2, 2) }}</span>
                                     </p>
                                     <a class="add_to_cart"
                                        href="{{ route('products.show', $guess->id) }}">@lang('app.see details')</a>

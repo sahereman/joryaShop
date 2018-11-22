@@ -122,7 +122,7 @@ return [
         'To evaluate' => '去评价',
         'View reviews' => '查看评价',
         'Remaining' => '剩余',
-        'The seller has been reminded to ship the goods, please wait for good news' => '已提醒卖家发货，请敬候佳音',
+        'The seller has been reminded to ship the goods, please wait for good news' => '已提醒卖家发货，请静候佳音',
         'Make sure to cancel the order' => '确定要取消订单？',
         'Waiting for buyers payment' => '等待买家付款',
         'Immediate payment' => '立即付款',

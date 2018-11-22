@@ -1,5 +1,9 @@
 @extends('layouts.app')
+@if(App::isLocale('en'))
+@section('title', 'Search results')
+@else
 @section('title', '搜索结果')
+@endif
 @section('content')
     <div class="products-search-level">
         <div class="m-wrapper">
@@ -13,6 +17,7 @@
             </div>
             <div class="search-level">
                 <ul>
+                	<li class="dis_n more_load" data-url="{{ route('products.search_more') }}"></li>
                     <li class="active default">
                         <a code='index'>@lang('product.Comprehensive')</a>
                     </li>
@@ -74,7 +79,7 @@
 	        function getResults(data,type){
 	        	$.ajax({
 	        		type:"get",
-	        		url:window.location.pathname,
+	        		url:$(".more_load").attr("data-url"),
 	        		data:data,
 	        		async: type,
 	        		beforeSend:function(){

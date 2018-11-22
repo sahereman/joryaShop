@@ -1,7 +1,6 @@
 @extends('layouts.app')
 @section('title', '确认订单')
 @section('content')
-    @include('common.error')
     <div class="pre_payment">
         <div class="m-wrapper">
             <div class="pre_payment_content">

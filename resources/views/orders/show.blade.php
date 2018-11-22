@@ -38,7 +38,7 @@
                                time_to_close_order="{{ \App\Models\Config::config('time_to_close_order') * 60 }}"
                                seconds_to_close_order="{{ $seconds_to_close_order }}">
                                 {{ generate_order_ttl_message($order->create_at, \App\Models\Order::ORDER_STATUS_PAYING) }}
-                                支付（若超时未支付订单，系统将自动取消订单）
+                                @lang('order.payment')（@lang('order.If the order is not paid out, the system will automatically cancel the order')）
                             </p>
                             <p class="operation_area">
                                 <a class="main_operation"
@@ -73,12 +73,12 @@
                                time_to_complete_order="{{ \App\Models\Config::config('time_to_complete_order') * 3600 * 24 }}"
                                seconds_to_complete_order="{{ $seconds_to_complete_order }}">
                                 {{ generate_order_ttl_message($order->shipped_at, \App\Models\Order::ORDER_STATUS_RECEIVING) }}
-                                确认（若超时未确认订单，系统将自动确认订单）
+                                @lang('order.for confirmation')（@lang('order.not confirmed after the timeout')）
                             </p>
                             <p class="operation_area">
                                 <a class="main_operation"
-                                   data-url="{{ route('orders.complete', ['order' => $order->id]) }}">确认收货</a>
-                                <a href="{{ route('orders.refund_with_shipment', ['order' => $order->id]) }}">申请退款</a>
+                                   data-url="{{ route('orders.complete', ['order' => $order->id]) }}">@lang('order.Confirm receipt')</a>
+                                <a href="{{ route('orders.refund_with_shipment', ['order' => $order->id]) }}">@lang('order.Request a refund')</a>
                             </p>
                         </div>
                         @elseif($order->status == \App\Models\Order::ORDER_STATUS_COMPLETED && $order->commented_at == null)
@@ -87,13 +87,13 @@
                             <p>
                                 <img src="{{ asset('img/pending.png') }}">
                                 <span>@lang('basic.users.Order_Status')：</span>
-                                <span class="order_status_tips">交易完成</span>
+                                <span class="order_status_tips">@lang('order.Transaction complete')</span>
                             </p>
                             <p class="operation_area">
                                 <a class="main_operation"
-                                   href="{{ route('orders.create_comment', ['order' => $order->id]) }}">去评价</a>
+                                   href="{{ route('orders.create_comment', ['order' => $order->id]) }}">@lang('order.to evaluate')</a>
                                 <a class="delete_order"
-                                   data-url="{{ route('orders.destroy', ['order' => $order->id]) }}">删除订单</a>
+                                   data-url="{{ route('orders.destroy', ['order' => $order->id]) }}">@lang('order.Delete order')</a>
                             </p>
                         </div>
                         @elseif($order->status == \App\Models\Order::ORDER_STATUS_COMPLETED && $order->commented_at != null)
@@ -102,13 +102,13 @@
                             <p>
                                 <img src="{{ asset('img/pending.png') }}">
                                 <span>@lang('basic.users.Order_Status')：</span>
-                                <span class="order_status_tips">交易完成</span>
+                                <span class="order_status_tips">@lang('order.Transaction complete')</span>
                             </p>
                             <p class="operation_area">
                                 <a class="main_operation"
-                                   href="{{ route('orders.show_comment', ['order' => $order->id]) }}">查看评价</a>
+                                   href="{{ route('orders.show_comment', ['order' => $order->id]) }}">@lang('order.View reviews')</a>
                                 <a class="delete_order"
-                                   data-url="{{ route('orders.destroy', ['order' => $order->id]) }}">删除订单</a>
+                                   data-url="{{ route('orders.destroy', ['order' => $order->id]) }}">@lang('order.Delete order')</a>
                             </p>
                         </div>
                         @elseif($order->status == \App\Models\Order::ORDER_STATUS_CLOSED)
@@ -117,11 +117,11 @@
                             <p>
                                 <img src="{{ asset('img/pending.png') }}">
                                 <span>@lang('basic.users.Order_Status')：</span>
-                                <span class="order_status_tips">交易已关闭</span>
+                                <span class="order_status_tips">@lang('order.Transaction closed')</span>
                             </p>
                             <p class="operation_area">
                                 <a class="delete_order"
-                                   data-url="{{ route('orders.destroy', ['order' => $order->id]) }}">删除订单</a>
+                                   data-url="{{ route('orders.destroy', ['order' => $order->id]) }}">@lang('order.Delete order')</a>
                             </p>
                         </div>
                         @elseif($order->status == \App\Models\Order::ORDER_STATUS_REFUNDING)
@@ -130,22 +130,22 @@
                             <p>
                                 <img src="{{ asset('img/pending.png') }}">
                                 <span>@lang('basic.users.Order_Status')：</span>
-                                <span class="order_status_tips">售后中</span>
+                                <span class="order_status_tips">@lang('order.After sale')</span>
                             </p>
                             <p class="operation_area">
                                 @if(isset($order_refund_type) && $order_refund_type == 'refund')
                                     <a class="main_operation"
-                                       href="{{ route('orders.refund', ['order' => $order->id]) }}">查看售后状态</a>
+                                       href="{{ route('orders.refund', ['order' => $order->id]) }}">@lang('order.View after sales status')</a>
                                     <a class="revocation_after_sale"
-                                       data-url="{{ route('orders.revoke_refund', ['order' => $order->id]) }}">撤销售后</a>
+                                       data-url="{{ route('orders.revoke_refund', ['order' => $order->id]) }}">@lang('order.After withdrawing sales')</a>
                                 @elseif(isset($order_refund_type) && $order_refund_type == 'refund_with_shipment')
                                     <a class="main_operation"
-                                       href="{{ route('orders.refund_with_shipment', ['order' => $order->id]) }}">查看售后状态</a>
+                                       href="{{ route('orders.refund_with_shipment', ['order' => $order->id]) }}">@lang('order.View after sales status')</a>
                                     <a class="revocation_after_sale"
-                                       data-url="{{ route('orders.revoke_refund', ['order' => $order->id]) }}">撤销售后</a>
+                                       data-url="{{ route('orders.revoke_refund', ['order' => $order->id]) }}">@lang('order.After withdrawing sales')</a>
                                 @else
                                     <a class="revocation_after_sale"
-                                       data-url="{{ route('orders.revoke_refund', ['order' => $order->id]) }}">撤销售后</a>
+                                       data-url="{{ route('orders.revoke_refund', ['order' => $order->id]) }}">@lang('order.After withdrawing sales')</a>
                                 @endif
                             </p>
                         </div>
@@ -387,24 +387,16 @@
                         var _second = parseInt(totalS % 60);
                         if (_day < 10) {
                             _day = "0" + _day;
-                        } else {
-                            _day = _day;
-                        }
+                        } 
                         if (_hour < 10) {
                             _hour = "0" + _hour;
-                        } else {
-                            _hour = _hour;
-                        }
+                        } 
                         if (_minute < 10) {
                             _minute = "0" + _minute;
-                        } else {
-                            _minute = _minute;
-                        }
+                        } 
                         if (_second < 10) {
                             _second = "0" + _second;
-                        } else {
-                            _second = _second;
-                        }
+                        } 
                         if (type == '1') {
                             $('#' + remain_id).html("@lang('basic.orders.Remaining')" + _hour + ':' + _minute + ':' + _second + "@lang('order.payment')(@lang('order.If the order is not paid out, the system will automatically cancel the order'))");
                         } else {
@@ -412,9 +404,10 @@
                         }
                     } else {
                         if (type == '1') {
-                            $('#' + remain_id).html("@lang('Order has timed out')(@lang('order.If the order is not paid out, the system will automatically cancel the order'))");
+                            $('#' + remain_id).html("@lang('order.Order has timed out')");
+                            $("")
                         } else {
-                            $('#' + remain_id).html("@lang('Order has timed out')(@lang('order.not confirmed after the timeout'))");
+                            $('#' + remain_id).html("@lang('order.Order has timed out')");
                         }
                     }
                 }

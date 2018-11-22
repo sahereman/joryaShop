@@ -13,6 +13,7 @@
             </div>
             <div class="search-level">
                 <ul>
+                	<li class="dis_n more_load" data-url="{{ route('product_categories.more', ['category' => $category->id]) }}"></li>
                     <li class="active default">
                         <a code='index'>@lang('product.Comprehensive')</a>
                     </li>
@@ -64,17 +65,18 @@
             var page_num = 2;    //请求页面
         	window.onload=function(){
 	        	dataoption_1={
-	        		query: getQueryString("query"),
+//	        		query: getQueryString("query"),
 	        		sort: sort,
 	        		page: 1
 	        	}
-	        	getResults(dataoption_1,true);
+	        	var url = $(".more_load").attr("data-url");
+	        	getResults(dataoption_1,true,url);
 	        }
 	        //获取商品列表
-	        function getResults(data,type){
+	        function getResults(data,type,url){
 	        	$.ajax({
 	        		type:"get",
-	        		url:window.location.pathname,
+	        		url:url,
 	        		data:data,
 	        		async: type,
 	        		beforeSend:function(){
@@ -152,19 +154,20 @@
 	            		loading = true;
 	            		if(requestType==0){
 	            			dataoption_3 = {
-	            				query: getQueryString("query"),
+//	            				query: getQueryString("query"),
 				        		page: page_num,
 						        sort: sort
 	            			}
 	            		}else {
 	            			dataoption_3 = {
-	            				query: getQueryString("query"),
+//	            				query: getQueryString("query"),
 				        		page: page_num,
 				        		min_price: $(".min_price").val(),
 							    max_price: $(".max_price").val()
 	            			}
 	            		}
-			        	getResults(dataoption_3,false);
+	            		var url = $(".more_load").attr("data-url");
+			        	getResults(dataoption_3,false,url);
 			        	page_num++;
 	            	}
 	             }
@@ -193,12 +196,13 @@
 		    		sort=$(this).find('a').attr('code');
 		    	}
 		    	dataoption_1={
-	        		query: getQueryString("query"),
+//	        		query: getQueryString("query"),
 	        		page: 1,
 			        sort: sort
 			    }
 			    $(".classified-lists").html("");
-			    getResults(dataoption_1,true);
+			    var url = $(".more_load").attr("data-url");
+			    getResults(dataoption_1,true,url);
 		    })
 		    //根据价格区间来获取排序
 		    $(".searchByPrice").on("click",function(){
@@ -211,13 +215,14 @@
 		    	}else {
 		    	    if($(".min_price").val()!=""&&$(".max_price").val()!=""){
 		    	    	dataoption_2={
-			        		query: getQueryString("query"),
+//			        		query: getQueryString("query"),
 			        		page: 1,
 			        		min_price: $(".min_price").val(),
 						    max_price: $(".max_price").val()
 					    }	
 					    $(".classified-lists").html("");
-			            getResults(dataoption_2,true);
+					    var url = $(".more_load").attr("data-url");
+			            getResults(dataoption_2,true,url);
 			    	}else {
 			    		layer.msg("@lang('product.Please enter the correct price range')");
 			    	}	
