@@ -161,23 +161,16 @@ return [
             'notify_url' => env('APP_URL', $url) . '/payments/paypal/notify',
         ],*/
 
-        /*'log' => [
-            'log.LogEnabled' => true,
-            'log.FileName' => storage_path('logs/paypal.log'),
-            'log.LogLevel' => 'DEBUG', // DEBUG | INFO | NOTICE | WARNING | ERROR | CRITICAL | ALERT | EMERGENCY
-        ],
-
         // MODE: sandbox or live
         // 'mode' => env('PAYPAL_ENVIRONMENT', 'sandbox'),
         // 'mode' => env('APP_ENV', 'production') == 'production' ? 'live' : 'sandbox',
-        'mode' => env('PAYPAL_ENVIRONMENT', 'live'),*/
+        // 'mode' => env('PAYPAL_ENVIRONMENT', 'live'),
 
         // TODO ... (for production)
-        'log' => [
-            'LogEnabled' => true,
-            'FileName' => storage_path('logs/paypal.log'),
-            'LogLevel' => 'INFO',
-        ],
+        // Log Configuration
+        'log.LogEnabled' => true,
+        'log.FileName' => storage_path('logs/paypal.log'),
+        'log.LogLevel' => 'INFO',
 
         // MODE: sandbox or live
         'mode' => 'live',
