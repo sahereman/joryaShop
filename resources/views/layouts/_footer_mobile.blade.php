@@ -35,6 +35,7 @@
 		$(".itemsL img").attr("src","{{ asset('static_m/img/Select_classification.png') }}");
 		$(".itemsG img").attr("src","{{ asset('static_m/img/Unchecked_Shopping.png') }}");
 		$(".itemsW img").attr("src","{{ asset('static_m/img/Unchecked_my.png') }}");
+		window.location.href = "{{ route('mobile.product_categories.index')}}";
 	});
 	$(".itemsG").on("click",function(){
 		$(".itemsF").removeClass("itemsActive");
@@ -43,6 +44,7 @@
 		$(".itemsL img").attr("src","{{ asset('static_m/img/Unchecked_classification.png') }}");
 		$(".itemsG img").attr("src","{{ asset('static_m/img/Select_Shopping.png') }}");
 		$(".itemsW img").attr("src","{{ asset('static_m/img/Unchecked_my.png') }}");
+		window.location.href = "{{ route('mobile.carts.index')}}";
 	});
 	$(".itemsW").on("click",function(){
 		$(".itemsF").removeClass("itemsActive");

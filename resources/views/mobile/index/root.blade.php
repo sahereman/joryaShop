@@ -3,10 +3,10 @@
 @section('content')
 	<div class="main">
 		<div class="searchBox">
-			<div class="searchCon">
+			<a href="{{route('mobile.locale.search')}}" class="searchCon">
 				<img src="{{ asset('static_m/img/Unchecked_search.png') }}"/>
-				<input type="text" name="" id="" value="" placeholder="搜索商品，供12351款好货"/>
-			</div>
+				<input type="text" name="" id="" value="" placeholder="搜索商品，供12351款好货" readonly="readonly"/>
+			</a>
 			<a href="{{route('mobile.locale.show')}}" class="LanguageSwitch">
 				<img src="{{ asset('static_m/img/chinese.png')}}"  alt="" class="langImg"/>
 				<span></span>
