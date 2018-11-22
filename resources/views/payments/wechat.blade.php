@@ -14,9 +14,9 @@
             <div class="payment_success wechat">
                 <div class="bd f-clearfix">
                     <div class="code left">
-                    <div class="bd">
-                        <img src="{!! generate_qr_code($qr_code_url, 'png', 150) !!}">
-                    </div>
+                        <div class="bd">
+                            <img src="{!! generate_qr_code($qr_code_url, 'png', 150) !!}">
+                        </div>
                         <p class="text" data-url="{{ route('payments.success', ['order' => $order->id]) }}">微信扫一扫支付</p>
                     </div>
                     <img class="phone left" src="{{ asset('img/wechat_pay.png') }}">
@@ -28,29 +28,27 @@
     </div>
 @endsection
 @section('scriptsAfterJs')
-<script type="text/javascript">
-    $(function(){
-        window.onload = function(){
-            function _fresh (){
-                $.ajax({
-                    type:"get",
-                    url:$(".yxTradeNo").attr("data-url"),
-                    success: function(json){
-                        console.log(json);
-                        if(json.code==200){
-                            clearInterval(sh);
-                            window.location.href = $(".text").attr("data-url");
-                            // window.location.href = $(".text").attr("data-url");
+    <script type="text/javascript">
+        $(function () {
+            window.onload = function () {
+                function _fresh() {
+                    $.ajax({
+                        type: "get",
+                        url: $(".yxTradeNo").attr("data-url"),
+                        success: function (json) {
+                            console.log(json);
+                            if (json.code == 200) {
+                                // clearInterval(sh);
+                                window.location.href = json.data.request_url;
+                                // window.location.href = $(".text").attr("data-url");
+                            }
                         }
-                        if(json.code==202){
-                            clearInterval(sh);
-                        }
-                    }
-                });
+                    });
+                }
+
+                _fresh();
+                var sh = setInterval(_fresh, 2000);
             }
-             _fresh();
-            var sh = setInterval(_fresh, 2000);
-        }
-    })
-</script>
+        })
+    </script>
 @endsection

@@ -202,20 +202,43 @@ class PaymentsController extends Controller
 
         try {
             // 调用Wechat的扫码支付(网页支付)
-            $result = Pay::wechat($this->getWechatConfig($order))->scan([
+            $response = Pay::wechat($this->getWechatConfig($order))->scan([
                 'out_trade_no' => $order->order_sn, // 订单编号，需保证在商户端不重复
                 'body' => '请支付来自 Jorya Hair 的订单：' . $order->order_sn, // 订单标题
                 'total_fee' => bcmul(bcadd($order->total_amount, $order->total_shipping_fee, 2), 100, 0), // 订单金额，单位分，参数值不能带小数点
             ]);
 
-            // 二维码内容：
-            $qr_code_url = $result->code_url;
+            /**
+             * Sample Response:
+             */
+            /*{
+                "return_code": "SUCCESS",
+                "return_msg": "OK",
+                "appid": "wx0b3f800e268b1e85",
+                "mch_id": "1516915751",
+                "nonce_str": "GPkXE1Ys7nwxLsBg",
+                "sign": "E985BBC0F922FCB7FBF43DECAD3102E5",
+                "result_code": "SUCCESS",
+                "prepay_id": "wx22124515680415b6b9fc61ba2782759201",
+                "trade_type": "NATIVE",
+                "code_url": "weixin://wxpay/bizpayurl?pr=fHd7mdg"
+            }*/
 
-            Log::info('A New Wechat Pc-Scan Payment Created: ' . $result->toJSON() . '; Qr Code Url: ' . $qr_code_url);
-            return view('payments.wechat', [
-                'order' => $order,
-                'qr_code_url' => $qr_code_url,
-            ]);
+            if ($response->return_code == 'SUCCESS' && $response->result_code == 'SUCCESS' && $response->return_msg == 'OK' && $response->code_url) {
+                // 二维码内容：
+                $qr_code_url = $response->code_url;
+
+                Log::info('A New Wechat Pc-Scan Payment Created: ' . $response->toJSON() . '; Qr Code Url: ' . $qr_code_url);
+                return view('payments.wechat', [
+                    'order' => $order,
+                    'qr_code_url' => $qr_code_url,
+                ]);
+            } else {
+                Log::info('A New Wechat Pc-Scan Payment Responded With Wrong Response: ' . $response->toJSON());
+                return view('payments.error', [
+                    'message' => $response->toJson(),
+                ]);
+            }
         } catch (\Exception $e) {
             // error_log($e->getMessage());
             /*return view('pages.error', [
@@ -231,12 +254,33 @@ class PaymentsController extends Controller
     // POST WeChat 支付通知 [notify_url]
     public function wechatNotify(Request $request, Order $order)
     {
-        Log::info('A Payment Notification From Wechat: ' . collect($request->all())->toJson());
+        Log::info('Wechat Payment Notification Url: ' . $request->getUri());
 
         // 校验输入参数
         $data = Pay::wechat($this->getWechatConfig($order))->verify();
         Log::info('A Payment Notification From Wechat With Verified Data: ' . $data->toJson());
 
+        /**
+         * Sample Verified Data:
+         */
+        /*{
+            "appid": "wx0b3f800e268b1e85",
+            "bank_type": "CFT",
+            "cash_fee": "1",
+            "fee_type": "CNY",
+            "is_subscribe": "N",
+            "mch_id": "1516915751",
+            "nonce_str": "L8xzvnU1iVBHLOQQ",
+            "openid": "owS050gDeK9SQSD0Np1R9DfwZP3Y",
+            "out_trade_no": "20181122100018304978",
+            "result_code": "SUCCESS",
+            "return_code": "SUCCESS",
+            "sign": "763FFA33DAEB535AB8C7F85FC8518649",
+            "time_end": "20181122124550",
+            "total_fee": "1",
+            "trade_type": "NATIVE",
+            "transaction_id": "4200000228201811224246112891"
+        }*/
         // $data->out_trade_no 拿到订单流水号，并在数据库中查询
         $wechatOrder = Order::where('order_sn', $data->out_trade_no)->first();
 
@@ -266,6 +310,33 @@ class PaymentsController extends Controller
     }
 
     // Wechat 退款
+    /**
+     * Sample Response:
+     */
+    /*{
+        "code": 200,
+        "message": "success",
+        "response": {
+            "return_code": "SUCCESS",
+            "return_msg": "OK",
+            "appid": "wx0b3f800e268b1e85",
+            "mch_id": "1516915751",
+            "nonce_str": "gkECrULoMEXvArq3",
+            "sign": "34559A4E2CEDA2D3D2121900BFE603AD",
+            "result_code": "SUCCESS",
+            "transaction_id": "4200000228201811224246112891",
+            "out_trade_no": "20181122100018304978",
+            "out_refund_no": "15f6c3b751e24a5687dc97f4d8bf9dc1",
+            "refund_id": "50000308892018112207183007600",
+            "refund_channel": [],
+            "refund_fee": "1",
+            "coupon_refund_fee": "0",
+            "total_fee": "1",
+            "cash_fee": "1",
+            "coupon_refund_count": "0",
+            "cash_refund_fee": "1"
+        }
+    }*/
     public function wechatRefund(Request $request)
     {
         $this->validate($request, [
@@ -296,7 +367,7 @@ class PaymentsController extends Controller
         Log::info('A New Wechat Refund Responded: ' . $response->toJson());
 
         // 根据Wechat的文档，如果返回值里有 sub_code 字段说明退款失败
-        if ($response->return_code == 'FAIL') {
+        if ($response->return_code != 'SUCCESS' || $response->result_code != 'SUCCESS') {
             Log::error('A New Wechat Refund Failed: ' . json_encode($response));
         }
 

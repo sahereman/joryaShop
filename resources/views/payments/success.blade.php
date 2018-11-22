@@ -8,9 +8,9 @@
                 <p>@lang('order.Order payment success')</p>
                 <p class="clear">
                     @if(isset($order))
-                    <a href="{{ route('orders.show', ['order' =>  $order->id]) }}">@lang('order.View order details')</a>
+                        <a href="{{ route('orders.show', ['order' =>  $order->id]) }}">@lang('order.View order details')</a>
                     @else
-                    <a href="{{ route('orders.index') }}">@lang('order.View order list')</a>
+                        <a href="{{ route('orders.index') }}">@lang('order.View order list')</a>
                     @endif
                     <a href="{{ route('root') }}">@lang('order.Continue to buy')</a>
                 </p>
