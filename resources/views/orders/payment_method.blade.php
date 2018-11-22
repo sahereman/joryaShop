@@ -26,7 +26,8 @@
                         @else
                             <li>
                                 <label class="cur_p clear">
-                                    <input type="radio" name="payMethod" value="3" id="paypal">
+                                    <input type="radio" name="payMethod" value="3" id="paypal"
+                                    	   data-href="{{ route('payments.paypal.create', ['order' => $order->id]) }}">
                                     <img src="{{ asset('img/paypal.png') }}">
                                 </label>
                             </li>
@@ -74,6 +75,7 @@
                         window.location.href = location_href;
                         break;
                     case "3":          //paypal
+                        window.location.href = location_href;
                         break;
                     default :
                         layer.alert("lang('order.Please select the payment method')");
@@ -108,9 +110,9 @@
                             _second = "0" + _second;
                         }
                         if (type == '1') {
-                            $('#' + remain_id).html('剩余' + _hour + '时' + _minute + '分' + _second + '秒支付（若超时未支付订单，系统将自动取消订单）');
+                            $('#' + remain_id).html("@lang('basic.orders.Remaining')" + _hour + ':' + _minute + ':' + _second + "@lang('order.payment')(@lang('order.If the order is not paid out, the system will automatically cancel the order'))");
                         } else {
-                            $('#' + remain_id).html('剩余' + _day + '天' + _hour + '时' + _minute + '分确认（若超时未确认订单，系统将自动确认订单）');
+                             $('#' + remain_id).html("@lang('basic.orders.Remaining')" + _day + ':' + _hour + ':' + _minute + ':' + _second + "@lang('order.for confirmation')(@lang('order.not confirmed after the timeout'))");
                         }
                     }
                 }
