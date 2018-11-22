@@ -163,6 +163,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('payments/{order}/alipay/return', 'PaymentsController@alipayReturn')->name('payments.alipay.return'); // Alipay 支付回调
 
     /*退款 [just for test]*/
+    Route::post('payments/refund', 'PaymentsController@refund')->name('payments.refund'); // 通用 - 模拟后台发起订单退款
     Route::post('payments/alipay/refund', 'PaymentsController@alipayRefund')->name('payments.alipay.refund'); // Alipay 退款
     Route::post('payments/wechat/refund', 'PaymentsController@wechatRefund')->name('payments.wechat.refund'); // Wechat 退款
     Route::post('payments/paypal/refund', 'PaymentsController@paypalRefund')->name('payments.paypal.refund'); // Paypal 退款

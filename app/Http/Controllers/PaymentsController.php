@@ -69,15 +69,16 @@ class PaymentsController extends Controller
 
         // 校验输入参数
         $data = Pay::alipay($this->getAlipayConfig($order))->verify();
+        Log::info('A Payment Notification From Alipay With Verified Data: ' . $data->toJson());
 
-        /*// $data->out_trade_no 拿到订单流水号，并在数据库中查询
-        $order = Order::where('order_sn', $data->out_trade_no)->first();
+        // $data->out_trade_no 拿到订单流水号，并在数据库中查询
+        $alipay_order = Order::where('order_sn', $data->out_trade_no)->first();
 
         // 正常来说不太可能出现支付了一笔不存在的订单，这个判断只是加强系统健壮性。
-        if (!$order) {
+        if (!$alipay_order || $alipay_order->id != $order->id) {
             Log::error('Alipay Notified With Wrong Out_Trade_No: ' . $data->out_trade_no);
             return 'fail';
-        }*/
+        }
 
         // 如果这笔订单的状态已经是已支付
         if ($order->paid_at) {
@@ -245,14 +246,14 @@ class PaymentsController extends Controller
         $data = Pay::wechat($this->getWechatConfig($order))->verify();
         Log::info('A Payment Notification From Wechat With Verified Data: ' . $data->toJson());
 
-        /*// $data->out_trade_no 拿到订单流水号，并在数据库中查询
-        $order = Order::where('order_sn', $data->out_trade_no)->first();
+        // $data->out_trade_no 拿到订单流水号，并在数据库中查询
+        $wechat_order = Order::where('order_sn', $data->out_trade_no)->first();
 
         // 正常来说不太可能出现支付了一笔不存在的订单，这个判断只是加强系统健壮性。
-        if (!$order) {
+        if (!$wechat_order || $wechat_order->id != $order->id) {
             Log::error('Wechat Notified With Wrong Out_Trade_No: ' . $data->out_trade_no);
             return 'fail';
-        }*/
+        }
 
         // 如果这笔订单的状态已经是已支付
         if ($order->paid_at) {
@@ -876,6 +877,39 @@ class PaymentsController extends Controller
             // session(['wechat-advanced_user_info' => $response_array]);
             // return $response_array;
             // dd($response_array);
+        }
+    }
+
+    // POST 通用 - 模拟后台发起订单退款
+    public function refund(Request $request)
+    {
+        $this->validate($request, [
+            'order_id' => 'required|integer|exists:orders,id',
+        ], [
+            'order_id.exists' => '该订单不存在',
+        ], [
+            'order_id' => '订单ID',
+        ]);
+        $order = Order::find($request->input('order_id'));
+
+        // TODO ... (for production)
+        /*if ($order->status !== Order::ORDER_STATUS_REFUNDING) {
+            throw new InvalidRequestException('当前订单状态不正确');
+        }*/
+
+        switch ($order->payment_method) {
+            case Order::PAYMENT_METHOD_ALIPAY:
+                $this->alipayRefund($request);
+                break;
+            case Order::PAYMENT_METHOD_WECHAT:
+                $this->wechatRefund($request);
+                break;
+            case Order::PAYMENT_METHOD_PAYPAL:
+                $this->paypalRefund($request);
+                break;
+            default:
+                throw new InvalidRequestException('Invalid Payment Method: ' . $order->payment_method);
+                break;
         }
     }
 
