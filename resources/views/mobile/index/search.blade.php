@@ -2,6 +2,10 @@
 @section('title', '商品搜索')
 @section('content')
 	<div class="seaBox">
+		<div class="headerBar">
+			<img src="{{ asset('static_m/img/icon_backtop.png') }}" class="backImg" onclick="javascript:history.back(-1);"/>
+			<span>搜索</span>
+		</div>
 		<div class="searchHead">
 			<div class="searchHeadMain">
 				<img src="{{ asset('static_m/img/icon_search3.png') }}" class="seaImg"/>
@@ -70,6 +74,9 @@
         	var val = $(this).val();
         	//将输入框的值传入后台，将接口返回的模糊搜索数据渲染到页面TODO
         	
+        });
+        $(".searchResultItem").on("click",function(){
+        	window.location.href = "{{route('mobile.products.search')}}";
         });
     </script>
 @endsection

@@ -3,7 +3,6 @@
 @section('content')
 	<div class="cgeBox">
 		<div class="cgeHead">
-			<img src="{{ asset('static_m/img/icon_backtop.png') }}" />
 			<a href="{{route('mobile.locale.search')}}" class="cgeHeadSearch">
 				<img src="{{ asset('static_m/img/icon_search3.png') }}" />
 				<input type="text" name="" id="" value="" placeholder="搜你想搜" readonly="readonly"/>

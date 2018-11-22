@@ -125,5 +125,8 @@
         	//跳转设置页面
         	window.location.href = "{{route('mobile.users.setting',Auth::id())}}";
         });
+        $(".searchImg").on("click",function(){
+        	window.location.href = "{{route('mobile.locale.search')}}";
+        });
     </script>
 @endsection

@@ -1,15 +1,15 @@
 @extends('layouts.mobile')
-
+@section('title', '商品列表')
 @section('content')
-    {{--如果需要引入子视图--}}
-    {{--@include('layouts._header')--}}
-
-    {{--填充页面内容--}}
-    <h1>商品搜索结果 页面</h1>
-
-
-    {{--如果需要引入子视图--}}
-    {{--@include('layouts._footer')--}}
+	<div class="goodsListBox">
+		<div class="goodsListHead">
+			<img src="{{ asset('static_m/img/icon_backtop.png') }}"  onclick="javascript:history.back(-1);"/>
+			<div class="goodsListHeadBox">
+				<img src="{{ asset('static_m/img/icon_search3.png') }}" />
+				<input type="text" name="" id="ipt" value="" />
+			</div>
+		</div>
+	</div>
 @endsection
 
 

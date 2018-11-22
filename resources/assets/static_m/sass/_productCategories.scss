@@ -16,9 +16,8 @@
             width: .6rem;
         }
         .cgeHeadSearch{
-            width: 90%;
+            width: 100%;
             background: #f5f5f5;
-            margin-left: 1rem;
             padding: .3rem .7rem;
             border-radius: 1rem;
             input{
@@ -130,3 +129,37 @@
         
     }
 }
+
+//商品列表页面样式
+.goodsListBox{
+    .goodsListHead{
+        display: flex;
+        flex-direction: row;
+        justify-content:   flex-start;
+        align-items: center;
+        padding: .5rem 1rem;
+        border-bottom: 1px solid #e0e0e0;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        img{
+            width: .6rem;
+        }
+        .goodsListHeadBox{
+            width: 100%;
+            padding: .2rem .5rem;
+            background: #f5f5f5;
+            border-radius: 1rem;
+            margin-left: .5rem;
+            img{
+                width: 1rem;
+            }
+            input{
+                background: transparent;
+            }
+        }
+    }
+}
+
+
