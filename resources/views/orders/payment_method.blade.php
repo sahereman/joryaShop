@@ -75,7 +75,18 @@
                         window.location.href = location_href;
                         break;
                     case "3":          //paypal
-                        window.location.href = location_href;
+                        var url = location_href;
+                        $.ajax({
+                        	type:"get",
+                        	url:url,
+                        	success :function(json){
+                        		if(json.code==200){
+                        			window.location.href = json.data.redirect_url;
+                        		}else {
+                        			layer.msg(json.message);
+                        		}
+                        	}
+                        });
                         break;
                     default :
                         layer.alert("lang('order.Please select the payment method')");
