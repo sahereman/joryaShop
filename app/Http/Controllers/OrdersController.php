@@ -350,33 +350,29 @@ class OrdersController extends Controller
         ]);
     }
 
-    // GET 查看订单是否支付成功 [for Ajax request]
+    // GET 判断订单是否已经支付 [for Ajax request]
     public function isPaid(Request $request, Order $order)
     {
         $this->authorize('view', $order);
-
-        $is_paid = $order->status === Order::ORDER_STATUS_SHIPPING;
-
-        if ($is_paid) {
+        if ($order->status != Order::ORDER_STATUS_PAYING && $order->paid_at != null && $order->payment_sn != null) {
             return response()->json([
                 'code' => 200,
-                'message' => 'success',
+                'message' => 'Order is paid already',
                 'data' => [
                     'order_id' => $order->id,
-                    'is_paid' => $is_paid,
+                    'is_paid' => true,
                     'request_url' => route('payments.success', ['order' => $order->id]),
                 ],
             ]);
-        } else {
-            return response()->json([
-                'code' => 200,
-                'message' => 'success',
-                'data' => [
-                    'order_id' => $order->id,
-                    'is_paid' => $is_paid,
-                ],
-            ]);
         }
+        return response()->json([
+            'code' => 202,
+            'message' => 'Order is not paid yet',
+            'data' => [
+                'order_id' => $order->id,
+                'is_paid' => false,
+            ],
+        ]);
     }
 
     // PATCH [主动]取消订单，交易关闭 [订单进入交易关闭状态:status->closed]

@@ -135,7 +135,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('orders/{order}/show_comment', 'OrdersController@showComment')->name('orders.show_comment'); // 查看订单评价页面
     // Route::post('orders/{order}/append_comment', 'OrdersController@appendComment')->name('orders.append_comment'); // 追加订单评价 [可针对某一款产品单独追加评论]
 
-    Route::get('orders/{order}/is_paid', 'OrdersController@isPaid')->name('orders.is_paid'); // 查看订单是否支付成功 [for Ajax request]
+    Route::get('orders/{order}/is_paid', 'OrdersController@isPaid')->name('orders.is_paid'); // 判断订单是否已经支付 [for Ajax request]
 
     // 售后订单 [仅退款]
     Route::get('orders/{order}/refund', 'OrdersController@refund')->name('orders.refund'); // 退单申请页面
@@ -154,7 +154,6 @@ Route::group(['middleware' => 'auth'], function () {
     /*支付*/
     Route::get('payments/{order}/alipay', 'PaymentsController@alipay')->name('payments.alipay'); // Alipay 支付页面
     Route::get('payments/{order}/wechat', 'PaymentsController@wechat')->name('payments.wechat'); // Wechat 支付页面
-    Route::get('payments/{order}/is_paid', 'PaymentsController@isPaid')->name('payments.is_paid'); // 判断订单是否已经支付 [for Ajax request]
     Route::get('payments/{order}/paypal/create', 'PaymentsController@paypalCreate')->name('payments.paypal.create'); // PayPal: create a payment
     Route::get('payments/{order}/paypal/get', 'PaymentsController@paypalGet')->name('payments.paypal.get'); // PayPal: get the info of a payment
     Route::get('payments/{order}/paypal/execute', 'PaymentsController@paypalExecute')->name('payments.paypal.execute'); // PayPal: execute[approve|cancel] a payment

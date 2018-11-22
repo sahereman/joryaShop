@@ -17,7 +17,7 @@
                     <div class="bd">
                         <img src="{!! generate_qr_code($qr_code_url, 'png', 150) !!}">
                     </div>
-                        <p class="text" data-url="{{ route('payments.success',$order->id) }}">微信扫一扫支付</p>
+                        <p class="text" data-url="{{ route('payments.success', ['order' => $order->id]) }}">微信扫一扫支付</p>
                     </div>
                     <img class="phone left" src="{{ asset('img/wechat_pay.png') }}">
                 </div>
@@ -39,7 +39,8 @@
                         console.log(json);
                         if(json.code==200){
                             clearInterval(sh);
-                            window.location.href = $(".text").attr("data-url")
+                            window.location.href = $(".text").attr("data-url");
+                            // window.location.href = $(".text").attr("data-url");
                         }
                         if(json.code==202){
                             clearInterval(sh);

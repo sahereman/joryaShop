@@ -105,6 +105,7 @@ class PaymentsController extends Controller
     // GET Alipay 支付回调 [return url]
     public function alipayReturn(Request $request, Order $order)
     {
+        Log::info('Alipay Payment Return Url : ' . collect($request->all())->toJson());
         $alipay = Pay::alipay($this->getAlipayConfig($order));
         try {
             // 校验提交的参数是否合法
@@ -120,14 +121,13 @@ class PaymentsController extends Controller
             ]);
         }
 
-        // TODO ...
+        //return $alipay->success();
         /*return view('pages.success', [
             'msg' => '付款成功',
         ]);*/
-        /*return view('payments.success', [
+        return view('payments.success', [
             'order' => $data,
-        ]);*/
-        return $alipay->success();
+        ]);
     }
 
     // Alipay 退款
@@ -220,21 +220,6 @@ class PaymentsController extends Controller
                 'message' => $e->getMessage(),
             ]);
         }
-    }
-
-    // GET 判断订单是否已经支付 [for Ajax request]
-    public function isPaid(Request $request, Order $order)
-    {
-        if ($order->status != Order::ORDER_STATUS_PAYING && $order->paid_at != null && $order->payment_sn != null) {
-            return response()->json([
-                'code' => 200,
-                'message' => 'Order is paid already',
-            ]);
-        }
-        return response()->json([
-            'code' => 202,
-            'message' => 'Order is not paid yet',
-        ]);
     }
 
     // POST WeChat 支付通知 [notify_url]
@@ -899,13 +884,13 @@ class PaymentsController extends Controller
 
         switch ($order->payment_method) {
             case Order::PAYMENT_METHOD_ALIPAY:
-                $this->alipayRefund($request);
+                return $this->alipayRefund($request);
                 break;
             case Order::PAYMENT_METHOD_WECHAT:
-                $this->wechatRefund($request);
+                return $this->wechatRefund($request);
                 break;
             case Order::PAYMENT_METHOD_PAYPAL:
-                $this->paypalRefund($request);
+                return $this->paypalRefund($request);
                 break;
             default:
                 throw new InvalidRequestException('Invalid Payment Method: ' . $order->payment_method);
