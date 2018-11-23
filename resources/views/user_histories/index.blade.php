@@ -47,8 +47,8 @@
                                         </div>
                                         <p class="commodity_title">{{ App::isLocale('en') ? $history->product->name_en : $history->product->name_zh }}</p>
                                         <p class="collection_price">
-                                            <span class="new_price">@lang('basic.currency.symbol') {{ $history->product->price }}</span>
-                                            <span class="old_price">@lang('basic.currency.symbol') {{ bcmul($history->product->price, 1.2, 2) }}</span>
+                                            <span class="new_price">@lang('basic.currency.symbol') {{ App::isLocale('en') ? $history->product->price_in_usd : $history->product->price }}</span>
+                                            <span class="old_price">@lang('basic.currency.symbol') {{ App::isLocale('en') ? bcmul($history->product->price_in_usd, 1.2, 2) : bcmul($history->product->price, 1.2, 2) }}</span>
                                         </p>
                                         <a class="add_to_cart" href="{{ route('products.show', $history->id) }}">@lang('app.see details')</a>
                                         <a class="delete_mark" code="{{ route('user_histories.destroy', $history->id) }}" title="@lang('app.Click to remove the item')"></a>

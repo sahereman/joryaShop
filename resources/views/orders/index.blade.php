@@ -436,28 +436,27 @@
                     var _second = parseInt(totalS % 60);
                     if (_day < 10) {
                         _day = "0" + _day;
-                    } else {
-                        _day = _day;
-                    }
+                    } 
                     if (_hour < 10) {
                         _hour = "0" + _hour;
-                    } else {
-                        _hour = _hour;
-                    }
+                    } 
                     if (_minute < 10) {
                         _minute = "0" + _minute;
-                    } else {
-                        _minute = _minute;
-                    }
+                    } 
                     if (_second < 10) {
                         _second = "0" + _second;
-                    } else {
-                        _second = _second;
-                    }
+                    } 
                     if (type == '1') {
-                        $('#' + remain_id).html('剩余' + _hour + '时' + _minute + '分' + _second + '秒');
+                        $('#' + remain_id).html("@lang('basic.orders.Remaining')" + _hour + ':' + _minute + ':' + _second);
                     } else {
-                        $('#' + remain_id).html('剩余' + _day + '天' + _hour + '时' + _minute + '分');
+                        $('#' + remain_id).html("@lang('basic.orders.Remaining')" + _day + ':' + _hour + ':' + _minute + ':' + _second);
+                    }
+                }else {
+                    if (type == '1') {
+                        $('#' + remain_id).html("@lang('order.Order has timed out')");
+                        $("")
+                    } else {
+                        $('#' + remain_id).html("@lang('order.Order has timed out')");
                     }
                 }
             }

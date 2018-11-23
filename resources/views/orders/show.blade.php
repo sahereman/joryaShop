@@ -232,7 +232,7 @@
                                     </td>
                                     <td class="col-price">
                                         <p class="p-price">
-                                            <span>{{ App::isLocale('en') ? '&#36;' : '&#165;' }}</span>
+                                            <span>{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }}</span>
                                             <span>{{ $order_item['price'] }}</span>
                                         </p>
                                     </td>
@@ -241,7 +241,7 @@
                                     </td>
                                     <td rowspan="{{ count($order->snapshot) }}" class="col-pay">
                                         <p>
-                                            <span>{{ App::isLocale('en') ? '&#36;' : '&#165;' }}</span>
+                                            <span>{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }}</span>
                                             <span>{{ $order->total_amount }}</span>
                                         </p>
                                     </td>
@@ -267,7 +267,7 @@
                                     </td>
                                     <td class="col-price">
                                         <p class="p-price">
-                                            <span>{{ App::isLocale('en') ? '&#36;' : '&#165;' }}</span>
+                                            <span>{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }}</span>
                                             <span>{{ $order_item['price'] }}</span>
                                         </p>
                                     </td>

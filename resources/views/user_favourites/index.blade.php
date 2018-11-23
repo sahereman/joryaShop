@@ -36,8 +36,8 @@
                                     </div>
                                     <p class="commodity_title">{{ App::isLocale('en') ? $favourite->product->name_en : $favourite->product->name_zh }}</p>
                                     <p class="collection_price">
-                                        <span class="new_price">@lang('basic.currency.symbol') {{ $favourite->product->price }}</span>
-                                        <span class="old_price">@lang('basic.currency.symbol') {{ bcmul($favourite->product->price, 1.2, 2) }}</span>
+                                        <span class="new_price">@lang('basic.currency.symbol') {{ App::isLocale('en') ? $favourite->product->price_in_usd : $favourite->product->price }}</span>
+                                        <span class="old_price">@lang('basic.currency.symbol') {{ App::isLocale('en') ? bcmul($favourite->product->price_in_usd, 1.2, 2) : bcmul($favourite->product->price, 1.2, 2) }}</span>
                                     </p>
                                     <a class="add_to_cart" href="{{ route('products.show', $favourite->id) }}">@lang('app.Add to Shopping Cart')</a>
                                     <a class="delete_mark" code="{{ route('user_favourites.destroy', $favourite->id) }}"

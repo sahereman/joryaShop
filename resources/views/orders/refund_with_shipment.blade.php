@@ -423,7 +423,7 @@
                                             </p>
                                             <p>{{ App::isLocale('en') ? $order_item['sku']['name_en'] : $order_item['sku']['name_zh'] }}</p>
                                             <p>
-                                             @lang('order.Unit Price')：{{ App::isLocale('en') ? '&#36;' : '&#165;' }} {{ $order_item['price'] }}
+                                             @lang('order.Unit Price')：{{ $order->currency == "USD" ? '&#36;' : '&#165;' }} {{ $order_item['price'] }}
                                                 &#215; {{ $order_item['number'] }}</p>
                                         </div>
                                     </a>
@@ -440,11 +440,11 @@
                                 </p>
                                 <p>
                                     <span>@lang('order.Postage')：</span>
-                                    <span><i>{{ App::isLocale('en') ? '&#36;' : '&#165;' }} </i>{{ $order->total_shipping_fee }}</span>
+                                    <span><i>{{ $order->currency == "USD" ? '&#36;' : '&#165;' }} </i>{{ $order->total_shipping_fee }}</span>
                                 </p>
                                 <p>
                                     <span>@lang('order.A total of')：</span>
-                                    <span><i>{{ App::isLocale('en') ? '&#36;' : '&#165;' }}</i>{{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}
+                                    <span><i>{{ $order->currency == "USD" ? '&#36;' : '&#165;' }}</i>{{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}
                                         （@lang('order.Postage included')）</span>
                                 </p>
                             </li>
