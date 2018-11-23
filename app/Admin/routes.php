@@ -34,7 +34,8 @@ Route::group([
 
     /*售后订单*/
     $router->get('order_refunds', 'OrderRefundsController@index')->name('admin.order_refunds.index');/*列表*/
-    $router->get('order_refunds/{id}', 'OrderRefundsController@show')->name('admin.order_refunds.show');/*详情*/
+    $router->get('order_refunds/{refund}', 'OrderRefundsController@show')->name('admin.order_refunds.show');/*详情*/
+    $router->post('order_refunds/{refund}/check', 'OrderRefundsController@check')->name('admin.order_refunds.check');/*审核通过*/
 
 
     /*产品分类*/

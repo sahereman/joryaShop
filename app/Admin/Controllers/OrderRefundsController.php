@@ -2,6 +2,7 @@
 
 namespace App\Admin\Controllers;
 
+use App\Http\Requests\Request;
 use App\Models\Order;
 use App\Models\OrderRefund;
 use App\Http\Controllers\Controller;
@@ -30,16 +31,61 @@ class OrderRefundsController extends Controller
 
     /**
      * Show interface.
-     * @param mixed $id
+     * @param OrderRefund $refund
      * @param Content $content
      * @return Content
      */
-    public function show($id, Content $content)
+    public function show(OrderRefund $refund, Content $content)
     {
+
         return $content
             ->header('订单管理')
             ->description('售后订单 - 详情')
-            ->body($this->detail($id));
+            ->body(view('admin.order_refunds.show', [
+                'refund' => $refund,
+                'order' => $refund->order,
+            ]));
+    }
+
+    public function check(OrderRefund $refund, Request $request)
+    {
+//        // 判断当前订单是否已支付
+//        if (!$order->paid_at)
+//        {
+//            throw new InvalidRequestException('该订单未付款');
+//        }
+//        // 判断当前订单发货状态是否为待发货
+//        if ($order->status !== Order::ORDER_STATUS_SHIPPING)
+//        {
+//            throw new InvalidRequestException('该订单已发货');
+//        }
+
+        // 验证
+//        $data = $this->validate($request, [
+//            'shipment_company' => [
+//                'required',
+//                Rule::exists('shipment_companies', 'code')
+//            ],
+//            'shipment_sn' => ['required'],
+//        ], [], [
+//            'shipment_company' => '物流公司',
+//            'shipment_sn' => '物流单号',
+//        ]);
+
+        // 将订单发货状态改为已发货，并存入物流信息
+//        $order->update([
+//            'status' => Order::ORDER_STATUS_RECEIVING,
+//            'shipment_company' => $data['shipment_company'],
+//            'shipment_sn' => $data['shipment_sn'],
+//            'to_be_completed_at' => Carbon::now()->addSeconds(Order::getSecondsToCompleteOrder())
+//        ]);
+
+//        // 分派定时自动关闭订单任务
+//        $this->dispatch(new AutoCompleteOrderJob($order, Order::getSecondsToCompleteOrder()));
+
+        // 返回上一页
+        return redirect()->back();
+
     }
 
     /**
@@ -55,6 +101,13 @@ class OrderRefundsController extends Controller
             $tools->batch(function ($batch) {
                 $batch->disableDelete();
             });
+        });
+
+        /*筛选*/
+        $grid->filter(function ($filter) {
+            $filter->disableIdFilter(); // 去掉默认的id过滤器
+
+            $filter->equal('status', '售后状态')->select(OrderRefund::$orderRefundStatusMap);
         });
 
         $grid->column('order.order_sn', '订单号');
@@ -83,73 +136,7 @@ class OrderRefundsController extends Controller
             $actions->append('<a class="btn btn-xs btn-warning" style="margin-right:8px" href="' . route('admin.order_refunds.show', [$actions->getKey()]) . '">查看</a>');
         });
 
-        //        $grid->id('Id');
-        //        $grid->order_id('Order id');
-        //        $grid->seller_info('Seller info');
-        //        $grid->remark_from_user('Remark from user');
-        //        $grid->remark_from_seller('Remark from seller');
-        //        $grid->remark_for_shipment_from_user('Remark for shipment from user');
-        //        $grid->remark_for_shipment_from_seller('Remark for shipment from seller');
-        //        $grid->shipment_sn('Shipment sn');
-        //        $grid->shipment_company('Shipment company');
-        //        $grid->photos_for_refund('Photos for refund');
-        //        $grid->photos_for_shipment('Photos for shipment');
-        //        $grid->refunded_at('Refunded at');
-        //        $grid->created_at('Created at');
-        //        $grid->updated_at('Updated at');
-
         return $grid;
     }
 
-    /**
-     * Make a show builder.
-     * @param mixed $id
-     * @return Show
-     */
-    protected function detail($id)
-    {
-        $show = new Show(OrderRefund::findOrFail($id));
-
-        $show->id('Id');
-        $show->order_id('Order id');
-        $show->seller_info('Seller info');
-        $show->type('Type');
-        $show->remark_from_user('Remark from user');
-        $show->remark_from_seller('Remark from seller');
-        $show->remark_for_shipment_from_user('Remark for shipment from user');
-        $show->remark_for_shipment_from_seller('Remark for shipment from seller');
-        $show->shipment_sn('Shipment sn');
-        $show->shipment_company('Shipment company');
-        $show->photos_for_refund('Photos for refund');
-        $show->photos_for_shipment('Photos for shipment');
-        $show->refunded_at('Refunded at');
-        $show->created_at('Created at');
-        $show->updated_at('Updated at');
-
-        return $show;
-    }
-
-    /**
-     * Make a form builder.
-     * @return Form
-     */
-    protected function form()
-    {
-        $form = new Form(new OrderRefund);
-
-        $form->number('order_id', 'Order id');
-        $form->text('seller_info', 'Seller info');
-        $form->text('type', 'Type');
-        $form->text('remark_from_user', 'Remark from user');
-        $form->text('remark_from_seller', 'Remark from seller');
-        $form->text('remark_for_shipment_from_user', 'Remark for shipment from user');
-        $form->text('remark_for_shipment_from_seller', 'Remark for shipment from seller');
-        $form->text('shipment_sn', 'Shipment sn');
-        $form->text('shipment_company', 'Shipment company');
-        $form->text('photos_for_refund', 'Photos for refund');
-        $form->text('photos_for_shipment', 'Photos for shipment');
-        $form->datetime('refunded_at', 'Refunded at')->default(date('Y-m-d H:i:s'));
-
-        return $form;
-    }
 }
