@@ -171,7 +171,7 @@
                                 </div>-->
                                 <img  class="lazy" data-src="{{ $guess->thumb_url }}">
                             </div>
-                            <h5>{{ App::isLocale('en') ? $guess->name_en : $guess->name_zh }}</h5>
+                            <h5 title="{{ App::isLocale('en') ? $guess->name_en : $guess->name_zh }}">{{ App::isLocale('en') ? $guess->name_en : $guess->name_zh }}</h5>
                             <p class="guess_price">
                                 <span class="new_price">@lang('basic.currency.symbol') {{ $guess->price }}</span>
                                 <span class="old_price">@lang('basic.currency.symbol') {{ bcmul($guess->price, 1.2, 2) }}</span>
