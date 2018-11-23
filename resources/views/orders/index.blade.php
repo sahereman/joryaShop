@@ -116,7 +116,7 @@
                                             <td class="col-price">
                                                 <p class="p-price">
                                                     @if($order->currency === 'CNY')
-                                                        <em>&yen; </em>
+                                                        <em>&#165; </em>
                                                     @else
                                                         <em>&#36; </em>
                                                     @endif
@@ -127,7 +127,7 @@
                                             <td rowspan="{{ count($order->snapshot) }}" class="col-pay">
                                                 <p>
                                                     @if($order->currency === 'CNY')
-                                                        <em>&yen; </em>
+                                                        <em>&#165; </em>
                                                     @else
                                                         <em>&#36; </em>
                                                     @endif
@@ -213,7 +213,7 @@
                                             <td class="col-price">
                                                 <p class="p-price">
                                                     @if($order->currency === 'CNY')
-                                                        <em>&yen; </em>
+                                                        <em>&#165; </em>
                                                     @else
                                                         <em>&#36; </em>
                                                     @endif

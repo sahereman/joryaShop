@@ -38,9 +38,9 @@
                     </li>
                 </ul>
                 <div>
-                    <input type="text" class="min_price" placeholder="{{ App::isLocale('en') ? '&#36;' : '&yen;' }}"/>
+                    <input type="text" class="min_price" placeholder="{{ App::isLocale('en') ? '&#36;' : '&#165;' }}"/>
                     <span></span>
-                    <input type="text" class="max_price" placeholder="{{ App::isLocale('en') ? '&#36;' : '&yen;' }}"/>
+                    <input type="text" class="max_price" placeholder="{{ App::isLocale('en') ? '&#36;' : '&#165;' }}"/>
                     <button class="searchByPrice">@lang('app.determine')</button>
                 </div>
             </div>
@@ -96,7 +96,7 @@
                         if (dataobj.length > 0) {
                             $.each(dataobj, function (i, n) {
                                 name = (country == "中文") ? n.name_zh : n.name_en;
-                                symbol = (country == "中文") ? "&yen;" : "&#36;";
+                                symbol = (country == "中文") ? "&#165;" : "&#36;";
                                 price = (country == "中文") ? n.price : n.price_in_usd;
                                 html += "<li>" +
                                         "<a href='/products/" + n.id + "'>" +

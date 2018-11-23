@@ -321,7 +321,7 @@
                                 <ul class="step-ul">
                                     <li>
                                         <span>@lang('order.Refund amount')：</span>
-                                        <span class="amount_num">{{ ($order->currency == 'USD') ? '&#36;' : '&yen;' }} {{ $order->total_amount }}</span>
+                                        <span class="amount_num">{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ $order->total_amount }}</span>
                                     </li>
                                     <li>
                                         <span>@lang('order.Refund amount')：</span>
@@ -377,7 +377,7 @@
                                 <ul class="step-ul">
                                     <li>
                                         <span>@lang('order.Refund amount')：</span>
-                                        <span class="amount_num">{{ ($order->currency == 'USD') ? '&#36;' : '&yen;' }} {{ $order->total_amount }}</span>
+                                        <span class="amount_num">{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ $order->total_amount }}</span>
                                     </li>
                                     <li>
                                         <span>@lang('order.Refund Instructions')：</span>

@@ -47,13 +47,13 @@
                                 </a>
                             </div>
                             <div class="left w120 center"><span>{{ App::isLocale('en') ? $cart->sku->name_en : $cart->sku->name_zh }}</span></div>
-                            <div class="left w100 center">{{ App::isLocale('en') ? '&#36;' : '&yen;' }} <span class="price">{{ $cart->sku->price }}</span></div>
+                            <div class="left w100 center">{{ App::isLocale('en') ? '&#36;' : '&#165;' }} <span class="price">{{ $cart->sku->price }}</span></div>
                             <div class="left w150 center counter">
                                 <button class="left small-button">-</button>
                                 <input class="left center count" data-url="{{ route('carts.update', $cart->id) }}" type="text" size="2" value="{{ $cart->number }}">
                                 <button class="left small-button">+</button>
                             </div>
-                            <div class="left w100 s_total center">{{ App::isLocale('en') ? '&#36;' : '&yen;' }} <span>{{ bcmul($cart->sku->price, $cart->number, 2) }}</span></div>
+                            <div class="left w100 s_total center">{{ App::isLocale('en') ? '&#36;' : '&#165;' }} <span>{{ bcmul($cart->sku->price, $cart->number, 2) }}</span></div>
                             <div class="left w120 center">
                                 <p>
                                     <a class="cur_p add_favorites"  code = "{{ $cart->sku->product_id }}" data-url = "{{ route('user_favourites.store') }}">@lang('product.shopping_cart.Move_to_favorites')</a>
@@ -75,7 +75,7 @@
                     </div>
                     <div class="right">
                         <!--<span>总共选中了<span id="totalCount">0</span>件商品</span>-->
-                        <span>合计: <span id="totalPrice">{{ App::isLocale('en') ? '&#36;' : '&yen;' }}0.00</span></span>
+                        <span>合计: <span id="totalPrice">{{ App::isLocale('en') ? '&#36;' : '&#165;' }}0.00</span></span>
                         @guest
                     	    <button class="big-button for_show_login">@lang('product.shopping_cart.Settlement')</button>
 						@else
@@ -117,7 +117,7 @@
                     $('.single-item input[type="checkbox"]').prop('checked', false);
                     $('.selectAll').prop('checked', false);
                     $('#totalCount').text('0');
-                    $('#totalPrice').html('&yen;0.00');
+                    $('#totalPrice').html('&#165;0.00');
                     $(".big-button").removeClass('active');
                 }
             });
@@ -210,7 +210,7 @@
                     }
                 }
                 var price = parseFloat($(this).parent().prev().find('span').text());
-                $(this).parent().next().html('&yen;' + (price * count).toFixed(2));
+                $(this).parent().next().html('&#165;' + (price * count).toFixed(2));
                 calcTotal();
             });
             // 为单个商品项删除超链接绑定事件回调
@@ -303,7 +303,7 @@
                 }
                 update_pro_num($(this));
                 var price = parseFloat($(this).parent().prev().find('span').text());
-                $(this).parent().next().html('&yen;' + (price * count).toFixed(2));
+                $(this).parent().next().html('&#165;' + (price * count).toFixed(2));
                 calcTotal();
             });
 
@@ -330,7 +330,7 @@
                     $(".big-button").removeClass('active');
                 }
                 $('#totalCount').text(totalCount);
-                $('#totalPrice').html('&yen;' + totalPrice.toFixed(2));
+                $('#totalPrice').html('&#165;' + totalPrice.toFixed(2));
             }
             //更新购物车记录（增减数量）
             function update_pro_num(dom){

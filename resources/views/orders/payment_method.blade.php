@@ -38,7 +38,7 @@
                     <div class="left">
                         <p>
                             @lang('order.Actually paid')：
-                            <span id="needToPay">{{ ($order->currency == 'USD') ? '&#36;' : '&yen;' }} {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}</span>
+                            <span id="needToPay">{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}</span>
                         </p>
                     </div>
                     <div class="right">

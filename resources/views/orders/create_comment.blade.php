@@ -55,7 +55,7 @@
 	                                </td>
 	                                <td class="col-price">
 	                                    <p class="p-price">
-	                                        <span>{{ $order->currency == "USD" ? '&#36;' : '&yen;' }}</span>
+	                                        <span>{{ $order->currency == "USD" ? '&#36;' : '&#165;' }}</span>
 	                                        <span>{{ $order_item['price'] }}</span>
 	                                    </p>
 	                                </td>
@@ -64,7 +64,7 @@
 	                                </td>
 	                                <td class="col-pay">
 	                                    <p>
-	                                        <span>{{ $order->currency == "USD" ? '&#36;' : '&yen;' }}</span>
+	                                        <span>{{ $order->currency == "USD" ? '&#36;' : '&#165;' }}</span>
 	                                        <span>{{ bcmul($order_item['price'], $order_item['number'], 2) }}</span>
 	                                    </p>
 	                                </td>

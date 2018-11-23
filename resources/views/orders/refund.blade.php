@@ -137,7 +137,7 @@
                                 <ul class="step-ul">
                                     <li>
                                         <span>@lang('order.Refund amount')：</span>
-                                        <span class="amount_num">{{ ($order->currency == 'USD') ? '&#36;' : '&yen;' }} {{ $order->total_amount }}</span>
+                                        <span class="amount_num">{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ $order->total_amount }}</span>
                                     </li>
                                     <li>
                                         <span>@lang('order.Application description')：</span>
@@ -159,7 +159,7 @@
                                 <ul class="step-ul">
                                     <li>
                                         <span>@lang('order.Refund amount')：</span>
-                                        <span class="amount_num">{{ ($order->currency == 'USD') ? '&#36;' : '&yen;' }} {{ $order->total_amount }}</span>
+                                        <span class="amount_num">{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ $order->total_amount }}</span>
                                     </li>
                                     <li>
                                         <span>@lang('order.Application description')：</span>
@@ -192,7 +192,7 @@
                                         <div class="order_lists_info">
                                             <p><span>{{ App::isLocale('en') ? $order_item['sku']['product']['name_en'] : $order_item['sku']['product']['name_zh'] }}</span></p>
                                             <p>{{ App::isLocale('en') ? $order_item['sku']['name_en'] : $order_item['sku']['name_zh'] }}</p>
-                                            <p>@lang('order.Unit Price')：{{ ($order->currency == 'USD') ? '&#36;' : '&yen;' }} {{ $order_item['price'] }} &#215; {{ $order_item['number'] }}</p>
+                                            <p>@lang('order.Unit Price')：{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ $order_item['price'] }} &#215; {{ $order_item['number'] }}</p>
                                         </div>
                                     </a>
                                 </li>
@@ -208,11 +208,11 @@
                                 </p>
                                 <p>
                                     <span>@lang('order.Postage')：</span>
-                                    <span><i>{{ ($order->currency == 'USD') ? '&#36;' : '&yen;' }} </i>{{ $order->total_shipping_fee }}</span>
+                                    <span><i>{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} </i>{{ $order->total_shipping_fee }}</span>
                                 </p>
                                 <p>
                                     <span>@lang('order.A total of')：</span>
-                                    <span><i>{{ ($order->currency == 'USD') ? '&#36;' : '&yen;' }} </i>{{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}
+                                    <span><i>{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} </i>{{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}
                                         （@lang('order.Postage included')）</span>
                                 </p>
                             </li>

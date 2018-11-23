@@ -61,10 +61,10 @@
                                         <span>{{ App::isLocale('en') ? $item['product']->name_en : $item['product']->name_zh }}</span>
                                     </div>
                                     <div class="left w150 center"><span>{{ App::isLocale('en') ? $item['sku']->name_en : $item['sku']->name_zh }}</span></div>
-                                    <div class="left w150 center RMB_num">&yen; <span>{{ $item['sku']->price }}</span></div>
+                                    <div class="left w150 center RMB_num">&#165; <span>{{ $item['sku']->price }}</span></div>
                                     <div class="left w150 dis_n center dollar_num">&#36; <span>{{ $item['sku']->price_en }}</span></div>
                                     <div class="left w150 center counter"><span>{{ $item['number'] }}</span></div>
-                                    <div class="left w150 s_total red center RMB_num">&yen;
+                                    <div class="left w150 s_total red center RMB_num">&#165;
                                         <span>{{ $item['amount'] }}</span></div>
                                     <div class="left w150 s_total dis_n red dollar_num center">&#36;
                                         <span>{{ $item['amount_en'] }}</span></div>
@@ -87,19 +87,19 @@
                         <li>
                             <p>
                                 <span>@lang('order.A total of')：</span>
-                                <span class="RMB_num amount_of_money">&yen; <span>{{ $total_amount }}</span></span>
+                                <span class="RMB_num amount_of_money">&#165; <span>{{ $total_amount }}</span></span>
                                 <span class="dis_ni dollar_num amount_of_money">&#36; <span>{{ $total_amount_en }}</span></span>
                             </p>
                             <p>
                                 <span>@lang('order.freight')：</span>
-                                <span class="RMB_num amount_of_money">&yen; <span>{{ $total_shipping_fee }}</span></span>
+                                <span class="RMB_num amount_of_money">&#165; <span>{{ $total_shipping_fee }}</span></span>
                                 <span class="dis_ni dollar_num amount_of_money">&#36; <span>{{ $total_shipping_fee_en }}</span></span>
                             </p>
                         </li>
                         <li>
                             <p>
                                 <span>@lang('order.Amount payable')：</span>
-                                <span class="red RMB_num amount_of_money">&yen; <span>{{ $total_fee }}</span></span>
+                                <span class="red RMB_num amount_of_money">&#165; <span>{{ $total_fee }}</span></span>
                                 <span class="red dis_ni dollar_num amount_of_money">&#36; <span>{{ $total_fee_en }}</span></span>
                             </p>
                             <p>

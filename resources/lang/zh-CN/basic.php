@@ -4,7 +4,7 @@ return [
 
     'currency' => [
         'min_unit' => '分',
-        'symbol' => '&yen;', // ¥
+        'symbol' => '&#165;', // ¥
         'unit' => '元',
     ],
 

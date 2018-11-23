@@ -52,7 +52,7 @@
                                 </td>
                                 <td class="col-price">
                                     <p class="p-price">
-                                        <em>{{ App::isLocale('en') ? '&#36;' : '&yen;' }}</em>
+                                        <em>{{ App::isLocale('en') ? '&#36;' : '&#165;' }}</em>
                                         <span>{{ $order_item['price'] }}</span>
                                     </p>
                                 </td>
@@ -61,7 +61,7 @@
                                 </td>
                                 <td class="col-pay">
                                     <p>
-                                        <em>{{ App::isLocale('en') ? '&#36;' : '&yen;' }}</em>
+                                        <em>{{ App::isLocale('en') ? '&#36;' : '&#165;' }}</em>
                                         <span>{{ $order_item['price'] * $order_item['number'] }}</span>
                                     </p>
                                 </td>

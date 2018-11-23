@@ -8,7 +8,7 @@
                 <p class="yxTradeNo" data-url="{{ route('orders.is_paid',$order->id) }}">交易号：{{ $order->order_sn }}</p>
                 <p class="actualPrice">
                     <span>实付：</span>
-                    <span class="red">{{ (($order->currency === 'CNY') ? "&yen; " : "&#36; ") . bcadd($order->total_amount, $order->total_shipping_fee, 2) }}</span>
+                    <span class="red">{{ (($order->currency === 'CNY') ? "&#165; " : "&#36; ") . bcadd($order->total_amount, $order->total_shipping_fee, 2) }}</span>
                 </p>
             </div>
             <div class="payment_success wechat">
