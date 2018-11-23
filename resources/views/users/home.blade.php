@@ -223,7 +223,7 @@
                                     <div class="collection_shop_img">
                                         <img class="lazy" data-src="{{ $guess->thumb_url }}">
                                     </div>
-                                    <p class="commodity_title">{{ App::isLocale('en') ? $guess->name_en : $guess->name_zh }}</p>
+                                    <p class="commodity_title" title="{{ App::isLocale('en') ? $guess->name_en : $guess->name_zh }}">{{ App::isLocale('en') ? $guess->name_en : $guess->name_zh }}</p>
                                     <p class="collection_price">
                                         <span class="new_price">{{ App::isLocale('en') ? '&#36;' : '&yen;' }} {{ $guess->price }}</span>
                                         <span class="old_price">{{ App::isLocale('en') ? '&#36;' : '&yen;' }} {{ bcmul($guess->price, 1.2, 2) }}</span>

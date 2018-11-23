@@ -104,7 +104,7 @@
                                         "<img class='lazy' src='" + n.thumb_url + "'>" +
                                         "</div>" +
                                         "<div class='list-info'>" +
-                                        "<p class='list-info-title'>" + name + "</p>" +
+                                        "<p class='list-info-title' title='"+ name +"'>" + name + "</p>" +
                                             // "<p class='list-info-title'>"+ n.name_en +"</p>"+
                                         "<p>" +
                                         "<span class='new-price'><i>" + symbol + "</i>" + price + "</span>" +

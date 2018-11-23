@@ -24,6 +24,7 @@ return [
 	'Please enter the item you are searching for' => '请输入您要搜索的商品',
 	'Monday-Sunday' => '周一至周日', 
 	'Contact Customer Service' => '联系客服',
+	'Customer Service Phone' => '客服电话',
 	'Help' => '使用帮助',
 	'Newbie Guide' => '新手指南',
 	'Common problems' => '常见问题',
@@ -59,6 +60,8 @@ return [
 	'Please complete the information' => '请将信息填写完整',
 	'upload image' => '上传图片',
 	'submit' => '提交',
+	'please login first' =>'为了保证服务质量, 请先登录',
+	'Follow the public number' => '关注公众号',
 
 	
 

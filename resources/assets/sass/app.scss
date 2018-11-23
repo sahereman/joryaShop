@@ -59,7 +59,7 @@ a {
 img {
     &.lazy {
         min-width: 20px;
-        background: url(../img/loading_logo.png) center no-repeat;
+        background: url(/defaults/defaults_pc_loading.png) center no-repeat;
         background-size: 30%;
         
     }
@@ -1171,7 +1171,7 @@ footer {
             }
             .customer_info {
                 width: 200px;
-                height: 180px;
+//              min-height: 180px;
                 position: absolute;
                 display: none;
                 right: 60px;
@@ -1180,6 +1180,7 @@ footer {
                 background-color: #fff;
                 text-align: center;
                 transition: all .2s;
+                padding-bottom: 10px;
                 &:before,
                 &:after {
                         position: absolute;
@@ -1224,7 +1225,7 @@ footer {
             .qr_info {
                 @extend .customer_info;
                 width: 130px;
-                height: 150px;
+                min-height: 150px;
                 &:before,
                 &:after {
                     left: 130px;
@@ -1316,7 +1317,7 @@ footer {
                 height: 22px;
                 overflow: hidden;
                 li {
-                    float: left;
+                    float: right;
                     font-size: 14px;
                     color: #333;
                     span {
@@ -1325,11 +1326,6 @@ footer {
                     a {
                         &:hover {
                             color: #c59b76;
-                        }
-                    }
-                    &:last-of-type {
-                        span {
-                          display: none;   
                         }
                     }
                 }

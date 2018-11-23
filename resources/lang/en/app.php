@@ -24,6 +24,7 @@ return [
 	'Please enter the item you are searching for' => 'The item to search for',
 	'Monday-Sunday' => 'Monday-Sunday', 
 	'Contact Customer Service' => 'Contact Customer Service',
+	'Customer Service Phone' => 'Phone',
 	'Help' => 'Using help',
 	'Newbie Guide' => 'Newbie Guide',
 	'Common problems' => 'Common problems',
@@ -60,5 +61,7 @@ return [
 	'Please enter a username or email box' => 'Please enter a username or email box',
 	'upload image' => 'Upload image',
 	'submit' => 'Submit',
+	'please login first' =>'In order to ensure the quality of service, please login first',
+	'Follow the public number' => 'Follow the public number',
 
 ];

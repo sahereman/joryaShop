@@ -101,7 +101,7 @@
                                         "<img src='" + n.thumb_url + "'>" +
                                         "</div>" +
                                         "<div class='list-info'>" +
-                                        "<p class='list-info-title'>" + name + "</p>" +
+                                        "<p class='list-info-title' title='"+ name +"'>" + name + "</p>" +
                                         "<p>" +
                                         "<span class='new-price'><i>" + symbol + "</i>" + price + "</span>" +
                                         "<span class='old-price'><i>" + symbol + "</i>" + price + "</span>" +

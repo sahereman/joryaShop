@@ -15,12 +15,12 @@
                 @else
                     <div class="swiper-slide">
                         <a>
-                            <img src="{{ asset('defaults/banner_1.png') }}">
+                            <img src="{{ asset('defaults/defaults_pc_banner.png') }}">
                         </a>
                     </div>
                     <div class="swiper-slide">
                         <a>
-                            <img src="{{ asset('defaults/banner_1.png') }}">
+                            <img src="{{ asset('defaults/defaults_pc_banner.png') }}">
                         </a>
                     </div>
                 @endif
@@ -38,7 +38,7 @@
                         </div>
                     @else
                         <div class="product_left_top">
-                            <img class="lazy" data-src="{{ asset('defaults/default_pc_index_left_top.png') }}">
+                            <img class="lazy" data-src="{{ asset('defaults/default_pc_index_left_bottom.jpg') }}">
                         </div>
                     @endif
                     @if($poster = \App\Models\Poster::getPosterBySlug('pc_index_left_bottom'))
@@ -47,7 +47,7 @@
                         </div>
                     @else
                         <div class="product_left_bottom">
-                            <img class="lazy" data-src="{{ asset('defaults/default_pc_index_left_bottom.png') }}">
+                            <img class="lazy" data-src="{{ asset('defaults/default_pc_index_left_bottom.jpg') }}">
                         </div>
                     @endif
                 </div>
@@ -57,7 +57,7 @@
                     </div>
                 @else
                     <div class="new_product_right pull-left">
-                        <img class="lazy" data-src="{{ asset('defaults/default_pc_index_right.png') }}">
+                        <img class="lazy" data-src="{{ asset('defaults/default_pc_index_right.jpg') }}">
                     </div>
                 @endif
             </div>
@@ -91,8 +91,8 @@
                                     <li>
                                         <a href="{{ route('products.show', ['product' => $product->id]) }}">
                                             <img class="lazy" data-src="{{ $product->thumb_url }}">
-                                            <h5>{{App::isLocale('en') ? $product->name_en : $product->name_zh }}</h5>
-                                            <span>{{ App::isLocale('en') ? $product->description_en : $product->description_zh }}</span>
+                                            <h5 title="{{App::isLocale('en') ? $product->name_en : $product->name_zh }}">{{App::isLocale('en') ? $product->name_en : $product->name_zh }}</h5>
+                                            <span title="{{ App::isLocale('en') ? $product->description_en : $product->description_zh }}">{{ App::isLocale('en') ? $product->description_en : $product->description_zh }}</span>
                                             <p class="product_price">@lang('basic.currency.symbol') {{ $product->price }}</p>
                                         </a>
                                     </li>
@@ -127,7 +127,7 @@
                                 </a>
                             @else
                                 <a class="buy_now" href="{{ route('root') }}">
-                                	<img class="lazy" data-src="{{ asset('defaults/default_pc_index_floor_even.png') }}">
+                                	<img class="lazy" data-src="{{ asset('defaults/default_pc_index_floor_even.jpg') }}">
                                 </a>
                             @endif
                         </div>
@@ -145,8 +145,8 @@
                                                 <img src="{{ asset('img/mask_search.png') }}">
                                             </a>
                                         </div>
-                                        <h5>{{ App::isLocale('en') ? $product->name_en : $product->name_zh }}</h5>
-                                        <span>{{ App::isLocale('en') ? $product->description_en : $product->description_zh }}</span>
+                                        <h5 title="{{ App::isLocale('en') ? $product->name_en : $product->name_zh }}">{{ App::isLocale('en') ? $product->name_en : $product->name_zh }}</h5>
+                                        <span title="{{ App::isLocale('en') ? $product->description_en : $product->description_zh }}">{{ App::isLocale('en') ? $product->description_en : $product->description_zh }}</span>
                                         <p class="product_price">@lang('basic.currency.symbol') {{ $product->price }}</p>
                                     </li>
                                 @endforeach

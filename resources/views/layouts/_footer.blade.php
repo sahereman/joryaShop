@@ -138,9 +138,9 @@
                 <img src="{{ asset('img/Customer_tip.png') }}">
             </a>
             <div class="customer_info">
-                <p>为保证服务质量，请先登录</p>
-                <a>联系客服</a>
-                <p>客服电话：400-100-5678</p>
+                <p>@lang('app.please login first')</p>
+                <a>@lang('app.Contact Customer Service')</a>
+                <p>@lang('app.Customer Service Phone')：400-100-5678</p>
                 <p>早9:00-晚21:00</p>
             </div>
         </li>
@@ -150,7 +150,7 @@
             </a>
             <div class="qr_info">
                 <img src="{{ asset('img/qr.png') }}">
-                <p>关注公众号</p>
+                <p>@lang('app.Follow the public number')</p>
             </div>
         </li>
         <li class="backtop" title="@lang('app.Click to return to the top')">
