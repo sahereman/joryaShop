@@ -59,11 +59,11 @@
                     <div class="price_service">
                         <p class="original_price">
                             <span>@lang('product.product_details.the original price')</span>
-                            <span><i>@lang('basic.currency.symbol') </i>{{ App::isLocale('en') ? bcmul($product->price_in_usd, 1.2, 2) :bcmul($product->price, 1.2, 2) }}</span>
+                            <span><i>@lang('basic.currency.symbol') </i>{{ App::isLocale('en') ? bcmul($product->price_in_usd, 1.2, 2) : bcmul($product->price, 1.2, 2) }}</span>
                         </p>
                         <p class="present_price">
                             <span>@lang('product.product_details.the current price')</span>
-                            <span class="changePrice_num"><i>@lang('basic.currency.symbol') </i>{{ App::isLocale('en') ? $product->price_in_usd :$product->price }}</span>
+                            <span class="changePrice_num"><i>@lang('basic.currency.symbol') </i>{{ App::isLocale('en') ? $product->price_in_usd : $product->price }}</span>
                         </p>
                         <p class="service">
                             <span>@lang('product.product_details.service')</span>
@@ -73,13 +73,13 @@
                     </div>
                     <div class="priceOfpro">
                         <span>@lang('product.product_details.freight')</span>
-                        <span><i>@lang('basic.currency.symbol') </i>{{ App::isLocale('en') ? $product->shipping_fee_in_usd :$product->shipping_fee }}</span>
+                        <span><i>@lang('basic.currency.symbol') </i>{{ App::isLocale('en') ? $product->shipping_fee_in_usd : $product->shipping_fee }}</span>
                     </div>
                     <div class="priceOfpro kindOfPro">
                         <span>@lang('product.product_details.classification')</span>
                         <ul>
                             @foreach($skus as $sku)
-                                <li code_price='{{ App::isLocale('en') ? $sku->price_in_usd :$sku->price }}'>
+                                <li code_price='{{ App::isLocale('en') ? $sku->price_in_usd : $sku->price }}'>
                                     <span>{{ App::isLocale('en') ? $sku->name_en : $sku->name_zh }}</span>
                                     <input type="hidden" name="sku_id" value="{{ $sku->id }}">
                                 </li>
@@ -130,8 +130,8 @@
                                         <img class="lazy" data-src="{{ $guess->thumb_url }}">
                                     </div>
                                     <p>
-                                        <span class="present_price"><i>@lang('basic.currency.symbol')</i>{{ App::isLocale('en') ? $guess->price_in_usd :$guess->price }}</span>
-                                        <span class="original_price"><i>@lang('basic.currency.symbol')</i>{{ App::isLocale('en') ? bcmul($guess->price_in_usd, 1.2, 2) :bcmul($guess->price, 1.2, 2) }}</span>
+                                        <span class="present_price"><i>@lang('basic.currency.symbol')</i>{{ App::isLocale('en') ? $guess->price_in_usd : $guess->price }}</span>
+                                        <span class="original_price"><i>@lang('basic.currency.symbol')</i>{{ App::isLocale('en') ? bcmul($guess->price_in_usd, 1.2, 2) : bcmul($guess->price, 1.2, 2) }}</span>
                                     </p>
                                 </a>
                             </li>
@@ -155,7 +155,7 @@
                                             <img class="lazy" data-src="{{ $hot_sale->thumb_url }}">
                                         </div>
                                         <p>
-                                            <span class="present_price"><i>@lang('basic.currency.symbol') </i>{{ App::isLocale('en') ? $hot_sale->price_in_usd :$hot_sale->price }}</span>
+                                            <span class="present_price"><i>@lang('basic.currency.symbol') </i>{{ App::isLocale('en') ? $hot_sale->price_in_usd : $hot_sale->price }}</span>
                                         </p>
                                     </a>
                                 </li>
@@ -171,7 +171,7 @@
                                             <img class="lazy" data-src="{{ $best_seller->thumb_url }}">
                                         </div>
                                         <p>
-                                            <span class="present_price"><i>@lang('basic.currency.symbol') </i>{{ App::isLocale('en') ? $best_seller->price_in_usd :$best_seller->price }}</span>
+                                            <span class="present_price"><i>@lang('basic.currency.symbol') </i>{{ App::isLocale('en') ? $best_seller->price_in_usd : $best_seller->price }}</span>
                                         </p>
                                     </a>
                                 </li>
