@@ -56,7 +56,7 @@ class AutoDeclineOrderRefundJob implements ShouldQueue
         DB::transaction(function () {
             // 将订单的 status 字段标记为 completed，即确认订单
             $this->order->refund->update([
-                'status' => 'declined',
+                'status' => OrderRefund::ORDER_REFUND_STATUS_DECLINED,
                 'declined_at' => Carbon::now()->toDateTimeString(),
             ]);
         });

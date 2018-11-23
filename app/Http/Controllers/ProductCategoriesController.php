@@ -70,12 +70,12 @@ class ProductCategoriesController extends Controller
 
         $query_data = [];
         if ($request->has('min_price') && $request->input('min_price')) {
-            $min_price = App::isLocale('en') ? ExchangeRate::exchangePrice($request->input('min_price'), 'USD', 'CNY') : $request->input('min_price');
+            $min_price = App::isLocale('en') ? ExchangeRate::exchangePrice($request->input('min_price'), 'CNY', 'USD') : $request->input('min_price');
             $query_data['min_price'] = $request->input('min_price');
             $products = $products->where('price', '>', $min_price);
         }
         if ($request->has('max_price') && $request->input('max_price')) {
-            $max_price = App::isLocale('en') ? ExchangeRate::exchangePrice($request->input('max_price'), 'USD', 'CNY') : $request->input('max_price');
+            $max_price = App::isLocale('en') ? ExchangeRate::exchangePrice($request->input('max_price'), 'CNY', 'USD') : $request->input('max_price');
             $query_data['max_price'] = $request->input('max_price');
             $products = $products->where('price', '<', $max_price);
         }

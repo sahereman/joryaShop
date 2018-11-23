@@ -43,23 +43,16 @@ class ExchangeRate extends Model
         });
     }
 
-    public static function exchangePriceByCurrency($price, $currency = 'USD')
-    {
-        $currencies = self::exchangeRates()->pluck('currency')->toArray();
-        $rates = self::exchangeRates()->keyBy('currency')->toArray();
-        if(in_array($currency, $currencies)){
-            $price = bcmul($price, $rates[$currency]['rate'], 2);
-        }
-        return $price;
-    }
-
-    public static function exchangePrice($price, $from_currency = 'USD', $to_currency = 'CNY')
+    public static function exchangePrice($price, $to_currency = 'USD', $from_currency = 'CNY')
     {
         $currencies = self::exchangeRates()->pluck('currency')->toArray();
         $rates = self::exchangeRates()->keyBy('currency')->toArray();
         if(in_array($from_currency, $currencies)){
             $price = bcdiv($price, $rates[$from_currency]['rate'], 2);
         }
-        return self::exchangePriceByCurrency($price, $to_currency);
+        if(in_array($to_currency, $currencies)){
+            $price = bcmul($price, $rates[$to_currency]['rate'], 2);
+        }
+        return $price;
     }
 }

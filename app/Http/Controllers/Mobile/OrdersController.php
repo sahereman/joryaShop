@@ -33,41 +33,45 @@ class OrdersController extends Controller
     // GET 订单列表页面
     public function index(Request $request)
     {
-
         return view('mobile.orders.index');
     }
 
-    public function list(Request $request)
+    public function more(Request $request)
     {
         $user = Auth::user();
         $status = $request->has('status') ? $request->input('status') : 'all';
         $builder = $user->orders();
 
-        switch ($status)
-        {
+        switch ($status) {
             // 待付款订单
-            case 'paying':
-                $builder->where('status', 'paying')
+            case Order::ORDER_STATUS_PAYING:
+                $builder->where('status', Order::ORDER_STATUS_PAYING)
                     ->orderByDesc('created_at');
                 break;
+            // 待发货订单
+            case Order::ORDER_STATUS_SHIPPING:
+                $builder = $builder->where('status', Order::ORDER_STATUS_SHIPPING)
+                    ->orderByDesc('paid_at')
+                    ->simplePaginate(5);
+                break;
             // 待收货订单
-            case 'receiving':
-                $builder->where('status', 'receiving')
+            case Order::ORDER_STATUS_RECEIVING:
+                $builder->where('status', Order::ORDER_STATUS_RECEIVING)
                     ->orderByDesc('shipped_at');
                 break;
             // 待评价订单
-            case 'uncommented':
-                $builder->where(['status' => 'completed', 'commented_at' => null])
+            case Order::ORDER_STATUS_UNCOMMENTED:
+                $builder->where(['status' => Order::ORDER_STATUS_COMPLETED, 'commented_at' => null])
                     ->orderByDesc('completed_at');
                 break;
             // 售后订单
-            case 'refunding':
-                $builder->where('status', 'refunding')
+            case Order::ORDER_STATUS_REFUNDING:
+                $builder->where('status', Order::ORDER_STATUS_REFUNDING)
                     ->orderByDesc('updated_at');
                 break;
             // 已完成订单
-            case 'completed':
-                $builder->where('status', 'completed')
+            case Order::ORDER_STATUS_COMPLETED:
+                $builder->where('status', Order::ORDER_STATUS_COMPLETED)
                     ->orderByDesc('completed_at');
                 break;
             // 默认：all 全部订单
@@ -89,11 +93,9 @@ class OrdersController extends Controller
         // 订单物流状态
         $shipment_company_name = $order->shipment_company;
         $order_shipment_traces = [];
-        if ($order->shipment_company != null && $order->shipment_company != 'etc' && $order->shipment_sn != null)
-        {
+        if ($order->shipment_company != null && $order->shipment_company != 'etc' && $order->shipment_sn != null) {
             $shipment_company = ShipmentCompany::where(['code' => $order->shipment_company])->first();
-            if ($shipment_company instanceof ShipmentCompany)
-            {
+            if ($shipment_company instanceof ShipmentCompany) {
                 $shipment_company_name = $shipment_company->name;
                 // 快递鸟(kdniao.com) 即时查询API
                 $order_shipment_traces = kdniao_shipment_query($order->shipment_company, $order->shipment_sn);
@@ -101,8 +103,7 @@ class OrdersController extends Controller
         }
 
         $order_refund_type = OrderRefund::ORDER_REFUND_TYPE_REFUND;
-        if ($order->status == Order::ORDER_STATUS_REFUNDING)
-        {
+        if ($order->status == Order::ORDER_STATUS_REFUNDING) {
             $order_refund_type = $order->refund->type;
         }
 
@@ -194,7 +195,6 @@ class OrdersController extends Controller
             'comments' => $order->comments->groupBy('order_item_id'),
         ]);
     }
-
 
 
 }

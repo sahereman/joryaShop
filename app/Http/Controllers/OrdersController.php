@@ -34,63 +34,45 @@ class OrdersController extends Controller
     {
         $user = Auth::user();
         $status = $request->has('status') ? $request->input('status') : 'all';
+        $builder = $user->orders();
+        // ->with('items.sku.product');
         switch ($status) {
             // 待付款订单
             case Order::ORDER_STATUS_PAYING:
-                $orders = $user->orders()
-                    // ->with('items.sku.product')
-                    ->where('status', Order::ORDER_STATUS_PAYING)
-                    ->orderByDesc('created_at')
-                    ->simplePaginate(5);
+                $builder->where('status', Order::ORDER_STATUS_PAYING)
+                    ->orderByDesc('created_at');
                 break;
             // 待发货订单
             case Order::ORDER_STATUS_SHIPPING:
-                $orders = $user->orders()
-                    // ->with('items.sku.product')
-                    ->where('status', Order::ORDER_STATUS_SHIPPING)
-                    ->orderByDesc('paid_at')
-                    ->simplePaginate(5);
+                $builder->where('status', Order::ORDER_STATUS_SHIPPING)
+                    ->orderByDesc('paid_at');
                 break;
             // 待收货订单
             case Order::ORDER_STATUS_RECEIVING:
-                $orders = $user->orders()
-                    // ->with('items.sku.product')
-                    ->where('status', Order::ORDER_STATUS_RECEIVING)
-                    ->orderByDesc('shipped_at')
-                    ->simplePaginate(5);
+                $builder->where('status', Order::ORDER_STATUS_RECEIVING)
+                    ->orderByDesc('shipped_at');
                 break;
             // 待评价订单
             case Order::ORDER_STATUS_UNCOMMENTED:
-                $orders = $user->orders()
-                    // ->with('items.sku.product')
-                    ->where(['status' => Order::ORDER_STATUS_COMPLETED, 'commented_at' => null])
-                    ->orderByDesc('completed_at')
-                    ->simplePaginate(5);
+                $builder->where(['status' => Order::ORDER_STATUS_COMPLETED, 'commented_at' => null])
+                    ->orderByDesc('completed_at');
                 break;
             // 售后订单
             case Order::ORDER_STATUS_REFUNDING:
-                $orders = $user->orders()
-                    // ->with('items.sku.product')
-                    ->where('status', Order::ORDER_STATUS_REFUNDING)
-                    ->orderByDesc('updated_at')
-                    ->simplePaginate(5);
+                $builder->where('status', Order::ORDER_STATUS_REFUNDING)
+                    ->orderByDesc('updated_at');
                 break;
             // 已完成订单
             case Order::ORDER_STATUS_COMPLETED:
-                $orders = $user->orders()
-                    // ->with('items.sku.product')
-                    ->where('status', Order::ORDER_STATUS_COMPLETED)
-                    ->orderByDesc('completed_at')
-                    ->simplePaginate(5);
+                $builder->where('status', Order::ORDER_STATUS_COMPLETED)
+                    ->orderByDesc('completed_at');
                 break;
             // 默认：all 全部订单
             default:
-                $orders = $user->orders()
-                    // ->with('items.sku.product')
-                    ->orderByDesc('updated_at')
-                    ->simplePaginate(5);
+                $builder->orderByDesc('updated_at');
                 break;
         }
+        $orders = $builder->simplePaginate(5);
         $guesses = Product::where(['is_index' => 1, 'on_sale' => 1])->orderByDesc('heat')->limit(8)->get();
         return view('orders.index', [
             'status' => $status,
@@ -202,9 +184,9 @@ class OrdersController extends Controller
         $items = [];
         if ($request->has('sku_id') && $request->has('number')) {
             $sku = ProductSku::find($request->query('sku_id'));
-            $sku->price_en = ExchangeRate::exchangePriceByCurrency($sku->price, 'USD');
+            $sku->price_en = ExchangeRate::exchangePrice($sku->price, 'USD');
             $product = $sku->product;
-            $product->shipping_fee_en = ExchangeRate::exchangePriceByCurrency($product->shipping_fee, 'USD');
+            $product->shipping_fee_en = ExchangeRate::exchangePrice($product->shipping_fee, 'USD');
             $number = $request->query('number');
             $items[0]['sku'] = $sku;
             $items[0]['product'] = $product;
@@ -223,9 +205,9 @@ class OrdersController extends Controller
                 $cart = Cart::find($cart_id);
                 $number = $cart->number;
                 $sku = $cart->sku;
-                $sku->price_en = ExchangeRate::exchangePriceByCurrency($sku->price, 'USD');
+                $sku->price_en = ExchangeRate::exchangePrice($sku->price, 'USD');
                 $product = $sku->product;
-                $product->shipping_fee_en = ExchangeRate::exchangePriceByCurrency($product->shipping_fee, 'USD');
+                $product->shipping_fee_en = ExchangeRate::exchangePrice($product->shipping_fee, 'USD');
                 $items[$key]['sku'] = $sku;
                 $items[$key]['product'] = $product;
                 $items[$key]['number'] = $number;
@@ -289,14 +271,14 @@ class OrdersController extends Controller
                     $number = $cart->number;
                     $sku = $cart->sku;
                     $product = $sku->product;
-                    $price = ExchangeRate::exchangePriceByCurrency($sku->price, $currency);
+                    $price = ExchangeRate::exchangePrice($sku->price, $currency);
                     $snapshot[$key]['sku_id'] = $sku->id;
                     $snapshot[$key]['price'] = $price;
                     $snapshot[$key]['number'] = $cart->number;
                     $total_shipping_fee += bcmul($product->shipping_fee, $number, 2);
                     $total_amount += bcmul($price, $number, 2);
                 }
-                $total_shipping_fee = ExchangeRate::exchangePriceByCurrency($total_shipping_fee, $currency);
+                $total_shipping_fee = ExchangeRate::exchangePrice($total_shipping_fee, $currency);
                 // 删除相关购物车记录
                 Cart::destroy($cartIds);
             } else {
@@ -305,11 +287,11 @@ class OrdersController extends Controller
                 $number = $request->input('number');
                 $sku = ProductSku::find($sku_id);
                 $product = $sku->product;
-                $price = ExchangeRate::exchangePriceByCurrency($sku->price, $currency);
+                $price = ExchangeRate::exchangePrice($sku->price, $currency);
                 $snapshot[0]['sku_id'] = $sku_id;
                 $snapshot[0]['price'] = $price;
                 $snapshot[0]['number'] = $number;
-                $total_shipping_fee = ExchangeRate::exchangePriceByCurrency(bcmul($product->shipping_fee, $number, 2), $currency);
+                $total_shipping_fee = ExchangeRate::exchangePrice(bcmul($product->shipping_fee, $number, 2), $currency);
                 $total_amount = bcmul($price, $number, 2);
             }
 

@@ -82,12 +82,12 @@ class Product extends Model
 
     public function getPriceInUsdAttribute()
     {
-        return ExchangeRate::exchangePriceByCurrency($this->attributes['price'], 'USD');
+        return ExchangeRate::exchangePrice($this->attributes['price'], 'USD');
     }
 
     public function getShippingFeeInUsdAttribute()
     {
-        return ExchangeRate::exchangePriceByCurrency($this->attributes['shipping_fee'], 'USD');
+        return ExchangeRate::exchangePrice($this->attributes['shipping_fee'], 'USD');
     }
 
     public function category()
