@@ -38,7 +38,7 @@ class CreateOrderRefundsTable extends Migration
              *
              */
             $table->string('type')->nullable(false)->comment('order-refund-type:refund[仅退款]|refund_with_shipment[退货并退款]')->index();
-            $table->string('status')->nullable(false)->default('paying')->comment('order-status:checking[待审核];shipping[待发货];receiving[待收货];completed[已退款];declined[已拒绝]')->index(); // 最终状态只有两种：refunded, declined
+            $table->string('status')->nullable(false)->default('checking')->comment('order-status:checking[待审核];shipping[待发货];receiving[待收货];completed[已退款];declined[已拒绝]')->index(); // 最终状态只有两种：refunded, declined
 
             /*当前默认退款模式：全额退款，所有退款按原有币种原路返回*/
             $table->unsignedDecimal('amount', 8, 2)->nullable()->comment('amount:退款金额[采用当前币种换算表示]'); // 备用字段

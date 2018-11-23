@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Mobile;
 
 use App\Http\Controllers\Controller;
+use App\Models\Order;
 use App\Models\User;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -17,7 +18,7 @@ class UsersController extends Controller
         $user = Auth::user();
         $orders = $user->orders()
             ->with('items.sku.product')
-            ->where('status', '<>', 'closed')
+            ->where('status', '<>', Order::ORDER_STATUS_CLOSED)
             ->orderByDesc('created_at')
             ->limit(5)
             ->get();

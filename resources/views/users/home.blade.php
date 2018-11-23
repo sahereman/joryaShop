@@ -22,7 +22,8 @@
                         </div>
                         <div class="user_name">
                             <span>@lang('basic.users.nickname')：{{ $user->name }}</span>
-                            <a href="{{ route('users.edit', $user->id) }}">@lang('basic.users.Modify_Personal_Information')></a>
+                            <a href="{{ route('users.edit', $user->id) }}">@lang('basic.users.Modify_Personal_Information')
+                                ></a>
                         </div>
                     </li>
                     <li>
@@ -59,19 +60,19 @@
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('orders.index') . '?status=' .\App\Models\Order::ORDER_STATUS_RECEIVING }}">
+                        <a href="{{ route('orders.index') . '?status=' . \App\Models\Order::ORDER_STATUS_RECEIVING }}">
                             <img src="{{ asset('img/tobe_received.png') }}">
                             <span>@lang('basic.users.On_the_receiving_line')</span>
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('orders.index') . '?status=uncommented' }}">
+                        <a href="{{ route('orders.index') . '?status=' . \App\Models\Order::ORDER_STATUS_UNCOMMENTED }}">
                             <img src="{{ asset('img/tobe_evaluated.png') }}">
                             <span>@lang('basic.users.Pending_feedback')</span>
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('orders.index') . '?status=refunding' }}">
+                        <a href="{{ route('orders.index') . '?status=' . \App\Models\Order::ORDER_STATUS_REFUNDING }}">
                             <img src="{{ asset('img/after-sale.png') }}">
                             <span>@lang('basic.users.After_sales_order')</span>
                         </a>
@@ -143,19 +144,20 @@
                                             </td>
                                             <td class="col-pro-info">
                                                 <p class="p-info">
-                                                    <a code="{{ $item->sku->id }}" href="{{ route('products.show', $item->sku->product->id) }}">{{ App::isLocale('en') ? $item->sku->product->name_en : $item->sku->product->name_zh }}</a>
+                                                    <a code="{{ $item->sku->id }}"
+                                                       href="{{ route('products.show', $item->sku->product->id) }}">{{ App::isLocale('en') ? $item->sku->product->name_en : $item->sku->product->name_zh }}</a>
                                                 </p>
                                             </td>
                                             <td class="col-price">
                                                 <p class="p-price">
-                                                    <em>{{ App::isLocale('en') ? '&#36;' : '&yen;' }}</em>
+                                                    <em>{{ $order->currency == 'USD' ? '&#36;' : '&yen;' }}</em>
                                                     <span>{{ $item->price }}</span>
                                                 </p>
                                             </td>
-                                            <td class="col-quty">1</td>
+                                            <td class="col-quty">{{ $item->number }}</td>
                                             <td rowspan="{{ $order->items->count() }}" class="col-pay">
                                                 <p>
-                                                    <em>{{ App::isLocale('en') ? '&#36;' : '&yen;' }}</em>
+                                                    <em>{{ $order->currency == 'USD' ? '&#36;' : '&yen;' }}</em>
                                                     <span>{{ $order->total_amount }}</span>
                                                 </p>
                                             </td>
@@ -168,7 +170,8 @@
                                                         <a class="evaluate"
                                                            href="{{ route('orders.create_comment', $order->id) }}">@lang('basic.users.feedback')</a>
                                                     @endif
-                                                    <a class="buy_more" data-url="{{ route('carts.store') }}" href="javascript:void(0)">@lang('basic.users.Once_again_to_buy')</a>
+                                                    <a class="buy_more" data-url="{{ route('carts.store') }}"
+                                                       href="javascript:void(0)">@lang('basic.users.Once_again_to_buy')</a>
                                                 </p>
                                             </td>
                                         </tr>
@@ -178,23 +181,24 @@
                                         <tr class="order_top">
                                             <td class="col-pro-img">
                                                 <p class="p-img">
-                                                    <a href="{{ route('products.show', $item->sku->product->id) }}">
+                                                    <a href="{{ route('products.show', ['order' => $item->sku->product->id]) }}">
                                                         <img src="{{ $item->sku->product->thumb_url }}">
                                                     </a>
                                                 </p>
                                             </td>
                                             <td class="col-pro-info">
                                                 <p class="p-info">
-                                                    <a code="{{ $item->sku->id }}" href="{{ route('products.show', $item->sku->product->id) }}">{{ App::isLocale('en') ? $item->sku->product->name_en : $item->sku->product->name_zh }}</a>
+                                                    <a code="{{ $item->sku->id }}"
+                                                       href="{{ route('products.show', $item->sku->product->id) }}">{{ App::isLocale('en') ? $item->sku->product->name_en : $item->sku->product->name_zh }}</a>
                                                 </p>
                                             </td>
                                             <td class="col-price">
                                                 <p class="p-price">
-                                                    <em>{{ App::isLocale('en') ? '&#36;' : '&yen;' }}</em>
+                                                    <em>{{ $order->currency == 'USD' ? '&#36;' : '&yen;' }}</em>
                                                     <span>{{ $item->price }}</span>
                                                 </p>
                                             </td>
-                                            <td class="col-quty">1</td>
+                                            <td class="col-quty">{{ $item->number }}</td>
                                         </tr>
                                         @endif
                                         @endforeach
@@ -223,12 +227,14 @@
                                     <div class="collection_shop_img">
                                         <img class="lazy" data-src="{{ $guess->thumb_url }}">
                                     </div>
-                                    <p class="commodity_title" title="{{ App::isLocale('en') ? $guess->name_en : $guess->name_zh }}">{{ App::isLocale('en') ? $guess->name_en : $guess->name_zh }}</p>
+                                    <p class="commodity_title"
+                                       title="{{ App::isLocale('en') ? $guess->name_en : $guess->name_zh }}">{{ App::isLocale('en') ? $guess->name_en : $guess->name_zh }}</p>
                                     <p class="collection_price">
-                                        <span class="new_price">{{ App::isLocale('en') ? '&#36;' : '&yen;' }} {{ $guess->price }}</span>
-                                        <span class="old_price">{{ App::isLocale('en') ? '&#36;' : '&yen;' }} {{ bcmul($guess->price, 1.2, 2) }}</span>
+                                        <span class="new_price">{{ App::isLocale('en') ? '&#36;' : '&yen;' }} {{ App::isLocale('en') ? $guess->price_in_usd : $guess->price }}</span>
+                                        <span class="old_price">{{ App::isLocale('en') ? '&#36;' : '&yen;' }} {{  App::isLocale('en') ? bcmul($guess->price_in_usd, 1.2, 2) : bcmul($guess->price, 1.2, 2) }}</span>
                                     </p>
-                                    <a class="add_to_cart" href="{{ route('products.show', $guess->id) }}">@lang('app.see details')</a>
+                                    <a class="add_to_cart"
+                                       href="{{ route('products.show', $guess->id) }}">@lang('app.see details')</a>
                                 </li>
                             @endforeach
                         </ul>
@@ -255,7 +261,7 @@
                 </div>
             </div>
             <div class="btn_area">
-            	<a class="success">@lang('app.determine')</a>
+                <a class="success">@lang('app.determine')</a>
                 <a class="cancel">@lang('app.cancel')</a>
             </div>
         </div>
@@ -264,9 +270,9 @@
 @section('scriptsAfterJs')
     <script type="text/javascript">
         $(function () {
-        	var allHadAdd = 0;  //用来判断是否已经订单找那个全部的商品添加至购物车中
-        	var shops_list;  //单个订单中包含的商品的数量,用于再次购买时判断时候可以进行跳页
-        	var loading_animation;  //loading动画的全局name
+            var allHadAdd = 0;  //用来判断是否已经订单找那个全部的商品添加至购物车中
+            var shops_list;  //单个订单中包含的商品的数量,用于再次购买时判断时候可以进行跳页
+            var loading_animation;  //loading动画的全局name
             $(".navigation_left ul li").removeClass("active");
             $(".user_index").addClass("active");
             $(".order-group").on('click', '.col-delete', function () {
@@ -292,50 +298,50 @@
                 });
             });
             //再次购买
-            $(".buy_more").on("click",function(){
-            	shops_list = $(this).parents("table").find("tr");
-            	var sku_id_lists = "";  //用于页面跳转在购物车页面通过判断这个参数的值选中商品
-            	var sku_id;
-            	var number;
-            	var url = $(this).attr("data-url");
-            	$.each(shops_list, function(i,n) {
-            		sku_id = $(n).find(".p-info").find("a").attr("code");
-            		number = $(n).find(".col-quty").html();
-            		sku_id_lists+=$(n).find(".p-info").find("a").attr("code")+",";
-            		allHadAdd++;
-            		add_to_carts(sku_id,number,url,sku_id_lists,allHadAdd);
-            	});
-            })
+            $(".buy_more").on("click", function () {
+                shops_list = $(this).parents("table").find("tr");
+                var sku_id_lists = "";  //用于页面跳转在购物车页面通过判断这个参数的值选中商品
+                var sku_id;
+                var number;
+                var url = $(this).attr("data-url");
+                $.each(shops_list, function (i, n) {
+                    sku_id = $(n).find(".p-info").find("a").attr("code");
+                    number = $(n).find(".col-quty").html();
+                    sku_id_lists += $(n).find(".p-info").find("a").attr("code") + ",";
+                    allHadAdd++;
+                    add_to_carts(sku_id, number, url, sku_id_lists, allHadAdd);
+                });
+            });
             //添加购物车
-            function add_to_carts(sku_id,number,url,sku_id_lists,allHadAdd){
-            	var data = {
-        			_token: "{{ csrf_token() }}",
-        			sku_id: sku_id,
-        			number: number
-        		}
+            function add_to_carts(sku_id, number, url, sku_id_lists, allHadAdd) {
+                var data = {
+                    _token: "{{ csrf_token() }}",
+                    sku_id: sku_id,
+                    number: number,
+                };
                 $.ajax({
                     type: "post",
                     url: url,
                     data: data,
-                    beforeSend: function(){
-        			loading_animation = layer.msg("@lang('app.Please wait')", {
-			                icon: 16,
-			                shade: 0.4,
-			                time:false //取消自动关闭
-						});
-	        		},
+                    beforeSend: function () {
+                        loading_animation = layer.msg("@lang('app.Please wait')", {
+                            icon: 16,
+                            shade: 0.4,
+                            time: false, //取消自动关闭
+                        });
+                    },
                     success: function (data) {
-                    	if(allHadAdd==shops_list.length){
-                    		window.location.href=url+"?sku_id_lists="+sku_id_lists;	
-                    	}
+                        if (allHadAdd == shops_list.length) {
+                            window.location.href = url + "?sku_id_lists=" + sku_id_lists;
+                        }
                     },
                     error: function (err) {
                         console.log(err);
                     },
-                    complete:function(){
-                    	if(allHadAdd==shops_list.length){
-                    		layer.close(loading_animation);
-                    	}
+                    complete: function () {
+                        if (allHadAdd == shops_list.length) {
+                            layer.close(loading_animation);
+                        }
                     }
                 });
             }

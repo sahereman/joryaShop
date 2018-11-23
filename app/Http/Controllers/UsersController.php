@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Handlers\ImageUploadHandler;
 use App\Http\Requests\UserRequest;
 use App\Models\CountryCode;
+use App\Models\Order;
 use App\Models\User;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -29,7 +30,7 @@ class UsersController extends Controller
             $user = Auth::user();
             $orders = $user->orders()
                 ->with('items.sku.product')
-                ->where('status', '<>', 'closed')
+                ->where('status', '<>', Order::ORDER_STATUS_CLOSED)
                 ->orderByDesc('created_at')
                 ->limit(5)
                 ->get();

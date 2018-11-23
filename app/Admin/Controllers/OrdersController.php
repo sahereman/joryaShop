@@ -232,14 +232,14 @@ class OrdersController extends Controller
         $form->text('order_sn', 'Order sn');
         $form->number('user_id', 'User id');
         $form->text('user_info', 'User info');
-        $form->text('status', 'Status')->default('paying');
+        $form->text('status', 'Status')->default(Order::ORDER_STATUS_PAYING);
         $form->text('currency', 'Currency')->default('CNY');
         $form->text('payment_method', 'Payment method');
         $form->text('payment_sn', 'Payment sn');
         $form->datetime('paid_at', 'Paid at')->default(date('Y-m-d H:i:s'));
         $form->datetime('closed_at', 'Closed at')->default(date('Y-m-d H:i:s'));
-        $form->text('shipment_sn', 'Shipment sn');
         $form->text('shipment_company', 'Shipment company');
+        $form->text('shipment_sn', 'Shipment sn');
         $form->datetime('shipped_at', 'Shipped at')->default(date('Y-m-d H:i:s'));
         $form->datetime('completed_at', 'Completed at')->default(date('Y-m-d H:i:s'));
         $form->datetime('commented_at', 'Commented at')->default(date('Y-m-d H:i:s'));

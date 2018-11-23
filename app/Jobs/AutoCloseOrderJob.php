@@ -48,7 +48,7 @@ class AutoCloseOrderJob implements ShouldQueue
         DB::transaction(function () {
             // 将订单的 status 字段标记为 closed，即关闭订单
             $this->order->update([
-                'status' => 'closed',
+                'status' => Order::ORDER_STATUS_CLOSED,
                 'closed_at' => Carbon::now()->toDateTimeString(),
             ]);
             // 恢复 Product & Sku +库存 & -销量

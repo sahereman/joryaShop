@@ -374,7 +374,7 @@ class OrdersController extends Controller
         DB::transaction(function () use ($order) {
             // 将订单的 status 字段标记为 closed，即关闭订单
             $order->update([
-                'status' => 'closed',
+                'status' => Order::ORDER_STATUS_CLOSED,
                 'close_at' => Carbon::now()->toDateTimeString(),
             ]);
             // 恢复 Product & Sku +库存 & -销量
@@ -516,7 +516,7 @@ class OrdersController extends Controller
         OrderRefund::create([
             'order_id' => $order->id,
             'type' => OrderRefund::ORDER_REFUND_TYPE_REFUND,
-            'status' => 'checking',
+            'status' => OrderRefund::ORDER_REFUND_STATUS_CHECKING,
             // 'amount' => $request->input('amount'),
             'remark_from_user' => $request->input('remark_from_user'),
             // 'photos_for_refund' => $request->has('photos_for_refund') ? $request->input('photos_for_refund') : '',
@@ -612,7 +612,7 @@ class OrdersController extends Controller
         OrderRefund::create([
             'order_id' => $order->id,
             'type' => OrderRefund::ORDER_REFUND_TYPE_REFUND_WITH_SHIPMENT,
-            'status' => 'checking',
+            'status' => OrderRefund::ORDER_REFUND_STATUS_CHECKING,
             // 'amount' => $request->input('amount'),
             'remark_from_user' => $request->input('remark_from_user'),
             'photos_for_refund' => $request->has('photos_for_refund') ? $request->input('photos_for_refund') : '',
