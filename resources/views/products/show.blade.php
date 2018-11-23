@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', $product->name_zh)
+@section('title', App::isLocale('en') ? $product->name_en : $product->name_zh)
 @section('content')
     <div class="commodity-details">
         <div class="m-wrapper">
@@ -40,7 +40,7 @@
                                 @foreach($product->photo_urls as $photo_url)
                                     <li code="{{ $photo_url }}">
                                         <img class="lazy" code="{{ $photo_url }}"
-                                            data-src="{{ $photo_url }}"></li>
+                                             data-src="{{ $photo_url }}"></li>
                                 @endforeach
                             </ul>
                         </div>
@@ -59,11 +59,11 @@
                     <div class="price_service">
                         <p class="original_price">
                             <span>@lang('product.product_details.the original price')</span>
-                            <span><i>@lang('basic.currency.symbol') </i>{{ bcmul($product->price, 1.2, 2) }}</span>
+                            <span><i>@lang('basic.currency.symbol') </i>{{ App::isLocale('en') ? bcmul($product->price_in_usd, 1.2, 2) :bcmul($product->price, 1.2, 2) }}</span>
                         </p>
                         <p class="present_price">
                             <span>@lang('product.product_details.the current price')</span>
-                            <span class="changePrice_num"><i>@lang('basic.currency.symbol') </i>{{ $product->price }}</span>
+                            <span class="changePrice_num"><i>@lang('basic.currency.symbol') </i>{{ App::isLocale('en') ? $product->price_in_usd :$product->price }}</span>
                         </p>
                         <p class="service">
                             <span>@lang('product.product_details.service')</span>
@@ -73,13 +73,13 @@
                     </div>
                     <div class="priceOfpro">
                         <span>@lang('product.product_details.freight')</span>
-                        <span><i>@lang('basic.currency.symbol') </i>{{ $product->shipping_fee }}</span>
+                        <span><i>@lang('basic.currency.symbol') </i>{{ App::isLocale('en') ? $product->shipping_fee_in_usd :$product->shipping_fee }}</span>
                     </div>
                     <div class="priceOfpro kindOfPro">
                         <span>@lang('product.product_details.classification')</span>
                         <ul>
                             @foreach($skus as $sku)
-                                <li code_price='{{ $sku->price }}'>
+                                <li code_price='{{ App::isLocale('en') ? $sku->price_in_usd :$sku->price }}'>
                                     <span>{{ App::isLocale('en') ? $sku->name_en : $sku->name_zh }}</span>
                                     <input type="hidden" name="sku_id" value="{{ $sku->id }}">
                                 </li>
@@ -100,8 +100,10 @@
                         <a class="buy_now for_show_login">@lang('product.product_details.Buy now')</a>
                         <a class="add_carts for_show_login">@lang('app.Add to Shopping Cart')<</a>
                         @else
-                            <a class="buy_now" data-url="{{ route('orders.pre_payment') }}">@lang('product.product_details.Buy now')</a>
-                            <a class="add_carts" data-url="{{ route('carts.store') }}">@lang('app.Add to Shopping Cart')</a>
+                            <a class="buy_now"
+                               data-url="{{ route('orders.pre_payment') }}">@lang('product.product_details.Buy now')</a>
+                            <a class="add_carts"
+                               data-url="{{ route('carts.store') }}">@lang('app.Add to Shopping Cart')</a>
                             @endguest
                             <a class="add_favourites" code="{{ $product->id }}"
                                data-url="{{ route('user_favourites.store') }}"
@@ -114,11 +116,11 @@
                 <!--猜你喜欢-->
                 <div class="guess_like">
                     <p>
-                    	<span class="line"></span>
-                    	<span>&bull;</span>
-                    	<span>@lang('app.you may also like')</span>
-                    	<span>&bull;</span>
-                    	<span class="line"></span>
+                        <span class="line"></span>
+                        <span>&bull;</span>
+                        <span>@lang('app.you may also like')</span>
+                        <span>&bull;</span>
+                        <span class="line"></span>
                     </p>
                     <ul>
                         @foreach($guesses as $guess)
@@ -128,8 +130,8 @@
                                         <img class="lazy" data-src="{{ $guess->thumb_url }}">
                                     </div>
                                     <p>
-                                        <span class="present_price"><i>@lang('basic.currency.symbol')</i>{{ $guess->price }}</span>
-                                        <span class="original_price"><i>@lang('basic.currency.symbol')</i>{{ bcmul($guess->price, 1.2, 2) }}</span>
+                                        <span class="present_price"><i>@lang('basic.currency.symbol')</i>{{ App::isLocale('en') ? $guess->price_in_usd :$guess->price }}</span>
+                                        <span class="original_price"><i>@lang('basic.currency.symbol')</i>{{ App::isLocale('en') ? bcmul($guess->price_in_usd, 1.2, 2) :bcmul($guess->price, 1.2, 2) }}</span>
                                     </p>
                                 </a>
                             </li>
@@ -153,7 +155,7 @@
                                             <img class="lazy" data-src="{{ $hot_sale->thumb_url }}">
                                         </div>
                                         <p>
-                                            <span class="present_price"><i>@lang('basic.currency.symbol') </i>{{ $hot_sale->price }}</span>
+                                            <span class="present_price"><i>@lang('basic.currency.symbol') </i>{{ App::isLocale('en') ? $hot_sale->price_in_usd :$hot_sale->price }}</span>
                                         </p>
                                     </a>
                                 </li>
@@ -169,7 +171,7 @@
                                             <img class="lazy" data-src="{{ $best_seller->thumb_url }}">
                                         </div>
                                         <p>
-                                            <span class="present_price"><i>@lang('basic.currency.symbol') </i>{{ $best_seller->price }}</span>
+                                            <span class="present_price"><i>@lang('basic.currency.symbol') </i>{{ App::isLocale('en') ? $best_seller->price_in_usd :$best_seller->price }}</span>
                                         </p>
                                     </a>
                                 </li>
@@ -179,10 +181,11 @@
                 </div>
                 <div class="comments_details_right pull-left" id="comments_details">
                     <ul class="tab">
-                        <li onclick="tabs('#comments_details',0)" class="curr">@lang('product.product_details.Commodity details')</li>
+                        <li onclick="tabs('#comments_details',0)"
+                            class="curr">@lang('product.product_details.Commodity details')</li>
                         <li onclick="tabs('#comments_details',1)" class="shopping_eva"
-                            data-url="{{ route('products.comment',$product->id) }}">@lang('product.product_details.Commodity feedback')<strong>({{ $comment_count }}
-                                )</strong></li>
+                            data-url="{{ route('products.comment', ['product' => $product->id]) }}">@lang('product.product_details.Commodity feedback')
+                            <strong>({{ $comment_count }})</strong></li>
                     </ul>
                     <div class="mc tabcon product_info">
                         {{ App::isLocale('en') ? $product->content_en : $product->content_zh }}
@@ -204,7 +207,8 @@
                         </ul>
                         <div class="comment-items">
                             <div class="items-title">
-                                <a class="active">@lang('product.product_details.Commodity feedback')<strong>({{ $comment_count }})</strong></a>
+                                <a class="active">@lang('product.product_details.Commodity feedback')
+                                    <strong>({{ $comment_count }})</strong></a>
                                 <!--<a>图片评价</a>-->
                             </div>
                             <!--暂无评价-->

@@ -102,7 +102,7 @@
                                 html += "<li>" +
                                         "<a href='/products/" + n.id + "'>" +
                                         "<div class='list-img'>" +
-                                        "<img src='" + n.thumb + "'>" +
+                                        "<img src='" + n.thumb_url + "'>" +
                                         "</div>" +
                                         "<div class='list-info'>" +
                                         "<p class='list-info-title'>" + name + "</p>" +
