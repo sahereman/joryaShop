@@ -35,9 +35,9 @@
                 <a class="register">@lang('app.Registered')</a>
                 <a class="about-us" href="{{ route('root') }}">@lang('app.About_us')</a>
                 @else
-                    <a id="user_info_btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                    <a id="user_info_btn" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
                        class="user_name">{{ Auth::user()->name }}</a>
-                    <ul class="dropdown-menu" aria-labelledby="dLabel">
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="user_info_btn">
                         <li>
 
                             <a class="touser_center" href="{{ route('users.home') }}">

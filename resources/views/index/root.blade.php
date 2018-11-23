@@ -93,7 +93,7 @@
                                             <img class="lazy" data-src="{{ $product->thumb_url }}">
                                             <h5 title="{{App::isLocale('en') ? $product->name_en : $product->name_zh }}">{{App::isLocale('en') ? $product->name_en : $product->name_zh }}</h5>
                                             <span title="{{ App::isLocale('en') ? $product->description_en : $product->description_zh }}">{{ App::isLocale('en') ? $product->description_en : $product->description_zh }}</span>
-                                            <p class="product_price">@lang('basic.currency.symbol') {{ $product->price }}</p>
+                                            <p class="product_price">@lang('basic.currency.symbol') {{ App::isLocale('en') ? $product->price_in_usd : $product->price }}</p>
                                         </a>
                                     </li>
                                 @endforeach
@@ -147,7 +147,7 @@
                                         </div>
                                         <h5 title="{{ App::isLocale('en') ? $product->name_en : $product->name_zh }}">{{ App::isLocale('en') ? $product->name_en : $product->name_zh }}</h5>
                                         <span title="{{ App::isLocale('en') ? $product->description_en : $product->description_zh }}">{{ App::isLocale('en') ? $product->description_en : $product->description_zh }}</span>
-                                        <p class="product_price">@lang('basic.currency.symbol') {{ $product->price }}</p>
+                                        <p class="product_price">@lang('basic.currency.symbol') {{ App::isLocale('en') ? $product->price_in_usd : $product->price }}</p>
                                     </li>
                                 @endforeach
                             </ul>
@@ -173,8 +173,8 @@
                             </div>
                             <h5 title="{{ App::isLocale('en') ? $guess->name_en : $guess->name_zh }}">{{ App::isLocale('en') ? $guess->name_en : $guess->name_zh }}</h5>
                             <p class="guess_price">
-                                <span class="new_price">@lang('basic.currency.symbol') {{ $guess->price }}</span>
-                                <span class="old_price">@lang('basic.currency.symbol') {{ bcmul($guess->price, 1.2, 2) }}</span>
+                                <span class="new_price">@lang('basic.currency.symbol') {{ App::isLocale('en') ? $guess->price_in_usd : $guess->price }}</span>
+                                <span class="old_price">@lang('basic.currency.symbol') {{  App::isLocale('en') ? bcmul($guess->price_in_usd, 1.2, 2) : bcmul($guess->price, 1.2, 2) }}</span>
                             </p>
                             <a class="buy_now_guess"
                                href="{{ route('products.show', ['product' => $guess->id]) }}">@lang('product.buy_now')</a>
