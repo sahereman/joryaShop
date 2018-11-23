@@ -52,6 +52,7 @@ class ShipmentCompany extends Model
      */
     public static function codeTransformName($code)
     {
-        return self::shipmentCompanies()->where('code', $code)->first()->name;
+        $shipmentCompanies = self::shipmentCompanies()->pluck('name', 'code');
+        return isset($shipmentCompanies[$code]) ? $shipmentCompanies[$code] : $code;
     }
 }
