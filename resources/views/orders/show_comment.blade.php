@@ -1,9 +1,5 @@
 @extends('layouts.app')
-@if(App::isLocale('en'))
-@section('title', 'Personal Center-my order')
-@else
-@section('title', '个人中心-我的订单')
-@endif
+@section('title', App::isLocale('en') ? 'Personal Center-my order' : '个人中心-我的订单')
 @section('content')
     <div class="evaluate_commont">
         <div class="m-wrapper">
@@ -39,7 +35,7 @@
                             <tr>
                                 <td class="col-pro-img">
                                     <a href="">
-                                        <img class="lazy" data-src="{{ $order_item['sku']['product']['thumb_url'] }}">
+                                        <img src="{{ $order_item['sku']['product']['thumb_url'] }}">
                                     </a>
                                 </td>
                                 <td class="col-pro-info">
@@ -95,7 +91,7 @@
                                     <ul class="evaluation_img">
                                         @foreach($comments[$order_item['id']][0]->photo_urls as $photo_url)
                                             <li class="eva_img" data-src="{{ $photo_url }}">
-                                                <img class="lazy" data-src="{{ $photo_url }}">
+                                                <img src="{{ $photo_url }}">
                                                 <b class="tm-photos-arrow"></b>
                                             </li>
                                         @endforeach

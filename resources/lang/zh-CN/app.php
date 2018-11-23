@@ -4,6 +4,7 @@ return [
     'switch language' => '切换语言',
     'you may also like' => '猜你喜欢',
     'see details' => '查看详情',
+    'New Product Starter' => '新品首发',
     'Prompt' => '提示',
     'Please wait'  => '请稍候',
     'cancel'  => '取消',

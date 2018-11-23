@@ -1,10 +1,5 @@
 @extends('layouts.app')
-
-@if(App::isLocale('en'))
-@section('title', 'Personal Center-shipping Address')
-@else
-@section('title', '个人中心-收货地址')
-@endif
+@section('title', App::isLocale('en') ? 'Personal Center-shipping Address' : '个人中心-收货地址')
 @section('content')
     <div class="User_addresses">
         <div class="m-wrapper">

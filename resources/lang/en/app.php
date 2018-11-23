@@ -3,6 +3,7 @@
 return [
     'switch language' => 'Switch language',
     'you may also like' => 'You may also like',
+    'New Product Starter' => 'New Product Starter',
     'see details' => 'See Details',
     'Prompt' => 'Prompt message',
     'Please wait'  => 'Please wait',

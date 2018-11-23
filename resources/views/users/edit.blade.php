@@ -1,10 +1,5 @@
 @extends('layouts.app')
-
-@if(App::isLocale('en'))
-@section('title', 'Personal Center-account information')
-@else
-@section('title', '个人中心-账户信息')
-@endif
+@section('title', App::isLocale('en') ? 'Personal Center-account information' : '个人中心-账户信息')
 @section('content')
     <div class="User_center_edit User_center">
         <div class="m-wrapper">

@@ -1,9 +1,5 @@
 @extends('layouts.app')
-@if(App::isLocale('en'))
-@section('title', 'Joryahair')
-@else
-@section('title', '卓雅美业')
-@endif
+@section('title', App::isLocale('en') ? 'Joryahair' : '卓雅美业')
 @section('content')
     <div class="home-page">
         <div class="swiper-container banner" id="banner">
@@ -19,12 +15,12 @@
                 @else
                     <div class="swiper-slide">
                         <a>
-                            <img src="{{ asset('img/banner/banner_1.png') }}">
+                            <img src="{{ asset('defaults/banner_1.png') }}">
                         </a>
                     </div>
                     <div class="swiper-slide">
                         <a>
-                            <img src="{{ asset('img/banner/banner_1.png') }}">
+                            <img src="{{ asset('defaults/banner_1.png') }}">
                         </a>
                     </div>
                 @endif
@@ -34,7 +30,7 @@
         </div>
         <div class="new_product product-part">
             <div class="m-wrapper">
-                <h3>新品首发</h3>
+                <h3>@lang('app.New Product Starter')</h3>
                 <div class="new_product_left pull-left">
                     @if($poster = \App\Models\Poster::getPosterBySlug('pc_index_left_top'))
                         <div class="product_left_top">
@@ -71,7 +67,9 @@
                 <div class="fashion_trend product-part">
                     <div class="m-wrapper">
                         <div class="part_title">
-                        	<h3>{{ App::isLocale('en') ? $category_products['category']->name_en : $category_products['category']->name_zh }}</h3>
+                        	<a href="{{ route('product_categories.index', ['category' => $category_products['category']->id]) }}">
+                        		<h3>{{ App::isLocale('en') ? $category_products['category']->name_en : $category_products['category']->name_zh }}</h3>
+                        	</a>
                             <ul class="pull-right">
                                 @foreach($category_products['children'] as $k => $child)
                                     @if($k > 5)
@@ -107,7 +105,9 @@
                 <div class="customization product-part">
                     <div class="m-wrapper">
                         <div class="part_title">
-                            <h3>{{ App::isLocale('en') ? $category_products['category']->name_en : $category_products['category']->name_zh }}</h3>
+                        	<a href="{{ route('product_categories.index', ['category' => $category_products['category']->id]) }}">
+                            	<h3>{{ App::isLocale('en') ? $category_products['category']->name_en : $category_products['category']->name_zh }}</h3>
+                           </a>
                             <ul class="pull-right">
                                 @foreach($category_products['children'] as $k => $child)
                                     @if($k > 5)
@@ -122,11 +122,13 @@
                         </div>
                         <div class="customization_banner">
                             @if($poster = \App\Models\Poster::getPosterBySlug('pc_index_floor_' . $key))
-                                <img class="lazy" data-src="{{ $poster->image_url }}" style="height: 310px;">
-                                <a class="buy_now" href="{{ $poster->link }}">@lang('product.buy_now')</a>
+                                <a class="buy_now" href="{{ $poster->link }}">
+                                	<img class="lazy" data-src="{{ $poster->image_url }}" style="height: 310px;">
+                                </a>
                             @else
-                                <img class="lazy" data-src="{{ asset('defaults/default_pc_index_floor_even.png') }}">
-                                <a class="buy_now" href="{{ route('root') }}">@lang('product.buy_now')</a>
+                                <a class="buy_now" href="{{ route('root') }}">
+                                	<img class="lazy" data-src="{{ asset('defaults/default_pc_index_floor_even.png') }}">
+                                </a>
                             @endif
                         </div>
                         <div class="customization_list">
@@ -156,7 +158,7 @@
         @endforeach
         <div class="guess_like product-part">
             <div class="m-wrapper">
-                <h3>猜你喜欢</h3>
+                <h3>@lang('app.you may also like')</h3>
                 <ul class="guess_lists">
                     @foreach($guesses as $k => $guess)
                         @if($k > 7)

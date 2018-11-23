@@ -1,9 +1,5 @@
 @extends('layouts.app')
-@if(App::isLocale('en'))
-@section('title', 'Personal Center-my order')
-@else
-@section('title', '个人中心-我的订单')
-@endif
+@section('title', App::isLocale('en') ? 'Personal Center-my order' : '个人中心-我的订单')
 @section('content')
     <div class="User_center my_orders">
         <div class="m-wrapper">
@@ -107,8 +103,7 @@
                                             <td class="col-pro-img">
                                                 <p class="p-img">
                                                     <a href="{{ route('products.show', $order_item['sku']['product']['id']) }}">
-                                                        <img class="lazy"
-                                                             data-src="{{ $order_item['sku']['product']['thumb_url'] }}">
+                                                        <img src="{{ $order_item['sku']['product']['thumb_url'] }}">
                                                     </a>
                                                 </p>
                                             </td>

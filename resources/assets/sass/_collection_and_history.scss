@@ -50,9 +50,13 @@
                             }
                         }
                         .commodity_title {
+                            width: 100%;
                             font-size: 13px;
                             color: #333;
                             font-weight: 600;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                            white-space: nowrap;
                         }
                         .collection_price {
                             font-size: 12px;

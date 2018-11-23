@@ -1,10 +1,5 @@
 @extends('layouts.app')
-
-@if(App::isLocale('en'))
-@section('title', 'Personal Center-Modify password')
-@else
-@section('title', '个人中心-修改密码')
-@endif
+@section('title', App::isLocale('en') ? 'Personal Center-Modify password' : '个人中心-修改密码')
 @section('content')
     <div class="User_psw_edit User_center">
         <div class="m-wrapper">

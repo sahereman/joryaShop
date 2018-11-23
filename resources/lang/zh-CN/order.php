@@ -100,6 +100,13 @@ return [
     'You can contact online customer service' => '你可以联系在线客服',
     'Refund Instructions' => '退款说明',
     'Seller reply' => '卖家回复',
+    'Buyer applies for return refund' => '买家申请退货退款',
+    'Seller handles return request' => '卖家处理退货申请',
+    'Buyers return' => '买家退货',
+    'Refunds are complete' => '退款完毕',
+    'Refund failed' => '退款失败',
+    'Seller applies for refunds only' => '卖家申请仅退款',
+    'Seller handles refund Request' => '卖家处理退款申请',
 
 
 

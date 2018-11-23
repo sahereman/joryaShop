@@ -1,10 +1,5 @@
 @extends('layouts.app')
-
-@if(App::isLocale('en'))
-@section('title', 'Personal Center-Browse History')
-@else
-@section('title', '个人中心-浏览历史')
-@endif
+@section('title', App::isLocale('en') ? 'Personal Center-Browse History' : '个人中心-浏览历史')
 @section('content')
     <div class="User_history">
         <div class="m-wrapper">

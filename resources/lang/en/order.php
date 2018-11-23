@@ -99,5 +99,12 @@ return [
     'You can contact online customer service' => 'You can contact online customer service',
     'Refund Instructions' => 'Refund Instructions',
     'Seller reply' => 'Seller reply',
+    'Buyer applies for return refund' => 'Buyer applies for return refund',
+    'Seller handles return request' => 'Seller handles return request',
+    'Buyers return' => 'Buyers return',
+    'Refunds are complete' => 'Refunds are complete',
+    'Refund failed' => 'Refund failed',
+    'Seller applies for refunds only' => 'Buyer applies for refunds only',
+    'Seller handles refund Request' => 'Seller handles refund Request',
 
 ];

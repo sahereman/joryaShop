@@ -1,9 +1,5 @@
 @extends('layouts.app')
-@if(App::isLocale('en'))
-    @section('title', 'Search results')
-@else
-    @section('title', '搜索结果')
-@endif
+@section('title', App::isLocale('en') ? 'Search results' : '搜索结果')
 @section('content')
     <div class="products-search-level">
         <div class="m-wrapper">

@@ -1,9 +1,5 @@
 @extends('layouts.app')
-@if(App::isLocale('en'))
-    @section('title', $category->name_en)
-@else
-    @section('title', $category->name_zh)
-@endif
+@section('title', App::isLocale('en') ? $category->name_en : $category->name_zh)
 @section('content')
     <div class="products-search-level">
         <div class="m-wrapper">

@@ -1,10 +1,5 @@
 @extends('layouts.app')
-
-@if(App::isLocale('en'))
-@section('title', 'Personal Center-Modify bound mailboxes')
-@else
-@section('title', '个人中心-修改绑定邮箱')
-@endif
+@section('title', App::isLocale('en') ? 'Personal Center-Modify bound mailboxes' : '个人中心-修改绑定邮箱')
 @section('content')
     <div class="User_psw_edit User_center">
         <div class="m-wrapper">

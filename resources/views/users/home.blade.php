@@ -1,9 +1,5 @@
 @extends('layouts.app')
-@if(App::isLocale('en'))
-@section('title', 'Personal Center')
-@else
-@section('title', '个人中心')
-@endif
+@section('title', App::isLocale('en') ? 'Personal Center' : '个人中心')
 @section('content')
     <div class="User_center">
         <div class="m-wrapper">
@@ -22,7 +18,7 @@
                     @auth
                     <li>
                         <div class="user_img">
-                            <img class="lazy" data-src="{{ $user->avatar_url }}">
+                            <img src="{{ $user->avatar_url }}">
                         </div>
                         <div class="user_name">
                             <span>@lang('basic.users.nickname')：{{ $user->name }}</span>
@@ -141,7 +137,7 @@
                                             <td class="col-pro-img">
                                                 <p class="p-img">
                                                     <a href="{{ route('products.show', $item->sku->product->id) }}">
-                                                        <img class="lazy" data-src="{{ $item->sku->product->thumb_url }}">
+                                                        <img src="{{ $item->sku->product->thumb_url }}">
                                                     </a>
                                                 </p>
                                             </td>
@@ -225,7 +221,7 @@
                             @foreach($guesses as $guess)
                                 <li>
                                     <div class="collection_shop_img">
-                                        <img src="{{ $guess->thumb_url }}">
+                                        <img class="lazy" data-src="{{ $guess->thumb_url }}">
                                     </div>
                                     <p class="commodity_title">{{ App::isLocale('en') ? $guess->name_en : $guess->name_zh }}</p>
                                     <p class="collection_price">

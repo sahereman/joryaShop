@@ -1,9 +1,5 @@
 @extends('layouts.app')
-@if(App::isLocale('en'))
-@section('title', 'Confirm the Order')
-@else
-@section('title', '确认订单')
-@endif
+@section('title', App::isLocale('en') ? 'Confirm the Order' : '确认订单')
 @section('content')
     <div class="pre_payment">
         <div class="m-wrapper">
@@ -58,7 +54,7 @@
                                 <div class="clear single-item">
                                     <div class="left w110 shop-img">
                                         <a class="cur_p" href="#">
-                                            <img class="lazy" data-src="{{ $item['product']->thumb }}">
+                                            <img src="{{ $item['product']->thumb }}">
                                         </a>
                                     </div>
                                     <div class="left w250 pro-info">

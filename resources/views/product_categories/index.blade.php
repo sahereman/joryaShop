@@ -1,9 +1,5 @@
 @extends('layouts.app')
-@if(App::isLocale('en'))
-    @section('title', 'Product Categories')
-@else
-    @section('title', '商品分类')
-@endif
+@section('title', App::isLocale('en') ? 'Product Categories' : '商品分类')
 @section('content')
     <div class="productCate my_orders">
         <!--商品分类导图-->

@@ -1,9 +1,5 @@
 @extends('layouts.app')
-@if(App::isLocale('en'))
-@section('title', 'Personal Center-my order')
-@else
-@section('title', '个人中心-我的订单')
-@endif
+@section('title', App::isLocale('en') ? 'Personal Center-my order' : '个人中心-我的订单')
 @section('content')
     <div class="User_center my_orders">
         <div class="m-wrapper">
@@ -25,13 +21,49 @@
                 <div class="technological_process">
                     <!--分步骤显示图片一共四张-->
                     @if(! $refund)
-                        <img src="{{ asset('img/process-refund-1.png') }}">
+                        <!--<img src="{{ asset('img/process-refund-1.png') }}">-->
+                    	<div class="first type_2 active">1.@lang('order.Seller applies for refunds only')</div>
+				        <div class="second type_2">
+				        	2.@lang('order.Seller handles refund Request')
+				            <div class="active_2 active"></div>
+				        </div>
+				        <div class="third type_2">
+				        	3.@lang('order.Refunds are complete')
+				            <div class="active_2"></div>
+				        </div>
                     @elseif(isset($refund) && $refund->status == \App\Models\OrderRefund::ORDER_REFUND_STATUS_CHECKING)
-                        <img src="{{ asset('img/process-refund-2.png') }}">
+                        <!--<img src="{{ asset('img/process-refund-2.png') }}">-->
+                        <div class="first type_2">1.@lang('order.Seller applies for refunds only')</div>
+				        <div class="second type_2 active">
+				        	2.@lang('order.Seller handles refund Request')
+				            <div class="active_2"></div>
+				        </div>
+				        <div class="third type_2">
+				        	3.@lang('order.Refunds are complete')
+				            <div class="active_2 active"></div>
+				        </div>
                     @elseif(isset($refund) && $refund->status == \App\Models\OrderRefund::ORDER_REFUND_STATUS_REFUNDED)
-                        <img src="{{ asset('img/process-refund-3.png') }}">
+                        <!--<img src="{{ asset('img/process-refund-3.png') }}">-->
+                        <div class="first type_2">1.@lang('order.Seller applies for refunds only')</div>
+				        <div class="second type_2">
+				        	2.@lang('order.Seller handles refund Request')
+				            <div class="active_2"></div>
+				        </div>
+				        <div class="third type_2 active">
+				        	3.@lang('order.Refunds are complete')
+				            <div class="active_2"></div>
+				        </div>
                     @elseif(isset($refund) && $refund->status == \App\Models\OrderRefund::ORDER_REFUND_STATUS_DECLINED)
-                        <img src="{{ asset('img/process-refund-4.png') }}">
+                        <!--<img src="{{ asset('img/process-refund-4.png') }}">-->
+                        <div class="first type_2">1.@lang('order.Seller applies for refunds only')</div>
+				        <div class="second type_2">
+				        	2.@lang('order.Seller handles refund Request')
+				            <div class="active_2"></div>
+				        </div>
+				        <div class="third type_2 active">
+				        	3.@lang('order.Refund failed')
+				            <div class="active_2"></div>
+				        </div>
                     @endif
                 </div>
                 <div class="process_content">
@@ -139,7 +171,7 @@
                                     </li>
                                 </ul>
                                 <p class="btn_submit_area">
-                                    <a class="step-5-submit-1 step-submit">@lang('order.determine')</a>
+                                    <a class="step-5-submit-1 step-submit">@lang('app.determine')</a>
                                     <a class="step-5-submit-2 normal-submit"
                                        code="{{ route('orders.revoke_refund', ['order' => $order->id]) }}">@lang('order.Revocation of application')</a>
                                 </p>
