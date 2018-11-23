@@ -48,7 +48,7 @@ class AutoCompleteOrderJob implements ShouldQueue
         DB::transaction(function () {
             // 将订单的 status 字段标记为 completed，即确认订单
             $this->order->update([
-                'status' => 'completed',
+                'status' => Order::ORDER_STATUS_COMPLETED,
                 'completed_at' => Carbon::now()->toDateTimeString(),
             ]);
         });

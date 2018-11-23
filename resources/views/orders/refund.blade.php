@@ -85,7 +85,7 @@
                                     </li>
                                     <li>
                                         <span><i class="red">*</i>@lang('order.Application description')：</span>
-                                        <textarea name="remark_by_user" class="reasons_for_refunds"
+                                        <textarea name="remark_from_user" class="reasons_for_refunds"
                                                   placeholder="@lang('order.Please fill in the reason for the refund')"></textarea>
                                         <span class="remainder">200</span>
                                     </li>
@@ -111,8 +111,8 @@
                                     </li>
                                     <li>
                                         <span><i class="red">*</i>@lang('order.Application description')：</span>
-                                        <textarea name="remark_by_user" class="reasons_for_refunds no_border" readonly
-                                                  placeholder="@lang('order.Please fill in the reason for the refund')">{{ $refund->remark_by_user }}</textarea>
+                                        <textarea name="remark_from_user" class="reasons_for_refunds no_border" readonly
+                                                  placeholder="@lang('order.Please fill in the reason for the refund')">{{ $refund->remark_from_user }}</textarea>
                                         <span class="remainder hidden">200</span>
                                     </li>
                                 </ul>
@@ -141,7 +141,7 @@
                                     </li>
                                     <li>
                                         <span>@lang('order.Application description')：</span>
-                                        <p>{{ $refund->remark_by_user }}</p>
+                                        <p>{{ $refund->remark_from_user }}</p>
                                     </li>
                                 </ul>
                             </div>
@@ -163,11 +163,11 @@
                                     </li>
                                     <li>
                                         <span>@lang('order.Application description')：</span>
-                                        <p>{{ $refund->remark_by_user }}</p>
+                                        <p>{{ $refund->remark_from_user }}</p>
                                     </li>
                                     <li class="red">
                                         <span>@lang('order.Seller reply')：</span>
-                                        <p>{{ $refund->remark_by_seller }}</p>
+                                        <p>{{ $refund->remark_from_seller }}</p>
                                     </li>
                                 </ul>
                                 <p class="btn_submit_area">

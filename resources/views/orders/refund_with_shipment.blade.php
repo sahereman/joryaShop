@@ -115,7 +115,7 @@
                                     </li>
                                     <li>
                                         <span><i class="red">*</i>@lang('order.Application description')：</span>
-                                        <textarea name="remark_by_user" class="reasons_for_refunds step-1-textarea"
+                                        <textarea name="remark_from_user" class="reasons_for_refunds step-1-textarea"
                                                   placeholder="@lang('order.Please fill in the reason for the refund')"></textarea>
                                         <span class="remainder">200</span>
                                     </li>
@@ -152,8 +152,8 @@
                                     </li>
                                     <li>
                                         <span><i class="red">*</i>@lang('order.Application description')：</span>
-                                        <textarea name="remark_by_user" class="reasons_for_refunds no_border" readonly
-                                                  placeholder="@lang('order.Please fill in the reason for the refund')">{{ $refund->remark_by_user }}</textarea>
+                                        <textarea name="remark_from_user" class="reasons_for_refunds no_border" readonly
+                                                  placeholder="@lang('order.Please fill in the reason for the refund')">{{ $refund->remark_from_user }}</textarea>
                                         <span class="remainder hidden">200</span>
                                     </li>
                                     <li>
@@ -214,7 +214,7 @@
                                     </li>
                                     <li>
                                         <span>@lang('order.Application description')：</span>
-                                        <p>{{ $refund->remark_by_user }}</p>
+                                        <p>{{ $refund->remark_from_user }}</p>
                                     </li>
                                     <li>
                                         <span>@lang('order.product picture')：</span>
@@ -246,7 +246,7 @@
                                         </li>
                                         <li>
                                             <span><i class="red">*</i>@lang('order.Memo Content')：</span>
-                                        <textarea name="remark_by_shipment" class="remarks_for_refunds"
+                                        <textarea name="remark_for_shipment_from_user" class="remarks_for_refunds"
                                                   placeholder="@lang('order.Please fill in the contents of the remarks')"></textarea>
                                         </li>
                                         <li>
@@ -285,7 +285,7 @@
                                         </li>
                                         <li>
                                             <span>@lang('order.Memo Content')：</span>
-                                            <p>{{ $refund->remark_by_shipment }}</p>
+                                            <p>{{ $refund->remark_for_shipment_from_user }}</p>
                                         </li>
                                         <li>
                                             <span>@lang('order.Logistics documents')：</span>
@@ -325,7 +325,7 @@
                                     </li>
                                     <li>
                                         <span>@lang('order.Refund amount')：</span>
-                                        <p>{{ $refund->remark_by_user }}</p>
+                                        <p>{{ $refund->remark_from_user }}</p>
                                     </li>
                                     <li>
                                         <span>@lang('order.product picture')：</span>
@@ -351,7 +351,7 @@
                                     </li>
                                     <li>
                                         <span>@lang('order.Memo Content')：</span>
-                                        <p>{{ $refund->remark_by_shipment }}</p>
+                                        <p>{{ $refund->remark_for_shipment_from_user }}</p>
                                     </li>
                                     <li>
                                         <span>@lang('order.Logistics documents')：</span>
@@ -381,7 +381,7 @@
                                     </li>
                                     <li>
                                         <span>@lang('order.Refund Instructions')：</span>
-                                        <p>{{ $refund->remark_by_user }}</p>
+                                        <p>{{ $refund->remark_from_user }}</p>
                                     </li>
                                     <li>
                                         <span>@lang('order.product picture')：</span>
@@ -395,7 +395,7 @@
                                     </li>
                                     <li class="red">
                                         <span>@lang('order.Seller reply')：</span>
-                                        <p>{{ $refund->remark_by_seller }}</p>
+                                        <p>{{ $refund->remark_from_seller }}</p>
                                     </li>
                                 </ul>
                                 <p class="btn_submit_area">

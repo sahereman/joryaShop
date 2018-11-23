@@ -13,7 +13,7 @@ $factory->define(App\Models\OrderRefund::class, function (Faker $faker) {
         'refund_sn' => \App\Models\OrderRefund::generateRefundSn(),
         'seller_info' => ["name"=>"seller-name-aaa","phone"=>"18888888888","address"=>"seller-address-somewhere"],
         'type' => \App\Models\OrderRefund::ORDER_REFUND_TYPE_REFUND,
-        'status' => 'checking',
+        'status' => \App\Models\OrderRefund::ORDER_REFUND_STATUS_CHECKING,
         'remark_from_user' => 'remarks from user ......',
         'remark_from_seller' => 'remarks from seller ......',
         'remark_for_shipment_from_user' => 'remarks for shipment from user ......',

@@ -53,13 +53,13 @@
                 </ul>
                 <ul class="order_classification">
                     <li>
-                        <a href="{{ route('orders.index') . '?status=paying' }}">
+                        <a href="{{ route('orders.index') . '?status=' . \App\Models\Order::ORDER_STATUS_PAYING }}">
                             <img src="{{ asset('img/tobe_paid.png') }}">
                             <span>@lang('basic.users.Pending_payment')</span>
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('orders.index') . '?status=receiving' }}">
+                        <a href="{{ route('orders.index') . '?status=' .\App\Models\Order::ORDER_STATUS_RECEIVING }}">
                             <img src="{{ asset('img/tobe_received.png') }}">
                             <span>@lang('basic.users.On_the_receiving_line')</span>
                         </a>
@@ -160,11 +160,11 @@
                                                 </p>
                                             </td>
                                             <td rowspan="{{ $order->items->count() }}" class="col-status">
-                                                <p>{{ $order->translateStatus($order->status) }}</p>
+                                                <p>{{ \App\Models\Order::$orderStatusMap[$order->status] }}</p>
                                             </td>
                                             <td rowspan="{{ $order->items->count() }}" class="col-operate">
                                                 <p class="p-button">
-                                                    @if($order->status == 'completed' && $order->commented_at == null)
+                                                    @if($order->status == \App\Models\Order::ORDER_STATUS_COMPLETED && $order->commented_at == null)
                                                         <a class="evaluate"
                                                            href="{{ route('orders.create_comment', $order->id) }}">@lang('basic.users.feedback')</a>
                                                     @endif

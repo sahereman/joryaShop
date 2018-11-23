@@ -135,7 +135,7 @@
                                                 </p>
                                             </td>
                                             <td rowspan="{{ count($order->snapshot) }}" class="col-status">
-                                                <p>{{ $order->translateStatus($order->status) }}</p>
+                                                <p>{{ \App\Models\Order::$orderStatusMap[$order->status] }}</p>
                                             </td>
                                             <td rowspan="{{ count($order->snapshot) }}" class="col-operate">
                                                 <p class="p-button">

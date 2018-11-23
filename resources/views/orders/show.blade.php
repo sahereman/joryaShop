@@ -133,12 +133,12 @@
                                 <span class="order_status_tips">@lang('order.After sale')</span>
                             </p>
                             <p class="operation_area">
-                                @if(isset($order_refund_type) && $order_refund_type == 'refund')
+                                @if(isset($order_refund_type) && $order_refund_type == \App\Models\OrderRefund::ORDER_REFUND_TYPE_REFUND)
                                     <a class="main_operation"
                                        href="{{ route('orders.refund', ['order' => $order->id]) }}">@lang('order.View after sales status')</a>
                                     <a class="revocation_after_sale"
                                        data-url="{{ route('orders.revoke_refund', ['order' => $order->id]) }}">@lang('order.After withdrawing sales')</a>
-                                @elseif(isset($order_refund_type) && $order_refund_type == 'refund_with_shipment')
+                                @elseif(isset($order_refund_type) && $order_refund_type == \App\Models\OrderRefund::ORDER_REFUND_TYPE_REFUND_WITH_SHIPMENT)
                                     <a class="main_operation"
                                        href="{{ route('orders.refund_with_shipment', ['order' => $order->id]) }}">@lang('order.View after sales status')</a>
                                     <a class="revocation_after_sale"
@@ -246,7 +246,7 @@
                                         </p>
                                     </td>
                                     <td rowspan="{{ count($order->snapshot) }}" class="col-status">
-                                        <p>{{ $order->translateStatus($order->status) }}</p>
+                                        <p>{{ \App\Models\Order::$orderStatusMap[$order->status] }}</p>
                                     </td>
                                 </tr>
                             @else
