@@ -52,4 +52,14 @@ class ExchangeRate extends Model
         }
         return $price;
     }
+
+    public static function exchangePrice($price, $from_currency = 'USD', $to_currency = 'CNY')
+    {
+        $currencies = self::exchangeRates()->pluck('currency')->toArray();
+        $rates = self::exchangeRates()->keyBy('currency')->toArray();
+        if(in_array($from_currency, $currencies)){
+            $price = bcdiv($price, $rates[$from_currency]['rate'], 2);
+        }
+        return self::exchangePriceByCurrency($price, $to_currency);
+    }
 }

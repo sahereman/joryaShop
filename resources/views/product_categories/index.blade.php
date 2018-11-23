@@ -1,9 +1,8 @@
 @extends('layouts.app')
-
 @if(App::isLocale('en'))
-@section('title', 'Product Categories')
+    @section('title', 'Product Categories')
 @else
-@section('title', '商品分类')
+    @section('title', '商品分类')
 @endif
 @section('content')
     <div class="productCate my_orders">
@@ -56,8 +55,8 @@
                                     <div class="list-info">
                                         <p class="list-info-title">{{ App::isLocale('en') ? $product->name_en : $product->name_zh }}</p>
                                         <p>
-                                            <span class="old-price"><i>@lang('basic.currency.symbol') </i>{{ bcmul($product->price, 1.2, 2) }}</span>
-                                            <span class="new-price"><i>@lang('basic.currency.symbol') </i>{{ $product->price }}</span>
+                                            <span class="old-price"><i>@lang('basic.currency.symbol') </i>{{ App::isLocale('en') ? bcmul($product->price_in_usd, 1.2, 2) : bcmul($product->price, 1.2, 2) }}</span>
+                                            <span class="new-price"><i>@lang('basic.currency.symbol') </i>{{ App::isLocale('en') ? $product->price_in_usd : $product->price }}</span>
                                         </p>
                                     </div>
                                 </li>
@@ -71,6 +70,5 @@
 @endsection
 @section('scriptsAfterJs')
     <script type="text/javascript">
-
     </script>
 @endsection

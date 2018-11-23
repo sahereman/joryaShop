@@ -23,7 +23,12 @@ class ProductsSeeder extends Seeder
 
             $item->product_category_id = array_random($category_ids);
 
-            Product::create(array_except($item->toArray(), ['thumb_url', 'photo_urls']));
+            Product::create(array_except($item->toArray(), [
+                'thumb_url',
+                'photo_urls',
+                'price_in_usd',
+                'shipping_fee_in_usd',
+            ]));
         });
     }
 }

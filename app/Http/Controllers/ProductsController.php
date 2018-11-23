@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Events\UserBrowsingHistoryEvent;
 use App\Exceptions\InvalidRequestException;
 use App\Http\Requests\ProductRequest;
+use App\Models\ExchangeRate;
 use App\Models\Product;
 use App\Models\ProductSku;
 use App\Models\ProductCategory;
@@ -12,6 +13,7 @@ use App\Models\ProductComment;
 use App\Models\UserHistory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Validator;
@@ -85,12 +87,14 @@ class ProductsController extends Controller
         $query_data = [];
         $query_data['query'] = $query;
         if ($request->has('min_price') && $request->input('min_price')) {
+            $min_price = App::isLocale('en') ? ExchangeRate::exchangePrice($request->input('min_price'), 'USD', 'CNY') : $request->input('min_price');
             $query_data['min_price'] = $request->input('min_price');
-            $products = $products->where('price', '>', $request->input('min_price'));
+            $products = $products->where('price', '>', $min_price);
         }
         if ($request->has('max_price') && $request->input('max_price')) {
+            $max_price = App::isLocale('en') ? ExchangeRate::exchangePrice($request->input('max_price'), 'USD', 'CNY') : $request->input('max_price');
             $query_data['max_price'] = $request->input('max_price');
-            $products = $products->where('price', '<', $request->input('max_price'));
+            $products = $products->where('price', '<', $max_price);
         }
         if ($request->has('sort')) {
             $query_data['sort'] = $request->input('sort');

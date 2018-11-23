@@ -51,6 +51,8 @@ class Product extends Model
     protected $appends = [
         'thumb_url',
         'photo_urls',
+        'price_in_usd',
+        'shipping_fee_in_usd',
     ];
 
     public function getThumbUrlAttribute()
@@ -76,6 +78,16 @@ class Product extends Model
             }
         }
         return $photo_urls;
+    }
+
+    public function getPriceInUsdAttribute()
+    {
+        return ExchangeRate::exchangePriceByCurrency($this->attributes['price'], 'USD');
+    }
+
+    public function getShippingFeeInUsdAttribute()
+    {
+        return ExchangeRate::exchangePriceByCurrency($this->attributes['shipping_fee'], 'USD');
     }
 
     public function category()

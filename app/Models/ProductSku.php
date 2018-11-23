@@ -30,9 +30,9 @@ class ProductSku extends Model
      * @var array
      */
     protected $casts = [
-        //        'is_index' => 'boolean',
-        //        'on_sale' => 'boolean',
-        //        'photos' => 'json',
+        // 'is_index' => 'boolean',
+        // 'on_sale' => 'boolean',
+        // 'photos' => 'json',
     ];
 
     /**
@@ -48,29 +48,13 @@ class ProductSku extends Model
      * @var array
      */
     protected $appends = [
-        //
+        'price_in_usd',
     ];
 
-    public function getRealShippingFeeByCurrency($currency = 'CNY')
+    public function getPriceInUsdAttribute()
     {
-        if ($currency == 'CNY') {
-            return $this->product->shipping_fee;
-        } else {
-            $exchangeRate = ExchangeRate::where('currency', $currency)->first();
-            return $this->product->shipping_fee * $exchangeRate->rate;
-        }
+        return ExchangeRate::exchangePriceByCurrency($this->attributes['price'], 'USD');
     }
-
-    public function getRealPriceByCurrency($currency = 'CNY')
-    {
-        if ($currency == 'CNY') {
-            return $this->attributes['price'];
-        } else {
-            $exchangeRate = ExchangeRate::where('currency', $currency)->first();
-            return $this->attributes['price'] * $exchangeRate->rate;
-        }
-    }
-
 
     public function product()
     {
