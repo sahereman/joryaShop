@@ -101,10 +101,10 @@
                                         "<img src='" + n.thumb_url + "'>" +
                                         "</div>" +
                                         "<div class='list-info'>" +
-                                        "<p class='list-info-title' title='"+ name +"'>" + name + "</p>" +
+                                        "<p class='list-info-title' title='" + name + "'>" + name + "</p>" +
                                         "<p>" +
                                         "<span class='new-price'><i>" + symbol + "</i>" + price + "</span>" +
-                                        "<span class='old-price'><i>" + symbol + "</i>" + price + "</span>" +
+                                        "<span class='old-price'><i>" + symbol + "</i>" + (Math.ceil(price * 120) / 100) + "</span>" +
                                         "</p>" +
                                         "</div>" +
                                         "</a>" +
@@ -117,7 +117,7 @@
                                         "<p>" +
                                         "<img src='{{ asset('img/warning.png') }}'>" +
                                         "@lang('product.not found')" +
-                                        "“<span class='red'>" + getQueryString("query") + "</span>”lang('product.related products')" +
+                                        "“<span class='red'>" + getQueryString("query") + "</span>”@lang('product.related products')" +
                                         "</p>" +
                                         "</li>";
                             } else {
@@ -235,6 +235,7 @@
                 }
                 return vars["query"];
             }
+
             $(document).ready(function () {
                 var text = decodeURIComponent(getUrlVars());
                 $(".selectInput_header").val(text);
