@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Models\Order;
+use App\Models\OrderRefund;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
@@ -41,7 +42,7 @@ class AutoDeclineOrderRefundJob implements ShouldQueue
     {
         // 判断对应的退单类型是否为refund[仅退款]
         // 如果是仅退款退单，则直接退出
-        if($this->order->refund->type == 'refund'){
+        if($this->order->refund->type == OrderRefund::ORDER_REFUND_TYPE_REFUND){
             return;
         }
 

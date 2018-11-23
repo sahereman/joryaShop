@@ -7,6 +7,14 @@ use Ramsey\Uuid\Uuid;
 
 class OrderRefund extends Model
 {
+    const ORDER_REFUND_TYPE_REFUND = 'refund';
+    const ORDER_REFUND_TYPE_REFUND_WITH_SHIPMENT = 'refund_with_shipment';
+
+    protected $orderRefundTypeMap = [
+        self::ORDER_REFUND_TYPE_REFUND => '仅退款',
+        self::ORDER_REFUND_TYPE_REFUND_WITH_SHIPMENT => '退货并退款',
+    ];
+
     const ORDER_REFUND_STATUS_CHECKING = 'checking';
     const ORDER_REFUND_STATUS_SHIPPING = 'shipping';
     const ORDER_REFUND_STATUS_RECEIVING = 'receiving';
@@ -32,9 +40,10 @@ class OrderRefund extends Model
         'seller_info',
         'type',
         'status',
-        'remark_by_user',
-        'remark_by_seller',
-        'remark_by_shipment',
+        'remark_from_user',
+        'remark_from_seller',
+        'remark_for_shipment_from_user',
+        'remark_for_shipment_from_seller',
         'shipment_sn',
         'shipment_company',
         'photos_for_refund',

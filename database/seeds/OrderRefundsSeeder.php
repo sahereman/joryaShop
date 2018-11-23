@@ -29,7 +29,7 @@ class OrderRefundsSeeder extends Seeder
         Order::find([31, 32, 33, 34, 35, 36, 37, 38, 39, 40])->each(function(Order $order){
             factory(OrderRefund::class)->create([
                 'order_id' => $order->id,
-                'type' => 'refund_with_shipment',
+                'type' => OrderRefund::ORDER_REFUND_TYPE_REFUND_WITH_SHIPMENT,
             ]);
         });
 

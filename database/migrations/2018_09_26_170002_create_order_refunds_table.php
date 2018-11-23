@@ -43,9 +43,10 @@ class CreateOrderRefundsTable extends Migration
             /*当前默认退款模式：全额退款，所有退款按原有币种原路返回*/
             $table->unsignedDecimal('amount', 8, 2)->nullable()->comment('amount:退款金额[采用当前币种换算表示]'); // 备用字段
 
-            $table->string('remark_by_user')->nullable()->comment('remark-by-user');
-            $table->string('remark_by_seller')->nullable()->comment('remark-by-seller');
-            $table->string('remark_by_shipment')->nullable()->comment('remark-by-shipment');
+            $table->string('remark_from_user')->nullable()->comment('remark from user');
+            $table->string('remark_from_seller')->nullable()->comment('remark from seller');
+            $table->string('remark_for_shipment_from_user')->nullable()->comment('remark for shipment from user');
+            $table->string('remark_for_shipment_from_seller')->nullable()->comment('remark for shipment from seller');
             $table->string('shipment_company')->nullable()->comment('refund-shipment-company');
             $table->string('shipment_sn')->nullable()->comment('refund-shipment-sn');
             $table->text('photos_for_refund')->nullable()->comment('用户上传商品及证件图片集');

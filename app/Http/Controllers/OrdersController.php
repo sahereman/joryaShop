@@ -116,7 +116,7 @@ class OrdersController extends Controller
             }
         }
 
-        $order_refund_type = 'refund';
+        $order_refund_type = OrderRefund::ORDER_REFUND_TYPE_REFUND;
         if ($order->status == Order::ORDER_STATUS_REFUNDING) {
             $order_refund_type = $order->refund->type;
         }
@@ -533,10 +533,10 @@ class OrdersController extends Controller
 
         OrderRefund::create([
             'order_id' => $order->id,
-            'type' => 'refund',
+            'type' => OrderRefund::ORDER_REFUND_TYPE_REFUND,
             'status' => 'checking',
             // 'amount' => $request->input('amount'),
-            'remark_by_user' => $request->input('remark_by_user'),
+            'remark_from_user' => $request->input('remark_from_user'),
             // 'photos_for_refund' => $request->has('photos_for_refund') ? $request->input('photos_for_refund') : '',
         ]);
 
@@ -575,12 +575,12 @@ class OrdersController extends Controller
             $order->refund->amount = $request->input('amount');
             $updated = true;
         }*/
-        if ($request->has('remark_by_user')) {
-            $order->refund->remark_by_user = $request->input('remark_by_user');
+        if ($request->has('remark_from_user')) {
+            $order->refund->remark_from_user = $request->input('remark_from_user');
             $updated = true;
         }
-        if ($request->has('remark_by_seller')) {
-            $order->refund->remark_by_seller = $request->input('remark_by_seller');
+        if ($request->has('remark_from_seller')) {
+            $order->refund->remark_from_seller = $request->input('remark_from_seller');
             $updated = true;
         }
         /*if ($request->has('photos_for_refund')) {
@@ -629,10 +629,10 @@ class OrdersController extends Controller
 
         OrderRefund::create([
             'order_id' => $order->id,
-            'type' => 'refund_with_shipment',
+            'type' => OrderRefund::ORDER_REFUND_TYPE_REFUND_WITH_SHIPMENT,
             'status' => 'checking',
             // 'amount' => $request->input('amount'),
-            'remark_by_user' => $request->input('remark_by_user'),
+            'remark_from_user' => $request->input('remark_from_user'),
             'photos_for_refund' => $request->has('photos_for_refund') ? $request->input('photos_for_refund') : '',
         ]);
 
@@ -675,16 +675,20 @@ class OrdersController extends Controller
             $order->refund->seller_info = $request->input('seller_info');
             $updated = true;
         }
-        if ($request->has('remark_by_user')) {
-            $order->refund->remark_by_user = $request->input('remark_by_user');
+        if ($request->has('remark_from_user')) {
+            $order->refund->remark_from_user = $request->input('remark_from_user');
             $updated = true;
         }
-        if ($request->has('remark_by_seller')) {
-            $order->refund->remark_by_seller = $request->input('remark_by_seller');
+        if ($request->has('remark_from_seller')) {
+            $order->refund->remark_from_seller = $request->input('remark_from_seller');
             $updated = true;
         }
-        if ($request->has('remark_by_shipment')) {
-            $order->refund->remark_by_shipment = $request->input('remark_by_shipment');
+        if ($request->has('remark_for_shipment_from_user')) {
+            $order->refund->remark_for_shipment_from_user = $request->input('remark_for_shipment_from_user');
+            $updated = true;
+        }
+        if ($request->has('remark_for_shipment_from_seller')) {
+            $order->refund->remark_for_shipment_from_seller = $request->input('remark_for_shipment_from_seller');
             $updated = true;
         }
         if ($request->has('shipment_sn') && $request->has('shipment_company')) {
@@ -721,7 +725,7 @@ class OrdersController extends Controller
     {
         $this->authorize('revoke_refund', $order);
 
-        if ($order->refund->type == 'refund') {
+        if ($order->refund->type == OrderRefund::ORDER_REFUND_TYPE_REFUND) {
             $order->status = Order::ORDER_STATUS_SHIPPING;
         } else {
             $order->status = Order::ORDER_STATUS_RECEIVING;

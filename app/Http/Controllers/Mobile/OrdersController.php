@@ -100,7 +100,7 @@ class OrdersController extends Controller
             }
         }
 
-        $order_refund_type = 'refund';
+        $order_refund_type = OrderRefund::ORDER_REFUND_TYPE_REFUND;
         if ($order->status == Order::ORDER_STATUS_REFUNDING)
         {
             $order_refund_type = $order->refund->type;

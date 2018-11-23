@@ -12,11 +12,12 @@ $factory->define(App\Models\OrderRefund::class, function (Faker $faker) {
     return [
         'refund_sn' => \App\Models\OrderRefund::generateRefundSn(),
         'seller_info' => ["name"=>"seller-name-aaa","phone"=>"18888888888","address"=>"seller-address-somewhere"],
-        'type' => 'refund',
+        'type' => \App\Models\OrderRefund::ORDER_REFUND_TYPE_REFUND,
         'status' => 'checking',
-        'remark_by_user' => 'remarks from user ......',
-        'remark_by_seller' => 'remarks from seller ......',
-        'remark_by_shipment' => 'remarks from shipment ......',
+        'remark_from_user' => 'remarks from user ......',
+        'remark_from_seller' => 'remarks from seller ......',
+        'remark_for_shipment_from_user' => 'remarks for shipment from user ......',
+        'remark_for_shipment_from_seller' => 'remarks for shipment from seller ......',
         'created_at' => $created_at,
         'updated_at' => $updated_at,
     ];
