@@ -87,20 +87,25 @@
             @if($order->status === \App\Models\Order::ORDER_STATUS_SHIPPING)
                 <tr>
                     <td colspan="5">
-                        <form action="{{ route('admin.orders.ship', [$order->id]) }}" method="post" class="form-inline">
+                        <form action="{{ route('admin.orders.ship', [$order->id]) }}" method="post" class="form-inline" style="padding: 18px 0">
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                            <div class="form-group {{ $errors->has('shipment_company') ? 'has-error' : '' }}">
-                                <label for="shipment_company" class="control-label">物流公司</label>
-                                <input type="text" id="shipment_company" name="shipment_company" value="" class="form-control" placeholder="输入物流公司">
+                            <div class="form-group {{ $errors->has('shipment_company') ? 'has-error' : '' }}" style="margin-right: 20px;">
+                                <label for="shipment_company" class="control-label">物流公司 : </label>
+                                <select style="width: 220px" class="form-control" name="shipment_company">
+                                    <option value="">输入物流公司</option>
+                                    @foreach(\App\Models\ShipmentCompany::shipmentCompanies() as $company)
+                                        <option value="{{$company->code}}">{{$company->name}}</option>
+                                    @endforeach
+                                </select>
                                 @if($errors->has('shipment_company'))
                                     @foreach($errors->get('shipment_company') as $msg)
                                         <span class="help-block">{{ $msg }}</span>
                                     @endforeach
                                 @endif
                             </div>
-                            <div class="form-group {{ $errors->has('shipment_company') ? 'has-error' : '' }}">
-                                <label for="shipment_sn" class="control-label">物流单号</label>
-                                <input type="text" id="shipment_sn" name="shipment_sn" value="" class="form-control" placeholder="输入物流单号">
+                            <div class="form-group {{ $errors->has('shipment_sn') ? 'has-error' : '' }}" style="margin-right: 20px;">
+                                <label for="shipment_sn" class="control-label">物流单号 : </label>
+                                <input style="width: 220px" type="text" name="shipment_sn" value="" class="form-control" placeholder="输入物流单号">
                                 @if($errors->has('shipment_sn'))
                                     @foreach($errors->get('shipment_sn') as $msg)
                                         <span class="help-block">{{ $msg }}</span>
@@ -115,7 +120,7 @@
                 <!-- 否则展示物流公司和物流单号 -->
                 <tr>
                     <td>物流公司：</td>
-                    <td>{{ $order->shipment_company }}</td>
+                    <td>{{\App\Models\ShipmentCompany::codeTransformName($order->shipment_company) . " ($order->shipment_company)"}}</td>
                     <td>物流单号：</td>
                     <td>{{ $order->shipment_sn }}</td>
                 </tr>

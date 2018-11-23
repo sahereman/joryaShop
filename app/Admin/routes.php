@@ -29,9 +29,12 @@ Route::group([
     /*商品订单*/
     $router->get('orders', 'OrdersController@index')->name('admin.orders.index');/*列表*/
     $router->get('orders/{order}', 'OrdersController@show')->name('admin.orders.show');/*详情*/
-    $router->delete('orders/{id}/delete', 'OrdersController@delete')->name('admin.orders.delete');/*删除*/
+    $router->delete('orders/{order}/delete', 'OrdersController@delete')->name('admin.orders.delete');/*删除*/
     $router->post('orders/{order}/ship', 'OrdersController@ship')->name('admin.orders.ship');/*发货*/
-    $router->get('order_refunds/{id}', 'OrderRefundsController@show')->name('admin.order_refunds.show');/*售后详情*/
+
+    /*售后订单*/
+    $router->get('order_refunds', 'OrderRefundsController@index')->name('admin.order_refunds.index');/*列表*/
+    $router->get('order_refunds/{id}', 'OrderRefundsController@show')->name('admin.order_refunds.show');/*详情*/
 
 
     /*产品分类*/

@@ -10,7 +10,7 @@ class OrderRefund extends Model
     const ORDER_REFUND_TYPE_REFUND = 'refund';
     const ORDER_REFUND_TYPE_REFUND_WITH_SHIPMENT = 'refund_with_shipment';
 
-    protected $orderRefundTypeMap = [
+    public static $orderRefundTypeMap = [
         self::ORDER_REFUND_TYPE_REFUND => '仅退款',
         self::ORDER_REFUND_TYPE_REFUND_WITH_SHIPMENT => '退货并退款',
     ];
@@ -21,7 +21,7 @@ class OrderRefund extends Model
     const ORDER_REFUND_STATUS_REFUNDED = 'refunded';
     const ORDER_REFUND_STATUS_DECLINED = 'declined';
 
-    protected $orderRefundStatusMap = [
+    public static $orderRefundStatusMap = [
         self::ORDER_REFUND_STATUS_CHECKING => '待审核',
         self::ORDER_REFUND_STATUS_SHIPPING => '待发货',
         self::ORDER_REFUND_STATUS_RECEIVING => '待收货',
@@ -151,11 +151,6 @@ class OrderRefund extends Model
     public function order()
     {
         return $this->belongsTo(Order::class);
-    }
-
-    public function translateStatus($status)
-    {
-        return $this->orderRefundStatusMap[$status];
     }
 
     public static function getSecondsToDeclineOrderRefund()

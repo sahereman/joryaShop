@@ -163,16 +163,6 @@ class Order extends Model
         return $this->hasMany(ProductComment::class);
     }
 
-    public function translateStatus($status)
-    {
-        return self::$orderStatusMap[$status];
-    }
-
-    public function translatePaymentMethod($paymentMethod)
-    {
-        return self::$paymentMethodMap[$paymentMethod];
-    }
-
     public static function getSecondsToCloseOrder()
     {
         return (integer)(Config::config('time_to_close_order')) * 60;
