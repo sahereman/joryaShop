@@ -43,6 +43,14 @@ class OrdersController extends Controller
                     ->orderByDesc('created_at')
                     ->simplePaginate(5);
                 break;
+            // 待发货订单
+            case Order::ORDER_STATUS_SHIPPING:
+                $orders = $user->orders()
+                    // ->with('items.sku.product')
+                    ->where('status', Order::ORDER_STATUS_SHIPPING)
+                    ->orderByDesc('paid_at')
+                    ->simplePaginate(5);
+                break;
             // 待收货订单
             case Order::ORDER_STATUS_RECEIVING:
                 $orders = $user->orders()
