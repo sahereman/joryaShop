@@ -590,9 +590,9 @@ class OrdersController extends Controller
 
         $shipment_company_name = $order->shipment_company;
         if ($order->shipment_company != null && $order->shipment_sn != null) {
-            $shipment_company = ShipmentCompany::where(['code' => $order->shipment_company])->first();
-            if ($shipment_company instanceof ShipmentCompany) {
-                $shipment_company_name = $shipment_company->name;
+            $shipment_companies = ShipmentCompany::shipmentCompanies()->pluck('name', 'code');
+            if (isset($shipment_companies[$order->shipment_company])) {
+                $shipment_company_name = $shipment_companies[$order->shipment_company];
             }
         }
 

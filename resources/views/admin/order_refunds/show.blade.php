@@ -131,7 +131,7 @@
                             <select style="width: 220px" class="form-control" name="shipment_company">
                                 <option value="">输入物流公司</option>
                                 @foreach(\App\Models\ShipmentCompany::shipmentCompanies() as $company)
-                                    <option value="{{$company->code}}">{{$company->name}}</option>
+                                    <option value="{{$company->code}}">{{ $company->name }}</option>
                                 @endforeach
                             </select>
                             @if($errors->has('shipment_company'))
