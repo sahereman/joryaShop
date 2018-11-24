@@ -109,6 +109,8 @@
                                         "<p>" +
                                         "<span class='new-price'><i>" + symbol + "</i>" + price + "</span>" +
                                         "<span class='old-price'><i>" + symbol + "</i>" + js_number_format(Math.ceil(price * 120) / 100) + "</span>" +
+                                        // 以下方法实现js的number_format功能虽然简单，但是存在数字四舍五入不准确的问题，结果不可预知：
+                                        // "<span class='old-price'><i>" + symbol + "</i>" + (Math.ceil(price * 120) / 100).toFixed(2) + "</span>" +
                                         "</p>" +
                                         "</div>" +
                                         "</a>" +
