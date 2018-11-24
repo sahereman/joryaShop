@@ -155,6 +155,7 @@
 
             function js_number_format(number) {
                 number = String(number);
+                // number = number.toString();
                 var index_of_dec_point = number.indexOf('.');
                 if (index_of_dec_point == -1) {
                     number += '.00';
