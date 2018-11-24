@@ -104,7 +104,7 @@
                                         "<p class='list-info-title' title='" + name + "'>" + name + "</p>" +
                                         "<p>" +
                                         "<span class='new-price'><i>" + symbol + "</i>" + price + "</span>" +
-                                        "<span class='old-price'><i>" + symbol + "</i>" + (Math.ceil(price * 120) / 100) + "</span>" +
+                                        "<span class='old-price'><i>" + symbol + "</i>" + js_number_format(Math.ceil(price * 120) / 100) + "</span>" +
                                         "</p>" +
                                         "</div>" +
                                         "</a>" +
@@ -234,6 +234,23 @@
                     vars[hash[0]] = hash[1];
                 }
                 return vars["query"];
+            }
+
+            function js_number_format(number) {
+                var index_of_dec_point = number.indexOf('.');
+                if (index_of_dec_point == -1) {
+                    number += '.00';
+                } else {
+                    var number_splitted = number.split('.');
+                    var dec_length = number_splitted[1].length;
+                    if (dec_length == 1) {
+                        number += '0';
+                    } else if (dec_length > 2) {
+                        number_splitted[1] = number_splitted[1].substring(0, 1);
+                        number = number_splitted.join('.');
+                    }
+                }
+                return number;
             }
 
             $(document).ready(function () {
