@@ -104,7 +104,8 @@
                                         "<p class='list-info-title' title='" + name + "'>" + name + "</p>" +
                                         "<p>" +
                                         "<span class='new-price'><i>" + symbol + "</i>" + price + "</span>" +
-                                        "<span class='old-price'><i>" + symbol + "</i>" + js_number_format(Math.ceil(price * 120) / 100) + "</span>" +
+                                        "<span class='old-price'><i>" + symbol + "</i>" + js_number_format(Math.imul(float_multiply_by_100(price), 12) / 1000) + "</span>" +
+                                        // "<span class='old-price'><i>" + symbol + "</i>" + js_number_format(Math.ceil(price * 120) / 100) + "</span>" +
                                         // 以下方法实现js的number_format功能虽然简单，但是存在数字四舍五入不准确的问题，结果不可预知：
                                         // "<span class='old-price'><i>" + symbol + "</i>" + (Math.ceil(price * 120) / 100).toFixed(2) + "</span>" +
                                         "</p>" +
@@ -238,6 +239,25 @@
                 return vars["query"];
             }
 
+            function float_multiply_by_100(float) {
+                float = String(float);
+                // float = float.toString();
+                var index_of_dec_point = float.indexOf('.');
+                if (index_of_dec_point == -1) {
+                    float += '00';
+                } else {
+                    var float_splitted = float.split('.');
+                    var dec_length = float_splitted[1].length;
+                    if (dec_length == 1) {
+                        float_splitted[1] += '0';
+                    } else if (dec_length > 2) {
+                        float_splitted[1] = float_splitted[1].substring(0, 1);
+                    }
+                    float = float_splitted.join('');
+                }
+                return Number(float);
+            }
+
             function js_number_format(number) {
                 number = String(number);
                 // number = number.toString();
@@ -250,7 +270,7 @@
                     if (dec_length == 1) {
                         number += '0';
                     } else if (dec_length > 2) {
-                        number_splitted[1] = number_splitted[1].substring(0, 1);
+                        number_splitted[1] = number_splitted[1].substring(0, 2);
                         number = number_splitted.join('.');
                     }
                 }
