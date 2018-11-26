@@ -42,7 +42,9 @@
                         </p>
                     </div>
                     <div class="right">
-                        <button class="pay_btn">@lang('order.payment')</button>
+                        <p>
+                        	<button class="pay_btn">@lang('order.payment')</button>
+                        </p>
                         <p class="cunt_down paying_time" id="time_to_pay"
                            created_at="{{ strtotime($order->created_at) }}"
                            time_to_close_order="{{ \App\Models\Config::config('time_to_close_order') * 3600 }}"

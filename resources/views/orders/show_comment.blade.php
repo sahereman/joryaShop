@@ -11,9 +11,9 @@
                     <span>></span>
                     <a href="{{ route('orders.index') }}">@lang('basic.users.My_order')</a>
                     <span>></span>
-                    <a href="{{ route('orders.index') }}">@lang('basic.users.The_order_details')</a>
+                    <a href="#">@lang('basic.users.The_order_details')</a>
                     <span>></span>
-                    <a href="{{ route('orders.index') }}">@lang('basic.users.feedback')</a>
+                    <a href="#">@lang('basic.users.feedback')</a>
                 </p>
             </div>
             <!--左侧导航栏-->
@@ -34,7 +34,7 @@
                             <tbody>
                             <tr>
                                 <td class="col-pro-img">
-                                    <a href="">
+                                    <a href="{{ route('products.show', $order_item['sku']['product']['id']) }}">
                                         <img src="{{ $order_item['sku']['product']['thumb_url'] }}">
                                     </a>
                                 </td>

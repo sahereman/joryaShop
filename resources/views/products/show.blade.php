@@ -345,7 +345,7 @@
         $(".add_carts").on("click", function () {
             var clickDom = $(this);
             if ($(".kindOfPro").find("li").hasClass('active') != true) {
-                layer.msg("@lang('product.product_details.Shopping cart added successfully')");
+                layer.msg("@lang('product.product_details.Please select specifications')");
             } else {
                 if ($(this).hasClass('for_show_login') == true) {
                     $(".login").click();
