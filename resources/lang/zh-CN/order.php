@@ -107,6 +107,7 @@ return [
     'Refund failed' => '退款失败',
     'Seller applies for refunds only' => '卖家申请仅退款',
     'Seller handles refund Request' => '卖家处理退款申请',
+    'The number of goods is at least 1' => '商品数量最少为1',
 
 
 
