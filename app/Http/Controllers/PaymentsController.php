@@ -922,14 +922,21 @@ class PaymentsController extends Controller
             $detailedRefund = $sale->refundSale($refundRequest, $apiContext, $restCall);
             Log::info("A New Paypal Payment Refund Created: " . $detailedRefund->toJSON());
 
-            $state = $detailedRefund->getState();
+            /*$state = $detailedRefund->getState();
             $refundId = $detailedRefund->getId();
-            $refundToPayer = $detailedRefund->getRefundToPayer();
+            $refundToPayer = $detailedRefund->getRefundToPayer();*/
 
-            if ($detailedRefund->getState()) {
-                // TODO ...
+            if ($detailedRefund->getState() != 'completed') {
+                Log::error('A New Paypal Refund Failed: order refund id - ' . $order->refund->id);
             }
 
+            // 将退款订单的状态标记为退款成功并保存退款時間
+            $order->refund->update([
+                'status' => OrderRefund::ORDER_REFUND_STATUS_REFUNDED,
+                'refunded_at' => Carbon::now()->toDateTimeString(), // 退款时间
+            ]);
+
+            Log::info('A New Paypal Refund Completed: order refund id - ' . $order->refund->id);
             return response()->json([
                 'code' => 200,
                 'message' => 'success',
