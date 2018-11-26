@@ -210,7 +210,7 @@
                     }
                 }
                 var price = parseFloat($(this).parent().prev().find('span').text());
-                $(this).parent().next().html((CONUTRY == "中文") ? '&#165;' : '&#36;' + (price * count).toFixed(2));
+                $(this).parent().next().html("{{ App::isLocale('en') ? '&#36;' : '&#165;' }}" + (price * count).toFixed(2));
                 calcTotal();
             });
             // 为单个商品项删除超链接绑定事件回调
@@ -303,7 +303,7 @@
                 }
                 update_pro_num($(this));
                 var price = parseFloat($(this).parent().prev().find('span').text());
-                $(this).parent().next().html((CONUTRY == "中文") ? '&#165;' : '&#36;' + (price * count).toFixed(2));
+                $(this).parent().next().html("{{ App::isLocale('en') ? '&#36;' : '&#165;' }}" + (price * count).toFixed(2));
                 calcTotal();
             });
 
@@ -330,7 +330,7 @@
                     $(".big-button").removeClass('active');
                 }
                 $('#totalCount').text(totalCount);
-                $('#totalPrice').html((CONUTRY == "中文") ? '&#165;' : '&#36;' + totalPrice.toFixed(2));
+                $('#totalPrice').html("{{ App::isLocale('en') ? '&#36;' : '&#165;' }}" + totalPrice.toFixed(2));
             }
             //更新购物车记录（增减数量）
             function update_pro_num(dom){
@@ -339,8 +339,7 @@
                     _method: "PATCH",
                     _token: "{{ csrf_token() }}",
                     number: dom.val()
-                };
-                console.log(data);
+               };
             	$.ajax({
             		type:"post",
             		url:url,

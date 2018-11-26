@@ -1,27 +1,38 @@
 @extends('layouts.app')
-@section('title', '找回密码')
-
+@section('title', App::isLocale('en') ? 'Retrieve password' : '找回密码')
 @section('content')
     <div class="reset_psw">
         <div class="m-wrapper">
             <div class="reset_content">
                 <p class="reset_title">
                     <img src="{{ asset('img/reset_psw.png') }}">
-                    找回密码
+                    @lang('app.Retrieve password')
                 </p>
-                <div class="status">
-                    <span class="status_tip first_step active">1</span>
-                    <div>
-                        <span class="status_tip second_step">2</span>
+                <div class="status clear">
+                	<div>
+                		<p>
+	                		<span class="status_tip step_num first_step active">1</span>
+	                	</p>
+	                	<p>
+	                		<span class="first_step step_text active">@lang('app.Confirm Account Number')</span>
+	                	</p>
+                	</div>
+                    <div class="step_line">
+                    	<p>
+                    		<span class="status_tip step_num second_step">2</span>
+                    	</p>
+                        <p>
+                        	<span class="second_step step_text">@lang('app.Enter the verification code')</span>
+                        </p>
                     </div>
-                    <div>
-                        <span class="status_tip">3</span>
+                    <div class="step_line">
+                    	<p>
+                    		<span class="status_tip step_num">3</span>
+                    	</p>
+                    	<p>
+                    		<span class="step_text">@lang('app.Password reset')</span>
+                    	</p>
                     </div>
-                    <p>
-                        <span class="first_step active">确认账号</span>
-                        <span class="second_step">输入验证码</span>
-                        <span>密码重置</span>
-                    </p>
                 </div>
                 <div class="panel-body">
                     @if (session('status'))
@@ -34,7 +45,7 @@
                         <div class="form-group{{ $errors->has('phone') ? ' has-error' : '' }}">
                             <div class="">
                                 <label class="reset_email">
-                                    <span>手机号</span>
+                                    <span>@lang('app.Mobile phone number')</span>
                                     <img src="{{ asset('img/sanjiao.png') }}">
                                     <select class="choose_tel_area" name="country_code">
                                         @foreach(\App\Models\CountryCode::countryCodes() as $country_code)
@@ -43,7 +54,7 @@
                                     </select>
                                     <span class="areaCode_choosed"></span>
                                     <input id="email" type="phone" name="phone" value="{{ old('phone') }}" required
-                                           placeholder="请输入手机号">
+                                           placeholder="@lang('app.Please select a country first')">
                                 </label>
                                 @if ($errors->has('phone'))
                                     <span class="help-block">
@@ -54,7 +65,7 @@
                             </div>
                         </div>
                         <div class="step_btn">
-                            <button type="submit" class="btn btn-primary">下一步</button>
+                            <button type="submit" class="btn btn-primary">@lang('app.Next')</button>
                         </div>
                     </form>
                 </div>
@@ -86,7 +97,6 @@
                     } else {
                         $(".error_block").show();
                     }
-
                 }
             })
             function settime() {
@@ -98,7 +108,7 @@
                         cursor: "pointer",
                         borderColor: "#7ca442"
                     });
-                    _generate_code.val("获取验证码");
+                    _generate_code.val("@lang('app.get verification code')");
                     countdown = 60;
                     return false;
                 } else {
@@ -116,11 +126,18 @@
                     settime();
                 }, 1000);
             }
-
+            //提示选择区号
+            $("#email").focus(function(){
+            	if($(".areaCode_choosed").html()==""||$(".areaCode_choosed").html()==null){
+            		layer.msg("@lang('app.Please select a country first')");
+            		$(this).blur();
+            	}
+            })
             //选择区号
             $(".choose_tel_area").on("change", function () {
                 $(".areaCode_choosed").html($(this).val());
                 $(".reset_email input").addClass("active");
+                $("#email").prop('placeholder',"@lang('app.Please enter phone number')");
             })
         });
     </script>

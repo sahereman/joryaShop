@@ -62,6 +62,21 @@ return [
 	'submit' => '提交',
 	'please login first' =>'为了保证服务质量, 请先登录',
 	'Follow the public number' => '关注公众号',
+	'Retrieve password' => '找回密码',
+	'Confirm Account Number' => '确认账号',
+	'Enter the verification code' => '输入验证码',
+	'Password reset' => '密码重置',
+	'Mobile phone number' => '手机号',
+	'Next' => '下一步',
+	'Authentication Code' => '验证码',
+	'New password' => '新密码',
+	'Please enter a new password' => '请输入新密码',
+	'Confirm Password' => '确认密码',
+	'Please enter your password again' => '请输入再次输入密码',
+	'Complete' => '完成',
+	'The new password has been set successfully' => '新密码已设置成功',
+	'Sign in now' => '立即登录',
+	'Please select a country first' => '请先选择国家',
 
 	
 

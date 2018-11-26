@@ -197,7 +197,7 @@
                             <img src="{{ asset('img/sanjiao.png') }}">
                         </div>
                         <span class="areaCode_val"></span>
-                        <input type="text" name="phone" id="register_email" placeholder="@lang('app.Please enter phone number')" required>
+                        <input type="text" name="phone" id="register_email" placeholder="@lang('app.Please select a country first')" required>
                     </div>
                     @if ($errors->has('phone'))
                         <p class="login_error error_content">
@@ -280,7 +280,7 @@
                             <img src="{{ asset('img/sanjiao.png') }}">
                         </div>
                         <span class="areaCode_val login_code"></span>
-                        <input type="text" name="phone" id="login_email" placeholder="@lang('app.Please enter phone number')" required>
+                        <input type="text" name="phone" id="login_email" placeholder="@lang('app.Please select a country first')" required>
                     </div>
                     @if ($errors->has('phone'))
                         <p class="login_error error_content">

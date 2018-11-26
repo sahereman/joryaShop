@@ -233,6 +233,12 @@ $(function(){
 	// var myReg = /^[a-zA-Z0-9_-]+@([a-zA-Z0-9]+\.)+(com|cn|net|org)$/;
 	var myReg = /^\d+$/;
 	//注册获取验证码
+	$("#register_email").focus(function(){
+    	if($(this).parents('.register_phone').find(".areaCode_val").html()==""||$(this).parents('.register_phone').find(".areaCode_val").html()==null){
+    		layer.msg((CONUTRY == "中文") ? '请先选择国家' : 'Please select a country first');
+    		$(this).blur();
+    	}
+   })
 	$("#getRegister_code").on("click",function(){      
 		var clickDome = $(this);
 		var disabled = $("#getRegister_code").attr("disabled");  
@@ -265,12 +271,22 @@ $(function(){
 				if(err.status==422){
 				    layer.msg($.parseJSON(err.responseText).errors.phone[0]);
 				}
+				if(err.status==500){
+					$("#getRegister_code").prop("disabled",false);
+					$("#getRegister_code").click();
+				}
 			},
 			complete:function(data){
 			}
         });
 	});
 	//登录获取验证码
+	$("#login_email").focus(function(){
+    	if($(this).parents('.register_phone').find(".areaCode_val").html()==""||$(this).parents('.register_phone').find(".areaCode_val").html()==null){
+    		layer.msg((CONUTRY == "中文") ? '请先选择国家' : 'Please select a country first');
+    		$(this).blur();
+    	}
+   })
 	$("#getLogin_code").on("click",function(){    
 		var clickDome = $(this);
 		var disabled = $("#getLogin_code").attr("disabled");  
@@ -575,6 +591,7 @@ $(function(){
     $(".choose_tel_area").on("change",function(){
     	$(this).parents(".register_phone").find(".areaCode_val").html($(this).find("option:checked").val());
     	$(this).parents(".register_phone").find("input").addClass("active");
+    	$(this).parents(".register_phone").find("input").prop('placeholder',(CONUTRY == "中文") ? '请输入手机号' : 'Please enter phone number');
     })
 })
 //顶部模糊搜索

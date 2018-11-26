@@ -63,5 +63,21 @@ return [
 	'submit' => 'Submit',
 	'please login first' =>'In order to ensure the quality of service, please login first',
 	'Follow the public number' => 'Follow the public number',
+	'Retrieve password' => 'Retrieve password',
+	'Confirm Account Number' => 'Confirm Account Number',
+	'Enter the verification code' => 'Enter the verification code',
+	'Password reset' => 'Password reset',
+	'Mobile phone number' => 'Mobile phone number',
+	'Next' => 'Next',
+	'Authentication Code' => 'Authentication Code',
+	'New password' => 'New password',
+	'Please enter a new password' => 'Please enter a new password',
+	'Confirm Password' => 'Confirm Password',
+	'Please enter your password again' => 'Please enter your password again',
+	'Complete' => 'Complete',
+	'The new password has been set successfully' => 'The new password has been set successfully',
+	'Sign in now' => 'Sign in now',
+	'Please select a country first' => 'Please select a country first',
+
 
 ];

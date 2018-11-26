@@ -40,15 +40,19 @@
             div {
                 position: relative;
                 float: left;
-                &:before{
-                    content: '';
-                    width: 173px;
-                    height: 3px;
-                    border-radius: 1.5px;
-                    position: absolute;
-                    top: 50%;
-                    left: 5px;
-                    background-color: #dbdbdb;
+                width: 33%;
+                &.step_line {
+                    margin-left: -45px; 
+                    &:before{
+                        content: '';
+                        width: 173px;
+                        height: 3px;
+                        border-radius: 1.5px;
+                        position: absolute;
+                        top: 35%;
+                        left: 5px;
+                        background-color: #dbdbdb;
+                    }   
                 }
                 &.active {
                      &:before {
@@ -62,17 +66,24 @@
                 margin-top: 15px;
                 color: #dbdbdb;
                 font-size: 12px;
+                text-align: right;
                 span {
                     display: inline-block;
-                    &:first-of-type {
-                        margin-left: 180px;
+                    &.step_num {
+                        &.active {
+                            background-color: $commom-color;
+                            color: #fff;
+                        }   
                     }
-                    &:nth-of-type(2),
-                    &:last-of-type {
-                        margin-left: 173px;
-                    }
-                    &.active {
-                        color: $commom-color;
+                    &.step_text {
+                        width: 140px;
+                        text-align: center;
+//                      float: left;
+//                      margin-top: 30px;
+//                      margin-left: -45px;
+                        &.active {
+                            color: $commom-color;
+                        }   
                     }
                 }
             }
@@ -138,6 +149,7 @@
                     left: 195px;
                     opacity: 0;
                     cursor: pointer;
+                    width: 60px;
                 }
                 
             }   
@@ -156,7 +168,7 @@
                     width: 160px;
                 }
                 #resetCode_get {
-                    width: 100px;
+                    min-width: 100px;
                     height: 28px;
                     background-color: transparent;
                     border: 1px solid $commom-color;
