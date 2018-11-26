@@ -132,31 +132,143 @@
 
 //商品列表页面样式
 .goodsListBox{
+    background: #f4f4f4;
+    padding: .7rem .7rem 0;
     .goodsListHead{
-        display: flex;
-        flex-direction: row;
-        justify-content:   flex-start;
-        align-items: center;
-        padding: .5rem 1rem;
-        border-bottom: 1px solid #e0e0e0;
         position: fixed;
         top: 0;
         left: 0;
         width: 100%;
-        img{
-            width: .6rem;
-        }
-        .goodsListHeadBox{
-            width: 100%;
-            padding: .2rem .5rem;
-            background: #f5f5f5;
-            border-radius: 1rem;
-            margin-left: .5rem;
+        background: #fff;
+        .goodsListSearch{
+            display: flex;
+            flex-direction: row;
+            justify-content:   flex-start;
+            align-items: center;
+            padding: 0 1rem;
+            height: 3rem;
+            line-height: 3rem;
+            border-bottom: 1px solid #e0e0e0;
             img{
-                width: 1rem;
+                width: .6rem;
             }
-            input{
-                background: transparent;
+            .goodsListHeadBox{
+                width: 100%;
+                padding: .2rem .5rem;
+                background: #f5f5f5;
+                border-radius: 2rem;
+                margin-left: 1rem;
+                height: 2rem;
+                line-height: 2rem;
+                position: relative;
+                .searchImg{
+                    width: 1rem;
+                    position: absolute;
+                    top: .6rem;
+                    left: .7rem;
+                }
+                input{
+                    background: transparent;
+                    margin-left: 1rem;
+                }
+                .searchCon{
+                    padding: 0 .6rem;
+                    background: #9b9b9b;
+                    border-radius: 1rem;
+                    display: inline-block;
+                    margin-left: 2rem;
+                    color: #fff;
+                    height: 1.5rem;
+                    font-size: .6rem;
+                    line-height: 1.5rem;
+                    margin-top: 0.2rem;
+                    float: left;
+                    img{
+                        width: .5rem;
+                        margin-top: -.16rem;
+                        margin-left: .3rem;
+                    }
+                }
+            }
+        }
+        .goodsListFillter{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            height: 3rem;
+            padding: 0 1rem;
+            .liftingBox{
+                display: inline-block;
+                position: relative;
+                width: 1rem;
+                height: 1rem;
+                .down{
+                    position: absolute;
+                    top: 0.4rem;
+                    left: 0;
+                    font-size: 1rem;
+                }
+                .up{
+                    position: absolute;
+                    top: -.1rem;
+                    left: 0;
+                    font-size: 1rem;
+                }
+            }
+            .dropDownBox{
+                display: none;
+                padding: .5rem 1rem;
+                position: absolute;
+                top: 6rem;
+                left: 0;
+                width: 100%;
+                background: #fff;
+                border-top: 1px solid #e0e0e0;
+                div{
+                    height: 2rem;
+                    line-height: 2rem;
+                }
+            }
+            .goodsFillterActive{
+                color: #ba8d63;
+            }
+            .zonghe{
+                .liftingBox{
+                    .up{
+                        display: none;
+                    }
+                }
+            }
+        } 
+    }
+    .goodsListMain{
+        margin-top: 6rem;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        .goodsListItem{
+            width: 48.5%;
+            background: #fff;
+            margin-bottom: .7rem;
+            img{
+                width:100%;
+                height: auto;
+            }
+            .goodsItemBlock{
+                padding: .3rem;
+                .goodsBlockName{
+                    width: 100%;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                }
+                .goodsBlockPrice{
+                    color: #bc8d63;
+                    font-size: .95rem;
+                }
             }
         }
     }
