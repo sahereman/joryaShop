@@ -19,7 +19,7 @@ class CreateOrderRefundsTable extends Migration
             $table->unique('refund_sn');
 
             $table->unsignedInteger('order_id')->nullable(false)->comment('order-id');
-            $table->foreign('order_id')->references('id')->on('orders');
+            $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');
 
             $table->json('seller_info')->nullable()->comment('seller-info-data-for-reshipping-in-json-format[data:name&phone&address]'); // 卖家信息
 
