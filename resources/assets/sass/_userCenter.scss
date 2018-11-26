@@ -211,6 +211,11 @@
                             .col-status {
                                 width: 113px;
                                 border-left: 1px solid #ebebeb;
+                                a {
+                                    &:hover {
+                                        color: $hover-color;
+                                    }   
+                                }
                             }
                             .col-operate {
                                 min-width: 155px;
@@ -242,6 +247,41 @@
                                     &.cancellation {
                                         width: 100%;
                                     }
+                                }
+                                .reminding_shipments,
+                                .confirmation_receipt,
+                                .View_evaluation,
+                                .Delete_order ,
+                                .Buy_again {
+                                    min-width: 100px !important;
+                                    height: 30px;
+                                    padding: 0 5px;
+                                    border: 1px solid #dcdcdc;
+                                    border-radius: 2px;
+                                    line-height: 30px;
+                                    text-align: center;
+                                    color: #333;
+                                    font-size: 14px;
+                                    font-weight: bold;
+                                    &:hover {
+                                        color: $hover-color;
+                                        border-color: $hover-color;
+                                    }   
+                                }
+                                .payment {
+                                    width: 85px !important;
+                                    height: 30px;
+                                    border-radius: 2px;
+                                    line-height: 30px;
+                                    text-align: center;
+                                    color: #fff;
+                                    font-size: 14px;
+                                    font-weight: bold;
+                                    background-color: $hover-color;
+                                }
+                                .count_down {
+                                    display: inline-block;
+                                    width: 100%;
                                 }
                             }
                             .order_top {

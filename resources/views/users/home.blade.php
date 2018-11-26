@@ -165,15 +165,70 @@
                                             </td>
                                             <td rowspan="{{ $order->items->count() }}" class="col-status">
                                                 <p>{{ \App\Models\Order::$orderStatusMap[$order->status] }}</p>
+                                                <p>
+                                                	<a href="{{ route('orders.show', $order->id) }}">查看详情</a>
+                                                </p>
                                             </td>
                                             <td rowspan="{{ $order->items->count() }}" class="col-operate">
                                                 <p class="p-button">
-                                                    @if($order->status == \App\Models\Order::ORDER_STATUS_COMPLETED && $order->commented_at == null)
+                                                    {{-- @if($order->status == \App\Models\Order::ORDER_STATUS_COMPLETED && $order->commented_at == null)
                                                         <a class="evaluate"
                                                            href="{{ route('orders.create_comment', $order->id) }}">@lang('basic.users.feedback')</a>
                                                     @endif
                                                     <a class="buy_more" data-url="{{ route('carts.store') }}"
-                                                       href="javascript:void(0)">@lang('basic.users.Once_again_to_buy')</a>
+                                                       href="javascript:void(0)">@lang('basic.users.Once_again_to_buy')</a>--}}
+                                                       
+                                                    @if($order->status == \App\Models\Order::ORDER_STATUS_PAYING)
+                                                            <!--订单待支付-->
+                                                    <!--付款或再次购买隐藏显示取消订单-->
+                                                    <!--系统自动关闭订单倒计时-->
+                                                    <span id="{{ $order->order_sn }}" mark="{{ $order->order_sn }}"
+                                                          class="paying_time count_down"
+                                                          created_at="{{ strtotime($order->created_at) }}"
+                                                          time_to_close_order="{{ \App\Models\Config::config('time_to_close_order') * 60 }}"
+                                                          seconds_to_close_order="{{ (strtotime($order->created_at) + \App\Models\Order::getSecondsToCloseOrder() - time()) > 0 ? (strtotime($order->created_at) + \App\Models\Order::getSecondsToCloseOrder() - time()) : 0 }}">
+                                                        {{ generate_order_ttl_message($order->create_at, \App\Models\Order::ORDER_STATUS_PAYING) }}
+                                                    </span>
+                                                    <a class="payment"
+                                                       href="{{ route('orders.payment_method', $order->id) }}">@lang('basic.orders.payment')</a>
+                                                    <a class="cancellation"
+                                                       code="{{ route('orders.close', $order->id) }}">@lang('basic.orders.cancel order')</a>
+                                                    @elseif($order->status == \App\Models\Order::ORDER_STATUS_CLOSED)
+                                                            <!--再次购买-->
+                                                    <a class="Buy_again"
+                                                       data-url="{{ route('carts.store') }}">@lang('basic.orders.buy again')</a>
+                                                    @elseif($order->status == \App\Models\Order::ORDER_STATUS_SHIPPING)
+                                                            <!--订单待发货-->
+                                                    <a class="reminding_shipments">@lang('basic.orders.Remind shipments')</a>
+                                                    @elseif($order->status == \App\Models\Order::ORDER_STATUS_RECEIVING)
+                                                            <!--订单待收货-->
+                                                    <!--确认收货-->
+                                                    <!--系统自动确认订单倒计时-->
+                                                    <span id="{{ $order->order_sn }}" mark="{{ $order->order_sn }}"
+                                                          class="tobe_received_count count_down"
+                                                          shipped_at="{{ strtotime($order->shipped_at) }}"
+                                                          time_to_complete_order="{{ \App\Models\Config::config('time_to_complete_order') * 3600 * 24 }}"
+                                                          seconds_to_complete_order="{{ (strtotime($order->shipped_at) + \App\Models\Order::getSecondsToCompleteOrder() - time()) > 0 ? (strtotime($order->shipped_at) + \App\Models\Order::getSecondsToCompleteOrder() - time()) : 0 }}">
+                                                        {{ generate_order_ttl_message($order->shipped_at, \App\Models\Order::ORDER_STATUS_RECEIVING) }}
+                                                    </span>
+                                                    <a class="confirmation_receipt"
+                                                       code="{{ route('orders.complete', $order->id) }}">@lang('basic.orders.Confirm receipt')</a>
+                                                    @elseif($order->status == \App\Models\Order::ORDER_STATUS_COMPLETED && $order->commented_at == null)
+                                                            <!--订单待评价-->
+                                                    <a class="evaluate"
+                                                       href="{{ route('orders.create_comment', $order->id) }}">@lang('basic.orders.To evaluate')</a>
+                                                    <!--再次购买-->
+                                                    <a class="buy_more"
+                                                       data-url="{{ route('carts.store') }}">@lang('basic.orders.buy again')</a>
+                                                    @elseif($order->status == \App\Models\Order::ORDER_STATUS_COMPLETED && $order->commented_at != null)
+                                                            <!--订单已评价-->
+                                                    <!--查看评价-->
+                                                    <a class="View_evaluation"
+                                                       href="{{  route('orders.show_comment', $order->id) }}">@lang('basic.orders.View reviews')</a>
+                                                    <!--再次购买-->
+                                                    <a class="buy_more"
+                                                       data-url="{{ route('carts.store') }}">@lang('basic.orders.buy again')</a>
+                                                    @endif
                                                 </p>
                                             </td>
                                         </tr>
@@ -345,6 +400,63 @@
                             layer.close(loading_animation);
                         }
                     }
+                });
+            }
+            //倒计时方法封装
+            function timeCount(remain_id, totalS, type) {
+                function _fresh() {
+//                  var nowDate = new Date(); //当前时间
+                    var id = $('#' + remain_id).attr("order_id"); //当前订单的id
+//                  var addTime = new Date(parseInt(start_time));               //返回的时间戳转换成时间格式
+//                  var auto_totalS = ending_time; //订单支付有效时长
+//                  var ad_totalS = parseInt((addTime.getTime() / 1000) + auto_totalS); ///下单总秒数
+//                  var totalS = parseInt(ad_totalS - (nowDate.getTime() / 1000)); ///支付时长
+                    totalS--;
+                    if (totalS > 0) {
+                        var _day = parseInt((totalS / 3600) % 24 / 24);
+                        var _hour = parseInt((totalS / 3600) % 24);
+                        var _minute = parseInt((totalS / 60) % 60);
+                        var _second = parseInt(totalS % 60);
+                        if (_day < 10) {
+                            _day = "0" + _day;
+                        } 
+                        if (_hour < 10) {
+                            _hour = "0" + _hour;
+                        } 
+                        if (_minute < 10) {
+                            _minute = "0" + _minute;
+                        } 
+                        if (_second < 10) {
+                            _second = "0" + _second;
+                        } 
+                        if (type == '1') {
+                            $('#' + remain_id).html("@lang('basic.orders.Remaining')" + _hour + ':' + _minute + ':' + _second );
+                        } else {
+                            $('#' + remain_id).html("@lang('basic.orders.Remaining')" + _day + ':' + _hour + ':' + _minute + ':' + _second);
+                        }
+                    } else {
+                        if (type == '1') {
+                            $('#' + remain_id).html("@lang('order.Order has timed out')");
+                            $("")
+                        } else {
+                            $('#' + remain_id).html("@lang('order.Order has timed out')");
+                        }
+                    }
+                }
+
+                _fresh();
+                var sh = setInterval(_fresh, 1000);
+            }
+            window.onload = function () {
+            	$(".paying_time").each(function (index, element) {
+                    var val = $(this).attr("mark");
+                    var seconds_to_close_order = $(this).attr("seconds_to_close_order");
+                    timeCount(val, seconds_to_close_order, '1');
+                });
+                $(".tobe_received_count").each(function (index, element) {
+                    var val = $(this).attr("mark");
+                    var seconds_to_complete_order = $(this).attr("seconds_to_complete_order");
+                    timeCount(val, seconds_to_complete_order, "2");
                 });
             }
         });

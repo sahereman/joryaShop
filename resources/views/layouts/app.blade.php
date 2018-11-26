@@ -12,6 +12,13 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('js/swiper/css/swiper.css') }}" rel="stylesheet">
     <link href="{{ asset('js/shareJS/css/share.min.css') }}" rel="stylesheet">
+    @if(App::isLocale('en'))
+    <style>
+    	body {
+    		font-family: helvetica !important;
+    	}
+    </style>
+    @endif
 </head>
 <body>
 <div id="app" class="{{ route_class() }}-page">

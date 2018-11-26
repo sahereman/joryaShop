@@ -415,10 +415,12 @@
                         $(".next_page").attr("disabled", true);
                     } else {
                         var html = "";
+                        var name;
                         $(".composite_index").text((json.data.composite_index).toFixed(1));
                         $(".description_index").text((json.data.description_index).toFixed(1));
                         $(".shipment_index").text((json.data.shipment_index).toFixed(1));
                         $.each(dataObj, function (i, n) {
+                        	name = (country == "中文") ? n.order_item.sku.name_zh : n.order_item.sku.name_en;
                             dataObj_photo = n.photo_urls;
                             html += "<div class='item'>";
                             html += "<div class='evaluation_results_left'>";
@@ -432,7 +434,7 @@
                             html += "<img src='../img/star-" + n.composite_index + ".png') }}'>";
                             html += "</div>";
                             html += "<p class='product_parameters'>";
-                            html += "<span>" + n.order_item.sku.name_zh + "</span>";
+                            html += "<span>" + n.name + "</span>";
                             html += "</p>";
                             html += "<p class='eva_text'>" + n.content + "</p>";
                             html += "<ul class='evaluation_img'>";

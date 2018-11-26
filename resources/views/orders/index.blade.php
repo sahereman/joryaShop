@@ -134,6 +134,9 @@
                                             </td>
                                             <td rowspan="{{ count($order->snapshot) }}" class="col-status">
                                                 <p>{{ \App\Models\Order::$orderStatusMap[$order->status] }}</p>
+                                                <p>
+                                                	<a href="{{ route('orders.show', $order->id) }}">查看详情</a>
+                                                </p>
                                             </td>
                                             <td rowspan="{{ count($order->snapshot) }}" class="col-operate">
                                                 <p class="p-button">
@@ -413,6 +416,18 @@
                     default :   //所有订单
                         $(".myorder_classification li").removeClass('active');
                         $(".all_orders").addClass("active");
+                        //倒计时开始
+                        //显示时间，待支付订单
+                        $(".paying_time").each(function (index, element) {
+                            var val = $(this).attr("mark");
+                            var seconds_to_close_order = $(this).attr("seconds_to_close_order");
+                            timeCount(val, seconds_to_close_order, '1');
+                        });
+                        $(".tobe_received_count").each(function (index, element) {
+                            var val = $(this).attr("mark");
+                            var seconds_to_complete_order = $(this).attr("seconds_to_complete_order");
+                            timeCount(val, seconds_to_complete_order, "2");
+                        });
                         break;
                 }
             };
@@ -427,6 +442,7 @@
 //              var ad_totalS = parseInt((addTime.getTime() / 1000) + auto_totalS); ///下单总秒数
 //              var totalS = parseInt(ad_totalS - (nowDate.getTime() / 1000)); ///支付时长
                 totalS--;
+                console.log(totalS)
                 if (totalS > 0) {
                     var _day = parseInt((totalS / 3600) % 24 / 24);
                     var _hour = parseInt((totalS / 3600) % 24);

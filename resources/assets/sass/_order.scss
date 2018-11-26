@@ -35,8 +35,10 @@
                 .o-pro {
                     table {
                         .col-status {
-                            &:hover {
-                                color: $hover-color;
+                            a {
+                                &:hover {
+                                    color: $hover-color;
+                                }   
                             }
                         }
                         .col-operate {
