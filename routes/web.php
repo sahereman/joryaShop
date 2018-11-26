@@ -140,13 +140,11 @@ Route::group(['middleware' => 'auth'], function () {
     // 售后订单 [仅退款]
     Route::get('orders/{order}/refund', 'OrdersController@refund')->name('orders.refund'); // 退单申请页面
     Route::post('orders/{order}/store_refund', 'OrdersController@storeRefund')->name('orders.store_refund'); // 发起退单申请 [订单进入售后状态:status->refunding]
-    // Route::get('orders/{order}/edit_refund', 'OrdersController@editRefund')->name('orders.edit_refund'); // 更新退单申请页面
     Route::put('orders/{order}/update_refund', 'OrdersController@updateRefund')->name('orders.update_refund'); // 提交更新退单申请
 
     //售后订单 [退货并退款]
     Route::get('orders/{order}/refund_with_shipment', 'OrdersController@refundWithShipment')->name('orders.refund_with_shipment'); // 退单申请页面
     Route::post('orders/{order}/store_refund_with_shipment', 'OrdersController@storeRefundWithShipment')->name('orders.store_refund_with_shipment'); // 发起退单申请 [订单进入售后状态:status->refunding]
-    // Route::get('orders/{order}/edit_refund_with_shipment', 'OrdersController@editRefundWithShipment')->name('orders.edit_refund_with_shipment'); // 更新退单申请页面
     Route::put('orders/{order}/update_refund_with_shipment', 'OrdersController@updateRefundWithShipment')->name('orders.update_refund_with_shipment'); // 提交更新退单申请
 
     Route::patch('orders/{order}/revoke_refund', 'OrdersController@revokeRefund')->name('orders.revoke_refund'); // 撤销退单申请 [订单恢复状态:status->shipping | receiving]
@@ -181,18 +179,6 @@ Route::post('image/upload', 'IndexController@imageUpload')->name('image.upload')
 /*通用-获取评论上传图片路径+预览*/
 Route::post('comment_image/upload', 'IndexController@commentImageUpload')->name('comment_image.upload');
 
-/*通用-获取国家|地区码列表*/
-Route::get('country_codes', 'CountryCodesController@index')->name('country_codes.index');
-
-/*通用-获取物流公司列表*/
-Route::get('shipment_companies', 'ShipmentCompaniesController@index')->name('shipment_companies.index');
-
-/*通用-Aliyun发送短信 [目前仅用于用户注册、登录、重置密码时发送验证码]*/
-Route::post('easy_sms_send', 'IndexController@easySmsSend')->name('easy_sms_send');
-
-/*通用-快递100 API 实时查询订单物流状态*/
-// Route::get('orders/{order}/shipment_query', 'OrdersController@shipmentQuery')->name('orders.shipment_query');
-
 /*商品分类*/
 Route::get('product_categories/{category}/more', 'ProductCategoriesController@more')->name('product_categories.more'); // 二级分类及其商品列表 下拉加载更多 [for Ajax request]
 Route::get('product_categories/{category}', 'ProductCategoriesController@index')->name('product_categories.index'); // 一级分类及其商品列表 [完整展示页面] or 二级分类及其商品列表 [仅展示页面]
@@ -203,12 +189,6 @@ Route::get('products/search_more', 'ProductsController@searchMore')->name('produ
 Route::get('products/search_hint', 'ProductsController@searchHint')->name('products.search_hint'); // 模糊搜素提示结果 [10 records] [for Ajax request]
 Route::get('products/{product}', 'ProductsController@show')->name('products.show'); // 商品详情页
 Route::get('products/{product}/comment', 'ProductsController@comment')->name('products.comment'); // 获取商品评价 [for Ajax request]
-
-/*通用-单页展示*/
-Route::get('pages/{page}', 'PagesController@show')->name('pages.show');
-
-/*通用-广告展示*/
-Route::get('posters/{poster}', 'PostersController@show')->name('posters.show');
 
 /*支付通知 [notify_url]*/
 Route::post('payments/{order}/alipay/notify', 'PaymentsController@alipayNotify')->name('payments.alipay.notify'); // Alipay 支付成功通知 [notify_url]

@@ -91,19 +91,10 @@ class IndexController extends Controller
         ]);
     }
 
-    // POST Aliyun发送短信 [目前仅用于用户注册、登录、重置密码时发送验证码]
-    public function easySmsSend(EasySmsSendRequest $request)
-    {
-        $response = easy_sms_send($request->input('data'), $request->input('phone_number'), $request->input('country_code'));
-        return response()->json($response);
-    }
-
+    // GET 修改网站语言
     public function localeUpdate(Request $request, $locale)
     {
-
         $request->session()->put('GlobalLocale', $locale);
-
-
         return back();
     }
 }
