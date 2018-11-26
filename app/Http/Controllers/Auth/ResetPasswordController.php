@@ -173,6 +173,16 @@ class ResetPasswordController extends Controller
     public function override(Request $request)
     {
         if ($request->session()->has('sms_code_sent') && $request->session()->has('sms_code_verified')) {
+            return view('auth.passwords.reset');
+        }
+
+        return redirect()->route('password.request');
+    }
+
+    // POST 重置密码为新密码
+    public function overridePassword(SmsCodeResetValidationRequest $request)
+    {
+        if ($request->session()->has('sms_code_sent') && $request->session()->has('sms_code_verified')) {
             // $email = $request->input('email');
             // $code = $request->input('code');
             $country_code = $request->input('country_code');
@@ -200,16 +210,6 @@ class ResetPasswordController extends Controller
                     $request->only('country_code', 'phone')
                 );
             }
-        }
-
-        return redirect()->route('password.request');
-    }
-
-    // POST 重置密码为新密码
-    public function overridePassword(SmsCodeResetValidationRequest $request)
-    {
-        if ($request->session()->has('sms_code_sent') && $request->session()->has('sms_code_verified')) {
-            return view('auth.passwords.reset');
         }
 
         return redirect()->route('password.request');
