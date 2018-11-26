@@ -158,7 +158,9 @@
                                             <td rowspan="{{ $order->items->count() }}" class="col-pay">
                                                 <p>
                                                     <em>{{ $order->currency == 'USD' ? '&#36;' : '&#165;' }}</em>
-                                                    <span>{{ $order->total_amount }}</span>
+                                                    <span>{{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}</span>
+                                                    <br>
+                                                    <span>(@lang('order.Postage included'))</span>
                                                 </p>
                                             </td>
                                             <td rowspan="{{ $order->items->count() }}" class="col-status">

@@ -126,12 +126,10 @@
                                             <td class="col-quty">{{ $order_item['number'] }}</td>
                                             <td rowspan="{{ count($order->snapshot) }}" class="col-pay">
                                                 <p>
-                                                    @if($order->currency === 'CNY')
-                                                        <em>&#165; </em>
-                                                    @else
-                                                        <em>&#36; </em>
-                                                    @endif
+                                                    <em>{{ $order->currency == 'USD' ? '&#36;' : '&#165;' }}</em>
                                                     <span>{{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}</span>
+                                                    <br>
+                                                    <span>(@lang('order.Postage included'))</span>
                                                 </p>
                                             </td>
                                             <td rowspan="{{ count($order->snapshot) }}" class="col-status">
