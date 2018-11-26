@@ -106,5 +106,6 @@ return [
     'Refund failed' => 'Refund failed',
     'Seller applies for refunds only' => 'Buyer applies for refunds only',
     'Seller handles refund Request' => 'Seller handles refund Request',
+    'The number of goods is at least 1' => 'The number of goods is at least 1',
 
 ];

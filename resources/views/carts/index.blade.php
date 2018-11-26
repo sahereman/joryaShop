@@ -117,7 +117,7 @@
                     $('.single-item input[type="checkbox"]').prop('checked', false);
                     $('.selectAll').prop('checked', false);
                     $('#totalCount').text('0');
-                    $('#totalPrice').html((CONUTRY == "中文") ? '&#165;' : '&#36;' + '0.00');
+                    $('#totalPrice').html("{{ App::isLocale('en') ? '&#36;' : '&#165;' }}" + '0.00');
                     $(".big-button").removeClass('active');
                 }
             });
@@ -197,7 +197,7 @@
                         $(this).next().val(count);
                         update_pro_num($(this).next());
                     } else {
-                        layer.msg((CONUTRY == "中文") ? '商品数量最少为1' : 'The number of goods is at least 1');
+                        layer.msg("@lang('order.The number of goods is at least 1')");
                     }
                 } else {
                     var count = parseInt($(this).prev().val());
@@ -206,7 +206,7 @@
                         $(this).prev().val(count);
                         update_pro_num($(this).prev());
                     } else {
-                        layer.msg((CONUTRY == "中文") ? '商品数量最少为1' : 'The number of goods is at least 1');
+                        layer.msg("@lang('order.The number of goods is at least 1')");
                     }
                 }
                 var price = parseFloat($(this).parent().prev().find('span').text());
