@@ -27,7 +27,7 @@ use Yansongda\Pay\Pay;
 class PaymentsController extends Controller
 {
     /*Alipay Payment*/
-    protected function getAlipayConfig(Order $order)
+    public static function getAlipayConfig(Order $order)
     {
         return array_merge(config('payment.alipay'), [
             'notify_url' => route('payments.alipay.notify', ['order' => $order->id]),
@@ -258,7 +258,7 @@ class PaymentsController extends Controller
     }
 
     /*Wechat Payment*/
-    protected function getWechatConfig(Order $order)
+    public static function getWechatConfig(Order $order)
     {
         return array_merge(config('payment.wechat'), [
             'notify_url' => route('payments.wechat.notify', ['order' => $order->id]),
@@ -486,7 +486,7 @@ class PaymentsController extends Controller
     }
 
     /*Paypal Payment*/
-    protected function getPaypalConfig(Order $order)
+    public static function getPaypalConfig(Order $order)
     {
         return array_merge(config('payment.paypal'), [
             'redirect_urls' => [
