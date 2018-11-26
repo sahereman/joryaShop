@@ -131,7 +131,7 @@
                                                     @else
                                                         <em>&#36; </em>
                                                     @endif
-                                                    <span>{{ $order->total_amount }}</span>
+                                                    <span>{{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}</span>
                                                 </p>
                                             </td>
                                             <td rowspan="{{ count($order->snapshot) }}" class="col-status">

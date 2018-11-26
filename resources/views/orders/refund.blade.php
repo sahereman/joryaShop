@@ -80,7 +80,7 @@
                                     <li>
                                         <span><i class="red">*</i>@lang('order.Refund amount')：</span>
                                         <input name="amount" type="text" class="refund_amount"
-                                               value="{{ $order->total_amount }}"
+                                               value="{{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}"
                                                readonly>
                                     </li>
                                     <li>
@@ -107,7 +107,7 @@
                                     <li>
                                         <span><i class="red">*</i>@lang('order.Refund amount')：</span>
                                         <input name="amount" type="text" class="refund_amount no_border"
-                                               value="¥ {{ $order->total_amount }}" readonly>
+                                               value="¥ {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}" readonly>
                                     </li>
                                     <li>
                                         <span><i class="red">*</i>@lang('order.Application description')：</span>
@@ -131,13 +131,13 @@
                                 <p class="read_info_title">
                                    @lang('order.Audit passed, successful refund')
                                     <span>
-                                        @lang('order.Refunds were successful'), {{ $order->total_amount }}@lang('order.It has been returned according to the original hit path')
+                                        @lang('order.Refunds were successful'), {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}@lang('order.It has been returned according to the original hit path')
                                     </span>
                                 </p>
                                 <ul class="step-ul">
                                     <li>
                                         <span>@lang('order.Refund amount')：</span>
-                                        <span class="amount_num">{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ $order->total_amount }}</span>
+                                        <span class="amount_num">{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}</span>
                                     </li>
                                     <li>
                                         <span>@lang('order.Application description')：</span>
@@ -159,7 +159,7 @@
                                 <ul class="step-ul">
                                     <li>
                                         <span>@lang('order.Refund amount')：</span>
-                                        <span class="amount_num">{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ $order->total_amount }}</span>
+                                        <span class="amount_num">{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}</span>
                                     </li>
                                     <li>
                                         <span>@lang('order.Application description')：</span>
@@ -208,7 +208,7 @@
                                 </p>
                                 <p>
                                     <span>@lang('order.Postage')：</span>
-                                    <span><i>{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} </i>{{ $order->total_shipping_fee }}</span>
+                                    <span><i>{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} </i>{{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}</span>
                                 </p>
                                 <p>
                                     <span>@lang('order.A total of')：</span>
