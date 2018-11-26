@@ -36,6 +36,7 @@ Route::group([
     $router->get('order_refunds', 'OrderRefundsController@index')->name('admin.order_refunds.index');/*列表*/
     $router->get('order_refunds/{refund}', 'OrderRefundsController@show')->name('admin.order_refunds.show');/*详情*/
     $router->post('order_refunds/{refund}/check', 'OrderRefundsController@check')->name('admin.order_refunds.check');/*审核通过*/
+    $router->post('order_refunds/{refund}/receive', 'OrderRefundsController@receive')->name('admin.order_refunds.receive');/*收货并退款*/
 
 
     /*产品分类*/
