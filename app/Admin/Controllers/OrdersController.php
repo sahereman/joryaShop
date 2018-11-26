@@ -174,7 +174,7 @@ class OrdersController extends Controller
 
             if ($actions->row->refund)
             {
-                $actions->append('<a class="btn btn-xs btn-warning" style="margin-right:8px" href="' . route('admin.order_refunds.show', [$actions->getKey()]) . '">售后</a>');
+                $actions->append('<a class="btn btn-xs btn-warning" style="margin-right:8px" href="' . route('admin.order_refunds.show', [$actions->row->refund['id']]) . '">售后</a>');
             }
 
             if (in_array($actions->row->status, [Order::ORDER_STATUS_CLOSED, Order::ORDER_STATUS_COMPLETED]))// 可以删除的订单
