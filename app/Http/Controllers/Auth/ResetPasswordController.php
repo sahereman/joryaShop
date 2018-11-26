@@ -200,10 +200,9 @@ class ResetPasswordController extends Controller
             $user->password = bcrypt($password);
             $result = $user->save();
 
-            $request->session()->forget('sms_code_verified');
-            $request->session()->forget('sms_code_sent');
-
             if ($result) {
+                $request->session()->forget('sms_code_verified');
+                $request->session()->forget('sms_code_sent');
                 return redirect()->route('reset.success');
             } else {
                 return redirect()->back()->withInput(
