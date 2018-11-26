@@ -7,7 +7,7 @@
                 <img src="{{ asset('img/reset_success.png') }}">
                 <p>@lang('order.Order payment failed')</p>
                 <p class="clear">
-                	@if(isset($order))
+                    @if(isset($order))
                     <a href="{{ route('orders.show', ['order' =>  $order->id]) }}">@lang('order.View order details')</a>
                     @else
                     <a href="{{ route('orders.index') }}">@lang('order.View order list')</a>

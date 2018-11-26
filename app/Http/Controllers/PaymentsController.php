@@ -175,6 +175,7 @@ class PaymentsController extends Controller
             ]);*/
             Log::error('Alipay Payment Return Failed: order id - ' . $order->id . '; With Error Message: ' . $e->getMessage());
             return view('payments.error', [
+                'order' => $order,
                 'message' => $e->getMessage(),
             ]);
         }
@@ -312,6 +313,7 @@ class PaymentsController extends Controller
             } else {
                 Log::error('A New Wechat Pc-Scan Payment Responded With Wrong Response: ' . $response->toJSON());
                 return view('payments.error', [
+                    'order' => $order,
                     'message' => $response->toJson(),
                 ]);
             }
@@ -322,6 +324,7 @@ class PaymentsController extends Controller
             ]);*/
             Log::error('A New Wechat Pc-Scan Payment Failed: order id - ' . $order->id . '; With Error Message: ' . $e->getMessage());
             return view('payments.error', [
+                'order' => $order,
                 'message' => $e->getMessage(),
             ]);
         }
@@ -626,6 +629,7 @@ class PaymentsController extends Controller
                 'message' => $e->getMessage(),
             ]);
             /*return view('payments.error', [
+                'order' => $order,
                 'message' => $e->getMessage(),
             ]);*/
         }
@@ -696,19 +700,29 @@ class PaymentsController extends Controller
             // 正常来说不太可能出现支付了一笔不存在的订单，这个判断只是加强系统健壮性。
             if (!$paypalOrder || $paypalOrder->id != $order->id) {
                 Log::error('Paypal Notified With Wrong Payment Id: ' . $paymentId . ' or Wrong Token: ' . $token);
-                return response()->json([
+                /*return response()->json([
                     'code' => 400,
                     'message' => 'Paypal Notified With Wrong Payment Id: ' . $paymentId . ' or Wrong Token: ' . $token,
-                ], 400);
+                ], 400);*/
+                /*return view('pages.error', [
+                    'msg' => '付款失败',
+                ]);*/
+                return view('payments.error', [
+                    'order' => $order,
+                    'message' => 'Paypal Notified With Wrong Payment Id: ' . $paymentId . ' or Wrong Token: ' . $token,
+                ]);
             }
 
             // 如果这笔订单的状态已经是已支付
             if ($order->paid_at) {
                 // 返回数据给 Paypal
                 Log::info('A Paid Paypal Payment Notified Again - Synchronously: order id - ' . $order->id);
-                return response()->json([
+                /*return response()->json([
                     'code' => 200,
                     'message' => 'Paypal Payment Paid Already - Synchronously',
+                ]);*/
+                return view('payments.success', [
+                    'order' => $order,
                 ]);
             }
 
@@ -755,6 +769,7 @@ class PaymentsController extends Controller
                 } else {
                     Log::info("A New Paypal Pc Payment Execution Failed - Synchronously: " . $payment->toJSON());
                     return view('payments.error', [
+                        'order' => $order,
                         'message' => "A New Paypal Pc Payment Execution Failed - Synchronously: " . $payment->toJSON(),
                     ]);
                     /*return response()->json([
@@ -771,15 +786,17 @@ class PaymentsController extends Controller
                 /*return view('pages.error', [
                     'msg' => '付款失败',
                 ]);*/
-                Log::error("A New Paypal Pc Payment Execution Failed: order id - " . $order->id . '; With Error Message: ' . $e->getMessage());
+                Log::error("A New Paypal Pc Payment Execution Failed - Synchronously: order id - " . $order->id . '; With Error Message: ' . $e->getMessage());
                 return view('payments.error', [
-                    'message' => "A New Paypal Pc Payment Execution Failed - Synchronously: " . $e->getMessage(),
+                    'order' => $order,
+                    'message' => "A New Paypal Pc Payment Execution Failed - Synchronously: order id - " . $order->id . '; With Error Message: ' . $e->getMessage(),
                 ]);
                 /*return response()->json([
                     'code' => $e->getCode(),
                     'message' => $e->getMessage(),
                 ]);*/
                 /*return view('payments.error', [
+                    'order' => $order,
                     'message' => $e->getMessage(),
                 ]);*/
             }
@@ -787,20 +804,30 @@ class PaymentsController extends Controller
             // Payment Cancelled.
             $token = $request->query('token');
             if (!$token) {
-                return response()->json([
+                /*return response()->json([
                     'code' => 400,
                     'message' => 'PayPal Notified With Wrong Parameters: Cancel Url Without Token - Synchronously',
                     'data' => $request->all(),
-                ], 400);
+                ], 400);*/
+                /*return view('pages.error', [
+                    'msg' => '付款失败',
+                ]);*/
+                return view('payments.error', [
+                    'order' => $order,
+                    'message' => 'PayPal Notified With Wrong Parameters: Cancel Url Without Token - Synchronously',
+                ]);
             }
 
             // 如果这笔订单的状态已经是已支付
             if ($order->paid_at) {
                 // 返回数据给 Paypal
                 Log::info('A Paid Paypal Payment Notified Again - Synchronously: order id - ' . $order->id);
-                return response()->json([
+                /*return response()->json([
                     'code' => 200,
                     'message' => 'Paypal Payment Paid Already - Synchronously',
+                ]);*/
+                return view('payments.success', [
+                    'order' => $order,
                 ]);
             }
 
@@ -810,8 +837,15 @@ class PaymentsController extends Controller
                 'payment_sn' => '',
             ]);*/
 
-            return response()->json([
+            /*return response()->json([
                 'code' => 200,
+                'message' => 'Paypal Payment Cancelled - Synchronously',
+            ]);*/
+            /*return view('pages.error', [
+                'msg' => '付款失败',
+            ]);*/
+            return view('payments.error', [
+                'order' => $order,
                 'message' => 'Paypal Payment Cancelled - Synchronously',
             ]);
         }
@@ -955,6 +989,7 @@ class PaymentsController extends Controller
                 'message' => $e->getMessage(),
             ]);
             /*return view('payments.error', [
+                'order' => $order,
                 'message' => $e->getMessage(),
             ]);*/
         }
