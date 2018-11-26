@@ -93,6 +93,7 @@ class OrdersController extends Controller
             'status' => Order::ORDER_STATUS_RECEIVING,
             'shipment_company' => $data['shipment_company'],
             'shipment_sn' => $data['shipment_sn'],
+            'shipped_at' => now(),
             'to_be_completed_at' => Carbon::now()->addSeconds(Order::getSecondsToCompleteOrder())
         ]);
 
