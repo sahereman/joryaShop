@@ -115,7 +115,7 @@ class ResetPasswordController extends Controller
     // GET 输入短信验证码页面
     public function inputSmsCode(Request $request)
     {
-        return redirect()->route('password.request');
+        return view('auth.passwords.input_sms_code');
     }
 
     // POST 发送短信验证码 [for Ajax request]
