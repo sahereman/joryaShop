@@ -47,13 +47,13 @@
                                 </a>
                             </div>
                             <div class="left w120 center"><span>{{ App::isLocale('en') ? $cart->sku->name_en : $cart->sku->name_zh }}</span></div>
-                            <div class="left w100 center">{{ App::isLocale('en') ? '&#36;' : '&#165;' }} <span class="price">{{ $cart->sku->price }}</span></div>
+                            <div class="left w100 center">{{ App::isLocale('en') ? '&#36;' : '&#165;' }} <span class="price">{{ App::isLocale('en') ? $cart->sku->price_in_usd : $cart->sku->price }}</span></div>
                             <div class="left w150 center counter">
                                 <button class="left small-button">-</button>
                                 <input class="left center count" data-url="{{ route('carts.update', $cart->id) }}" type="text" size="2" value="{{ $cart->number }}">
                                 <button class="left small-button">+</button>
                             </div>
-                            <div class="left w100 s_total center">{{ App::isLocale('en') ? '&#36;' : '&#165;' }} <span>{{ bcmul($cart->sku->price, $cart->number, 2) }}</span></div>
+                            <div class="left w100 s_total center">{{ App::isLocale('en') ? '&#36;' : '&#165;' }} <span>{{ App::isLocale('en') ? bcmul($cart->sku->price_in_usd, $cart->number, 2) : bcmul($cart->sku->price, $cart->number, 2) }}</span></div>
                             <div class="left w120 center">
                                 <p>
                                     <a class="cur_p add_favorites"  code = "{{ $cart->sku->product_id }}" data-url = "{{ route('user_favourites.store') }}">@lang('product.shopping_cart.Move_to_favorites')</a>

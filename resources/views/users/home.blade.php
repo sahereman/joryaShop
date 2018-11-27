@@ -166,7 +166,7 @@
                                             <td rowspan="{{ $order->items->count() }}" class="col-status">
                                                 <p>{{ \App\Models\Order::$orderStatusMap[$order->status] }}</p>
                                                 <p>
-                                                	<a href="{{ route('orders.show', $order->id) }}">查看详情</a>
+                                                	<a href="{{ route('orders.show', $order->id) }}">@lang('app.see details')</a>
                                                 </p>
                                             </td>
                                             <td rowspan="{{ $order->items->count() }}" class="col-operate">
