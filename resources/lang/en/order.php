@@ -108,5 +108,6 @@ return [
     'Seller handles refund Request' => 'Seller handles refund Request',
     'The number of goods is at least 1' => 'The number of goods is at least 1',
     'No logistics information' => 'No logistics information',
+    'Please fill in the address completely' => 'Please fill in the address completely',
 
 ];

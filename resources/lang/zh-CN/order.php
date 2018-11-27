@@ -109,6 +109,7 @@ return [
     'Seller handles refund Request' => '卖家处理退款申请',
     'The number of goods is at least 1' => '商品数量最少为1',
     'No logistics information' => '暂无物流信息',
+    'Please fill in the address completely' => '请将地址填写完整',
 
 
 

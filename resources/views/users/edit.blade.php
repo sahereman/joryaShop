@@ -29,8 +29,7 @@
                                 <span>@lang('basic.users.User_profile_picture')</span>
                                 <div class="user_Avatar">
                                     <img src="{{ $user->avatar_url }}" width="80">
-                                    <input type="file" name="avatar" value="{{ $user->avatar_url }}" id="upload_head" onchange="imgChange(this)">
-
+                                    <input type="file" name="avatar" value="{{ $user->avatar_url }}" data-url="{{ route('image.preview') }}" id="upload_head" onchange="imgChange(this)">
                                 </div>
                                 <img src="{{ asset('img/photograph.png') }}" class="photograph">
                             </li>
@@ -119,13 +118,14 @@
             // 图片上传入口按钮 input[type=file]值发生改变时触发
 	        function imgChange(obj){
 	            var filePath=$(obj).val();
+	            var url = $(obj).attr("data-url")
 	            if(filePath.indexOf("jpg")!=-1 || filePath.indexOf("png")!=-1 || filePath.indexOf("jpeg")!=-1 || filePath.indexOf("gif")!=-1 || filePath.indexOf("bmp")!=-1){
 	                $(".fileerrorTip").html("").hide();
 	                var arr=filePath.split('\\');
 	                var fileName=arr[arr.length-1];
 	                $(".showFileName").html(fileName);
 	                upLoadBtnSwitch = 1;
-                    UpLoadImg();
+                    UpLoadImg(url);
 	            }else{
 	                $(".showFileName").html("");
 	                layer.open({
@@ -139,11 +139,12 @@
 	        }
 	        
 	         // 本地图片上传 按钮
-	        function UpLoadImg(){
+	        function UpLoadImg(url){
 	            var formData = new FormData();
 	            formData.append('image',document.getElementById("upload_head").files[0]);
+	            formData.append('_token',"{{ csrf_token() }}");
 	            $.ajax({
-	                url:"{{ route('image.preview') }}",
+	                url:url,
 	                data:formData,
 	                dataType:'json',
 	                cache: false,  

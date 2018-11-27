@@ -173,7 +173,7 @@
 	                                <div class="pictures" code="{{ $order_item['id'] }}">
 	                                    <div class="pictures_btn" code="{{ $order_item['id'] }}">
 	                                        <img src="{{ asset('img/pic_upload.png') }}">
-	                                        <input type="file" name="image"  value="" id="{{ $order_item['id'] }}" onchange="imgChange(this)" />
+	                                        <input type="file" name="image"  value="" data-url="{{ route('image.preview') }}" id="{{ $order_item['id'] }}" onchange="imgChange(this)" />
 	                                    </div>
 	                                </div>
 	                            </div>
@@ -206,11 +206,16 @@
         // 图片上传入口按钮 input[type=file]值发生改变时触发
         function imgChange(obj){
             var filePath=$(obj).val();
+            var url = $(obj).attr("data-url");
+            if($(obj).parents('.pictures').find('.img_path').length>=5){
+            	layer.msg("@lang('product.Upload up to 5 image')!");
+            	return false;
+            }
             if(filePath.indexOf("jpg")!=-1 || filePath.indexOf("png")!=-1 || filePath.indexOf("jpeg")!=-1 || filePath.indexOf("gif")!=-1 || filePath.indexOf("bmp")!=-1){
                 var arr=filePath.split('\\');
                 var fileName=arr[arr.length-1];
                 upLoadBtnSwitch = 1;
-                UpLoadImg(obj);
+                UpLoadImg(obj,url);
             }else{
                 layer.open({
 				    title: "@lang('app.Prompt')",
@@ -223,11 +228,12 @@
         }
         
          // 本地图片上传 按钮
-        function UpLoadImg(obj){
+        function UpLoadImg(obj,url){
             var formData = new FormData();
             formData.append('image',$(obj)[0].files[0]);
+            formData.append('_token',"{{ csrf_token() }}");
             $.ajax({
-                url:"{{ route('comment_image.upload') }}",
+                url:url,
                 data:formData,
                 dataType:'json',
                 cache: false,  
@@ -249,8 +255,38 @@
         
         //表单提交
         $(".sub_evaluation").on("click",function(){
+        	var five_star_one,five_star_two,five_star_three,star_status,textarea_status;
+        	$.each($(".evaluation_content"), function(i,n) {
+        		five_star_one = $(n).find(".five_star_one").find("input:checked");
+        		five_star_two = $(n).find(".five_star_two").find("input:checked");
+        		five_star_three = $(n).find(".five_star_three").find("input:checked");
+        		if(five_star_one.length==1&&five_star_two.length==1&&five_star_three.length==1){
+        			star_status = true;
+        		}else {
+        			layer.msg("@lang('product.Please select a Star')！");
+        			star_status = false;
+        			return star_status;
+        		}
+        		if($(n).find("textarea").val()==""||$(n).find("textarea").val()==null){
+        			textarea_status = false;
+        			layer.msg("@lang('product.Please fill in the evaluation content')！");
+        			return textarea_status;
+        		}else{
+        			console.log();
+        			if($(n).find("textarea").val().length<3){
+          				textarea_status = false;	
+          				layer.msg("@lang('product.Evaluation content is not less than 15 words')！");
+        			}else if($(n).find("textarea").val().length>=199){
+        				textarea_status = false;	
+        				layer.msg("@lang('product.The content of the evaluation should not exceed 200 words')！");
+        			}
+        			else {
+        				textarea_status = true;	
+        			}
+        		}
+        	});
         	set_path();
-        	if(set_finish==true){
+        	if(set_finish==true&&textarea_status==true&&star_status == true){
         		$("#creat_comment_form").submit();
         	}
         })

@@ -14,7 +14,11 @@ return [
     'shop_now' => '去逛逛',
     'invalid_commodity_quantity' => '无效的商品数量值',
     'choose_settlement' => '请选择结算商品',
-    
+    'Please select a Star' => '请选择星级',
+    'Please fill in the evaluation content' => '请填写评价内容',
+    'Evaluation content is not less than 15 words' => '评价内容不少于15字',
+    'The content of the evaluation should not exceed 200 words' => '评价内容不能超过200字',
+    'Upload up to 5 image' => '最多上传5张图片',
     'shopping_cart' => [
         'Shop_cart' => '购物车',
         'all_selected' => '全选',

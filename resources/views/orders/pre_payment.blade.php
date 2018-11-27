@@ -29,6 +29,19 @@
                                     <span>@lang('order.contact address')：</span>
                                     <span class="address_location">{{ $address->address }}</span>
                                 </li>
+                            @else
+                                <li>
+                                    <span>@lang('order.Contact')：</span>
+                                    <span class="address_name"></span>
+                                </li>
+                                <li>
+                                    <span>@lang('order.Contact information')：</span>
+                                    <span class="address_phone"></span>
+                                </li>
+                                <li>
+                                    <span>@lang('order.contact address')：</span>
+                                    <span class="address_location"></span>
+                                </li>
                             @endif
                         </ul>
                         <div class="right">
@@ -113,10 +126,10 @@
                                 <p class="address_info address_location">{{ $address->address }}</p>
                             @else
                                 <p class="address_info">
-                                    <span>收货人</span>
-                                    <span>***</span>
+                                    <span class="address_name"></span>
+                                    <span class="address_phone"></span>
                                 </p>
-                                <p class="address_info">***</p>
+                                <p class="address_info address_location"></p>
                             @endif
                         </li>
                     </ul>
@@ -283,21 +296,29 @@
 		        return vars[url_name];
 		    }
 		    $(".payment_btn").on("click",function(){
+		    	var address_name =$(".address_name").html();
+		    	var address_phone =$(".address_phone").html();
+		    	var address_location =$(".address_location").html();
 		    	var url = $(this).attr("data-url");
 		    	var sendWay = getUrlVars("sendWay");
-		    	switch (sendWay) {
-		            case "1":
-		                var sku_id = getUrlVars("sku_id");
-		                var number = getUrlVars("number");
-		                payment_one(sku_id,number,url);
-		                break;
-		            case "2":
-		                var cart_ids = getUrlVars("cart_ids");
-		                payment_two(cart_ids,url);
-		                break;
-		            default :
-		                break;
-		        }
+		    	console.log(address_name);
+		    	if(address_name==""||address_phone==""||address_location==""){
+		    		layer.msg("@lang('order.Please fill in the address completely')");
+		    	}else {
+		    		switch (sendWay) {
+			            case "1":
+			                var sku_id = getUrlVars("sku_id");
+			                var number = getUrlVars("number");
+			                payment_one(sku_id,number,url);
+			                break;
+			            case "2":
+			                var cart_ids = getUrlVars("cart_ids");
+			                payment_two(cart_ids,url);
+			                break;
+			            default :
+			                break;
+			        }	
+		    	}
 		    })     
 		    //第一类创建订单（直接下单）
 		    function payment_one(sku_id,number,url){
