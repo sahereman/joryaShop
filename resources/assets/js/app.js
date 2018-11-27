@@ -258,7 +258,7 @@ $(function(){
         	country_code: $("#register_countryCode").val(),
 //      	name: $("#register_user").val(),
 //      	password: $("#register_psw").val(),
-            _toke: $("#register_token_code").find("input").val()
+            _token: $("#register_token_code").find("input").val()
         }
         var url = clickDome.attr('data-url');
         $.ajax({
@@ -299,7 +299,7 @@ $(function(){
 		var data = {
         	phone: $("#login_email").val(),
         	country_code: $("#login_countryCode").val(),
-            _toke: $("#login_token_code").find("input").val()
+            _token: $("#login_token_code").find("input").val()
        }
 		var url = clickDome.attr('data-url');
         $.ajax({
@@ -332,7 +332,7 @@ $(function(){
 //          country_code: $("#login_countryCode").val(),
 //          phone: $("#login_email").val(),
 //          code: $("#login_code").val(),
-//          _toke: $("#login_token_code").find("input").val()
+//          _token: $("#login_token_code").find("input").val()
 //		}
 //		var url = clickDome.attr('data-url');
 //		$.ajax({
@@ -482,7 +482,7 @@ $(function(){
 			var data = {
 				username: $("#login-form").find("input[name='username']").val(),
 				password: $("#login-form").find("input[name='password']").val(),
-				_toke: $("#commn_login_token_code").find("input").val(),
+				_token: $("#commn_login_token_code").find("input").val(),
 			}
 //          $('#login-form').submit();
             var url = clickDome.attr('data-url');
@@ -517,7 +517,7 @@ $(function(){
 					password: $("#register-form").find("input[name='password']").val(),
 					phone: $("#register_email").val(),
 		        	country_code: $("#register_countryCode").val(),
-		            _toke: $("#register_token_code").find("input").val(),
+		            _token: $("#register_token_code").find("input").val(),
 		            code: $("#register_code").val()
 				}
 	            var url = clickDome.attr('data-url');
@@ -556,7 +556,7 @@ $(function(){
 	            var data = {
 					phone: $("#login_email").val(),
 		        	country_code: $("#login_countryCode").val(),
-		            _toke: $("#login_token_code").find("input").val(),
+		            _token: $("#login_token_code").find("input").val(),
 		            code: $("#login_code").val()
 				}
 	            var url = clickDome.attr('data-url');

@@ -131,7 +131,7 @@
                 var data = {
                     phone: $("#email").val(),
                     country_code: $(".areaCode_choosed").html(),
-                    _toke: "{{ csrf_token() }}"
+                    _token: "{{ csrf_token() }}"
                 }
                 $.ajax({
                     type: "post",

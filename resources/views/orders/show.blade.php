@@ -199,7 +199,13 @@
                     </ul>
                 </div>
                 @else
-                
+                <div class="logistics_infor">
+                    <p class="logistics_title">@lang('order.Logistics information')</p>
+                    <div class="no_img">
+                    	<img src="{{ asset('img/no_Logistics.png') }}">
+                    	<p>@lang('order.No logistics information')</p>
+                    </div>
+                </div>
                 @endif
 
                         <!--订单商品列表-->

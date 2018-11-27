@@ -171,13 +171,6 @@
                                             </td>
                                             <td rowspan="{{ $order->items->count() }}" class="col-operate">
                                                 <p class="p-button">
-                                                    {{-- @if($order->status == \App\Models\Order::ORDER_STATUS_COMPLETED && $order->commented_at == null)
-                                                        <a class="evaluate"
-                                                           href="{{ route('orders.create_comment', $order->id) }}">@lang('basic.users.feedback')</a>
-                                                    @endif
-                                                    <a class="buy_more" data-url="{{ route('carts.store') }}"
-                                                       href="javascript:void(0)">@lang('basic.users.Once_again_to_buy')</a>--}}
-                                                       
                                                     @if($order->status == \App\Models\Order::ORDER_STATUS_PAYING)
                                                             <!--订单待支付-->
                                                     <!--付款或再次购买隐藏显示取消订单-->
@@ -227,6 +220,10 @@
                                                        href="{{  route('orders.show_comment', $order->id) }}">@lang('basic.orders.View reviews')</a>
                                                     <!--再次购买-->
                                                     <a class="buy_more"
+                                                       data-url="{{ route('carts.store') }}">@lang('basic.orders.buy again')</a>
+                                                    @elseif($order->status == \App\Models\Order::ORDER_STATUS_REFUNDING)
+                                                    <!--再次购买-->
+                                                   <a class="Buy_again"
                                                        data-url="{{ route('carts.store') }}">@lang('basic.orders.buy again')</a>
                                                     @endif
                                                 </p>

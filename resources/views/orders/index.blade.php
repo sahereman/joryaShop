@@ -191,6 +191,10 @@
                                                     <!--再次购买-->
                                                     <a class="buy_more"
                                                        data-url="{{ route('carts.store') }}">@lang('basic.orders.buy again')</a>
+                                                    @elseif($order->status == \App\Models\Order::ORDER_STATUS_REFUNDING)
+                                                    <!--再次购买-->
+                                                    <a class="Buy_again"
+                                                       data-url="{{ route('carts.store') }}">@lang('basic.orders.buy again')</a>
                                                     @endif
                                                 </p>
                                             </td>
@@ -347,7 +351,6 @@
                     url: url,
                     data: data,
                     success: function (data) {
-                        console.log(data);
                         window.location.reload();
                     },
                     error: function (err) {
@@ -442,7 +445,6 @@
 //              var ad_totalS = parseInt((addTime.getTime() / 1000) + auto_totalS); ///下单总秒数
 //              var totalS = parseInt(ad_totalS - (nowDate.getTime() / 1000)); ///支付时长
                 totalS--;
-                console.log(totalS)
                 if (totalS > 0) {
                     var _day = parseInt((totalS / 3600) % 24 / 24);
                     var _hour = parseInt((totalS / 3600) % 24);
