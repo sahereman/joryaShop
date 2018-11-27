@@ -69,6 +69,12 @@ class AdminTablesSeeder extends Seeder
                 'http_method' => '',
                 'http_path' => "/shipment_companies",
             ],
+            [
+                'name' => '导航菜单管理',
+                'slug' => 'menus',
+                'http_method' => '',
+                'http_path' => "/menus",
+            ],
         ];
 
     /*自定义添加的菜单*/
@@ -179,6 +185,13 @@ class AdminTablesSeeder extends Seeder
                 'title' => '快递公司管理',
                 'icon' => 'fa-list',
                 'uri' => 'shipment_companies',
+            ],
+            [
+                'parent_id' => 18,
+                'order' => 4,
+                'title' => '导航菜单管理',
+                'icon' => 'fa-list',
+                'uri' => 'menus',
             ],
 
 
@@ -337,14 +350,6 @@ class AdminTablesSeeder extends Seeder
         $menus = array_merge($menus, $this->custom_menus);
         Menu::insert($menus);
 
-        // add role to menu.
-        Menu::find(2)->roles()->save(Role::first());
-        Menu::find(11)->roles()->save(Role::first());
-        Menu::find(13)->roles()->save(Role::first());
-        Menu::find(14)->roles()->save(Role::first());
-        Menu::find(15)->roles()->save(Role::first());
-        Menu::find(16)->roles()->save(Role::first());
-        Menu::find(17)->roles()->save(Role::first());
-        Menu::find(18)->roles()->save(Role::first());
+
     }
 }

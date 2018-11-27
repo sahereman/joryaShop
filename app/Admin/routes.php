@@ -63,6 +63,9 @@ Route::group([
     /*快递公司管理*/
     $router->resource('shipment_companies', ShipmentCompaniesController::class)->names('admin.shipment_companies');
 
+    /*导航菜单管理*/
+    $router->resource('menus', MenusController::class)->names('admin.menus');
+
     //    $router->resource('example', ExampleController::class)->names('admin.example');
     //    $router->get('example', 'ExampleController@index')->name('admin.example.index');
     //    $router->get('example/create', 'ExampleController@create')->name('admin.example.create');
