@@ -13,4 +13,338 @@
             background: #f9f3fd;
         }
     }
+    .goodsPresent{
+        padding: 1rem 1rem .4rem;
+        .gName{
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            width: 100%;
+        }
+        .gPrice{
+            padding: .5rem 0;
+            border-bottom: 1px solid #f1f1f1;
+            span{
+                color: #bf8f67;
+                margin-right: .5rem;
+            }
+            s{
+                color: #999999;
+            }
+        }
+        .gStock{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            color: #888888;
+            padding: .7rem 0;
+            border-bottom: 1px solid #f1f1f1;
+        }
+        .gExplain{
+            display: flex;
+            flex-direction: row;
+            justify-content:  flex-start;
+            align-items: center;
+            padding: .5rem 0;
+            div{
+                margin-right: 1rem;
+                color: #888888;
+                margin-right: 2rem;
+                img{
+                    width: 1.2rem;
+                    margin-right: .3rem;
+                    vertical-align: middle;
+                }
+                span{
+                    vertical-align: middle;
+                }
+            }
+        }
+        
+    }
+    .gChoose{
+            padding: .7rem 0;
+            background: #f7f7f7;
+            .gChooseBox{
+                color: #888888;
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+                padding: .5rem 1rem;
+                background: #ffff;
+                img{
+                    width: .5rem;
+                }
+            }
+        }
+    .goodsIntroduction{
+        padding-bottom: 3rem;
+        .gIntroHead{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            border-bottom: 1px solid #f1f1f1;
+            span{
+                width: 50%;
+                text-align: center;
+                padding: .5rem;
+                
+            }
+            .gIntroHeadActive{
+                color: #bf8f67;
+                border-bottom: 2px solid #bf8f67;
+            }
+        }
+        .gIntroCon{
+            width: 100%;
+            .gIntroConDetail{
+                display: block;
+                img{
+                    width: 100%;
+                    height: auto;
+                }
+            }
+            .gIntroConEvaluate{
+                display: none;
+                background: #f4f4f4;
+                .gEvaHead{
+                    background: #fff;
+                    padding: 1rem;
+                    border-bottom: 1px solid #f1f1f1;
+                    span{
+                        padding:.5rem;
+                        border-radius: 1rem;
+                        color: #656766;
+                        background: #fbede0;
+                        margin-right: .5rem;
+                    }
+                    .gEvaHeadActive{
+                        background: #bd9067;
+                        color: #fff;
+                    }
+                }
+                .commentDetail{
+                    background: #fff;
+                    padding: .7rem 1rem;
+                    margin-bottom: .7rem;
+                    .comUser{
+                        display: flex;
+                        flex-direction: row;
+                        justify-content: flex-start;
+                        align-items: center;
+                        .userHead{
+                            width: 2.2rem;
+                            height: 2.2rem;
+                        }
+                        .starBox{
+                            padding-bottom: .3rem;
+                            img{
+                                width: 1rem;
+                                
+                            }
+                        }
+                        span{
+                            font-size: 1rem;
+                            margin: 0 1rem 0 .5rem;
+                        }    
+                    }
+                    .comSku{
+                        font-size: .7rem;
+                        color: #989898;
+                        margin-top: .8rem;
+                        margin-bottom: 1rem;
+                    }
+                    .comCon{
+                        color: #666666;
+                    }
+                    .comPicture{
+                        margin-top: 1rem;
+                        img{
+                            width: 6.9rem;
+                            height: 8rem;
+                            border: 1px solid #ebebeb;
+                            margin-bottom: .5rem;
+                            box-sizing: border-box;
+                        }
+                    }
+                    .comDate{
+                        font-size: .7rem;
+                        color: #989898;
+                    }
+                }
+            }
+        }
+    }    
+    .gFooter{
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        background: #fff;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        height: 3rem;
+        .gList{
+            width: 50%;
+            display: flex;
+            flex-direction: row;
+            justify-content:  flex-end;
+            align-items: center;
+            border-top: 1px solid #f2f2f2;
+            div{
+                display: flex;
+                flex-direction: column;
+                justify-content:  flex-end;
+                align-items: center;
+                width: 33%;
+                height: 3rem;
+                img{
+                    width: 1.2rem;
+                }
+                span{
+                    color: #999;
+                    font-size: .65rem;
+                    margin-top: .2rem;
+                    margin-bottom: .2rem;
+                }
+            }
+            .backCart{
+                border-left: 1px solid #f2f2f2;
+                border-right: 1px solid #f2f2f2;
+            }
+        }
+        .addCart{
+            width: 25%;
+            background: #dec0a4;
+            color: #fff;
+            height: 100%;
+            height: 3rem;
+            text-align: center;
+            line-height: 3rem;
+        }
+        .buy{
+            width: 25%;
+            background: #bd9067;
+            color: #fff;
+            height: 3rem;
+            text-align: center;
+            line-height: 3rem;
+        }
+    }
+    .skuBox{
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 10;
+        display: none;
+        .mask{
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 19;
+        }
+        .skuCon{
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: #fff;
+            padding: 1rem;
+            z-index: 20;
+            border-radius: .5rem .5rem 0 0;
+            .skuGoods{
+                display: flex;
+                flex-direction: row;
+                justify-content: flex-start;
+                align-items: center;
+                img{
+                    width: 8rem;
+                    height: 8rem;
+                    margin-right: 1rem;
+                }
+                div{
+                    label{
+                        color: #bd8c61;
+                        span{
+                            font-size: 1.4rem;
+                        }
+                    }
+                    p{
+                        color: #888888;
+                    }
+                }
+            }
+            .skuListBox{
+                .skuListHead{
+                        height: 3rem;
+                        line-height: 3rem;
+                        
+                    }
+                .skuListMain{
+                    display: flex;
+                    flex-direction: row;
+                    flex-wrap: wrap;
+                    justify-content:  flex-start;
+                    align-items: center;
+                    span{
+                        padding: .3rem .5rem;
+                        border: 1px solid #d9d9d9;
+                        color: #676767;
+                        margin-right: .7rem;
+                        margin-bottom: .7rem;
+                    }
+                    .skuActive{
+                        border: 1px solid #be916a;
+                    }
+                }
+            }
+            .buyNum{
+                padding: .7rem 0 .5rem;
+                border-top: 1px solid #ebebeb;
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+                color: #989898;
+                div{
+                    border: 1px solid #ebebeb;
+                    padding: .3rem;
+                    span{
+                        padding:.5rem;
+                    }
+                    .gNum{
+                        border-left: 1px solid #ebebeb;
+                        border-right: 1px solid #ebebeb;
+                        padding: .5rem 1.5rem;
+                    }
+                }
+            }
+            .btnBox{
+                padding-top: 1rem;
+                width: 100%;
+                text-align: center;
+                button{
+                    border: none;
+                    width: 100%;
+                    height: 2.2rem;
+                    line-height: 2.2rem;
+                    text-align: center;
+                    background: #bd8c61;
+                    color: #fff;
+                    border-radius: 1rem;
+                }
+            }
+        }
+    }
 }
