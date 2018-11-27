@@ -97,20 +97,20 @@ Route::group(['middleware' => 'auth'], function () {
     /*商品收藏*/
     Route::get('user_favourites', 'UserFavouritesController@index')->name('user_favourites.index'); // 列表
     Route::post('user_favourites', 'UserFavouritesController@store')->name('user_favourites.store'); // 加入收藏
-    Route::delete('user_favourites/{userFavourite}', 'UserFavouritesController@destroy')->name('user_favourites.destroy'); // 删除
+    Route::delete('user_favourites/{favourite}', 'UserFavouritesController@destroy')->name('user_favourites.destroy'); // 删除
 
     /*浏览历史*/
     Route::get('user_histories', 'UserHistoriesController@index')->name('user_histories.index'); // 列表
-    Route::delete('user_histories/{userHistory}', 'UserHistoriesController@destroy')->name('user_histories.destroy'); // 删除
+    Route::delete('user_histories/{history}', 'UserHistoriesController@destroy')->name('user_histories.destroy'); // 删除
     Route::delete('user_histories', 'UserHistoriesController@flush')->name('user_histories.flush'); // 清空
 
     /*收货地址*/
     Route::get('user_addresses', 'UserAddressesController@index')->name('user_addresses.index'); // 列表
     Route::get('user_addresses/list_all', 'UserAddressesController@listAll')->name('user_addresses.list_all'); // 获取当前用户收货地址列表 [for Ajax request]
     Route::post('user_addresses', 'UserAddressesController@store')->name('user_addresses.store'); // 提交
-    Route::put('user_addresses/{userAddress}', 'UserAddressesController@update')->name('user_addresses.update'); // 更新
-    Route::delete('user_addresses/{userAddress}', 'UserAddressesController@destroy')->name('user_addresses.destroy'); // 删除
-    Route::patch('user_addresses/{userAddress}/set_default', 'UserAddressesController@setDefault')->name('user_addresses.set_default'); // 设置默认
+    Route::put('user_addresses/{address}', 'UserAddressesController@update')->name('user_addresses.update'); // 更新
+    Route::delete('user_addresses/{address}', 'UserAddressesController@destroy')->name('user_addresses.destroy'); // 删除
+    Route::patch('user_addresses/{address}/set_default', 'UserAddressesController@setDefault')->name('user_addresses.set_default'); // 设置默认
 
     /*购物车*/
     Route::get('carts', 'CartsController@index')->name('carts.index'); // 购物车

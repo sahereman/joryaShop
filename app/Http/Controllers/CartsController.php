@@ -59,25 +59,9 @@ class CartsController extends Controller
     }
 
     // PATCH 更新 (增减数量)
-    public function update(Request $request, Cart $cart)
+    public function update(CartRequest $request, Cart $cart)
     {
         $this->authorize('update', $cart);
-
-        $this->validate($request, [
-            'number' => [
-                'bail',
-                'required',
-                'integer',
-                'min:1',
-                function ($attribute, $value, $fail) use ($cart) {
-                    if ($cart->sku->stock < $value) {
-                        $fail('该商品库存不足，请重新调整商品购买数量');
-                    }
-                },
-            ],
-        ], [], [
-            'number' => '商品购买数量',
-        ]);
 
         $cart->update([
             'number' => $request->input('number'),

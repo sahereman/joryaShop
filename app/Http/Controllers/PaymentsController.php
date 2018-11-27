@@ -7,6 +7,7 @@ use App\Models\Order;
 use App\Models\OrderRefund;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use PayPal\Api\Amount;
@@ -203,14 +204,14 @@ class PaymentsController extends Controller
     }*/
     public function alipayRefund(Request $request)
     {
-        $this->validate($request, [
-            'order_id' => 'required|integer|exists:orders,id',
-        ], [
-            'order_id.exists' => '该订单不存在',
-        ], [
-            'order_id' => '订单ID',
-        ]);
         $order = Order::find($request->input('order_id'));
+        if (!$order) {
+            if (App::isLocale('en')) {
+                throw new InvalidRequestException('This order does not exist.');
+            } else {
+                throw new InvalidRequestException('该订单不存在');
+            }
+        }
 
         // TODO ... (for production)
         /*if ($order->status !== Order::ORDER_STATUS_REFUNDING) {
@@ -430,14 +431,14 @@ class PaymentsController extends Controller
     }*/
     public function wechatRefund(Request $request)
     {
-        $this->validate($request, [
-            'order_id' => 'required|integer|exists:orders,id',
-        ], [
-            'order_id.exists' => '该订单不存在',
-        ], [
-            'order_id' => '订单ID',
-        ]);
         $order = Order::find($request->input('order_id'));
+        if (!$order) {
+            if (App::isLocale('en')) {
+                throw new InvalidRequestException('This order does not exist.');
+            } else {
+                throw new InvalidRequestException('该订单不存在');
+            }
+        }
 
         // TODO ... (for production)
         /*if ($order->status !== Order::ORDER_STATUS_REFUNDING) {
@@ -911,14 +912,14 @@ class PaymentsController extends Controller
     // Paypal 退款
     public function paypalRefund(Request $request)
     {
-        $this->validate($request, [
-            'order_id' => 'required|integer|exists:orders,id',
-        ], [
-            'order_id.exists' => '该订单不存在',
-        ], [
-            'order_id' => '订单ID',
-        ]);
         $order = Order::find($request->input('order_id'));
+        if (!$order) {
+            if (App::isLocale('en')) {
+                throw new InvalidRequestException('This order does not exist.');
+            } else {
+                throw new InvalidRequestException('该订单不存在');
+            }
+        }
 
         // TODO ... (for production)
         /*if ($order->status !== Order::ORDER_STATUS_REFUNDING) {
@@ -1058,14 +1059,14 @@ class PaymentsController extends Controller
     // POST 通用 - 模拟后台发起订单退款
     public function refund(Request $request)
     {
-        $this->validate($request, [
-            'order_id' => 'required|integer|exists:orders,id',
-        ], [
-            'order_id.exists' => '该订单不存在',
-        ], [
-            'order_id' => '订单ID',
-        ]);
         $order = Order::find($request->input('order_id'));
+        if (!$order) {
+            if (App::isLocale('en')) {
+                throw new InvalidRequestException('This order does not exist.');
+            } else {
+                throw new InvalidRequestException('该订单不存在');
+            }
+        }
 
         // TODO ... (for production)
         /*if ($order->status !== Order::ORDER_STATUS_REFUNDING) {

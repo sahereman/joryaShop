@@ -130,53 +130,8 @@ class OrdersController extends Controller
     }
 
     // GET 选择地址+币种页面
-    public function prePayment(Request $request)
+    public function prePayment(PostOrderRequest $request)
     {
-        $this->validate($request, [
-            'sku_id' => [
-                'bail',
-                'required_without:cart_ids',
-                'required_with:number',
-                'integer',
-                'exists:product_skus,id',
-                function ($attribute, $value, $fail) {
-                    $sku = ProductSku::find($value);
-                    if ($sku->product->on_sale == 0) {
-                        $fail('该商品已下架');
-                    }
-                    if ($sku->stock == 0) {
-                        $fail('该商品已售罄');
-                    }
-                    /*if ($sku->stock < $this->input('number')) {
-                        $fail('该商品库存不足，请重新调整商品购买数量');
-                    }*/
-                },
-            ],
-            'number' => [
-                'bail',
-                'required_without:cart_ids',
-                'required_with:sku_id',
-                'integer',
-                'min:1',
-                function ($attribute, $value, $fail) use ($request) {
-                    $sku = ProductSku::find($request->input('sku_id'));
-                    if ($sku->stock < $value) {
-                        $fail('该商品库存不足，请重新调整商品购买数量');
-                    }
-                },
-            ],
-            'cart_ids' => [
-                'bail',
-                'required_without_all:sku_id,number',
-                'string',
-                'regex:/^\d+(\,\d+)*$/',
-            ],
-        ], [], [
-            'sku_id' => '商品SKU-ID',
-            'number' => '商品购买数量',
-            'cart_ids' => '购物车IDs',
-        ]);
-
         $total_amount = 0;
         $total_amount_en = 0;
         $total_shipping_fee = 0;

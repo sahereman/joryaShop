@@ -21,11 +21,11 @@ class UserFavouritesController extends Controller
     public function store(UserFavouriteRequest $request)
     {
         $user = $request->user();
-        $userFavourite = new UserFavourite();
-        $userFavourite->user_id = $user->id;
-        $userFavourite->product_id = $request->input('product_id');
-        $userFavourite->user()->associate($user);
-        $result = $userFavourite->save();
+        $favourite = new UserFavourite();
+        $favourite->user_id = $user->id;
+        $favourite->product_id = $request->input('product_id');
+        $favourite->user()->associate($user);
+        $result = $favourite->save();
         if($result){
             return response()->json([
                 'code' => 200,
@@ -40,11 +40,11 @@ class UserFavouritesController extends Controller
     }
 
     // DELETE 删除
-    public function destroy(Request $request, UserFavourite $userFavourite)
+    public function destroy(Request $request, UserFavourite $favourite)
     {
-        $this->authorize('delete', $userFavourite);
-        $userFavourite->user()->dissociate();
-        $result = $userFavourite->delete();
+        $this->authorize('delete', $favourite);
+        $favourite->user()->dissociate();
+        $result = $favourite->delete();
         if($result){
             return response()->json([
                 'code' => 200,

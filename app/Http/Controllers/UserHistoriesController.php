@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\InvalidRequestException;
 use App\Models\User;
 use App\Models\UserHistory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Cache;
 
 class UserHistoriesController extends Controller
@@ -36,12 +38,14 @@ class UserHistoriesController extends Controller
             }
         }
 
-        $this->validate($request, [
-            'page' => 'sometimes|required|integer|min:1',
-        ], [], [
-            'page' => '页码',
-        ]);
         $current_page = $request->has('page') ? $request->input('page') : 1;
+        if (preg_match('/^\d+$/', $current_page) != 1) {
+            if (App::isLocale('en')) {
+                throw new InvalidRequestException('The parameter page must be an integer.');
+            } else {
+                throw new InvalidRequestException('页码参数必须为数字！');
+            }
+        }
         $histories = $request->user()->histories()->with('product')->orderByDesc('browsed_at')->get()->groupBy(function ($item, $key) {
             return date('Y.m.d', strtotime($item['browsed_at']));
         });
@@ -57,11 +61,11 @@ class UserHistoriesController extends Controller
     }
 
     // DELETE 删除
-    public function destroy(Request $request, UserHistory $userHistory)
+    public function destroy(Request $request, UserHistory $history)
     {
-        $this->authorize('delete', $userHistory);
-        $userHistory->user()->dissociate();
-        $result = $userHistory->delete();
+        $this->authorize('delete', $history);
+        $history->user()->dissociate();
+        $result = $history->delete();
         if ($result) {
             return response()->json([
                 'code' => 200,

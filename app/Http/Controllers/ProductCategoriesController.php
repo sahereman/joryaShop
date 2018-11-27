@@ -8,7 +8,6 @@ use App\Models\Product;
 use App\Models\ProductCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
-use Illuminate\Validation\Rule;
 
 class ProductCategoriesController extends Controller
 {
@@ -39,25 +38,8 @@ class ProductCategoriesController extends Controller
     }
 
     // GET 二级分类及其商品列表 下拉加载更多 [for Ajax request]
-    public function more(Request $request, ProductCategory $category)
+    public function more(ProductRequest $request, ProductCategory $category)
     {
-        $this->validate($request, [
-            'sort' => [
-                'bail',
-                'sometimes',
-                'nullable',
-                'string',
-                Rule::in(['index', 'heat', 'latest', 'sales', 'price_asc', 'price_desc'])
-            ],
-            'min_price' => 'bail|sometimes|nullable|numeric|lte:max_price',
-            'max_price' => 'bail|sometimes|nullable|numeric|gte:min_price',
-            'page' => 'sometimes|required|integer|min:1',
-        ], [], [
-            'sort' => '排序方式',
-            'min_price' => '最低价格',
-            'max_price' => '最高价格',
-            'page' => '页码',
-        ]);
         $parent = $category->parent;
         // Ajax request for the 1st time: route('product_categories.index').'?page=1'
         $current_page = $request->has('page') ? $request->input('page') : 1;
