@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Support\Facades\App;
 use Illuminate\Validation\Rule;
 
 class UserAddressRequest extends Request
@@ -25,6 +26,9 @@ class UserAddressRequest extends Request
 
     public function attributes()
     {
+        if (App::isLocale('en')) {
+            return [];
+        }
         return [
             'name' => '收货人',
             'phone' => '手机号码',

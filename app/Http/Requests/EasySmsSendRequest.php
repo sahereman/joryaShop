@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Support\Facades\App;
 use Illuminate\Validation\Rule;
 
 class EasySmsSendRequest extends Request
@@ -35,6 +36,9 @@ class EasySmsSendRequest extends Request
      */
     public function attributes()
     {
+        if (App::isLocale('en')) {
+            return [];
+        }
         return [
             'data' => '短信内容',
             'data.code' => '短信验证码',

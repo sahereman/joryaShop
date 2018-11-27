@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Support\Facades\App;
 use Illuminate\Validation\Rule;
 
 class RefundOrderWithShipmentRequest extends Request
@@ -32,6 +33,9 @@ class RefundOrderWithShipmentRequest extends Request
      */
     public function attributes()
     {
+        if (App::isLocale('en')) {
+            return [];
+        }
         return [
             // 'amount' => '退款金额',
             'order_id' => '订单ID',

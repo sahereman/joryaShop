@@ -3,6 +3,7 @@
 namespace App\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Cache;
 
 class RegisterEmailCodeSendableRule implements Rule
@@ -36,6 +37,9 @@ class RegisterEmailCodeSendableRule implements Rule
      */
     public function message()
     {
+        if (App::isLocale('en')) {
+            return 'The Email verification code was sent already.';
+        }
         return '邮箱验证码已发送';
     }
 }

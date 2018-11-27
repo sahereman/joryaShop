@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Rules\RegisterEmailCodeSendableRule;
+use Illuminate\Support\Facades\App;
 use Illuminate\Validation\Rule;
 
 class RegisterEmailCodeRequest extends Request
@@ -45,6 +46,9 @@ class RegisterEmailCodeRequest extends Request
      */
     public function attributes()
     {
+        if (App::isLocale('en')) {
+            return [];
+        }
         return [
             'name' => '用户名',
             'password' => '密码',
@@ -59,6 +63,9 @@ class RegisterEmailCodeRequest extends Request
      */
     public function messages()
     {
+        if (App::isLocale('en')) {
+            return [];
+        }
         return [
             'name.unique' => '该用户名已注册用户',
             'email.unique' => '该邮箱已注册用户',

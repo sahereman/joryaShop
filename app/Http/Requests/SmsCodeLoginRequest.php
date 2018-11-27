@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use App\Models\User;
 use App\Rules\LoginSmsCodeSendableRule;
+use Illuminate\Support\Facades\App;
 use Illuminate\Validation\Rule;
 
 class SmsCodeLoginRequest extends Request
@@ -41,6 +42,9 @@ class SmsCodeLoginRequest extends Request
      */
     public function attributes()
     {
+        if (App::isLocale('en')) {
+            return [];
+        }
         return [
             'country_code' => '国家|地区码',
             'phone' => '手机号码',
@@ -53,6 +57,9 @@ class SmsCodeLoginRequest extends Request
      */
     public function messages()
     {
+        if (App::isLocale('en')) {
+            return [];
+        }
         return [
             'country_code.regex' => '国家|地区码 格式不正确（仅支持数字组合）',
             'phone.regex' => '手机号码 格式不正确（仅支持数字组合）',

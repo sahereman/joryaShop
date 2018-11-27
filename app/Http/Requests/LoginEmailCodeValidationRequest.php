@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Rules\LoginEmailCodeValidRule;
+use Illuminate\Support\Facades\App;
 use Illuminate\Validation\Rule;
 
 class LoginEmailCodeValidationRequest extends Request
@@ -46,6 +47,9 @@ class LoginEmailCodeValidationRequest extends Request
      */
     public function attributes()
     {
+        if (App::isLocale('en')) {
+            return [];
+        }
         return [
             'email' => '邮箱',
             'code' => '邮箱验证码',
@@ -59,6 +63,9 @@ class LoginEmailCodeValidationRequest extends Request
      */
     public function messages()
     {
+        if (App::isLocale('en')) {
+            return [];
+        }
         return [
             'email.exists' => '该邮箱尚未注册用户',
         ];

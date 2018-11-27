@@ -5,6 +5,7 @@ namespace App\Http\Requests;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\ProductComment;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
@@ -27,7 +28,11 @@ class PutOrderCommentRequest extends Request
                             'order_id' => $this->input('order_id'),
                         ])->exists()
                         ) {
-                            $fail('您没有权限在此追加评论。');
+                            if(App::isLocale('en')){
+                                $fail('You have no authority to append comment here.');
+                            }else{
+                                $fail('您没有权限在此追加评论。');
+                            }
                         }
                     }
                 },
@@ -47,7 +52,11 @@ class PutOrderCommentRequest extends Request
                         'order_id' => $this->input('order_id'),
                     ])->exists()
                     ) {
-                        $fail('您没有权限在此追加评论。');
+                        if(App::isLocale('en')){
+                            $fail('You have no authority to append comment here.');
+                        }else{
+                            $fail('您没有权限在此追加评论。');
+                        }
                     }
                 },
             ],
@@ -62,6 +71,9 @@ class PutOrderCommentRequest extends Request
      */
     public function attributes()
     {
+        if (App::isLocale('en')) {
+            return [];
+        }
         return [
             'parent_id' => '父级评价ID',
             'order_id' => '订单ID',

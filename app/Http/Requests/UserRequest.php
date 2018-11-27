@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Models\User;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 
@@ -68,6 +69,9 @@ class UserRequest extends Request
 
     public function attributes()
     {
+        if (App::isLocale('en')) {
+            return [];
+        }
         return [
             'name' => '用户名',
             'avatar' => '头像',

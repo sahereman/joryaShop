@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use App\Models\ExchangeRate;
 use App\Models\ProductSku;
+use Illuminate\Support\Facades\App;
 use Illuminate\Validation\Rule;
 
 class PostOrderRequest extends Request
@@ -22,7 +23,11 @@ class PostOrderRequest extends Request
                 'string',
                 function ($attribute, $value, $fail) {
                     if ($value != 'CNY' && ExchangeRate::where('currency', $value)->doesntExist()) {
-                        $fail('该币种支付暂不支持');
+                        if (App::isLocale('en')) {
+                            $fail('This currency is not supported yet.');
+                        } else {
+                            $fail('该币种支付暂不支持');
+                        }
                     }
                 },
             ],
@@ -35,10 +40,18 @@ class PostOrderRequest extends Request
                 function ($attribute, $value, $fail) {
                     $sku = ProductSku::find($value);
                     if ($sku->product->on_sale == 0) {
-                        $fail('该商品已下架');
+                        if (App::isLocale('en')) {
+                            $fail('This product sku is off sale already.');
+                        } else {
+                            $fail('该商品已下架');
+                        }
                     }
                     if ($sku->stock == 0) {
-                        $fail('该商品已售罄');
+                        if (App::isLocale('en')) {
+                            $fail('This product sku is out of stock already.');
+                        } else {
+                            $fail('该商品已售罄');
+                        }
                     }
                     /*if ($sku->stock < $this->input('number')) {
                         $fail('该商品库存不足，请重新调整商品购买数量');
@@ -54,7 +67,11 @@ class PostOrderRequest extends Request
                 function ($attribute, $value, $fail) {
                     $sku = ProductSku::find($this->input('sku_id'));
                     if ($sku->stock < $value) {
-                        $fail('该商品库存不足，请重新调整商品购买数量');
+                        if (App::isLocale('en')) {
+                            $fail("The stock of this product sku is not sufficient. Plz re-enter another appropriate number.");
+                        } else {
+                            $fail('该商品库存不足，请重新调整商品购买数量');
+                        }
                     }
                 },
             ],
@@ -73,6 +90,9 @@ class PostOrderRequest extends Request
 
     public function attributes()
     {
+        if (App::isLocale('en')) {
+            return [];
+        }
         return [
             'currency' => '币种',
             'sku_id' => '商品SKU-ID',
@@ -87,6 +107,9 @@ class PostOrderRequest extends Request
 
     public function messages()
     {
+        if (App::isLocale('en')) {
+            return [];
+        }
         return [
             'sku_id.exists' => '该商品不存在',
             'cart_ids.regex' => '购物车IDs格式不正确',

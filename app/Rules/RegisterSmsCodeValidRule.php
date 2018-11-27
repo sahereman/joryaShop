@@ -3,6 +3,7 @@
 namespace App\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Cache;
 
 class RegisterSmsCodeValidRule implements Rule
@@ -46,6 +47,12 @@ class RegisterSmsCodeValidRule implements Rule
      */
     public function message()
     {
+        if(App::isLocale('en')){
+            if ($this->is_expired) {
+                return 'The Sms verification code is expired already.';
+            }
+            return 'The Sms verification code is wrong.';
+        }
         if ($this->is_expired) {
             return '短信验证码已过期';
         }

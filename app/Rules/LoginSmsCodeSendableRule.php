@@ -3,6 +3,7 @@
 namespace App\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Cache;
 
 class LoginSmsCodeSendableRule implements Rule
@@ -38,6 +39,9 @@ class LoginSmsCodeSendableRule implements Rule
      */
     public function message()
     {
+        if(App::isLocale('en')){
+            return 'The Sms verification code was sent already.';
+        }
         return '短信验证码已发送';
     }
 }

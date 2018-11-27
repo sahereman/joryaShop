@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Models\ProductSku;
+use Illuminate\Support\Facades\App;
 use Illuminate\Validation\Rule;
 
 class CartRequest extends Request
@@ -34,10 +35,18 @@ class CartRequest extends Request
                 function ($attribute, $value, $fail) {
                     $sku = ProductSku::find($value);
                     if ($sku->product->on_sale == 0) {
-                        $fail('该商品已下架');
+                        if (App::isLocale('en')) {
+                            $fail('This product sku is off sale already.');
+                        } else {
+                            $fail('该商品已下架');
+                        }
                     }
                     if ($sku->stock == 0) {
-                        $fail('该商品已售罄');
+                        if (App::isLocale('en')) {
+                            $fail('This product sku is out of stock already.');
+                        } else {
+                            $fail('该商品已售罄');
+                        }
                     }
                     /*if ($sku->stock < $this->input('number')) {
                         $fail('该商品库存不足，请重新调整商品购买数量');
@@ -53,7 +62,11 @@ class CartRequest extends Request
                 function ($attribute, $value, $fail) {
                     $sku = ProductSku::find($this->input('sku_id'));
                     if ($sku->stock < $value) {
-                        $fail('该商品库存不足，请重新调整商品购买数量');
+                        if (App::isLocale('en')) {
+                            $fail("The stock of this product sku is not sufficient. Plz re-enter another appropriate number.");
+                        } else {
+                            $fail('该商品库存不足，请重新调整商品购买数量');
+                        }
                     }
                 },
             ],
@@ -67,6 +80,9 @@ class CartRequest extends Request
      */
     public function attributes()
     {
+        if (App::isLocale('en')) {
+            return [];
+        }
         return [
             'sku_id' => '商品SKU-ID',
             'number' => '商品购买数量',
@@ -80,6 +96,9 @@ class CartRequest extends Request
      */
     public function messages()
     {
+        if (App::isLocale('en')) {
+            return [];
+        }
         return [
             'sku_id.exists' => '该商品不存在',
         ];

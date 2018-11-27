@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Support\Facades\App;
 use Illuminate\Validation\Rule;
 
 class ProductRequest extends Request
@@ -30,6 +31,9 @@ class ProductRequest extends Request
 
     public function attributes()
     {
+        if (App::isLocale('en')) {
+            return [];
+        }
         return [
             'query' => '搜索商品',
             'category' => '商品分类',

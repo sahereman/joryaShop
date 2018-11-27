@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Rules\ResetEmailCodeSendableRule;
+use Illuminate\Support\Facades\App;
 use Illuminate\Validation\Rule;
 
 class ResetEmailCodeRequest extends Request
@@ -42,6 +43,9 @@ class ResetEmailCodeRequest extends Request
      */
     public function attributes()
     {
+        if (App::isLocale('en')) {
+            return [];
+        }
         return [
             'email' => '邮箱',
         ];
@@ -54,6 +58,9 @@ class ResetEmailCodeRequest extends Request
      */
     public function messages()
     {
+        if (App::isLocale('en')) {
+            return [];
+        }
         return [
             'email.exists' => '该邮箱尚未注册用户',
         ];

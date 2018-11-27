@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Support\Facades\App;
 use Illuminate\Validation\Rule;
 use App\Models\Product;
 
@@ -42,6 +43,9 @@ class UserFavouriteRequest extends Request
 
     public function attributes()
     {
+        if (App::isLocale('en')) {
+            return [];
+        }
         return [
             'product_id' => '商品ID',
         ];
@@ -49,6 +53,9 @@ class UserFavouriteRequest extends Request
 
     public function messages()
     {
+        if (App::isLocale('en')) {
+            return [];
+        }
         return [
             'product_id.exits' => '请选择商品添加收藏',
             'product_id.unique' => '该商品已添加收藏',

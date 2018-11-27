@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use App\Models\Order;
 use App\Models\OrderItem;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
@@ -41,7 +42,11 @@ class PostOrderCommentRequest extends Request
                         sort($this->order_item_ids);
                     }
                     if ($order_item_ids != $this->order_item_ids) {
-                        $fail('请确保评价每个商品的综合评分。');
+                        if (App::isLocale('en')) {
+                            $fail('Plz mark the composite index on every product sku.');
+                        } else {
+                            $fail('请确保评价每个商品的综合评分。');
+                        }
                     }
                 },
             ],
@@ -58,7 +63,11 @@ class PostOrderCommentRequest extends Request
                         sort($this->order_item_ids);
                     }
                     if ($order_item_ids != $this->order_item_ids) {
-                        $fail('请确保评价每个商品的描述相符。');
+                        if (App::isLocale('en')) {
+                            $fail('Plz mark the description index on every product sku.');
+                        } else {
+                            $fail('请确保评价每个商品的描述相符。');
+                        }
                     }
                 },
             ],
@@ -75,7 +84,11 @@ class PostOrderCommentRequest extends Request
                         sort($this->order_item_ids);
                     }
                     if ($order_item_ids != $this->order_item_ids) {
-                        $fail('请确保评价每个商品的物流服务。');
+                        if (App::isLocale('en')) {
+                            $fail('Plz mark the shipment index on every product sku.');
+                        } else {
+                            $fail('请确保评价每个商品的物流服务。');
+                        }
                     }
                 },
             ],
@@ -92,6 +105,9 @@ class PostOrderCommentRequest extends Request
                         sort($this->order_item_ids);
                     }
                     if ($order_item_ids != $this->order_item_ids) {
+                        if (App::isLocale('en')) {
+                            $fail('Plz make comment on every product sku.');
+                        }
                         $fail('请确保填写每个商品的评价内容。');
                     }
                 },
@@ -110,7 +126,11 @@ class PostOrderCommentRequest extends Request
                         sort($this->order_item_ids);
                     }
                     if ($order_item_ids != $this->order_item_ids) {
-                        $fail('请确保上传每个商品的评价图片集。');
+                        if (App::isLocale('en')) {
+                            $fail('Plz upload photos for every product sku.');
+                        } else {
+                            $fail('请确保上传每个商品的评价图片集。');
+                        }
                     }
                 },
             ],
@@ -128,6 +148,9 @@ class PostOrderCommentRequest extends Request
      */
     public function attributes()
     {
+        if (App::isLocale('en')) {
+            return [];
+        }
         return [
             'order_id' => '订单ID',
             'composite_index' => '综合评分',

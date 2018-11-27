@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use App\Models\User;
 use App\Rules\RegisterSmsCodeSendableRule;
+use Illuminate\Support\Facades\App;
 use Illuminate\Validation\Rule;
 
 class SmsCodeRegisterRequest extends Request
@@ -27,7 +28,11 @@ class SmsCodeRegisterRequest extends Request
                         'phone' => $value,
                     ])->exists()
                     ) {
-                        $fail('对不起，该手机号码已注册过用户');
+                        if (App::isLocale('en')) {
+                            $fail('Sorry, this phone number is registered as our user already.');
+                        } else {
+                            $fail('对不起，该手机号码已注册过用户');
+                        }
                     }
                 },
                 new RegisterSmsCodeSendableRule($this->input('country_code')),
@@ -41,6 +46,9 @@ class SmsCodeRegisterRequest extends Request
      */
     public function attributes()
     {
+        if (App::isLocale('en')) {
+            return [];
+        }
         return [
             'country_code' => '国家|地区码',
             'phone' => '手机号码',
@@ -53,6 +61,9 @@ class SmsCodeRegisterRequest extends Request
      */
     public function messages()
     {
+        if (App::isLocale('en')) {
+            return [];
+        }
         return [
             'country_code.regex' => '国家|地区码 格式不正确（仅支持数字组合）',
             'phone.regex' => '手机号码 格式不正确（仅支持数字组合）',

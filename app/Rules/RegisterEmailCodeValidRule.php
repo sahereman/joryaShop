@@ -3,6 +3,7 @@
 namespace App\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Cache;
 
 class RegisterEmailCodeValidRule implements Rule
@@ -43,6 +44,12 @@ class RegisterEmailCodeValidRule implements Rule
      */
     public function message()
     {
+        if (App::isLocale('en')) {
+            if ($this->is_expired) {
+                return 'The Email verification code is expired already.';
+            }
+            return 'The Email verification code is wrong.';
+        }
         if ($this->is_expired) {
             return '邮箱验证码已过期';
         }
