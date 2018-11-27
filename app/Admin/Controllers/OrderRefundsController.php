@@ -328,17 +328,12 @@ class OrderRefundsController extends Controller
         $relatedResources = $transactions[0]->getRelatedResources();
         $sale = $relatedResources[0]->getSale();
         // $saleId = $sale->getId();
-        // $sale->setAmount($amount);
-        $sale->setReceiptId($order->payment_sn);
 
         /*$payer = $payment->getPayer();
         $payerInfo = $payer->getPayerInfo();
         $payerId = $payerInfo->getPayerId();*/
 
         $refundRequest = new RefundRequest();
-        $refundRequest->setAmount($amount); // refund with the same amount & currency as previously.
-        $refundRequest->setDescription('This is a refund order from Jorya Hair. [' . $order->refund->refund_sn . ']');
-        $refundRequest->setReason($order->refund->remark_from_user);
         try
         {
             $detailedRefund = $sale->refundSale($refundRequest, $apiContext, $restCall);
