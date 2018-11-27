@@ -2,7 +2,7 @@
     background-color: #f8f8f8;
     .reset_content {
         width: 830px;
-        height: 520px;
+        min-height: 520px;
         border-top: 2px solid $commom-color;
         background-color: #fff;
         margin: auto;
@@ -104,7 +104,6 @@
                     font-size: 12px;
                     margin-top: 5px;
                     &.areaCode_choosed {
-                        position: absolute;
                         margin-left: 5px;
                     }
                 }
@@ -135,7 +134,7 @@
                         font-size: 12px;
                     }
                     &.active {
-                        padding-left: 35px;
+//                      padding-left: 35px;
                     }
                 }
                 img {
@@ -181,8 +180,10 @@
                 }
             }
             .reset_code ~.help-block {
-                margin-top: 35px;
-                margin-right: 165px !important;
+                margin-left: 195px;
+                img {
+                    margin-top: -3px;
+                }
             }
             .has-error {
                 .help-block {

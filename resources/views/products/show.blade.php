@@ -39,8 +39,8 @@
                             <ul class="img_x" id="img_x">
                                 @foreach($product->photo_urls as $photo_url)
                                     <li code="{{ $photo_url }}">
-                                        <img class="lazy" code="{{ $photo_url }}"
-                                             data-src="{{ $photo_url }}"></li>
+                                        <img code="{{ $photo_url }}"
+                                            src="{{ $photo_url }}"></li>
                                 @endforeach
                             </ul>
                         </div>

@@ -45,8 +45,8 @@
                         <div class="form-group{{ $errors->has('phone') ? ' has-error' : '' }}">
                             <div class="">
                                 <label class="reset_email">
-                                    <span>@lang('app.Mobile phone number')</span>
-                                    <img src="{{ asset('img/sanjiao.png') }}">
+                                    <span class="sel_click">@lang('app.Mobile phone number')</span>
+                                    <img  class="sel_click" src="{{ asset('img/sanjiao.png') }}">
                                     <select class="choose_tel_area" name="country_code">
                                         @foreach(\App\Models\CountryCode::countryCodes() as $country_code)
                                             <option value="{{ $country_code->country_code }}">{{ $country_code->country_name }}</option>
@@ -133,6 +133,8 @@
             		$(this).blur();
             	}
             })
+            //点击事件绑定
+            $('.choose_tel_area').width($('span.sel_click').width()+20);
             //选择区号
             $(".choose_tel_area").on("change", function () {
                 $(".areaCode_choosed").html($(this).val());
