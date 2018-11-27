@@ -248,24 +248,70 @@
                 cursor: move;
             }
         }
-        .img_x {
-            width: 380px;
-            height: 55px;
-            border: 1px solid #eee;
-            margin-top: 20px;
-            display: flex;
-            overflow: hidden;
-            li {
-                width: 54px;
-                height: 54px;
-                border: 2px solid transparent;
-                margin: 0 4px;
-                img {
-                    width: 100%;
-                    height: 100%;
+        .spec-scroll {
+            clear:both;
+            margin-top:5px;
+            width:380px;
+            a {
+                display:block;
+                text-align:center;
+                width:10px;
+                height:55px; 
+                line-height:55px;
+                border:1px solid #CCC;
+                background:#EBEBEB;
+                cursor:pointer;
+                text-decoration:none;
+                &.prev {
+                    float:left;
+                    margin-right:4px;
+                }
+                &.next {
+                    float:right;
+                }
+            }
+            .img_items {
+                width:350px;
+                height:56px;
+                float:left;
+                position:relative;
+                overflow:hidden;
+                .img_x {
+                    position:absolute;
+                    width:999999px;
+                    height:56px;
+                    li {
+                        float:left;
+                        width:58px;
+                        text-align:center;
+//                      height: 55px;
+                        img {
+                           padding:2px;
+                           width:55px;
+                           height:50px;
+                        }
+                    }
                 }
             }
         }
+//      .img_x {
+//          width: 380px;
+//          height: 55px;
+//          border: 1px solid #eee;
+//          margin-top: 20px;
+//          display: flex;
+//          overflow: hidden;
+//          li {
+//              width: 54px;
+//              height: 54px;
+//              border: 2px solid transparent;
+//              margin: 0 4px;
+//              img {
+//                  width: 100%;
+//                  height: 100%;
+//              }
+//          }
+//      }
         .img_u {
             width: 400px;
             height: 435px;
