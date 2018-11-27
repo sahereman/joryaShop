@@ -12,6 +12,9 @@ class VerifyCsrfToken extends Middleware
      * @var array
      */
     protected $except = [
-        //
+        // 只有POST|PUT|PATCH|DELETE请求才需要作此忽略设置，GET请求不需要
+        'payments/*/alipay/notify',
+        'payments/*/wechat/notify',
+        'payments/*/paypal/notify',
     ];
 }
