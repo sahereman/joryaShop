@@ -70,7 +70,7 @@ class CartRequest extends Request
                     'required',
                     'integer',
                     'min:1',
-                    function ($attribute, $value, $fail) use ($this) {
+                    function ($attribute, $value, $fail) {
                         if ($this->route('cart')->sku->stock < $value) {
                             $fail('该商品库存不足，请重新调整商品购买数量');
                         }

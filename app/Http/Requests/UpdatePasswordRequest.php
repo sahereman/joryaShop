@@ -19,7 +19,7 @@ class UpdatePasswordRequest extends Request
                 'required',
                 'string',
                 'min:6',
-                function ($attribute, $value, $fail) use ($this) {
+                function ($attribute, $value, $fail) {
                     $userData = $this->user()->makeVisible('password')->toArray();
                     if (!Hash::check($value, $userData['password'])) {
                         if (App::isLocale('en')) {

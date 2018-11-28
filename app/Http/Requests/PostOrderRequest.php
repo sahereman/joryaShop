@@ -123,7 +123,7 @@ class PostOrderRequest extends Request
                     'required_with:sku_id',
                     'integer',
                     'min:1',
-                    function ($attribute, $value, $fail) use ($this) {
+                    function ($attribute, $value, $fail) {
                         $sku = ProductSku::find($this->input('sku_id'));
                         if ($sku->stock < $value) {
                             if (App::isLocale('en')) {
