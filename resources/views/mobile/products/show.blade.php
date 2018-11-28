@@ -2,6 +2,7 @@
 @section('title', '商品详情')
 @section('content')
 	<div class="goodsDetailBox">
+		<img src="{{ asset('static_m/img/icon_back.png') }}" class="gBack" onclick="javascript:history.back(-1);" />
 		<div class="goodsSwiper swiper-container">
 		    <div class="swiper-wrapper">
 		        @for($i = 0; $i < 5; $i++)

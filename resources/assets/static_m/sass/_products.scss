@@ -1,4 +1,13 @@
-.goodsDetailBox{
+.goodsDetailBox{ 
+    position: relative;
+    .gBack{
+            position: absolute;
+            top: .5rem;
+            left: 1rem;
+            z-index: 199;
+            width: 2rem;
+            height: 2rem;
+        }
     .goodsSwiper{
         width: 100%;
         height: 22rem;
