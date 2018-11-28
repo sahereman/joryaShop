@@ -87,6 +87,7 @@ class EmailsController extends Controller
         $this->code = $request->input('code');
         if (Cache::has($this->key)) {
             if (Cache::get($this->key) == $this->code) {
+                Cache::forget($this->key);
                 return response()->json([
                     'code' => 200,
                     'message' => 'success',
