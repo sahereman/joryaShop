@@ -20,5 +20,10 @@ class VerifyCsrfToken extends Middleware
         // for Email Verification Code:
         'email/send',
         'email/verify',
+
+        // for Sms Verification Code:
+        'sms/send',
+        'sms/verify',
+
     ];
 }

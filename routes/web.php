@@ -9,6 +9,11 @@ Route::post('email/send', 'EmailsController@send')->name('email.send');
 // Verify Email Verification Code With the Key [for Ajax request]
 Route::post('email/verify', 'EmailsController@verify')->name('email.verify');
 
+// Send|Resend Sms Verification Code [for Ajax request]
+Route::post('sms/send', 'SmsController@send')->name('sms.send');
+// Verify Sms Verification Code [for Ajax request]
+Route::post('sms/verify', 'SmsController@verify')->name('sms.verify');
+
 Route::get('locale/{locale}', 'IndexController@localeUpdate')->name('locale.update'); // 修改网站语言
 
 /*通过邮箱验证码登录*/
