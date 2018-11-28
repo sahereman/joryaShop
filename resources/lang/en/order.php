@@ -107,6 +107,7 @@ return [
     'Seller applies for refunds only' => 'Buyer applies for refunds only',
     'Seller handles refund Request' => 'Seller handles refund Request',
     'The number of goods is at least 1' => 'The number of goods is at least 1',
+    'Cannot add more quantities' => 'Cannot add more quantities',
     'No logistics information' => 'No logistics information',
     'Please fill in the address completely' => 'Please fill in the address completely',
 

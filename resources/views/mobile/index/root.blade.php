@@ -32,7 +32,7 @@
 				<div class="swiper-container swiper-containers">
 				    <div class="swiper-wrapper">
 				    @for($i = 0; $i < 6; $i++)
-				      <div class="swiper-slide swiper-slides">
+				      <div class="swiper-slide swiper-slides" data-url="{{route('mobile.products.show',60)}}">
 				      	<img src="{{ asset('static_m/img/new.png') }}"/>
 				      	<div class="new_pro_name">糖果色片染 十足立体感糖果色片染 十足立体感</div>
 				      	<span class="new_pro_price">￥129</span>
@@ -50,9 +50,11 @@
 				<div class="blockBox">
 					@for($i = 0; $i < 6; $i++)
 					<div class="blockItem">
-						<img src="{{ asset('static_m/img/blockImg.png') }}"/>
-						<div class="block_name">糖果色片染立体感十足,糖果色片</div>
-						<span class="block_price">￥129</span>
+						<a href="{{route('mobile.products.show',60)}}">
+							<img src="{{ asset('static_m/img/blockImg.png') }}"/>
+							<div class="block_name">糖果色片染立体感十足,糖果色片</div>
+							<span class="block_price">￥129</span>
+						</a>
 					</div>
 					@endfor
 				</div>
@@ -78,9 +80,11 @@
 				<div class="blockBox">
 					@for($i = 0; $i < 6; $i++)
 					<div class="blockItem blockItemCus">
-						<img src="{{ asset('static_m/img/blockImg.png') }}"/>
-						<div class="block_name">糖果色片染</div>
-						<span class="block_price">￥129</span>
+						<a href="{{route('mobile.products.show',60)}}">
+							<img src="{{ asset('static_m/img/blockImg.png') }}"/>
+							<div class="block_name">糖果色片染</div>
+							<span class="block_price">￥129</span>
+						</a>
 					</div>
 					@endfor
 				</div>
@@ -93,15 +97,17 @@
 				<div class="recBox">
 					@for($i = 0; $i < 6; $i++)
 						<div class="recItem">
-							<img src="{{ asset('static_m/img/blockImg.png') }}"/>
-							<div class="block_name">糖果色片染立体感十足</div>
-							<span class="block_price">￥129</span>
+							<a href="{{route('mobile.products.show',60)}}">
+								<img src="{{ asset('static_m/img/blockImg.png') }}"/>
+								<div class="block_name">糖果色片染立体感十足</div>
+								<span class="block_price">￥129</span>
+							</a>
 						</div>
 					@endfor
 				</div>
 			</div>
 		</div>
-		{{--如果需要引入子视图--}}
+		{{--footer子视图--}}
     @include('layouts._footer_mobile')
 	</div>
 	 
@@ -149,7 +155,10 @@ var swiper = new Swiper('.swiper-containers', {
         clickable: true,
       },
     });
-        
+    //点击第二个轮播中商品进行跳转
+    $(".swiper-containers").on("click",'.swiper-slides',function(){
+    	window.location.href = $(this).attr("data-url");
+    })
         
     </script>
 @endsection

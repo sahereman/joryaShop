@@ -15,7 +15,7 @@
 	@else
 		<div class="favBox">
 			@for($i = 0;$i < 3;$i++)
-				<div class="favItem">
+				<div class="favItem" data-url="{{route('mobile.products.show',60)}}">
 					<img src="{{ asset('static_m/img/blockImg.png') }}"/>
 					<div class="favDetail">
 						<div class="goodsName">
@@ -34,7 +34,7 @@
 		</div>
 		<div class="editFav">
 			@for($i = 0;$i < 3;$i++)
-				<div class="favItem">
+				<div class="favItem"  data-url="{{route('mobile.products.show',60)}}">
 					<label class="favItemLab">
 						<input type="checkbox" name="" id="" value="" />
 						<span></span>
@@ -112,5 +112,12 @@
         	}
         	
         });
+        //页面跳转
+        $(".favBox").on("click",'.favItem',function(){
+        	window.location.href = $(this).attr("data-url");
+        })
+        $(".editFav").on("click",'.favItem',function(){
+        	window.location.href = $(this).attr("data-url");
+        })
     </script>
 @endsection

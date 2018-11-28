@@ -30,6 +30,9 @@ mix.js('resources/assets/static_m/js/app.js', 'public/static_m/js')
 
 mix.copyDirectory('resources/assets/static_m/img', 'public/static_m/img');
 mix.copyDirectory('resources/assets/static_m/js/layer_mobile', 'public/static_m/js/layer_mobile');
+mix.copyDirectory('resources/assets/static_m/js/raty', 'public/static_m/js/raty');
+mix.copyDirectory('resources/assets/static_m/js/jquery.countdown-2.2.0', 'public/static_m/js/jquery.countdown-2.2.0');
+
 
 // dev
 // mix.browserSync({

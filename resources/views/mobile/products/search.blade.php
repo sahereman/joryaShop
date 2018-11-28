@@ -7,11 +7,11 @@
 				<img src="{{ asset('static_m/img/icon_backtop.png') }}"  onclick="javascript:history.back(-1);"/>
 				<div class="goodsListHeadBox">
 					<img src="{{ asset('static_m/img/icon_search3.png') }}" class="searchImg"/>
-					<input type="text" name="" id="ipt" value="" />
-					<div class="searchCon">
+					<input type="text" name="" id="ipt" value="卷发" />
+					<!--<div class="searchCon">
 						<span>卷发</span>
 						<img src="{{ asset('static_m/img/icon_searchclosed.png') }}"/>
-					</div>
+					</div>-->
 				</div>
 			</div>
 			<div class="goodsListFillter">
@@ -92,10 +92,12 @@
         $(".goodsListFillter .fillterItem").on("click",function(){
         	$(".goodsListFillter div").removeClass("goodsFillterActive");
         	$(this).addClass("goodsFillterActive");
+        	$(".dropDownBox").slideUp();
         });
         $(".dropDownBox div").on("click",function(){
         	$('.dropDownBox div').removeClass("goodsFillterActive");
         	$(this).addClass("goodsFillterActive");
+        	$(".dropDownBox").slideUp();
         });
         $("#ipt").on("focus",function(){
         	window.location.href = "{{route('mobile.locale.search')}}";

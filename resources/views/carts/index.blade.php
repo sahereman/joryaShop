@@ -206,7 +206,7 @@
                         $(this).prev().val(count);
                         update_pro_num($(this).prev());
                     } else {
-                        layer.msg("@lang('order.The number of goods is at least 1')");
+                        layer.msg("@lang('order.Cannot add more quantities')");
                     }
                 }
                 var price = parseFloat($(this).parent().prev().find('span').text());
