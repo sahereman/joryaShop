@@ -44,21 +44,18 @@ class EmailsController extends Controller
     // POST Send|Resend Email Verification Code [for Ajax request]
     public function send(EmailVerificationCodeRequest $request)
     {
-        if ($request->has('key')) {
-            // resend email verification code
-            $this->key = $request->input('key');
-            if (Cache::has($this->key . '-sent')) {
-                return response()->json([
-                    'code' => 403,
-                    'message' => 'Request too frequently',
-                    'data' => [
-                        'key' => $this->key,
-                    ],
-                ]);
-            }
-        }
-        // send email verification code
+        // resend email verification code
         $this->email = $request->input('email');
+        if (Cache::has($this->email)) {
+            return response()->json([
+                'code' => 403,
+                'message' => 'Request too frequently',
+                'data' => [
+                    'key' => $this->key,
+                ],
+            ]);
+        }
+        // send|resend email verification code
         $this->code = random_int(100000, 999999);
         $this->key = Uuid::uuid4()->getHex(); // Uuid类可以用来生成大概率不重复的字符串
         // $this->ttl = 10;
@@ -66,7 +63,7 @@ class EmailsController extends Controller
             $this->notify(new EmailVerificationCodeNotification());
             Cache::set($this->key, $this->code, $this->ttl);
             // 60s内不允许重复发送邮箱验证码
-            Cache::set($this->key . '-sent', true, 1);
+            Cache::set($this->email, true, 1);
         } catch (\Exception $e) {
             Log::error('Email Message Sending Failed: ' . $e->getMessage());
             return response()->json([
