@@ -4,6 +4,9 @@ Route::get('test', function () {
     dd('test');
 });
 
+Route::post('email/send', 'EmailsController@send')->name('email.send');
+Route::post('email/verify', 'EmailsController@verify')->name('email.verify');
+
 Route::get('locale/{locale}', 'IndexController@localeUpdate')->name('locale.update'); // 修改网站语言
 
 /*通过邮箱验证码登录*/
