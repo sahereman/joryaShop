@@ -28,9 +28,9 @@ class PutOrderCommentRequest extends Request
                             'order_id' => $this->input('order_id'),
                         ])->exists()
                         ) {
-                            if(App::isLocale('en')){
+                            if (App::isLocale('en')) {
                                 $fail('You have no authority to append comment here.');
-                            }else{
+                            } else {
                                 $fail('您没有权限在此追加评论。');
                             }
                         }
@@ -52,9 +52,9 @@ class PutOrderCommentRequest extends Request
                         'order_id' => $this->input('order_id'),
                     ])->exists()
                     ) {
-                        if(App::isLocale('en')){
+                        if (App::isLocale('en')) {
                             $fail('You have no authority to append comment here.');
-                        }else{
+                        } else {
                             $fail('您没有权限在此追加评论。');
                         }
                     }

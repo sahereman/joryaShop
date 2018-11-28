@@ -16,7 +16,7 @@ class CartRequest extends Request
      */
     public function rules()
     {
-        if($this->routeIs('carts.store')){
+        if ($this->routeIs('carts.store')) {
             return [
                 'sku_id' => [
                     'bail',
@@ -63,7 +63,7 @@ class CartRequest extends Request
                     },
                 ],
             ];
-        } elseif($this->routeIs('carts.update')){
+        } elseif ($this->routeIs('carts.update')) {
             return [
                 'number' => [
                     'bail',
@@ -77,7 +77,7 @@ class CartRequest extends Request
                     },
                 ],
             ];
-        }else {
+        } else {
             throw new NotFoundHttpException();
         }
     }

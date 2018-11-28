@@ -26,12 +26,12 @@ class UserFavouritesController extends Controller
         $favourite->product_id = $request->input('product_id');
         $favourite->user()->associate($user);
         $result = $favourite->save();
-        if($result){
+        if ($result) {
             return response()->json([
                 'code' => 200,
                 'message' => 'success',
             ]);
-        }else{
+        } else {
             return response()->json([
                 'code' => 422,
                 'message' => 'Unprocessable Entity',
@@ -45,12 +45,12 @@ class UserFavouritesController extends Controller
         $this->authorize('delete', $favourite);
         $favourite->user()->dissociate();
         $result = $favourite->delete();
-        if($result){
+        if ($result) {
             return response()->json([
                 'code' => 200,
                 'message' => 'success',
             ]);
-        }else{
+        } else {
             return response()->json([
                 'code' => 422,
                 'message' => 'Unprocessable Entity',

@@ -30,7 +30,7 @@ class ResetEmailCodeValidRule implements Rule
      */
     public function passes($attribute, $value)
     {
-        if(Cache::has('reset_email_code-'.$this->email)){
+        if (Cache::has('reset_email_code-' . $this->email)) {
             $this->is_expired = false;
             return Cache::get('reset_email_code-' . $this->email) == $value;
         }

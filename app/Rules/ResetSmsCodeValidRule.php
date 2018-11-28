@@ -47,7 +47,7 @@ class ResetSmsCodeValidRule implements Rule
      */
     public function message()
     {
-        if(App::isLocale('en')){
+        if (App::isLocale('en')) {
             if ($this->is_expired) {
                 return 'The Sms verification code is expired already.';
             }

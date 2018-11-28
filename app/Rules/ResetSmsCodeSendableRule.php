@@ -23,8 +23,8 @@ class ResetSmsCodeSendableRule implements Rule
     /**
      * Determine if the validation rule passes.
      *
-     * @param  string  $attribute
-     * @param  mixed  $value
+     * @param  string $attribute
+     * @param  mixed $value
      * @return bool
      */
     public function passes($attribute, $value)
@@ -39,7 +39,7 @@ class ResetSmsCodeSendableRule implements Rule
      */
     public function message()
     {
-        if(App::isLocale('en')){
+        if (App::isLocale('en')) {
             return 'The Sms verification code was sent already.';
         }
         return '短信验证码已发送';

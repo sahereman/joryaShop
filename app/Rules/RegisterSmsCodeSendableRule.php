@@ -39,7 +39,7 @@ class RegisterSmsCodeSendableRule implements Rule
      */
     public function message()
     {
-        if(App::isLocale('en')){
+        if (App::isLocale('en')) {
             return 'The Sms verification code was sent already.';
         }
         return '短信验证码已发送';

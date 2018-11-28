@@ -15,7 +15,7 @@ class RefundOrderRequest extends Request
     {
         return [
             // 'amount' => 'bail|required|numeric',
-            'order_id' =>'bail|required|exists:orders,id',
+            'order_id' => 'bail|required|exists:orders,id',
             'remark_from_user' => 'bail|sometimes|required|string|min:3|max:255',
             'remark_from_seller' => 'bail|sometimes|nullable|string|min:3|max:255',
             'photos_for_refund' => 'bail|sometimes|nullable|string',
