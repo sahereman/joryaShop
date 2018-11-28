@@ -4,7 +4,9 @@ Route::get('test', function () {
     dd('test');
 });
 
+// Send|Resend Email Verification Code [for Ajax request]
 Route::post('email/send', 'EmailsController@send')->name('email.send');
+// Verify Email Verification Code With the Key [for Ajax request]
 Route::post('email/verify', 'EmailsController@verify')->name('email.verify');
 
 Route::get('locale/{locale}', 'IndexController@localeUpdate')->name('locale.update'); // 修改网站语言

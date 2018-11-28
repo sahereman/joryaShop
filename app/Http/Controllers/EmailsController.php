@@ -41,10 +41,9 @@ class EmailsController extends Controller
         return $this->ttl;
     }
 
-    // POST Send|Resend Email Verification Code
+    // POST Send|Resend Email Verification Code [for Ajax request]
     public function send(EmailVerificationCodeRequest $request)
     {
-        $this->email = $request->input('email');
         if ($request->has('key')) {
             // resend email verification code
             $this->key = $request->input('key');
@@ -59,8 +58,9 @@ class EmailsController extends Controller
             }
         }
         // send email verification code
-        $this->key = Uuid::uuid4()->getHex(); // Uuid类可以用来生成大概率不重复的字符串
+        $this->email = $request->input('email');
         $this->code = random_int(100000, 999999);
+        $this->key = Uuid::uuid4()->getHex(); // Uuid类可以用来生成大概率不重复的字符串
         // $this->ttl = 10;
         try {
             $this->notify(new EmailVerificationCodeNotification());
@@ -83,7 +83,7 @@ class EmailsController extends Controller
         ]);
     }
 
-    // POST Verify Email Verification Code With the Key
+    // POST Verify Email Verification Code With the Key [for Ajax request]
     public function verify(EmailVerificationCodeRequest $request)
     {
         $this->key = $request->input('key');
