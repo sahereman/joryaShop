@@ -14,32 +14,14 @@ class EmailVerificationCodeRequest extends Request
     {
         if ($this->routeIs('email.send')) {
             return [
-                'email' => [
-                    'bail',
-                    'required',
-                    'string',
-                    'email',
-                ],
+                'email' => 'bail|required|string|email',
                 // When resending email verification code, key should be present.
-                'key' => [
-                    'bail',
-                    'sometimes',
-                    'required',
-                    'string',
-                ],
+                'key' => 'bail|sometimes|required|string',
             ];
         } elseif ($this->routeIs('email.verify')) {
             return [
-                'key' => [
-                    'bail',
-                    'required',
-                    'string',
-                ],
-                'code' => [
-                    'bail',
-                    'required',
-                    'string',
-                ],
+                'key' => 'bail|required|string',
+                'code' => 'bail|required|string',
             ];
         } else {
             return [

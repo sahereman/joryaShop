@@ -12,7 +12,7 @@ use Ramsey\Uuid\Uuid;
 
 class EmailsController extends Controller
 {
-    // POST Send|Resend an Email
+    // POST Send|Resend Email Verification Code
     public function send(EmailVerificationCodeRequest $request)
     {
         $email = $request->input('email');
@@ -62,13 +62,12 @@ class EmailsController extends Controller
             'code' => 200,
             'message' => 'success',
             'data' => [
-                'email' => $email,
                 'key' => $key,
             ],
         ]);
     }
 
-    // POST Verify an Email Verification Code With the Email
+    // POST Verify Email Verification Code With the Key
     public function verify(EmailVerificationCodeRequest $request)
     {
         $key = $request->input('key');
@@ -78,9 +77,6 @@ class EmailsController extends Controller
                 return response()->json([
                     'code' => 200,
                     'message' => 'success',
-                    'data' => [
-                        'code' => $code,
-                    ],
                 ]);
             }
             return response()->json([
