@@ -1,11 +1,22 @@
 @extends('layouts.mobile')
 @section('title', '购物车')
 @section('content')
-    {{--如果需要引入子视图--}}
-    {{--@include('layouts._header')--}}
-
-    {{--填充页面内容--}}
-    <h1>购物车 页面</h1>
+   <div class="headerBar fixHeader">
+		<img src="{{ asset('static_m/img/icon_backtop.png') }}" class="backImg" onclick="javascript:history.back(-1);"/>
+		<span>购物车</span>
+	</div>
+	<div class="cartsBox">
+		<div class="cartsCon">
+			@for($i = 0; $i < 5; $i++)
+				<div class="cartItem">
+					123
+				</div>
+			@endfor
+		</div>
+		<div class="cartsTotle">
+			123
+		</div>
+	</div>
 
 
     {{--如果需要引入子视图--}}
