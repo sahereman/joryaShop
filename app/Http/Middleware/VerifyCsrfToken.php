@@ -17,7 +17,7 @@ class VerifyCsrfToken extends Middleware
         'payments/*/wechat/notify',
         'payments/*/paypal/notify',
 
-        // For Sms Verification Code
+        // for Sms Verification Code:
         'sms/send',
         'sms/verify',
     ];

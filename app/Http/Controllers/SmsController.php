@@ -15,22 +15,16 @@ class SmsController extends Controller
     // POST Send|Resend Sms Verification Code [for Ajax request]
     public function send(SmsVerificationCodeRequest $request)
     {
+        // resend sms verification code
         $country_code = $request->input('country_code');
         $phone = $request->input('phone');
-        /*if ($request->has('key')) {
-            // resend sms verification code
-            // $key = $request->input('key');
-            if (Cache::has($country_code . '-' . $phone)) {
-                return response()->json([
-                    'code' => 403,
-                    'message' => 'Request too frequently',
-                ]);
-            }
-        }*/
         if (Cache::has($country_code . '-' . $phone)) {
             return response()->json([
                 'code' => 403,
                 'message' => 'Request too frequently',
+                'data' => [
+                    'key' => Cache::get($country_code . '-' . $phone),
+                ],
             ]);
         }
         // send|resend sms verification code
@@ -39,10 +33,10 @@ class SmsController extends Controller
         $data['code'] = $code;
         $response = easy_sms_send($data, $phone, $country_code);
         if ($response['aliyun']['status'] == 'success') {
+            // 60s内不允许重复发送邮箱验证码
+            Cache::set($country_code . '-' . $phone, $key, 1);
             $ttl = 10;
             Cache::set($key, $code, $ttl);
-            // 60s内不允许重复发送邮箱验证码
-            Cache::set($country_code . '-' . $phone, true, 1);
             return response()->json([
                 'code' => 200,
                 'message' => 'success',
