@@ -16,5 +16,9 @@ class VerifyCsrfToken extends Middleware
         'payments/*/alipay/notify',
         'payments/*/wechat/notify',
         'payments/*/paypal/notify',
+
+        // for Email Verification Code:
+        'email/send',
+        'email/verify',
     ];
 }

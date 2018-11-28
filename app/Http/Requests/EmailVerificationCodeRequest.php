@@ -16,7 +16,7 @@ class EmailVerificationCodeRequest extends Request
             return [
                 'email' => 'bail|required|string|email',
                 // When resending email verification code, key should be present.
-                'key' => 'bail|sometimes|required|string',
+                // 'key' => 'bail|sometimes|required|string',
             ];
         } elseif ($this->routeIs('email.verify')) {
             return [
