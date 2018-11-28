@@ -23,7 +23,7 @@ class SmsCodeResetValidationRequest extends Request
                 'string',
                 'regex:/^\d+$/',
                 function ($attribute, $value, $fail) {
-                    if (! User::where([
+                    if (!User::where([
                         'country_code' => $this->input('country_code'),
                         'phone' => $value,
                     ])->exists()

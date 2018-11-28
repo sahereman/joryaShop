@@ -27,7 +27,7 @@ class ResetEmailCodeSendableRule implements Rule
      */
     public function passes($attribute, $value)
     {
-        return ! Cache::has('reset_email_code_sent-' . $value);
+        return !Cache::has('reset_email_code_sent-' . $value);
     }
 
     /**

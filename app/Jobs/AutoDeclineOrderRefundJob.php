@@ -42,7 +42,7 @@ class AutoDeclineOrderRefundJob implements ShouldQueue
     {
         // 判断对应的退单类型是否为refund[仅退款]
         // 如果是仅退款退单，则直接退出
-        if($this->order->refund->type == OrderRefund::ORDER_REFUND_TYPE_REFUND){
+        if ($this->order->refund->type == OrderRefund::ORDER_REFUND_TYPE_REFUND) {
             return;
         }
 

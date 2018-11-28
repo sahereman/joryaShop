@@ -25,7 +25,7 @@ class ArticlesController extends Controller
     }
 
     // GET 通用-单页展示
-    public function show (Article $article)
+    public function show(Article $article)
     {
         return view('pages.show', [
             'article' => $article,

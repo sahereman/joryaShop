@@ -15,7 +15,7 @@ class RefundOrderWithShipmentRequest extends Request
     {
         return [
             // 'amount' => 'bail|sometimes|required|numeric',
-            'order_id' =>'bail|required|exists:orders,id',
+            'order_id' => 'bail|required|exists:orders,id',
             'remark_from_user' => 'bail|sometimes|required|string|min:3|max:255',
             'remark_from_seller' => 'bail|sometimes|nullable|string|min:3|max:255',
             'remark_for_shipment_from_user' => 'bail|sometimes|nullable|string|min:3|max:255',
