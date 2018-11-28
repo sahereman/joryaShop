@@ -56,6 +56,7 @@ class SmsController extends Controller
         $code = $request->input('code');
         if (Cache::has($key)) {
             if (Cache::get($key) == $code) {
+                Cache::forget($key);
                 return response()->json([
                     'code' => 200,
                     'message' => 'success',
