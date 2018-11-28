@@ -75,6 +75,7 @@ Route::group(['middleware' => 'auth'], function () {
     /*我的订单*/
     Route::get('orders', 'OrdersController@index')->name('mobile.orders.index'); // 列表 页面
     Route::get('orders/more', 'OrdersController@more')->name('mobile.orders.more'); // 获取订单数据 请求 [for Ajax request]
+    Route::get('orders/pre_payment', 'OrdersController@prePayment')->name('mobile.orders.pre_payment'); // 订单预支付页面：选择地址+币种页面
     Route::get('orders/{order}', 'OrdersController@show')->name('mobile.orders.show'); // 详情 页面
     Route::get('orders/{order}/show_shipment', 'OrdersController@showShipment')->name('mobile.orders.show_shipment'); // 物流详情 页面
 
