@@ -153,7 +153,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('payments/{order}/alipay', 'PaymentsController@alipay')->name('payments.alipay'); // Alipay 支付页面
     Route::get('payments/{order}/wechat', 'PaymentsController@wechat')->name('payments.wechat'); // Wechat 支付页面
     Route::get('payments/{order}/paypal/create', 'PaymentsController@paypalCreate')->name('payments.paypal.create'); // PayPal: create a payment
-    Route::get('payments/{order}/paypal/get', 'PaymentsController@paypalGet')->name('payments.paypal.get'); // PayPal: get the info of a payment [Test API]
+    // Route::get('payments/{order}/paypal/get', 'PaymentsController@paypalGet')->name('payments.paypal.get'); // PayPal: get the info of a payment [Test API]
     Route::get('payments/{order}/paypal/execute', 'PaymentsController@paypalExecute')->name('payments.paypal.execute'); // PayPal: execute[approve|cancel] a payment
 
     /*支付回调 [return_url]*/

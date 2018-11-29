@@ -32,12 +32,12 @@ class PaymentsController extends Controller
     {
         return array_merge(config('payment.alipay'), [
             'notify_url' => route('payments.alipay.notify', ['order' => $order->id]),
-            'return_url' => route('payments.alipay.return', ['order' => $order->id]),
+            'return_url' => route('mobile.payments.alipay.return', ['order' => $order->id]),
         ]);
     }
 
-    // GET Alipay 支付页面
-    public function alipay(Request $request, Order $order)
+    // GET Alipay Mobile-Wap 支付页面
+    public function alipayWap(Request $request, Order $order)
     {
         // 判断订单是否属于当前用户
         if ($request->user()->id !== $order->user_id) {
@@ -48,10 +48,10 @@ class PaymentsController extends Controller
             throw new InvalidRequestException('当前订单状态不正确');
         }
 
-        Log::info('A New Alipay Pc-Web Payment Created: order id - ' . $order->id);
+        Log::info('A New Alipay Mobile-Wap Payment Created: order id - ' . $order->id);
 
-        // 调用Alipay的电脑支付(网页支付)
-        return Pay::alipay($this->getAlipayConfig($order))->web([
+        // 调用Alipay的手机网站支付
+        return Pay::alipay($this->getAlipayConfig($order))->wap([
             'out_trade_no' => $order->order_sn, // 订单编号，需保证在商户端不重复
             'total_amount' => bcadd($order->total_amount, $order->total_shipping_fee, 2), // 订单金额，单位元，支持小数点后两位
             'subject' => '请支付来自 Jorya Hair 的订单：' . $order->order_sn, // 订单标题
@@ -78,12 +78,12 @@ class PaymentsController extends Controller
     }*/
     public function alipayReturn(Request $request, Order $order)
     {
-        Log::info('Alipay Payment Return-Url : ' . $request->getUri());
+        Log::info('Alipay Mobile-Wap Payment Return-Url : ' . $request->getUri());
 
         try {
             // 校验提交的参数是否合法
             $data = Pay::alipay($this->getAlipayConfig($order))->verify();
-            Log::info('Alipay Payment Return With Verified Data: ' . $data->toJson());
+            Log::info('A New Alipay Mobile-Wap Payment Return With Verified Data: ' . $data->toJson());
 
             //return $alipay->success();
             /*return view('mobile.pages.success', [
@@ -97,7 +97,7 @@ class PaymentsController extends Controller
             /*return view('mobile.pages.error', [
                 'msg' => '付款失败',
             ]);*/
-            Log::error('Alipay Payment Return Failed: order id - ' . $order->id . '; With Error Message: ' . $e->getMessage());
+            Log::error('A New Alipay Mobile-Wap Payment Return Failed: order id - ' . $order->id . '; With Error Message: ' . $e->getMessage());
             return view('mobile.payments.error', [
                 'order' => $order,
                 'message' => $e->getMessage(),
@@ -113,7 +113,7 @@ class PaymentsController extends Controller
         ]);
     }
 
-    // GET WeChat 支付 页面
+    // GET Wechat Mobile-MP(公众号) 支付页面
     /**
      * Sample Response:
      */
@@ -129,7 +129,7 @@ class PaymentsController extends Controller
         "trade_type": "NATIVE",
         "code_url": "weixin://wxpay/bizpayurl?pr=fHd7mdg"
     }*/
-    public function wechat(Request $request, Order $order)
+    public function wechatMp(Request $request, Order $order)
     {
         // 判断订单是否属于当前用户
         if ($request->user()->id !== $order->user_id) {
@@ -140,22 +140,30 @@ class PaymentsController extends Controller
             throw new InvalidRequestException('当前订单状态不正确');
         }
 
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, route('mobile.payments.get_wechat_open_id'));
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
+        $response = curl_exec($ch);
+        curl_close($ch);
+
+        $response_array = json_decode($response, true);
+
+        dd($response_array);
+
         try {
             // 调用Wechat的扫码支付(网页支付)
-            $response = Pay::wechat($this->getWechatConfig($order))->scan([
+            $response = Pay::wechat($this->getWechatConfig($order))->mp([
                 'out_trade_no' => $order->order_sn, // 订单编号，需保证在商户端不重复
                 'body' => '请支付来自 Jorya Hair 的订单：' . $order->order_sn, // 订单标题
                 'total_fee' => bcmul(bcadd($order->total_amount, $order->total_shipping_fee, 2), 100, 0), // 订单金额，单位分，参数值不能带小数点
             ]);
 
-            if ($response->return_code == 'SUCCESS' && $response->result_code == 'SUCCESS' && $response->return_msg == 'OK' && $response->code_url) {
-                // 二维码内容：
-                $qr_code_url = $response->code_url;
-
-                Log::info('A New Wechat Pc-Scan Payment Created: ' . $response->toJSON() . '; With Qr Code Url: ' . $qr_code_url);
+            if ($response->return_code == 'SUCCESS' && $response->result_code == 'SUCCESS' && $response->return_msg == 'OK') {
+                Log::info('A New Wechat Pc-Scan Payment Created: ' . $response->toJSON());
                 return view('mobile.payments.wechat', [
                     'order' => $order,
-                    'qr_code_url' => $qr_code_url,
                 ]);
             } else {
                 Log::error('A New Wechat Pc-Scan Payment Responded With Wrong Response: ' . $response->toJSON());
@@ -177,13 +185,45 @@ class PaymentsController extends Controller
         }
     }
 
+    // GET Wechat Mobile-Wap 支付页面
+    public function wechatWap(Request $request, Order $order)
+    {
+        // 判断订单是否属于当前用户
+        if ($request->user()->id !== $order->user_id) {
+            throw new InvalidRequestException('您没有权限操作此订单');
+        }
+        // 判断当前订单状态是否支持支付
+        if ($order->status !== Order::ORDER_STATUS_PAYING) {
+            throw new InvalidRequestException('当前订单状态不正确');
+        }
+
+        try {
+            // 调用Wechat的扫码支付(网页支付)
+            return Pay::wechat($this->getWechatConfig($order))->wap([
+                'out_trade_no' => $order->order_sn, // 订单编号，需保证在商户端不重复
+                'body' => '请支付来自 Jorya Hair 的订单：' . $order->order_sn, // 订单标题
+                'total_fee' => bcmul(bcadd($order->total_amount, $order->total_shipping_fee, 2), 100, 0), // 订单金额，单位分，参数值不能带小数点
+            ]);
+        } catch (\Exception $e) {
+            // error_log($e->getMessage());
+            /*return view('mobile.pages.error', [
+                'msg' => '付款失败',
+            ]);*/
+            Log::error('A New Wechat Pc-Scan Payment Failed: order id - ' . $order->id . '; With Error Message: ' . $e->getMessage());
+            return view('mobile.payments.error', [
+                'order' => $order,
+                'message' => $e->getMessage(),
+            ]);
+        }
+    }
+
     /*Paypal Payment*/
     public static function getPaypalConfig(Order $order)
     {
         return array_merge(config('payment.paypal'), [
             'redirect_urls' => [
-                'return_url' => route('payments.paypal.execute', ['order' => $order->id]),
-                'cancel_url' => route('payments.paypal.execute', ['order' => $order->id]),
+                'return_url' => route('mobile.payments.paypal.execute', ['order' => $order->id]),
+                'cancel_url' => route('mobile.payments.paypal.execute', ['order' => $order->id]),
                 'notify_url' => route('payments.paypal.notify', ['order' => $order->id]),
             ],
         ]);

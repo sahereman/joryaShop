@@ -95,7 +95,7 @@ class PaymentsController extends Controller
             // 如果这笔订单的状态已经是已支付
             if ($order->paid_at) {
                 // 返回数据给支付宝
-                Log::info('A Paid Wechat Payment Notified Again: order id - ' . $order->id);
+                Log::info('A Paid Alipay Payment Notified Again: order id - ' . $order->id);
                 return Pay::alipay($this->getAlipayConfig($order))->success();
             }
 
@@ -155,12 +155,12 @@ class PaymentsController extends Controller
     }*/
     public function alipayReturn(Request $request, Order $order)
     {
-        Log::info('Alipay Payment Return-Url : ' . $request->getUri());
+        Log::info('Alipay Pc-Web Payment Return-Url : ' . $request->getUri());
 
         try {
             // 校验提交的参数是否合法
             $data = Pay::alipay($this->getAlipayConfig($order))->verify();
-            Log::info('Alipay Payment Return With Verified Data: ' . $data->toJson());
+            Log::info('A New Alipay Pc-Web Payment Return With Verified Data: ' . $data->toJson());
 
             //return $alipay->success();
             /*return view('pages.success', [
@@ -174,7 +174,7 @@ class PaymentsController extends Controller
             /*return view('pages.error', [
                 'msg' => '付款失败',
             ]);*/
-            Log::error('Alipay Payment Return Failed: order id - ' . $order->id . '; With Error Message: ' . $e->getMessage());
+            Log::error('A New Alipay Pc-Web Payment Return Failed: order id - ' . $order->id . '; With Error Message: ' . $e->getMessage());
             return view('payments.error', [
                 'order' => $order,
                 'message' => $e->getMessage(),

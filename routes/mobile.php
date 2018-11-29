@@ -3,10 +3,7 @@
 //以下所有路由 URL 为 site.com/mobile/ + 路由URL
 
 Route::get('test', function () {
-
     App::setLocale('en');
-
-
     return 'test';
 });
 
@@ -40,6 +37,8 @@ Route::get('product_categories/{category}/product', 'ProductCategoriesController
 Route::get('products/search', 'ProductsController@search')->name('mobile.products.search'); // 商品搜索结果 页面 [仅展示页面]
 Route::get('products/{product}', 'ProductsController@show')->name('mobile.products.show'); // 商品详情 页面
 
+/*手机端 - 微信浏览器内获取用户 open id*/
+Route::get('payments/get_wechat_open_id', 'PaymentsController@getWechatOpenId')->name('mobile.payments.get_wechat_open_id'); // get wechat open_id
 
 ///*需要登录的路由*/
 Route::group(['middleware' => 'auth'], function () {
@@ -89,7 +88,17 @@ Route::group(['middleware' => 'auth'], function () {
     /*购物车*/
     Route::get('carts', 'CartsController@index')->name('mobile.carts.index'); // 购物车 页面
 
+    /*支付*/
+    Route::get('payments/{order}/alipay_wap', 'PaymentsController@alipayWap')->name('mobile.payments.alipay_wap'); // Alipay Mobile-Wap 支付页面
+    Route::get('payments/{order}/wechat_mp', 'PaymentsController@wechatMp')->name('mobile.payments.wechat_mp'); // Wechat Mobile-MP(公众号) 支付页面
+    Route::get('payments/{order}/wechat_wap', 'PaymentsController@wechatWap')->name('mobile.payments.wechat_wap'); // Wechat Mobile-Wap 支付页面
+    Route::get('payments/{order}/paypal/create', 'PaymentsController@paypalCreate')->name('mobile.payments.paypal.create'); // PayPal: create a payment
+    // Route::get('payments/{order}/paypal/get', 'PaymentsController@paypalGet')->name('mobile.payments.paypal.get'); // PayPal: get the info of a payment [Test API]
+    Route::get('payments/{order}/paypal/execute', 'PaymentsController@paypalExecute')->name('mobile.payments.paypal.execute'); // PayPal: execute[approve|cancel] a payment
+
     /*支付回调 [return_url]*/
     Route::get('payments/{order}/alipay/return', 'PaymentsController@alipayReturn')->name('payments.alipay.return'); // Alipay 支付回调
 
+    /*支付成功: Wechat & Paypal*/
+    Route::get('payments/{order}/success', 'PaymentsController@success')->name('payments.success'); // 通用 - 支付成功页面 [Wechat & Paypal]
 });
