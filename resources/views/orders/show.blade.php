@@ -199,16 +199,18 @@
                     </ul>
                 </div>
                 @else
-                <div class="logistics_infor">
-                    <p class="logistics_title">@lang('order.Logistics information')</p>
-                    <div class="no_img">
-                    	<img src="{{ asset('img/no_Logistics.png') }}">
-                    	<p>@lang('order.No logistics information')</p>
-                    </div>
-                </div>
+                    @if(in_array($order->status, [\App\Models\Order::ORDER_STATUS_RECEIVING, \App\Models\Order::ORDER_STATUS_COMPLETED]))
+                        <div class="logistics_infor">
+                            <p class="logistics_title">@lang('order.Logistics information')</p>
+                            <div class="no_img">
+                                <img src="{{ asset('img/no_Logistics.png') }}">
+                                <p>@lang('order.No logistics information')</p>
+                            </div>
+                        </div>
+                    @endif
                 @endif
 
-                        <!--订单商品列表-->
+                <!--订单商品列表-->
                 <div class="order_list">
                     <!--订单表格与我的订单首页的判断方式一样-->
                     <table>
@@ -393,16 +395,16 @@
                         var _second = parseInt(totalS % 60);
                         if (_day < 10) {
                             _day = "0" + _day;
-                        } 
+                        }
                         if (_hour < 10) {
                             _hour = "0" + _hour;
-                        } 
+                        }
                         if (_minute < 10) {
                             _minute = "0" + _minute;
-                        } 
+                        }
                         if (_second < 10) {
                             _second = "0" + _second;
-                        } 
+                        }
                         if (type == '1') {
                             $('#' + remain_id).html("@lang('basic.orders.Remaining')" + _hour + ':' + _minute + ':' + _second + "@lang('order.payment')(@lang('order.If the order is not paid out, the system will automatically cancel the order'))");
                         } else {
