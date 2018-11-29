@@ -13,8 +13,8 @@ Route::get('test', function () {
 
 /*首页*/
 Route::get('/', 'IndexController@root')->name('mobile.root'); // 首页
+Route::get('search', 'IndexController@search')->name('mobile.search'); // 搜索 页面 [仅展示页面]
 Route::get('locale', 'IndexController@localeShow')->name('mobile.locale.show'); // 修改网站语言 页面
-Route::get('search', 'IndexController@search')->name('mobile.locale.search'); // 搜索 页面
 
 
 /*注册与登录*/
@@ -37,7 +37,7 @@ Route::get('product_categories/{category}/category_more', 'ProductCategoriesCont
 Route::get('product_categories/{category}/product', 'ProductCategoriesController@product')->name('mobile.product_categories.product'); // 分类下商品 页面
 
 /*商品*/
-Route::get('products/search', 'ProductsController@search')->name('mobile.products.search'); // 商品搜索结果 页面
+Route::get('products/search', 'ProductsController@search')->name('mobile.products.search'); // 商品搜索结果 页面 [仅展示页面]
 Route::get('products/{product}', 'ProductsController@show')->name('mobile.products.show'); // 商品详情 页面
 
 
@@ -78,6 +78,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('orders/pre_payment', 'OrdersController@prePayment')->name('mobile.orders.pre_payment'); // 订单预支付页面：选择地址+币种页面
     Route::get('orders/{order}', 'OrdersController@show')->name('mobile.orders.show'); // 详情 页面
     Route::get('orders/{order}/show_shipment', 'OrdersController@showShipment')->name('mobile.orders.show_shipment'); // 物流详情 页面
+    Route::get('orders/{order}/payment_method', 'OrdersController@paymentMethod')->name('orders.payment_method'); // 选择支付方式页面
 
     /*订单评价*/
     Route::get('orders/{order}/create_comment', 'OrdersController@createComment')->name('mobile.orders.create_comment'); // 创建订单评价 页面
@@ -87,5 +88,8 @@ Route::group(['middleware' => 'auth'], function () {
 
     /*购物车*/
     Route::get('carts', 'CartsController@index')->name('mobile.carts.index'); // 购物车 页面
+
+    /*支付回调 [return_url]*/
+    Route::get('payments/{order}/alipay/return', 'PaymentsController@alipayReturn')->name('payments.alipay.return'); // Alipay 支付回调
 
 });

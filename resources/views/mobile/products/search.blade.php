@@ -100,7 +100,7 @@
         	$(".dropDownBox").slideUp();
         });
         $("#ipt").on("focus",function(){
-        	window.location.href = "{{route('mobile.locale.search')}}";
+        	window.location.href = "{{route('mobile.search')}}";
         });
         $(".goodsListItem").on('click',function(){
         	window.location.href = "{{route('mobile.products.show',60)}}";

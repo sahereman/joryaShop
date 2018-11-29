@@ -27,7 +27,7 @@ class ProductRequest extends Request
                 'max_price' => 'bail|sometimes|nullable|numeric|gte:min_price',
                 'page' => 'sometimes|required|integer|min:1',
             ];
-        } elseif ($this->routeIs('products.search_more') || $this->routeIs('products.search')) {
+        } elseif ($this->routeIs('products.search_more') || $this->routeIs('products.search') || $this->routeIs('mobile.products.search')) {
             return [
                 'query' => 'bail|required|string|min:1',
                 'sort' => [

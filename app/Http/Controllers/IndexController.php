@@ -3,18 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Handlers\ImageUploadHandler;
-use App\Http\Requests\EasySmsSendRequest;
 use App\Http\Requests\ImageUploadRequest;
 use App\Models\Banner;
-use App\Models\Cart;
-use App\Models\Poster;
 use App\Models\Product;
 use App\Models\ProductCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-use Overtrue\EasySms\EasySms;
-use Overtrue\EasySms\PhoneNumber;
 
 class IndexController extends Controller
 {

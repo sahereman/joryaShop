@@ -126,7 +126,7 @@
         	window.location.href = "{{route('mobile.users.setting',Auth::id())}}";
         });
         $(".searchImg").on("click",function(){
-        	window.location.href = "{{route('mobile.locale.search')}}";
+        	window.location.href = "{{route('mobile.search')}}";
         });
     </script>
 @endsection

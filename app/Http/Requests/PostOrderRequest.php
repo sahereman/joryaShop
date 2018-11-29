@@ -16,7 +16,7 @@ class PostOrderRequest extends Request
      */
     public function rules()
     {
-        if ($this->routeIs('*.orders.store')) { // if($this->routeIs('orders.store') || $this->routeIs('mobile.orders.store'))
+        if ($this->routeIs('orders.store')) {
             return [
                 'currency' => [
                     'bail',
@@ -88,7 +88,7 @@ class PostOrderRequest extends Request
                 'address' => 'bail|required|string',
                 'remark' => 'bail|sometimes|nullable|string',
             ];
-        } elseif ($this->routeIs('*.orders.pre_payment')) {
+        } elseif ($this->routeIs('orders.pre_payment') || $this->routeIs('mobile.orders.pre_payment')) {
             return [
                 'sku_id' => [
                     'bail',
