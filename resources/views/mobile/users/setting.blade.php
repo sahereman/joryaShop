@@ -59,6 +59,9 @@
 			</a>
 		</div>
 		<button class="exitLog">退出登录</button>
+		<form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+            {{ csrf_field() }}
+        </form>
 	</div>
 @endsection
 
@@ -69,5 +72,9 @@
         $(".backImg").on("click",function(){
         	window.location.href = "{{route('mobile.users.home')}}";
         });
+        //退出登录
+        $('.exitLog').on("click",function(){
+        	$("#logout-form").submit();
+        })
     </script>
 @endsection

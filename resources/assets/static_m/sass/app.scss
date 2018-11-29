@@ -14,6 +14,18 @@ html{
     font-family: "微软雅黑";
     
 }
+li,
+ol,
+ul {
+    list-style: none;
+}
+button,
+input,
+textarea {
+    resize: none;
+    border: none;
+    outline: none;
+}
  a:link{text-decoration:none;color: #000; }
  a:visited{text-decoration:none;color: #000; }
  a:active{text-decoration:none;color: #000; }
@@ -21,7 +33,9 @@ html{
  input{
      padding-left: .5rem;
      border: none;
+     outline: none;
  }
+ textarea::-webkit-input-placeholder,
  input::-webkit-input-placeholder {
       /* placeholder颜色  */
      color: #ababab;
@@ -45,6 +59,12 @@ html{
         font-size: 1rem;
     }
 }
+.dis_ni {
+    display: none !important;
+}
+.dis_n {
+    display: none;
+}
 @import "footer";
 @import "index";
 @import "login";
@@ -60,3 +80,4 @@ html{
 @import "showShipment";
 @import "productCategories";
 @import "products";
+@import "pre_payment";

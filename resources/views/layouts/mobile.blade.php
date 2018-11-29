@@ -13,6 +13,7 @@
     <link href="{{ asset('static_m/css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('js/swiper/css/swiper_m.min.css') }}" rel="stylesheet">
 	<link href="{{ asset('static_m/js/raty/jquery.raty.css') }}" rel="stylesheet">
+    <link href="{{ asset('static_m/js/animate/animate.css') }}" rel="stylesheet">
 		
 </head>
 <body>
