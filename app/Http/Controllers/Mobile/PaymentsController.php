@@ -634,11 +634,12 @@ class PaymentsController extends Controller
             Log::info('Wechat-Basic-User-Info: ' . $response);
             $response_array = json_decode($response, true);
             Session::put('wechat-basic_user_info', $response_array);
+
             if(Session::has('previous_url')){
                 return redirect(Session::get('previous_url'));
+            }else{
+                return redirect(URL::previous());
             }
-
-            return redirect(URL::previous());
 
             // session(['wechat-basic_user_info' => $response_array]);
             // return $response_array;
