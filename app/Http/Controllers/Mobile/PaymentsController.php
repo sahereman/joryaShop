@@ -4,12 +4,14 @@ namespace App\Http\Controllers\Mobile;
 
 use App\Exceptions\InvalidRequestException;
 use App\Http\Controllers\Controller;
+use App\Http\Middleware\GetWechatOpenId;
 use App\Models\Order;
 use App\Models\OrderRefund;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\URL;
 use PayPal\Api\Amount;
 use PayPal\Api\Details;
 use PayPal\Api\Payer;
@@ -140,17 +142,20 @@ class PaymentsController extends Controller
             throw new InvalidRequestException('当前订单状态不正确');
         }
 
-        @$this->getWechatOpenId($request);
-        $basic_user_info = Session::get('wechat-basic_user_info');
+        Log::info('A New Wechat Mobile-Mp Payment Begins: order id - ' . $order->id);
 
         try {
-            // 调用Wechat的扫码支付(网页支付)
+            $basic_user_info = Session::get('wechat-basic_user_info');
+
+            // 调用Wechat的公众号支付(微信浏览器内支付)
             $response = Pay::wechat($this->getWechatConfig($order))->mp([
                 'out_trade_no' => $order->order_sn, // 订单编号，需保证在商户端不重复
                 'body' => '请支付来自 Jorya Hair 的订单：' . $order->order_sn, // 订单标题
                 'total_fee' => bcmul(bcadd($order->total_amount, $order->total_shipping_fee, 2), 100, 0), // 订单金额，单位分，参数值不能带小数点
                 'openid' => $basic_user_info['openid'],
             ]);
+
+            Log::info('A New Wechat Mobile-Mp Payment Finished: order id - ' . $order->id . '; With Response: ' . $response->toJson());
 
             return response()->json($response->toArray());
 
@@ -186,7 +191,7 @@ class PaymentsController extends Controller
             /*return view('mobile.pages.error', [
                 'msg' => '付款失败',
             ]);*/
-            Log::error('A New Wechat Pc-Scan Payment Failed: order id - ' . $order->id . '; With Error Message: ' . $e->getMessage());
+            Log::error('A New Wechat Mobile-Mp Payment Failed: order id - ' . $order->id . '; With Error Message: ' . $e->getMessage());
             return view('mobile.payments.error', [
                 'order' => $order,
                 'message' => $e->getMessage(),
@@ -208,7 +213,7 @@ class PaymentsController extends Controller
 
         Log::info('A New Wechat Mobile-Wap Payment Begins: order id - ' . $order->id);
         try {
-            // 调用Wechat的扫码支付(网页支付)
+            // 调用Wechat的手机网站支付
             return Pay::wechat($this->getWechatConfig($order))->wap([
                 'out_trade_no' => $order->order_sn, // 订单编号，需保证在商户端不重复
                 'body' => '请支付来自 Jorya Hair 的订单：' . $order->order_sn, // 订单标题
@@ -337,7 +342,7 @@ class PaymentsController extends Controller
                     // 'payment_sn' => $payment->getToken(), // token
                     'payment_sn' => $payment->getId(), // paymentId
                 ]);
-                Log::info("A New Paypal Pc Payment Created: " . $payment->toJSON());
+                Log::info("A New Paypal Mobile Payment Created: " . $payment->toJSON());
                 return response()->json([
                     'code' => 200,
                     'message' => 'success',
@@ -347,10 +352,10 @@ class PaymentsController extends Controller
                     ],
                 ]);
             } else {
-                Log::error("A New Paypal Pc Payment Creation Failed: " . $payment->toJSON());
+                Log::error("A New Paypal Mobile Payment Creation Failed: " . $payment->toJSON());
                 return response()->json([
                     'code' => 400,
-                    'message' => 'A New Paypal Pc Payment Creation Failed',
+                    'message' => 'A New Paypal Mobile Payment Creation Failed',
                     'data' => [
                         'payment' => $payment->toArray(),
                         'failure_reason' => $payment->getFailureReason(),
@@ -362,7 +367,7 @@ class PaymentsController extends Controller
             /*return view('mobile.pages.error', [
                 'msg' => '付款失败',
             ]);*/
-            Log::error("A New Paypal Pc Payment Creation Failed: order id - " . $order->id . '; With Error Message: ' . $e->getMessage());
+            Log::error("A New Paypal Mobile Payment Creation Failed: order id - " . $order->id . '; With Error Message: ' . $e->getMessage());
             return response()->json([
                 'code' => $e->getCode(),
                 'message' => $e->getMessage(),
@@ -506,14 +511,14 @@ class PaymentsController extends Controller
                         ],
                     ]);*/
                 } else {
-                    Log::info("A New Paypal Pc Payment Execution Failed - Synchronously: " . $payment->toJSON());
+                    Log::info("A New Paypal Mobile Payment Execution Failed - Synchronously: " . $payment->toJSON());
                     return view('mobile.payments.error', [
                         'order' => $order,
-                        'message' => "A New Paypal Pc Payment Execution Failed - Synchronously: " . $payment->toJSON(),
+                        'message' => "A New Paypal Mobile Payment Execution Failed - Synchronously: " . $payment->toJSON(),
                     ]);
                     /*return response()->json([
                         'code' => 400,
-                        'message' => 'A New Paypal Pc Payment Execution Failed - Synchronously',
+                        'message' => 'A New Paypal Mobile Payment Execution Failed - Synchronously',
                         'data' => [
                             'payment' => $payment->toArray(),
                             'failure_reason' => $payment->getFailureReason(),
@@ -525,10 +530,10 @@ class PaymentsController extends Controller
                 /*return view('mobile.pages.error', [
                     'msg' => '付款失败',
                 ]);*/
-                Log::error("A New Paypal Pc Payment Execution Failed - Synchronously: order id - " . $order->id . '; With Error Message: ' . $e->getMessage());
+                Log::error("A New Paypal Mobile Payment Execution Failed - Synchronously: order id - " . $order->id . '; With Error Message: ' . $e->getMessage());
                 return view('mobile.payments.error', [
                     'order' => $order,
-                    'message' => "A New Paypal Pc Payment Execution Failed - Synchronously: order id - " . $order->id . '; With Error Message: ' . $e->getMessage(),
+                    'message' => "A New Paypal Mobile Payment Execution Failed - Synchronously: order id - " . $order->id . '; With Error Message: ' . $e->getMessage(),
                 ]);
                 /*return response()->json([
                     'code' => $e->getCode(),
@@ -601,7 +606,7 @@ class PaymentsController extends Controller
         if (!isset($_GET['code'])) {
             /*Step-1*/
             $app_id = config('payment.wechat.app_id'); // 公众号在微信的app_id
-            $redirect_uri = route('payments.get_wechat_open_id'); // 要请求的url
+            $redirect_uri = route('mobile.payments.get_wechat_open_id'); // 要请求的url
 
             // $scope = 'snsapi_userinfo'; // for access to advanced user info.
             // $url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' . $app_id . '&redirect_uri=' . urlencode($redirect_uri) . '&response_type=code&scope=' . $scope . '&state=wx' . '#wechat_redirect';
@@ -626,8 +631,15 @@ class PaymentsController extends Controller
             $response = curl_exec($ch);
             curl_close($ch);
 
+            Log::info('Wechat-Basic-User-Info: ' . $response);
             $response_array = json_decode($response, true);
             Session::put('wechat-basic_user_info', $response_array);
+            if(Session::has('previous_url')){
+                return redirect(Session::get('previous_url'));
+            }
+
+            return redirect(URL::previous());
+
             // session(['wechat-basic_user_info' => $response_array]);
             // return $response_array;
             // dd($response_array);
