@@ -48,14 +48,25 @@ class PaymentsController extends Controller
             throw new InvalidRequestException('当前订单状态不正确');
         }
 
-        Log::info('A New Alipay Pc-Web Payment Created: order id - ' . $order->id);
-
-        // 调用Alipay的电脑支付(网页支付)
-        return Pay::alipay($this->getAlipayConfig($order))->web([
-            'out_trade_no' => $order->order_sn, // 订单编号，需保证在商户端不重复
-            'total_amount' => bcadd($order->total_amount, $order->total_shipping_fee, 2), // 订单金额，单位元，支持小数点后两位
-            'subject' => '请支付来自 Jorya Hair 的订单：' . $order->order_sn, // 订单标题
-        ]);
+        Log::info('A New Alipay Pc-Web Payment Begins: order id - ' . $order->id);
+        try{
+            // 调用Alipay的电脑支付(网页支付)
+            return Pay::alipay($this->getAlipayConfig($order))->web([
+                'out_trade_no' => $order->order_sn, // 订单编号，需保证在商户端不重复
+                'total_amount' => bcadd($order->total_amount, $order->total_shipping_fee, 2), // 订单金额，单位元，支持小数点后两位
+                'subject' => '请支付来自 Jorya Hair 的订单：' . $order->order_sn, // 订单标题
+            ]);
+        } catch (\Exception $e) {
+            // error_log($e->getMessage());
+            /*return view('mobile.pages.error', [
+                'msg' => '付款失败',
+            ]);*/
+            Log::error('A New Wechat Pc-Web Payment Failed: order id - ' . $order->id . '; With Error Message: ' . $e->getMessage());
+            return view('mobile.payments.error', [
+                'order' => $order,
+                'message' => $e->getMessage(),
+            ]);
+        }
     }
 
     // POST Alipay 支付通知 [notify_url]
@@ -1010,7 +1021,7 @@ class PaymentsController extends Controller
             $url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' . $app_id . '&redirect_uri=' . urlencode($redirect_uri) . '&response_type=code&scope=' . $scope . '&state=1' . '#wechat_redirect';
 
             header('Location:' . $url);
-            exit();
+            // exit();
         } else {
             /*Step-2*/
             //根据code查询用户基础信息：openid和access_token
@@ -1027,12 +1038,14 @@ class PaymentsController extends Controller
             $response = curl_exec($ch);
             curl_close($ch);
 
-            $response_array = json_decode($response, true);
-            Session::put('wechat-basic_user_info', $response_array);
+            $response = json_decode($response, true);
+            return $response;
+
+            // Session::put('wechat-basic_user_info', $response_array);
             // session(['wechat-basic_user_info' => $response_array]);
             // return $response_array;
             // dd($response_array);
-            return response()->json($response);
+            // return response()->json($response);
 
             /*Step-3*/
             //根据openid和access_token查询用户信息

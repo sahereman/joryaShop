@@ -48,7 +48,7 @@ class PaymentsController extends Controller
             throw new InvalidRequestException('当前订单状态不正确');
         }
 
-        Log::info('A New Alipay Mobile-Wap Payment Created: order id - ' . $order->id);
+        Log::info('A New Alipay Mobile-Wap Payment Begins: order id - ' . $order->id);
 
         // 调用Alipay的手机网站支付
         return Pay::alipay($this->getAlipayConfig($order))->wap([
@@ -140,17 +140,8 @@ class PaymentsController extends Controller
             throw new InvalidRequestException('当前订单状态不正确');
         }
 
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, route('mobile.payments.get_wechat_open_id'));
-        curl_setopt($ch, CURLOPT_HEADER, 0);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
-        $response = curl_exec($ch);
-        curl_close($ch);
-
-        $response_array = json_decode($response, true);
-
-        dd($response_array);
+        @$this->getWechatOpenId($request);
+        $basic_user_info = Session::get('wechat-basic_user_info');
 
         try {
             // 调用Wechat的扫码支付(网页支付)
@@ -158,20 +149,38 @@ class PaymentsController extends Controller
                 'out_trade_no' => $order->order_sn, // 订单编号，需保证在商户端不重复
                 'body' => '请支付来自 Jorya Hair 的订单：' . $order->order_sn, // 订单标题
                 'total_fee' => bcmul(bcadd($order->total_amount, $order->total_shipping_fee, 2), 100, 0), // 订单金额，单位分，参数值不能带小数点
+                'openid' => $basic_user_info['openid'],
             ]);
 
-            if ($response->return_code == 'SUCCESS' && $response->result_code == 'SUCCESS' && $response->return_msg == 'OK') {
-                Log::info('A New Wechat Pc-Scan Payment Created: ' . $response->toJSON());
-                return view('mobile.payments.wechat', [
-                    'order' => $order,
-                ]);
-            } else {
-                Log::error('A New Wechat Pc-Scan Payment Responded With Wrong Response: ' . $response->toJSON());
-                return view('mobile.payments.error', [
-                    'order' => $order,
-                    'message' => $response->toJson(),
-                ]);
-            }
+            return response()->json($response->toArray());
+
+            /*后续调用示例*/
+            /*$.ajax({
+                url: "{{ route('mobile.payments.wechat_mp', ['order' => $order->id]) }}",
+                type: "GET",
+                data: {},
+                success: function (data) {
+                    WeixinJSBridge.invoke(
+                        'getBrandWCPayRequest', {
+                            "appId": data.appId,     //公众号名称，由商户传入
+                            "timeStamp": data.timeStamp,         //时间戳，自1970年以来的秒数
+                            "nonceStr": data.nonceStr, //随机串
+                            "package": data.package,
+                            "signType": data.signType,         //微信签名方式：
+                            "paySign": data.paySign //微信签名
+                        },
+                        function (res) {
+                            if (res.err_msg == "get_brand_wcpay_request:ok") {
+                                window.location.reload();
+                            }
+                        });
+
+                },
+                error: function (e) {
+                    alert("支付失败");
+                }
+            });*/
+
         } catch (\Exception $e) {
             // error_log($e->getMessage());
             /*return view('mobile.pages.error', [
@@ -197,6 +206,7 @@ class PaymentsController extends Controller
             throw new InvalidRequestException('当前订单状态不正确');
         }
 
+        Log::info('A New Wechat Mobile-Wap Payment Begins: order id - ' . $order->id);
         try {
             // 调用Wechat的扫码支付(网页支付)
             return Pay::wechat($this->getWechatConfig($order))->wap([
@@ -209,7 +219,7 @@ class PaymentsController extends Controller
             /*return view('mobile.pages.error', [
                 'msg' => '付款失败',
             ]);*/
-            Log::error('A New Wechat Pc-Scan Payment Failed: order id - ' . $order->id . '; With Error Message: ' . $e->getMessage());
+            Log::error('A New Wechat Mobile-Wap Payment Failed: order id - ' . $order->id . '; With Error Message: ' . $e->getMessage());
             return view('mobile.payments.error', [
                 'order' => $order,
                 'message' => $e->getMessage(),
@@ -599,7 +609,7 @@ class PaymentsController extends Controller
             $url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' . $app_id . '&redirect_uri=' . urlencode($redirect_uri) . '&response_type=code&scope=' . $scope . '&state=1' . '#wechat_redirect';
 
             header('Location:' . $url);
-            exit();
+            // exit();
         } else {
             /*Step-2*/
             //根据code查询用户基础信息：openid和access_token
@@ -621,7 +631,7 @@ class PaymentsController extends Controller
             // session(['wechat-basic_user_info' => $response_array]);
             // return $response_array;
             // dd($response_array);
-            return response()->json($response);
+            // return response()->json($response);
 
             /*Step-3*/
             //根据openid和access_token查询用户信息
