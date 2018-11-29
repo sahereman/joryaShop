@@ -161,7 +161,7 @@ class PaymentsController extends Controller
 
             /*后续调用示例*/
             /*$.ajax({
-                url: "{{ route('mobile.payments.wechat_mp', ['order' => $order->id]) }}",
+                url: "{{ route('mobile.payments.wechat/mp', ['order' => $order->id]) }}",
                 type: "GET",
                 data: {},
                 success: function (data) {
