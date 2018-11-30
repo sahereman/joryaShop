@@ -19,6 +19,7 @@ Route::get('login', 'Auth\LoginController@showLoginForm')->name('mobile.login.sh
 Route::post('login', 'Auth\LoginController@login')->name('mobile.login.store'); // 登录 请求
 Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('mobile.register.show'); // 注册 页面
 Route::post('register', 'Auth\RegisterController@register')->name('mobile.register.store'); // 注册 请求
+Route::post('logout', 'Auth\LoginController@logout')->name('logout'); // Log out
 
 
 /*重置密码*/

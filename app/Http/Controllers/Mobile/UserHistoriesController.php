@@ -5,17 +5,23 @@ namespace App\Http\Controllers\Mobile;
 use App\Http\Controllers\Controller;
 use App\Models\UserHistory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class UserHistoriesController extends Controller
 {
     // GET 列表
     public function index(Request $request)
     {
+        // refresh user browsing history ...
+        $user = $request->user();
+        $userHistoriesController = new \App\Http\Controllers\UserHistoriesController();
+        $userHistoriesController->refreshUserBrowsingHistoryCacheByUser($user);
 
         return view('mobile.user_histories.index');
+    }
 
-
-
+    public function more(Request $request)
+    {
         $this->validate($request, [
             'page' => 'sometimes|required|integer|min:1',
         ], [], [
@@ -35,5 +41,4 @@ class UserHistoriesController extends Controller
             'next_page' => $next_page,
         ]);
     }
-
 }

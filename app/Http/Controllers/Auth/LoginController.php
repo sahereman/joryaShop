@@ -74,19 +74,16 @@ class LoginController extends Controller
      */
     public function username()
     {
-        if (request()->has('username'))
-        {
+        if (request()->has('username')) {
             if (Validator::make(request()->all(), [
                 'username' => 'required|string|regex:/^\d+$/',
             ])->passes()
-            )
-            {
+            ) {
                 return 'phone';
             } elseif (Validator::make(request()->all(), [
                 'username' => 'required|string|email',
             ])->passes()
-            )
-            {
+            ) {
                 return 'email';
             }
         }
@@ -135,8 +132,7 @@ class LoginController extends Controller
     {
         $email = $request->input('email');
 
-        if (Cache::has('login_email_code-' . $email))
-        {
+        if (Cache::has('login_email_code-' . $email)) {
             Cache::forget('login_email_code-' . $email);
         }
 
@@ -154,26 +150,21 @@ class LoginController extends Controller
         // If the class is using the ThrottlesLogins trait, we can automatically throttle
         // the login attempts for this application. We'll key this by the username and
         // the IP address of the client making these requests into this application.
-        if ($this->hasTooManyLoginAttempts($request))
-        {
+        if ($this->hasTooManyLoginAttempts($request)) {
             $this->fireLockoutEvent($request);
 
             return $this->sendLockoutResponse($request);
         }
 
-        if (Cache::has('login_email_code-' . $email))
-        {
+        if (Cache::has('login_email_code-' . $email)) {
             Cache::forget('login_email_code-' . $email);
         }
 
         $user = User::where(['email' => $email])->first();
-        if ($user)
-        {
-            if ($request->filled('remember'))
-            {
+        if ($user) {
+            if ($request->filled('remember')) {
                 Auth::login($user, true);
-            } else
-            {
+            } else {
                 Auth::login($user);
             }
 
@@ -217,8 +208,7 @@ class LoginController extends Controller
         $phone_number = $request->input('phone');
         $country_code = $request->input('country_code');
 
-        if (Cache::has('login_sms_code-' . $country_code . '-' . $phone_number))
-        {
+        if (Cache::has('login_sms_code-' . $country_code . '-' . $phone_number)) {
             Cache::forget('login_sms_code-' . $country_code . '-' . $phone_number);
         }
 
@@ -226,8 +216,7 @@ class LoginController extends Controller
         $data['code'] = $code;
         $response = easy_sms_send($data, $phone_number, $country_code);
 
-        if ($response['aliyun']['status'] == 'success')
-        {
+        if ($response['aliyun']['status'] == 'success') {
 
             $ttl = 10;
             Cache::set('login_sms_code-' . $country_code . '-' . $phone_number, $code, $ttl);
@@ -251,8 +240,7 @@ class LoginController extends Controller
         $country_code = $request->input('country_code');
 
         // Comment For Test:
-        if (Cache::has('login_sms_code-' . $country_code . '-' . $phone_number))
-        {
+        if (Cache::has('login_sms_code-' . $country_code . '-' . $phone_number)) {
             Cache::forget('login_sms_code-' . $country_code . '-' . $phone_number);
         }
 
@@ -260,13 +248,10 @@ class LoginController extends Controller
             'country_code' => $country_code,
             'phone' => $phone_number,
         ])->first();
-        if ($user)
-        {
-            if ($request->filled('remember'))
-            {
+        if ($user) {
+            if ($request->filled('remember')) {
                 Auth::login($user, true);
-            } else
-            {
+            } else {
                 Auth::login($user);
             }
 
@@ -306,8 +291,7 @@ class LoginController extends Controller
         // If the class is using the ThrottlesLogins trait, we can automatically throttle
         // the login attempts for this application. We'll key this by the username and
         // the IP address of the client making these requests into this application.
-        if ($this->hasTooManyLoginAttempts($request))
-        {
+        if ($this->hasTooManyLoginAttempts($request)) {
             $this->fireLockoutEvent($request);
 
             return $this->sendLockoutResponse($request);
@@ -316,16 +300,12 @@ class LoginController extends Controller
         $users = User::where([
             $this->username() => $request->input('username'),
         ])->get();
-        foreach ($users as $user)
-        {
+        foreach ($users as $user) {
             $userData = $user->makeVisible('password')->toArray();
-            if (Hash::check($request->input('password'), $userData['password']))
-            {
-                if ($request->filled('remember'))
-                {
+            if (Hash::check($request->input('password'), $userData['password'])) {
+                if ($request->filled('remember')) {
                     Auth::login($user, true);
-                } else
-                {
+                } else {
                     Auth::login($user);
                 }
                 // return $this->sendLoginResponse($request);
@@ -375,7 +355,7 @@ class LoginController extends Controller
     }
 
     // user browsing history - initialization
-    protected function initializeUserBrowsingHistoryCacheByUser(User $user)
+    public function initializeUserBrowsingHistoryCacheByUser(User $user)
     {
         $browsed_at = today()->toDateString();
         Cache::forever($user->id . '-user_browsing_history_count', 0);

@@ -18,6 +18,10 @@ class ProductsController extends Controller
 
     public function show(Request $request, Product $product)
     {
+        // user browsing history - appending (maybe firing an event)
+        $productsController = new \App\Http\Controllers\ProductsController();
+        $productsController->appendUserBrowsingHistoryCacheByProduct($product);
+
         $skus = $product->skus;
         $comment_count = $product->comments->count();
         /* SQL: SELECT COUNT(*) FROM `product_comments` WHERE `photos` IS NOT NULL AND `photos` <> ''; */

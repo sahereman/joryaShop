@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Mobile\Auth;
 
+use App\Events\UserBrowsingHistoryEvent;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
@@ -26,19 +27,16 @@ class LoginController extends Controller
 
     public function username()
     {
-        if (request()->has('username'))
-        {
+        if (request()->has('username')) {
             if (Validator::make(request()->all(), [
                 'username' => 'required|string|regex:/^\d+$/',
             ])->passes()
-            )
-            {
+            ) {
                 return 'phone';
             } elseif (Validator::make(request()->all(), [
                 'username' => 'required|string|email',
             ])->passes()
-            )
-            {
+            ) {
                 return 'email';
             }
         }
@@ -67,8 +65,7 @@ class LoginController extends Controller
         // If the class is using the ThrottlesLogins trait, we can automatically throttle
         // the login attempts for this application. We'll key this by the username and
         // the IP address of the client making these requests into this application.
-        if ($this->hasTooManyLoginAttempts($request))
-        {
+        if ($this->hasTooManyLoginAttempts($request)) {
             $this->fireLockoutEvent($request);
 
             return $this->sendLockoutResponse($request);
@@ -77,18 +74,19 @@ class LoginController extends Controller
         $users = User::where([
             $this->username() => $request->input('username'),
         ])->get();
-        foreach ($users as $user)
-        {
+        foreach ($users as $user) {
             $userData = $user->makeVisible('password')->toArray();
-            if (Hash::check($request->input('password'), $userData['password']))
-            {
-                if ($request->filled('remember'))
-                {
+            if (Hash::check($request->input('password'), $userData['password'])) {
+                if ($request->filled('remember')) {
                     Auth::login($user, true);
-                } else
-                {
+                } else {
                     Auth::login($user);
                 }
+
+                // user browsing history - initialization
+                $loginController = new \App\Http\Controllers\Auth\LoginController();
+                $loginController->initializeUserBrowsingHistoryCacheByUser($user);
+
                 return $this->sendLoginResponse($request);
                 break;
             }
@@ -100,5 +98,18 @@ class LoginController extends Controller
         $this->incrementLoginAttempts($request);
 
         return $this->sendFailedLoginResponse($request);
+    }
+
+    // POST Log out
+    public function logout(Request $request)
+    {
+        // user browsing history - expiration (firing an event)
+        if (Auth::check()) {
+            event(new UserBrowsingHistoryEvent(Auth::user(), true));
+        }
+
+        $this->guard()->logout();
+
+        return redirect($this->redirectTo);
     }
 }

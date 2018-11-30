@@ -60,14 +60,12 @@ class RegisterController extends Controller
                 'string',
                 'regex:/^\d+$/',
                 function ($attribute, $value, $fail) use ($data) {
-                    if (isset($data['country_code']))
-                    {
+                    if (isset($data['country_code'])) {
                         if (User::where([
                             'country_code' => $data['country_code'],
                             'phone' => $value,
                         ])->exists()
-                        )
-                        {
+                        ) {
                             $fail('对不起，该手机号码已经注册过用户');
                         }
                     }

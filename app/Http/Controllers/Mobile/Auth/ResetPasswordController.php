@@ -66,8 +66,7 @@ class ResetPasswordController extends Controller
     // POST 验证短信验证码
     public function smsSubmit(SmsCodeResetValidationRequest $request)
     {
-        if (Cache::has('reset_sms_code-' . $request->input('country_code') . '-' . $request->input('phone')))
-        {
+        if (Cache::has('reset_sms_code-' . $request->input('country_code') . '-' . $request->input('phone'))) {
             Cache::forget('reset_sms_code-' . $request->input('country_code') . '-' . $request->input('phone'));
         }
 
@@ -88,11 +87,9 @@ class ResetPasswordController extends Controller
     // GET 重置新密码页面
     public function overrideShow(Request $request)
     {
-        if ($request->session()->get($this->overrideSessionKey, null))
-        {
+        if ($request->session()->get($this->overrideSessionKey, null)) {
             return view('mobile.auth.passwords.override');
-        } else
-        {
+        } else {
             return redirect()->route('mobile.reset.sms.show');
         }
 
@@ -105,8 +102,7 @@ class ResetPasswordController extends Controller
 
         $overrideSession = $request->session()->pull($this->overrideSessionKey, null);
 
-        if ($overrideSession && $overrideSession['status'] === true)
-        {
+        if ($overrideSession && $overrideSession['status'] === true) {
             $password = $request->input('password');
             $auth = $overrideSession['auth'];
 
@@ -115,8 +111,7 @@ class ResetPasswordController extends Controller
 
             return redirect()->route('mobile.reset.success.show');
 
-        } else
-        {
+        } else {
             return redirect()->route('mobile.reset.sms.show');
         }
 
