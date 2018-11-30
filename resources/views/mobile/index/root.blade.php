@@ -8,7 +8,8 @@
                 {{-- TODO ... placeholder --}}
                 <input type="text" name="" id="" value="" placeholder="搜索商品，供12351款好货" readonly="readonly"/>
             </a>
-            <a href="javascript:void(0)" data-href="{{ route('mobile.locale.show') }}" code="{{ App::isLocale('en') ? '0' : '1' }}" class="LanguageSwitch">
+            <a href="javascript:void(0)" data-href="{{ route('mobile.locale.show') }}"
+               code="{{ App::isLocale('en') ? '0' : '1' }}" class="LanguageSwitch">
                 <img src="{{ App::isLocale('en') ? asset('static_m/img/English.png') : asset('static_m/img/chinese.png') }}"
                      alt="" class="langImg"/>
                 <span></span>
@@ -60,7 +61,7 @@
                     <div class="block_trend">
                         <div class="block_title">
                             <span>{{ App::isLocale('en') ? $category_products['category']->name_en : $category_products['category']->name_zh }}</span>
-                            <a href="{{ route('product_categories.index', ['category' => $category_products['category']->id]) }}">更多></a>
+                            <a href="{{ route('mobile.product_categories.index') . '?category=' . $category_products['category']->id }}">更多></a>
                         </div>
                         @if($poster = \App\Models\Poster::getPosterBySlug('mobile_index_floor_' . $key))
                             <a class="buy_now" href="{{ $poster->link }}">
@@ -96,7 +97,7 @@
                     <div class="block_trend">
                         <div class="block_title">
                             <span>{{ App::isLocale('en') ? $category_products['category']->name_en : $category_products['category']->name_zh }}</span>
-                            <a href="{{ route('product_categories.index', ['category' => $category_products['category']->id]) }}">更多></a>
+                            <a href="{{ route('mobile.product_categories.index') . '?category=' . $category_products['category']->id }}">更多></a>
                         </div>
                         @if($poster = \App\Models\Poster::getPosterBySlug('mobile_index_floor_' . $key))
                             <a class="buy_now" href="{{ $poster->link }}">
@@ -138,7 +139,7 @@
                 <div class="recBox">
                     @foreach($guesses as $k => $guess)
                         <div class="recItem">
-                            <a href="{{ route('products.show', ['product' => $guess->id]) }}">
+                            <a href="{{ route('mobile.products.show', ['product' => $guess->id]) }}">
                                 <img src="{{ $guess->thumb_url }}"/>
                                 <div class="block_name">{{ App::isLocale('en') ? $guess->name_en : $guess->name_zh }}</div>
                                 <span class="block_price">@lang('basic.currency.symbol') {{ App::isLocale('en') ? $guess->price_in_usd : $guess->price }}</span>
@@ -151,10 +152,7 @@
         {{--footer子视图--}}
         @include('layouts._footer_mobile')
     </div>
-
-
 @endsection
-
 
 @section('scriptsAfterJs')
     <script type="text/javascript">
@@ -172,21 +170,17 @@
                     var slide = swiper.slides[i];
                     var progress = slide.progress;
                     scale = 1 - Math.min(Math.abs(progress * 0.2), 1);
-
                     es = slide.style;
                     es.opacity = 1 - Math.min(Math.abs(progress / 2), 1);
                     es.webkitTransform = es.MsTransform = es.msTransform = es.MozTransform = es.OTransform = es.transform = 'translate3d(0px,0,' + (-Math.abs(progress * 150)) + 'px)';
-
                 }
             },
-
             onSetTransition: function (swiper, speed) {
                 for (var i = 0; i < swiper.slides.length; i++) {
                     es = swiper.slides[i].style;
                     es.webkitTransitionDuration = es.MsTransitionDuration = es.msTransitionDuration = es.MozTransitionDuration = es.OTransitionDuration = es.transitionDuration = speed + 'ms';
                 }
-
-            }
+            },
         });
         var swiper = new Swiper('.swiper-containers', {
             slidesPerView: 2.7,
@@ -199,11 +193,10 @@
         //点击第二个轮播中商品进行跳转
         $(".swiper-containers").on("click", '.swiper-slides', function () {
             window.location.href = $(this).attr("data-url");
-        })
+        });
         //点击切换语言跳转
-        $(".LanguageSwitch").on("click",function(){
-        	window.location.href = $(this).attr("data-href")+"?language_type="+$(this).attr("code");
-        })
-
+        $(".LanguageSwitch").on("click", function () {
+            window.location.href = $(this).attr("data-href") + "?language_type=" + $(this).attr("code");
+        });
     </script>
 @endsection

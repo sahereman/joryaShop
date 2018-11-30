@@ -29,9 +29,8 @@ Route::post('password/reset/override', 'Auth\ResetPasswordController@overrideSub
 Route::get('password/reset/success', 'Auth\ResetPasswordController@successShow')->name('mobile.reset.success.show'); // 重置密码成功 页面
 
 /*商品分类*/
-Route::get('product_categories', 'ProductCategoriesController@index')->name('mobile.product_categories.index'); // 分类首页 页面
-Route::get('product_categories/{category}/category_more', 'ProductCategoriesController@categoryMore')->name('mobile.product_categories.category_more'); // 分类一级列表 Ajax
-Route::get('product_categories/{category}/product', 'ProductCategoriesController@product')->name('mobile.product_categories.product'); // 分类下商品 页面
+Route::get('product_categories', 'ProductCategoriesController@index')->name('mobile.product_categories.index'); // 商品分类展示首页 [仅展示页面]
+Route::get('product_categories/{category}/more', 'ProductCategoriesController@more')->name('mobile.product_categories.more'); // 商品一级分类展示列表 下拉加载更多 [for Ajax request]
 
 /*商品*/
 Route::get('products/search', 'ProductsController@search')->name('mobile.products.search'); // 商品搜索结果 页面 [仅展示页面]
@@ -67,7 +66,8 @@ Route::group(['middleware' => 'auth'], function () {
     //Route::delete('user_favourites/{userFavourite}', 'UserFavouritesController@destroy')->name('user_favourites.destroy'); // 删除
 
     /*浏览历史*/
-    Route::get('user_histories', 'UserHistoriesController@index')->name('mobile.user_histories.index'); // 列表 页面
+    Route::get('user_histories', 'UserHistoriesController@index')->name('mobile.user_histories.index'); // 列表 [仅展示页面]
+    Route::get('user_histories/more', 'UserHistoriesController@more')->name('mobile.user_histories.more'); // 列表 下拉加载更多 [for Ajax request]
     //Route::delete('user_histories/{userHistory}', 'UserHistoriesController@destroy')->name('user_histories.destroy'); // 删除
     //Route::delete('user_histories', 'UserHistoriesController@flush')->name('user_histories.flush'); // 清空
 

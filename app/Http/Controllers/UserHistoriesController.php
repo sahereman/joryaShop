@@ -54,7 +54,7 @@ class UserHistoriesController extends Controller
         $previous_page = ($current_page > 1) ? ($current_page - 1) : false;
         $next_page = ($current_page < $page_count) ? ($current_page + 1) : false;
         return view('user_histories.index', [
-            'histories' => $histories->forpage($current_page, 5),
+            'histories' => $histories->forPage($current_page, 5),
             'previous_page' => $previous_page,
             'next_page' => $next_page,
         ]);
