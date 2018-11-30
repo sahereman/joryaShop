@@ -46,7 +46,8 @@
                     @endforeach
                 </select>
                 <span class="valSpan"></span>
-                <input type="text" name="phone" value="{{ old('phone') }}" placeholder="请先选择国家" class="phoneIpt" maxlength="11">
+                <input type="text" name="phone" value="{{ old('phone') }}" placeholder="请先选择国家" class="phoneIpt"
+                       maxlength="11">
                 <div class="tipBox">
                     @if ($errors->has('phone'))
                         <img src="{{ asset('static_m/img/icon_tip.png') }}"/>
@@ -72,7 +73,6 @@
     </div>
 
 @endsection
-
 
 @section('scriptsAfterJs')
     <script type="text/javascript">
@@ -101,32 +101,32 @@
                     },
                     success: function (response, status, xhr) {
                         //请求成功时处理
-//                      console.log(response);
+                        // console.log(response);
                         layer.open({
-		                    content: "发送成功"
-		                    , time: 2
-		                    , skin: 'msg'
-		                });
+                            content: "发送成功"
+                            , time: 2
+                            , skin: 'msg'
+                        });
                         $(this).css("display", "none");
-		                $(".cutTime").css("display", "inline-block");
-		                //触发倒计时
-		                settime();
+                        $(".cutTime").css("display", "inline-block");
+                        //触发倒计时
+                        settime();
                     },
                     error: function (xhr, errorText, errorStatus) {
                         //请求出错处理
                         if (xhr.status === 422) {
                             // http 状态码为 422 代表用户输入校验失败
                             layer.open({
-			                    content: xhr.responseJSON.errors.phone[0]
-			                    , time: 2
-			                    , skin: 'msg'
-			                });
+                                content: xhr.responseJSON.errors.phone[0]
+                                , time: 2
+                                , skin: 'msg'
+                            });
                         } else {
                             layer.open({
-			                    content: "系统错误"
-			                    , time: 2
-			                    , skin: 'msg'
-			                });
+                                content: "系统错误"
+                                , time: 2
+                                , skin: 'msg'
+                            });
                         }
                     }
                 });
@@ -148,10 +148,10 @@
                 countdown--;
             }
             setTimeout(function () {
-                    settime()
-                }
-                , 1000)
-        }
+                        settime()
+                    }
+                    , 1000);
+        };
         $("#myselect").change(function () {
             var opt = $("#myselect").val();
             $(".valSpan").html(opt);
@@ -169,7 +169,5 @@
             }
 
         });
-
-
     </script>
 @endsection
