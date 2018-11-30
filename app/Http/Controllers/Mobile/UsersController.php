@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Mobile;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UpdatePasswordRequest;
 use App\Models\Order;
 use App\Models\User;
 use App\Models\Product;
@@ -48,35 +49,16 @@ class UsersController extends Controller
         return view('mobile.users.password');
     }
 
+    // GET 设置 页面
     public function settingShow()
     {
         return view('mobile.users.setting');
     }
 
     // PUT 修改用户密码
-    public function updatePassword(Request $request, User $user)
+    public function updatePassword(UpdatePasswordRequest $request, User $user)
     {
         $this->authorize('update', $user);
-
-        $this->validate($request, [
-            'password_original' => [
-                'bail',
-                'required',
-                'string',
-                'min:6',
-                function ($attribute, $value, $fail) use ($user) {
-                    $userData = $user->makeVisible('password')->toArray();
-                    if (!Hash::check($value, $userData['password']))
-                    {
-                        $fail('原密码不正确');
-                    }
-                },
-            ],
-            'password' => 'required|string|min:6|confirmed',
-        ], [], [
-            'password_original' => '原密码',
-            'password' => '新密码',
-        ]);
 
         $user->update([
             'password' => bcrypt($request->input('password')),

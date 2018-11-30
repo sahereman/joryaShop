@@ -40,7 +40,7 @@ Route::get('products/{product}', 'ProductsController@show')->name('mobile.produc
 /*手机端 - 微信浏览器内获取用户 open id*/
 Route::get('payments/get_wechat_open_id', 'PaymentsController@getWechatOpenId')->name('mobile.payments.get_wechat_open_id'); // get wechat open_id
 
-///*需要登录的路由*/
+/*需要登录的路由*/
 Route::group(['middleware' => 'auth'], function () {
 
     /*用户中心*/
@@ -75,6 +75,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('orders', 'OrdersController@index')->name('mobile.orders.index'); // 列表 页面
     Route::get('orders/more', 'OrdersController@more')->name('mobile.orders.more'); // 获取订单数据 请求 [for Ajax request]
     Route::get('orders/pre_payment', 'OrdersController@prePayment')->name('mobile.orders.pre_payment'); // 订单预支付页面：选择地址+币种页面
+    Route::get('orders/{order}/payment_method', 'OrdersController@paymentMethod')->name('mobile.orders.payment_method'); // 选择支付方式页面
     Route::get('orders/{order}', 'OrdersController@show')->name('mobile.orders.show'); // 详情 页面
     Route::get('orders/{order}/show_shipment', 'OrdersController@showShipment')->name('mobile.orders.show_shipment'); // 物流详情 页面
     Route::get('orders/{order}/payment_method', 'OrdersController@paymentMethod')->name('orders.payment_method'); // 选择支付方式页面

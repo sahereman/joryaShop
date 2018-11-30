@@ -199,6 +199,17 @@ class OrdersController extends Controller
         ]);
     }
 
+    // GET 选择支付方式页面
+    public function paymentMethod(Request $request, Order $order)
+    {
+        $this->authorize('pay', $order);
+
+        return view('mobile.orders.payment_method', [
+            'order' => $order,
+        ]);
+    }
+
+
     // GET 物流详情 页面
     public function showShipment(Request $request, Order $order)
     {
