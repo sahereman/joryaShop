@@ -1,60 +1,98 @@
-@extends('layouts.app')
+@extends('layouts.mobile')
 @section('title', App::isLocale('en') ? 'Choosing a Payment method' : '选择支付方式')
 @section('content')
-    <div class="payment_method">
-        <div class="m-wrapper">
-            <div class="methods">
-                <p class="trade_number">@lang('order.Order_serial_number')：<span>{{ $order->order_sn }}</span></p>
-                <div class="methods_choose">
-                    <p>@lang('order.payment method')</p>
-                    <ul>
-                        @if($order->currency == 'CNY')
-                            <li>
-                                <label class="cur_p clear">
-                                    <input type="radio" name="payMethod" value="1" id="alipay"
-                                           data-href="{{ route('payments.alipay', ['order' => $order->id]) }}" checked>
-                                    <img src="{{ asset('img/alipay.png') }}">
-                                </label>
-                            </li>
-                            <li>
-                                <label class="cur_p clear">
-                                    <input type="radio" name="payMethod" value="2" id="wxpay"
-                                           data-href="{{ route('payments.wechat', ['order' => $order->id]) }}">
-                                    <img src="{{ asset('img/wxpay.png') }}">
-                                </label>
-                            </li>
-                        @else
-                            <li>
-                                <label class="cur_p clear">
-                                    <input type="radio" name="payMethod" value="3" id="paypal"
-                                           data-href="{{ route('payments.paypal.create', ['order' => $order->id]) }}">
-                                    <img src="{{ asset('img/paypal.png') }}">
-                                </label>
-                            </li>
-                        @endif
-                    </ul>
-                </div>
-                <div class="methods_footer clear">
-                    <div class="left">
-                        <p>
-                            @lang('order.Actually paid')：
-                            <span id="needToPay">{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}</span>
-                        </p>
-                    </div>
-                    <div class="right">
-                        <p>
-                            <button class="pay_btn">@lang('order.payment')</button>
-                        </p>
-                        <p class="cunt_down paying_time" id="time_to_pay"
-                           created_at="{{ strtotime($order->created_at) }}"
-                           time_to_close_order="{{ \App\Models\Config::config('time_to_close_order') * 3600 }}"
-                           seconds_to_close_order="{{ (strtotime($order->created_at) + \App\Models\Order::getSecondsToCloseOrder() - time()) > 0 ? (strtotime($order->created_at) + \App\Models\Order::getSecondsToCloseOrder() - time()) : 0 }}">
-                            {{ generate_order_ttl_message($order->create_at, \App\Models\Order::ORDER_STATUS_PAYING) }}
-                        </p>
-                    </div>
-                </div>
-            </div>
+    <div class="headerBar fixHeader">
+		<img src="{{ asset('static_m/img/icon_backtop.png') }}" class="backImg" onclick="javascript:history.back(-1);"/>
+		<span>确认订单</span>
+	</div>
+	<div class="pre_payment">
+        <div class="pre_paymentCon">
+        	 <div class="pre_address edit_address" data-url="{{ route('user_addresses.list_all') }}">
+        		<div>
+        			<p class="address_title">
+        				<span class="address_name">{{ $order->user_info['name'] }}</span>
+        				<span class="address_phone">{{ $order->user_info['phone'] }}</span>
+        			</p>
+        			<p class="address_info">
+        				<span class="address_info_all">{{ $order->user_info['address'] }}</span>
+        			</p>
+        		</div>
+    	    </div>	
+        	<div class="pre_products">
+        		<ul>
+        			@foreach($order->snapshot as $key => $order_item)
+        				@if($key > 2)
+                    		@break
+                    	@endif
+                    	<li>
+	    	   	        	<img src="{{ $order_item['sku']['product']['thumb_url'] }}">
+	    	   	            <span>&#215; {{ $order_item['number'] }}</span>
+	    	   	        </li>
+        			@endforeach
+        		</ul>
+        		<!--显示商品总数量-->
+        		<span class="pre_products_num">共{{ count($order->snapshot) }}件</span>
+        	</div>
+        	<div class="pre_amount">
+        		<p>
+        			<span>@lang('order.A total of')</span>
+        			<span>{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ $order->total_amount }}</span>
+        		</p>
+        		<p>
+        			<span>@lang('order.freight')</span>
+        			<span>{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ $order->total_shipping_fee }}</span>
+        		</p>
+        	</div>
+        	<div class="pre_currency">
+        		<p class="main_title">@lang('order.currency option')</p>
+                <p class="currency_selection">
+                	@if($order->currency == 'CNY')
+                    <a href="javascript:void(0)" class="active" code="RMB" country="CNY">@lang('order.RMB')</a>
+                    @else
+                    <a href="javascript:void(0)" code="dollar" country="USD">@lang('order.Dollars')</a>
+                    @endif
+                </p>
+        	</div>
+        	<div class="pre_note">
+        		<p>@lang('order.order note')</p>
+        		<textarea placeholder="@lang('order.Optional message')" maxlength="50" readonly value="{{ $order->remark }}"></textarea>
+        	</div>
         </div>
+        <div class="pre_paymentTotal">
+            <span class="amount_of_money cost_of_total">{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}</span>
+        	<a href="javascript:void(0)" class="Topayment_btn" data-url="{{ route('orders.store') }}">去支付</a>
+        </div>
+    </div>
+    <!--选择支付方式弹窗-->
+    <div class="payment_method_choose animated">
+    	<ul>
+            @if($order->currency == 'CNY')
+                @if(true)
+	                <li>
+	                    <label class="cur_p clear">
+	                        <input type="radio" name="payMethod" value="1" id="alipay"
+	                               data-href="{{ route('payments.alipay', ['order' => $order->id]) }}" checked>
+	                        <img src="{{ asset('img/alipay.png') }}">
+	                    </label>
+	                </li>
+                @endif
+                <li>
+                    <label class="cur_p clear">
+                        <input type="radio" name="payMethod" value="2" id="wxpay"
+                               data-href="{{ route('payments.wechat', ['order' => $order->id]) }}">
+                        <img src="{{ asset('img/wxpay.png') }}">
+                    </label>
+                </li>
+            @else
+                <li>
+                    <label class="cur_p clear">
+                        <input type="radio" name="payMethod" value="3" id="paypal"
+                        	   data-href="{{ route('payments.paypal.create', ['order' => $order->id]) }}">
+                        <img src="{{ asset('img/paypal.png') }}">
+                    </label>
+                </li>
+            @endif
+        </ul>
     </div>
 @endsection
 @section('scriptsAfterJs')
@@ -66,7 +104,8 @@
             var seconds_to_close_order = $("#time_to_pay").attr('seconds_to_close_order');
             timeCount("time_to_pay", seconds_to_close_order, 1);
             //点击付款
-            $(".pay_btn").on("click", function () {
+            $(".Topayment_btn").on("click", function () {
+            	$(".payment_method_choose").removeClass('dis_n');
                 var way_choosed = $(".methods_choose").find("input[name='payMethod']:checked").val();
                 var location_href = $(".methods_choose").find("input[name='payMethod']:checked").attr("data-href");
                 switch (way_choosed) {
@@ -98,12 +137,6 @@
             //倒计时方法封装
             function timeCount(remain_id, totalS, type) {
                 function _fresh() {
-//                  var nowDate = new Date(); //当前时间
-                    var id = $('#' + remain_id).attr("order_id"); //当前订单的id
-//                  var addTime = new Date(parseInt(start_time));               //返回的时间戳转换成时间格式
-//                  var auto_totalS = ending_time; //订单支付有效时长
-//                  var ad_totalS = parseInt((addTime.getTime() / 1000) + auto_totalS); ///下单总秒数
-//                  var totalS = parseInt(ad_totalS - (nowDate.getTime() / 1000)); ///支付时长
                     totalS--;
                     if (totalS > 0) {
                         var _day = parseInt((totalS / 3600) % 24 / 24);

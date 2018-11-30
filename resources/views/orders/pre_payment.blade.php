@@ -67,7 +67,7 @@
                                 <div class="clear single-item">
                                     <div class="left w110 shop-img">
                                         <a class="cur_p" href="#">
-                                            <img src="{{ $item['product']->thumb }}">
+                                            <img src="{{ $item['product']->thumb_url }}">
                                         </a>
                                     </div>
                                     <div class="left w250 pro-info">

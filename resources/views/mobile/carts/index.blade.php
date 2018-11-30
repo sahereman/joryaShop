@@ -94,10 +94,16 @@
         //单个商品绑定计算
         $('input[name="selectOne"]').on('change', function () {
             calcTotal();
+            if($("input[name=selectOne]:checked").length==0){
+            	$(".cancelBtn").css("background", "#dcdcdc");
+            }else {
+            	$(".cancelBtn").css("background", "#bc8c61");
+            }
             if (!$(this).prop('checked')) {
                 $('#totalIpt').prop('checked', false);
             }
         });
+        
         // 为减少和添加商品数量的按钮绑定事件回调
         $('.cartItem .Operation_btn').on('click', function (evt) {
             $(this).parent().parent().find('input[name="selectOne"]').prop('checked', true);
@@ -106,7 +112,7 @@
                 if (count > 1) {
                     count -= 1;
                     $(this).next().val(count);
-                    // update_pro_num($(this).next());
+                       update_pro_num($(this).next());
                 } else {
                     layer.open({
                         content: "@lang('order.The number of goods is at least 1')"
@@ -119,7 +125,7 @@
                 if (count < 200) {
                     count += 1;
                     $(this).prev().val(count);
-                    // update_pro_num($(this).prev());
+                       update_pro_num($(this).prev());
                 } else {
                     layer.open({
                         content: "@lang('order.Cannot add more quantities')"
@@ -175,7 +181,7 @@
                         });
                         cart_ids = cart_ids.substring(0, cart_ids.length - 1);
                         var url = clickDom.attr('data-url');
-                        window.location.href = url + "?cart_ids=26";
+                        window.location.href = url + "?cart_ids="+cart_ids+"&sendWay=2";
                     } else {
                         layer.open({
                             content: "请选择需要结算的商品！",
@@ -186,5 +192,25 @@
                 }
             }
         });
+         //更新购物车记录（增减数量）
+        function update_pro_num(dom) {
+            var url = dom.attr("data-url");
+            var data = {
+                _method: "PATCH",
+                _token: "{{ csrf_token() }}",
+                number: dom.val()
+            };
+            $.ajax({
+                type: "post",
+                url: url,
+                data: data,
+                success: function (data) {
+                    calcTotal();
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            });
+        }
     </script>
 @endsection

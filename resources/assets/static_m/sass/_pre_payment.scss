@@ -24,6 +24,7 @@
                 &.edit_address {
                     div {
                         padding: .5rem;
+                        flex: 1;
                     }
                     .address_title {
                         color: #333;
@@ -35,7 +36,7 @@
                     .address_info {
                         .default_btn {
                             font-size: .9rem;
-                            padding: .3rem .8rem;
+                            padding: .1rem .5rem;
                             color: #bc8c61;
                             border: 1px solid #bc8c61;
                             border-radius: 25% / 50%;
@@ -60,11 +61,12 @@
                     align-items: center;
                     padding: .5rem 0;
                     margin-bottom: 0;
+                    flex: 1;
                     li {
                         padding: .3rem;
                         img {
-                            width: 5rem;
-                            height: 5rem;
+                            width: 4rem;
+                            height: 4rem;
                         }
                         span {
                             display: block;
@@ -75,6 +77,9 @@
                 }
                 >img{
                     width: .5rem;
+                }
+                .pre_products_num {
+                    margin-right: .5rem;
                 }
             }
             &.pre_amount {
