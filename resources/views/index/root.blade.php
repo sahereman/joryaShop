@@ -53,7 +53,7 @@
                 </div>
                 @if($poster = \App\Models\Poster::getPosterBySlug('pc_index_right'))
                     <div class="new_product_right pull-left">
-                        <a href="{{ $poster->link }}"><img  class="lazy" data-src="{{ $poster->image_url }}"></a>
+                        <a href="{{ $poster->link }}"><img class="lazy" data-src="{{ $poster->image_url }}"></a>
                     </div>
                 @else
                     <div class="new_product_right pull-left">
@@ -67,9 +67,9 @@
                 <div class="fashion_trend product-part">
                     <div class="m-wrapper">
                         <div class="part_title">
-                        	<a href="{{ route('product_categories.index', ['category' => $category_products['category']->id]) }}">
-                        		<h3>{{ App::isLocale('en') ? $category_products['category']->name_en : $category_products['category']->name_zh }}</h3>
-                        	</a>
+                            <a href="{{ route('product_categories.index', ['category' => $category_products['category']->id]) }}">
+                                <h3>{{ App::isLocale('en') ? $category_products['category']->name_en : $category_products['category']->name_zh }}</h3>
+                            </a>
                             <ul class="pull-right">
                                 @foreach($category_products['children'] as $k => $child)
                                     @if($k > 5)
@@ -85,14 +85,22 @@
                         <div class="content">
                             <ul>
                                 @foreach($category_products['products'] as $k => $product)
-                                    @if($k > 7)
-                                        @break
+                                    @if($category_products['products']->count() > 4 && $category_products['products']->count() < 8)
+                                        @if($k > 3)
+                                            @break
+                                        @endif
+                                    @else
+                                        @if($k > 7)
+                                            @break
+                                        @endif
                                     @endif
                                     <li>
                                         <a href="{{ route('products.show', ['product' => $product->id]) }}">
                                             <img class="lazy" data-src="{{ $product->thumb_url }}">
-                                            <h5 title="{{App::isLocale('en') ? $product->name_en : $product->name_zh }}">{{App::isLocale('en') ? $product->name_en : $product->name_zh }}</h5>
-                                            <span title="{{ App::isLocale('en') ? $product->description_en : $product->description_zh }}">{{ App::isLocale('en') ? $product->description_en : $product->description_zh }}</span>
+                                            <h5 title="{{ App::isLocale('en') ? $product->name_en : $product->name_zh }}">{{App::isLocale('en') ? $product->name_en : $product->name_zh }}</h5>
+                                            <span title="{{ App::isLocale('en') ? $product->description_en : $product->description_zh }}">
+                                                {{ App::isLocale('en') ? $product->description_en : $product->description_zh }}
+                                            </span>
                                             <p class="product_price">@lang('basic.currency.symbol') {{ App::isLocale('en') ? $product->price_in_usd : $product->price }}</p>
                                         </a>
                                     </li>
@@ -105,9 +113,9 @@
                 <div class="customization product-part">
                     <div class="m-wrapper">
                         <div class="part_title">
-                        	<a href="{{ route('product_categories.index', ['category' => $category_products['category']->id]) }}">
-                            	<h3>{{ App::isLocale('en') ? $category_products['category']->name_en : $category_products['category']->name_zh }}</h3>
-                           </a>
+                            <a href="{{ route('product_categories.index', ['category' => $category_products['category']->id]) }}">
+                                <h3>{{ App::isLocale('en') ? $category_products['category']->name_en : $category_products['category']->name_zh }}</h3>
+                            </a>
                             <ul class="pull-right">
                                 @foreach($category_products['children'] as $k => $child)
                                     @if($k > 5)
@@ -123,11 +131,12 @@
                         <div class="customization_banner">
                             @if($poster = \App\Models\Poster::getPosterBySlug('pc_index_floor_' . $key))
                                 <a class="buy_now" href="{{ $poster->link }}">
-                                	<img class="lazy" data-src="{{ $poster->image_url }}" style="height: 310px;">
+                                    <img class="lazy" data-src="{{ $poster->image_url }}" style="height: 310px;">
                                 </a>
                             @else
                                 <a class="buy_now" href="{{ route('root') }}">
-                                	<img class="lazy" data-src="{{ asset('defaults/default_pc_index_floor_even.jpg') }}">
+                                    <img class="lazy"
+                                         data-src="{{ asset('defaults/default_pc_index_floor_even.png') }}" />
                                 </a>
                             @endif
                         </div>
@@ -166,18 +175,19 @@
                         @endif
                         <li>
                             <div class="guess_list_img">
-                                <!--<div class="guess_list_tips">
+                                {{--<div class="guess_list_tips">
                                     <img class="lazy" data-src="{{ asset('img/guess_tips.png') }}">
-                                </div>-->
-                                <img  class="lazy" data-src="{{ $guess->thumb_url }}">
+                                </div>--}}
+                                <img class="lazy" data-src="{{ $guess->thumb_url }}">
                             </div>
                             <h5 title="{{ App::isLocale('en') ? $guess->name_en : $guess->name_zh }}">{{ App::isLocale('en') ? $guess->name_en : $guess->name_zh }}</h5>
                             <p class="guess_price">
                                 <span class="new_price">@lang('basic.currency.symbol') {{ App::isLocale('en') ? $guess->price_in_usd : $guess->price }}</span>
                                 <span class="old_price">@lang('basic.currency.symbol') {{  App::isLocale('en') ? bcmul($guess->price_in_usd, 1.2, 2) : bcmul($guess->price, 1.2, 2) }}</span>
                             </p>
-                            <a class="buy_now_guess"
-                               href="{{ route('products.show', ['product' => $guess->id]) }}">@lang('product.buy_now')</a>
+                            <a class="buy_now_guess" href="{{ route('products.show', ['product' => $guess->id]) }}">
+                                @lang('product.buy_now')
+                            </a>
                         </li>
                     @endforeach
                 </ul>

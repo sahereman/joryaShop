@@ -7,7 +7,7 @@
     </div>
     <div class="cartsBox">
         <div class="cartsCon">
-            @foreach($carts as $key => $cart)
+            @foreach($carts as $cart)
                 <div class="cartItem">
                     <label class="cartItemLab">
                         <input type="checkbox" name="selectOne" id="" code="{{ $cart->sku->id }}" value="{{ $cart->id }}"/>
@@ -24,7 +24,7 @@
                         <div class="goodsPri">
                             <div>
                                 <span class="price">{{ App::isLocale('en') ? '&#36;' : '&#165;' }}</span>
-                                <span class="price">{{ App::isLocale('en') ? $cart->sku->price_in_usd : $cart->sku->price }}</span>
+                                <span class="realPri">{{ App::isLocale('en') ? $cart->sku->price_in_usd : $cart->sku->price }}</span>
                             </div>
                             <div class="goodsNum">
                                 <span class="Operation_btn">-</span>

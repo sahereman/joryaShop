@@ -78,7 +78,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('orders/{order}/payment_method', 'OrdersController@paymentMethod')->name('mobile.orders.payment_method'); // 选择支付方式页面
     Route::get('orders/{order}', 'OrdersController@show')->name('mobile.orders.show'); // 详情 页面
     Route::get('orders/{order}/show_shipment', 'OrdersController@showShipment')->name('mobile.orders.show_shipment'); // 物流详情 页面
-    Route::get('orders/{order}/payment_method', 'OrdersController@paymentMethod')->name('orders.payment_method'); // 选择支付方式页面
 
     /*订单评价*/
     Route::get('orders/{order}/create_comment', 'OrdersController@createComment')->name('mobile.orders.create_comment'); // 创建订单评价 页面

@@ -13,8 +13,8 @@ class IndexController extends Controller
     // GET 首页
     public function root(Request $request)
     {
-        $banners = Banner::where('type', 'index')->latest()->get();
-
+        $banners = Banner::where('type', 'mobile')->latest()->get();
+        $latest = Product::where('is_index', 1)->latest('updated_at')->limit(8)->get();
         $products = [];
         $categories = ProductCategory::where(['parent_id' => 0, 'is_index' => 1])->get();
         foreach ($categories as $category) {
@@ -31,6 +31,7 @@ class IndexController extends Controller
 
         return view('mobile.index.root', [
             'banners' => $banners,
+            'latest' => $latest,
             'products' => $products,
             'guesses' => $guesses,
         ]);

@@ -5,21 +5,32 @@
         <div class="searchBox">
             <a href="{{route('mobile.search')}}" class="searchCon">
                 <img src="{{ asset('static_m/img/Unchecked_search.png') }}"/>
+                {{-- TODO ... placeholder --}}
                 <input type="text" name="" id="" value="" placeholder="搜索商品，供12351款好货" readonly="readonly"/>
             </a>
-            <a href="{{route('mobile.locale.show')}}" class="LanguageSwitch">
-                <img src="{{ asset('static_m/img/chinese.png')}}" alt="" class="langImg"/>
+            <a href="{{ route('mobile.locale.show') }}" class="LanguageSwitch">
+                <img src="{{ App::isLocale('en') ? asset('static_m/img/English.png') : asset('static_m/img/chinese.png') }}"
+                     alt="" class="langImg"/>
                 <span></span>
             </a>
         </div>
         <!-- Swiper -->
         <div class="swiper-container swiper-containerL">
             <div class="swiper-wrapper">
-                @for($i = 0; $i < 5; $i++)
+                @if(isset($banners) && $banners->isNotEmpty())
+                    @foreach($banners as $banner)
+                        <div class="swiper-slide swiper-slideL">
+                            <img src="{{ $banner->image_url }}" class="main-img">
+                        </div>
+                    @endforeach
+                @else
                     <div class="swiper-slide swiper-slideL">
-                        <img src="{{ asset('static_m/img/banner.png') }}" class="main-img">
+                        <img src="{{ asset('defaults/defaults_mobile_banner.png') }}" class="main-img">
                     </div>
-                @endfor
+                    <div class="swiper-slide swiper-slideL">
+                        <img src="{{ asset('defaults/defaults_mobile_banner.png') }}" class="main-img">
+                    </div>
+                @endif
             </div>
             <div class="swiper-pagination" id="pagination"></div>
         </div>
@@ -31,79 +42,109 @@
                 </div>
                 <div class="swiper-container swiper-containers">
                     <div class="swiper-wrapper">
-                        @for($i = 0; $i < 6; $i++)
-                            <div class="swiper-slide swiper-slides" data-url="{{route('mobile.products.show',60)}}">
-                                <img src="{{ asset('static_m/img/new.png') }}"/>
-                                <div class="new_pro_name">糖果色片染 十足立体感糖果色片染 十足立体感</div>
-                                <span class="new_pro_price">￥129</span>
+                        @foreach($latest as $product)
+                            <div class="swiper-slide swiper-slides"
+                                 data-url="{{route('mobile.products.show', ['product' => $product->id])}}">
+                                <img src="{{ $product->thumb_url }}"/>
+                                <div class="new_pro_name">{{ App::isLocale('en') ? $product->name_en : $product->name_zh }}</div>
+                                <span class="new_pro_price">
+                                    @lang('basic.currency.symbol') {{ App::isLocale('en') ? $product->price_in_usd : $product->price }}
+                                </span>
                             </div>
-                        @endfor
+                        @endforeach
                     </div>
                 </div>
             </div>
-            <div class="block_trend">
-                <div class="block_title">
-                    <span>时尚趋势</span>
-                    <a href="#">更多></a>
-                </div>
-                <img src="{{ asset('static_m/img/theme.png') }}" class="block_theme"/>
-                <div class="blockBox">
-                    @for($i = 0; $i < 6; $i++)
-                        <div class="blockItem">
-                            <a href="{{route('mobile.products.show',60)}}">
-                                <img src="{{ asset('static_m/img/blockImg.png') }}"/>
-                                <div class="block_name">糖果色片染立体感十足,糖果色片</div>
-                                <span class="block_price">￥129</span>
+            @foreach($products as $key => $category_products)
+                @if($key % 2 == 1)
+                    <div class="block_trend">
+                        <div class="block_title">
+                            <span>{{ App::isLocale('en') ? $category_products['category']->name_en : $category_products['category']->name_zh }}</span>
+                            <a href="{{ route('product_categories.index', ['category' => $category_products['category']->id]) }}">更多></a>
+                        </div>
+                        @if($poster = \App\Models\Poster::getPosterBySlug('mobile_index_floor_' . $key))
+                            <a class="buy_now" href="{{ $poster->link }}">
+                                <img src="{{ $poster->image_url }}" class="block_theme"/>
                             </a>
+                        @else
+                            <img src="{{ asset('defaults/default_mobile_index_floor_odd.png') }}" class="block_theme"/>
+                        @endif
+                        <div class="blockBox">
+                            @foreach($category_products['products'] as $k => $product)
+                                @if($category_products['products']->count() > 3 && $category_products['products']->count() < 6)
+                                    @if($k > 2)
+                                        @break
+                                    @endif
+                                @else
+                                    @if($k > 5)
+                                        @break
+                                    @endif
+                                @endif
+                                <div class="blockItem">
+                                    <a href="{{ route('mobile.products.show', ['product' => $product->id]) }}">
+                                        <img src="{{ $product->thumb_url }}"/>
+                                        <div class="block_name">{{ App::isLocale('en') ? $product->name_en : $product->name_zh }}</div>
+                                        <span class="block_price">
+                                            @lang('basic.currency.symbol') {{ App::isLocale('en') ? $product->price_in_usd : $product->price }}
+                                        </span>
+                                    </a>
+                                </div>
+                            @endforeach
                         </div>
-                    @endfor
-                </div>
-            </div>
-            <div class="block_trend">
-                <div class="block_title">
-                    <span>高级定制</span>
-                    <a href="#">更多></a>
-                </div>
-                <img src="{{ asset('static_m/img/Advancedcustomization.png') }}" class="block_theme"/>
-                <div class="cusBox">
-                    <div class="cusItemO">
-                        <img src="{{ asset('static_m/img/Advancedcustomization_02.png') }}"/>
                     </div>
-                    <div class="cusItemF">
-                        <img src="{{ asset('static_m/img/Advancedcustomization_03.png') }}"/>
-                        <div class="cusItemBox">
-                            <img src="{{ asset('static_m/img/blockImg.png') }}"/>
-                            <img src="{{ asset('static_m/img/blockImg.png') }}"/>
+                @else
+                    <div class="block_trend">
+                        <div class="block_title">
+                            <span>{{ App::isLocale('en') ? $category_products['category']->name_en : $category_products['category']->name_zh }}</span>
+                            <a href="{{ route('product_categories.index', ['category' => $category_products['category']->id]) }}">更多></a>
                         </div>
-                    </div>
-                </div>
-                <div class="blockBox">
-                    @for($i = 0; $i < 6; $i++)
-                        <div class="blockItem blockItemCus">
-                            <a href="{{route('mobile.products.show',60)}}">
-                                <img src="{{ asset('static_m/img/blockImg.png') }}"/>
-                                <div class="block_name">糖果色片染</div>
-                                <span class="block_price">￥129</span>
+                        @if($poster = \App\Models\Poster::getPosterBySlug('mobile_index_floor_' . $key))
+                            <a class="buy_now" href="{{ $poster->link }}">
+                                <img src="{{ $poster->image_url }}" class="block_theme"/>
                             </a>
+                        @else
+                            <img src="{{ asset('defaults/default_mobile_index_floor_even.png') }}" class="block_theme"/>
+                        @endif
+                        <div class="blockBox">
+                            @foreach($category_products['products'] as $k => $product)
+                                @if($category_products['products']->count() > 3 && $category_products['products']->count() < 6)
+                                    @if($k > 2)
+                                        @break
+                                    @endif
+                                @else
+                                    @if($k > 5)
+                                        @break
+                                    @endif
+                                @endif
+                                <div class="blockItem blockItemCus">
+                                    <a href="{{ route('mobile.products.show', ['product' => $product->id]) }}">
+                                        <img src="{{ $product->thumb_url }}"/>
+                                        <div class="block_name">{{ App::isLocale('en') ? $product->name_en : $product->name_zh }}</div>
+                                        <span class="block_price">
+                                            @lang('basic.currency.symbol') {{ App::isLocale('en') ? $product->price_in_usd : $product->price }}
+                                        </span>
+                                    </a>
+                                </div>
+                            @endforeach
                         </div>
-                    @endfor
-                </div>
-            </div>
+                    </div>
+                @endif
+            @endforeach
             <div class="pro_rec ">
                 <div class="new_title">
                     <img src="{{ asset('static_m/img/Title_Like.png') }}"/>
                     <span class="new_name">商品推荐</span>
                 </div>
                 <div class="recBox">
-                    @for($i = 0; $i < 6; $i++)
+                    @foreach($guesses as $k => $guess)
                         <div class="recItem">
-                            <a href="{{route('mobile.products.show',60)}}">
-                                <img src="{{ asset('static_m/img/blockImg.png') }}"/>
-                                <div class="block_name">糖果色片染立体感十足</div>
-                                <span class="block_price">￥129</span>
+                            <a href="{{ route('products.show', ['product' => $guess->id]) }}">
+                                <img src="{{ $guess->thumb_url }}"/>
+                                <div class="block_name">{{ App::isLocale('en') ? $guess->name_en : $guess->name_zh }}</div>
+                                <span class="block_price">@lang('basic.currency.symbol') {{ App::isLocale('en') ? $guess->price_in_usd : $guess->price }}</span>
                             </a>
                         </div>
-                    @endfor
+                    @endforeach
                 </div>
             </div>
         </div>
