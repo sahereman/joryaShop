@@ -281,6 +281,9 @@ class OrdersController extends Controller
                 'request_url' => route('orders.payment_method', [
                     'order' => $order->id,
                 ]),
+                'mobile_request_url' => route('mobile.orders.payment_method', [
+                    'order' => $order->id,
+                ]),
             ],
         ]);
     }

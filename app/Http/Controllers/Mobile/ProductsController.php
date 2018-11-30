@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Mobile;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\ProductRequest;
 use App\Models\Product;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 
 class ProductsController extends Controller
 {
