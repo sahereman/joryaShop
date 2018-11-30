@@ -37,18 +37,17 @@
                             </div>
                             <!-- 缩略图 -->
                             <div class="spec-scroll">
-                            	<a class="prev">&lt;</a>
-                            	<a class="next">&gt;</a>
-                            	<div class="img_items">
-                            		<ul class="img_x" id="img_x">
-		                                @foreach($product->photo_urls as $photo_url)
-		                                    <li code="{{ $photo_url }}">
-		                                        <img code="{{ $photo_url }}"
-		                                            src="{{ $photo_url }}">
-		                                    </li>
-		                                @endforeach
-		                            </ul>
-                            	</div>
+                                <a class="prev">&lt;</a>
+                                <a class="next">&gt;</a>
+                                <div class="img_items">
+                                    <ul class="img_x" id="img_x">
+                                        @foreach($product->photo_urls as $photo_url)
+                                            <li code="{{ $photo_url }}">
+                                                <img code="{{ $photo_url }}" src="{{ $photo_url }}">
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                         <div class="imgRight">
@@ -235,7 +234,7 @@
     </div>
 @endsection
 @section('scriptsAfterJs')
-<script type="text/javascript">
+    <script type="text/javascript">
         var loading_animation;  //loading动画的全局name
         var current_page;  //评价的当前页
         var next_page;   //下一页的页码
@@ -377,7 +376,6 @@
                     });
                 }
             }
-
         });
         //立即购买
         $(".buy_now").on("click", function () {
@@ -427,7 +425,7 @@
                         $(".description_index").text((json.data.description_index).toFixed(1));
                         $(".shipment_index").text((json.data.shipment_index).toFixed(1));
                         $.each(dataObj, function (i, n) {
-                        	name = (country == "中文") ? n.order_item.sku.name_zh : n.order_item.sku.name_en;
+                            name = (country == "中文") ? n.order_item.sku.name_zh : n.order_item.sku.name_en;
                             dataObj_photo = n.photo_urls;
                             html += "<div class='item'>";
                             html += "<div class='evaluation_results_left'>";
@@ -490,40 +488,40 @@
             getEva($(this).attr("code"));
         });
         //图片预览小图移动效果,页面加载时触发
-		$(function(){
-			var tempLength = 0; //临时变量,当前移动的长度
-			var viewNum = 5; //设置每次显示图片的个数量
-			var moveNum = 2; //每次移动的数量
-			var moveTime = 300; //移动速度,毫秒
-			var scrollDiv = $(".spec-scroll .img_items ul"); //进行移动动画的容器
-			var scrollItems = $(".spec-scroll .img_items ul li"); //移动容器里的集合
-			var moveLength = scrollItems.eq(0).width() * moveNum; //计算每次移动的长度
-			var countLength = (scrollItems.length - viewNum) * scrollItems.eq(0).width(); //计算总长度,总个数*单个长度
-			  
-			//下一张
-			$(".spec-scroll .next").on("click",function(){
-				if(tempLength < countLength){
-					if((countLength - tempLength) > moveLength){
-						scrollDiv.animate({left:"-=" + moveLength + "px"}, moveTime);
-						tempLength += moveLength;
-					}else{
-						scrollDiv.animate({left:"-=" + (countLength - tempLength) + "px"}, moveTime);
-						tempLength += (countLength - tempLength);
-					}
-				}
-			});
-			//上一张
-			$(".spec-scroll .prev").on("click",function(){
-				if(tempLength > 0){
-					if(tempLength > moveLength){
-						scrollDiv.animate({left: "+=" + moveLength + "px"}, moveTime);
-						tempLength -= moveLength;
-					}else{
-						scrollDiv.animate({left: "+=" + tempLength + "px"}, moveTime);
-						tempLength = 0;
-					}
-				}
-			});
-		});
+        $(function () {
+            var tempLength = 0; //临时变量,当前移动的长度
+            var viewNum = 5; //设置每次显示图片的个数量
+            var moveNum = 2; //每次移动的数量
+            var moveTime = 300; //移动速度,毫秒
+            var scrollDiv = $(".spec-scroll .img_items ul"); //进行移动动画的容器
+            var scrollItems = $(".spec-scroll .img_items ul li"); //移动容器里的集合
+            var moveLength = scrollItems.eq(0).width() * moveNum; //计算每次移动的长度
+            var countLength = (scrollItems.length - viewNum) * scrollItems.eq(0).width(); //计算总长度,总个数*单个长度
+
+            //下一张
+            $(".spec-scroll .next").on("click", function () {
+                if (tempLength < countLength) {
+                    if ((countLength - tempLength) > moveLength) {
+                        scrollDiv.animate({left: "-=" + moveLength + "px"}, moveTime);
+                        tempLength += moveLength;
+                    } else {
+                        scrollDiv.animate({left: "-=" + (countLength - tempLength) + "px"}, moveTime);
+                        tempLength += (countLength - tempLength);
+                    }
+                }
+            });
+            //上一张
+            $(".spec-scroll .prev").on("click", function () {
+                if (tempLength > 0) {
+                    if (tempLength > moveLength) {
+                        scrollDiv.animate({left: "+=" + moveLength + "px"}, moveTime);
+                        tempLength -= moveLength;
+                    } else {
+                        scrollDiv.animate({left: "+=" + tempLength + "px"}, moveTime);
+                        tempLength = 0;
+                    }
+                }
+            });
+        });
     </script>
 @endsection

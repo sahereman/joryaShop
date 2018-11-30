@@ -7,7 +7,7 @@
                 <img src="{{ asset('static_m/img/icon_backtop.png') }}" onclick="javascript:history.back(-1);"/>
                 <div class="goodsListHeadBox">
                     <img src="{{ asset('static_m/img/icon_search3.png') }}" class="searchImg"/>
-                    <input type="text" name="" id="ipt" value="卷发"/>
+                    <input type="text" name="" id="ipt" value="{{ $query }}"/>
                     {{--<div class="searchCon">
                         <span>卷发</span>
                         <img src="{{ asset('static_m/img/icon_searchclosed.png') }}"/>
@@ -105,6 +105,5 @@
         $(".goodsListItem").on('click', function () {
             window.location.href = "{{route('mobile.products.show',60)}}";
         });
-
     </script>
 @endsection
