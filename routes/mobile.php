@@ -92,9 +92,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('carts', 'CartsController@index')->name('mobile.carts.index'); // 购物车 页面
 
     /*支付*/
-    Route::get('payments/{order}/alipay/wap', 'PaymentsController@alipayWap')->name('mobile.payments.alipay/wap'); // Alipay Mobile-Wap 支付页面
-    Route::get('payments/{order}/wechat/mp', 'PaymentsController@wechatMp')->name('mobile.payments.wechat/mp')->middleware('openid'); // Wechat Mobile-MP(公众号) 支付页面
-    Route::get('payments/{order}/wechat/wap', 'PaymentsController@wechatWap')->name('mobile.payments.wechat/wap'); // Wechat Mobile-Wap 支付页面
+    Route::get('payments/{order}/alipay/wap', 'PaymentsController@alipayWap')->name('mobile.payments.alipay.wap'); // Alipay Mobile-Wap 支付页面
+    Route::get('payments/{order}/wechat/mp', 'PaymentsController@wechatMp')->name('mobile.payments.wechat.mp')->middleware('openid'); // Wechat Mobile-MP(公众号) 支付页面
+    Route::get('payments/{order}/wechat/wap', 'PaymentsController@wechatWap')->name('mobile.payments.wechat.wap'); // Wechat Mobile-Wap 支付页面
     Route::get('payments/{order}/paypal/create', 'PaymentsController@paypalCreate')->name('mobile.payments.paypal.create'); // PayPal: create a payment
     // Route::get('payments/{order}/paypal/get', 'PaymentsController@paypalGet')->name('mobile.payments.paypal.get'); // PayPal: get the info of a payment [Test API]
     Route::get('payments/{order}/paypal/execute', 'PaymentsController@paypalExecute')->name('mobile.payments.paypal.execute'); // PayPal: execute[approve|cancel] a payment
