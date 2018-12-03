@@ -135,7 +135,7 @@
                                             <td rowspan="{{ count($order->snapshot) }}" class="col-status">
                                                 <p>{{ \App\Models\Order::$orderStatusMap[$order->status] }}</p>
                                                 <p>
-                                                	<a href="{{ route('orders.show', $order->id) }}">@lang('app.see details')</a>
+                                                    <a href="{{ route('orders.show', $order->id) }}">@lang('app.see details')</a>
                                                 </p>
                                             </td>
                                             <td rowspan="{{ count($order->snapshot) }}" class="col-operate">
@@ -192,7 +192,7 @@
                                                     <a class="buy_more"
                                                        data-url="{{ route('carts.store') }}">@lang('basic.orders.buy again')</a>
                                                     @elseif($order->status == \App\Models\Order::ORDER_STATUS_REFUNDING)
-                                                    <!--再次购买-->
+                                                            <!--再次购买-->
                                                     <a class="Buy_again"
                                                        data-url="{{ route('carts.store') }}">@lang('basic.orders.buy again')</a>
                                                     @endif
@@ -255,7 +255,8 @@
                                     <div class="collection_shop_img">
                                         <img class="lazy" data-src="{{ $guess->thumb_url }}">
                                     </div>
-                                    <p class="commodity_title" title="{{ App::isLocale('en') ? $guess->name_en : $guess->name_zh }}">{{ App::isLocale('en') ? $guess->name_en : $guess->name_zh }}</p>
+                                    <p class="commodity_title"
+                                       title="{{ App::isLocale('en') ? $guess->name_en : $guess->name_zh }}">{{ App::isLocale('en') ? $guess->name_en : $guess->name_zh }}</p>
                                     <p class="collection_price">
                                         <span class="new_price">{{ App::isLocale('en') ? '&#36;' : '&#165;' }} {{ App::isLocale('en') ? $guess->price_in_usd : $guess->price }}</span>
                                         <span class="old_price">{{ App::isLocale('en') ? '&#36;' : '&#165;' }} {{ App::isLocale('en') ? bcmul($guess->price_in_usd, 1.2, 2) : bcmul($guess->price, 1.2, 2) }}</span>
@@ -452,22 +453,22 @@
                     var _second = parseInt(totalS % 60);
                     if (_day < 10) {
                         _day = "0" + _day;
-                    } 
+                    }
                     if (_hour < 10) {
                         _hour = "0" + _hour;
-                    } 
+                    }
                     if (_minute < 10) {
                         _minute = "0" + _minute;
-                    } 
+                    }
                     if (_second < 10) {
                         _second = "0" + _second;
-                    } 
+                    }
                     if (type == '1') {
                         $('#' + remain_id).html("@lang('basic.orders.Remaining')" + _hour + ':' + _minute + ':' + _second);
                     } else {
                         $('#' + remain_id).html("@lang('basic.orders.Remaining')" + _day + ':' + _hour + ':' + _minute + ':' + _second);
                     }
-                }else {
+                } else {
                     if (type == '1') {
                         $('#' + remain_id).html("@lang('order.Order has timed out')");
                         $("")

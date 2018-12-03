@@ -21,49 +21,49 @@
                 <div class="technological_process">
                     <!--分步骤显示图片一共四张-->
                     @if(! $refund)
-                        <!--<img src="{{ asset('img/process-refund-1.png') }}">-->
-                    	<div class="first type_2 active">1.@lang('order.Seller applies for refunds only')</div>
-				        <div class="second type_2">
-				        	2.@lang('order.Seller handles refund Request')
-				            <div class="active_2 active"></div>
-				        </div>
-				        <div class="third type_2">
-				        	3.@lang('order.Refunds are complete')
-				            <div class="active_2"></div>
-				        </div>
+                            <!--<img src="{{ asset('img/process-refund-1.png') }}">-->
+                    <div class="first type_2 active">1.@lang('order.Seller applies for refunds only')</div>
+                    <div class="second type_2">
+                        2.@lang('order.Seller handles refund Request')
+                        <div class="active_2 active"></div>
+                    </div>
+                    <div class="third type_2">
+                        3.@lang('order.Refunds are complete')
+                        <div class="active_2"></div>
+                    </div>
                     @elseif(isset($refund) && $refund->status == \App\Models\OrderRefund::ORDER_REFUND_STATUS_CHECKING)
-                        <!--<img src="{{ asset('img/process-refund-2.png') }}">-->
-                        <div class="first type_2">1.@lang('order.Seller applies for refunds only')</div>
-				        <div class="second type_2 active">
-				        	2.@lang('order.Seller handles refund Request')
-				            <div class="active_2"></div>
-				        </div>
-				        <div class="third type_2">
-				        	3.@lang('order.Refunds are complete')
-				            <div class="active_2 active"></div>
-				        </div>
+                            <!--<img src="{{ asset('img/process-refund-2.png') }}">-->
+                    <div class="first type_2">1.@lang('order.Seller applies for refunds only')</div>
+                    <div class="second type_2 active">
+                        2.@lang('order.Seller handles refund Request')
+                        <div class="active_2"></div>
+                    </div>
+                    <div class="third type_2">
+                        3.@lang('order.Refunds are complete')
+                        <div class="active_2 active"></div>
+                    </div>
                     @elseif(isset($refund) && $refund->status == \App\Models\OrderRefund::ORDER_REFUND_STATUS_REFUNDED)
-                        <!--<img src="{{ asset('img/process-refund-3.png') }}">-->
-                        <div class="first type_2">1.@lang('order.Seller applies for refunds only')</div>
-				        <div class="second type_2">
-				        	2.@lang('order.Seller handles refund Request')
-				            <div class="active_2"></div>
-				        </div>
-				        <div class="third type_2 active">
-				        	3.@lang('order.Refunds are complete')
-				            <div class="active_2"></div>
-				        </div>
+                            <!--<img src="{{ asset('img/process-refund-3.png') }}">-->
+                    <div class="first type_2">1.@lang('order.Seller applies for refunds only')</div>
+                    <div class="second type_2">
+                        2.@lang('order.Seller handles refund Request')
+                        <div class="active_2"></div>
+                    </div>
+                    <div class="third type_2 active">
+                        3.@lang('order.Refunds are complete')
+                        <div class="active_2"></div>
+                    </div>
                     @elseif(isset($refund) && $refund->status == \App\Models\OrderRefund::ORDER_REFUND_STATUS_DECLINED)
-                        <!--<img src="{{ asset('img/process-refund-4.png') }}">-->
-                        <div class="first type_2">1.@lang('order.Seller applies for refunds only')</div>
-				        <div class="second type_2">
-				        	2.@lang('order.Seller handles refund Request')
-				            <div class="active_2"></div>
-				        </div>
-				        <div class="third type_2 active">
-				        	3.@lang('order.Refund failed')
-				            <div class="active_2"></div>
-				        </div>
+                            <!--<img src="{{ asset('img/process-refund-4.png') }}">-->
+                    <div class="first type_2">1.@lang('order.Seller applies for refunds only')</div>
+                    <div class="second type_2">
+                        2.@lang('order.Seller handles refund Request')
+                        <div class="active_2"></div>
+                    </div>
+                    <div class="third type_2 active">
+                        3.@lang('order.Refund failed')
+                        <div class="active_2"></div>
+                    </div>
                     @endif
                 </div>
                 <div class="process_content">
@@ -107,7 +107,8 @@
                                     <li>
                                         <span><i class="red">*</i>@lang('order.Refund amount')：</span>
                                         <input name="amount" type="text" class="refund_amount no_border"
-                                               value="¥ {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}" readonly>
+                                               value="¥ {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}"
+                                               readonly>
                                     </li>
                                     <li>
                                         <span><i class="red">*</i>@lang('order.Application description')：</span>
@@ -129,9 +130,10 @@
                         <div class="step_content step-3">
                             <div class="read_info last_level">
                                 <p class="read_info_title">
-                                   @lang('order.Audit passed, successful refund')
+                                    @lang('order.Audit passed, successful refund')
                                     <span>
-                                        @lang('order.Refunds were successful'), {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}@lang('order.It has been returned according to the original hit path')
+                                        @lang('order.Refunds were successful')
+                                        , {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}@lang('order.It has been returned according to the original hit path')
                                     </span>
                                 </p>
                                 <ul class="step-ul">
@@ -190,9 +192,13 @@
                                             <img src="{{ $order_item['sku']['product']['thumb_url'] }}">
                                         </div>
                                         <div class="order_lists_info">
-                                            <p><span>{{ App::isLocale('en') ? $order_item['sku']['product']['name_en'] : $order_item['sku']['product']['name_zh'] }}</span></p>
+                                            <p>
+                                                <span>{{ App::isLocale('en') ? $order_item['sku']['product']['name_en'] : $order_item['sku']['product']['name_zh'] }}</span>
+                                            </p>
                                             <p>{{ App::isLocale('en') ? $order_item['sku']['name_en'] : $order_item['sku']['name_zh'] }}</p>
-                                            <p>@lang('order.Unit Price')：{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ $order_item['price'] }} &#215; {{ $order_item['number'] }}</p>
+                                            <p>@lang('order.Unit Price')
+                                                ：{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ $order_item['price'] }}
+                                                &#215; {{ $order_item['number'] }}</p>
                                         </div>
                                     </a>
                                 </li>
@@ -379,10 +385,10 @@
                 UpLoadImg(obj);
             } else {
                 layer.open({
-				  title: "@lang('app.Prompt')",
-				  content: "@lang('app.picture_type_error')",
-				  btn: "@lang('app.determine')"
-				});     
+                    title: "@lang('app.Prompt')",
+                    content: "@lang('app.picture_type_error')",
+                    btn: "@lang('app.determine')"
+                });
                 upLoadBtnSwitch = 0;
                 return false;
             }

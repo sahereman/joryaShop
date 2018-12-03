@@ -73,9 +73,13 @@
                                     <div class="left w250 pro-info">
                                         <span>{{ App::isLocale('en') ? $item['product']->name_en : $item['product']->name_zh }}</span>
                                     </div>
-                                    <div class="left w150 center"><span>{{ App::isLocale('en') ? $item['sku']->name_en : $item['sku']->name_zh }}</span></div>
-                                    <div class="left w150 center RMB_num">&#165; <span>{{ $item['sku']->price }}</span></div>
-                                    <div class="left w150 dis_n center dollar_num">&#36; <span>{{ $item['sku']->price_en }}</span></div>
+                                    <div class="left w150 center">
+                                        <span>{{ App::isLocale('en') ? $item['sku']->name_en : $item['sku']->name_zh }}</span>
+                                    </div>
+                                    <div class="left w150 center RMB_num">&#165; <span>{{ $item['sku']->price }}</span>
+                                    </div>
+                                    <div class="left w150 dis_n center dollar_num">&#36;
+                                        <span>{{ $item['sku']->price_en }}</span></div>
                                     <div class="left w150 center counter"><span>{{ $item['number'] }}</span></div>
                                     <div class="left w150 s_total red center RMB_num">&#165;
                                         <span>{{ $item['amount'] }}</span></div>
@@ -95,7 +99,8 @@
                     <ul>
                         <li class="clear">
                             <span>@lang('order.order note')：</span>
-                            <textarea class="remark" maxlength="50" placeholder="@lang('order.Optional message')"></textarea>
+                            <textarea class="remark" maxlength="50"
+                                      placeholder="@lang('order.Optional message')"></textarea>
                         </li>
                         <li>
                             <p>
@@ -116,7 +121,8 @@
                                 <span class="red dis_ni dollar_num amount_of_money">&#36; <span>{{ $total_fee_en }}</span></span>
                             </p>
                             <p>
-                                <a href="javascript:void(0)" class="payment_btn" data-url="{{ route('orders.store') }}">@lang('order.payment')</a>
+                                <a href="javascript:void(0)" class="payment_btn"
+                                   data-url="{{ route('orders.store') }}">@lang('order.payment')</a>
                             </p>
                             @if($address)
                                 <p class="address_info">
@@ -153,16 +159,19 @@
                             <li>
                                 <p>
                                     <span class="input_name"><i>*</i>@lang('basic.address.The consignee')：</span>
-                                    <input class="user_name" name="name" type="text" placeholder="@lang('basic.address.Enter the consignee name')">
+                                    <input class="user_name" name="name" type="text"
+                                           placeholder="@lang('basic.address.Enter the consignee name')">
                                 </p>
                                 <p>
                                     <span class="input_name"><i>*</i>@lang('basic.address.Contact')：</span>
-                                    <input class="user_tel" name="phone" type="text" placeholder="@lang('basic.address.Enter the real and valid mobile phone number')">
+                                    <input class="user_tel" name="phone" type="text"
+                                           placeholder="@lang('basic.address.Enter the real and valid mobile phone number')">
                                 </p>
                             </li>
                             <li>
                                 <span class="input_name"><i>*</i>@lang('basic.address.Detailed address')：</span>
-                                <textarea name="address" placeholder="@lang('basic.address.Detailed_address')"></textarea>
+                                <textarea name="address"
+                                          placeholder="@lang('basic.address.Detailed_address')"></textarea>
                             </li>
                         </ul>
                     </form>
@@ -187,21 +196,21 @@
                 $(".currency_selection a").removeClass("active");
                 $(this).addClass('active');
                 switch ($(this).attr("code")) {
-		            case "RMB":
-		                $(".RMB_num").removeClass("dis_n");
-		                $("span.RMB_num").removeClass("dis_ni");
-		                $(".dollar_num").addClass("dis_n");
-		                $("span.dollar_num").addClass("dis_ni");
-		                break;
-		            case "dollar":
-		                $(".RMB_num").addClass("dis_n");
-		                $("span.RMB_num").addClass("dis_ni");
-		                $(".dollar_num").removeClass("dis_n");
-		                $("span.dollar_num").removeClass("dis_ni");
-		                break;
-		            default :
-		                break;
-		        }
+                    case "RMB":
+                        $(".RMB_num").removeClass("dis_n");
+                        $("span.RMB_num").removeClass("dis_ni");
+                        $(".dollar_num").addClass("dis_n");
+                        $("span.dollar_num").addClass("dis_ni");
+                        break;
+                    case "dollar":
+                        $(".RMB_num").addClass("dis_n");
+                        $("span.RMB_num").addClass("dis_ni");
+                        $(".dollar_num").removeClass("dis_n");
+                        $("span.dollar_num").removeClass("dis_ni");
+                        break;
+                    default :
+                        break;
+                }
             });
             //新建收获地址
             $(".add_new_address").on("click", function () {
@@ -285,108 +294,111 @@
             })
             //获取url,通过判断url中参数sendWay的值来确定从哪个页面进入，1、立即购买，2、购物车
             var loading_animation;
+
             function getUrlVars(url_name) {
-		        var vars = [], hash;
-		        var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
-		        for (var i = 0; i < hashes.length; i++) {
-		            hash = hashes[i].split('=');
-		            vars.push(hash[0]);
-		            vars[hash[0]] = hash[1];
-		        }
-		        return vars[url_name];
-		    }
-		    $(".payment_btn").on("click",function(){
-		    	var address_name =$(".address_name").html();
-		    	var address_phone =$(".address_phone").html();
-		    	var address_location =$(".address_location").html();
-		    	var url = $(this).attr("data-url");
-		    	var sendWay = getUrlVars("sendWay");
-		    	console.log(address_name);
-		    	if(address_name==""||address_phone==""||address_location==""){
-		    		layer.msg("@lang('order.Please fill in the address completely')");
-		    	}else {
-		    		switch (sendWay) {
-			            case "1":
-			                var sku_id = getUrlVars("sku_id");
-			                var number = getUrlVars("number");
-			                payment_one(sku_id,number,url);
-			                break;
-			            case "2":
-			                var cart_ids = getUrlVars("cart_ids");
-			                payment_two(cart_ids,url);
-			                break;
-			            default :
-			                break;
-			        }	
-		    	}
-		    })     
-		    //第一类创建订单（直接下单）
-		    function payment_one(sku_id,number,url){
-		    	var data = {
-		    		_token: "{{ csrf_token() }}",
-		    		sku_id: sku_id,
-		    		number: number,
-		    		name: $(".address_name").html(),
-		    		phone: $(".address_phone").html(),
-		    		address: $(".address_location").html(),
-		    		remark: $(".remark").val(),
-		    		currency: $(".currency_selection").find("a.active").attr("country")
-		    	}
-		    	$.ajax({
-		    		type:"post",
-		    		url:url,
-		    		data:data,
-		    		beforeSend: function(){
-	        			loading_animation = layer.msg("@lang('app.Please wait')", {
-			                icon: 16,
-			                shade: 0.4,
-			                time:false //取消自动关闭
-						});
-	        		},
-	        		success: function (json) {	
-	        			window.location.href = json.data.request_url;
+                var vars = [], hash;
+                var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+                for (var i = 0; i < hashes.length; i++) {
+                    hash = hashes[i].split('=');
+                    vars.push(hash[0]);
+                    vars[hash[0]] = hash[1];
+                }
+                return vars[url_name];
+            }
+
+            $(".payment_btn").on("click", function () {
+                var address_name = $(".address_name").html();
+                var address_phone = $(".address_phone").html();
+                var address_location = $(".address_location").html();
+                var url = $(this).attr("data-url");
+                var sendWay = getUrlVars("sendWay");
+                console.log(address_name);
+                if (address_name == "" || address_phone == "" || address_location == "") {
+                    layer.msg("@lang('order.Please fill in the address completely')");
+                } else {
+                    switch (sendWay) {
+                        case "1":
+                            var sku_id = getUrlVars("sku_id");
+                            var number = getUrlVars("number");
+                            payment_one(sku_id, number, url);
+                            break;
+                        case "2":
+                            var cart_ids = getUrlVars("cart_ids");
+                            payment_two(cart_ids, url);
+                            break;
+                        default :
+                            break;
+                    }
+                }
+            })
+            //第一类创建订单（直接下单）
+            function payment_one(sku_id, number, url) {
+                var data = {
+                    _token: "{{ csrf_token() }}",
+                    sku_id: sku_id,
+                    number: number,
+                    name: $(".address_name").html(),
+                    phone: $(".address_phone").html(),
+                    address: $(".address_location").html(),
+                    remark: $(".remark").val(),
+                    currency: $(".currency_selection").find("a.active").attr("country")
+                }
+                $.ajax({
+                    type: "post",
+                    url: url,
+                    data: data,
+                    beforeSend: function () {
+                        loading_animation = layer.msg("@lang('app.Please wait')", {
+                            icon: 16,
+                            shade: 0.4,
+                            time: false //取消自动关闭
+                        });
+                    },
+                    success: function (json) {
+                        window.location.href = json.data.request_url;
                     },
                     error: function (err) {
                         console.log(err);
                         layer.msg($.parseJSON(err.responseText).errors.currency[0])
                     },
-                    complete:function(){
+                    complete: function () {
                     }
-		    	});
-		    }
-		    //第二类创建订单（购物车下单）       
-		    function payment_two(cart_ids,url){
-		    	var data = {
-		    		_token: "{{ csrf_token() }}",
-		    		cart_ids: cart_ids,
-		    		name: $(".address_name").html(),
-		    		phone: $(".address_phone").html(),
-		    		address: $(".address_location").html(),
-		    		remark: $(".remark").val(),
-		    		currency: $(".currency_selection").find("a.active").attr("country")
-		    	}
-		    	$.ajax({
-		    		type:"post",
-		    		url:url,
-		    		data:data,
-		    		beforeSend: function(){
-	        			loading_animation = layer.msg("@lang('app.Please wait')", {
-			                icon: 16,
-			                shade: 0.4,
-			                time:false //取消自动关闭
-						});
-	        		},
-	        		success: function (json) {	
-	        			window.location.href = json.data.request_url;
+                });
+            }
+
+            //第二类创建订单（购物车下单）
+            function payment_two(cart_ids, url) {
+                var data = {
+                    _token: "{{ csrf_token() }}",
+                    cart_ids: cart_ids,
+                    name: $(".address_name").html(),
+                    phone: $(".address_phone").html(),
+                    address: $(".address_location").html(),
+                    remark: $(".remark").val(),
+                    currency: $(".currency_selection").find("a.active").attr("country")
+                }
+                $.ajax({
+                    type: "post",
+                    url: url,
+                    data: data,
+                    beforeSend: function () {
+                        loading_animation = layer.msg("@lang('app.Please wait')", {
+                            icon: 16,
+                            shade: 0.4,
+                            time: false //取消自动关闭
+                        });
+                    },
+                    success: function (json) {
+                        window.location.href = json.data.request_url;
                     },
                     error: function (err) {
                         console.log(err);
                         layer.msg($.parseJSON(err.responseText).errors.currency[0])
                     },
-                    complete:function(){
+                    complete: function () {
                     }
-		    	});
-		    }
+                });
+            }
         });
     </script>
 @endsection

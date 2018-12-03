@@ -27,7 +27,7 @@
                             <li>
                                 <label class="cur_p clear">
                                     <input type="radio" name="payMethod" value="3" id="paypal"
-                                    	   data-href="{{ route('payments.paypal.create', ['order' => $order->id]) }}">
+                                           data-href="{{ route('payments.paypal.create', ['order' => $order->id]) }}">
                                     <img src="{{ asset('img/paypal.png') }}">
                                 </label>
                             </li>
@@ -43,7 +43,7 @@
                     </div>
                     <div class="right">
                         <p>
-                        	<button class="pay_btn">@lang('order.payment')</button>
+                            <button class="pay_btn">@lang('order.payment')</button>
                         </p>
                         <p class="cunt_down paying_time" id="time_to_pay"
                            created_at="{{ strtotime($order->created_at) }}"
@@ -79,15 +79,15 @@
                     case "3":          //paypal
                         var url = location_href;
                         $.ajax({
-                        	type:"get",
-                        	url:url,
-                        	success :function(json){
-                        		if(json.code==200){
-                        			window.location.href = json.data.redirect_url;
-                        		}else {
-                        			layer.msg(json.message);
-                        		}
-                        	}
+                            type: "get",
+                            url: url,
+                            success: function (json) {
+                                if (json.code == 200) {
+                                    window.location.href = json.data.redirect_url;
+                                } else {
+                                    layer.msg(json.message);
+                                }
+                            }
                         });
                         break;
                     default :
@@ -125,7 +125,7 @@
                         if (type == '1') {
                             $('#' + remain_id).html("@lang('basic.orders.Remaining')" + _hour + ':' + _minute + ':' + _second + "@lang('order.payment')(@lang('order.If the order is not paid out, the system will automatically cancel the order'))");
                         } else {
-                             $('#' + remain_id).html("@lang('basic.orders.Remaining')" + _day + ':' + _hour + ':' + _minute + ':' + _second + "@lang('order.for confirmation')(@lang('order.not confirmed after the timeout'))");
+                            $('#' + remain_id).html("@lang('basic.orders.Remaining')" + _day + ':' + _hour + ':' + _minute + ':' + _second + "@lang('order.for confirmation')(@lang('order.not confirmed after the timeout'))");
                         }
                     }
                 }

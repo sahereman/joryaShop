@@ -38,7 +38,9 @@
                                time_to_close_order="{{ \App\Models\Config::config('time_to_close_order') * 60 }}"
                                seconds_to_close_order="{{ $seconds_to_close_order }}">
                                 {{ generate_order_ttl_message($order->create_at, \App\Models\Order::ORDER_STATUS_PAYING) }}
-                                @lang('order.payment')（@lang('order.If the order is not paid out, the system will automatically cancel the order')）
+                                @lang('order.payment')
+                                （@lang('order.If the order is not paid out, the system will automatically cancel the order')
+                                ）
                             </p>
                             <p class="operation_area">
                                 <a class="main_operation"
@@ -207,103 +209,103 @@
                                 <p>@lang('order.No logistics information')</p>
                             </div>
                         </div>
-                    @endif
-                @endif
+                        @endif
+                        @endif
 
-                <!--订单商品列表-->
-                <div class="order_list">
-                    <!--订单表格与我的订单首页的判断方式一样-->
-                    <table>
-                        <thead>
-                        <th></th>
-                        <th>@lang('order.commodity')</th>
-                        <th>@lang('order.Unit Price')</th>
-                        <th>@lang('order.Quantity')</th>
-                        <th>@lang('order.Subtotal')</th>
-                        <th>@lang('basic.users.Order_Status')</th>
-                        </thead>
-                        <tbody>
-                        @foreach($order->snapshot as $key => $order_item)
-                            @if($key == 0)
-                                <tr>
-                                    <td class="col-pro-img">
-                                        <a href="">
-                                            <img src="{{ $order_item['sku']['product']['thumb_url'] }}">
-                                        </a>
-                                    </td>
-                                    <td class="col-pro-info">
-                                        <p class="p-info">
-                                            <a class="commodity_description"
-                                               href="{{ route('products.show', ['product' => $order_item['sku']['product']['id']]) }}">{{ App::isLocale('en') ? $order_item['sku']['product']['name_en'] : $order_item['sku']['product']['name_zh'] }}</a>
-                                            <br><br>
-                                            <a class="commodity_description"
-                                               href="{{ route('products.show', ['product' => $order_item['sku']['product']['id']]) }}">{{ App::isLocale('en') ? $order_item['sku']['name_en'] : $order_item['sku']['name_zh'] }}</a>
-                                        </p>
-                                    </td>
-                                    <td class="col-price">
-                                        <p class="p-price">
-                                            <span>{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }}</span>
-                                            <span>{{ $order_item['price'] }}</span>
-                                        </p>
-                                    </td>
-                                    <td class="col-quty">
-                                        <p>{{ $order_item['number'] }}</p>
-                                    </td>
-                                    <td rowspan="{{ count($order->snapshot) }}" class="col-pay">
-                                        <p>
-                                            <span>{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }}</span>
-                                            <span>{{ $order->total_amount }}</span>
-                                        </p>
-                                    </td>
-                                    <td rowspan="{{ count($order->snapshot) }}" class="col-status">
-                                        <p>{{ \App\Models\Order::$orderStatusMap[$order->status] }}</p>
-                                    </td>
-                                </tr>
-                            @else
-                                <tr>
-                                    <td class="col-pro-img">
-                                        <a href="">
-                                            <img src="{{ $order_item['sku']['product']['thumb_url'] }}">
-                                        </a>
-                                    </td>
-                                    <td class="col-pro-info">
-                                        <p class="p-info">
-                                            <a class="commodity_description"
-                                               href="{{ route('products.show', ['product' => $order_item['sku']['product']['id']]) }}">{{ App::isLocale('en') ? $order_item['sku']['product']['name_en'] : $order_item['sku']['product']['name_zh'] }}</a>
-                                            <br><br>
-                                            <a class="commodity_description"
-                                               href="{{ route('products.show', ['product' => $order_item['sku']['product']['id']]) }}">{{ App::isLocale('en') ? $order_item['sku']['name_en'] : $order_item['sku']['name_zh'] }}</a>
-                                        </p>
-                                    </td>
-                                    <td class="col-price">
-                                        <p class="p-price">
-                                            <span>{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }}</span>
-                                            <span>{{ $order_item['price'] }}</span>
-                                        </p>
-                                    </td>
-                                    <td class="col-quty">
-                                        <p>{{ $order_item['number'] }}</p>
-                                    </td>
-                                </tr>
-                            @endif
-                        @endforeach
-                        </tbody>
-                    </table>
-                    <div class="order_settlement">
-                        <p class="commodity_cost">
-                            <span class="title">@lang('order.Total product')：</span>
-                            <span>{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ $order->total_amount }}</span>
-                        </p>
-                        <p class="freight">
-                            <span class="title">@lang('order.Shipping fee')：</span>
-                            <span>{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ $order->total_shipping_fee }}</span>
-                        </p>
-                        <p class="total_cost">
-                            <span class="title">@lang('order.Total amount payable')：</span>
-                            <span class="cost_of_total">{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}</span>
-                        </p>
-                    </div>
-                </div>
+                                <!--订单商品列表-->
+                        <div class="order_list">
+                            <!--订单表格与我的订单首页的判断方式一样-->
+                            <table>
+                                <thead>
+                                <th></th>
+                                <th>@lang('order.commodity')</th>
+                                <th>@lang('order.Unit Price')</th>
+                                <th>@lang('order.Quantity')</th>
+                                <th>@lang('order.Subtotal')</th>
+                                <th>@lang('basic.users.Order_Status')</th>
+                                </thead>
+                                <tbody>
+                                @foreach($order->snapshot as $key => $order_item)
+                                    @if($key == 0)
+                                        <tr>
+                                            <td class="col-pro-img">
+                                                <a href="">
+                                                    <img src="{{ $order_item['sku']['product']['thumb_url'] }}">
+                                                </a>
+                                            </td>
+                                            <td class="col-pro-info">
+                                                <p class="p-info">
+                                                    <a class="commodity_description"
+                                                       href="{{ route('products.show', ['product' => $order_item['sku']['product']['id']]) }}">{{ App::isLocale('en') ? $order_item['sku']['product']['name_en'] : $order_item['sku']['product']['name_zh'] }}</a>
+                                                    <br><br>
+                                                    <a class="commodity_description"
+                                                       href="{{ route('products.show', ['product' => $order_item['sku']['product']['id']]) }}">{{ App::isLocale('en') ? $order_item['sku']['name_en'] : $order_item['sku']['name_zh'] }}</a>
+                                                </p>
+                                            </td>
+                                            <td class="col-price">
+                                                <p class="p-price">
+                                                    <span>{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }}</span>
+                                                    <span>{{ $order_item['price'] }}</span>
+                                                </p>
+                                            </td>
+                                            <td class="col-quty">
+                                                <p>{{ $order_item['number'] }}</p>
+                                            </td>
+                                            <td rowspan="{{ count($order->snapshot) }}" class="col-pay">
+                                                <p>
+                                                    <span>{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }}</span>
+                                                    <span>{{ $order->total_amount }}</span>
+                                                </p>
+                                            </td>
+                                            <td rowspan="{{ count($order->snapshot) }}" class="col-status">
+                                                <p>{{ \App\Models\Order::$orderStatusMap[$order->status] }}</p>
+                                            </td>
+                                        </tr>
+                                    @else
+                                        <tr>
+                                            <td class="col-pro-img">
+                                                <a href="">
+                                                    <img src="{{ $order_item['sku']['product']['thumb_url'] }}">
+                                                </a>
+                                            </td>
+                                            <td class="col-pro-info">
+                                                <p class="p-info">
+                                                    <a class="commodity_description"
+                                                       href="{{ route('products.show', ['product' => $order_item['sku']['product']['id']]) }}">{{ App::isLocale('en') ? $order_item['sku']['product']['name_en'] : $order_item['sku']['product']['name_zh'] }}</a>
+                                                    <br><br>
+                                                    <a class="commodity_description"
+                                                       href="{{ route('products.show', ['product' => $order_item['sku']['product']['id']]) }}">{{ App::isLocale('en') ? $order_item['sku']['name_en'] : $order_item['sku']['name_zh'] }}</a>
+                                                </p>
+                                            </td>
+                                            <td class="col-price">
+                                                <p class="p-price">
+                                                    <span>{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }}</span>
+                                                    <span>{{ $order_item['price'] }}</span>
+                                                </p>
+                                            </td>
+                                            <td class="col-quty">
+                                                <p>{{ $order_item['number'] }}</p>
+                                            </td>
+                                        </tr>
+                                    @endif
+                                @endforeach
+                                </tbody>
+                            </table>
+                            <div class="order_settlement">
+                                <p class="commodity_cost">
+                                    <span class="title">@lang('order.Total product')：</span>
+                                    <span>{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ $order->total_amount }}</span>
+                                </p>
+                                <p class="freight">
+                                    <span class="title">@lang('order.Shipping fee')：</span>
+                                    <span>{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ $order->total_shipping_fee }}</span>
+                                </p>
+                                <p class="total_cost">
+                                    <span class="title">@lang('order.Total amount payable')：</span>
+                                    <span class="cost_of_total">{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}</span>
+                                </p>
+                            </div>
+                        </div>
             </div>
         </div>
     </div>
