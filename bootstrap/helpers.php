@@ -395,3 +395,19 @@ function generate_qr_code($qr_code_url, $format = 'png', $size = 300, $encoding 
         QrCode::format($format)->size($size)->encoding($encoding)->errorCorrection($errorCorrection)->generate($qr_code_url)
     );
 }
+
+function array_shift_assoc(array &$array_assoc)
+{
+    $first_key = array_keys($array_assoc)[0];
+    $first_value = array_shift($array_assoc);
+    return [
+        $first_key => $first_value,
+    ];
+}
+
+function array_unshift_assoc(array &$array_assoc, string $key, $value)
+{
+    $array_assoc = array_reverse($array_assoc, true);
+    $array_assoc[$key] = $value;
+    return array_reverse($array_assoc, true);
+}

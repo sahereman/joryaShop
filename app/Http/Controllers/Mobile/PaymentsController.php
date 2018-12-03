@@ -159,6 +159,16 @@ class PaymentsController extends Controller
 
             return response()->json($response->toArray());
 
+            /*Sample response*/
+            /*{
+                "appId":"wx0b3f800e268b1e85",
+                "timeStamp":"1543801042",
+                "nonceStr":"ZfYKA9xrF7tZw6eX",
+                "package":"prepay_id=wx03093723016488f08695c0f62974033491",
+                "signType":"MD5",
+                "paySign":"3B74D2147CB604894208B3838C09D4EE"
+            }*/
+
             /*后续调用示例*/
             /*$.ajax({
                 url: "{{ route('mobile.payments.wechat/mp', ['order' => $order->id]) }}",
@@ -167,11 +177,11 @@ class PaymentsController extends Controller
                 success: function (data) {
                     WeixinJSBridge.invoke(
                         'getBrandWCPayRequest', {
-                            "appId": data.appId,     //公众号名称，由商户传入
-                            "timeStamp": data.timeStamp,         //时间戳，自1970年以来的秒数
+                            "appId": data.appId, //公众号名称，由商户传入
+                            "timeStamp": data.timeStamp, //时间戳，自1970年以来的秒数
                             "nonceStr": data.nonceStr, //随机串
                             "package": data.package,
-                            "signType": data.signType,         //微信签名方式：
+                            "signType": data.signType, //微信签名方式：
                             "paySign": data.paySign //微信签名
                         },
                         function (res) {
@@ -635,9 +645,9 @@ class PaymentsController extends Controller
             $response_array = json_decode($response, true);
             Session::put('wechat-basic_user_info', $response_array);
 
-            if(Session::has('previous_url')){
+            if (Session::has('previous_url')) {
                 return redirect(Session::get('previous_url'));
-            }else{
+            } else {
                 return redirect(URL::previous());
             }
 

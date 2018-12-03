@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers\Mobile;
 
+use App\Exceptions\InvalidRequestException;
 use App\Http\Controllers\Controller;
 use App\Models\UserHistory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Cache;
 
 class UserHistoriesController extends Controller
@@ -22,23 +25,35 @@ class UserHistoriesController extends Controller
 
     public function more(Request $request)
     {
-        $this->validate($request, [
-            'page' => 'sometimes|required|integer|min:1',
-        ], [], [
-            'page' => '页码',
-        ]);
         $current_page = $request->has('page') ? $request->input('page') : 1;
-        $histories = $request->user()->histories()->with('product')->orderByDesc('created_at')->get()->groupBy(function ($item, $key) {
-            return date('Y.m.d', strtotime($item['created_at']));
+        if (preg_match('/^\d+$/', $current_page) != 1) {
+            if (App::isLocale('en')) {
+                throw new InvalidRequestException('The parameter page must be an integer.');
+            } else {
+                throw new InvalidRequestException('页码参数必须为数字！');
+            }
+        }
+        $histories = $request->user()->histories()->with('product')->orderByDesc('browsed_at')->get()->groupBy(function ($item, $key) {
+            return date('Y.m.d', strtotime($item['browsed_at']));
+            // return Carbon::createFromFormat('Y-m-d H:i:s', $item['browsed_at'])->toDateString();
         });
         $history_count = $histories->count();
         $page_count = ceil($history_count / 5);
-        $previous_page = ($current_page > 1) ? ($current_page - 1) : false;
         $next_page = ($current_page < $page_count) ? ($current_page + 1) : false;
-        return view('mobile.user_histories.index', [
-            'histories' => $histories->forPage($current_page, 5),
-            'previous_page' => $previous_page,
-            'next_page' => $next_page,
+        $histories_for_page = $histories->forPage($current_page, 5)->toArray();
+        if ($current_page == 1) {
+            $first_history = array_shift_assoc($histories_for_page);
+            foreach ($first_history as $key => $value) {
+                $histories_for_page = array_unshift_assoc($histories_for_page, Carbon::createFromFormat('Y.m.d', $key)->diffForHumans(), $value);
+            }
+        }
+        return response()->json([
+            'code' => 200,
+            'message' => 'success',
+            'data' => [
+                'histories' => $histories_for_page,
+                'request_url' => $next_page ? route('mobile.user_histories.more') . '?page=' . $next_page : false,
+            ],
         ]);
     }
 }
