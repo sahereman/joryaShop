@@ -64,35 +64,56 @@
         </div>
     </div>
     <!--选择支付方式弹窗-->
-    <div class="payment_method_choose animated">
-    	<ul>
-            @if($order->currency == 'CNY')
-                @if(true)
-	                <li>
-	                    <label class="cur_p clear">
+    <div class="payment_method_choose animated dis_n">
+    	<div class="mask"></div>
+    	<div class="pay_choose">
+			<p class="pay_choose_title">
+				<span class="close_btn_payChoose"></span>
+				<span>付款</span>
+				<span class="count_down">29.26</span>
+			</p>
+    		<p class="pay_choose_order">
+    			<span>订单编号：</span>
+    			<span>{{ $order->order_sn }}</span>
+    		</p>
+    		<ul>
+	            @if($order->currency == 'CNY')
+	                @if(true)
+		                <li>
 	                        <input type="radio" name="payMethod" value="1" id="alipay"
 	                               data-href="{{ route('payments.alipay', ['order' => $order->id]) }}" checked>
-	                        <img src="{{ asset('img/alipay.png') }}">
+	                        <span class="bagLbl"></span>
+	                        <label class="cur_p clear" for="alipay">
+		                        <img src="{{ asset('static_m/img/icon_alipay_small.png') }}">
+		                    </label>
+		                </li>
+	                @endif
+	                <li>
+	                    <input type="radio" name="payMethod" value="2" id="wxpay"
+	                           data-href="{{ route('payments.wechat', ['order' => $order->id]) }}">
+	                    <span class="bagLbl"></span>
+	                    <label class="cur_p clear" for="wxpay">
+	                        <img src="{{ asset('static_m/img/icon_wechat_small.png') }}">
 	                    </label>
 	                </li>
-                @endif
-                <li>
-                    <label class="cur_p clear">
-                        <input type="radio" name="payMethod" value="2" id="wxpay"
-                               data-href="{{ route('payments.wechat', ['order' => $order->id]) }}">
-                        <img src="{{ asset('img/wxpay.png') }}">
-                    </label>
-                </li>
-            @else
-                <li>
-                    <label class="cur_p clear">
-                        <input type="radio" name="payMethod" value="3" id="paypal"
-                        	   data-href="{{ route('payments.paypal.create', ['order' => $order->id]) }}">
-                        <img src="{{ asset('img/paypal.png') }}">
-                    </label>
-                </li>
-            @endif
-        </ul>
+	            @else
+	                <li>
+	                    <input type="radio" name="payMethod" value="3" id="paypal"
+	                    	   data-href="{{ route('payments.paypal.create', ['order' => $order->id]) }}">
+	                    <label class="cur_p clear" for="paypal">
+	                        <img src="{{ asset('static_m/img/icon_paypal_small.png') }}">
+	                    </label>
+	                </li>
+	            @endif
+	        </ul>
+        	<p class="need_to_pay">
+        		<span>支付</span>
+        		<span class="total_num_toPay">{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}</span>
+            </p>
+            <p class="rel_topayment">
+            	<a href="javascript:void(0)">支付</a>
+            </p>
+    	</div>
     </div>
 @endsection
 @section('scriptsAfterJs')
@@ -106,34 +127,54 @@
             //点击付款
             $(".Topayment_btn").on("click", function () {
             	$(".payment_method_choose").removeClass('dis_n');
-                var way_choosed = $(".methods_choose").find("input[name='payMethod']:checked").val();
-                var location_href = $(".methods_choose").find("input[name='payMethod']:checked").attr("data-href");
-                switch (way_choosed) {
-                    case "1":          //支付宝
-                        window.location.href = location_href;
-                        break;
-                    case "2":          //微信
-                        window.location.href = location_href;
-                        break;
-                    case "3":          //paypal
-                        var url = location_href;
-                        $.ajax({
-                            type: "get",
-                            url: url,
-                            success: function (json) {
-                                if (json.code == 200) {
-                                    window.location.href = json.data.redirect_url;
-                                } else {
-                                    layer.msg(json.message);
-                                }
-                            }
-                        });
-                        break;
-                    default :
-                        layer.alert("lang('order.Please select the payment method')");
-                        break;
-                }
             });
+            $(".close_btn_payChoose").on("click",function(){
+            	$(".payment_method_choose").addClass('dis_n');
+            })
+            //点击支付
+            $(".rel_topayment").on("click",function(){
+            	var is_choosed = $(".payment_method_choose").find("input[name='payMethod']:checked");
+            	console.log(is_choosed.length)
+            	if(is_choosed.length == 1){
+  		          	  var way_choosed = $(".payment_method_choose").find("input[name='payMethod']:checked").val();
+		              var location_href = $(".payment_method_choose").find("input[name='payMethod']:checked").attr("data-href");
+		              switch (way_choosed) {
+		                  case "1":          //支付宝
+		                      window.location.href = location_href;
+		                      break;
+		                  case "2":          //微信
+		                      window.location.href = location_href;
+		                      break;
+		                  case "3":          //paypal
+		                      var url = location_href;
+		                      $.ajax({
+		                          type: "get",
+		                          url: url,
+		                          success: function (json) {
+		                              if (json.code == 200) {
+		                                  window.location.href = json.data.redirect_url;
+		                              } else {
+		                                  layer.open({
+						                        content: json.message
+						                        , skin: 'msg'
+						                        , time: 2 //2秒后自动关闭
+						                    });
+		                              }
+		                          }
+		                      });
+		                      break;
+		                  default :
+		                      layer.alert("lang('order.Please select the payment method')");
+		                      break;
+		              }	
+            	}else {
+            		layer.open({
+                        content: "请选择支付方式"
+                        , skin: 'msg'
+                        , time: 2 //2秒后自动关闭
+                    });
+            	}
+            })
             //倒计时方法封装
             function timeCount(remain_id, totalS, type) {
                 function _fresh() {
