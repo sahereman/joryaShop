@@ -178,6 +178,8 @@ Route::post('image/preview', 'IndexController@imagePreview')->name('image.previe
 Route::post('image/upload', 'IndexController@imageUpload')->name('image.upload');
 /*通用-获取评论上传图片路径+预览*/
 Route::post('comment_image/upload', 'IndexController@commentImageUpload')->name('comment_image.upload');
+/*通用-单页展示*/
+Route::get('articles/{slug}', 'ArticlesController@show')->name('articles.show');
 
 /*商品分类*/
 Route::get('product_categories/{category}/more', 'ProductCategoriesController@more')->name('product_categories.more'); // 二级分类及其商品列表 下拉加载更多 [for Ajax request]

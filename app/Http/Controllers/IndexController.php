@@ -73,6 +73,9 @@ class IndexController extends Controller
     }
 
     // GET 修改网站语言
+    /**
+     * Locale options: en | zh-CN
+     */
     public function localeUpdate(Request $request, $locale)
     {
         $request->session()->put('GlobalLocale', $locale);
