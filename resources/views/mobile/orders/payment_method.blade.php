@@ -70,7 +70,7 @@
 			<p class="pay_choose_title">
 				<span class="close_btn_payChoose"></span>
 				<span>付款</span>
-				<span class="count_down">29.26</span>
+				<span class="count_down" seconds_to_close_order="{{ (strtotime($order->created_at) + \App\Models\Order::getSecondsToCloseOrder() - time()) > 0 ? (strtotime($order->created_at) + \App\Models\Order::getSecondsToCloseOrder() - time()) : 0 }}"></span>
 			</p>
     		<p class="pay_choose_order">
     			<span>订单编号：</span>
@@ -120,10 +120,8 @@
     <script type="text/javascript">
         $(function () {
             //付款倒计时
-            var start_time = $("#time_to_pay").attr("created_at") * 1000;
-            var ending_time = $("#time_to_pay").attr('time_to_close_order');
-            var seconds_to_close_order = $("#time_to_pay").attr('seconds_to_close_order');
-            timeCount("time_to_pay", seconds_to_close_order, 1);
+            var seconds_to_close_order = $(".count_down").attr('seconds_to_close_order');
+            timeCount("count_down", seconds_to_close_order, 1);
             //点击付款
             $(".Topayment_btn").on("click", function () {
             	$(".payment_method_choose").removeClass('dis_n');
@@ -134,7 +132,6 @@
             //点击支付
             $(".rel_topayment").on("click",function(){
             	var is_choosed = $(".payment_method_choose").find("input[name='payMethod']:checked");
-            	console.log(is_choosed.length)
             	if(is_choosed.length == 1){
   		          	  var way_choosed = $(".payment_method_choose").find("input[name='payMethod']:checked").val();
 		              var location_href = $(".payment_method_choose").find("input[name='payMethod']:checked").attr("data-href");
@@ -197,10 +194,10 @@
                             _second = "0" + _second;
                         }
                         if (type == '1') {
-                            $('#' + remain_id).html("@lang('basic.orders.Remaining')" + _hour + ':' + _minute + ':' + _second + "@lang('order.payment')(@lang('order.If the order is not paid out, the system will automatically cancel the order'))");
-                        } else {
-                            $('#' + remain_id).html("@lang('basic.orders.Remaining')" + _day + ':' + _hour + ':' + _minute + ':' + _second + "@lang('order.for confirmation')(@lang('order.not confirmed after the timeout'))");
-                        }
+                            $('.' + remain_id).html(_hour + ':' + _minute + ':' + _second );
+                        } 
+                    }else {
+                    	 $('.' + remain_id).html("@lang('order.payment')");
                     }
                 }
 
