@@ -177,7 +177,7 @@
                                         <div class="pictures_btn" code="{{ $order_item['id'] }}">
                                             <img src="{{ asset('img/pic_upload.png') }}">
                                             <input type="file" name="image" value=""
-                                                   data-url="{{ route('image.preview') }}" id="{{ $order_item['id'] }}"
+                                                   data-url="{{ route('comment_image.upload') }}" id="{{ $order_item['id'] }}"
                                                    onchange="imgChange(this)"/>
                                         </div>
                                     </div>
