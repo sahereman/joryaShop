@@ -91,7 +91,7 @@
                         });
                         break;
                     default :
-                        layer.alert("lang('order.Please select the payment method')");
+                        layer.alert("@lang('order.Please select the payment method')");
                         break;
                 }
             });

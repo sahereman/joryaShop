@@ -13,12 +13,12 @@
                 @foreach($categories as $category)
                     @if($category->id == $category_id)
                         <div class="cgeActive" code="{{ $category->id }}"
-                             data-url="{{ route('mobile.product_categories.category_more', ['category' => $category->id]) }}">
+                             data-url="{{ route('mobile.product_categories.more', ['category' => $category->id]) }}">
                             {{ App::isLocale('en') ? $category->name_en : $category->name_zh }}
                         </div>
                     @else
                         <div code="{{ $category->id }}"
-                             data-url="{{ route('mobile.product_categories.category_more', ['category' => $category->id]) }}">
+                             data-url="{{ route('mobile.product_categories.more', ['category' => $category->id]) }}">
                             {{ App::isLocale('en') ? $category->name_en : $category->name_zh }}
                         </div>
                     @endif
