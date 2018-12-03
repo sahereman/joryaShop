@@ -22,8 +22,9 @@
                         </div>
                         <div class="user_name">
                             <span>@lang('basic.users.nickname')：{{ $user->name }}</span>
-                            <a href="{{ route('users.edit', $user->id) }}">@lang('basic.users.Modify_Personal_Information')
-                                ></a>
+                            <a href="{{ route('users.edit', $user->id) }}">
+                                @lang('basic.users.Modify_Personal_Information') >
+                            </a>
                         </div>
                     </li>
                     <li>
@@ -166,7 +167,7 @@
                                             <td rowspan="{{ $order->items->count() }}" class="col-status">
                                                 <p>{{ \App\Models\Order::$orderStatusMap[$order->status] }}</p>
                                                 <p>
-                                                	<a href="{{ route('orders.show', $order->id) }}">@lang('app.see details')</a>
+                                                    <a href="{{ route('orders.show', $order->id) }}">@lang('app.see details')</a>
                                                 </p>
                                             </td>
                                             <td rowspan="{{ $order->items->count() }}" class="col-operate">
@@ -222,8 +223,8 @@
                                                     <a class="buy_more"
                                                        data-url="{{ route('carts.store') }}">@lang('basic.orders.buy again')</a>
                                                     @elseif($order->status == \App\Models\Order::ORDER_STATUS_REFUNDING)
-                                                    <!--再次购买-->
-                                                   <a class="Buy_again"
+                                                            <!--再次购买-->
+                                                    <a class="Buy_again"
                                                        data-url="{{ route('carts.store') }}">@lang('basic.orders.buy again')</a>
                                                     @endif
                                                 </p>
@@ -399,6 +400,7 @@
                     }
                 });
             }
+
             //倒计时方法封装
             function timeCount(remain_id, totalS, type) {
                 function _fresh() {
@@ -416,18 +418,18 @@
                         var _second = parseInt(totalS % 60);
                         if (_day < 10) {
                             _day = "0" + _day;
-                        } 
+                        }
                         if (_hour < 10) {
                             _hour = "0" + _hour;
-                        } 
+                        }
                         if (_minute < 10) {
                             _minute = "0" + _minute;
-                        } 
+                        }
                         if (_second < 10) {
                             _second = "0" + _second;
-                        } 
+                        }
                         if (type == '1') {
-                            $('#' + remain_id).html("@lang('basic.orders.Remaining')" + _hour + ':' + _minute + ':' + _second );
+                            $('#' + remain_id).html("@lang('basic.orders.Remaining')" + _hour + ':' + _minute + ':' + _second);
                         } else {
                             $('#' + remain_id).html("@lang('basic.orders.Remaining')" + _day + ':' + _hour + ':' + _minute + ':' + _second);
                         }
@@ -444,8 +446,9 @@
                 _fresh();
                 var sh = setInterval(_fresh, 1000);
             }
+
             window.onload = function () {
-            	$(".paying_time").each(function (index, element) {
+                $(".paying_time").each(function (index, element) {
                     var val = $(this).attr("mark");
                     var seconds_to_close_order = $(this).attr("seconds_to_close_order");
                     timeCount(val, seconds_to_close_order, '1');

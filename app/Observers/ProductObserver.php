@@ -5,7 +5,7 @@ namespace App\Observers;
 
 use App\Models\Product;
 
-class ProductsObserver
+class ProductObserver
 {
     /*Eloquent 的模型触发了几个事件，可以在模型的生命周期的以下几点进行监控：
     retrieved、creating、created、updating、updated、saving、saved、deleting、deleted、restoring、restored

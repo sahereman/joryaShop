@@ -17,17 +17,16 @@ class UsersController extends Controller
     public function home(Request $request)
     {
         $user = Auth::user();
-        $orders = $user->orders()
-            ->with('items.sku.product')
-            ->where('status', '<>', Order::ORDER_STATUS_CLOSED)
-            ->orderByDesc('created_at')
-            ->limit(5)
-            ->get();
-        $guesses = Product::where(['is_index' => 1, 'on_sale' => 1])->orderByDesc('heat')->limit(8)->get();
+        $paying_orders_count = $user->orders()->where('status', Order::ORDER_STATUS_PAYING)->count();
+        $receiving_orders_count = $user->orders()->where('status', Order::ORDER_STATUS_RECEIVING)->count();
+        $uncommented_orders_count = $user->orders()->where('status', Order::ORDER_STATUS_COMPLETED)->whereNull('commented_at')->count();
+        $refunding_orders_count = $user->orders()->where('status', Order::ORDER_STATUS_REFUNDING)->count();
         return view('mobile.users.home', [
             'user' => $user,
-            'orders' => $orders,
-            'guesses' => $guesses,
+            'paying_orders_count' => $paying_orders_count,
+            'receiving_orders_count' => $receiving_orders_count,
+            'uncommented_orders_count' => $uncommented_orders_count,
+            'refunding_orders_count' => $refunding_orders_count,
         ]);
     }
 

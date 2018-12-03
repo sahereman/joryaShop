@@ -28,6 +28,8 @@ $factory->define(App\Models\User::class, function (Faker $faker) {
     return [
         'name' => $faker->name,
         'email' => $faker->unique()->safeEmail,
+        'phone' => $faker->unique()->phoneNumber,
+        'country_code' => 86,
         'password' => $password ?: $password = bcrypt('123456'),
         'remember_token' => str_random(10),
         'avatar' => $faker->imageUrl(),
