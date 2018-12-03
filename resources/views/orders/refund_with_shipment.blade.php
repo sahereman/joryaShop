@@ -655,7 +655,7 @@
             var formData = new FormData();
             formData.append('image', $(obj)[0].files[0]);
             $.ajax({
-                url: "{{ route('comment_image.upload') }}",
+                url: "{{ route('image.upload') }}",
                 data: formData,
                 dataType: 'json',
                 cache: false,

@@ -172,11 +172,11 @@ Route::group(['middleware' => 'auth'], function () {
 /*首页*/
 Route::get('/', 'IndexController@root')->name('root'); // 首页
 
-/*通用-获取上传图片预览*/
+/*通用-获取上传图片预览 [应用场景:用户中心]*/
 Route::post('image/preview', 'IndexController@imagePreview')->name('image.preview');
-/*通用-获取原上传图片路径+预览*/
+/*通用-获取原上传图片路径+预览 [应用场景:退款]*/
 Route::post('image/upload', 'IndexController@imageUpload')->name('image.upload');
-/*通用-获取评论上传图片路径+预览*/
+/*通用-获取评论上传图片路径+预览 [应用场景:评价]*/
 Route::post('comment_image/upload', 'IndexController@commentImageUpload')->name('comment_image.upload');
 /*通用-单页展示*/
 Route::get('articles/{slug}', 'ArticlesController@show')->name('articles.show');
