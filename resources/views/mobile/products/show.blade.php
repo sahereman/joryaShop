@@ -47,19 +47,23 @@
         </div>
         <div class="goodsIntroduction">
             <div class="gIntroHead">
-                <span class="gIntroHeadActive">商品详情</span>
-                <span>商品评价</span>
+                <span class="gIntroHeadActive">@lang('product.product_details.Commodity details')</span>
+                <span class="shopping_eva" data-url="{{ route('products.comment', ['product' => $product->id]) }}">@lang('product.product_details.Commodity feedback')</span>
             </div>
             <div class="gIntroCon">
                 <div class="gIntroConDetail">
                     {{ App::isLocale('en') ? $product->content_en : $product->content_zh }}
                 </div>
-                <div class="gIntroConEvaluate">
-                    <div class="gEvaHead">
+                <div class="gIntroConEvaluate" code="App::isLocale('en') ? en : zh" data-url="{{config('app.url')}}">
+                    <!--<div class="gEvaHead">
                         <span class="gEvaHeadActive">全部({{ $comment_count }})</span>
                         <span>有图({{ $photo_comment_count }})</span>
+                    </div>-->
+                    <!--暂无评价-->
+                    <div class="no_eva dis_n">
+                        <p>@lang('product.product_details.No evaluation information yet')</p>
                     </div>
-                    {{-- TODO ... products.comment ... --}}
+                    {{-- TODO ... products.comment ... 
                     @for($i = 0; $i < 2; $i++)
                         <div class="commentDetail">
                             <div class="comUser">
@@ -88,7 +92,7 @@
                                 2018-10-11
                             </div>
                         </div>
-                    @endfor
+                    @endfor--}}
                 </div>
             </div>
         </div>
@@ -102,13 +106,20 @@
                     <img src="{{ asset('static_m/img/icon_ShoppingCart5.png') }}" alt=""/>
                     <span>购物车</span>
                 </div>
-                <div class="gCollect">
-                    <img src="{{ asset('static_m/img/icon_Collection4.png') }}" alt=""/>
+                <div class="gCollect" code = "{{ $product->id }}"data-url="{{ route('user_favourites.store') }}"
+                     data-url_2="{{ route('user_favourites.destroy', $product->id) }}">
+                    <img src="{{ asset('static_m/img/icon_Collection4.png') }}" alt="" class="no_collection"/>
+                    <img src="{{ asset('static_m/img/icon_Collection3.png') }}" alt="" class="had_collection dis_n"/>
                     <span>收藏</span>
                 </div>
             </div>
-            <div class="addCart">加入购物车</div>
-            <div class="buy">立即购买</div>
+            @guest
+	            <div class="addCart for_show_login" data-url="{{ route('mobile.login.show') }}">@lang('app.Add to Shopping Cart')</div>
+	            <div class="buy for_show_login" data-url="{{ route('mobile.login.show') }}">@lang('product.product_details.Buy now')</div>
+            @else
+	            <div class="addCart" data-url="{{ route('carts.store') }}">@lang('app.Add to Shopping Cart')</div>
+	            <div class="buy" data-url="{{ route('mobile.orders.pre_payment') }}">@lang('product.product_details.Buy now')</div>
+            @endguest
         </div>
         <div class="skuBox">
             <div class="mask"></div>
@@ -118,38 +129,38 @@
                     <div>
                         <label>
                             @lang('basic.currency.symbol')
-                            <span>{{ App::isLocale('en') ? $skus[0]->price_in_usd : $skus[0]->price }}</span>
+                            <span class="pro_price">{{ App::isLocale('en') ? $skus[0]->price_in_usd : $skus[0]->price }}</span>
                         </label>
                         <p>
                             @lang('product.product_details.stock'):
                             <span>{{ $skus[0]->stock }}</span>
                         </p>
-                        <span>
+                        <span class="pro_name">
                             选择:{{ App::isLocale('en') ? $skus[0]->name_en : $skus[0]->name_zh }}
                         </span>
                     </div>
                 </div>
                 <div class="skuListBox">
                     <div class="skuListHead">分类</div>
-                    <div class="skuListMain">
+                    <ul class="skuListMain">
                         @foreach($skus as $sku)
                             <li code_price='{{ App::isLocale('en') ? $sku->price_in_usd : $sku->price }}'>
                                 <span>{{ App::isLocale('en') ? $sku->name_en : $sku->name_zh }}</span>
                                 <input type="hidden" name="sku_id" value="{{ $sku->id }}">
                             </li>
                         @endforeach
-                    </div>
+                    </ul>
                 </div>
                 <div class="buyNum">
                     <span>购买数量</span>
                     <div>
-                        <span>-</span>
+                        <span class="Operation_btn">-</span>
                         <span class="gNum">1</span>
-                        <span>+</span>
+                        <span class="Operation_btn">+</span>
                     </div>
                 </div>
                 <div class="btnBox">
-                    <button>确定</button>
+                    <button class="make_sure_todo">确定</button>
                 </div>
             </div>
         </div>
@@ -167,23 +178,63 @@
             stopOnLastSlide: true,
 
         });
+        var which_click = 0;   //通过判断which_click的值来确定是什么功能,0:选择规格,1:添加收藏，2：加入购物车，3：立即购买
+        var clickDom;
+        // 为减少和添加商品数量的按钮绑定事件回调
+        $('.buyNum .Operation_btn').on('click', function (evt) {
+            if ($(this).text() == '-') {
+                var count = parseInt($(this).next().html());
+                if (count > 1) {
+                    count -= 1;
+                    $(this).next().html(count);
+                } else {
+                    layer.open({
+                        content: "@lang('order.The number of goods is at least 1')"
+                        , skin: 'msg'
+                        , time: 2 //2秒后自动关闭
+                    });
+                }
+            } else {
+                var count = parseInt($(this).prev().html());
+                if (count < 10000) {
+                    count += 1;
+                    $(this).prev().html(count);
+                } else {
+                    layer.open({
+                        content: "@lang('order.Cannot add more quantities')"
+                        , skin: 'msg'
+                        , time: 2 //2秒后自动关闭
+                    });
+                }
+            }
+        });
         //商品详情与商品评价切换
         $(".gIntroHead>span").on("click", function () {
             $(this).addClass("gIntroHeadActive").siblings().removeClass("gIntroHeadActive");
             //通过 .index()方法获取元素下标，从0开始，赋值给某个变量
             var _index = $(this).index();
             //让内容框的第 _index 个显示出来，其他的被隐藏
+            //获取评价内容
+            if(_index==1){
+            	getEva(1);
+            }
             $(".gIntroCon>div").eq(_index).show().siblings().hide();
+            
         });
         //全部和有图进行切换
         $(".gEvaHead span").on("click", function () {
             $(this).addClass("gEvaHeadActive").siblings().removeClass("gEvaHeadActive");
         });
-        $(".skuListMain span").on("click", function () {
-            $(this).addClass("skuActive").siblings().removeClass("skuActive");
+        $(".skuListMain").on("click", 'span', function () {
+        	$(this).parents('ul').find("span").removeClass("skuActive");
+        	$(this).parents('ul').find("li").removeClass("active");
+        	$(this).addClass("skuActive");
+        	$(this).parents("li").addClass("active");
+        	$(".pro_price").html($(this).parents("li").attr("code_price"));
+        	$(".pro_name").html("选择："+$(this).html());
         });
         $(".btnBox button").on("click", function () {
-            $(".skuBox").css("display", "none");
+            which_el_toDo(which_click,clickDom);
         });
         //点击购物车
         $(".backCart").on("click", function () {
@@ -192,19 +243,217 @@
         //点击收藏
         $(".gCollect").on("click", function () {
             $(".skuBox").css("display", "block");
-
+            which_click = 1;
+            clickDom = $(this);
         });
         //点击加入购物车
         $(".addCart").on("click", function () {
             $(".skuBox").css("display", "block");
+            clickDom = $(this);
+            which_click = 2;
         });
         //点击立即购买
         $(".buy").on("click", function () {
             $(".skuBox").css("display", "block");
+            clickDom = $(this);
+            which_click = 3;
         });
         //点击选择规格
         $(".gChooseBox").on("click", function () {
             $(".skuBox").css("display", "block");
+            clickDom = $(this);
+            which_click = 0;
         });
+        //点击确定根据不同的触发条件调用不用的事件
+        function which_el_toDo(which_click,clickDom){
+        	switch(which_click){
+        		case 0:
+        		$(".gChooseBox").html("分类："+$(".skuListMain").find("li.active").find("span").html());
+        		 $(".skuBox").css("display", "none");
+        		break;
+        		case 1:      //添加收藏
+        		if (clickDom.hasClass('active') != true){
+        			add_favourites(clickDom);	
+        		}else {
+        			remove_favorites(clickDom);
+        		}
+        		break;
+        		case 2:
+        		if ($(".skuListMain").find("li").hasClass('active') != true) {
+	                layer.open({
+                        content: "@lang('product.product_details.Please select specifications')"
+                        , skin: 'msg'
+                        , time: 2 //2秒后自动关闭
+                    });
+	            } else {
+	            	if (clickDom.hasClass('for_show_login') == true) {
+	                    window.location.href = clickDom.attr("data-url");
+	                } else {
+	                    add_carts(clickDom);
+	                }
+	            }
+        		break;
+        		case 3:
+        		buy_now(clickDom);
+        		break;
+        		default:
+        		$(".skuBox").css("display", "none");
+        		break;
+        	}
+        	
+        }
+        //添加收藏
+        function add_favourites(clickDom){
+        	var data = {
+                _token: "{{ csrf_token() }}",
+                product_id: clickDom.attr("code")
+            };
+            var url = clickDom.attr('data-url');
+            $.ajax({
+                type: "post",
+                url: url,
+                data: data,
+                success: function (data) {
+                	$(".gCollect").find("span").html("已收藏");
+                	$(".had_collection").removeClass("dis_n");
+                	$(".no_collection").addClass("dis_n");
+                	clickDom.addClass('active');
+                	$(".skuBox").css("display", "none");
+                },
+                error: function (err) {
+                    console.log(err);
+                    if (err.status == 422) {
+                        layer.open({
+	                        content: $.parseJSON(err.responseText).errors.product_id[0]
+	                        , skin: 'msg'
+	                        , time: 2 //2秒后自动关闭
+	                    });
+                    }
+                }
+            });
+        }
+        //移除收藏
+        function remove_favorites(clickDom){
+        	var data = {
+                _method: "DELETE",
+                _token: "{{ csrf_token() }}",
+            };
+            var url = clickDom.attr('data-url_2');
+            $.ajax({
+                type: "post",
+                url: url,
+                data: data,
+                success: function (data) {
+                    clickDom.removeClass('active');
+                    $(".gCollect").find("span").html("收藏");
+                	$(".had_collection").addClass("dis_n");
+                	$(".no_collection").removeClass("dis_n");
+                	$(".skuBox").css("display", "none");
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            });
+        }
+        //加入购物车
+        function add_carts(clickDom){
+        	var data = {
+                _token: "{{ csrf_token() }}",
+                sku_id: $(".skuListMain").find("li.active").find("input").val(),
+                number: parseInt($(".gNum").html())
+            };
+            var url = clickDom.attr('data-url');
+            $.ajax({
+                type: "post",
+                url: url,
+                data: data,
+                success: function (data) {
+                	layer.open({
+                        content: "@lang('product.product_details.Shopping cart added successfully')"
+                        , skin: 'msg'
+                        , time: 2 //2秒后自动关闭
+                    });
+                    $(".skuBox").css("display", "none");
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            });
+        }
+        //立即购买
+        function buy_now(clickDom){
+            if ($(".skuListMain").find("li").hasClass('active') != true) {
+                layer.open({
+                    content: "@lang('product.product_details.Please select specifications')"
+                    , skin: 'msg'
+                    , time: 2 //2秒后自动关闭
+                });
+            } else {
+                if (clickDom.hasClass('for_show_login') == true) {
+                    window.location.href = clickDom.attr("data-url");
+                } else {
+                    var url = clickDom.attr('data-url');
+                    window.location.href = url + "?sku_id=" + $(".skuListMain").find("li.active").find("input").val() + "&number=" + parseInt($(".gNum").html()) + "&sendWay=1";
+                }
+            }
+        }
+        //获取评价内容
+        var page;    //全局定义一个页码参数
+        function getEva(page) {
+            var data = {
+                page: page
+            };
+            var url = $(".shopping_eva").attr("data-url");
+            $.ajax({
+                type: "get",
+                url: url,
+                beforeSend: function () {},
+                success: function (json) {
+                    console.log(json);
+                    page = json.data.comments.to;
+                    var dataObj = json.data.comments.data;
+                    var dataObj_photo;
+                    if (dataObj.length <= 0) {
+                    	$(".no_eva").removeClass("dis_n");
+                    } else {
+                        var html = "";
+                        var name;
+                        $(".composite_index").text((json.data.composite_index).toFixed(1));
+                        $(".description_index").text((json.data.description_index).toFixed(1));
+                        $(".shipment_index").text((json.data.shipment_index).toFixed(1));
+                        $.each(dataObj, function (i, n) {
+                        	name = ($(".gIntroConEvaluate").attr("code") == "en") ? n.order_item.sku.name_en : n.order_item.sku.name_zh;
+                            dataObj_photo = n.photo_urls;
+                            html+="<div class='commentDetail'>"
+                            html+="<div class='comUser'>"
+                            html+="<img src='" + n.user.avatar_url + "' class='userHead'/>"
+                            html+="<span>"+ n.user.name +"</span>"
+                            html+="<div class='starBox'>"
+                            html+="<img class='star_img' src='"+ $(".gIntroConEvaluate").attr('data-url') +"/static_m/img/star-" + n.composite_index + ".png'/>"
+                            html+="</div>"
+                            html+="</div>"
+                            html+="<div class='comSku'>"
+                            html+="<span>"+ name +"</span>"
+                            html+="</div>"
+                            html+="<div class='comCon'>"+n.content+"</div>"
+                            html+="<div class='comPicture'>"
+                            $.each(dataObj_photo, function (a, b) {
+                                html += "<img src='" + b + "'>";
+                            });
+                            html+="</div>"
+                            html+="<div class='comDate'>"+ n.created_at +"</div>"
+                            html+="</div>"
+                        });
+                        $(".gIntroConEvaluate").append(html);
+                    }
+                },
+                error: function (e) {
+                    console.log(e);
+                },
+                complete: function () {
+//                  layer.close(loading_animation);
+                }
+            });
+        }
     </script>
 @endsection

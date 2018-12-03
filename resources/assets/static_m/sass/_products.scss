@@ -152,7 +152,7 @@
                         .starBox{
                             padding-bottom: .3rem;
                             img{
-                                width: 1rem;
+                                width: 8rem;
                                 
                             }
                         }
@@ -178,12 +178,20 @@
                             border: 1px solid #ebebeb;
                             margin-bottom: .5rem;
                             box-sizing: border-box;
+                            margin: 0 .1rem;
                         }
                     }
                     .comDate{
                         font-size: .7rem;
                         color: #989898;
                     }
+                }
+                .no_eva {
+                    width: 100%;
+                    background-color: #fff;
+                    font-size: 1rem;
+                    text-align: center;
+                    margin-top: 1rem;
                 }
             }
         }
@@ -306,6 +314,7 @@
                     flex-wrap: wrap;
                     justify-content:  flex-start;
                     align-items: center;
+                    padding-left: 0;
                     span{
                         padding: .3rem .5rem;
                         border: 1px solid #d9d9d9;

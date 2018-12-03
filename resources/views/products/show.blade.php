@@ -239,6 +239,7 @@
         var current_page;  //评价的当前页
         var next_page;   //下一页的页码
         var pre_page;   //上一页的页码
+        var country = $("#dLabel").find("span").html();
         $('#img_x li').eq(0).css('border', '2px solid #bc8c61');
         $('#zhezhao').mousemove(function (e) {
             $('#img_u').show();

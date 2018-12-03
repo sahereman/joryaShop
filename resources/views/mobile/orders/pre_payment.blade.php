@@ -257,11 +257,6 @@
 				$('.address_choose').addClass("fadeOutRightBig");
 				$('.address_choose').addClass("dis_n");
 			})
-			
-			//提交订单
-			$(".payment_btn").on("click",function(){
-//				window.location.href = $(this).attr("data-href");
-			})
 			//获取地址列表
 			function getAddressList(url){
 				console.log(url)
