@@ -612,9 +612,11 @@ $(function () {
                     },
                     success: function (json) {
                         var html = "";
+                        var name;
                         $.each(json.data.products, function (i, n) {
+                        	name = (COUNTRY == "中文") ? n.name_zh : n.name_en
                             html += "<li>" +
-                                "<a code='" + n.id + "' >" + n.name_zh + "</a>" +
+                                "<a code='" + n.id + "' >" + name + "</a>" +
                                 "</li>"
                         });
                         $(".selectList ul").html("");
