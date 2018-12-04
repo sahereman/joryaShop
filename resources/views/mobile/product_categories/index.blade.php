@@ -24,26 +24,7 @@
                     @endif
                 @endforeach
             </div>
-            <div class="cgeMainRight">
-                {{-- TODO ... Ajax more --}}
-                @for($j = 0;$j<4; $j++)
-                    <div class="cgeMainRightItem">
-                        <div class="cgeMainRightItemTitle">
-                            <span class="line"></span>
-                            <span class="txt">假发</span>
-                            <span class="line"></span>
-                        </div>
-                        <div class="cgeItemProBox">
-                            @for($i = 0;$i<9; $i++)
-                                <div class="cgeItemPro">
-                                    <img src="{{ asset('static_m/img/blockImg.png') }}"/>
-                                    <p>齐刘海女生假发齐刘海女生假发</p>
-                                </div>
-                            @endfor
-
-                        </div>
-                    </div>
-                @endfor
+            <div class="cgeMainRight" code="{{ App::isLocale('en') ? 'en' : 'zh' }}">
             </div>
         </div>
     </div>
@@ -63,6 +44,54 @@
         $(".cgeMainLeft div").on("click", function () {
             $(".cgeMainLeft div").removeClass("cgeActive");
             $(this).addClass("cgeActive");
+            var url = $(this).attr("data-url");
+            getResults(url);
         });
+        window.onload = function () {
+            var url = $(".cgeMainLeft").find(".cgeActive").attr("data-url");
+            getResults(url);
+        };
+        //获取商品分类列表
+        function getResults(url){
+        	$.ajax({
+                    type: "get",
+                    url: url,
+                    beforeSend: function () {},
+                    success: function (json) {
+                        var dataobj = json.data.children;
+                        var html = "";
+                        var name,list_name;
+                        if (dataobj.length > 0) {
+                            $.each(dataobj, function (i, n) {
+                            	name = ($(".cgeMainRight").attr('code') == "en") ? n.name_en : n.name_zh;
+                            	html+="<div class='cgeMainRightItem'>"
+			                    html+="<div class='cgeMainRightItemTitle'>"
+			                    html+="<span class='line'></span>"
+			                    html+="<span class='txt'>"+ name +"</span>"
+			                    html+="<span class='line'></span>"
+			                    html+="</div>"
+			                    html+="<div class='cgeItemProBox'>"
+			                    if(n.products.length>0){
+			                    	$.each(n.products, function(a,b) {
+			                    		list_name = ($(".cgeMainRight").attr('code') == "en") ? b.name_en : b.name_zh;
+			                    		html+="<div class='cgeItemPro'>"
+			                            html+="<img src="+ b.thumb_url +"/>"
+			                            html+="<p>"+ list_name +"</p>"
+			                            html+="</div>"
+			                    	});
+			                    }
+			                    html+="</div>"
+			                    html+="</div>"
+                            });
+                        } else {}
+                        $(".cgeMainRight").html("");
+                        $(".cgeMainRight").append(html);
+                    },
+                    error: function (e) {
+                        console.log(e);
+                    },
+                    complete: function () {}
+                });
+        }
     </script>
 @endsection
