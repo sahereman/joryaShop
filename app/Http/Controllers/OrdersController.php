@@ -483,9 +483,7 @@ class OrdersController extends Controller
         $order->status = Order::ORDER_STATUS_REFUNDING;
         $order->save();
 
-        return redirect()->route('orders.refund', [
-            'order' => $order->id,
-        ]);
+        return redirect()->back();
         /*return response()->json([
             'code' => 200,
             'message' => 'success',
@@ -532,9 +530,7 @@ class OrdersController extends Controller
             $order->refund->save();
         }
 
-        return redirect()->route('orders.refund', [
-            'order' => $order->id,
-        ]);
+        return redirect()->back();
         /*return response()->json([
             'code' => 200,
             'message' => 'success',
@@ -579,9 +575,7 @@ class OrdersController extends Controller
         $order->status = Order::ORDER_STATUS_REFUNDING;
         $order->save();
 
-        return redirect()->route('orders.refund_with_shipment', [
-            'order' => $order->id,
-        ]);
+        return redirect()->back();
         /*return response()->json([
             'code' => 200,
             'message' => 'success',
@@ -651,9 +645,7 @@ class OrdersController extends Controller
             $order->refund->save();
         }
 
-        return redirect()->route('orders.refund_with_shipment', [
-            'order' => $order->id,
-        ]);
+        return redirect()->back();
         /*return response()->json([
             'code' => 200,
             'message' => 'success',

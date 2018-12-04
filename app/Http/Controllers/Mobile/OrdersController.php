@@ -320,5 +320,38 @@ class OrdersController extends Controller
         ]);
     }
 
+    /*--售后订单--*/
+    // GET 退单申请页面 [仅退款]
+    public function refund(Request $request, Order $order)
+    {
+        $this->authorize('refund', $order);
 
+        return view('mobile.orders.refund', [
+            'order' => $order,
+            'refund' => $order->refund,
+            'snapshot' => $order->snapshot,
+        ]);
+    }
+
+
+    // GET 退单申请页面 [退货并退款]
+    public function refundWithShipment(Request $request, Order $order)
+    {
+        $this->authorize('refund_with_shipment', $order);
+
+        $shipment_company_name = $order->shipment_company;
+        if ($order->shipment_company != null && $order->shipment_sn != null) {
+            $shipment_companies = ShipmentCompany::shipmentCompanies()->pluck('name', 'code');
+            if (isset($shipment_companies[$order->shipment_company])) {
+                $shipment_company_name = $shipment_companies[$order->shipment_company];
+            }
+        }
+
+        return view('mobile.orders.refund_with_shipment', [
+            'order' => $order,
+            'refund' => $order->refund,
+            'snapshot' => $order->snapshot,
+            'shipment_company' => $shipment_company_name,
+        ]);
+    }
 }
