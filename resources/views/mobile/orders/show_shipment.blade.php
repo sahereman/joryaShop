@@ -11,7 +11,7 @@
                 <img src="{{ asset('static_m/img/icon_express.png') }}"/>
                 <div class="lgtHeadInfo">
                     <div>{{ $shipment_company }}</div>
-                    <div class="lgtHeadInfoCode">运单号: {{ $order->shipment_sn }}</div>
+                    <div class="lgtHeadInfoCode">运单号: {{ $shipment_sn }}</div>
                 </div>
             </div>
         </div>

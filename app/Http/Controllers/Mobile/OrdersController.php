@@ -246,6 +246,7 @@ class OrdersController extends Controller
 
         return view('mobile.orders.show_shipment', [
             'order' => $order,
+            'shipment_sn' => $order->shipment_sn,
             'shipment_company' => $shipment_company_name,
             'order_shipment_traces' => $order_shipment_traces,
         ]);
@@ -303,8 +304,6 @@ class OrdersController extends Controller
     // GET 查看订单评价
     public function showComment(Request $request, Order $order)
     {
-        return view('mobile.orders.show_comment');
-
         $this->authorize('show_comment', $order);
 
         if ($order->comments->isEmpty()) {

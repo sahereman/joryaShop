@@ -2,52 +2,69 @@
 @section('title', '查看评价')
 @section('content')
     <div class="headerBar fixHeader">
-		<img src="{{ asset('static_m/img/icon_backtop.png') }}" class="backImg" onclick="javascript:history.back(-1);"/>
-		<span>查看评价</span>
-	</div>
-	<div class="showCommentBox commentBox">
-		<div class="ordDetail">
-			<img src="{{ asset('static_m/img/blockImg.png') }}"/>
-			<div>
-				<div class="ordDetailName">卓业美业长直假发片卓业美业长直假发片卓业美业长直假发片卓业美业长直假发片</div>
-				<div>
-					<span>数量：2 &nbsp;&nbsp;</span>
-					
-					<span>颜色：黄</span>
-				</div>
-				<div class="ordDetailPri">￥500.00</div>
-			</div>
-		</div>
-		<div class="commentDetail">
-			<div class="comUser">
-				<img src="{{ asset('static_m/img/icon_Headportrait3.png') }}" class="userHead"/>
-				<span>谭某某</span>
-				<div class="starBox">
-				  <img src="{{ asset('static_m/img/icon_Starsup.png') }}" />
-				  <img src="{{ asset('static_m/img/icon_Starsup.png') }}" />
-				  <img src="{{ asset('static_m/img/icon_starsExtinguish.png') }}" />
-				  <img src="{{ asset('static_m/img/icon_starsExtinguish.png') }}" />
-				  <img src="{{ asset('static_m/img/icon_starsExtinguish.png') }}" /> 
-				</div>
-			</div>
-			<div class="comSku">
-				<span>尺寸:1.8cm</span>
-				<span>颜色:深棕色</span>
-			</div>
-			<div class="comCon">
-				送货快，包装好，品质好，喜欢的妹子可以下单了~
-			</div>
-			<div class="comPicture">
-				<img src="{{ asset('static_m/img/Advancedcustomization_02.png') }}"/>
-				<img src="{{ asset('static_m/img/Advancedcustomization_02.png') }}"/>
-			</div>
-			<div class="comDate">
-				2018-10-11
-			</div>
-		</div>
-	</div>
+        <img src="{{ asset('static_m/img/icon_backtop.png') }}" class="backImg" onclick="javascript:history.back(-1);"/>
+        <span>查看评价</span>
+    </div>
+    <div class="showCommentBox commentBox">
+        @foreach($order->snapshot as $order_item)
+            <div class="ordDetail">
+                <a href="{{ route('products.show', $order_item['sku']['product']['id']) }}">
+                    <img src="{{ $order_item['sku']['product']['thumb_url'] }}">
+                </a>
+                <div>
+                    <div class="ordDetailName">{{ App::isLocale('en') ? $order_item['sku']['product']['name_en'] : $order_item['sku']['product']['name_zh'] }}</div>
+                    <div>
+                        <span>
+                            数量：{{ $order_item['number'] }}
+                            &nbsp;&nbsp;
+                        </span>
+                        <span>
+                            <a href="{{ route('mobile.products.show', ['product' => $order_item['sku']['product']['id']]) }}">
+                                {{ App::isLocale('en') ? $order_item['sku']['name_en'] : $order_item['sku']['name_zh'] }}
+                            </a>
+                        </span>
+                    </div>
+                    <div class="ordDetailPri">
+                        <span>{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }}</span>
+                        <span>{{ $order_item['price'] }}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="commentDetail">
+                <div class="comUser">
+                    <img src="{{ $user->avatar_url }}" class="userHead"/>
+                    <span>{{ $user->name }}</span>
+                    <div class="starBox">
+                        @for($i = 0; $i < $comments[$order_item['id']][0]['composite_index']; $i ++)
+                            <img src="{{ asset('static_m/img/icon_Starsup.png') }}"/>
+                        @endfor
+                        @if($comments[$order_item['id']][0]['composite_index'] < 5)
+                            @for($j = 0; $j < (5 - $comments[$order_item['id']][0]['composite_index']); $j ++)
+                                <img src="{{ asset('static_m/img/icon_starsExtinguish.png') }}"/>
+                            @endfor
+                        @endif
+                    </div>
+                </div>
+                <div class="comSku">
+                    <span>
+                        {{ App::isLocale('en') ? $order_item['sku']['name_en'] : $order_item['sku']['name_zh'] }}
+                    </span>
+                </div>
+                <div class="comCon">
+                    {{ $comments[$order_item['id']][0]->content }}
+                </div>
+                <div class="comPicture">
+                    @foreach($comments[$order_item['id']][0]->photo_urls as $photo_url)
+                        <img src="{{ $photo_url }}">
+                    @endforeach
+                </div>
+                <div class="comDate">
+                    {{ \Illuminate\Support\Carbon::createFromFormat('Y-m-d H:i:s', $comments[$order_item['id']][0]->created_at)->toDateString() }}
+                </div>
+            </div>
+        @endforeach
+    </div>
 @endsection
-
 
 @section('scriptsAfterJs')
     <script type="text/javascript">

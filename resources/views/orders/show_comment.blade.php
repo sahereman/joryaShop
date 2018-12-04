@@ -41,13 +41,17 @@
                                 <td class="col-pro-info">
                                     <p class="p-info">
                                         <a class="commodity_description"
-                                           href="{{ route('products.show', $order_item['sku']['product']['id']) }}">{{ App::isLocale('en') ? $order_item['sku']['product']['name_en'] : $order_item['sku']['product']['name_zh'] }}</a>
+                                           href="{{ route('products.show', $order_item['sku']['product']['id']) }}">
+                                            {{ App::isLocale('en') ? $order_item['sku']['product']['name_en'] : $order_item['sku']['product']['name_zh'] }}
+                                        </a>
                                     </p>
                                 </td>
                                 <td class="col-pro-speci">
                                     <p class="p-info">
                                         <a class="specifications"
-                                           href="{{ route('products.show', $order_item['sku']['product']['id']) }}">{{ App::isLocale('en') ? $order_item['sku']['product']['description_en'] : $order_item['sku']['product']['description_zh'] }}</a>
+                                           href="{{ route('products.show', $order_item['sku']['product']['id']) }}">
+                                            {{ App::isLocale('en') ? $order_item['sku']['product']['description_en'] : $order_item['sku']['product']['description_zh'] }}
+                                        </a>
                                     </p>
                                 </td>
                                 <td class="col-price">
@@ -84,7 +88,9 @@
                                     </div>
                                 </div>
                                 <p class="product_parameters">
-                                    <span>{{ App::isLocale('en') ? $order_item['sku']['name_en'] : $order_item['sku']['name_zh'] }}</span>
+                                    <span>
+                                        {{ App::isLocale('en') ? $order_item['sku']['name_en'] : $order_item['sku']['name_zh'] }}
+                                    </span>
                                 </p>
                                 <p class="eva_text">{{ $comments[$order_item['id']][0]->content }}</p>
                                 <div class="tm-m-photos">
@@ -102,7 +108,9 @@
                                         <a class="tm-m-photo-viewer-navright" style="cursor: pointer;"> <i class="tm-m-photo-viewer-navicon arrow-right">&gt;</i> </a>
                                     </div>--}}
                                 </div>
-                                <p class="eva_time">{{ $comments[$order_item['id']][0]->created_at }}</p>
+                                <p class="eva_time">
+                                    {{ $comments[$order_item['id']][0]->created_at }}
+                                </p>
                             </div>
                         </div>
                     </div>

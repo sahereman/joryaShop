@@ -26,7 +26,9 @@
                 </div>
                 <div class="odrHeadRightPri">
                     <span>需付款:</span>
-                    <span>{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}</span>
+                    <span>
+                        {{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}
+                    </span>
                 </div>
             </div>
         </div>
