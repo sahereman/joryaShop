@@ -4,7 +4,7 @@
             <a href="{{ route('users.home') }}">@lang('basic.home')</a>
         </li>
         <li class="navigation_title">
-            <a href="javascript:void(0)">@lang('basic.users.Personal_Center')</a>
+            <a href="javascript:void(0);">@lang('basic.users.Personal_Center')</a>
         </li>
         <li class="account_info">
             <a href="{{ route('users.edit',['user' =>1]) }}">@lang('basic.users.Account_information')</a>

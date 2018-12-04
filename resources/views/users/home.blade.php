@@ -7,7 +7,7 @@
                 <p class="Crumbs">
                     <a href="{{ route('root') }}">@lang('basic.home')</a>
                     <span>></span>
-                    <a href="{{ route('users.home') }}">@lang('basic.users.Personal_Center')</a>
+                    <a href="javascript:void(0);">@lang('basic.users.Personal_Center')</a>
                 </p>
             </div>
             <!--左侧导航栏-->
@@ -22,7 +22,7 @@
                         </div>
                         <div class="user_name">
                             <span>@lang('basic.users.nickname')：{{ $user->name }}</span>
-                            <a href="{{ route('users.edit', $user->id) }}">
+                            <a href="{{ route('users.edit', ['user' => $user->id]) }}">
                                 @lang('basic.users.Modify_Personal_Information') >
                             </a>
                         </div>

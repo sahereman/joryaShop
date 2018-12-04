@@ -30,8 +30,16 @@ class UsersController extends Controller
         ]);
     }
 
+    // GET 设置 页面
+    public function setting(Request $request, User $user)
+    {
+        return view('mobile.users.setting', [
+            'user' => $user,
+        ]);
+    }
+
     // GET 编辑个人信息页面
-    public function edit(User $user)
+    public function edit(Request $request, User $user)
     {
         $this->authorize('update', $user);
 
@@ -41,20 +49,16 @@ class UsersController extends Controller
     }
 
     // GET 修改密码页面
-    public function password(User $user)
+    public function password(Request $request, User $user)
     {
         $this->authorize('update', $user);
 
-        return view('mobile.users.password');
+        return view('mobile.users.password', [
+            'user' => $user,
+        ]);
     }
 
-    // GET 设置 页面
-    public function settingShow()
-    {
-        return view('mobile.users.setting');
-    }
-
-    // PUT 修改用户密码
+    // PUT 修改密码
     public function updatePassword(UpdatePasswordRequest $request, User $user)
     {
         $this->authorize('update', $user);
@@ -63,7 +67,18 @@ class UsersController extends Controller
             'password' => bcrypt($request->input('password')),
         ]);
 
-        return redirect()->route('mobile.reset.success.show');
+        return redirect()->route('mobile.users.password_success', [
+            'user' => $user->id,
+        ]);
     }
 
+    // GET 修改密码成功页面
+    public function passwordSuccess(User $user)
+    {
+        $this->authorize('update', $user);
+
+        return view('mobile.users.password_success', [
+            'user' => $user,
+        ]);
+    }
 }

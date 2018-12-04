@@ -73,7 +73,7 @@ return [
         'Enter_email_address' => '输入邮箱地址',
         'old_password' => '原密码',
         'new_password' => '新密码',
-        'confirma_password' => '确认密码',
+        'confirm_password' => '确认密码',
         'the_password_cannot_be_empty' => '密码不能为空',
         'submit' => '完成',
         'Enter_original_password' => '输入原密码',

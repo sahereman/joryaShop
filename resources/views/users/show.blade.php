@@ -9,7 +9,7 @@
 
     <form method="POST" action="{{ route('users.update', ['user' => $user->id]) }}" enctype="multipart/form-data">
         {{ csrf_field() }}
-        <input type="hidden" name="_method" value="PUT">
+        {{ method_field('PUT') }}
 
         <label>Avatar</label>
 

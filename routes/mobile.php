@@ -21,7 +21,7 @@ Route::get('login', 'Auth\LoginController@showLoginForm')->name('mobile.login.sh
 Route::post('login', 'Auth\LoginController@login')->name('mobile.login.store'); // 登录 请求
 Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('mobile.register.show'); // 注册 页面
 Route::post('register', 'Auth\RegisterController@register')->name('mobile.register.store'); // 注册 请求
-Route::post('logout', 'Auth\LoginController@logout')->name('logout'); // Log out
+Route::post('logout', 'Auth\LoginController@logout')->name('mobile.logout'); // Log out
 
 
 /*重置密码*/
@@ -47,12 +47,13 @@ Route::group(['middleware' => 'auth'], function () {
 
     /*用户中心*/
     Route::get('users', 'UsersController@home')->name('mobile.users.home'); // 个人中心 页面
+    Route::get('users/{user}/setting', 'UsersController@setting')->name('mobile.users.setting'); // 个人中心设置 页面
     Route::get('users/{user}/edit', 'UsersController@edit')->name('mobile.users.edit'); // 编辑个人信息 页面
     Route::put('users/{user}', 'UsersController@update')->name('mobile.users.update'); // 编辑个人信息提交 请求
     Route::get('users/{user}/password', 'UsersController@password')->name('mobile.users.password'); // 修改密码 页面
+    Route::get('users/{user}/password', 'UsersController@password')->name('mobile.users.password'); // 修改密码 页面
     Route::put('users/{user}/update_password', 'UsersController@updatePassword')->name('mobile.users.update_password'); // 修改密码 请求
-    Route::get('users/{user}/setting', 'UsersController@settingShow')->name('mobile.users.setting'); // 设置 页面
-
+    Route::get('users/{user}/password_success', 'UsersController@passwordSuccess')->name('mobile.users.password_success'); // 修改密码成功 页面
 
     /*收货地址*/
     Route::get('user_addresses', 'UserAddressesController@index')->name('mobile.user_addresses.index'); // 列表 页面

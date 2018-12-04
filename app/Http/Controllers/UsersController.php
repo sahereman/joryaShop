@@ -67,43 +67,27 @@ class UsersController extends Controller
         ]);
     }
 
-    // PUT 修改用户密码
+    // GET 修改密码成功页面
+    public function passwordSuccess(User $user)
+    {
+        $this->authorize('update', $user);
+
+        return view('users.password_success', [
+            'user' => $user,
+        ]);
+    }
+
+    // PUT 修改密码
     public function updatePassword(UpdatePasswordRequest $request, User $user)
     {
         $this->authorize('update', $user);
 
-        $result = $user->update([
+        $user->update([
             'password' => bcrypt($request->input('password')),
         ]);
-        if ($result) {
-            return view('users.password_success', [
-                'user' => $user,
-            ]);
-        }
-        return redirect()->route('users.password', [
+
+        return redirect()->route('users.password_success', [
             'user' => $user->id,
-        ]);
-    }
-
-    // GET 绑定|修改手机页面
-    public function phone(User $user)
-    {
-        $this->authorize('update', $user);
-
-        $country_codes = CountryCode::countryCodes();
-        return view('users.phone', [
-            'user' => $user,
-            'country_codes' => $country_codes,
-        ]);
-    }
-
-    // GET 绑定|修改Email页面
-    public function email(User $user)
-    {
-        $this->authorize('update', $user);
-
-        return view('users.email', [
-            'user' => $user,
         ]);
     }
 

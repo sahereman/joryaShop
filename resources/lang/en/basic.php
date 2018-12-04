@@ -72,7 +72,7 @@ return [
         'Enter_email_address' => 'Enter email address',
         'old_password' => 'Old password',
         'new_password' => 'New password',
-        'confirma_password' => 'Confirma password',
+        'confirm_password' => 'Confirm password',
         'the_password_cannot_be_empty' => 'The password cannot be empty',
         'submit' => 'Submit',
         'Enter_original_password' => 'Enter the original password',
