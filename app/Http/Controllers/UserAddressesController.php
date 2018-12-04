@@ -51,7 +51,7 @@ class UserAddressesController extends Controller
         $address->name = $request->input('name');
         $address->phone = $request->input('phone');
         $address->address = $request->input('address');
-        if ($request->filled('is_default') || $addressCount == 0) {
+        if (($request->filled('is_default') && $request->input('is_default') == 1) || $addressCount == 0) {
             UserAddress::where(['user_id' => $request->user()->id, 'is_default' => true])
                 ->update(['is_default' => false]);
             $address->is_default = true;
@@ -68,11 +68,25 @@ class UserAddressesController extends Controller
         $address->name = $request->input('name');
         $address->phone = $request->input('phone');
         $address->address = $request->input('address');
-        if ($request->filled('is_default')) {
+        if ($request->filled('is_default') && $request->input('is_default') == 1) {
             UserAddress::where(['user_id' => $request->user()->id, 'is_default' => true])
                 ->where('id', '<>', $address->id)
                 ->update(['is_default' => false]);
             $address->is_default = true;
+        } elseif ($request->filled('is_default') && $request->input('is_default') == 0) {
+            $default_address = UserAddress::where(['user_id' => $request->user()->id, 'is_default' => true])
+                ->where('id', '<>', $address->id)
+                ->first();
+            if (!$default_address) {
+                $default_address = UserAddress::where(['user_id' => $request->user()->id, 'is_default' => false])
+                    ->where('id', '<>', $address->id)
+                    ->orderByDesc('last_used_at')
+                    ->first();
+                if ($default_address) {
+                    $default_address->update(['is_default' => true]);
+                }
+            }
+            $address->is_default = false;
         }
         $address->save();
         return redirect()->route('user_addresses.index');

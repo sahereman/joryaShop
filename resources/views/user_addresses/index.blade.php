@@ -9,7 +9,7 @@
                     <span>></span>
                     <a href="{{ route('users.home') }}">@lang('basic.users.Personal_Center')</a>
                     <span>></span>
-                    <a href="{{ route('user_addresses.index') }}">@lang('basic.users.Receiving_address')</a>
+                    <a href="javascript:void(0);">@lang('basic.users.Receiving_address')</a>
                 </p>
             </div>
             <!--左侧导航栏-->
@@ -28,7 +28,9 @@
                 <div class="receive_address">
                     <div class="address_note">
                         <div class="pull-left">
-                            <p>@lang('basic.users.Stored shipping address')（@lang('basic.users.Up to'){{ $max }}@lang('basic.users.addresses_and can save')<span class="residual">{{ $max - $count }}</span>）</p>
+                            <p>@lang('basic.users.Stored shipping address')
+                                （@lang('basic.users.Up to'){{ $max }}@lang('basic.users.addresses_and can save')<span
+                                        class="residual">{{ $max - $count }}</span>）</p>
                         </div>
                         <div class="pull-right">
                             <a class="new_address">+@lang('basic.address.The new address')</a>
@@ -54,9 +56,9 @@
                                     <!--电话建议后台正则处理前端处理容易泄露-->
                                     <td class="address_tel">{{ $address->phone }}</td>
                                     <td class="address_operation">
-                                        <a url="{{ route('user_addresses.update', $address->id) }}"
+                                        <a url="{{ route('user_addresses.update', ['address' => $address->id]) }}"
                                            class="edit_address">@lang('basic.address.edit')</a>
-                                        <a url="{{ route('user_addresses.destroy', $address->id) }}"
+                                        <a url="{{ route('user_addresses.destroy', ['address' => $address->id]) }}"
                                            class="delete_address">@lang('basic.delete')</a>
                                     </td>
                                     <td class="default_address">
@@ -64,7 +66,7 @@
                                         @if($address->is_default)
                                             <a class="setDefaultAddress haddefault">@lang('basic.address.Default address')</a>
                                         @else
-                                            <a url="{{ route('user_addresses.set_default', $address->id) }}"
+                                            <a url="{{ route('user_addresses.set_default', ['address' => $address->id]) }}"
                                                class="setDefaultAddress">@lang('basic.address.Set to the default')</a>
                                         @endif
                                     </td>
@@ -140,16 +142,19 @@
                             <li>
                                 <p>
                                     <span class="input_name"><i>*</i>@lang('basic.address.The consignee')：</span>
-                                    <input class="user_name" name="name" type="text" placeholder="@lang('basic.address.Enter the consignee name')">
+                                    <input class="user_name" name="name" type="text"
+                                           placeholder="@lang('basic.address.Enter the consignee name')">
                                 </p>
                                 <p>
                                     <span class="input_name"><i>*</i>@lang('basic.address.Contact')：</span>
-                                    <input class="user_tel" name="phone" type="text" placeholder="@lang('basic.address.Enter the real and valid mobile phone number')">
+                                    <input class="user_tel" name="phone" type="text"
+                                           placeholder="@lang('basic.address.Enter the real and valid mobile phone number')">
                                 </p>
                             </li>
                             <li>
                                 <span class="input_name"><i>*</i>@lang('basic.address.Detailed address')：</span>
-                                <textarea name="address" placeholder="@lang('basic.address.Detailed_address')"></textarea>
+                                <textarea name="address"
+                                          placeholder="@lang('basic.address.Detailed_address')"></textarea>
                             </li>
                             <li>
                                 <p class="default_address_set">
@@ -164,7 +169,7 @@
                 </div>
             </div>
             <div class="btn_area">
-            	<a class="success">@lang('app.determine')</a>
+                <a class="success">@lang('app.determine')</a>
                 <a class="cancel">@lang('app.cancel')</a>
             </div>
         </div>
@@ -189,16 +194,19 @@
                             <li>
                                 <p>
                                     <span class="input_name"><i>*</i>@lang('basic.address.The consignee')：</span>
-                                    <input class="user_name" name="name" type="text" placeholder="@lang('basic.address.Enter the consignee name')">
+                                    <input class="user_name" name="name" type="text"
+                                           placeholder="@lang('basic.address.Enter the consignee name')">
                                 </p>
                                 <p>
                                     <span class="input_name"><i>*</i>@lang('basic.address.Contact')：</span>
-                                    <input class="user_tel" name="phone" type="text" placeholder="@lang('basic.address.Enter the real and valid mobile phone number')">
+                                    <input class="user_tel" name="phone" type="text"
+                                           placeholder="@lang('basic.address.Enter the real and valid mobile phone number')">
                                 </p>
                             </li>
                             <li>
                                 <span class="input_name"><i>*</i>@lang('basic.address.Detailed address')：</span>
-                                <textarea name="address" placeholder="@lang('basic.address.Detailed_address')"></textarea>
+                                <textarea name="address"
+                                          placeholder="@lang('basic.address.Detailed_address')"></textarea>
                             </li>
                             <li>
                                 <p class="default_address_set">
@@ -272,10 +280,10 @@
                 $(".edit_harvest_address").find(".user_tel").val($(this).parents("tr").find(".address_tel").html());
                 $(".edit_harvest_address").find("textarea").val($(this).parents("tr").find(".address_info").html());
                 var isdefault = $(this).parents("tr").find(".setDefaultAddress ").hasClass("haddefault");
-                if(isdefault==true){
-                	$(".edit_harvest_address").find("#edit_default").attr("checked",true);
-                }else {
-                	$(".edit_harvest_address").find("#edit_default").attr("checked",false);
+                if (isdefault == true) {
+                    $(".edit_harvest_address").find("#edit_default").attr("checked", true);
+                } else {
+                    $(".edit_harvest_address").find("#edit_default").attr("checked", false);
                 }
                 $(".edit_harvest_address").show();
             });

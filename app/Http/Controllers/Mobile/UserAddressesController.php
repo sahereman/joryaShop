@@ -19,7 +19,7 @@ class UserAddressesController extends Controller
         ]);
     }
 
-    public function create()
+    public function create(Request $request)
     {
         return view('mobile.user_addresses.create');
     }
@@ -28,7 +28,7 @@ class UserAddressesController extends Controller
     public function edit(Request $request, UserAddress $address)
     {
         return view('mobile.user_addresses.edit', [
-            'address' => $address
+            'address' => $address,
         ]);
     }
 }
