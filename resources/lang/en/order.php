@@ -113,4 +113,5 @@ return [
     'Payment Required' => 'Payment Required',
     'Place an order time' => 'Order Date',
     'Total Merchandise' => 'Total Merchandise',
+    'Order Details' => 'Order Details',
 ];

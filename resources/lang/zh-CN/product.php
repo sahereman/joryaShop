@@ -99,5 +99,7 @@ return [
 
     ],
     'you want to search' => '搜你想搜',
-
+    'Comprehensive sorting' => '综合排序',
+    'New Products Preferred' => '新品优先',
+    'Comments from high to low' => '评论由高到低',
 ];

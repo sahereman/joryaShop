@@ -27,6 +27,24 @@
         margin-top: 6rem;
         background: #f4f4f4;
         padding: .7rem 0 0;
+        .no_order {
+            text-align: center;
+            background-color: #fff;
+            margin-top: -.7rem;
+            vertical-align: middle;
+            img{
+                margin-top: 50%;
+            }
+            p {
+                font-size: 1rem;
+                color: #666;
+                margin: .6rem;
+            }
+            a {
+                font-size: .7rem;
+                color: #87b53b;
+            }
+        }
         .orderItem{
             background: #fff;
             margin-bottom: .7rem;

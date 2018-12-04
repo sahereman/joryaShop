@@ -114,4 +114,5 @@ return [
     'Payment Required' => '需付款',
     'Place an order time' => '下单时间',
     'Total Merchandise' => '商品总额',
+    'Order Details' => '订单详情',
 ];

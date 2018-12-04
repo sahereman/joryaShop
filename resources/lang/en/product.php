@@ -98,5 +98,7 @@ return [
         'Please enter a product evaluation of less than 200 words' => 'Please enter a product evaluation of less than 200 words',
     ],
     'you want to search' => 'you want to search',
-
+    'Comprehensive sorting' => 'Comprehensive sorting',
+    'New Products Preferred' => 'New Products Preferred',
+    'Comments from high to low' => 'Comments from high to low',
 ];

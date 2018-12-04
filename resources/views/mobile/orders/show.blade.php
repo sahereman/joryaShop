@@ -1,9 +1,9 @@
 @extends('layouts.mobile')
-@section('title', '订单详情')
+@section('title', App::isLocale('en') ? Order Details : 订单详情)
 @section('content')
     <div class="headerBar fixHeader">
         <img src="{{ asset('static_m/img/icon_backtop.png') }}" class="backImg" onclick="javascript:history.back(-1);"/>
-        <span>订单详情</span>
+        <span>@lang('order.Order Details')</span>
     </div>
     <div class="orderDetailBox">
         @if($order->status == \App\Models\Order::ORDER_STATUS_PAYING)
