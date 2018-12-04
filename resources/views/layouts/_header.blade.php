@@ -35,8 +35,10 @@
                 <a class="register">@lang('app.Registered')</a>
                 <a class="about-us" href="{{ route('root') }}">@lang('app.About_us')</a>
                 @else
-                    <a id="user_info_btn" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-                       class="user_name">{{ Auth::user()->name }}</a>
+                    <a id="user_info_btn" role="button" data-toggle="dropdown" aria-haspopup="true"
+                       aria-expanded="false" class="user_name">
+                        {{ Auth::user()->name }}
+                    </a>
                     <ul class="dropdown-menu" role="menu" aria-labelledby="user_info_btn">
                         <li>
 
@@ -47,7 +49,9 @@
                         </li>
                         <li>
                             <a href="{{ route('logout') }}" class="login_out_a"
-                               onclick="event.preventDefault();document.getElementById('logout-form').submit();">@lang('app.Sign_out')</a>
+                               onclick="event.preventDefault();document.getElementById('logout-form').submit();">
+                                @lang('app.Sign_out')
+                            </a>
                         </li>
                     </ul>
                     <img src="{{ asset('img/header/down_arrow.png') }}">
@@ -91,7 +95,8 @@
             <div class="pull-right header-search">
                 <ul>
                     <li>
-                        <input type="search" data-url="{{ route('products.search_hint') }}" class="selectInput_header" placeholder="@lang('app.Please enter the item you are searching for')">
+                        <input type="search" data-url="{{ route('products.search_hint') }}" class="selectInput_header"
+                               placeholder="@lang('app.Please enter the item you are searching for')">
                         <a class="search_btn" href="javascript:void(0)">
                             <img src="{{ asset('img/search_magnifier.png') }}">
                         </a>

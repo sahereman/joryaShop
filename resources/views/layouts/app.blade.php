@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <meta name="description" content="卓雅美业欢迎您的光临" />
+    <meta name="description" content="卓雅美业欢迎您的光临"/>
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'Web 标题')</title>
@@ -13,11 +13,11 @@
     <link href="{{ asset('js/swiper/css/swiper.css') }}" rel="stylesheet">
     <link href="{{ asset('js/shareJS/css/share.min.css') }}" rel="stylesheet">
     @if(App::isLocale('en'))
-    <style>
-    	body {
-    		font-family: helvetica !important;
-    	}
-    </style>
+        <style>
+            body {
+                font-family: helvetica !important;
+            }
+        </style>
     @endif
 </head>
 <body>

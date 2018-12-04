@@ -14,7 +14,7 @@ Route::get('search', 'IndexController@search')->name('mobile.search'); // 搜索
 Route::get('locale', 'IndexController@localeShow')->name('mobile.locale.show'); // 修改网站语言 页面
 
 /*通用-单页展示*/
-Route::get('articles/{slug}', 'ArticlesController@show')->name('articles.show');
+Route::get('articles/{slug}', 'ArticlesController@show')->name('mobile.articles.show');
 
 /*注册与登录*/
 Route::get('login', 'Auth\LoginController@showLoginForm')->name('mobile.login.show'); // 登录 页面

@@ -14,7 +14,7 @@
                     <span>></span>
                     <a href="{{ route('product_categories.index', ['category' => $category->id]) }}">{{ App::isLocale('en') ? $category->name_en : $category->name_zh }}</a>
                     <span>></span>
-                    <a href="#">{{ App::isLocale('en') ? $product->name_en : $product->name_zh }}</a>
+                    <a href="javascript:void(0)">{{ App::isLocale('en') ? $product->name_en : $product->name_zh }}</a>
                 </p>
             </div>
             <!--详情上半部分-->

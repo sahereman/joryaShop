@@ -4,7 +4,7 @@
             <a href="{{ route('users.home') }}">@lang('basic.home')</a>
         </li>
         <li class="navigation_title">
-            <a href="#">@lang('basic.users.Personal_Center')</a>
+            <a href="javascript:void(0)">@lang('basic.users.Personal_Center')</a>
         </li>
         <li class="account_info">
             <a href="{{ route('users.edit',['user' =>1]) }}">@lang('basic.users.Account_information')</a>
@@ -31,7 +31,7 @@
             <a>@lang('basic.users.Service_Centre')</a>
         </li>
         <li class="after_sale">
-            <a href="{{ route('root') }}">@lang('basic.users.After-sale_service')</a>
+            <a href="{{ route('articles.show', ['slug' => 'refunding_service']) }}">@lang('basic.users.After-sale_service')</a>
         </li>
     </ul>
 </div>

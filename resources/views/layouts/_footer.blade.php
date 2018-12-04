@@ -39,27 +39,27 @@
                 <ul>
                     <li>
                         <p>@lang('app.Help')</p>
-                        <a href="{{ route('root') }}">@lang('app.Newbie Guide')</a>
-                        <a href="{{ route('root') }}">@lang('app.Common problems')</a>
-                        <a href="{{ route('root') }}">@lang('app.User Agreement')</a>
+                        <a href="{{ route('articles.show', ['slug' => 'guide']) }}">@lang('app.Newbie Guide')</a>
+                        <a href="{{ route('articles.show', ['slug' => 'problem']) }}">@lang('app.Common problems')</a>
+                        <a href="{{ route('articles.show', ['slug' => 'user_protocol']) }}">@lang('app.User Agreement')</a>
                     </li>
                     <li>
                         <p>@lang('app.Method of Payment')</p>
-                        <a href="{{ route('root') }}">@lang('app.ALIPAY')</a>
-                        <a href="{{ route('root') }}">@lang('app.WeChat Pay')</a>
-                        <a href="{{ route('root') }}">paypal</a>
+                        <a href="javascript:void(0)">@lang('app.ALIPAY')</a>
+                        <a href="javascript:void(0)">@lang('app.WeChat Pay')</a>
+                        <a href="javascript:void(0)">paypal</a>
                     </li>
                     <li>
                         <p>@lang('app.After-sales Service')</p>
-                        <a href="{{ route('root') }}">@lang('app.After Consulting')</a>
-                        <a href="{{ route('root') }}">@lang('app.Return Policy')</a>
-                        <a href="{{ route('root') }}">@lang('app.Return to deal with')</a>
+                        <a href="{{ route('articles.show', ['slug' => 'refunding_consultancy']) }}">@lang('app.After Consulting')</a>
+                        <a href="{{ route('articles.show', ['slug' => 'refunding_policy']) }}">@lang('app.Return Policy')</a>
+                        <a href="{{ route('articles.show', ['slug' => 'refunding_procedure']) }}">@lang('app.Return to deal with')</a>
                     </li>
                     <li>
                         <p>@lang('app.About us')</p>
-                        <a href="{{ route('root') }}">@lang('app.Company profile')</a>
-                        <a href="{{ route('root') }}">@lang('app.Products features')</a>
-                        <a href="{{ route('root') }}">@lang('app.Contact us')</a>
+                        <a href="{{ route('articles.show', ['slug' => 'company_introduction']) }}">@lang('app.Company profile')</a>
+                        <a href="{{ route('articles.show', ['slug' => 'products_features']) }}">@lang('app.Products features')</a>
+                        <a href="{{ route('articles.show', ['slug' => 'contact_us']) }}">@lang('app.Contact us')</a>
                     </li>
                 </ul>
             </div>
@@ -100,7 +100,7 @@
                 </li>
                 @for ($i = 0; $i < 8; $i++)
                     <li>
-                        <a href="http://sahereman.com/" target="view_window">尚禾维曼</a>
+                        <a href="http://sahereman.com/" target="view_window">@lang('basic.sahereman')</a>
                     </li>
                 @endfor
             </ul>
@@ -111,26 +111,27 @@
 <!--右侧导航栏-->
 <div class="right_navigation">
     <ul>
-    	<li class="show_fenxaing">
+        <li class="show_fenxaing">
             <a class="fenxiang">
                 <img src="{{ asset('img/fenxiang.png') }}">
             </a>
             <div class="fenxiang_info">
-               <ul>
-               	  <li class="row">
-			        <!--<div class="share-component " data-disabled="qzone, tencent, douban, diandian, google, linkedin"></div>-->
-			        <div class="social-share" data-initialized="true" data-url="{{config('app.url')}}"  data-title="Jorya卓雅美业">
-			            <a href="#" class="social-share-icon icon-weibo"></a>
-			            <a href="#" class="social-share-icon icon-wechat"></a>
-			            <a href="#" class="social-share-icon icon-qq"></a>
-			            <a href="#" class="social-share-icon icon-qzone"></a>
-			            <a href="#" class="social-share-icon icon-linkedin"></a>
-			            <a href="#" class="social-share-icon icon-facebook"></a>
-			            <a href="#" class="social-share-icon icon-twitter"></a>
-			            <a href="#" class="social-share-icon icon-google"></a>
-			        </div>
-			      </li>
-               </ul>
+                <ul>
+                    <li class="row">
+                        <!--<div class="share-component " data-disabled="qzone, tencent, douban, diandian, google, linkedin"></div>-->
+                        <div class="social-share" data-initialized="true" data-url="{{config('app.url')}}"
+                             data-title="Jorya卓雅美业">
+                            <a href="javascript:void(0)" class="social-share-icon icon-weibo"></a>
+                            <a href="javascript:void(0)" class="social-share-icon icon-wechat"></a>
+                            <a href="javascript:void(0)" class="social-share-icon icon-qq"></a>
+                            <a href="javascript:void(0)" class="social-share-icon icon-qzone"></a>
+                            <a href="javascript:void(0)" class="social-share-icon icon-linkedin"></a>
+                            <a href="javascript:void(0)" class="social-share-icon icon-facebook"></a>
+                            <a href="javascript:void(0)" class="social-share-icon icon-twitter"></a>
+                            <a href="javascript:void(0)" class="social-share-icon icon-google"></a>
+                        </div>
+                    </li>
+                </ul>
             </div>
         </li>
         <li class="show_customer">
@@ -172,14 +173,16 @@
                 <div class="with-line">@lang('app.New User Registration')</div>
                 <form id="register-form" action="{{ route('register') }}" method="POST">
                     <p id="register_token_code" class="dis_n">{{ csrf_field() }}</p>
-                    <input type="text" name="name" id="register_user" placeholder="@lang('app.please enter user name')" required>
+                    <input type="text" name="name" id="register_user" placeholder="@lang('app.please enter user name')"
+                           required>
                     @if ($errors->has('name'))
                         <p class="login_error error_content">
                             <i></i>
                             <span>{{ $errors->first('name') }}</span>
                         </p>
                     @endif
-                    <input type="password" name="password" id="register_psw" placeholder="@lang('app.Please enter your password')" required>
+                    <input type="password" name="password" id="register_psw"
+                           placeholder="@lang('app.Please enter your password')" required>
                     @if ($errors->has('password'))
                         <p class="login_error error_content">
                             <i></i>
@@ -197,7 +200,8 @@
                             <img src="{{ asset('img/sanjiao.png') }}">
                         </div>
                         <span class="areaCode_val"></span>
-                        <input type="text" name="phone" id="register_email" placeholder="@lang('app.Please select a country first')" required>
+                        <input type="text" name="phone" id="register_email"
+                               placeholder="@lang('app.Please select a country first')" required>
                     </div>
                     @if ($errors->has('phone'))
                         <p class="login_error error_content">
@@ -206,7 +210,8 @@
                         </p>
                     @endif
                     <div class="verification_code">
-                        <input type="text" id="register_code" class="code" name="code" placeholder="@lang('app.please enter verification code')">
+                        <input type="text" id="register_code" class="code" name="code"
+                               placeholder="@lang('app.please enter verification code')">
                         <input type="button" class="generate_code" data-url="{{ route('register.send_sms_code') }}"
                                id="getRegister_code" value=" @lang('app.get verification code')">
                     </div>
@@ -228,7 +233,8 @@
                         <a href="{{ route('root') }}">《@lang('app.User Service Use Agreement')》</a>
                     </p>
                 </div>
-                <a class="btn_dialog register_btn" id="register_btn" data-url="{{ route('register') }}">@lang('app.Registered')</a>
+                <a class="btn_dialog register_btn" id="register_btn"
+                   data-url="{{ route('register') }}">@lang('app.Registered')</a>
                 <div class="switch-back">
                     <p class="change_title">
                         <span>@lang('app.Existing account')</span>
@@ -252,14 +258,16 @@
                 </div>
                 <form id="login-form" class="active" action="{{ route('login.post') }}" method="POST">
                     <p id="commn_login_token_code" class="dis_n">{{ csrf_field() }}</p>
-                    <input type="text" name="username" placeholder="@lang('app.Please enter your username or phone number')" required>
+                    <input type="text" name="username"
+                           placeholder="@lang('app.Please enter your username or phone number')" required>
                     @if ($errors->has('username'))
                         <p class="login_error error_content">
                             <i></i>
                             <span>{{ $errors->first('username') }}</span>
                         </p>
                     @endif
-                    <input type="password" name="password" placeholder="@lang('app.Please enter your password')" required>
+                    <input type="password" name="password" placeholder="@lang('app.Please enter your password')"
+                           required>
                     @if ($errors->has('password'))
                         <p class="login_error error_content">
                             <i></i>
@@ -280,7 +288,8 @@
                             <img src="{{ asset('img/sanjiao.png') }}">
                         </div>
                         <span class="areaCode_val login_code"></span>
-                        <input type="text" name="phone" id="login_email" placeholder="@lang('app.Please select a country first')" required>
+                        <input type="text" name="phone" id="login_email"
+                               placeholder="@lang('app.Please select a country first')" required>
                     </div>
                     @if ($errors->has('phone'))
                         <p class="login_error error_content">
@@ -289,7 +298,8 @@
                         </p>
                     @endif
                     <div class="verification_code">
-                        <input type="text" class="code" name="code" id="login_code" placeholder="@lang('app.please enter verification code')">
+                        <input type="text" class="code" name="code" id="login_code"
+                               placeholder="@lang('app.please enter verification code')">
                         <input type="button" class="generate_code" data-url="{{ route('login.send_sms_code') }}"
                                id="getLogin_code" value=" @lang('app.get verification code')">
                     </div>
@@ -306,10 +316,12 @@
                 </form>
                 <div class="switch-back">
                     <a code="1" class="rotary_btn register_btn pull-left">@lang('app.New User Registration')</a>
-                    <a class="forget_psw pull-right" href="{{ route('password.request') }}">@lang('app.forget password')</a>
+                    <a class="forget_psw pull-right"
+                       href="{{ route('password.request') }}">@lang('app.forget password')</a>
                 </div>
                 <a class="btn_dialog commo_btn active" data-url="{{ route('login') }}">@lang('app.Sign_in')</a>
-                <a class="btn_dialog mailbox_btn" data-url="{{ route('login.verify_sms_code') }}">@lang('app.Sign_in')</a>
+                <a class="btn_dialog mailbox_btn"
+                   data-url="{{ route('login.verify_sms_code') }}">@lang('app.Sign_in')</a>
             </div>
         </div>
         <div class="close">

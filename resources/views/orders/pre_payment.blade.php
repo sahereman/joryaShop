@@ -7,7 +7,7 @@
                 <p class="Crumbs">
                     <a href="{{ route('root') }}">@lang('basic.home')</a>
                     <span>></span>
-                    <a href="#">@lang('order.Confirm Order')</a>
+                    <a href="javascript:void(0)">@lang('order.Confirm Order')</a>
                 </p>
                 <div class="pre_payment_header">
                     <div class="address_info clear">
@@ -66,7 +66,7 @@
                             @foreach($items as $item)
                                 <div class="clear single-item">
                                     <div class="left w110 shop-img">
-                                        <a class="cur_p" href="#">
+                                        <a class="cur_p" href="javascript:void(0)">
                                             <img src="{{ $item['product']->thumb_url }}">
                                         </a>
                                     </div>

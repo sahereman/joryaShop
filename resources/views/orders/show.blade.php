@@ -11,7 +11,7 @@
                     <span>></span>
                     <a href="{{ route('orders.index') }}">@lang('basic.users.My_order')</a>
                     <span>></span>
-                    <a href="#">@lang('basic.users.The_order_details')</a>
+                    <a href="javascript:void(0)">@lang('basic.users.The_order_details')</a>
                 </p>
             </div>
             <!--左侧导航栏-->

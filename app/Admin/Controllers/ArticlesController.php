@@ -120,8 +120,11 @@ class ArticlesController extends Controller
         $form->text('name', '名称');
         $form->text('slug', '标示')->rules(function ($form) {
             return ['required', Rule::unique('articles', 'slug')->ignore($form->model()->id),];
-        })->help('可使用的标示 : about | guide | problem | ' .
-            'user_protocol');
+        })->help(
+            '可使用的标示 : ' .
+            'about | company_introduction | products_features | contact_us | helper | guide | problem | user_protocol | refunding_service | refunding_consultancy | refunding_policy | refunding_procedure'
+        );
+        // })->help('可使用的标示 : about | guide | problem | user_protocol | service');
         $form->text('slug', '标示位');
         $form->editor('content_zh', '内容(中文)');
         $form->editor('content_en', '内容(英文)');
