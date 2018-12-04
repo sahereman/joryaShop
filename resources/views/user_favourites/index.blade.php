@@ -9,7 +9,7 @@
                     <span>></span>
                     <a href="{{ route('users.home') }}">@lang('basic.users.Personal_Center')</a>
                     <span>></span>
-                    <a href="{{ route('user_favourites.index') }}">@lang('basic.users.My_collection')</a>
+                    <a href="javascript:void(0);">@lang('basic.users.My_collection')</a>
                 </p>
             </div>
             <!--左侧导航栏-->
@@ -34,12 +34,19 @@
                                     <div class="collection_shop_img">
                                         <img class="lazy" data-src="{{ $favourite->product->thumb_url }}">
                                     </div>
-                                    <p class="commodity_title">{{ App::isLocale('en') ? $favourite->product->name_en : $favourite->product->name_zh }}</p>
-                                    <p class="collection_price">
-                                        <span class="new_price">@lang('basic.currency.symbol') {{ App::isLocale('en') ? $favourite->product->price_in_usd : $favourite->product->price }}</span>
-                                        <span class="old_price">@lang('basic.currency.symbol') {{ App::isLocale('en') ? bcmul($favourite->product->price_in_usd, 1.2, 2) : bcmul($favourite->product->price, 1.2, 2) }}</span>
+                                    <p class="commodity_title">
+                                        {{ App::isLocale('en') ? $favourite->product->name_en : $favourite->product->name_zh }}
                                     </p>
-                                    <a class="add_to_cart" href="{{ route('products.show', $favourite->id) }}">@lang('app.Add to Shopping Cart')</a>
+                                    <p class="collection_price">
+                                        <span class="new_price">
+                                            @lang('basic.currency.symbol') {{ App::isLocale('en') ? $favourite->product->price_in_usd : $favourite->product->price }}
+                                        </span>
+                                        <span class="old_price">
+                                            @lang('basic.currency.symbol') {{ App::isLocale('en') ? bcmul($favourite->product->price_in_usd, 1.2, 2) : bcmul($favourite->product->price, 1.2, 2) }}
+                                        </span>
+                                    </p>
+                                    <a class="add_to_cart"
+                                       href="{{ route('products.show', $favourite->id) }}">@lang('app.Add to Shopping Cart')</a>
                                     <a class="delete_mark" code="{{ route('user_favourites.destroy', $favourite->id) }}"
                                        title="@lang('app.Click to remove the item')"></a>
                                 </li>
@@ -86,37 +93,37 @@
 //              $(".confirm_delete").show();
                 var url = $(this).attr("code");
                 var index = layer.open({
-				  title: "@lang('app.Prompt')",
-				  content: "@lang('product.Are you sure you want to delete this record')",
-				  btn: ["@lang('app.determine')","@lang('app.cancel')"],
-				  yes:function(){
-				  	 var data = {
-	                    _method: "DELETE",
-	                    _token: "{{ csrf_token() }}",
-	               }
-	                $.ajax({
-	                    type: "post",
-	                    url: url,
-	                    data: data,
-	                    success: function (data) {
-	                    	window.location.reload();
-	                    },
-	                    error: function (err) {
-	                        console.log(err);
-	                        if (err.status==403) {
-	                        	layer.open({
-								  title: "@lang('app.Prompt')",
-								  content: "@lang('app.Unable to complete operation')",
-								  btn: ["@lang('app.determine')","@lang('app.cancel')"],
-								});     
-	                        }
-	                    }
-	                });
-				  },
-				  btn2:function(){
-				  	layer.close(index);
-				  }
-				});    
+                    title: "@lang('app.Prompt')",
+                    content: "@lang('product.Are you sure you want to delete this record')",
+                    btn: ["@lang('app.determine')", "@lang('app.cancel')"],
+                    yes: function () {
+                        var data = {
+                            _method: "DELETE",
+                            _token: "{{ csrf_token() }}",
+                        }
+                        $.ajax({
+                            type: "post",
+                            url: url,
+                            data: data,
+                            success: function (data) {
+                                window.location.reload();
+                            },
+                            error: function (err) {
+                                console.log(err);
+                                if (err.status == 403) {
+                                    layer.open({
+                                        title: "@lang('app.Prompt')",
+                                        content: "@lang('app.Unable to complete operation')",
+                                        btn: ["@lang('app.determine')", "@lang('app.cancel')"],
+                                    });
+                                }
+                            }
+                        });
+                    },
+                    btn2: function () {
+                        layer.close(index);
+                    }
+                });
             });
 //          $(".confirm_delete").on("click", ".success", function () {
 //              var data = {

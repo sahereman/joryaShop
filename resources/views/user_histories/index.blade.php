@@ -9,7 +9,7 @@
                     <span>></span>
                     <a href="{{ route('users.home') }}">@lang('basic.users.Personal_Center')</a>
                     <span>></span>
-                    <a href="{{ route('user_histories.index') }}">@lang('basic.users.Browse_history')</a>
+                    <a href="javascript:void(0);">@lang('basic.users.Browse_history')</a>
                 </p>
             </div>
             <!--左侧导航栏-->
