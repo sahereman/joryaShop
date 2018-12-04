@@ -10,14 +10,16 @@ use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
 use App\Models\ShipmentCompany;
+use App\Models\User;
 use App\Observers\ConfigObserver;
 use App\Observers\CountryCodeObserver;
 use App\Observers\ExchangeRateObserver;
 use App\Observers\MenuObserver;
 use App\Observers\OrderObserver;
 use App\Observers\OrderItemObserver;
-use App\Observers\ProductsObserver;
+use App\Observers\ProductObserver;
 use App\Observers\ShipmentCompanyObserver;
+use App\Observers\UserObserver;
 use Carbon\Carbon;
 use Illuminate\Support\ServiceProvider;
 
@@ -32,13 +34,12 @@ class AppServiceProvider extends ServiceProvider
         Config::observe(ConfigObserver::class);
         CountryCode::observe(CountryCodeObserver::class);
         ExchangeRate::observe(ExchangeRateObserver::class);
-        ShipmentCompany::observe(ShipmentCompanyObserver::class);
         Menu::observe(MenuObserver::class);
-
-        Product::observe(ProductsObserver::class);
-
         Order::observe(OrderObserver::class);
         OrderItem::observe(OrderItemObserver::class);
+        Product::observe(ProductObserver::class);
+        ShipmentCompany::observe(ShipmentCompanyObserver::class);
+        User::observe(UserObserver::class);
 
         // Carbon 中文化配置
         Carbon::setLocale('zh');

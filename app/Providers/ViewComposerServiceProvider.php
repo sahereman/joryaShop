@@ -20,6 +20,7 @@ class ViewComposerServiceProvider extends ServiceProvider
         // Using Closure based composers...
         View::composer([
             'layouts._header',
+            'layouts._footer_mobile',
         ], function ($view) {
             $cart_count = false;
             if (Auth::check()) {

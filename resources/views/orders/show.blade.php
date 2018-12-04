@@ -20,10 +20,7 @@
             <div class="order_content">
                 <div class="order_info">
                     <!--订单状态，根据订单状态不同将显示不同的按钮
-
-                        **注：有判断机制之后将每一个div后的去掉！！！、
-                        *
-                        -->
+                        *注：有判断机制之后将每一个div后的去掉！-->
                     <div class="pull-left order_status_opera">
                         @if($order->status == \App\Models\Order::ORDER_STATUS_PAYING)
                                 <!--待付款状态-->
@@ -44,8 +41,12 @@
                             </p>
                             <p class="operation_area">
                                 <a class="main_operation"
-                                   href="{{ route('orders.payment_method', ['order' => $order->id]) }}">@lang('order.Immediate payment')</a>
-                                <a data-url="{{ route('orders.close', ['order' => $order->id]) }}">@lang('app.cancel')</a>
+                                   href="{{ route('orders.payment_method', ['order' => $order->id]) }}">
+                                    @lang('order.Immediate payment')
+                                </a>
+                                <a data-url="{{ route('orders.close', ['order' => $order->id]) }}">
+                                    @lang('app.cancel')
+                                </a>
                             </p>
                         </div>
                         @elseif($order->status == \App\Models\Order::ORDER_STATUS_SHIPPING)
@@ -57,8 +58,12 @@
                                 <span class="order_status_tips">@lang('order.The buyer has paid, waiting for the seller to ship')</span>
                             </p>
                             <p class="operation_area">
-                                <a class="main_operation reminding_shipments">@lang('basic.orders.Remind shipments')</a>
-                                <a href="{{ route('orders.refund', ['order' => $order->id]) }}">@lang('order.Request a refund')</a>
+                                <a class="main_operation reminding_shipments">
+                                    @lang('basic.orders.Remind shipments')
+                                </a>
+                                <a href="{{ route('orders.refund', ['order' => $order->id]) }}">
+                                    @lang('order.Request a refund')
+                                </a>
                             </p>
                         </div>
                         @elseif($order->status == \App\Models\Order::ORDER_STATUS_RECEIVING)
@@ -67,7 +72,7 @@
                             <p>
                                 <img src="{{ asset('img/pending.png') }}">
                                 <span>@lang('basic.users.Order_Status')：</span>
-                                <span class="order_status_tips">@lang('order.The seller has shipped, waiting for the buyer to receive the goods') </span>
+                                <span class="order_status_tips">@lang('order.The seller has shipped, waiting for the buyer to receive the goods')</span>
                             </p>
                             <p id="{{ $order->order_sn }}" mark="{{ $order->order_sn }}"
                                class="cunt_down tobe_received_count"
@@ -79,8 +84,12 @@
                             </p>
                             <p class="operation_area">
                                 <a class="main_operation"
-                                   data-url="{{ route('orders.complete', ['order' => $order->id]) }}">@lang('order.Confirm receipt')</a>
-                                <a href="{{ route('orders.refund_with_shipment', ['order' => $order->id]) }}">@lang('order.Request a refund')</a>
+                                   data-url="{{ route('orders.complete', ['order' => $order->id]) }}">
+                                    @lang('order.Confirm receipt')
+                                </a>
+                                <a href="{{ route('orders.refund_with_shipment', ['order' => $order->id]) }}">
+                                    @lang('order.Request a refund')
+                                </a>
                             </p>
                         </div>
                         @elseif($order->status == \App\Models\Order::ORDER_STATUS_COMPLETED && $order->commented_at == null)
@@ -93,9 +102,13 @@
                             </p>
                             <p class="operation_area">
                                 <a class="main_operation"
-                                   href="{{ route('orders.create_comment', ['order' => $order->id]) }}">@lang('order.to evaluate')</a>
+                                   href="{{ route('orders.create_comment', ['order' => $order->id]) }}">
+                                    @lang('order.to evaluate')
+                                </a>
                                 <a class="delete_order"
-                                   data-url="{{ route('orders.destroy', ['order' => $order->id]) }}">@lang('order.Delete order')</a>
+                                   data-url="{{ route('orders.destroy', ['order' => $order->id]) }}">
+                                    @lang('order.Delete order')
+                                </a>
                             </p>
                         </div>
                         @elseif($order->status == \App\Models\Order::ORDER_STATUS_COMPLETED && $order->commented_at != null)
@@ -108,9 +121,13 @@
                             </p>
                             <p class="operation_area">
                                 <a class="main_operation"
-                                   href="{{ route('orders.show_comment', ['order' => $order->id]) }}">@lang('order.View reviews')</a>
+                                   href="{{ route('orders.show_comment', ['order' => $order->id]) }}">
+                                    @lang('order.View reviews')
+                                </a>
                                 <a class="delete_order"
-                                   data-url="{{ route('orders.destroy', ['order' => $order->id]) }}">@lang('order.Delete order')</a>
+                                   data-url="{{ route('orders.destroy', ['order' => $order->id]) }}">
+                                    @lang('order.Delete order')
+                                </a>
                             </p>
                         </div>
                         @elseif($order->status == \App\Models\Order::ORDER_STATUS_CLOSED)
@@ -123,7 +140,9 @@
                             </p>
                             <p class="operation_area">
                                 <a class="delete_order"
-                                   data-url="{{ route('orders.destroy', ['order' => $order->id]) }}">@lang('order.Delete order')</a>
+                                   data-url="{{ route('orders.destroy', ['order' => $order->id]) }}">
+                                    @lang('order.Delete order')
+                                </a>
                             </p>
                         </div>
                         @elseif($order->status == \App\Models\Order::ORDER_STATUS_REFUNDING)
@@ -137,17 +156,27 @@
                             <p class="operation_area">
                                 @if(isset($order_refund_type) && $order_refund_type == \App\Models\OrderRefund::ORDER_REFUND_TYPE_REFUND)
                                     <a class="main_operation"
-                                       href="{{ route('orders.refund', ['order' => $order->id]) }}">@lang('order.View after sales status')</a>
+                                       href="{{ route('orders.refund', ['order' => $order->id]) }}">
+                                        @lang('order.View after sales status')
+                                    </a>
                                     <a class="revocation_after_sale"
-                                       data-url="{{ route('orders.revoke_refund', ['order' => $order->id]) }}">@lang('order.After withdrawing sales')</a>
+                                       data-url="{{ route('orders.revoke_refund', ['order' => $order->id]) }}">
+                                        @lang('order.After withdrawing sales')
+                                    </a>
                                 @elseif(isset($order_refund_type) && $order_refund_type == \App\Models\OrderRefund::ORDER_REFUND_TYPE_REFUND_WITH_SHIPMENT)
                                     <a class="main_operation"
-                                       href="{{ route('orders.refund_with_shipment', ['order' => $order->id]) }}">@lang('order.View after sales status')</a>
+                                       href="{{ route('orders.refund_with_shipment', ['order' => $order->id]) }}">
+                                        @lang('order.View after sales status')
+                                    </a>
                                     <a class="revocation_after_sale"
-                                       data-url="{{ route('orders.revoke_refund', ['order' => $order->id]) }}">@lang('order.After withdrawing sales')</a>
+                                       data-url="{{ route('orders.revoke_refund', ['order' => $order->id]) }}">
+                                        @lang('order.After withdrawing sales')
+                                    </a>
                                 @else
                                     <a class="revocation_after_sale"
-                                       data-url="{{ route('orders.revoke_refund', ['order' => $order->id]) }}">@lang('order.After withdrawing sales')</a>
+                                       data-url="{{ route('orders.revoke_refund', ['order' => $order->id]) }}">
+                                        @lang('order.After withdrawing sales')
+                                    </a>
                                 @endif
                             </p>
                         </div>
@@ -195,7 +224,7 @@
                             </li>
                             @foreach($order_shipment_traces as $order_shipment_trace)
                                 <li>
-                                    <span>{{ $order_shipment_trace['AcceptTime'] . '   ' . $order_shipment_trace['AcceptStation'] . (isset($order_shipment_trace['Remark']) ? '   ' . $order_shipment_trace['Remark'] : '')  }}</span>
+                                    <span>{{ $order_shipment_trace['AcceptTime'] . '   ' . $order_shipment_trace['AcceptStation'] . (isset($order_shipment_trace['Remark']) ? '   ' . $order_shipment_trace['Remark'] : '') }}</span>
                                 </li>
                             @endforeach
                         </ul>
@@ -236,10 +265,14 @@
                                     <td class="col-pro-info">
                                         <p class="p-info">
                                             <a class="commodity_description"
-                                               href="{{ route('products.show', ['product' => $order_item['sku']['product']['id']]) }}">{{ App::isLocale('en') ? $order_item['sku']['product']['name_en'] : $order_item['sku']['product']['name_zh'] }}</a>
+                                               href="{{ route('products.show', ['product' => $order_item['sku']['product']['id']]) }}">
+                                                {{ App::isLocale('en') ? $order_item['sku']['product']['name_en'] : $order_item['sku']['product']['name_zh'] }}
+                                            </a>
                                             <br><br>
                                             <a class="commodity_description"
-                                               href="{{ route('products.show', ['product' => $order_item['sku']['product']['id']]) }}">{{ App::isLocale('en') ? $order_item['sku']['name_en'] : $order_item['sku']['name_zh'] }}</a>
+                                               href="{{ route('products.show', ['product' => $order_item['sku']['product']['id']]) }}">
+                                                {{ App::isLocale('en') ? $order_item['sku']['name_en'] : $order_item['sku']['name_zh'] }}
+                                            </a>
                                         </p>
                                     </td>
                                     <td class="col-price">

@@ -114,12 +114,29 @@ class OrdersController extends Controller
             $order_refund_type = $order->refund->type;
         }
 
+        $seconds_to_close_order = 0;
+        $seconds_to_complete_order = 0;
+        if ($order->status == Order::ORDER_STATUS_PAYING) {
+            $seconds_to_close_order = strtotime($order->created_at) + Order::getSecondsToCloseOrder() - time();
+            if ($seconds_to_close_order < 0) {
+                $seconds_to_close_order = 0;
+            }
+        }
+        if ($order->status == Order::ORDER_STATUS_RECEIVING) {
+            $seconds_to_complete_order = strtotime($order->shipped_at) + Order::getSecondsToCompleteOrder() - time();
+            if ($seconds_to_complete_order < 0) {
+                $seconds_to_complete_order = 0;
+            }
+        }
+
         return view('mobile.orders.show', [
             'order' => $order,
             'shipment_sn' => $order->shipment_sn,
             'shipment_company' => $shipment_company_name,
             'order_shipment_traces' => $order_shipment_traces,
             'order_refund_type' => $order_refund_type,
+            'seconds_to_close_order' => $seconds_to_close_order,
+            'seconds_to_complete_order' => $seconds_to_complete_order,
         ]);
     }
 
@@ -215,8 +232,22 @@ class OrdersController extends Controller
     {
         $this->authorize('view', $order);
 
+        // 订单物流状态
+        $shipment_company_name = $order->shipment_company;
+        $order_shipment_traces = [];
+        if ($order->shipment_company != null && $order->shipment_company != 'etc' && $order->shipment_sn != null) {
+            $shipment_companies = ShipmentCompany::shipmentCompanies()->pluck('name', 'code');
+            if (isset($shipment_companies[$order->shipment_company])) {
+                $shipment_company_name = $shipment_companies[$order->shipment_company];
+                // 快递鸟(kdniao.com) 即时查询API
+                $order_shipment_traces = kdniao_shipment_query($order->shipment_company, $order->shipment_sn);
+            }
+        }
+
         return view('mobile.orders.show_shipment', [
             'order' => $order,
+            'shipment_company' => $shipment_company_name,
+            'order_shipment_traces' => $order_shipment_traces,
         ]);
     }
 
