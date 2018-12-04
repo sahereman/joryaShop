@@ -1,5 +1,5 @@
 @extends('layouts.mobile')
-@section('title', '商品详情')
+@section('title', App::isLocale('en') ? $product->name_en : $product->name_zh)
 @section('content')
     <div class="goodsDetailBox">
         <img src="{{ asset('static_m/img/icon_back.png') }}" class="gBack" onclick="javascript:history.back(-1);"/>
@@ -63,36 +63,7 @@
                     <div class="no_eva dis_n">
                         <p>@lang('product.product_details.No evaluation information yet')</p>
                     </div>
-                    {{-- TODO ... products.comment ... 
-                    @for($i = 0; $i < 2; $i++)
-                        <div class="commentDetail">
-                            <div class="comUser">
-                                <img src="{{ asset('static_m/img/icon_Headportrait3.png') }}" class="userHead"/>
-                                <span>谭某某</span>
-                                <div class="starBox">
-                                    <img src="{{ asset('static_m/img/icon_Starsup.png') }}"/>
-                                    <img src="{{ asset('static_m/img/icon_Starsup.png') }}"/>
-                                    <img src="{{ asset('static_m/img/icon_starsExtinguish.png') }}"/>
-                                    <img src="{{ asset('static_m/img/icon_starsExtinguish.png') }}"/>
-                                    <img src="{{ asset('static_m/img/icon_starsExtinguish.png') }}"/>
-                                </div>
-                            </div>
-                            <div class="comSku">
-                                <span>尺寸:1.8cm</span>
-                                <span>颜色:深棕色</span>
-                            </div>
-                            <div class="comCon">
-                                送货快，包装好，品质好，喜欢的妹子可以下单了~
-                            </div>
-                            <div class="comPicture">
-                                <img src="{{ asset('static_m/img/Advancedcustomization_02.png') }}"/>
-                                <img src="{{ asset('static_m/img/Advancedcustomization_02.png') }}"/>
-                            </div>
-                            <div class="comDate">
-                                2018-10-11
-                            </div>
-                        </div>
-                    @endfor--}}
+                    <div class="lists"></div>
                 </div>
             </div>
         </div>
@@ -100,17 +71,17 @@
             <div class="gList">
                 <div class="gShare">
                     <img src="{{ asset('static_m/img/icon_share4.png') }}" alt=""/>
-                    <span>分享</span>
+                    <span>>@lang('product.product_details.Share')</span>
                 </div>
                 <div class="backCart">
                     <img src="{{ asset('static_m/img/icon_ShoppingCart5.png') }}" alt=""/>
-                    <span>购物车</span>
+                    <span>@lang('product.shopping_cart.Shop_cart')</span>
                 </div>
                 <div class="gCollect" code = "{{ $product->id }}"data-url="{{ route('user_favourites.store') }}"
                      data-url_2="{{ route('user_favourites.destroy', $product->id) }}">
                     <img src="{{ asset('static_m/img/icon_Collection4.png') }}" alt="" class="no_collection"/>
                     <img src="{{ asset('static_m/img/icon_Collection3.png') }}" alt="" class="had_collection dis_n"/>
-                    <span>收藏</span>
+                    <span>@lang('product.product_details.Collection')</span>
                 </div>
             </div>
             @guest
@@ -132,16 +103,16 @@
                             <span class="pro_price">{{ App::isLocale('en') ? $skus[0]->price_in_usd : $skus[0]->price }}</span>
                         </label>
                         <p>
-                            @lang('product.product_details.stock'):
+                            @lang('product.product.product_details.stock'):
                             <span>{{ $skus[0]->stock }}</span>
                         </p>
                         <span class="pro_name">
-                            选择:{{ App::isLocale('en') ? $skus[0]->name_en : $skus[0]->name_zh }}
+                            @lang('product.product_details.Choose'):{{ App::isLocale('en') ? $skus[0]->name_en : $skus[0]->name_zh }}
                         </span>
                     </div>
                 </div>
                 <div class="skuListBox">
-                    <div class="skuListHead">分类</div>
+                    <div class="skuListHead">@lang('product.product_details.classification')</div>
                     <ul class="skuListMain">
                         @foreach($skus as $sku)
                             <li code_price='{{ App::isLocale('en') ? $sku->price_in_usd : $sku->price }}'>
@@ -152,7 +123,7 @@
                     </ul>
                 </div>
                 <div class="buyNum">
-                    <span>购买数量</span>
+                    <span>@lang('product.product_details.Quantity purchased')</span>
                     <div>
                         <span class="Operation_btn">-</span>
                         <span class="gNum">1</span>
@@ -160,7 +131,7 @@
                     </div>
                 </div>
                 <div class="btnBox">
-                    <button class="make_sure_todo">确定</button>
+                    <button class="make_sure_todo">@lang('app.determine')</button>
                 </div>
             </div>
         </div>
@@ -168,6 +139,7 @@
 @endsection
 
 @section('scriptsAfterJs')
+<script type="text/javascript" src="{{ asset('static_m/js/dropload/dropload.min.js') }}"></script>
     <script type="text/javascript">
         //页面单独JS写这里
         var mySwiper = new Swiper('.swiper-container', {
@@ -213,11 +185,12 @@
             $(this).addClass("gIntroHeadActive").siblings().removeClass("gIntroHeadActive");
             //通过 .index()方法获取元素下标，从0开始，赋值给某个变量
             var _index = $(this).index();
-            //让内容框的第 _index 个显示出来，其他的被隐藏
-            //获取评价内容
-            if(_index==1){
-            	getEva(1);
+            if(_index == 1){
+            	$(".dropload-down").remove();
+            	$(".lists").children().remove(); 
+            	getEva();
             }
+            //让内容框的第 _index 个显示出来，其他的被隐藏
             $(".gIntroCon>div").eq(_index).show().siblings().hide();
             
         });
@@ -231,7 +204,7 @@
         	$(this).addClass("skuActive");
         	$(this).parents("li").addClass("active");
         	$(".pro_price").html($(this).parents("li").attr("code_price"));
-        	$(".pro_name").html("选择："+$(this).html());
+        	$(".pro_name").html("@lang('product.product_details.Choose')："+$(this).html());
         });
         $(".btnBox button").on("click", function () {
             which_el_toDo(which_click,clickDom);
@@ -268,7 +241,7 @@
         function which_el_toDo(which_click,clickDom){
         	switch(which_click){
         		case 0:
-        		$(".gChooseBox").html("分类："+$(".skuListMain").find("li.active").find("span").html());
+        		$(".gChooseBox").html("@lang('product.product_details.classification')："+$(".skuListMain").find("li.active").find("span").html());
         		 $(".skuBox").css("display", "none");
         		break;
         		case 1:      //添加收藏
@@ -314,7 +287,7 @@
                 url: url,
                 data: data,
                 success: function (data) {
-                	$(".gCollect").find("span").html("已收藏");
+                	$(".gCollect").find("span").html("@lang('product.product_details.Favorites')");
                 	$(".had_collection").removeClass("dis_n");
                 	$(".no_collection").addClass("dis_n");
                 	clickDom.addClass('active');
@@ -345,7 +318,7 @@
                 data: data,
                 success: function (data) {
                     clickDom.removeClass('active');
-                    $(".gCollect").find("span").html("收藏");
+                    $(".gCollect").find("span").html("@lang('product.product_details.Collection')");
                 	$(".had_collection").addClass("dis_n");
                 	$(".no_collection").removeClass("dis_n");
                 	$(".skuBox").css("display", "none");
@@ -397,63 +370,83 @@
                 }
             }
         }
-        //获取评价内容
-        var page;    //全局定义一个页码参数
-        function getEva(page) {
-            var data = {
-                page: page
-            };
-            var url = $(".shopping_eva").attr("data-url");
-            $.ajax({
-                type: "get",
-                url: url,
-                beforeSend: function () {},
-                success: function (json) {
-                    console.log(json);
-                    page = json.data.comments.to;
-                    var dataObj = json.data.comments.data;
-                    var dataObj_photo;
-                    if (dataObj.length <= 0) {
-                    	$(".no_eva").removeClass("dis_n");
-                    } else {
-                        var html = "";
-                        var name;
-                        $(".composite_index").text((json.data.composite_index).toFixed(1));
-                        $(".description_index").text((json.data.description_index).toFixed(1));
-                        $(".shipment_index").text((json.data.shipment_index).toFixed(1));
-                        $.each(dataObj, function (i, n) {
-                        	name = ($(".gIntroConEvaluate").attr("code") == "en") ? n.order_item.sku.name_en : n.order_item.sku.name_zh;
-                            dataObj_photo = n.photo_urls;
-                            html+="<div class='commentDetail'>"
-                            html+="<div class='comUser'>"
-                            html+="<img src='" + n.user.avatar_url + "' class='userHead'/>"
-                            html+="<span>"+ n.user.name +"</span>"
-                            html+="<div class='starBox'>"
-                            html+="<img class='star_img' src='"+ $(".gIntroConEvaluate").attr('data-url') +"/static_m/img/star-" + n.composite_index + ".png'/>"
-                            html+="</div>"
-                            html+="</div>"
-                            html+="<div class='comSku'>"
-                            html+="<span>"+ name +"</span>"
-                            html+="</div>"
-                            html+="<div class='comCon'>"+n.content+"</div>"
-                            html+="<div class='comPicture'>"
-                            $.each(dataObj_photo, function (a, b) {
-                                html += "<img src='" + b + "'>";
-                            });
-                            html+="</div>"
-                            html+="<div class='comDate'>"+ n.created_at +"</div>"
-                            html+="</div>"
-                        });
-                        $(".gIntroConEvaluate").append(html);
-                    }
-                },
-                error: function (e) {
-                    console.log(e);
-                },
-                complete: function () {
-//                  layer.close(loading_animation);
-                }
-            });
-        }
+    //下拉加载获取评价内容
+	function getEva(){
+		// 页数
+	    var page = 1;
+	    // dropload
+	    $('.gIntroConEvaluate').dropload({
+	        scrollArea : window,
+	        domDown : {                                                          // 下方DOM
+	            domClass   : 'dropload-down',
+	            domRefresh : "<div class='dropload-refresh'>↑@lang('product.product_details.Pull up load more')</div>",
+	            domLoad    : "<div class='dropload-load'><span class='loading'></span>@lang('product.product_details.Loading in')...</div>",
+	            domNoData  : "<div class='dropload-noData'>@lang('product.product_details.over the end')</div>"
+	        },
+	        loadDownFn : function(me){
+	            // 拼接HTML
+	            var html = '';
+	            var data = {
+	                page: page
+	            };
+	            $.ajax({
+	                type: 'GET',
+	                url: $(".shopping_eva").attr("data-url"),
+	                data: data,
+	                dataType: 'json',
+	                success: function(data){
+	                	var dataObj = data.data.comments.data;
+	                    var dataObj_photo;
+	                    if(dataObj.length > 0){
+	                        var name;
+	                        $(".composite_index").text((data.data.composite_index).toFixed(1));
+	                        $(".description_index").text((data.data.description_index).toFixed(1));
+	                        $(".shipment_index").text((data.data.shipment_index).toFixed(1));
+	                        $.each(dataObj, function (i, n) {
+	                        	name = ($(".gIntroConEvaluate").attr("code") == "en") ? n.order_item.sku.name_en : n.order_item.sku.name_zh;
+	                            dataObj_photo = n.photo_urls;
+	                            html+="<div class='commentDetail'>"
+	                            html+="<div class='comUser'>"
+	                            html+="<img src='" + n.user.avatar_url + "' class='userHead'/>"
+	                            html+="<span>"+ n.user.name +"</span>"
+	                            html+="<div class='starBox'>"
+	                            html+="<img class='star_img' src='"+ $(".gIntroConEvaluate").attr('data-url') +"/static_m/img/star-" + n.composite_index + ".png'/>"
+	                            html+="</div>"
+	                            html+="</div>"
+	                            html+="<div class='comSku'>"
+	                            html+="<span>"+ name +"</span>"
+	                            html+="</div>"
+	                            html+="<div class='comCon'>"+n.content+"</div>"
+	                            html+="<div class='comPicture'>"
+	                            $.each(dataObj_photo, function (a, b) {
+	                                html += "<img src='" + b + "'>";
+	                            });
+	                            html+="</div>"
+	                            html+="<div class='comDate'>"+ n.created_at +"</div>"
+	                            html+="</div>"
+	                        });
+	                    // 如果没有数据
+	                    }else{
+	                        // 锁定
+	                        me.lock();
+	                        // 无数据
+	                        me.noData();
+	                    }
+	                    // 为了测试，延迟1秒加载
+	                    setTimeout(function(){
+	                        $(".gIntroConEvaluate .lists").append(html);
+	                        page++;
+	                        // 每次数据插入，必须重置
+	                        me.resetload();
+	                    },1000);
+	                },
+	                error: function(xhr, type){
+	                    // 即使加载出错，也得重置
+	                    me.resetload();
+	                }
+	            });
+	        }
+	    });	
+	}
     </script>
 @endsection
