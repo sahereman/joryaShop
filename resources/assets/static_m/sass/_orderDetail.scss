@@ -42,11 +42,16 @@
             padding: 1.3rem 1rem;
             display: flex;
             flex-direction: row;
-            justify-content: space-between;
+            justify-content: flex-start;
             img{
                 width: 1rem;
                 height: 1.4rem;
                 margin-right: .5rem;
+            }
+            .ordUserInfoRight {
+                .address_text {
+                    word-break: break-all;
+                }
             }
         }
         .orderUserLogistics{
@@ -82,39 +87,42 @@
         padding: .7rem .5rem .7rem 1.3rem;
         border-top: 1px solid #e0e0e0;
         margin-top: 1rem;
-        display: flex;
-        flex-direction: row;
-        justify-content: flex-start;
-        img{
-            width: 5rem;
-            height: 5rem;
-            margin-right: .7rem;
-        }
-        .ordDetailName{
-            width: 15.5rem;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-        @media screen and (max-width: 325px) {
-            .ordDetailName{
-                width: 12.5rem;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                white-space: nowrap;
-            }
-        }
-        @media screen and (min-width: 376px){
-            .ordDetailName{
-                width: 17.5rem;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                white-space: nowrap;
-            }
-        }
-        .ordDetailPri{
+        .ordDetail_item {
             margin-top: 1rem;
-            font-weight: bold;
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            img{
+                width: 5rem;
+                height: 5rem;
+                margin-right: .7rem;
+            }
+            .ordDetailName{
+                width: 15.5rem;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+            @media screen and (max-width: 325px) {
+                .ordDetailName{
+                    width: 12.5rem;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                }
+            }
+            @media screen and (min-width: 376px){
+                .ordDetailName{
+                    width: 17.5rem;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                }
+            }
+            .ordDetailPri{
+                margin-top: 1rem;
+                font-weight: bold;
+            }   
         }
     }
     .ordDetailCode{

@@ -98,5 +98,6 @@ return [
         'Please enter a product evaluation of less than 200 words' => '请输入少于200字的商品评价',
 
     ],
+    'you want to search' => '搜你想搜',
 
 ];

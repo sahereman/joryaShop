@@ -97,5 +97,6 @@ return [
         'Please fill in your valuable suggestions' => 'Please fill in your valuable suggestions',
         'Please enter a product evaluation of less than 200 words' => 'Please enter a product evaluation of less than 200 words',
     ],
+    'you want to search' => 'you want to search',
 
 ];

@@ -33,6 +33,7 @@ mix.copyDirectory('resources/assets/static_m/js/layer_mobile', 'public/static_m/
 mix.copyDirectory('resources/assets/static_m/js/raty', 'public/static_m/js/raty');
 mix.copyDirectory('resources/assets/static_m/js/jquery.countdown-2.2.0', 'public/static_m/js/jquery.countdown-2.2.0');
 mix.copyDirectory('resources/assets/static_m/js/animate', 'public/static_m/js/animate');
+mix.copyDirectory('resources/assets/static_m/js/dropload', 'public/static_m/js/dropload');
 
 
 // dev

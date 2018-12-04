@@ -14,18 +14,17 @@
                 <span>@lang('basic.orders.Waiting for buyers payment')</span>
             </div>
             <div class="odrHeadRight">
-                <div created_at="{{ strtotime($order->created_at) }}"
+                <div class="paying_time" mark="{{ $order->order_sn }}" created_at="{{ strtotime($order->created_at) }}"
                      time_to_close_order="{{ \App\Models\Config::config('time_to_close_order') * 60 }}"
                      seconds_to_close_order="{{ $seconds_to_close_order }}">
-                    <span>
+                    <span id="{{ $order->order_sn }}">
                         {{ generate_order_ttl_message($order->create_at, \App\Models\Order::ORDER_STATUS_PAYING) }}
                         @lang('order.payment')
-                        （@lang('order.If the order is not paid out, the system will automatically cancel the order')）
                     </span>
-                    <span id="getting-started"></span>
+                    <!--<span id="getting-started"></span>-->
                 </div>
                 <div class="odrHeadRightPri">
-                    <span>需付款:</span>
+                    <span>@lang('order.Payment Required'):</span>
                     <span>
                         {{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}
                     </span>
@@ -54,14 +53,14 @@
         @elseif($order->status == \App\Models\Order::ORDER_STATUS_RECEIVING)
                 <!--卖家已发货，等待买家收货-->
         <div class="orderDHead">
-            <div class="odrHeadLeft" shipped_at="{{ strtotime($order->shipped_at) }}"
+            <div class="odrHeadLeft tobe_received_count" mark="{{ $order->order_sn }}" shipped_at="{{ strtotime($order->shipped_at) }}"
                  time_to_complete_order="{{ \App\Models\Config::config('time_to_complete_order') * 3600 * 24 }}"
                  seconds_to_complete_order="{{ $seconds_to_complete_order }}">
                 <img src="{{ asset('static_m/img/icon_wait.png') }}"/>
                 <span>@lang('order.The seller has shipped, waiting for the buyer to receive the goods')</span>
-                <p class="odrLeftS">
+                <p id="{{ $order->order_sn }}" class="odrLeftS">
                     {{ generate_order_ttl_message($order->shipped_at, \App\Models\Order::ORDER_STATUS_RECEIVING) }}
-                    @lang('order.for confirmation')（@lang('order.not confirmed after the timeout')）
+                    @lang('order.for confirmation')
                 </p>
             </div>
         </div>
@@ -106,59 +105,59 @@
                         <span>{{ $order->user_info['name'] }}</span>
                         <label>{{ substr($order->user_info['phone'], 0, 3) . '****' . substr($order->user_info['phone'], -4) }}</label>
                     </div>
-                    <div>
-                        地址：{{ $order->user_info['address'] }}
-                    </div>
+                    <p class="address_text">@lang('basic.address.address')：{{ $order->user_info['address'] }}</p>
                 </div>
             </div>
         </div>
         <div class="ordDetail">
             @foreach($order->snapshot as $order_item)
-                <img src="{{ $order_item['sku']['product']['thumb_url'] }}"/>
-                <div>
-                    <div class="ordDetailName">
-                        <a href="{{ route('mobile.products.show', ['product' => $order_item['sku']['product']['id']]) }}">
-                            {{ App::isLocale('en') ? $order_item['sku']['product']['name_en'] : $order_item['sku']['product']['name_zh'] }}
-                        </a>
-                    </div>
-                    <div>
-                        <span>
-                            数量：{{ $order_item['number'] }}
-                            &nbsp;&nbsp;
-                        </span>
-                        <span>
-                            <a href="{{ route('mobile.products.show', ['product' => $order_item['sku']['product']['id']]) }}">
-                                {{ App::isLocale('en') ? $order_item['sku']['name_en'] : $order_item['sku']['name_zh'] }}
-                            </a>
-                        </span>
-                    </div>
-                    <div class="ordDetailPri">
-                        <span>{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }}</span>
-                        <span>{{ $order_item['price'] }}</span>
-                    </div>
+                <div class="ordDetail_item">
+                	<img src="{{ $order_item['sku']['product']['thumb_url'] }}"/>
+	                <div>
+	                    <div class="ordDetailName">
+	                        <a href="{{ route('mobile.products.show', ['product' => $order_item['sku']['product']['id']]) }}">
+	                            {{ App::isLocale('en') ? $order_item['sku']['product']['name_en'] : $order_item['sku']['product']['name_zh'] }}
+	                        </a>
+	                    </div>
+	                    <div>
+	                        <span>
+	                            @lang('basic.users.quantity')：{{ $order_item['number'] }}
+	                            &nbsp;&nbsp;
+	                        </span>
+	                        <span>
+	                            <a href="{{ route('mobile.products.show', ['product' => $order_item['sku']['product']['id']]) }}">
+	                                {{ App::isLocale('en') ? $order_item['sku']['name_en'] : $order_item['sku']['name_zh'] }}
+	                            </a>
+	                        </span>
+	                    </div>
+	                    <div class="ordDetailPri">
+	                        <span>{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }}</span>
+	                        <span>{{ $order_item['price'] }}</span>
+	                    </div>
+	                </div>
                 </div>
             @endforeach
         </div>
         <div class="ordDetailCode">
-            <div>订单编号：{{ $order->sn }}</div>
-            <div>下单时间: {{ $order->created_at }}</div>
+            <div>@lang('order.Order number')：{{ $order->order_sn }}</div>
+            <div>@lang('order.Place an order time')：{{ $order->created_at }}</div>
         </div>
         <div class="ordPriBox">
             <div class="ordPriItem">
-                <label>商品总额</label>
+                <label>@lang('order.Total Merchandise')</label>
                 <label>
                     <span>{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ $order->total_amount }}</span>
                 </label>
             </div>
             <div class="ordPriItem">
-                <label>运费</label>
+                <label>@lang('order.freight')</label>
                 <label>
                     <span>{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ $order->total_shipping_fee }}</span>
                 </label>
             </div>
         </div>
         <div class="ordDetailRealPri">
-            <label>需付款:</label>
+            <label>@lang('order.Payment Required'):</label>
             <span>
                 {{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}
             </span>
@@ -233,13 +232,47 @@
 @endsection
 @section('scriptsAfterJs')
     <script type="text/javascript">
-        //页面单独JS写这里
-        $("#getting-started")
-                .countdown("2018/11/22 10:00", function (event) {
-                    $(this).text(
-                            event.strftime('%H:%M:%S')
-                    );
-                });
+    	$(function(){
+    		//待付款订单
+    		$(".paying_time").each(function(){
+    			var val = $(this).attr("mark");
+    			var seconds_to_close_order = $(this).attr('seconds_to_close_order');
+    			timeCount(val, seconds_to_close_order, '1');	
+    		})
+    		//待收货订单
+            $(".tobe_received_count").each(function (index, element) {
+                var val = $(this).attr("mark");
+                var seconds_to_complete_order = $(this).attr('seconds_to_complete_order');
+                timeCount(val, seconds_to_complete_order, "2");
+            });
+    	})
+        //倒计时方法封装
+        function timeCount(remain_id, totalS, type) {
+            function _fresh() {
+                totalS--;
+                if (totalS > 0) {
+                    var _day = (Array(2).join(0) + parseInt((totalS / 3600) % 24 / 24)).slice(-2);
+                    var _hour = (Array(2).join(0) + parseInt((totalS / 3600) % 24)).slice(-2);
+                    var _minute = (Array(2).join(0) + parseInt((totalS / 60) % 60)).slice(-2);
+                    var _second = (Array(2).join(0) + parseInt(totalS % 60)).slice(-2);
+                    if (type == '1') {
+                        $('#' + remain_id).html("@lang('basic.orders.Remaining')" + _hour + ':' + _minute + ':' + _second + "@lang('order.payment')");
+                    } else {
+                        $('#' + remain_id).html("@lang('basic.orders.Remaining')" + _day + ':' + _hour + ':' + _minute + ':' + _second + "@lang('order.for confirmation')");
+                    }
+                } else {
+                    if (type == '1') {
+                        $('#' + remain_id).html("@lang('order.Order has timed out')");
+                        $("")
+                    } else {
+                        $('#' + remain_id).html("@lang('order.Order has timed out')");
+                    }
+                }
+            }
+
+            _fresh();
+            var sh = setInterval(_fresh, 1000);
+        }
     </script>
 @endsection
 

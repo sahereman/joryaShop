@@ -110,5 +110,7 @@ return [
     'Cannot add more quantities' => 'Cannot add more quantities',
     'No logistics information' => 'No logistics information',
     'Please fill in the address completely' => 'Please fill in the address completely',
-
+    'Payment Required' => 'Payment Required',
+    'Place an order time' => 'Order Date',
+    'Total Merchandise' => 'Total Merchandise',
 ];

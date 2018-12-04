@@ -1,11 +1,11 @@
 @extends('layouts.mobile')
-@section('title', '商品分类')
+@section('title', App::isLocale('en') ? Categories : 商品分类)
 @section('content')
     <div class="cgeBox">
         <div class="cgeHead">
             <a href="{{route('mobile.search')}}" class="cgeHeadSearch">
                 <img src="{{ asset('static_m/img/icon_search3.png') }}"/>
-                <input type="text" name="" id="" value="" placeholder="搜你想搜" readonly="readonly"/>
+                <input type="text" name="" id="" value="" placeholder="@lang('product.you want to search')" readonly="readonly"/>
             </a>
         </div>
         <div class="cgeMain">

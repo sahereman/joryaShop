@@ -111,7 +111,7 @@ return [
     'Cannot add more quantities' => '无法添加更多数量',
     'No logistics information' => '暂无物流信息',
     'Please fill in the address completely' => '请将地址填写完整',
-
-
-
+    'Payment Required' => '需付款',
+    'Place an order time' => '下单时间',
+    'Total Merchandise' => '商品总额',
 ];
