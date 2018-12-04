@@ -8,6 +8,9 @@
 		<span>分类</span>
 	</div>
 	<div class="itemsF itemsG">
+		@if($cart_count)
+		<label class="num">{{ $cart_count }}</label>
+		@endif
 		<img src="{{ asset('static_m/img/Unchecked_Shopping.png') }}"/>
 		<span>购物车</span>
 	</div>

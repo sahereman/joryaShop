@@ -25,6 +25,22 @@
         width: 25%;
         justify-content: center;
         text-align: center;
+        &.itemsG {
+            position: relative;
+            label {
+                position: absolute;
+                top: -0.2rem;
+                right: 2rem;
+                width: 1.2rem;
+                height: 1.2rem;
+                line-height: 1.3rem;
+                text-align: center;
+                font-size: .7rem;
+                background: #ff8739;
+                color: #fff;
+                border-radius: 1rem;
+            }
+        }
     }
 }
 .itemsActive{

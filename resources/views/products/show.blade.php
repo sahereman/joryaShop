@@ -369,7 +369,7 @@
                         data: data,
                         success: function (data) {
                             layer.alert("@lang('product.product_details.Shopping cart added successfully')");
-                            $(".header-search").load(location.href + " .header-search");
+                            $(".itemsG").load(location.href + " .itemsG");
                         },
                         error: function (err) {
                             console.log(err);

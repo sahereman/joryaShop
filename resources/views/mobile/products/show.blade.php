@@ -71,7 +71,7 @@
             <div class="gList">
                 <div class="gShare">
                     <img src="{{ asset('static_m/img/icon_share4.png') }}" alt=""/>
-                    <span>>@lang('product.product_details.Share')</span>
+                    <span>@lang('product.product_details.Share')</span>
                 </div>
                 <div class="backCart">
                     <img src="{{ asset('static_m/img/icon_ShoppingCart5.png') }}" alt=""/>
@@ -347,6 +347,7 @@
                         , time: 2 //2秒后自动关闭
                     });
                     $(".skuBox").css("display", "none");
+                    $(".header-search").load(location.href + " .header-search");
                 },
                 error: function (err) {
                     console.log(err);
