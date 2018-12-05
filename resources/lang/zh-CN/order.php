@@ -20,7 +20,7 @@ return [
     'Amount payable' => '应付金额',
     'payment' => '付款',
     'Select address' => '选择地址',
-    'Please choose the harvest address' => '请选择收获地址',
+    'Please choose the harvest address' => '请选择收货地址',
     'Order_serial_number' => '订单序列号',
     'payment method' => '支付方式',
     'Actually paid' => '实付',

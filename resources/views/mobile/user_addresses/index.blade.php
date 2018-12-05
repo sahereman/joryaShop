@@ -7,13 +7,13 @@
     </div>
     <div class="adsBox">
         @if($addresses->isEmpty())
-                <!--暂无收获地址时-->
+                <!--暂无收货地址时-->
         <div class="notAds">
             <img src="{{ asset('static_m/img/Noreceiptaddress.png') }}"/>
-            <span>您还没有收获地址</span>
+            <span>您还没有收货地址</span>
         </div>
         @else
-                <!--有收获地址数据时-->
+                <!--有收货地址数据时-->
         <div class="adsList">
             @foreach($addresses as $address)
                 <div class="adsItem">

@@ -143,7 +143,7 @@
             </div>
         </div>
     </div>
-    <!--新建收获地址弹出层-->
+    <!--新建收货地址弹出层-->
     <div class="dialog_popup new_receipt_address">
         <div class="dialog_content">
             <div class="close">
@@ -212,7 +212,7 @@
                         break;
                 }
             });
-            //新建收获地址
+            //新建收货地址
             $(".add_new_address").on("click", function () {
                 $(".new_receipt_address").show();
             });

@@ -101,7 +101,7 @@ return [
         'Enter the consignee name' => '输入收货人姓名',
         'Enter the real and valid mobile phone number' => '输入真实有效的手机号',
         'Detailed_address' => '详细地址，街道、门牌号等',
-        'Edit harvest address' => '编辑收获地址',
+        'Edit harvest address' => '编辑收货地址',
         'Are you sure you want to delete this address' => '确定要删除此地址？',
         'The number of delivery addresses exceeds the upper limit' => '收货地址数量超过上限',
         'Please enter the consignee name' => '请输入收货人姓名',

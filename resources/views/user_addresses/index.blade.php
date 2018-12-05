@@ -17,14 +17,14 @@
                     <!--右侧内容-->
             <div class="user_addresses_content">
                 @if($addresses->isEmpty())
-                        <!--当没有收获地址列表时显示,如需显示当前内容需要调整一下样式-->
+                        <!--当没有收货地址列表时显示,如需显示当前内容需要调整一下样式-->
                 <div class="no_addressList">
                     <img src="{{ asset('img/location.png') }}">
                     <p>@lang('basic.users.shipping address yet')</p>
                     <a class="new_address">@lang('basic.users.Set up a new shipping address')</a>
                 </div>
                 @else
-                        <!--存在收获地址列表-->
+                        <!--存在收货地址列表-->
                 <div class="receive_address">
                     <div class="address_note">
                         <div class="pull-left">
@@ -124,7 +124,7 @@
             </div>
         </div>
     </div>
-    <!--新建收获地址弹出层-->
+    <!--新建收货地址弹出层-->
     <div class="dialog_popup new_receipt_address">
         <div class="dialog_content">
             <div class="close">
@@ -174,7 +174,7 @@
             </div>
         </div>
     </div>
-    <!--编辑收获地址弹出层-->
+    <!--编辑收货地址弹出层-->
     <div class="dialog_popup edit_harvest_address">
         <div class="dialog_content">
             <div class="close">
@@ -233,7 +233,7 @@
         $(function () {
             $(".navigation_left ul li").removeClass("active");
             $(".user_address").addClass("active");
-            //点击新建收获地址
+            //点击新建收货地址
             $(".new_address").on("click", function () {
                 if ($(".residual").html() != 0) {
                     $(".new_receipt_address").show();
@@ -241,7 +241,7 @@
                     $(".confirm_residual").show();
                 }
             });
-            //新建收获地址时进行表单验证
+            //新建收货地址时进行表单验证
             $("#creat-form").validate({
                 rules: {
                     name: {
@@ -287,7 +287,7 @@
                 }
                 $(".edit_harvest_address").show();
             });
-            //编辑收获地址时进行表单验证
+            //编辑收货地址时进行表单验证
             $("#edit-form").validate({
                 rules: {
                     name: {
@@ -312,7 +312,7 @@
                     }
                 }
             });
-            //编辑收获地址弹窗中的确定按钮
+            //编辑收货地址弹窗中的确定按钮
             $(".edit_harvest_address").on("click", ".success", function () {
                 if ($("#edit-form").valid()) {
                     $('#edit-form').submit();

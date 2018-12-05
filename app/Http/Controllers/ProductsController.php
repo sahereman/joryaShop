@@ -27,7 +27,7 @@ class ProductsController extends Controller
         return view('products.search');
     }
 
-    // 搜素结果 [下拉加载更多] [for Ajax request]
+    // GET 搜素结果 [下拉加载更多] [for Ajax request]
     public function searchMore(ProductRequest $request)
     {
         $query = $request->query('query');

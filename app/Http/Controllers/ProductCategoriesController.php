@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\App;
 
 class ProductCategoriesController extends Controller
 {
-    // 商品分类列表:
+    // GET 商品分类列表:
     // 一级分类及其商品列表 [完整展示]
     // 二级分类及其商品列表 [仅展示页面]
     public function index(Request $request, ProductCategory $category)

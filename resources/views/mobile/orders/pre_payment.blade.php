@@ -27,7 +27,7 @@
                 <div class="pre_address no_address" data-url="{{ route('user_addresses.list_all') }}">
                     <div>
                         <img src="{{ asset('static_m/img/icon_pre_address.png') }}">
-                        <span class="no_address">添加收获地址</span>
+                        <span class="no_address">添加收货地址</span>
                     </div>
                     <img src="{{ asset('static_m/img/icon_more.png') }}">
                 </div>
@@ -90,7 +90,7 @@
         </div>
         <!--如果有地址显示地址列表与新增地址按钮-->
         <div class="adsBox lay_content">
-            <!--有收获地址数据时-->
+            <!--有收货地址数据时-->
             <div class="adsList"></div>
             <div class="btnBox">
                 <a href="javascript:void(0);" class="doneBtn creat_address_btn">新建地址</a>
