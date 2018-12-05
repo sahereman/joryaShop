@@ -432,6 +432,8 @@
 	                        me.lock();
 	                        // 无数据
 	                        me.noData();
+	                        $(".no_eva").removeClass("dis_n");
+	                        $(".dropload-down").remove();
 	                    }
 	                    // 为了测试，延迟1秒加载
 	                    setTimeout(function(){

@@ -84,7 +84,7 @@ return [
     'New product' => '新品',
     'Sales volume' => '销量',
     'price' => '价格',
-    'not found ' => '很抱歉没有找到',
+    'not found' => '很抱歉没有找到',
     'related products' => '相关的商品',
     'All content has been loaded' => '全部内容已加载完',
     'Please enter the correct price range' => '请输入正确的价格区间',

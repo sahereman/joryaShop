@@ -43,6 +43,7 @@
             </div>
         </div>
         <div class="goodsListMain" code="{{ App::isLocale('en') ? 'en' : 'zh' }}">
+        	<p class="no_results dis_n">@lang('product.not found')@lang('product.related products')</p>
             <div class="lists"></div>
         </div>
     </div>
@@ -139,6 +140,8 @@
                                 me.lock();
                                 // 无数据
                                 me.noData();
+                                $(".no_results").removeClass("dis_n");
+		                        $(".dropload-down").remove();
                             }
                             // 为了测试，延迟1秒加载
                             setTimeout(function () {
