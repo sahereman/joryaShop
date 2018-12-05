@@ -45,13 +45,21 @@
             .adsName{
                 display: flex;
                 flex-direction: column;
-                justify-content: center;
-                align-items: center;
+                justify-content: flex-start;
+                align-items: stretch;
+                width: 20%;
+                .address_name{
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                }
                 .defaultAds{
                     color: #bc8c5e;
                     padding: .1rem .2rem 0;
                     font-size: .6rem;
                     border: 1px solid #bc8c5e;
+                    width: 3rem;
+                    text-align: center;
                 }
             }
             .adsDetail{

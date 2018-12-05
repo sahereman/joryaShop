@@ -1,32 +1,32 @@
 @extends('layouts.mobile')
-@section('title', '新增地址')
+@section('title', App::isLocale('en') ? 'New Addresses' : '新增地址')
 @section('content')
     <div class="headerBar">
         <img src="{{ asset('static_m/img/icon_backtop.png') }}" class="backImg" onclick="javascript:history.back(-1);"/>
-        <span>新增收货地址</span>
+        <span>@lang('basic.address.New Revenue Address')</span>
     </div>
     <div class="addAdsBox">
         <form method="POST" action="{{ route('user_addresses.store') }}" enctype="multipart/form-data" id="creat-form"
               class="addAdsForm">
             {{ csrf_field() }}
             <div class="addAdsItem">
-                <label class="must">收货人</label>
-                <input type="text" name="name" id="" value="" placeholder="请填写收货人"/>
+                <label class="must">@lang('basic.address.The consignee')</label>
+                <input type="text" name="name" id="" value="" placeholder="@lang('basic.address.Please fill in the consignee')"/>
             </div>
             <div class="addAdsItem">
-                <label class="must">手机号码</label>
-                <input type="text" name="phone" id="" value="" placeholder="请填写手机号"/>
+                <label class="must">@lang('basic.address.Cellphone number')</label>
+                <input type="text" name="phone" id="" value="" placeholder="@lang('basic.address.Please fill in your mobile phone number')"/>
             </div>
             <div class="addAdsItem" style="border:none;">
-                <label class="must">详细地址</label>
-                <input type="text" name="address" id="" value="" placeholder="请填写详细地址，街道，门牌号等"/>
+                <label class="must">@lang('basic.address.Detailed address')</label>
+                <input type="text" name="address" id="" value="" placeholder="@lang('basic.address.Detailed_address')"/>
             </div>
             <div class="defaultBox">
-                <label>设为默认地址</label>
+                <label>@lang('basic.address.Set as default address')</label>
                 <input type="hidden" name="is_default" class="setas_default">
                 <img src="{{ asset('static_m/img/icon_OFF.png') }}" class="switchBtn"/>
             </div>
-            <button type="submit" class="doneBtn">保存</button>
+            <button type="submit" class="doneBtn">@lang('basic.users.Save')</button>
         </form>
     </div>
 @endsection
@@ -37,8 +37,10 @@
         $(".switchBtn").on("click", function () {
             if ($(this).attr("src") == "{{ asset('static_m/img/icon_OFF.png') }}") {
                 $(this).attr("src", "{{ asset('static_m/img/icon_ON.png') }}");
+                $(".setas_default").val("1");
             } else {
                 $(this).attr("src", "{{ asset('static_m/img/icon_OFF.png') }}");
+                $(".setas_default").val("0");
             }
         });
     </script>

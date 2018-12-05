@@ -105,8 +105,15 @@ return [
         'The number of delivery addresses exceeds the upper limit' => 'The number of delivery addresses exceeds the upper limit',
         'Please enter the consignee name' => 'Please enter the consignee name',
         'Please enter the consignee contact information' => 'Please enter the consignee contact information',
-        'Please enter the detailed shipping address' => 'Please enter the detailed shipping address'
-
+        'Please enter the detailed shipping address' => 'Please enter the detailed shipping address',
+        'Address Management' => 'Address Management',
+        'not have a shipping address yet' => "You don't have a shipping address yet",
+        'Default' => 'Default',
+        'New Revenue Address' => 'New Revenue Address',
+        'Set as default address' => 'Set as default address',
+        'Please fill in the consignee' => 'Please fill in the consignee',
+        'Please fill in your mobile phone number' => 'Please fill in your mobile phone number',
+        'Edit Shipping Address' => 'Edit Shipping Address',
     ],
     'orders' => [
         'All orders' => 'All orders',

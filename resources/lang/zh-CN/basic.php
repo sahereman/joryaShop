@@ -106,8 +106,15 @@ return [
         'The number of delivery addresses exceeds the upper limit' => '收货地址数量超过上限',
         'Please enter the consignee name' => '请输入收货人姓名',
         'Please enter the consignee contact information' => '请输入收货人联系方式',
-        'Please enter the detailed shipping address' => '请输入详细收货地址'
-
+        'Please enter the detailed shipping address' => '请输入详细收货地址',
+        'Address Management' => '地址管理',
+        'not have a shipping address yet' => '您还没有收货地址',
+        'Default' => '默认',
+        'New Revenue Address' => '新增收货地址',
+        'Set as default address' => '设为默认地址',
+        'Please fill in the consignee' => '请填写收货人',
+        'Please fill in your mobile phone number' => '请填写手机号',
+        'Edit Shipping Address' => '编辑收货地址',
     ],
     'orders' => [
         'All orders' => '所有订单',
