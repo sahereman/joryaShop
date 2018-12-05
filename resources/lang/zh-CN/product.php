@@ -102,4 +102,8 @@ return [
     'Comprehensive sorting' => '综合排序',
     'New Products Preferred' => '新品优先',
     'Comments from high to low' => '评论由高到低',
+    'Search' => '搜索',
+    'Recent Searches' => '最近搜索',
+    'No search history' => '暂无搜索历史',
+    'Top Searches' => '热门搜索',
 ];

@@ -1,11 +1,11 @@
 @extends('layouts.mobile')
-@section('title', '商品搜索')
+@section('title', App::isLocale('en') ? 'Product Search' : '商品搜索')
 @section('content')
     <div class="seaBox">
         <div class="headerBar">
             <img src="{{ asset('static_m/img/icon_backtop.png') }}" class="backImg"
                  onclick="javascript:history.back(-1);"/>
-            <span>搜索</span>
+            <span>@lang('product.Search')</span>
         </div>
         <div class="searchHead">
             <div class="searchHeadMain" code="{{ App::isLocale('en') ? 'en' : 'zh' }}">
@@ -13,18 +13,18 @@
                 <input type="text" name="" id="ipt" value="" data-url="{{ route('products.search_hint') }}" placeholder="@lang('product.you want to search')"/>
                 <img src="{{ asset('static_m/img/icon_closed4.png') }}" class="seaClosed"/>
             </div>
-            <span id="search" data-url="{{ route('mobile.products.search') }}">搜索</span>
+            <span id="search" data-url="{{ route('mobile.products.search') }}">@lang('product.Search')</span>
         </div>
         <div class="searchMain">
             <div class="searchNow">
-                <h5>最近搜索 <span class="delete"></span></h5>
+                <h5>@lang('product.Recent Searches')<span class="delete"></span></h5>
                 <div class="searchNowBox search_history">
                     <!--暂无搜索历史-->
-                    <div class="Storage">暂无搜索历史</div>
+                    <div class="Storage">@lang('product.No search history')</div>
                 </div>
             </div>
             <div class="searchNow">
-                <h5>热门搜索</h5>
+                <h5>@lang('product.Top Searches')</h5>
                 <div class="searchNowBox search_by_heart">
                     <a href="javascript:void(0)"><span>精品</span></a>
                     <a href="javascript:void(0)"><span>黄色假发</span></a>

@@ -1,5 +1,5 @@
 @extends('layouts.mobile')
-@section('title', '商品列表')
+@section('title', App::isLocale('en') ? 'Search results' : '搜索结果')
 @section('content')
     <div class="goodsListBox">
         <div class="goodsListHead">
@@ -12,30 +12,22 @@
             </div>
             <div class="goodsListFillter">
             	<div class="for_url dis_n" data-url="{{ route('products.search_more') }}"></div>
-                <div class="zonghe fillterItem">
+                <div class="zonghe fillterItem goodsFillterActive" code='index'>
                     @lang('product.Comprehensive')
-                    <div class="liftingBox">
-                        <span class="up">▴</span>
-                        <span class="down">▾</span>
-                    </div>
                 </div>
-                <div class="fillterItem">
+                <div class="fillterItem" code="sales">
                     @lang('product.Sales volume')
                     <span></span>
                 </div>
-                <div class="fillterItem">
+                <div class="fillterItem price" code="price_desc">
                     @lang('product.price')
                     <div class="liftingBox">
-                        <span class="up">▴</span>
-                        <span class="down">▾</span>
+                        <span class="up" code='price_asc'>▴</span>
+                        <span class="down" code='price_desc'>▾</span>
                     </div>
                 </div>
-                <div class="fillterItem">
+                <div class="fillterItem" code="heat">
                     @lang('product.Popularity')
-                    <div class="liftingBox">
-                        <span class="up">▴</span>
-                        <span class="down">▾</span>
-                    </div>
                 </div>
                 <div class="dropDownBox" name="isPull">
                     <div>
@@ -50,58 +42,46 @@
                 </div>
             </div>
         </div>
-        <div class="goodsListMain">
-            {{-- TODO ... search_more --}}
-            @for($i = 0; $i< 14; $i++)
-                <div class="goodsListItem">
-                    <img src="{{ asset('static_m/img/blockImg.png') }}" alt=""/>
-                    <div class="goodsItemBlock">
-                        <div class="goodsBlockName">
-                            糖果色片染十足立体感
-                        </div>
-                        <div class="goodsBlockPrice">
-                            ￥129
-                        </div>
-                    </div>
-                </div>
-            @endfor
-
+        <div class="goodsListMain" code="{{ App::isLocale('en') ? 'en' : 'zh' }}">
+        	<div class="lists"></div>
         </div>
     </div>
 @endsection
 
 @section('scriptsAfterJs')
+    <script type="text/javascript" src="{{ asset('static_m/js/dropload/dropload.min.js') }}"></script>
     <script type="text/javascript">
         //页面单独JS写这里
-        $(".zonghe").on("click", function () {
-            if ($(".dropDownBox").attr("name") == "isPull") {
-                $(".dropDownBox").attr("name", "pull");
-                $(".dropDownBox").slideDown();
-                $(".zonghe .liftingBox .up").css("display", "block");
-                $(".zonghe .liftingBox .down").css("display", "none");
-            } else if ($(".dropDownBox").attr("name") == "pull") {
-                $(".dropDownBox").attr("name", "isPull");
-                $(".dropDownBox").slideUp();
-                $(".zonghe .liftingBox .up").css("display", "none");
-                $(".zonghe .liftingBox .down").css("display", "block");
-            }
-        });
         $(".goodsListFillter .fillterItem").on("click", function () {
             $(".goodsListFillter div").removeClass("goodsFillterActive");
             $(this).addClass("goodsFillterActive");
-            $(".dropDownBox").slideUp();
-        });
-        $(".dropDownBox div").on("click", function () {
-            $('.dropDownBox div').removeClass("goodsFillterActive");
-            $(this).addClass("goodsFillterActive");
-            $(".dropDownBox").slideUp();
+            if ($(this).hasClass("price")) {
+                if ($(this).attr('code') == 'price_desc') {
+                    $(this).attr('code', 'price_asc');
+                    $(this).find('.up').css('opacity', '1');
+                    $(this).find('.down').css('opacity', '0');
+                } else {
+                    $(this).attr('code', 'price_desc');
+                    $(this).find('.up').css('opacity', '0');
+                    $(this).find('.down').css('opacity', '1');
+                }
+            } else {
+                $(this).parents('.goodsListFillter').find('.up').css('opacity', '1');
+                $(this).parents('.goodsListFillter').find('.down').css('opacity', '1');
+            }
+            $(".dropload-down").remove();
+            $(".lists").children().remove(); 
+            getResults();
         });
         $("#ipt").on("focus", function () {
             window.location.href = "{{route('mobile.search')}}";
         });
-        $(".goodsListItem").on('click', function () {
-            window.location.href = "{{route('mobile.products.show',60)}}";
+        $(".goodsListMain").on('click','.goodsListItem',function () {
+            window.location.href = "{{config('app.url')}}"+ "/mobile/products/"+$(this).attr('code');
         });
+        window.onload = function () {
+            getResults();
+        };
         /*获取url参数*/
         function getQueryString(name) {
             var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
@@ -111,73 +91,70 @@
             return null;
         }
         //获取商品列表
-        function getResults(data, type) {
-            $.ajax({
-                type: "get",
-                url: $(".more_load").attr("data-url"),
-                data: data,
-                async: type,
-                beforeSend: function () {
-                    loading_animation = layer.msg("@lang('app.Please wait')", {
-                        icon: 16,
-                        shade: 0.4,
-                        time: false, //取消自动关闭
-                    });
-                },
-                success: function (json) {
-                    var dataobj = json.data.products.data;
-                    var html = "";
-                    var country = $("#dLabel").find("span").html();
-                    var name, symbol, price;
-                    if (dataobj.length > 0) {
-                        $.each(dataobj, function (i, n) {
-                            name = (country == "中文") ? n.name_zh : n.name_en;
-                            symbol = (country == "中文") ? "&#165;" : "&#36;";
-                            price = (country == "中文") ? n.price : n.price_in_usd;
-                            html += "<li>" +
-                                    "<a href='/products/" + n.id + "'>" +
-                                    "<div class='list-img'>" +
-                                    "<img src='" + n.thumb_url + "'>" +
-                                    "</div>" +
-                                    "<div class='list-info'>" +
-                                    "<p class='list-info-title' title='" + name + "'>" + name + "</p>" +
-                                    "<p>" +
-                                    "<span class='new-price'><i>" + symbol + "</i>" + price + "</span>" +
-                                    "<span class='old-price'><i>" + symbol + "</i>" + js_number_format(Math.imul(float_multiply_by_100(price), 12) / 1000) + "</span>" +
-                                    // "<span class='old-price'><i>" + symbol + "</i>" + js_number_format(Math.ceil(price * 120) / 100) + "</span>" +
-                                    // 以下方法实现js的number_format功能虽然简单，但是存在数字四舍五入不准确的问题，结果不可预知：
-                                    // "<span class='old-price'><i>" + symbol + "</i>" + (Math.ceil(price * 120) / 100).toFixed(2) + "</span>" +
-                                    "</p>" +
-                                    "</div>" +
-                                    "</a>" +
-                                    "</li>";
-                        });
-                        loading = false;
-                    } else {
-                        if (json.data.products.current_page == 1) {
-                            html = "<li class='empty_tips'>" +
-                                    "<p>" +
-                                    "<img src='{{ asset('img/warning.png') }}'>" +
-                                    "@lang('product.not found')" +
-                                    "“<span class='red'>" + getQueryString("query") + "</span>”@lang('product.related products')" +
-                                    "</p>" +
-                                    "</li>";
-                        } else {
-                            html = "<li class='ending_empty_tips'>" +
-                                    "<p>@lang('product.All content has been loaded')</p>" +
-                                    "</li>";
-                        }
-                        loading = true; // 当返回数组内容为空时阻止滚动条滚动
-                    }
-                    $(".classified-lists").append(html);
-                },
-                error: function (e) {
-                    console.log(e);
-                },
-                complete: function () {
-                    layer.close(loading_animation);
-                }
-            });
+        function getResults() {
+        	// 页数
+	        var page = 1;
+        	$('.goodsListMain').dropload({
+        		scrollArea : window,
+		        domDown : {                                                          // 下方DOM
+		            domClass   : 'dropload-down',
+		            domRefresh : "<div class='dropload-refresh'>↑@lang('product.product_details.Pull up load more')</div>",
+		            domLoad    : "<div class='dropload-load'><span class='loading'></span>@lang('product.product_details.Loading in')...</div>",
+		            domNoData  : "<div class='dropload-noData'>@lang('product.product_details.over the end')</div>"
+		        },
+			    loadDownFn : function(me){
+		            // 拼接HTML
+		            var html = '';
+		            var sort = $(".goodsListFillter").find(".goodsFillterActive").attr("code");
+		            var data ={
+		            	query: getQueryString("query"),
+		                sort: sort,
+		                page: page,
+		            }
+		            $.ajax({
+		                type: "get",
+                        url: $(".for_url").attr("data-url"),
+		                data: data,
+		                dataType: 'json',
+		                success: function(data){
+		                    var dataobj = data.data.products.data;
+		                    var html = "";
+		                    var name, symbol, price;
+		                    if(dataobj.length > 0){
+		                        $.each(dataobj, function (i, n) {
+		                            name = ($(".goodsListMain").attr("code") == "en") ? n.name_en : n.name_zh;
+		                            symbol = ($(".goodsListMain").attr("code") == "en") ? "&#36;" : "&#165;";
+		                            price = ($(".goodsListMain").attr("code") == "en") ? n.price_in_usd : n.price;
+		                            html+="<div class='goodsListItem' code='"+ n.id +"'>"
+					                html+="<img src='"+ n.thumb_url +"' >"
+					                html+="<div class='goodsItemBlock'>"
+					                html+="<div class='goodsBlockName'>"+ name +"</div>"
+					                html+="<div class='goodsBlockPrice'>"+ symbol + price +"</div>"
+					                html+="</div>"
+					                html+="</div>"
+		                        });
+		                    // 如果没有数据
+		                    }else{
+		                        // 锁定
+		                        me.lock();
+		                        // 无数据
+		                        me.noData();
+		                    }
+		                    // 为了测试，延迟1秒加载
+		                    setTimeout(function(){
+		                        $(".goodsListMain .lists").append(html);
+		                        page++;
+		                        // 每次数据插入，必须重置
+		                        me.resetload();
+		                    },1000);
+		                },
+		                error: function(xhr, type){
+		                    // 即使加载出错，也得重置
+		                    me.resetload();
+		                }
+		            });
+		        }
+        	})
         }
     </script>
 @endsection

@@ -238,13 +238,6 @@
             .goodsFillterActive{
                 color: #ba8d63;
             }
-            .zonghe{
-                .liftingBox{
-                    .up{
-                        display: none;
-                    }
-                }
-            }
         } 
     }
     .goodsListMain{
@@ -254,27 +247,37 @@
         justify-content: space-between;
         align-items: center;
         flex-wrap: wrap;
-        .goodsListItem{
-            width: 48.5%;
-            background: #fff;
-            margin-bottom: .7rem;
-            img{
-                width:100%;
-                height: auto;
-            }
-            .goodsItemBlock{
-                padding: .3rem;
-                .goodsBlockName{
-                    width: 100%;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                    white-space: nowrap;
+        .lists {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            .goodsListItem{
+                width: 48.5%;
+                background: #fff;
+                margin-bottom: .7rem;
+                img{
+                    width:100%;
+                    height: auto;
                 }
-                .goodsBlockPrice{
-                    color: #bc8d63;
-                    font-size: .95rem;
+                .goodsItemBlock{
+                    padding: .3rem;
+                    .goodsBlockName{
+                        width: 100%;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
+                    }
+                    .goodsBlockPrice{
+                        color: #bc8d63;
+                        font-size: .95rem;
+                    }
                 }
-            }
+            }   
+        }
+        .dropload-down {
+            margin: auto;
         }
     }
 }

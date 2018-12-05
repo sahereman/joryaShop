@@ -101,4 +101,8 @@ return [
     'Comprehensive sorting' => 'Comprehensive sorting',
     'New Products Preferred' => 'New Products Preferred',
     'Comments from high to low' => 'Comments from high to low',
+    'Search' => 'Search',
+    'Recent Searches' => 'Recent Searches',
+    'No search history' => 'No search history',
+    'Top Searches' => 'Top Searches',
 ];
