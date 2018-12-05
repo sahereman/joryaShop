@@ -13,7 +13,7 @@
                 <input type="text" name="" id="ipt" value="" data-url="{{ route('products.search_hint') }}" placeholder="@lang('product.you want to search')"/>
                 <img src="{{ asset('static_m/img/icon_closed4.png') }}" class="seaClosed"/>
             </div>
-            <span id="search">搜索</span>
+            <span id="search" data-url="{{ route('mobile.products.search') }}">搜索</span>
         </div>
         <div class="searchMain">
             <div class="searchNow">
@@ -25,21 +25,14 @@
             </div>
             <div class="searchNow">
                 <h5>热门搜索</h5>
-                <div class="searchNowBox">
-                    <a href="{{ route('mobile.products.search') . '?query=精品' }}"><span>精品</span></a>
-                    <a href="{{ route('mobile.products.search') . '?query=黄色假发' }}"><span>黄色假发</span></a>
-                    <a href="{{ route('mobile.products.search') . '?query=中长假发' }}"><span>中长假发</span></a>
+                <div class="searchNowBox search_by_heart">
+                    <a href="javascript:void(0)"><span>精品</span></a>
+                    <a href="javascript:void(0)"><span>黄色假发</span></a>
+                    <a href="javascript:void(0)"><span>中长假发</span></a>
                 </div>
             </div>
         </div>
-        <div class="searchResult">
-            {{-- TODO ... search_hint | search_history
-            @for($i = 0;$i<4; $i++)
-                <div class="searchResultItem">
-                    黄色中长假发片
-                </div>
-            @endfor --}}
-        </div>
+        <div class="searchResult"></div>
     </div>
 @endsection
 
@@ -48,29 +41,9 @@
         //页面单独JS写这里
         $(".seaClosed").on("click", function () {
             $("#ipt").val("");
+            $(".searchMain").css("display", "block");
+            $(".searchResult").css("display", "none");
         });
-//      $("#ipt").on("focus", function () {
-//          $(".searchMain").css("display", "none");
-//          $(".searchResult").css("display", "block");
-//          $(".searchHead span").html("取消");
-//      });
-//      $(".searchHead span").on("click", function () {
-//          if ($(this).html() == "取消") {
-//              $(".searchMain").css("display", "block");
-//              $(".searchResult").css("display", "none");
-//              $(this).html("搜索");
-//          } else {
-//              //点击搜索跳转商品列表页面TODO
-//          }
-//      });
-//      $("#ipt").change(function () {
-//          var val = $(this).val();
-//          //将输入框的值传入后台，将接口返回的模糊搜索数据渲染到页面TODO
-//      });
-//      $(".searchResultItem").on("click", function () {
-//          window.location.href = "{{route('mobile.products.search')}}";
-//      });
-        
         //设置LocalStorage读写
         var hisTime; //获取搜索时间数组
         var hisItem; //获取搜索内容数组
@@ -101,11 +74,6 @@
         init(); //调用
         //点击搜索按钮是将搜索内容存入到local storage
         $("#search").click(function() {
-        	if ($(this).html() == "取消") {
-                $(".searchMain").css("display", "block");
-                $(".searchResult").css("display", "none");
-                $(this).html("搜索");
-           } else {
                 var value = $("#ipt").val();
                 var time = (new Date()).getTime();
                 if(!value) {
@@ -124,7 +92,7 @@
                     localStorage.setItem(time, value);
                 }
                 init();
-            }
+                window.location.href = $(this).attr("data-url") + "?query=" + $('#ipt').val();
         });
         //清空浏览历史
         $(".delete").on("click",function(){
@@ -138,13 +106,13 @@
         $(".search_history").on("click", ".word-break", function() {
             var div = $(this).text();
             $('#ipt').val(div);
+            $("#search").trigger("click");
         });
         //模糊查询
         var lastTime;
 	    $("#ipt").bind("input propertychange", function (event) {
 	    	$(".searchMain").css("display", "none");
             $(".searchResult").css("display", "block");
-	    	$(".searchHead span").html("取消");
 	        lastTime = event.timeStamp;
 	        var clickDom = $(this);
 	        setTimeout(function () {
@@ -161,7 +129,7 @@
 	                        $.each(json.data.products, function (i, n) {
 	                        	name = ($(".searchHeadMain").attr('code')=='en')? n.name_en : n.name_zh
 	                            html += "<div class='searchResultItem' code='" + n.id + "' >"+
-	                            "<a href='{{ route('mobile.products.search') . '?query="+ name +"' }}'>" + name + "</a>"+ 
+	                            "<a href='javascript:void(0)' data-href='{{ route('mobile.products.search') . '?query="+ name +"' }}'>" + name + "</a>"+ 
 	                            "</div>"
 	                        });
 	                        $(".searchResult").html("");
@@ -174,7 +142,23 @@
 	                    }
 	                });
 	            }
-	        }, 300);
+	        }, 200);
 	    });
+	    //点击查询结果进行跳转
+	    $(".searchResult").on("click",'a',function(){
+	    	$('#ipt').val($(this).html());
+	    	$("#search").trigger("click");
+	    })
+	    //回车键事件函数
+	    $(document).keyup(function (event) {
+	        if (event.keyCode == 13) {
+                $("#search").trigger("click");
+            }
+	    });
+	    //热门搜索
+	    $(".search_by_heart").on("click",'a',function(){
+	    	$('#ipt').val($(this).find("span").html());
+	    	$("#search").trigger("click");
+	    })
     </script>
 @endsection

@@ -1,5 +1,5 @@
 @extends('layouts.mobile')
-@section('title', App::isLocale('en') ? Categories : 商品分类)
+@section('title', App::isLocale('en') ? 'Categories' : '商品分类')
 @section('content')
     <div class="cgeBox">
         <div class="cgeHead">
