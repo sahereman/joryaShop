@@ -165,7 +165,21 @@
                                                 </p>
                                             </td>
                                             <td rowspan="{{ $order->items->count() }}" class="col-status">
-                                                <p>{{ \App\Models\Order::$orderStatusMap[$order->status] }}</p>
+                                                @if($order->status == \App\Models\Order::ORDER_STATUS_PAYING)
+                                                    <p>@lang('basic.orders.Pending payment')</p>
+                                                @elseif($order->status == \App\Models\Order::ORDER_STATUS_CLOSED)
+                                                    <p>@lang('basic.orders.Closed')</p>
+                                                @elseif($order->status == \App\Models\Order::ORDER_STATUS_SHIPPING)
+                                                    <p>@lang('basic.orders.Pending shipment')</p>
+                                                @elseif($order->status == \App\Models\Order::ORDER_STATUS_RECEIVING)
+                                                    <p>@lang('basic.orders.Pending reception')</p>
+                                                @elseif($order->status == \App\Models\Order::ORDER_STATUS_COMPLETED && $order->commented_at == null)
+                                                    <p>@lang('basic.orders.Pending comment')</p>
+                                                @elseif($order->status == \App\Models\Order::ORDER_STATUS_COMPLETED && $order->commented_at != null)
+                                                    <p>@lang('basic.orders.Completed')</p>
+                                                @elseif($order->status == \App\Models\Order::ORDER_STATUS_REFUNDING)
+                                                    <p>@lang('basic.orders.After-sale order')</p>
+                                                @endif
                                                 <p>
                                                     <a href="{{ route('orders.show', $order->id) }}">@lang('app.see details')</a>
                                                 </p>
@@ -206,11 +220,11 @@
                                                         {{ generate_order_ttl_message($order->shipped_at, \App\Models\Order::ORDER_STATUS_RECEIVING) }}
                                                     </span>
                                                     <a class="confirmation_receipt"
-                                                       code="{{ route('orders.complete', $order->id) }}">@lang('basic.orders.Confirm receipt')</a>
+                                                       code="{{ route('orders.complete', $order->id) }}">@lang('basic.orders.Confirm reception')</a>
                                                     @elseif($order->status == \App\Models\Order::ORDER_STATUS_COMPLETED && $order->commented_at == null)
                                                             <!--订单待评价-->
                                                     <a class="evaluate"
-                                                       href="{{ route('orders.create_comment', $order->id) }}">@lang('basic.orders.To evaluate')</a>
+                                                       href="{{ route('orders.create_comment', $order->id) }}">@lang('basic.orders.To comment')</a>
                                                     <!--再次购买-->
                                                     <a class="buy_more"
                                                        data-url="{{ route('carts.store') }}">@lang('basic.orders.buy again')</a>
@@ -218,7 +232,7 @@
                                                             <!--订单已评价-->
                                                     <!--查看评价-->
                                                     <a class="View_evaluation"
-                                                       href="{{  route('orders.show_comment', $order->id) }}">@lang('basic.orders.View reviews')</a>
+                                                       href="{{  route('orders.show_comment', $order->id) }}">@lang('basic.orders.View comments')</a>
                                                     <!--再次购买-->
                                                     <a class="buy_more"
                                                        data-url="{{ route('carts.store') }}">@lang('basic.orders.buy again')</a>

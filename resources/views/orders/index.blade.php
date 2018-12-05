@@ -9,7 +9,7 @@
                     <span>></span>
                     <a href="{{ route('users.home') }}">@lang('basic.users.Personal_Center')</a>
                     <span>></span>
-                    <a href="{{ route('orders.index') }}">@lang('basic.users.My_order')</a>
+                    <a href="javascript:void(0);">@lang('basic.users.My_order')</a>
                 </p>
             </div>
             <!--左侧导航栏-->
@@ -29,12 +29,12 @@
                     </li>
                     <li class="order_receiving">
                         <a href="{{ route('orders.index') . '?status=receiving' }}">
-                            <span>@lang('basic.orders.Pending receipt')</span>
+                            <span>@lang('basic.orders.Pending reception')</span>
                         </a>
                     </li>
                     <li class="order_uncommented">
                         <a href="{{ route('orders.index') . '?status=uncommented' }}">
-                            <span>@lang('basic.orders.comment')</span>
+                            <span>@lang('basic.orders.Pending comment')</span>
                         </a>
                     </li>
                     <li class="order_refunding">
@@ -133,7 +133,21 @@
                                                 </p>
                                             </td>
                                             <td rowspan="{{ count($order->snapshot) }}" class="col-status">
-                                                <p>{{ \App\Models\Order::$orderStatusMap[$order->status] }}</p>
+                                                @if($order->status == \App\Models\Order::ORDER_STATUS_PAYING)
+                                                    <p>@lang('basic.orders.Pending payment')</p>
+                                                @elseif($order->status == \App\Models\Order::ORDER_STATUS_CLOSED)
+                                                    <p>@lang('basic.orders.Closed')</p>
+                                                @elseif($order->status == \App\Models\Order::ORDER_STATUS_SHIPPING)
+                                                    <p>@lang('basic.orders.Pending shipment')</p>
+                                                @elseif($order->status == \App\Models\Order::ORDER_STATUS_RECEIVING)
+                                                    <p>@lang('basic.orders.Pending reception')</p>
+                                                @elseif($order->status == \App\Models\Order::ORDER_STATUS_COMPLETED && $order->commented_at == null)
+                                                    <p>@lang('basic.orders.Pending comment')</p>
+                                                @elseif($order->status == \App\Models\Order::ORDER_STATUS_COMPLETED && $order->commented_at != null)
+                                                    <p>@lang('basic.orders.Completed')</p>
+                                                @elseif($order->status == \App\Models\Order::ORDER_STATUS_REFUNDING)
+                                                    <p>@lang('basic.orders.After-sale order')</p>
+                                                @endif
                                                 <p>
                                                     <a href="{{ route('orders.show', $order->id) }}">@lang('app.see details')</a>
                                                 </p>
@@ -175,11 +189,11 @@
                                                         {{ generate_order_ttl_message($order->shipped_at, \App\Models\Order::ORDER_STATUS_RECEIVING) }}
                                                     </span>
                                                     <a class="confirmation_receipt"
-                                                       code="{{ route('orders.complete', $order->id) }}">@lang('basic.orders.Confirm receipt')</a>
+                                                       code="{{ route('orders.complete', $order->id) }}">@lang('basic.orders.Confirm reception')</a>
                                                     @elseif($order->status == \App\Models\Order::ORDER_STATUS_COMPLETED && $order->commented_at == null)
                                                             <!--订单待评价-->
                                                     <a class="evaluate"
-                                                       href="{{ route('orders.create_comment', $order->id) }}">@lang('basic.orders.To evaluate')</a>
+                                                       href="{{ route('orders.create_comment', $order->id) }}">@lang('basic.orders.To comment')</a>
                                                     <!--再次购买-->
                                                     <a class="buy_more"
                                                        data-url="{{ route('carts.store') }}">@lang('basic.orders.buy again')</a>
@@ -187,7 +201,7 @@
                                                             <!--订单已评价-->
                                                     <!--查看评价-->
                                                     <a class="View_evaluation"
-                                                       href="{{  route('orders.show_comment', $order->id) }}">@lang('basic.orders.View reviews')</a>
+                                                       href="{{  route('orders.show_comment', $order->id) }}">@lang('basic.orders.View comments')</a>
                                                     <!--再次购买-->
                                                     <a class="buy_more"
                                                        data-url="{{ route('carts.store') }}">@lang('basic.orders.buy again')</a>
@@ -212,7 +226,9 @@
                                             <td class="col-pro-info">
                                                 <p class="p-info">
                                                     <a code="{{ $order_item['sku']['id'] }}"
-                                                       href="{{ route('products.show', $order_item['sku']['product']['id']) }}">{{ App::isLocale('en') ? $order_item['sku']['product']['name_en'] : $order_item['sku']['product']['name_zh'] }}</a>
+                                                       href="{{ route('products.show', $order_item['sku']['product']['id']) }}">
+                                                        {{ App::isLocale('en') ? $order_item['sku']['product']['name_en'] : $order_item['sku']['product']['name_zh'] }}
+                                                    </a>
                                                 </p>
                                             </td>
                                             <td class="col-price">

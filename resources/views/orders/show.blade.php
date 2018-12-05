@@ -85,7 +85,7 @@
                             <p class="operation_area">
                                 <a class="main_operation"
                                    data-url="{{ route('orders.complete', ['order' => $order->id]) }}">
-                                    @lang('order.Confirm receipt')
+                                    @lang('order.Confirm reception')
                                 </a>
                                 <a href="{{ route('orders.refund_with_shipment', ['order' => $order->id]) }}">
                                     @lang('order.Request a refund')
@@ -103,7 +103,7 @@
                             <p class="operation_area">
                                 <a class="main_operation"
                                    href="{{ route('orders.create_comment', ['order' => $order->id]) }}">
-                                    @lang('order.to evaluate')
+                                    @lang('order.To comment')
                                 </a>
                                 <a class="delete_order"
                                    data-url="{{ route('orders.destroy', ['order' => $order->id]) }}">
@@ -122,7 +122,7 @@
                             <p class="operation_area">
                                 <a class="main_operation"
                                    href="{{ route('orders.show_comment', ['order' => $order->id]) }}">
-                                    @lang('order.View reviews')
+                                    @lang('order.View comments')
                                 </a>
                                 <a class="delete_order"
                                    data-url="{{ route('orders.destroy', ['order' => $order->id]) }}">
@@ -161,7 +161,7 @@
                                     </a>
                                     <a class="revocation_after_sale"
                                        data-url="{{ route('orders.revoke_refund', ['order' => $order->id]) }}">
-                                        @lang('order.After withdrawing sales')
+                                        @lang('order.Revoke the refund application')
                                     </a>
                                 @elseif(isset($order_refund_type) && $order_refund_type == \App\Models\OrderRefund::ORDER_REFUND_TYPE_REFUND_WITH_SHIPMENT)
                                     <a class="main_operation"
@@ -170,12 +170,12 @@
                                     </a>
                                     <a class="revocation_after_sale"
                                        data-url="{{ route('orders.revoke_refund', ['order' => $order->id]) }}">
-                                        @lang('order.After withdrawing sales')
+                                        @lang('order.Revoke the refund application')
                                     </a>
                                 @else
                                     <a class="revocation_after_sale"
                                        data-url="{{ route('orders.revoke_refund', ['order' => $order->id]) }}">
-                                        @lang('order.After withdrawing sales')
+                                        @lang('order.Revoke the refund application')
                                     </a>
                                 @endif
                             </p>
@@ -291,7 +291,21 @@
                                         </p>
                                     </td>
                                     <td rowspan="{{ count($order->snapshot) }}" class="col-status">
-                                        <p>{{ \App\Models\Order::$orderStatusMap[$order->status] }}</p>
+                                        @if($order->status == \App\Models\Order::ORDER_STATUS_PAYING)
+                                            <p>@lang('basic.orders.Pending payment')</p>
+                                        @elseif($order->status == \App\Models\Order::ORDER_STATUS_CLOSED)
+                                            <p>@lang('basic.orders.Closed')</p>
+                                        @elseif($order->status == \App\Models\Order::ORDER_STATUS_SHIPPING)
+                                            <p>@lang('basic.orders.Pending shipment')</p>
+                                        @elseif($order->status == \App\Models\Order::ORDER_STATUS_RECEIVING)
+                                            <p>@lang('basic.orders.Pending reception')</p>
+                                        @elseif($order->status == \App\Models\Order::ORDER_STATUS_COMPLETED && $order->commented_at == null)
+                                            <p>@lang('basic.orders.Pending comment')</p>
+                                        @elseif($order->status == \App\Models\Order::ORDER_STATUS_COMPLETED && $order->commented_at != null)
+                                            <p>@lang('basic.orders.Completed')</p>
+                                        @elseif($order->status == \App\Models\Order::ORDER_STATUS_REFUNDING)
+                                            <p>@lang('basic.orders.After-sale order')</p>
+                                        @endif
                                     </td>
                                 </tr>
                             @else

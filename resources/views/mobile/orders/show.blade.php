@@ -53,7 +53,8 @@
         @elseif($order->status == \App\Models\Order::ORDER_STATUS_RECEIVING)
                 <!--卖家已发货，等待买家收货-->
         <div class="orderDHead">
-            <div class="odrHeadLeft tobe_received_count" mark="{{ $order->order_sn }}" shipped_at="{{ strtotime($order->shipped_at) }}"
+            <div class="odrHeadLeft tobe_received_count" mark="{{ $order->order_sn }}"
+                 shipped_at="{{ strtotime($order->shipped_at) }}"
                  time_to_complete_order="{{ \App\Models\Config::config('time_to_complete_order') * 3600 * 24 }}"
                  seconds_to_complete_order="{{ $seconds_to_complete_order }}">
                 <img src="{{ asset('static_m/img/icon_wait.png') }}"/>
@@ -112,29 +113,29 @@
         <div class="ordDetail">
             @foreach($order->snapshot as $order_item)
                 <div class="ordDetail_item">
-                	<img src="{{ $order_item['sku']['product']['thumb_url'] }}"/>
-	                <div>
-	                    <div class="ordDetailName">
-	                        <a href="{{ route('mobile.products.show', ['product' => $order_item['sku']['product']['id']]) }}">
-	                            {{ App::isLocale('en') ? $order_item['sku']['product']['name_en'] : $order_item['sku']['product']['name_zh'] }}
-	                        </a>
-	                    </div>
-	                    <div>
-	                        <span>
-	                            @lang('basic.users.quantity')：{{ $order_item['number'] }}
-	                            &nbsp;&nbsp;
-	                        </span>
-	                        <span>
-	                            <a href="{{ route('mobile.products.show', ['product' => $order_item['sku']['product']['id']]) }}">
-	                                {{ App::isLocale('en') ? $order_item['sku']['name_en'] : $order_item['sku']['name_zh'] }}
-	                            </a>
-	                        </span>
-	                    </div>
-	                    <div class="ordDetailPri">
-	                        <span>{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }}</span>
-	                        <span>{{ $order_item['price'] }}</span>
-	                    </div>
-	                </div>
+                    <img src="{{ $order_item['sku']['product']['thumb_url'] }}"/>
+                    <div>
+                        <div class="ordDetailName">
+                            <a href="{{ route('mobile.products.show', ['product' => $order_item['sku']['product']['id']]) }}">
+                                {{ App::isLocale('en') ? $order_item['sku']['product']['name_en'] : $order_item['sku']['product']['name_zh'] }}
+                            </a>
+                        </div>
+                        <div>
+                            <span>
+                                @lang('basic.users.quantity')：{{ $order_item['number'] }}
+                                &nbsp;&nbsp;
+                            </span>
+                            <span>
+                                <a href="{{ route('mobile.products.show', ['product' => $order_item['sku']['product']['id']]) }}">
+                                    {{ App::isLocale('en') ? $order_item['sku']['name_en'] : $order_item['sku']['name_zh'] }}
+                                </a>
+                            </span>
+                        </div>
+                        <div class="ordDetailPri">
+                            <span>{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }}</span>
+                            <span>{{ $order_item['price'] }}</span>
+                        </div>
+                    </div>
                 </div>
             @endforeach
         </div>
@@ -186,21 +187,21 @@
                     @lang('order.Request a refund')
                 </a>
                 <a class="main_operation" data-url="{{ route('orders.complete', ['order' => $order->id]) }}">
-                    @lang('order.Confirm receipt')
+                    @lang('order.Confirm reception')
                 </a>
             @elseif($order->status == \App\Models\Order::ORDER_STATUS_COMPLETED && $order->commented_at == null)
                 <a class="" data-url="{{ route('orders.destroy', ['order' => $order->id]) }}">
                     @lang('order.Delete order')
                 </a>
                 <a class="" href="{{ route('mobile.orders.create_comment', ['order' => $order->id]) }}">
-                    @lang('order.to evaluate')
+                    @lang('order.To comment')
                 </a>
             @elseif($order->status == \App\Models\Order::ORDER_STATUS_COMPLETED && $order->commented_at != null)
                 <a class="" data-url="{{ route('orders.destroy', ['order' => $order->id]) }}">
                     @lang('order.Delete order')
                 </a>
                 <a class="" href="{{ route('mobile.orders.show_comment', ['order' => $order->id]) }}">
-                    @lang('order.View reviews')
+                    @lang('order.View comments')
                 </a>
             @elseif($order->status == \App\Models\Order::ORDER_STATUS_REFUNDING)
                 @if(isset($order_refund_type) && $order_refund_type == \App\Models\OrderRefund::ORDER_REFUND_TYPE_REFUND)
@@ -209,7 +210,7 @@
                     </a>
                     <a class="revocation_after_sale"
                        data-url="{{ route('orders.revoke_refund', ['order' => $order->id]) }}">
-                        @lang('order.After withdrawing sales')
+                        @lang('order.Revoke the refund application')
                     </a>
                 @elseif(isset($order_refund_type) && $order_refund_type == \App\Models\OrderRefund::ORDER_REFUND_TYPE_REFUND_WITH_SHIPMENT)
                     <a class="main_operation"
@@ -218,12 +219,12 @@
                     </a>
                     <a class="revocation_after_sale"
                        data-url="{{ route('orders.revoke_refund', ['order' => $order->id]) }}">
-                        @lang('order.After withdrawing sales')
+                        @lang('order.Revoke the refund application')
                     </a>
                 @else
                     <a class="revocation_after_sale"
                        data-url="{{ route('orders.revoke_refund', ['order' => $order->id]) }}">
-                        @lang('order.After withdrawing sales')
+                        @lang('order.Revoke the refund application')
                     </a>
                 @endif
             @endif
@@ -232,20 +233,20 @@
 @endsection
 @section('scriptsAfterJs')
     <script type="text/javascript">
-    	$(function(){
-    		//待付款订单
-    		$(".paying_time").each(function(){
-    			var val = $(this).attr("mark");
-    			var seconds_to_close_order = $(this).attr('seconds_to_close_order');
-    			timeCount(val, seconds_to_close_order, '1');	
-    		})
-    		//待收货订单
+        $(function () {
+            //待付款订单
+            $(".paying_time").each(function () {
+                var val = $(this).attr("mark");
+                var seconds_to_close_order = $(this).attr('seconds_to_close_order');
+                timeCount(val, seconds_to_close_order, '1');
+            });
+            //待收货订单
             $(".tobe_received_count").each(function (index, element) {
                 var val = $(this).attr("mark");
                 var seconds_to_complete_order = $(this).attr('seconds_to_complete_order');
                 timeCount(val, seconds_to_complete_order, "2");
             });
-    	})
+        });
         //倒计时方法封装
         function timeCount(remain_id, totalS, type) {
             function _fresh() {

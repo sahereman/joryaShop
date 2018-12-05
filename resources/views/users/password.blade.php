@@ -7,7 +7,7 @@
                 <p class="Crumbs">
                     <a href="{{ route('root') }}">@lang('basic.home')</a>
                     <span>></span>
-                    <a href="{{ route('users.home', ['user' => $user->id]) }}">@lang('basic.users.Personal_Center')</a>
+                    <a href="{{ route('users.home') }}">@lang('basic.users.Personal_Center')</a>
                     <span>></span>
                     <a href="javascript:void(0);">@lang('basic.users.Change_Password')</a>
                 </p>
