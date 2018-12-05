@@ -18,7 +18,13 @@
             </div>
         </div>
         <div class="orderMain">
-            @if($orders->isEmpty())
+            <!--暂无订单部分-->
+            <div class="no_order">
+                <img src="{{ asset('static_m/img/no_order.png') }}">
+                <p>@lang('basic.users.No_orders_yet')</p>
+                <a href="{{ route('root') }}">@lang('product.shopping_cart.Go_shopping')</a>
+            </div>
+            {{--@if($orders->isEmpty())
                     <!--暂无订单部分-->
             <div class="no_order">
                 <img src="{{ asset('static_m/img/no_order.png') }}">
@@ -169,7 +175,7 @@
                         </div>
                     </div>
                 @endforeach
-            @endif
+            @endif--}}
         </div>
     </div>
 @endsection
