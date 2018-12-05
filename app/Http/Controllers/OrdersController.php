@@ -402,6 +402,12 @@ class OrdersController extends Controller
             'code' => 200,
             'message' => 'success',
         ]);*/
+
+        if (\Browser::isMobile()) {
+            return redirect()->route('mobile.orders.show_comment', [
+                'order' => $order->id,
+            ]);
+        }
         return redirect()->route('orders.show_comment', [
             'order' => $order->id,
         ]);

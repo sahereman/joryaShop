@@ -87,9 +87,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     /*订单评价*/
     Route::get('orders/{order}/create_comment', 'OrdersController@createComment')->name('mobile.orders.create_comment'); // 创建订单评价 页面
-    Route::post('orders/{order}/store_comment', 'OrdersController@storeComment')->name('mobile.orders.store_comment'); // 发布订单评价 请求 [每款产品都必须发布评价 + 评分]
     Route::get('orders/{order}/show_comment', 'OrdersController@showComment')->name('mobile.orders.show_comment'); // 查看订单评价 页面
-
 
     /*购物车*/
     Route::get('carts', 'CartsController@index')->name('mobile.carts.index'); // 购物车 页面

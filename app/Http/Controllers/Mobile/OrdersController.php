@@ -263,44 +263,6 @@ class OrdersController extends Controller
         ]);
     }
 
-    // POST 发布订单评价 [每款产品都必须发布评价 + 评分]
-    public function storeComment(PostOrderCommentRequest $request, Order $order)
-    {
-        $this->authorize('store_comment', $order);
-
-        if ($request->input('order_id') != $order->id) {
-            return redirect()->back()->withInput();
-        }
-
-        $order_items = $order->items()->with('sku.product')->get()->groupBy('id');
-
-        foreach ($order_items as $order_item_id => $order_item) {
-            ProductComment::create([
-                'parent_id' => 0,
-                'user_id' => $order->user_id,
-                'order_id' => $order->id,
-                'order_item_id' => $order_item_id,
-                'product_id' => $order_item[0]->sku->product->id,
-                'composite_index' => $request->input('composite_index')[$order_item_id],
-                'description_index' => $request->input('description_index')[$order_item_id],
-                'shipment_index' => $request->input('shipment_index')[$order_item_id],
-                'content' => $request->input('content')[$order_item_id],
-                'photos' => $request->input('photos')[$order_item_id],
-            ]);
-        }
-
-        $order->commented_at = Carbon::now()->toDateTimeString();
-        $order->save();
-
-        /*return response()->json([
-            'code' => 200,
-            'message' => 'success',
-        ]);*/
-        return redirect()->route('mobile.orders.show_comment', [
-            'order' => $order->id,
-        ]);
-    }
-
     // GET 查看订单评价
     public function showComment(Request $request, Order $order)
     {

@@ -58,6 +58,9 @@ class UserAddressesController extends Controller
         }
         $address->user()->associate($user);
         $address->save();
+        if(\Browser::isMobile()){
+            return redirect()->route('mobile.user_addresses.index');
+        }
         return redirect()->route('user_addresses.index');
     }
 
@@ -89,6 +92,9 @@ class UserAddressesController extends Controller
             $address->is_default = false;
         }
         $address->save();
+        if(\Browser::isMobile()){
+            return redirect()->route('mobile.user_addresses.index');
+        }
         return redirect()->route('user_addresses.index');
     }
 
