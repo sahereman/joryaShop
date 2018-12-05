@@ -17,14 +17,14 @@
                 <p class="Crumbs">
                     <a href="{{ route('root') }}">@lang('basic.home')</a>
                     <span>></span>
-                    <a href="javascript:void(0)">@lang('product.Categories')</a>
+                    <a href="javascript:void(0);">@lang('product.Categories')</a>
                 </p>
             </div>
             <div class="classification-level">
                 <p class="level_title">@lang('product.product_details.classification')：</p>
                 <ul>
                     <li class="active">
-                        <a href="javascript:void(0)"><span>@lang('product.All')</span></a>
+                        <a href="javascript:void(0);"><span>@lang('product.All')</span></a>
                     </li>
                     @foreach($children as $child)
                         <li>

@@ -8,7 +8,7 @@
                 <p class="Crumbs">
                     <a href="{{ route('root') }}">@lang('product.All results')</a>
                     <span>></span>
-                    <a href="javascript:void(0)">@lang('product.Categories')</a>
+                    <a href="javascript:void(0);">@lang('product.Categories')</a>
                 </p>
             </div>
             <div class="search-level">

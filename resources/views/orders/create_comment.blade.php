@@ -13,7 +13,7 @@
                     <span>></span>
                     <a href="{{ route('orders.show', ['order' => $order->id]) }}">@lang('basic.users.The_order_details')</a>
                     <span>></span>
-                    <a href="javascript:void(0)">@lang('basic.users.feedback')</a>
+                    <a href="javascript:void(0);">@lang('basic.users.feedback')</a>
                 </p>
             </div>
             <!--左侧导航栏-->
@@ -177,7 +177,8 @@
                                         <div class="pictures_btn" code="{{ $order_item['id'] }}">
                                             <img src="{{ asset('img/pic_upload.png') }}">
                                             <input type="file" name="image" value=""
-                                                   data-url="{{ route('comment_image.upload') }}" id="{{ $order_item['id'] }}"
+                                                   data-url="{{ route('comment_image.upload') }}"
+                                                   id="{{ $order_item['id'] }}"
                                                    onchange="imgChange(this)"/>
                                         </div>
                                     </div>

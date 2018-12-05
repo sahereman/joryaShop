@@ -31,7 +31,11 @@
                     @endforeach
                 </ul>
                 <!--显示商品总数量-->
-                <span class="pre_products_num">共{{ count($order->snapshot) }}件</span>
+                @if(\Illuminate\Support\Facades\App::isLocale('en'))
+                    <span class="pre_products_num">{{ count($order->snapshot) . (count($order->snapshot) > 1 ? ' commodities ' : ' commodity ') . __('basic.orders.in total') }}</span>
+                @else
+                    <span class="pre_products_num">共{{ count($order->snapshot) }}件</span>
+                @endif
             </div>
             <div class="pre_amount">
                 <p>
@@ -47,9 +51,9 @@
                 <p class="main_title">@lang('order.currency option')</p>
                 <p class="currency_selection">
                     @if($order->currency == 'CNY')
-                        <a href="javascript:void(0)" class="active" code="RMB" country="CNY">@lang('order.RMB')</a>
+                        <a href="javascript:void(0);" class="active" code="RMB" country="CNY">@lang('order.RMB')</a>
                     @else
-                        <a href="javascript:void(0)" code="dollar" country="USD">@lang('order.Dollars')</a>
+                        <a href="javascript:void(0);" code="dollar" country="USD">@lang('order.Dollars')</a>
                     @endif
                 </p>
             </div>
@@ -61,7 +65,7 @@
         </div>
         <div class="pre_paymentTotal">
             <span class="amount_of_money cost_of_total">{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}</span>
-            <a href="javascript:void(0)" class="Topayment_btn" data-url="{{ route('orders.store') }}">去支付</a>
+            <a href="javascript:void(0);" class="Topayment_btn" data-url="{{ route('orders.store') }}">去支付</a>
         </div>
     </div>
     <!--选择支付方式弹窗-->
@@ -123,7 +127,7 @@
                 <span class="total_num_toPay">{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}</span>
             </p>
             <p class="rel_topayment">
-                <a href="javascript:void(0)">支付</a>
+                <a href="javascript:void(0);">支付</a>
             </p>
         </div>
     </div>

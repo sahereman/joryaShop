@@ -13,7 +13,7 @@
                     <span>></span>
                     <a href="{{ route('orders.show', ['order' => $order->id]) }}">@lang('basic.users.The_order_details')</a>
                     <span>></span>
-                    <a href="javascript:void(0)">@lang('order.Apply for after sale')</a>
+                    <a href="javascript:void(0);">@lang('order.Apply for after sale')</a>
                 </p>
             </div>
             <!--申请内容-->

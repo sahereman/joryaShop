@@ -14,7 +14,7 @@
                     <span>></span>
                     <a href="{{ route('product_categories.index', ['category' => $category->id]) }}">{{ App::isLocale('en') ? $category->name_en : $category->name_zh }}</a>
                     <span>></span>
-                    <a href="javascript:void(0)">{{ App::isLocale('en') ? $product->name_en : $product->name_zh }}</a>
+                    <a href="javascript:void(0);">{{ App::isLocale('en') ? $product->name_en : $product->name_zh }}</a>
                 </p>
             </div>
             <!--详情上半部分-->
@@ -224,8 +224,8 @@
                         </div>
                         <!--分页-->
                         <div class="paging_box">
-                            <a class="pre_page" href="javascript:void(0)">@lang('app.Previous page')</a>
-                            <a class="next_page" href="javascript:void(0)">@lang('app.Next page')</a>
+                            <a class="pre_page" href="javascript:void(0);">@lang('app.Previous page')</a>
+                            <a class="next_page" href="javascript:void(0);">@lang('app.Next page')</a>
                         </div>
                     </div>
                 </div>

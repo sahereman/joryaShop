@@ -8,7 +8,7 @@
                 {{-- TODO ... placeholder --}}
                 <input type="text" name="" id="" value="" placeholder="搜索商品，供12351款好货" readonly="readonly"/>
             </a>
-            <a href="javascript:void(0)" data-href="{{ route('mobile.locale.show') }}"
+            <a href="javascript:void(0);" data-href="{{ route('mobile.locale.show') }}"
                code="{{ App::isLocale('en') ? '0' : '1' }}" class="LanguageSwitch">
                 <img src="{{ App::isLocale('en') ? asset('static_m/img/English.png') : asset('static_m/img/chinese.png') }}"
                      alt="" class="langImg"/>

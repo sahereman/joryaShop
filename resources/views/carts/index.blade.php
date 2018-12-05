@@ -7,7 +7,7 @@
                 <p class="Crumbs">
                     <a href="{{ route('root') }}">@lang('basic.home')</a>
                     <span>></span>
-                    <a href="javascript:void(0)">@lang('product.shopping_cart.Shop_cart')</a>
+                    <a href="javascript:void(0);">@lang('product.shopping_cart.Shop_cart')</a>
                 </p>
                 @if($carts->isEmpty())
                         <!--当购物车内容为空时显示-->

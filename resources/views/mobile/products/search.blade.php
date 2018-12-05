@@ -11,7 +11,7 @@
                 </div>
             </div>
             <div class="goodsListFillter">
-            	<div class="for_url dis_n" data-url="{{ route('products.search_more') }}"></div>
+                <div class="for_url dis_n" data-url="{{ route('products.search_more') }}"></div>
                 <div class="zonghe fillterItem goodsFillterActive" code='index'>
                     @lang('product.Comprehensive')
                 </div>
@@ -43,7 +43,7 @@
             </div>
         </div>
         <div class="goodsListMain" code="{{ App::isLocale('en') ? 'en' : 'zh' }}">
-        	<div class="lists"></div>
+            <div class="lists"></div>
         </div>
     </div>
 @endsection
@@ -70,14 +70,14 @@
                 $(this).parents('.goodsListFillter').find('.down').css('opacity', '1');
             }
             $(".dropload-down").remove();
-            $(".lists").children().remove(); 
+            $(".lists").children().remove();
             getResults();
         });
         $("#ipt").on("focus", function () {
             window.location.href = "{{route('mobile.search')}}";
         });
-        $(".goodsListMain").on('click','.goodsListItem',function () {
-            window.location.href = "{{config('app.url')}}"+ "/mobile/products/"+$(this).attr('code');
+        $(".goodsListMain").on('click', '.goodsListItem', function () {
+            window.location.href = "{{config('app.url')}}" + "/mobile/products/" + $(this).attr('code');
         });
         window.onload = function () {
             getResults();
@@ -92,69 +92,69 @@
         }
         //获取商品列表
         function getResults() {
-        	// 页数
-	        var page = 1;
-        	$('.goodsListMain').dropload({
-        		scrollArea : window,
-		        domDown : {                                                          // 下方DOM
-		            domClass   : 'dropload-down',
-		            domRefresh : "<div class='dropload-refresh'>↑@lang('product.product_details.Pull up load more')</div>",
-		            domLoad    : "<div class='dropload-load'><span class='loading'></span>@lang('product.product_details.Loading in')...</div>",
-		            domNoData  : "<div class='dropload-noData'>@lang('product.product_details.over the end')</div>"
-		        },
-			    loadDownFn : function(me){
-		            // 拼接HTML
-		            var html = '';
-		            var sort = $(".goodsListFillter").find(".goodsFillterActive").attr("code");
-		            var data ={
-		            	query: getQueryString("query"),
-		                sort: sort,
-		                page: page,
-		            }
-		            $.ajax({
-		                type: "get",
+            // 页数
+            var page = 1;
+            $('.goodsListMain').dropload({
+                scrollArea: window,
+                domDown: { // 下方DOM
+                    domClass: 'dropload-down',
+                    domRefresh: "<div class='dropload-refresh'>↑@lang('product.product_details.Pull up load more')</div>",
+                    domLoad: "<div class='dropload-load'><span class='loading'></span>@lang('product.product_details.Loading in')...</div>",
+                    domNoData: "<div class='dropload-noData'>@lang('product.product_details.over the end')</div>"
+                },
+                loadDownFn: function (me) {
+                    // 拼接HTML
+                    var html = '';
+                    var sort = $(".goodsListFillter").find(".goodsFillterActive").attr("code");
+                    var data = {
+                        query: getQueryString("query"),
+                        sort: sort,
+                        page: page,
+                    };
+                    $.ajax({
+                        type: "get",
                         url: $(".for_url").attr("data-url"),
-		                data: data,
-		                dataType: 'json',
-		                success: function(data){
-		                    var dataobj = data.data.products.data;
-		                    var html = "";
-		                    var name, symbol, price;
-		                    if(dataobj.length > 0){
-		                        $.each(dataobj, function (i, n) {
-		                            name = ($(".goodsListMain").attr("code") == "en") ? n.name_en : n.name_zh;
-		                            symbol = ($(".goodsListMain").attr("code") == "en") ? "&#36;" : "&#165;";
-		                            price = ($(".goodsListMain").attr("code") == "en") ? n.price_in_usd : n.price;
-		                            html+="<div class='goodsListItem' code='"+ n.id +"'>"
-					                html+="<img src='"+ n.thumb_url +"' >"
-					                html+="<div class='goodsItemBlock'>"
-					                html+="<div class='goodsBlockName'>"+ name +"</div>"
-					                html+="<div class='goodsBlockPrice'>"+ symbol + price +"</div>"
-					                html+="</div>"
-					                html+="</div>"
-		                        });
-		                    // 如果没有数据
-		                    }else{
-		                        // 锁定
-		                        me.lock();
-		                        // 无数据
-		                        me.noData();
-		                    }
-		                    // 为了测试，延迟1秒加载
-		                    setTimeout(function(){
-		                        $(".goodsListMain .lists").append(html);
-		                        page++;
-		                        // 每次数据插入，必须重置
-		                        me.resetload();
-		                    },1000);
-		                },
-		                error: function(xhr, type){
-		                    // 即使加载出错，也得重置
-		                    me.resetload();
-		                }
-		            });
-		        }
-        	})
+                        data: data,
+                        dataType: 'json',
+                        success: function (data) {
+                            var dataobj = data.data.products.data;
+                            var html = "";
+                            var name, symbol, price;
+                            if (dataobj.length > 0) {
+                                $.each(dataobj, function (i, n) {
+                                    name = ($(".goodsListMain").attr("code") == "en") ? n.name_en : n.name_zh;
+                                    symbol = ($(".goodsListMain").attr("code") == "en") ? "&#36;" : "&#165;";
+                                    price = ($(".goodsListMain").attr("code") == "en") ? n.price_in_usd : n.price;
+                                    html += "<div class='goodsListItem' code='" + n.id + "'>";
+                                    html += "<img src='" + n.thumb_url + "' >";
+                                    html += "<div class='goodsItemBlock'>";
+                                    html += "<div class='goodsBlockName'>" + name + "</div>";
+                                    html += "<div class='goodsBlockPrice'>" + symbol + price + "</div>";
+                                    html += "</div>";
+                                    html += "</div>";
+                                });
+                                // 如果没有数据
+                            } else {
+                                // 锁定
+                                me.lock();
+                                // 无数据
+                                me.noData();
+                            }
+                            // 为了测试，延迟1秒加载
+                            setTimeout(function () {
+                                $(".goodsListMain .lists").append(html);
+                                page++;
+                                // 每次数据插入，必须重置
+                                me.resetload();
+                            }, 1000);
+                        },
+                        error: function (xhr, type) {
+                            // 即使加载出错，也得重置
+                            me.resetload();
+                        }
+                    });
+                }
+            });
         }
     </script>
 @endsection

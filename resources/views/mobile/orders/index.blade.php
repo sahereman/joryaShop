@@ -78,7 +78,8 @@
                             @else
                                 <span>{{ count($order->snapshot) . (count($order->snapshot)>1 ? ' commodities ' : ' commodity ') . __('basic.orders.in total') }}</span>
                             @endif
-                            <span class="orderCen">{{ \Illuminate\Support\Facades\App::isLocale('en') ? 'Sum' : '需付款' }}: </span>
+                            <span class="orderCen">{{ \Illuminate\Support\Facades\App::isLocale('en') ? 'Sum' : '需付款' }}
+                                : </span>
                             <span>{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}</span>
                             <br>
                             <span>(@lang('order.Postage included'))</span>
@@ -100,7 +101,8 @@
                             </button>
                             @elseif($order->status == \App\Models\Order::ORDER_STATUS_SHIPPING)
                                     <!--待发货状态-->
-                            <button class="orderBtnC" data-url="{{ route('mobile.orders.refund', ['order' => $order->id]) }}">
+                            <button class="orderBtnC"
+                                    data-url="{{ route('mobile.orders.refund', ['order' => $order->id]) }}">
                                 @lang('order.Request a refund')
                             </button>
                             <button class="orderBtnC">
@@ -108,29 +110,36 @@
                             </button>
                             @elseif($order->status == \App\Models\Order::ORDER_STATUS_RECEIVING)
                                     <!--待收货状态-->
-                            <button class="orderBtnC" data-url="{{ route('mobile.orders.refund_with_shipment', ['order' => $order->id]) }}">
+                            <button class="orderBtnC"
+                                    data-url="{{ route('mobile.orders.refund_with_shipment', ['order' => $order->id]) }}">
                                 @lang('order.Request a refund')
                             </button>
-                            <button class="orderBtnC" data-url="{{ route('mobile.orders.show_shipment', ['order' => $order->id]) }}">
+                            <button class="orderBtnC"
+                                    data-url="{{ route('mobile.orders.show_shipment', ['order' => $order->id]) }}">
                                 @lang('order.View shipment details')
                             </button>
-                            <button class="orderBtnS" data-url="{{ route('orders.complete', ['order' => $order->id]) }}">
+                            <button class="orderBtnS"
+                                    data-url="{{ route('orders.complete', ['order' => $order->id]) }}">
                                 @lang('order.Confirm reception')
                             </button>
                             @elseif($order->status == \App\Models\Order::ORDER_STATUS_COMPLETED && $order->commented_at == null)
                                     <!--交易完成&未评价状态-->
-                            <button class="orderBtnC" data-url="{{ route('mobile.orders.show_shipment', ['order' => $order->id]) }}">
+                            <button class="orderBtnC"
+                                    data-url="{{ route('mobile.orders.show_shipment', ['order' => $order->id]) }}">
                                 @lang('order.View shipment details')
                             </button>
-                            <button class="orderBtnS" data-url="{{ route('mobile.orders.create_comment', ['order' => $order->id]) }}">
+                            <button class="orderBtnS"
+                                    data-url="{{ route('mobile.orders.create_comment', ['order' => $order->id]) }}">
                                 @lang('order.To comment')
                             </button>
                             @elseif($order->status == \App\Models\Order::ORDER_STATUS_COMPLETED && $order->commented_at != null)
                                     <!--交易完成&已评价状态-->
-                            <button class="orderBtnC" data-url="{{ route('mobile.orders.show_shipment', ['order' => $order->id]) }}">
+                            <button class="orderBtnC"
+                                    data-url="{{ route('mobile.orders.show_shipment', ['order' => $order->id]) }}">
                                 @lang('order.View shipment details')
                             </button>
-                            <button class="orderBtnS" data-url="{{ route('mobile.orders.show_comment', ['order' => $order->id]) }}">
+                            <button class="orderBtnS"
+                                    data-url="{{ route('mobile.orders.show_comment', ['order' => $order->id]) }}">
                                 @lang('order.View comments')
                             </button>
                             <button class="orderBtnS" data-url="{{ route('orders.destroy', ['order' => $order->id]) }}">
@@ -138,18 +147,22 @@
                             </button>
                             @elseif($order->status == \App\Models\Order::ORDER_STATUS_REFUNDING && $order->refund->type == \App\Models\OrderRefund::ORDER_REFUND_TYPE_REFUND)
                                     <!--退款中(仅退款)状态-->
-                            <button class="orderBtnC" data-url="{{ route('mobile.orders.refund', ['order' => $order->id]) }}">
+                            <button class="orderBtnC"
+                                    data-url="{{ route('mobile.orders.refund', ['order' => $order->id]) }}">
                                 @lang('order.View after sales status')
                             </button>
-                            <button class="orderBtnS" data-url="{{ route('orders.revoke_refund', ['order' => $order->id]) }}">
+                            <button class="orderBtnS"
+                                    data-url="{{ route('orders.revoke_refund', ['order' => $order->id]) }}">
                                 @lang('order.Revoke the refund application')
                             </button>
                             @elseif($order->status == \App\Models\Order::ORDER_STATUS_REFUNDING && $order->refund->type == \App\Models\OrderRefund::ORDER_REFUND_TYPE_REFUND_WITH_SHIPMENT)
                                     <!--退款中(退货并退款)状态-->
-                            <button class="orderBtnC" data-url="{{ route('mobile.orders.refund_with_shipment', ['order' => $order->id]) }}">
+                            <button class="orderBtnC"
+                                    data-url="{{ route('mobile.orders.refund_with_shipment', ['order' => $order->id]) }}">
                                 @lang('order.View after sales status')
                             </button>
-                            <button class="orderBtnS" data-url="{{ route('orders.revoke_refund', ['order' => $order->id]) }}">
+                            <button class="orderBtnS"
+                                    data-url="{{ route('orders.revoke_refund', ['order' => $order->id]) }}">
                                 @lang('order.Revoke the refund application')
                             </button>
                             @endif

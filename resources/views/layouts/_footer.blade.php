@@ -45,9 +45,9 @@
                     </li>
                     <li>
                         <p>@lang('app.Method of Payment')</p>
-                        <a href="javascript:void(0)">@lang('app.ALIPAY')</a>
-                        <a href="javascript:void(0)">@lang('app.WeChat Pay')</a>
-                        <a href="javascript:void(0)">paypal</a>
+                        <a href="javascript:void(0);">@lang('app.ALIPAY')</a>
+                        <a href="javascript:void(0);">@lang('app.WeChat Pay')</a>
+                        <a href="javascript:void(0);">paypal</a>
                     </li>
                     <li>
                         <p>@lang('app.After-sales Service')</p>
@@ -121,14 +121,14 @@
                         <!--<div class="share-component " data-disabled="qzone, tencent, douban, diandian, google, linkedin"></div>-->
                         <div class="social-share" data-initialized="true" data-url="{{config('app.url')}}"
                              data-title="Jorya卓雅美业">
-                            <a href="javascript:void(0)" class="social-share-icon icon-weibo"></a>
-                            <a href="javascript:void(0)" class="social-share-icon icon-wechat"></a>
-                            <a href="javascript:void(0)" class="social-share-icon icon-qq"></a>
-                            <a href="javascript:void(0)" class="social-share-icon icon-qzone"></a>
-                            <a href="javascript:void(0)" class="social-share-icon icon-linkedin"></a>
-                            <a href="javascript:void(0)" class="social-share-icon icon-facebook"></a>
-                            <a href="javascript:void(0)" class="social-share-icon icon-twitter"></a>
-                            <a href="javascript:void(0)" class="social-share-icon icon-google"></a>
+                            <a href="javascript:void(0);" class="social-share-icon icon-weibo"></a>
+                            <a href="javascript:void(0);" class="social-share-icon icon-wechat"></a>
+                            <a href="javascript:void(0);" class="social-share-icon icon-qq"></a>
+                            <a href="javascript:void(0);" class="social-share-icon icon-qzone"></a>
+                            <a href="javascript:void(0);" class="social-share-icon icon-linkedin"></a>
+                            <a href="javascript:void(0);" class="social-share-icon icon-facebook"></a>
+                            <a href="javascript:void(0);" class="social-share-icon icon-twitter"></a>
+                            <a href="javascript:void(0);" class="social-share-icon icon-google"></a>
                         </div>
                     </li>
                 </ul>

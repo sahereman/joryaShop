@@ -97,7 +97,7 @@
                     <li>
                         <input type="search" data-url="{{ route('products.search_hint') }}" class="selectInput_header"
                                placeholder="@lang('app.Please enter the item you are searching for')">
-                        <a class="search_btn" href="javascript:void(0)">
+                        <a class="search_btn" href="javascript:void(0);">
                             <img src="{{ asset('img/search_magnifier.png') }}">
                         </a>
                         <div class="selectList dis_n" data-url="{{ route('products.search') }}">

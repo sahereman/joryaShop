@@ -7,7 +7,7 @@
                 <p class="Crumbs">
                     <a href="{{ route('root') }}">@lang('basic.home')</a>
                     <span>></span>
-                    <a href="javascript:void(0)">@lang('order.Confirm Order')</a>
+                    <a href="javascript:void(0);">@lang('order.Confirm Order')</a>
                 </p>
                 <div class="pre_payment_header">
                     <div class="address_info clear">
@@ -46,8 +46,8 @@
                         </ul>
                         <div class="right">
                             <a class="change_address" data-url="{{ route('user_addresses.list_all') }}"
-                               href="javascript:void(0)">@lang('order.Switch address')</a>
-                            <a class="add_new_address" href="javascript:void(0)">@lang('order.New address')</a>
+                               href="javascript:void(0);">@lang('order.Switch address')</a>
+                            <a class="add_new_address" href="javascript:void(0);">@lang('order.New address')</a>
                         </div>
                     </div>
                 </div>
@@ -66,7 +66,7 @@
                             @foreach($items as $item)
                                 <div class="clear single-item">
                                     <div class="left w110 shop-img">
-                                        <a class="cur_p" href="javascript:void(0)">
+                                        <a class="cur_p" href="javascript:void(0);">
                                             <img src="{{ $item['product']->thumb_url }}">
                                         </a>
                                     </div>
@@ -93,8 +93,8 @@
                 <div class="pre_payment_footer">
                     <p class="main_title">@lang('order.currency option')</p>
                     <p class="currency_selection">
-                        <a href="javascript:void(0)" class="active" code="RMB" country="CNY">@lang('order.RMB')</a>
-                        <a href="javascript:void(0)" code="dollar" country="USD">@lang('order.Dollars')</a>
+                        <a href="javascript:void(0);" class="active" code="RMB" country="CNY">@lang('order.RMB')</a>
+                        <a href="javascript:void(0);" code="dollar" country="USD">@lang('order.Dollars')</a>
                     </p>
                     <ul>
                         <li class="clear">
@@ -121,7 +121,7 @@
                                 <span class="red dis_ni dollar_num amount_of_money">&#36; <span>{{ $total_fee_en }}</span></span>
                             </p>
                             <p>
-                                <a href="javascript:void(0)" class="payment_btn"
+                                <a href="javascript:void(0);" class="payment_btn"
                                    data-url="{{ route('orders.store') }}">@lang('order.payment')</a>
                             </p>
                             @if($address)
@@ -230,7 +230,6 @@
                     type: "get",
                     url: url,
                     beforeSend: function () {
-
                     },
                     success: function (json) {
                         if (json.code == 200) {
@@ -242,7 +241,7 @@
                                             "<p class='clear'><span>@lang('order.Contact')：</span><span class='name'>" + n.name + "</span></p>" +
                                             "<p class='clear'><span>@lang('order.Contact information')：</span><span class='phone'>" + n.phone + "</span></p>" +
                                             "<p class='clear'><span>@lang('order.contact address')：</span><span class='address'>" + n.address + "</span></p>" +
-                                            "</li>"
+                                            "</li>";
                                 });
                                 $(".changeAddress ul").html("");
                                 $(".changeAddress ul").append(html);
@@ -271,7 +270,7 @@
                                     },
                                     end: function () {
                                         $(".changeAddress ul").html("");
-                                    }
+                                    },
                                 });
                             } else {
                                 layer.close(changeAdd);
@@ -280,18 +279,16 @@
                         }
                     },
                     error: function () {
-
                     },
                     complete: function () {
-
-                    }
+                    },
                 });
-            })
+            });
             //点击选择收货地址
             $(".changeAddress ul").on("click", "li", function () {
                 $(".changeAddress ul").find("li").removeClass("active");
                 $(this).addClass("active");
-            })
+            });
             //获取url,通过判断url中参数sendWay的值来确定从哪个页面进入，1、立即购买，2、购物车
             var loading_animation;
 
@@ -330,7 +327,7 @@
                             break;
                     }
                 }
-            })
+            });
             //第一类创建订单（直接下单）
             function payment_one(sku_id, number, url) {
                 var data = {
@@ -342,7 +339,7 @@
                     address: $(".address_location").html(),
                     remark: $(".remark").val(),
                     currency: $(".currency_selection").find("a.active").attr("country")
-                }
+                };
                 $.ajax({
                     type: "post",
                     url: url,
@@ -376,7 +373,7 @@
                     address: $(".address_location").html(),
                     remark: $(".remark").val(),
                     currency: $(".currency_selection").find("a.active").attr("country")
-                }
+                };
                 $.ajax({
                     type: "post",
                     url: url,
@@ -385,7 +382,7 @@
                         loading_animation = layer.msg("@lang('app.Please wait')", {
                             icon: 16,
                             shade: 0.4,
-                            time: false //取消自动关闭
+                            time: false, //取消自动关闭
                         });
                     },
                     success: function (json) {
@@ -396,7 +393,7 @@
                         layer.msg($.parseJSON(err.responseText).errors.currency[0])
                     },
                     complete: function () {
-                    }
+                    },
                 });
             }
         });

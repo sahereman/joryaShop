@@ -279,8 +279,8 @@
                     </div>
                     <!--分页-->
                     <!--<div class="paging_box">
-                        <a class="pre_page" href="javascript:void(0)">上一页</a>
-                        <a class="next_page" href="javascript:void(0)">下一页</a>
+                        <a class="pre_page" href="javascript:void(0);">上一页</a>
+                        <a class="next_page" href="javascript:void(0);">下一页</a>
                     </div>-->
                     @endif
                 </div>
