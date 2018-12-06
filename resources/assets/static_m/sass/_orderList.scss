@@ -24,9 +24,6 @@
         }
     }
     .orderMain{
-        margin-top: 6rem;
-        background: #f4f4f4;
-        padding: .7rem 0 0;
         .no_order {
             text-align: center;
             background-color: #fff;
@@ -45,108 +42,121 @@
                 color: #87b53b;
             }
         }
-        .orderItem{
-            background: #fff;
-            margin-bottom: .7rem;
-            .orderItemH{
-                padding: .5rem 1rem;
-                display: flex;
-                flex-direction: row;
-                justify-content: space-between;
-                .orderItemState{
-                    color: #c39a75;
-                }
-            }
-            .orderItemDetail{
-                display: flex;
-                flex-direction: row;
-                justify-content:  flex-start;
-                align-items: center;
-                background: #f3f3f3;
-                padding:.5rem 1rem;
-                img{
-                    width: 4rem;
-                    height: 4rem;
-                    margin-right: 1rem;
-                    
-                }
-                .orderDal{
+        .lists{
+            margin-top: 6rem;
+            background: #f4f4f4;
+            padding: .7rem 0 0;
+            .orderItem{
+                background: #fff;
+                margin-bottom: .7rem;
+                .orderItemH{
+                    padding: .5rem 1rem;
                     display: flex;
                     flex-direction: row;
-                    align-items: center;
                     justify-content: space-between;
-                    width: 80%;
-                    .orderIntroduce{
-                        .goodsName{
-                            font-size: .95rem;
-                            width: 12rem;
-                            overflow: hidden;
-                            text-overflow: ellipsis;
-                            white-space: nowrap;
-                        }
-                        @media screen and (max-width: 325px) {
-                            .goodsName{
-                                font-size: .95rem;
-                                width: 9rem;
-                                overflow: hidden;
-                                text-overflow: ellipsis;
-                                white-space: nowrap;
-                            }
-                        }
-                        @media screen and (min-width: 376px){
-                            .goodsName{
-                                font-size: .95rem;
-                                width: 14rem;
-                                overflow: hidden;
-                                text-overflow: ellipsis;
-                                white-space: nowrap;
-                            }
-                        }
-                        .goodsSku{
-                            color: #999999;
-                        }
-                    }
-                    .orderPrice{
-                        text-align: right;
-                        .orderItemNum{
-                            color: #999;
-                        }
+                    .orderItemState{
+                        color: #c39a75;
                     }
                 }
-            }
-            .orderItemTotle{
-                display: flex;
-                flex-direction: row;
-                justify-content: flex-end;
-                align-items: center;
-                padding: .5rem 1rem;
-                border-bottom: 1px solid #e0e0e0;
-                .orderCen{
-                    margin: 0 .5rem;
+                .orderItemDetail{
+//                  display: flex;
+//                  flex-direction: row;
+//                  justify-content:  flex-start;
+//                  align-items: center;
+                    background: #f3f3f3;
+                    padding:.5rem 1rem;
+                    .orderItemDetail_item {
+                        margin-top: 1rem;
+                        display: flex;
+                        flex-direction: row;
+                        justify-content: flex-start;
+                        align-items: center;
+                        img{
+                            width: 4rem;
+                            height: 4rem;
+                            margin-right: 1rem;
+                            
+                        }
+                        .orderDal{
+                            display: flex;
+                            flex-direction: row;
+                            align-items: center;
+                            justify-content: space-between;
+                            width: 80%;
+                            .orderIntroduce{
+                                .goodsName{
+                                    font-size: .95rem;
+                                    width: 12rem;
+                                    overflow: hidden;
+                                    text-overflow: ellipsis;
+                                    white-space: nowrap;
+                                }
+                                @media screen and (max-width: 325px) {
+                                    .goodsName{
+                                        font-size: .95rem;
+                                        width: 9rem;
+                                        overflow: hidden;
+                                        text-overflow: ellipsis;
+                                        white-space: nowrap;
+                                    }
+                                }
+                                @media screen and (min-width: 376px){
+                                    .goodsName{
+                                        font-size: .95rem;
+                                        width: 14rem;
+                                        overflow: hidden;
+                                        text-overflow: ellipsis;
+                                        white-space: nowrap;
+                                    }
+                                }
+                                .goodsSku{
+                                    color: #999999;
+                                }
+                            }
+                            .orderPrice{
+                                text-align: right;
+                                .orderItemNum{
+                                    color: #999;
+                                }
+                            }
+                        }
+                    }
                 }
-            }
-            .orderBtns{
-                display: flex;
-                flex-direction: row;
-                justify-content: flex-end;
-                align-items: center;
-                padding: .5rem 1rem;
-                .orderBtnS{
-                    background: #fff;
-                    color: #c39a75;
-                    border: 1px solid #c39a75;
-                    border-radius: 1rem;
-                    font-size: .65rem;
-                    padding: .25rem .6rem .2rem;
-                    margin-left: .5rem;
+                .orderItemTotle{
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: flex-end;
+                    align-items: center;
+                    padding: .5rem 1rem;
+                    border-bottom: 1px solid #e0e0e0;
+                    .orderCen{
+                        margin: 0 .5rem;
+                    }
                 }
-                .orderBtnC{
-                    background: #fff;
-                    color: #666666;
-                    border: 1px solid #666666;
-                    border-radius: 1rem;
-                    font-size: .65rem;
-                    padding: .25rem .6rem .2rem;
+                .orderBtns{
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: flex-end;
+                    align-items: center;
+                    padding: .5rem 1rem;
+                    .orderBtnS{
+                        background: #fff;
+                        color: #c39a75;
+                        border: 1px solid #c39a75;
+                        border-radius: 1rem;
+                        font-size: .65rem;
+                        padding: .25rem .6rem .2rem;
+                        margin-left: .5rem;
+                    }
+                    .orderBtnC{
+                        background: #fff;
+                        color: #666666;
+                        border: 1px solid #666666;
+                        border-radius: 1rem;
+                        font-size: .65rem;
+                        padding: .25rem .6rem .2rem;
+                        margin-left: .5rem;
+                    }
                 }
             }
         }

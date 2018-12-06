@@ -114,6 +114,9 @@ return [
     'Total Merchandise' => '商品总额',
     'Order Details' => '订单详情',
     'View shipment details' => '查看物流详情',
+    'Shipment details' => '物流详情',
+    'In transit' => '运输中',
+    'Orders have been made' => '已下单',
     'Commodity' => '样商品',
     'in total' => '共',
 ];

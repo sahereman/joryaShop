@@ -1,8 +1,15 @@
-@extends('layouts.app')
-@section('title', App::isLocale('en') ? 'Personal Center-my order' : '个人中心-我的订单')
+@extends('layouts.mobile')
+@section('title', App::isLocale('en') ? 'Request a refund' : '申请退款')
 @section('content')
     <div class="User_center my_orders">
-        <div class="m-wrapper">
+    	<div class="orderHeadTop">
+            <div class="headerBar">
+                <img src="{{ asset('static_m/img/icon_backtop.png') }}" class="backImg"
+                     onclick="javascript:history.back(-1);"/>
+                <span>申请退款</span>
+            </div>
+        </div>
+        {{--<div class="m-wrapper">
             <div>
                 <p class="Crumbs">
                     <a href="{{ route('root') }}">@lang('basic.home')</a>
@@ -226,7 +233,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div>--}}
     </div>
 @endsection
 @section('scriptsAfterJs')
