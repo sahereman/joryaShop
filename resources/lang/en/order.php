@@ -118,4 +118,7 @@ return [
     'Orders have been made' => 'Orders have been made',
     'Commodity' => 'Commodity',
     'in total' => 'in total',
+    'Please fill in the logistics company' => 'Please fill in the logistics company',
+    'Please fill in the Logistics single number' => 'Please fill in the Logistics single number',
+    'Please describe in detail the reason for the refund' => 'Please describe in detail the reason for the refund',
 ];

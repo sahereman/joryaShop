@@ -160,7 +160,6 @@
 @endsection
 @section('scriptsAfterJs')
     <script type="text/javascript">
-        var set_finish = false;
         $(function () {
         	$(".refund_con").css("min-height",$(window).height()-$(".headerBar ").height());
         	//第一步表单提交
@@ -195,10 +194,10 @@
                         console.log(err);
                         if (err.status == 403) {
                             layer.open({
-	                        content: "@lang('app.Unable to complete operation')"
-	                        , skin: 'msg'
-	                        , time: 2 //2秒后自动关闭
-	                    });
+		                        content: "@lang('app.Unable to complete operation')"
+		                        , skin: 'msg'
+		                        , time: 2 //2秒后自动关闭
+		                    });
                         }
                     }
                 });

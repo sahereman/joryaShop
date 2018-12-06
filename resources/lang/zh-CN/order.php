@@ -119,4 +119,7 @@ return [
     'Orders have been made' => '已下单',
     'Commodity' => '样商品',
     'in total' => '共',
+    'Please fill in the logistics company' => '请填写物流公司',
+    'Please fill in the Logistics single number' => '请填写物流单号',
+    'Please describe in detail the reason for the refund' => '请详细描述退款原因',
 ];

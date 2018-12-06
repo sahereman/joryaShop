@@ -1,586 +1,310 @@
 @extends('layouts.mobile')
 @section('title', App::isLocale('en') ? 'Request a refund' : '申请退款')
 @section('content')
-    <div class="User_center my_orders">
-    	<div class="orderHeadTop">
-            <div class="headerBar">
-                <img src="{{ asset('static_m/img/icon_backtop.png') }}" class="backImg"
-                     onclick="javascript:history.back(-1);"/>
-                <span>申请退款</span>
-            </div>
+    <div class="headerBar fixHeader">
+        <img src="{{ asset('static_m/img/icon_backtop.png') }}" class="backImg"
+             onclick="javascript:history.back(-1);"/>
+        <span>申请退款</span>
+    </div>
+    <div class="refund">
+        <div class="refund_con">
+        	<div class="refund_content">
+        		<!--售后状态-->
+	        	<div class="after_sales_status">
+	        		<!--第一步-->
+	        		@if(false) 
+	        		<div class="aftersales_status_item">
+	        			<img src="{{ asset('static_m/img/refund_5.png') }}">
+	        			<p>
+	        				<span class="status_title">@lang('order.Buyer applies for return refund')</span>
+	        			</p>
+	        		</div>
+	        		<!--第2步-->
+	        		@elseif(false)
+	        		<div class="aftersales_status_item">
+	        			<img src="{{ asset('static_m/img/refund_2.png') }}">
+	        			<p>
+	        				<span class="status_title">@lang('order.Seller handles refund Request')</span>
+	        			</p>
+	        		</div>
+	        		<!--第3步-->
+	        		@elseif(true)
+	        		<div class="aftersales_status_item">
+	        			<img src="{{ asset('static_m/img/refund_3.png') }}">
+	        			<p>
+	        				<span class="status_title">审核通过等待买家发货</span>
+	        			</p>
+	        		</div>
+	        		<!--第4步-->
+	        		@elseif(false)
+	        		<div class="aftersales_status_item">
+	        			<img src="{{ asset('static_m/img/refund_6.png') }}">
+	        			<p>
+	        				<span class="status_title">等待卖家验货</span>
+	        			</p>
+	        		</div>
+	        		<!--第5步成功-->
+	        		@elseif(false)
+	        		<div class="aftersales_status_item">
+	        			<img src="{{ asset('static_m/img/refund_3.png') }}">
+	        			<p>
+	        				<span class="status_title">@lang('order.Refunds are complete')</span>
+	        			    <span>@lang('order.Refunds were successful')
+                                        , 7200.00@lang('order.It has been returned according to the original hit path')</span>
+	        			</p>
+	        		</div>
+	        		<!--第5步失败-->
+	        		@elseif(false)
+	        		<div class="aftersales_status_item">
+	        			<img src="{{ asset('static_m/img/refund_4.png') }}">
+	        			<p>
+	        				<span class="status_title">@lang('order.Refund failed')</span>
+	        			    <span>@lang('order.You can contact online customer service')</span>
+	        			</p>
+	        		</div>
+	        		@endif
+	        	</div>
+	        	<!--地址信息只在第三步之后显示，1，2不需要-->
+	        	@if(true)
+	        	<div class="user_address_info">
+	        		<div class="read_address_info">
+                        <p class="read_address_info_title">@lang('order.return address')</p>
+                        <p>
+                        	<span>@lang('order.Consignee')：</span>
+                        	<span>{{ $refund->seller_info['name'] }}</span>
+                        </p>
+                        <p>
+                        	<span>@lang('order.Contact information')：</span>
+                        	<span>{{ $refund->seller_info['phone'] }}</span>
+                        </p>
+                        <p>
+                        	<span>@lang('order.Shipping Address')：</span>
+                        	<span>{{ $refund->seller_info['address'] }}</span>
+                        </p>
+                    </div>
+	        	</div>
+	        	@endif
+	        	<!--申请内容-->
+	        	<div class="refund_info">
+	        		<!--第一步-->
+	        		@if(false)
+	        		<form method="POST"
+                          action="{{ route('orders.store_refund_with_shipment', ['order' => $order->id]) }}"
+                          enctype="multipart/form-data" id="step-1-form">
+                        {{ csrf_field() }}
+                        <input type="hidden" name="order_id" value="{{ $order->id }}">
+		        		<p>
+		        			<span>@lang('order.Refund amount')</span>
+		        			<input name="amount" type="text" class="refund_price"
+	                                               value="&#165;7200.00"
+	                                               readonly>
+		        		</p>
+		        		<div class="refund_info_item">
+		        			<span>@lang('order.Application description')</span>
+		        			<textarea name="remark_from_user" placeholder="@lang('order.Please fill in the reason for the refund')" maxlength="200"></textarea>
+		        		</div>
+		        		<p class="upload_voucher_title">@lang('order.product picture')</p>
+		        		<div class="refund_info_item upload_voucher">
+		        			<img src="{{ asset('static_m/img/blockImg.png') }}" >
+		        			<div class="refunds_photos">
+                                <span class="uploader_camera"></span>
+                                <span>0/5</span>
+                            </div>
+		        			<input class="dis_ni" type="file" name="image" accept="image/*" onchange='handleInputChange'>
+		        		</div>
+	        		</form>
+	        		<!--第二步-->
+	        		@elseif(false)
+	        		<form method="POST" action="{{ route('orders.update_refund', ['order' => $order->id]) }}"
+                          enctype="multipart/form-data" id="step-2-form">
+                        {{ method_field('PUT') }}
+                        {{ csrf_field() }}
+                        <input type="hidden" name="order_id" value="{{ $order->id }}">
+		        		<p>
+		        			<span>@lang('order.Refund amount')</span>
+		        			<input name="amount" type="text" class="refund_price"
+                                   value="&#165;7200.00"
+                                   readonly>
+		        		</p>
+		        		<div class="refund_info_item">
+		        			<span>@lang('order.Application description')</span>
+		        			<textarea name="remark_from_user" class="step2_textarea" readonly placeholder="@lang('order.Please fill in the reason for the refund')" maxlength="200"></textarea>
+		        		</div>
+		        		<p class="upload_voucher_title">@lang('order.product picture')</p>
+		        		<div class="refund_info_item upload_voucher">
+		        			<img src="{{ asset('static_m/img/blockImg.png') }}" >
+		        			<div class="refunds_photos dis_n">
+                                <span class="uploader_camera"></span>
+                                <span>0/5</span>
+                            </div>
+		        			<input class="dis_ni" type="file" name="image" accept="image/*" onchange='handleInputChange'>
+		        		</div>
+	        		</form>
+	        		<!--第三步第四步第五步都是这个-->
+	        		@elseif(true)
+		        		<p>
+		        			<span>@lang('order.Refund amount')</span>
+		        			<input name="amount" type="text" class="refund_price"
+                                   value="&#165;7200.00"
+                                   readonly>
+		        		</p>
+		        		<div class="refund_info_item">
+		        			<span>@lang('order.Application description')</span>
+		        			<textarea name="remark_from_user" readonly placeholder="@lang('order.Please fill in the reason for the refund')" maxlength="200"></textarea>
+		        		</div>
+		        		<p class="upload_voucher_title">@lang('order.product picture')</p>
+		        		<div class="refund_info_item upload_voucher">
+		        			@for($i = 0; $i < 5; $i++ )
+		        			<img src="{{ asset('static_m/img/blockImg.png') }}" >
+		        		    @endfor
+		        		</div>
+	        		@endif
+	        	</div>
+	        	<!--物流信息从第三步开始显示-->
+	        	@if(true)
+	        	<div class="Logistics_info">
+	        		<form method="POST"
+                          action="{{ route('orders.update_refund_with_shipment', ['order' => $order->id]) }}"
+                          enctype="multipart/form-data" id="step-3-form">
+	                    {{ method_field('PUT') }}
+	                    {{ csrf_field() }}
+	                    <input type="hidden" name="order_id" value="{{ $order->id }}">
+		        		<ul class="step-ul">
+		        			@if(true)
+		        			<li>
+	                            <span>@lang('order.Logistics company')：</span>
+	                            <input type="text" name="shipment_company" placeholder="@lang('order.Please fill in the logistics company')">
+	                        </li>
+	                        <li>
+	                            <span>@lang('order.shipment number')：</span>
+	                            <input type="text" name="shipment_sn" placeholder="@lang('order.Please fill in the Logistics single number')">
+	                        </li>
+	                        <li>
+	                            <span>@lang('order.Memo Content')：</span>
+	                            <input name="remark_for_shipment_from_user" placeholder="@lang('order.Please describe in detail the reason for the refund')">
+	                        </li>
+	                        <li>
+	                            <span>@lang('order.Logistics documents')：</span>
+	                            <img src="{{ asset('static_m/img/blockImg.png') }}" >
+			        			<div class="refunds_photos">
+	                                <span class="uploader_camera"></span>
+	                                <span>0/5</span>
+	                            </div>
+			        			<input class="dis_ni" type="file" name="image" accept="image/*" onchange='handleInputChange'>
+	                        </li>
+		        		    @else
+	                        <li>
+	                            <span>@lang('order.Logistics company')：</span>
+	                            <span>{{ $shipment_company }}</span>
+	                        </li>
+	                        <li>
+	                            <span>@lang('order.shipment number')：</span>
+	                            <span>{{ $refund->shipment_sn }}</span>
+	                        </li>
+	                        <li>
+	                            <span>@lang('order.Memo Content')：</span>
+	                            <span>{{ $refund->remark_for_shipment_from_user }}</span>
+	                        </li>
+	                        <li>
+	                            <span>@lang('order.Logistics documents')：</span>
+	                             @for($i = 0; $i < 5; $i++ )
+	                                <div class='refund-path'>
+	                                    <img src="{{ asset('static_m/img/blockImg.png') }}" >
+	                                </div>
+	                            @endfor
+	                        </li>
+	                        @endif
+	                    </ul>
+                    </form>
+	        	</div>
+	        	@endif
+	        	<!--订单内容-->
+	        	<div class="order_products">
+	        		@for ($i = 0; $i < 2; $i++)
+	        			<div class="ordDetail_item">
+		                    <img src="{{ asset('static_m/img/blockImg.png') }}"/>
+		                    <div>
+		                        <div class="ordDetailName">
+		                            <a href="">卓页美业长直假发片可拆卸水洗亚麻</a>
+		                        </div>
+		                        <div>
+		                            <span>
+		                                @lang('basic.users.quantity')：2
+		                                &nbsp;&nbsp;
+		                            </span>
+		                            <span>
+		                                <a href="">颜色：{{ App::isLocale('en') ? 'yellow' : '黄' }}</a>
+		                            </span>
+		                        </div>
+		                        <div class="ordDetailPri">
+		                            <span>&#165;</span>
+		                            <span>500.00</span>
+		                        </div>
+		                    </div>
+		                </div>
+	        		@endfor
+	        		<div class="order_info">
+	        			<p>
+		        			<span>@lang('order.Order time')：</span>
+		        			<span>2010-2-05 10:22:50</span>
+		        		</p>
+		        		<p>
+		        			<span>@lang('order.Order number')：</span>
+		        			<span>45748574867585023448</span>
+		        		</p>
+	        		</div>
+	        	</div>
+        	</div>
+        	<div class="refund_btns">
+        		<!--第一步显示-->
+        		@if(false)
+	        	<a href="javascript:void(0);" class="doneBtn submint_one">@lang('app.submit')</a>
+	        	<!--第二步显示-->
+	        	@elseif(false)
+	        	<div>
+	        		<a class="ordDetailBtnC change_btn" href="javascript:void(0);" data-url="">
+	                    @lang('order.Modify')
+	                </a>
+	                <a class="ordDetailBtnC save_btn dis_ni" href="javascript:void(0);" data-url="">
+	                    @lang('order.Save changes')
+	                </a>
+	                <a class="ordDetailBtnS Revocation_btn" href="javascript:void(0);" code="{{ route('orders.revoke_refund', ['order' => 1]) }}">
+	                    @lang('order.Revocation of application')
+	                </a>
+	        	</div>
+	        	<!--第三步显示，第四与第五步没有按钮不需要显示-->
+	        	@else
+	        	<a href="javascript:void(0);" class="doneBtn logistics_submint">@lang('app.submit')</a>
+	        	@endif
+	        </div>
         </div>
-        {{--<div class="m-wrapper">
-            <div class="refun_crumbs">
-                <p class="Crumbs">
-                    <a href="{{ route('root') }}">@lang('basic.home')</a>
-                    <span>></span>
-                    <a href="{{ route('users.home') }}">@lang('basic.users.Personal_Center')</a>
-                    <span>></span>
-                    <a href="{{ route('orders.index') }}">@lang('basic.users.My_order')</a>
-                    <span>></span>
-                    <a href="{{ route('orders.show', ['order' => $order->id]) }}">@lang('basic.users.The_order_details')</a>
-                    <span>></span>
-                    <a href="#">@lang('order.Apply for after sale')</a>
-                </p>
-            </div>
-            <!--申请内容-->
-            <div class="refund_content">
-                <div class="technological_process">
-                    <!--分步骤显示图片一共四张-->
-                    @if(! $refund)
-                        <div class="first active">1.@lang('order.Buyer applies for return refund')</div>
-                        <div class="second">
-                            2.@lang('order.Seller handles return request')
-                            <div class="active_2 active"></div>
-                        </div>
-                        <div class="third">
-                            3.@lang('order.Buyers return')
-                            <div class="active_2"></div>
-                        </div>
-                        <div class="fourth">
-                            4.@lang('order.Refunds are complete')
-                            <div class="active_2"></div>
-                        </div>
-                        @elseif(isset($refund) && $refund->status == \App\Models\OrderRefund::ORDER_REFUND_STATUS_CHECKING)
-                                <!--<img src="{{ asset('img/process-2.png') }}">-->
-                        <div class="first">1.@lang('order.Buyer applies for return refund')</div>
-                        <div class="second active">
-                            2.@lang('order.Seller handles return request')
-                            <div class="active_2"></div>
-                        </div>
-                        <div class="third">
-                            3.@lang('order.Buyers return')
-                            <div class="active_2 active"></div>
-                        </div>
-                        <div class="fourth">
-                            4.@lang('order.Refunds are complete')
-                            <div class="active_2"></div>
-                        </div>
-                        @elseif(isset($refund) && in_array($refund->status, [\App\Models\OrderRefund::ORDER_REFUND_STATUS_SHIPPING, \App\Models\OrderRefund::ORDER_REFUND_STATUS_RECEIVING]))
-                                <!--<img src="{{ asset('img/process-3.png') }}">-->
-                        <div class="first">1.@lang('order.Buyer applies for return refund')</div>
-                        <div class="second">
-                            2.@lang('order.Seller handles return request')
-                            <div class="active_2"></div>
-                        </div>
-                        <div class="third active">
-                            3.@lang('order.Buyers return')
-                            <div class="active_2"></div>
-                        </div>
-                        <div class="fourth">
-                            4.@lang('order.Refunds are complete')
-                            <div class="active_2 active"></div>
-                        </div>
-                        @elseif(isset($refund) && $refund->status == \App\Models\OrderRefund::ORDER_REFUND_STATUS_REFUNDED)
-                                <!--<img src="{{ asset('img/process-4.png') }}">-->
-                        <div class="first">1.@lang('order.Buyer applies for return refund')</div>
-                        <div class="second">
-                            2.@lang('order.Seller handles return request')
-                            <div class="active_2"></div>
-                        </div>
-                        <div class="third">
-                            3.@lang('order.Buyers return')
-                            <div class="active_2"></div>
-                        </div>
-                        <div class="fourth active">
-                            4.@lang('order.Refunds are complete')
-                            <div class="active_2"></div>
-                        </div>
-                        @elseif(isset($refund) && $refund->status == \App\Models\OrderRefund::ORDER_REFUND_STATUS_DECLINED)
-                                <!--<img src="{{ asset('img/process-5.png') }}">-->
-                        <div class="first">1.@lang('order.Buyer applies for return refund')</div>
-                        <div class="second">
-                            2.@lang('order.Seller handles return request')
-                            <div class="active_2"></div>
-                        </div>
-                        <div class="third">
-                            3.@lang('order.Buyers return')
-                            <div class="active_2"></div>
-                        </div>
-                        <div class="fourth active">
-                            4.@lang('order.Refund failed')
-                            <div class="active_2"></div>
-                        </div>
-                    @endif
-                </div>
-                <div class="process_content">
-                    <!--左侧内容-->
-                    <div class="pull-left left_content">
-                        @if(! $refund)
-                                <!--第一步买家申请退货并退款-->
-                        <div class="step_content step-1">
-                            <form method="POST"
-                                  action="{{ route('orders.store_refund_with_shipment', ['order' => $order->id]) }}"
-                                  enctype="multipart/form-data" id="step-1-form">
-                                {{ csrf_field() }}
-                                <input type="hidden" name="order_id" value="{{ $order->id }}">
-                                <ul class="step-1-ul step-ul">
-                                    <li>
-                                        <span><i class="red">*</i>@lang('order.Refund amount')：</span>
-                                        <input name="amount" type="text" class="refund_amount"
-                                               value="{{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}"
-                                               readonly>
-                                    </li>
-                                    <li>
-                                        <span><i class="red">*</i>@lang('order.Application description')：</span>
-                                        <textarea name="remark_from_user" class="reasons_for_refunds step-1-textarea"
-                                                  placeholder="@lang('order.Please fill in the reason for the refund')"></textarea>
-                                        <span class="remainder">200</span>
-                                    </li>
-                                    <li>
-                                        <span><i class="red">*</i>@lang('order.product picture')：</span>
-                                        <div class="refunds_photos">
-                                            <span>@lang('order.upload certificate')</span>
-                                            <span>（@lang('order.Up to 3 sheets')）</span>
-                                        </div>
-                                        <input type="file" name="image" value="" id="refunds_photos_file"
-                                               onchange="imgChange(this)">
-                                        <input type="hidden" name="photos_for_refund">
-                                    </li>
-                                </ul>
-                            </form>
-                            <p class="btn_submit_area">
-                                <a class="step-1-submit step-submit">@lang('app.submit')</a>
-                            </p>
-                        </div>
-                        @elseif(isset($refund) && $refund->status == \App\Models\OrderRefund::ORDER_REFUND_STATUS_CHECKING)
-                                <!--第二步卖家处理退货申请-->
-                        <div class="step_content step-2">
-                            <form method="POST"
-                                  action="{{ route('orders.update_refund_with_shipment', ['order' => $order->id]) }}"
-                                  enctype="multipart/form-data" id="step-2-form">
-                                {{ method_field('PUT') }}
-                                {{ csrf_field() }}
-                                <input type="hidden" name="order_id" value="{{ $order->id }}">
-                                <ul class="step-1-ul step-ul">
-                                    <li>
-                                        <span><i class="red">*</i>@lang('order.Refund amount')：</span>
-                                        <input name="amount" type="text" class="refund_amount no_border"
-                                               value="{{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}"
-                                               readonly>
-                                    </li>
-                                    <li>
-                                        <span><i class="red">*</i>@lang('order.Application description')：</span>
-                                        <textarea name="remark_from_user" class="reasons_for_refunds no_border" readonly
-                                                  placeholder="@lang('order.Please fill in the reason for the refund')">{{ $refund->remark_from_user }}</textarea>
-                                        <span class="remainder hidden">200</span>
-                                    </li>
-                                    <li>
-                                        <span><i class="red">*</i>@lang('order.product picture')：</span>
-                                        <div class="refunds_photos dis_n refunds_2">
-                                            <span>@lang('order.upload certificate')</span>
-                                            <span>（@lang('order.Up to 3 sheets')）</span>
-                                        </div>
-                                        <input type="file" name="image" value="" id="refunds_photos_2"
-                                               onchange="imgChange(this)">
-                                        <input type="hidden" name="photos_for_refund"
-                                               value="{{ $refund->photos_for_refund }}">
-                                        <!--获取的图片按照下面的格式存放不超过3张-->
-                                        @if($refund->photos_for_refund)
-                                            @foreach($refund->refund_photo_urls as $refund_photo_url)
-                                                <div class='refund-path' data-path='{{ $refund_photo_url }}'>
-                                                    <img src="{{ $refund_photo_url }}"
-                                                         data-path='{{ $refund_photo_url }}'>
-                                                    <img class='del_btn dis_n'
-                                                         src="{{ asset('img/delete_refund_photos.png') }}"/>
-                                                </div>
-                                            @endforeach
-                                        @endif
-                                    </li>
-                                </ul>
-                            </form>
-                            <p class="btn_submit_area">
-                                <a class="step-2-submit-1 step-submit">@lang('order.Modify')</a>
-                                <a class="step-2-submit-2 step-submit dis_ni">@lang('order.Save changes')</a>
-                                <a class="step-2-submit-3 normal-submit"
-                                   code="{{ route('orders.revoke_refund', ['order' => $order->id]) }}">@lang('order.Revocation of application')</a>
-                            </p>
-                        </div>
-                        @elseif(isset($refund) && in_array($refund->status, [\App\Models\OrderRefund::ORDER_REFUND_STATUS_SHIPPING, \App\Models\OrderRefund::ORDER_REFUND_STATUS_RECEIVING]))
-                                <!--第三步买家退货-->
-                        <div class="step_content step-3">
-                            <div class="read_info">
-                                <!--需要根据退款的流程来进行判断显示哪一个-->
-                                @if($refund->status == \App\Models\OrderRefund::ORDER_REFUND_STATUS_SHIPPING)
-                                    <p class="read_info_title">
-                                        @lang('order.Approved')
-                                    </p>
-                                @elseif($refund->status == \App\Models\OrderRefund::ORDER_REFUND_STATUS_RECEIVING)
-                                    <p class="read_info_title">
-                                        @lang('order.Waiting for the seller to receive the goods')
-                                    </p>
-                                @endif
-                                <div class="read_address_info">
-                                    <p>@lang('order.return address')</p>
-                                    <p><span>@lang('order.Consignee')
-                                            ：</span><span>{{ $refund->seller_info['name'] }}</span></p>
-                                    <p><span>@lang('order.Contact information')
-                                            ：</span><span>{{ $refund->seller_info['phone'] }}</span></p>
-                                    <p><span>@lang('order.Shipping Address')
-                                            ：</span><span>{{ $refund->seller_info['address'] }}</span></p>
-                                </div>
-                                <ul class="step-ul">
-                                    <li>
-                                        <span>@lang('order.Refund amount')：</span>
-                                        <span class="amount_num">{{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}</span>
-                                    </li>
-                                    <li>
-                                        <span>@lang('order.Application description')：</span>
-                                        <p>{{ $refund->remark_from_user }}</p>
-                                    </li>
-                                    <li>
-                                        <span>@lang('order.product picture')：</span>
-                                        @if($refund->photos_for_refund)
-                                            @foreach($refund->refund_photo_urls as $refund_photo_url)
-                                                <div class='refund-path'>
-                                                    <img src="{{ $refund_photo_url }}">
-                                                </div>
-                                            @endforeach
-                                        @endif
-                                    </li>
-                                </ul>
-                            </div>
-                            @if($refund->status == \App\Models\OrderRefund::ORDER_REFUND_STATUS_SHIPPING)
-                                <form method="POST"
-                                      action="{{ route('orders.update_refund_with_shipment', ['order' => $order->id]) }}"
-                                      enctype="multipart/form-data" id="step-3-form">
-                                    {{ method_field('PUT') }}
-                                    {{ csrf_field() }}
-                                    <input type="hidden" name="order_id" value="{{ $order->id }}">
-                                    <ul class="step-1-ul step-ul">
-                                        <li>
-                                            <span><i class="red">*</i>@lang('order.Logistics company')：</span>
-                                            <input name="shipment_company" type="text" class="refund_company" value="">
-                                        </li>
-                                        <li>
-                                            <span><i class="red">*</i>@lang('order.shipment number')：</span>
-                                            <input name="shipment_sn" type="text" class="refund_ numbers" value="">
-                                        </li>
-                                        <li>
-                                            <span><i class="red">*</i>@lang('order.Memo Content')：</span>
-                                        <textarea name="remark_for_shipment_from_user" class="remarks_for_refunds"
-                                                  placeholder="@lang('order.Please fill in the contents of the remarks')"></textarea>
-                                        </li>
-                                        <li>
-                                            <span><i class="red">*</i>@lang('order.Logistics documents')：</span>
-                                            <!--这个refunds_3区域和read_info_title设置相同的判断显示隐藏，
-                                                当地一条显示的时候下面的区域显示，
-                                                第二条显示的时候下面这条隐藏
-                                            -->
-                                            <div class="refunds_photos refunds_3">
-                                                <span>@lang('order.upload certificate')</span>
-                                                <span>（@lang('order.Up to 3 sheets')）</span>
-                                            </div>
-                                            <input type="file" name="image" value="" id="refunds_photos_bill"
-                                                   onchange="imgChange(this)">
-                                            <input type="hidden" name="photos_for_shipment">
-                                        </li>
-                                    </ul>
-                                </form>
-                                <!--这个区域和read_info_title设置相同的判断显示隐藏，
-                                    当地一条显示的时候下面的区域显示，
-                                    第二条显示的时候下面这条隐藏
-                                -->
-                                <p class="btn_submit_area">
-                                    <a class="step-3-submit step-submit">@lang('app.submit')</a>
-                                </p>
-                            @elseif($refund->status == \App\Models\OrderRefund::ORDER_REFUND_STATUS_RECEIVING)
-                                <div class="read_info last_level">
-                                    <ul class="step-ul">
-                                        <li>
-                                            <span>@lang('order.Logistics company')：</span>
-                                            <span>{{ $shipment_company }}</span>
-                                        </li>
-                                        <li>
-                                            <span>@lang('order.shipment number')：</span>
-                                            <span>{{ $refund->shipment_sn }}</span>
-                                        </li>
-                                        <li>
-                                            <span>@lang('order.Memo Content')：</span>
-                                            <p>{{ $refund->remark_for_shipment_from_user }}</p>
-                                        </li>
-                                        <li>
-                                            <span>@lang('order.Logistics documents')：</span>
-                                            @if($refund->photos_for_shipment)
-                                                @foreach($refund->shipment_photo_urls as $shipment_photo_url)
-                                                    <div class='refund-path'>
-                                                        <img src="{{ $shipment_photo_url }}">
-                                                    </div>
-                                                @endforeach
-                                            @endif
-                                        </li>
-                                    </ul>
-                                </div>
-                            @endif
-                        </div>
-                        @elseif(isset($refund) && $refund->status == \App\Models\OrderRefund::ORDER_REFUND_STATUS_REFUNDED)
-                                <!--第四步退款成功-->
-                        <div class="step_content step-4">
-                            <div class="read_info">
-                                <p class="read_info_title">
-                                    @lang('order.Audit passed, successful refund')
-                                    <span>
-                                        @lang('order.Refunds were successful')
-                                        , {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}
-                                        @lang('order.It has been returned according to the original hit path')
-                                    </span>
-                                </p>
-                                <div class="read_address_info">
-                                    <p>@lang('order.return address')</p>
-                                    <p><span>@lang('order.Consignee')
-                                            ：</span><span>{{ $refund->seller_info['name'] }}</span></p>
-                                    <p><span>@lang('order.Contact information')
-                                            ：</span><span>{{ $refund->seller_info['phone'] }}</span></p>
-                                    <p><span>@lang('order.Shipping Address')
-                                            ：</span><span>{{ $refund->seller_info['address'] }}</span></p>
-                                </div>
-                                <ul class="step-ul">
-                                    <li>
-                                        <span>@lang('order.Refund amount')：</span>
-                                        <span class="amount_num">{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}</span>
-                                    </li>
-                                    <li>
-                                        <span>@lang('order.Refund amount')：</span>
-                                        <p>{{ $refund->remark_from_user }}</p>
-                                    </li>
-                                    <li>
-                                        <span>@lang('order.product picture')：</span>
-                                        @if($refund->photos_for_refund)
-                                            @foreach($refund->refund_photo_urls as $refund_photo_url)
-                                                <div class='refund-path'>
-                                                    <img src="{{ $refund_photo_url }}">
-                                                </div>
-                                            @endforeach
-                                        @endif
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="read_info last_level">
-                                <ul class="step-ul">
-                                    <li>
-                                        <span>@lang('order.Logistics company')：</span>
-                                        <span>{{ $shipment_company }}</span>
-                                    </li>
-                                    <li>
-                                        <span>@lang('order.shipment number')：</span>
-                                        <span>{{ $refund->shipment_sn }}</span>
-                                    </li>
-                                    <li>
-                                        <span>@lang('order.Memo Content')：</span>
-                                        <p>{{ $refund->remark_for_shipment_from_user }}</p>
-                                    </li>
-                                    <li>
-                                        <span>@lang('order.Logistics documents')：</span>
-                                        @foreach($refund->shipment_photo_urls as $shipment_photo_url)
-                                            <div class='refund-path'>
-                                                <img src="{{ $shipment_photo_url }}">
-                                            </div>
-                                        @endforeach
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        @elseif(isset($refund) && $refund->status == \App\Models\OrderRefund::ORDER_REFUND_STATUS_DECLINED)
-                                <!--第五步退款失败-->
-                        <div class="step_content step-5">
-                            <div class="read_info last_level">
-                                <p class="read_info_title">
-                                    @lang('order.Audit not passed')
-                                    <span>
-                                        @lang('order.You can contact online customer service')
-                                    </span>
-                                </p>
-                                <ul class="step-ul">
-                                    <li>
-                                        <span>@lang('order.Refund amount')：</span>
-                                        <span class="amount_num">{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}</span>
-                                    </li>
-                                    <li>
-                                        <span>@lang('order.Refund Instructions')：</span>
-                                        <p>{{ $refund->remark_from_user }}</p>
-                                    </li>
-                                    <li>
-                                        <span>@lang('order.product picture')：</span>
-                                        @if($refund->photos_for_refund)
-                                            @foreach($refund->refund_photo_urls as $refund_photo_url)
-                                                <div class='refund-path'>
-                                                    <img src="{{ $refund_photo_url }}">
-                                                </div>
-                                            @endforeach
-                                        @endif
-                                    </li>
-                                    <li class="red">
-                                        <span>@lang('order.Seller reply')：</span>
-                                        <p>{{ $refund->remark_from_seller }}</p>
-                                    </li>
-                                </ul>
-                                <p class="btn_submit_area">
-                                    <a class="step-5-submit-1 step-submit">@lang('app.determine')</a>
-                                    <a class="step-5-submit-2 normal-submit"
-                                       code="{{ route('orders.revoke_refund', ['order' => $order->id]) }}">@lang('order.Revocation of application')</a>
-                                </p>
-                            </div>
-                        </div>
-                        @endif
-                    </div>
-                    <!--右侧订单信息-->
-                    <div class="pull-left order_lists">
-                        <p class="step_content_title">@lang('order.Order Info')</p>
-                        <ul>
-                            @foreach($snapshot as $order_item)
-                                <li>
-                                    <a href="{{ route('products.show', ['product' => $order_item['sku']['product']['id']]) }}">
-                                        <div class="info_img">
-                                            <img src="{{ $order_item['sku']['product']['thumb_url'] }}">
-                                        </div>
-                                        <div class="order_lists_info">
-                                            <p>
-                                                <span>{{ App::isLocale('en') ? $order_item['sku']['product']['name_en'] : $order_item['sku']['product']['name_zh'] }}</span>
-                                            </p>
-                                            <p>{{ App::isLocale('en') ? $order_item['sku']['name_en'] : $order_item['sku']['name_zh'] }}</p>
-                                            <p>
-                                                @lang('order.Unit Price')
-                                                ：{{ $order->currency == "USD" ? '&#36;' : '&#165;' }} {{ $order_item['price'] }}
-                                                &#215; {{ $order_item['number'] }}</p>
-                                        </div>
-                                    </a>
-                                </li>
-                            @endforeach
-                            <li class="order_lists_total">
-                                <p>
-                                    <span>@lang('order.Order time')：</span>
-                                    <span>{{ $order->created_at }}</span>
-                                </p>
-                                <p>
-                                    <span>@lang('order.Order number')：</span>
-                                    <span>{{ $order->order_sn }}</span>
-                                </p>
-                                <p>
-                                    <span>@lang('order.Postage')：</span>
-                                    <span><i>{{ $order->currency == "USD" ? '&#36;' : '&#165;' }} </i>{{ $order->total_shipping_fee }}</span>
-                                </p>
-                                <p>
-                                    <span>@lang('order.Sum')：</span>
-                                    <span><i>{{ $order->currency == "USD" ? '&#36;' : '&#165;' }}</i>{{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}
-                                        （@lang('order.Postage included')）</span>
-                                </p>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>--}}
     </div>
 @endsection
 @section('scriptsAfterJs')
     <script src="{{ asset('js/swiper/js/swiper.js') }}"></script>
     <script type="text/javascript">
-        var set_finish = false;
         $(function () {
-            $(".navigation_left ul li").removeClass("active");
-            $(".my_order").addClass("active");
-            $(".myorder_classification li").on('click', function () {
-                $(".myorder_classification li").removeClass('active');
-                $(this).addClass("active");
-            });
-            //页面加载时判断右侧订单信息的高度
-            var h = $(".left_content").height();
-            $(".order_lists ul").css("height", parseInt(h - 65));
-            //上传图片
-            $(".refunds_photos").on("click", function () {
-                var img_num = $(this).parents('li').find(".refund-path");
-                if (img_num.length < 3) {
-                    $("#refunds_photos_file").click();
-                } else {
-                    layer.msg("@lang('order.Upload up to 3 images')");
-                }
-            });
-            $(".refunds_2").on("click", function () {
-                var img_num = $(this).parents('li').find(".refund-path");
-                if (img_num.length < 3) {
-                    $("#refunds_photos_2").click();
-                } else {
-                    layer.msg("@lang('order.Upload up to 3 images')");
-                }
-            });
-            $(".refunds_3").on("click", function () {
-                var img_num = $(this).parents('li').find(".refund-path");
-                if (img_num.length < 3) {
-                    $("#refunds_photos_bill").click();
-                } else {
-                    layer.msg("@lang('order.Upload up to 3 images')");
-                }
-            });
-            //图片删除
-            $(".del_btn").on('click', function () {
-                $(this).parents('.refund-path').remove();
-            });
-            //第一步提交退款申请
-            $(".step-1-submit").on("click", function () {
-                set_path("#step-1-form", 'photos_for_refund');
-                if ($(".step-1-textarea").val() == null || $(".step-1-textarea").val() == "") {
-                    layer.msg("@lang('order.Please fill in the application instructions')");
-                } else {
-                    if (set_finish == true) {
-                        $("#step-1-form").submit();
-                    }
-                }
-            });
-            //判断文本域的字数
-            $(".reasons_for_refunds").keyup(function () {
-                var text = $(this).val();
-                //中文字数统计
-                str = (text.replace(/\w/g, "")).length;
-                //非汉字的个数
-                abcnum = text.length - str;
-                total = str + abcnum;
-                if (total > 200) {
-                    $(this).val($(this).val().substring(0, 200));
-                    $(".remainder").html('0');
-                    layer.msg("@lang('order.The number of words exceeds the upper limit')");
-                } else {
-                    var num = 200 - total;
-                    $(".remainder").html(num);
-                }
-            });
-            $(".reasons_for_refunds").change(function () {
-                var text = $(this).val();
-                //中文字数统计
-                str = (text.replace(/\w/g, "")).length;
-                //非汉字的个数
-                abcnum = text.length - str;
-                total = str + abcnum;
-                // console.log(total);
-                if (total > 200) {
-                    $(this).val($(this).val().substring(0, 200));
-                    $(".remainder").html('0');
-                    layer.msg("@lang('order.The number of words exceeds the upper limit')");
-                } else {
-                    var num = 200 - total;
-                    $(".remainder").html(num);
-                }
-            });
-            //修改申请
-            $(".step-2-submit-1").on("click", function () {
-                $(".step-2 input").removeClass("no_border");
-                $(".step-2 textarea").removeClass("no_border");
-                $(".step-2 textarea").prop("readonly", false);
-                $(".step-2 .del_btn").removeClass('dis_n');
-                $(".refunds_2").removeClass('dis_n');
-                $(".remainder").removeClass('hidden');
-                $(this).addClass("dis_ni");
-                $(".step-2-submit-2").removeClass("dis_ni");
-            });
-            //提交保存修改
-            $(".step-2-submit-2").on("click", function () {
-                set_path("#step-2-form", 'photos_for_refund');
-                if (set_finish == true) {
-                    $("#step-2-form").submit();
-                }
-            });
-            //撤销退款申请
-            $(".step-2-submit-3").on("click", function () {
-                var data = {
+        	$(".refund_con").css("min-height",$(window).height()-$(".headerBar ").height());
+        	//第一步表单提交
+        	$(".submint_one").on("click",function(){
+        		$("#step-1-form").submit();
+        	})
+        	//第二步修改申请
+        	$(".change_btn").on("click",function(){
+        		$(this).addClass("dis_ni");
+        		$(".save_btn").removeClass("dis_ni");
+        		$(".refunds_photos").removeClass("dis_n");
+        	})
+        	//保存修改
+        	$(".save_btn").on("click",function(){
+        		$(this).addClass("dis_ni");
+        		$(".change_btn").removeClass("dis_ni");
+        		$(".refunds_photos").addClass("dis_n");
+        		$("#step-2-form").submit();
+        	})
+        	//撤销申请
+        	$(".Revocation_btn").on("click",function(){
+        		var data = {
                     _method: "PATCH",
                     _token: "{{ csrf_token() }}",
                 };
@@ -590,107 +314,198 @@
                     url: url,
                     data: data,
                     success: function (data) {
-                        window.location.href = "{{ route('orders.index') }}";
+                        window.location.href = "{{ route('mobile.orders.index') }}";
                     },
                     error: function (err) {
                         console.log(err);
                         if (err.status == 403) {
                             layer.open({
-                                title: "@lang('app.Prompt')",
-                                content: "@lang('app.Unable to complete operation')",
-                                btn: ["@lang('app.determine')", "@lang('app.cancel')"],
-                            });
+		                        content: "@lang('app.Unable to complete operation')"
+		                        , skin: 'msg'
+		                        , time: 2 //2秒后自动关闭
+		                    });
                         }
                     }
                 });
-            });
-            //提交物流单据
-            $(".step-3-submit").on("click", function () {
-                set_path("#step-3-form", 'photos_for_shipment');
-                if (set_finish == true) {
-                    $("#step-3-form").submit();
-                }
-            });
-            //撤销退款申请
-            $(".step-5-submit-2").on("click", function () {
-                var data = {
-                    _method: "PATCH",
-                    _token: "{{ csrf_token() }}",
-                };
-                var url = $(this).attr('code');
-                $.ajax({
-                    type: "post",
-                    url: url,
-                    data: data,
-                    success: function (data) {
-                        window.location.href = "{{ route('orders.index') }}";
-                    },
-                    error: function (err) {
-                        console.log(err);
-                        if (err.status == 403) {
-                            layer.open({
-                                title: "@lang('app.Prompt')",
-                                content: "@lang('app.Unable to complete operation')",
-                                btn: ["@lang('app.determine')", "@lang('app.cancel')"],
-                            });
-                        }
-                    }
-                });
-            })
+        	})
+        	//提交物流信息
+        	$(".logistics_submint").on("click",function(){
+        		$("#step-3-form").submit();
+        	})
+        	
+        	// 全局对象，不同function使用传递数据
+			const imgFile = {};
+			function handleInputChange (event) {
+			    // 获取当前选中的文件
+			    const file = event.target.files[0];
+			    const imgMasSize = 1024 * 1024 * 10; // 10MB
+			    // 检查文件类型
+			    if(['jpeg', 'png', 'gif', 'jpg'].indexOf(file.type.split("/")[1]) < 0){
+			        // 自定义报错方式
+			        // Toast.error("文件类型仅支持 jpeg/png/gif！", 2000, undefined, false);
+			        return;
+			    }
+			    // 文件大小限制
+			    if(file.size > imgMasSize ) {
+			        // 文件大小自定义限制
+			        // Toast.error("文件大小不能超过10MB！", 2000, undefined, false);
+			        return;
+			    }
+			    // 判断是否是ios
+			    if(!!window.navigator.userAgent.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/)){
+			        // iOS
+			        transformFileToFormData(file);
+			        return;
+			    }
+			    // 图片压缩之旅
+			    transformFileToDataUrl(file);
+			}
+			// 将File append进 FormData
+			function transformFileToFormData (file) {
+			    const formData = new FormData();
+			    // 自定义formData中的内容
+			    // type
+			    formData.append('type', file.type);
+			    // size
+			    formData.append('size', file.size || "image/jpeg");
+			    // name
+			    formData.append('name', file.name);
+			    // lastModifiedDate
+			    formData.append('lastModifiedDate', file.lastModifiedDate);
+			    // append 文件
+			    formData.append('file', file);
+			    // 上传图片
+			    uploadImg(formData);
+			}
+			// 将file转成dataUrl
+			function transformFileToDataUrl (file) {
+			    const imgCompassMaxSize = 200 * 1024; // 超过 200k 就压缩
+			
+			    // 存储文件相关信息
+			    imgFile.type = file.type || 'image/jpeg'; // 部分安卓出现获取不到type的情况
+			    imgFile.size = file.size;
+			    imgFile.name = file.name;
+			    imgFile.lastModifiedDate = file.lastModifiedDate;
+			
+			    // 封装好的函数
+			    const reader = new FileReader();
+			
+			    // file转dataUrl是个异步函数，要将代码写在回调里
+			    reader.onload = function(e) {
+			        const result = e.target.result;
+			
+			        if(result.length < imgCompassMaxSize) {
+			            compress(result, processData, false );    // 图片不压缩
+			        } else {
+			            compress(result, processData);            // 图片压缩
+			        }
+			    };
+			
+			    reader.readAsDataURL(file);
+			}
+			// 使用canvas绘制图片并压缩
+			function compress (dataURL, callback, shouldCompress = true) {
+			    const img = new window.Image();
+			
+			    img.src = dataURL;
+			
+			    img.onload = function () {
+			        const canvas = document.createElement('canvas');
+			        const ctx = canvas.getContext('2d');
+			
+			        canvas.width = img.width;
+			        canvas.height = img.height;
+			
+			        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+			
+			        let compressedDataUrl;
+			
+			        if(shouldCompress){
+			            compressedDataUrl = canvas.toDataURL(imgFile.type, 0.2);
+			        } else {
+			            compressedDataUrl = canvas.toDataURL(imgFile.type, 1);
+			        }
+			
+			        callback(compressedDataUrl);
+			    }
+			}
+			
+			function processData (dataURL) {
+			    // 这里使用二进制方式处理dataUrl
+			    const binaryString = window.atob(dataUrl.split(',')[1]);
+			    const arrayBuffer = new ArrayBuffer(binaryString.length);
+			    const intArray = new Uint8Array(arrayBuffer);
+			    const imgFile = this.imgFile;
+			
+			    for (let i = 0, j = binaryString.length; i < j; i++) {
+			        intArray[i] = binaryString.charCodeAt(i);
+			    }
+			
+			    const data = [intArray];
+			
+			    let blob;
+			
+			    try {
+			        blob = new Blob(data, { type: imgFile.type });
+			    } catch (error) {
+			        window.BlobBuilder = window.BlobBuilder ||
+			            window.WebKitBlobBuilder ||
+			            window.MozBlobBuilder ||
+			            window.MSBlobBuilder;
+			        if (error.name === 'TypeError' && window.BlobBuilder){
+			            const builder = new BlobBuilder();
+			            builder.append(arrayBuffer);
+			            blob = builder.getBlob(imgFile.type);
+			        } else {
+			            // Toast.error("版本过低，不支持上传图片", 2000, undefined, false);
+			            throw new Error('版本过低，不支持上传图片');
+			        }
+			    }
+			
+			    // blob 转file
+			    const fileOfBlob = new File([blob], imgFile.name);
+			    const formData = new FormData();
+			
+			    // type
+			    formData.append('type', imgFile.type);
+			    // size
+			    formData.append('size', fileOfBlob.size);
+			    // name
+			    formData.append('name', imgFile.name);
+			    // lastModifiedDate
+			    formData.append('lastModifiedDate', imgFile.lastModifiedDate);
+			    // append 文件
+			    formData.append('file', fileOfBlob);
+			
+			    uploadImg(formData);
+			}
+			
+			// 上传图片
+			function uploadImg (formData) {
+			    const xhr = new XMLHttpRequest();
+			
+			    // 进度监听
+			    xhr.upload.addEventListener('progress', (e)=>{console.log(e.loaded / e.total)}, false);
+			    // 加载监听
+			    // xhr.addEventListener('load', ()=>{console.log("加载中");}, false);
+			    // 错误监听
+			    xhr.addEventListener('error', ()=>{Toast.error("上传失败！", 2000, undefined, false);}, false);
+			    xhr.onreadystatechange = function () {
+			        if (xhr.readyState === 4) {
+			            const result = JSON.parse(xhr.responseText);
+			            if (xhr.status === 200) {
+			                // 上传成功
+			                
+			
+			            } else {
+			                // 上传失败
+			            }
+			        }
+			    };
+			    xhr.open('POST', '/uploadUrl' , true);
+			    xhr.send(formData);
+			}
+        	
         });
-        // 图片上传入口按钮 input[type=file]值发生改变时触发
-        function imgChange(obj) {
-            var filePath = $(obj).val();
-            if (filePath.indexOf("jpg") != -1 || filePath.indexOf("png") != -1 || filePath.indexOf("jpeg") != -1 || filePath.indexOf("gif") != -1 || filePath.indexOf("bmp") != -1) {
-                var arr = filePath.split('\\');
-                var fileName = arr[arr.length - 1];
-                upLoadBtnSwitch = 1;
-                UpLoadImg(obj);
-            } else {
-                layer.open({
-                    title: "@lang('app.Prompt')",
-                    content: "@lang('app.picture_type_error')",
-                    btn: "@lang('app.determine')"
-                });
-                upLoadBtnSwitch = 0;
-                return false
-            }
-        }
-
-        // 本地图片上传 按钮
-        function UpLoadImg(obj) {
-            var formData = new FormData();
-            formData.append('image', $(obj)[0].files[0]);
-            $.ajax({
-                url: "{{ route('image.upload') }}",
-                data: formData,
-                dataType: 'json',
-                cache: false,
-                contentType: false,//必须false才会避开jQuery对 formdata 的默认处理 XMLHttpRequest会对 formdata 进行正确的处理
-                processData: false,//必须false才会自动加上正确的Content-Type
-                type: 'post',
-                success: function (data) {
-                    var html = "<div class='refund-path' data-path='" + data.path + "'>" +
-                            "<img src='" + data.preview + "' data-path='" + data.path + "'>" +
-                            "<img class='del_btn' src='{{ asset('img/delete_refund_photos.png') }}'/>" +
-                            "</div>";
-                    $(obj).parents('li').append(html);
-                }, error: function (e) {
-                    console.log(e);
-                }
-            });
-        }
-        function set_path(dom, input_name) {
-            var order_list = $(dom).find(".refund-path");
-            var path_url = "";
-            $.each(order_list, function (i, n) {
-                path_url += $(n).attr('data-path') + ",";
-            });
-            path_url = path_url.substring(0, path_url.length - 1);
-
-            $(dom).find("input[name='" + input_name + "']").val(path_url);
-            set_finish = true;
-            return set_finish;
-        }
     </script>
 @endsection
