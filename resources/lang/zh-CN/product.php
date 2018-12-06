@@ -31,7 +31,7 @@ return [
         'Move_to_favorites' => '移入收藏夹',
         'Delete_the_selected_products' => '删除选中的产品',
         'Empty_out_unwanted_products' => '清空失效的产品',
-        'A_total_of' => '合计',
+        'Sum' => '合计',
         'Settlement' => '结算',
         'empty_cart' => '清空购物车',
         'shopping_cart_still_empty' => '购物车还是空的',

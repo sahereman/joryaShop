@@ -453,7 +453,7 @@
                                     <span><i>{{ $order->currency == "USD" ? '&#36;' : '&#165;' }} </i>{{ $order->total_shipping_fee }}</span>
                                 </p>
                                 <p>
-                                    <span>@lang('order.A total of')：</span>
+                                    <span>@lang('order.Sum')：</span>
                                     <span><i>{{ $order->currency == "USD" ? '&#36;' : '&#165;' }}</i>{{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}
                                         （@lang('order.Postage included')）</span>
                                 </p>

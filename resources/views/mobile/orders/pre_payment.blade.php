@@ -47,12 +47,20 @@
                     @endif
                 </ul>
                 <!--显示商品总数量-->
-                <span class="pre_products_num">共{{ count($items) }}件</span>
+                @if(\Illuminate\Support\Facades\App::isLocale('en'))
+                    <span class="pre_products_num">
+                        {{ count($items) .' '. (count($items) > 1 ? \Illuminate\Support\Str::plural(__('order.Commodity')) : __('order.Commodity')) .' '. __('order.in total') }}
+                    </span>
+                @else
+                    <span class="pre_products_num">
+                        {{ __('order.in total') .' '. count($items) .' '. __('order.Commodity') }}
+                    </span>
+                @endif
                 <img src="{{ asset('static_m/img/icon_more.png') }}">
             </div>
             <div class="pre_amount">
                 <p>
-                    <span>@lang('order.A total of')</span>
+                    <span>@lang('order.Sum')</span>
                     <span class="RMB_num">&#165; {{ $total_amount }}</span>
                     <span class="dis_ni dollar_num">&#36; {{ $total_amount_en }}</span>
                 </p>
@@ -63,7 +71,7 @@
                 </p>
             </div>
             <div class="pre_currency">
-                <p class="main_title">@lang('order.currency option')</p>
+                <p class="main_title">@lang('order.Currency options')</p>
                 <p class="currency_selection">
                     <a href="javascript:void(0);" class="active" code="RMB" country="CNY">@lang('order.RMB')</a>
                     <a href="javascript:void(0);" code="dollar" country="USD">@lang('order.Dollars')</a>

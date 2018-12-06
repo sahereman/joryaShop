@@ -32,14 +32,18 @@
                 </ul>
                 <!--显示商品总数量-->
                 @if(\Illuminate\Support\Facades\App::isLocale('en'))
-                    <span class="pre_products_num">{{ count($order->snapshot) . (count($order->snapshot) > 1 ? ' commodities ' : ' commodity ') . __('basic.orders.in total') }}</span>
+                    <span class="pre_products_num">
+                        {{ count($order->snapshot) .' '. (count($order->snapshot) > 1 ? \Illuminate\Support\Str::plural(__('order.Commodity')) : __('order.Commodity')) .' '. __('order.in total') }}
+                    </span>
                 @else
-                    <span class="pre_products_num">共{{ count($order->snapshot) }}件</span>
+                    <span class="pre_products_num">
+                        {{ __('order.in total') .' '. count($order->snapshot) .' '. __('order.Commodity') }}
+                    </span>
                 @endif
             </div>
             <div class="pre_amount">
                 <p>
-                    <span>@lang('order.A total of')</span>
+                    <span>@lang('order.Sum')</span>
                     <span>{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ $order->total_amount }}</span>
                 </p>
                 <p>
@@ -48,7 +52,7 @@
                 </p>
             </div>
             <div class="pre_currency">
-                <p class="main_title">@lang('order.currency option')</p>
+                <p class="main_title">@lang('order.Currency options')</p>
                 <p class="currency_selection">
                     @if($order->currency == 'CNY')
                         <a href="javascript:void(0);" class="active" code="RMB" country="CNY">@lang('order.RMB')</a>

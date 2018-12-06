@@ -91,7 +91,7 @@
                     </div>
                 </div>
                 <div class="pre_payment_footer">
-                    <p class="main_title">@lang('order.currency option')</p>
+                    <p class="main_title">@lang('order.Currency options')</p>
                     <p class="currency_selection">
                         <a href="javascript:void(0);" class="active" code="RMB" country="CNY">@lang('order.RMB')</a>
                         <a href="javascript:void(0);" code="dollar" country="USD">@lang('order.Dollars')</a>
@@ -104,7 +104,7 @@
                         </li>
                         <li>
                             <p>
-                                <span>@lang('order.A total of')：</span>
+                                <span>@lang('order.Sum')：</span>
                                 <span class="RMB_num amount_of_money">&#165; <span>{{ $total_amount }}</span></span>
                                 <span class="dis_ni dollar_num amount_of_money">&#36; <span>{{ $total_amount_en }}</span></span>
                             </p>

@@ -88,7 +88,7 @@
                     </div>
                     <div class="right">
                         <!--<span>总共选中了<span id="totalCount">0</span>件商品</span>-->
-                        <span>合计:
+                        <span>@lang('order.Sum'):
                             <span id="totalPrice">{{ App::isLocale('en') ? '&#36;' : '&#165;' }}0.00</span>
                         </span>
                         @guest

@@ -31,7 +31,7 @@ return [
         'Move_to_favorites' => 'Move to favorites',
         'Delete_the_selected_products' => 'Delete the selected products',
         'Empty_out_unwanted_products' => 'Empty out unwanted products',
-        'A_total_of' => 'A total of',
+        'Sum' => 'Sum',
         'Settlement' => 'Settlement',
         'empty_cart' => 'Empty cart',
         'shopping_cart_still_empty' => 'The shopping cart is still empty',
