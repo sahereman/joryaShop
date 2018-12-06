@@ -113,4 +113,7 @@ return [
     'Total Merchandise' => 'Total Merchandise',
     'Order Details' => 'Order Details',
     'View shipment details' => 'View shipment details',
+    'Shipment details' => 'Shipment details',
+    'In transit' => 'In transit',
+    'Orders have been made' => 'Orders have been made',
 ];
