@@ -29,6 +29,9 @@ class RedirectIfMobileBrowser
         if ($request->routeIs('products.show')) {
             if (\Browser::isMobile()) {
                 return redirect()->to('mobile' . $request->getRequestUri());
+                /*return redirect()->route('mobile.products.show', [
+                    'product' => $request->segment(2),
+                ]);*/
             }
         }
 
