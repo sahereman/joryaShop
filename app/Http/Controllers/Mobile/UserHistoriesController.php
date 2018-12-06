@@ -23,6 +23,7 @@ class UserHistoriesController extends Controller
         return view('mobile.user_histories.index');
     }
 
+    // GET 列表 下拉加载更多 [for Ajax request]
     public function more(Request $request)
     {
         $current_page = $request->has('page') ? $request->input('page') : 1;
@@ -34,8 +35,9 @@ class UserHistoriesController extends Controller
             }
         }
         $histories = $request->user()->histories()->with('product')->orderByDesc('browsed_at')->get()->groupBy(function ($item, $key) {
-            return date('Y.m.d', strtotime($item['browsed_at']));
-            // return Carbon::createFromFormat('Y-m-d H:i:s', $item['browsed_at'])->toDateString();
+            return date('y.m.d', strtotime($item['browsed_at']));
+            // return Carbon::createFromFormat('y-m-d H:i:s', $item['browsed_at'])->toDateString();
+            // return Carbon::createFromFormat('y-m-d H:i:s', $item['browsed_at'])->format('y.m.d');
         });
         $history_count = $histories->count();
         $page_count = ceil($history_count / 5);
@@ -44,7 +46,14 @@ class UserHistoriesController extends Controller
         if ($current_page == 1) {
             $first_history = array_shift_assoc($histories_for_page);
             foreach ($first_history as $key => $value) {
-                $histories_for_page = array_unshift_assoc($histories_for_page, Carbon::createFromFormat('Y.m.d', $key)->diffForHumans(), $value);
+                if ($key == date('y.m.d')) {
+                    $histories_for_page = App::isLocale('en') ?
+                        array_unshift_assoc($histories_for_page, 'Today', $value) :
+                        array_unshift_assoc($histories_for_page, '今天', $value);
+                } else {
+                    $histories_for_page = array_unshift_assoc($histories_for_page, Carbon::createFromFormat('y.m.d', $key)->diffForHumans(), $value);
+                }
+                break;
             }
         }
         return response()->json([
