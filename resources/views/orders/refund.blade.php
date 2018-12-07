@@ -21,49 +21,57 @@
                 <div class="technological_process">
                     <!--分步骤显示图片一共四张-->
                     @if(! $refund)
-                            <!--<img src="{{ asset('img/process-refund-1.png') }}">-->
-                    <div class="first type_2 active">1.@lang('order.Seller applies for refunds only')</div>
-                    <div class="second type_2">
-                        2.@lang('order.Seller handles refund Request')
-                        <div class="active_2 active"></div>
-                    </div>
-                    <div class="third type_2">
-                        3.@lang('order.Refunds are complete')
-                        <div class="active_2"></div>
-                    </div>
+                        {{--<img src="{{ asset('img/process-refund-1.png') }}">--}}
+                        <div class="first type_2 active">
+                            1.@lang('order.Seller applies for refunds only')
+                        </div>
+                        <div class="second type_2">
+                            2.@lang('order.Seller handles refund Request')
+                            <div class="active_2 active"></div>
+                        </div>
+                        <div class="third type_2">
+                            3.@lang('order.Refunds are complete')
+                            <div class="active_2"></div>
+                        </div>
                     @elseif(isset($refund) && $refund->status == \App\Models\OrderRefund::ORDER_REFUND_STATUS_CHECKING)
-                            <!--<img src="{{ asset('img/process-refund-2.png') }}">-->
-                    <div class="first type_2">1.@lang('order.Seller applies for refunds only')</div>
-                    <div class="second type_2 active">
-                        2.@lang('order.Seller handles refund Request')
-                        <div class="active_2"></div>
-                    </div>
-                    <div class="third type_2">
-                        3.@lang('order.Refunds are complete')
-                        <div class="active_2 active"></div>
-                    </div>
+                        {{--<img src="{{ asset('img/process-refund-2.png') }}">--}}
+                        <div class="first type_2">
+                            1.@lang('order.Seller applies for refunds only')
+                        </div>
+                        <div class="second type_2 active">
+                            2.@lang('order.Seller handles refund Request')
+                            <div class="active_2"></div>
+                        </div>
+                        <div class="third type_2">
+                            3.@lang('order.Refunds are complete')
+                            <div class="active_2 active"></div>
+                        </div>
                     @elseif(isset($refund) && $refund->status == \App\Models\OrderRefund::ORDER_REFUND_STATUS_REFUNDED)
-                            <!--<img src="{{ asset('img/process-refund-3.png') }}">-->
-                    <div class="first type_2">1.@lang('order.Seller applies for refunds only')</div>
-                    <div class="second type_2">
-                        2.@lang('order.Seller handles refund Request')
-                        <div class="active_2"></div>
-                    </div>
-                    <div class="third type_2 active">
-                        3.@lang('order.Refunds are complete')
-                        <div class="active_2"></div>
-                    </div>
+                        {{--<img src="{{ asset('img/process-refund-3.png') }}">--}}
+                        <div class="first type_2">
+                            1.@lang('order.Seller applies for refunds only')
+                        </div>
+                        <div class="second type_2">
+                            2.@lang('order.Seller handles refund Request')
+                            <div class="active_2"></div>
+                        </div>
+                        <div class="third type_2 active">
+                            3.@lang('order.Refunds are complete')
+                            <div class="active_2"></div>
+                        </div>
                     @elseif(isset($refund) && $refund->status == \App\Models\OrderRefund::ORDER_REFUND_STATUS_DECLINED)
-                            <!--<img src="{{ asset('img/process-refund-4.png') }}">-->
-                    <div class="first type_2">1.@lang('order.Seller applies for refunds only')</div>
-                    <div class="second type_2">
-                        2.@lang('order.Seller handles refund Request')
-                        <div class="active_2"></div>
-                    </div>
-                    <div class="third type_2 active">
-                        3.@lang('order.Refund failed')
-                        <div class="active_2"></div>
-                    </div>
+                        {{--<img src="{{ asset('img/process-refund-4.png') }}">--}}
+                        <div class="first type_2">
+                            1.@lang('order.Seller applies for refunds only')
+                        </div>
+                        <div class="second type_2">
+                            2.@lang('order.Seller handles refund Request')
+                            <div class="active_2"></div>
+                        </div>
+                        <div class="third type_2 active">
+                            3.@lang('order.Refund failed')
+                            <div class="active_2"></div>
+                        </div>
                     @endif
                 </div>
                 <div class="process_content">
@@ -79,14 +87,14 @@
                                 <ul class="step-1-ul step-ul">
                                     <li>
                                         <span><i class="red">*</i>@lang('order.Refund amount')：</span>
-                                        <input name="amount" type="text" class="refund_amount"
-                                               value="{{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}"
-                                               readonly>
+                                        <input name="amount" type="text" class="refund_amount" readonly
+                                               value="{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}">
                                     </li>
                                     <li>
                                         <span><i class="red">*</i>@lang('order.Application description')：</span>
                                         <textarea name="remark_from_user" class="reasons_for_refunds"
-                                                  placeholder="@lang('order.Please fill in the reason for the refund')"></textarea>
+                                                  placeholder="@lang('order.Please fill in the reason for the refund')">
+                                        </textarea>
                                         <span class="remainder">200</span>
                                     </li>
                                 </ul>
@@ -106,14 +114,15 @@
                                 <ul class="step-1-ul step-ul">
                                     <li>
                                         <span><i class="red">*</i>@lang('order.Refund amount')：</span>
-                                        <input name="amount" type="text" class="refund_amount no_border"
-                                               value="¥ {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}"
-                                               readonly>
+                                        <input name="amount" type="text" class="refund_amount no_border" readonly
+                                               value="{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}">
                                     </li>
                                     <li>
                                         <span><i class="red">*</i>@lang('order.Application description')：</span>
                                         <textarea name="remark_from_user" class="reasons_for_refunds no_border" readonly
-                                                  placeholder="@lang('order.Please fill in the reason for the refund')">{{ $refund->remark_from_user }}</textarea>
+                                                  placeholder="@lang('order.Please fill in the reason for the refund')">
+                                            {{ $refund->remark_from_user }}
+                                        </textarea>
                                         <span class="remainder hidden">200</span>
                                     </li>
                                 </ul>
@@ -122,7 +131,9 @@
                                 <a class="step-2-submit-1 step-submit">@lang('order.Modify')</a>
                                 <a class="step-2-submit-2 step-submit dis_ni">@lang('order.Save changes')</a>
                                 <a class="step-2-submit-3 normal-submit"
-                                   code="{{ route('orders.revoke_refund', ['order' => $order->id]) }}">@lang('order.Revocation of application')</a>
+                                   code="{{ route('orders.revoke_refund', ['order' => $order->id]) }}">
+                                    @lang('order.Revocation of application')
+                                </a>
                             </p>
                         </div>
                         @elseif(isset($refund) && $refund->status == \App\Models\OrderRefund::ORDER_REFUND_STATUS_REFUNDED)
@@ -133,13 +144,16 @@
                                     @lang('order.Audit passed, successful refund')
                                     <span>
                                         @lang('order.Refunds were successful')
-                                        , {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}@lang('order.It has been returned according to the original hit path')
+                                        , {{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}
+                                        @lang('order.It has been returned according to the original hit path')
                                     </span>
                                 </p>
                                 <ul class="step-ul">
                                     <li>
                                         <span>@lang('order.Refund amount')：</span>
-                                        <span class="amount_num">{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}</span>
+                                        <span class="amount_num">
+                                            {{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}
+                                        </span>
                                     </li>
                                     <li>
                                         <span>@lang('order.Application description')：</span>
@@ -161,7 +175,9 @@
                                 <ul class="step-ul">
                                     <li>
                                         <span>@lang('order.Refund amount')：</span>
-                                        <span class="amount_num">{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}</span>
+                                        <span class="amount_num">
+                                            {{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}
+                                        </span>
                                     </li>
                                     <li>
                                         <span>@lang('order.Application description')：</span>
@@ -175,7 +191,9 @@
                                 <p class="btn_submit_area">
                                     <a class="step-5-submit-1 step-submit">@lang('app.determine')</a>
                                     <a class="step-5-submit-2 normal-submit"
-                                       code="{{ route('orders.revoke_refund', ['order' => $order->id]) }}">@lang('order.Revocation of application')</a>
+                                       code="{{ route('orders.revoke_refund', ['order' => $order->id]) }}">
+                                        @lang('order.Revocation of application')
+                                    </a>
                                 </p>
                             </div>
                         </div>
@@ -196,9 +214,11 @@
                                                 <span>{{ App::isLocale('en') ? $order_item['sku']['product']['name_en'] : $order_item['sku']['product']['name_zh'] }}</span>
                                             </p>
                                             <p>{{ App::isLocale('en') ? $order_item['sku']['name_en'] : $order_item['sku']['name_zh'] }}</p>
-                                            <p>@lang('order.Unit Price')
+                                            <p>
+                                                @lang('order.Unit Price')
                                                 ：{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ $order_item['price'] }}
-                                                &#215; {{ $order_item['number'] }}</p>
+                                                &#215; {{ $order_item['number'] }}
+                                            </p>
                                         </div>
                                     </a>
                                 </li>
@@ -214,12 +234,18 @@
                                 </p>
                                 <p>
                                     <span>@lang('order.Postage')：</span>
-                                    <span><i>{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} </i>{{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}</span>
+                                    <span>
+                                        <i>{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} </i>
+                                        {{ $order->total_shipping_fee }}
+                                    </span>
                                 </p>
                                 <p>
                                     <span>@lang('order.Sum')：</span>
-                                    <span><i>{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} </i>{{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}
-                                        （@lang('order.Postage included')）</span>
+                                    <span>
+                                        <i>{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} </i>
+                                        {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}
+                                        （@lang('order.Postage included')）
+                                    </span>
                                 </p>
                             </li>
                         </ul>

@@ -122,4 +122,7 @@ return [
     'Please fill in the logistics company' => '请填写物流公司',
     'Please fill in the Logistics single number' => '请填写物流单号',
     'Please describe in detail the reason for the refund' => '请详细描述退款原因',
+    'Refund application' => '申请退款',
+    'Application checked and waiting for buyer to ship the goods back' => '审核通过等待买家发货',
+    'Goods shipped back and waiting for seller to receive' => '等待卖家验货',
 ];

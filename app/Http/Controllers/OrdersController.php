@@ -583,17 +583,15 @@ class OrdersController extends Controller
     {
         $this->authorize('refund_with_shipment', $order);
 
-        $shipment_company_name = $order->shipment_company;
-        if ($order->shipment_company != null && $order->shipment_sn != null) {
-            $shipment_companies = ShipmentCompany::shipmentCompanies()->pluck('name', 'code');
-            if (isset($shipment_companies[$order->shipment_company])) {
-                $shipment_company_name = $shipment_companies[$order->shipment_company];
-            }
+        $refund = $order->refund;
+        $shipment_company_name = '';
+        if(isset($refund)){
+            $shipment_company_name = ShipmentCompany::codeTransformName($refund->shipment_company);
         }
 
         return view('orders.refund_with_shipment', [
             'order' => $order,
-            'refund' => $order->refund,
+            'refund' => $refund,
             'snapshot' => $order->snapshot,
             'shipment_company' => $shipment_company_name,
         ]);

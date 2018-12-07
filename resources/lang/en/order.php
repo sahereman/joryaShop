@@ -121,4 +121,7 @@ return [
     'Please fill in the logistics company' => 'Please fill in the logistics company',
     'Please fill in the Logistics single number' => 'Please fill in the Logistics single number',
     'Please describe in detail the reason for the refund' => 'Please describe in detail the reason for the refund',
+    'Refund application' => 'Refund application',
+    'Application checked and waiting for buyer to ship the goods back' => 'Application checked and waiting for buyer to ship the goods back',
+    'Goods shipped back and waiting for seller to receive' => 'Goods shipped back and waiting for seller to receive',
 ];

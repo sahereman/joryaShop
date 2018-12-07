@@ -36,6 +36,7 @@ class OrdersController extends Controller
         return view('mobile.orders.index');
     }
 
+    // GET 获取订单数据 请求 [for Ajax request]
     public function more(Request $request)
     {
         $user = Auth::user();
