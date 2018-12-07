@@ -104,7 +104,8 @@
                 <div class="order_products">
                     @foreach($snapshot as $order_item)
                         <div class="ordDetail_item">
-                            <img src="{{ $order_item['sku']['product']['thumb_url'] }}" data-url="{{ route('mobile.products.show', ['product' => $order_item['sku']['product']['id']]) }}">
+                            <img src="{{ $order_item['sku']['product']['thumb_url'] }}"
+                                 data-url="{{ route('mobile.products.show', ['product' => $order_item['sku']['product']['id']]) }}">
                             <div>
                                 <div class="ordDetailName">
                                     <a href="{{ route('mobile.products.show', ['product' => $order_item['sku']['product']['id']]) }}">
@@ -145,8 +146,11 @@
                 <div>
                     @if(! $refund)
                             <!--第一步显示-->
-                    <a href="" class="doneBtn">@lang('app.submit')</a>
-                    @else
+                    <a class="doneBtn" href="javascript:void(0);"
+                       data-url="{{ route('orders.store_refund', ['order' => $order->id]) }}">
+                        @lang('app.submit')
+                    </a>
+                    @elseif(isset($refund) && $refund->status == \App\Models\OrderRefund::ORDER_REFUND_STATUS_CHECKING)
                             <!--第二步显示-->
                     <a class="ordDetailBtnC change_btn" href="javascript:void(0);"
                        data-url="{{ route('orders.update_refund', ['order' => $order->id]) }}">

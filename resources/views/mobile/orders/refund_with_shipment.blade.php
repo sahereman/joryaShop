@@ -116,37 +116,13 @@
                                    onchange='handleInputChange'>
                         </div>
                     </form>
-                    <!--第二步-->
                     @elseif(isset($refund) && $refund->status == \App\Models\OrderRefund::ORDER_REFUND_STATUS_CHECKING)
-                        <form method="POST" action="{{ route('orders.update_refund', ['order' => $order->id]) }}"
-                              enctype="multipart/form-data" id="step-2-form">
-                            {{ method_field('PUT') }}
-                            {{ csrf_field() }}
-                            <input type="hidden" name="order_id" value="{{ $order->id }}">
-                            <p>
-                                <span>@lang('order.Refund amount')</span>
-                                <input name="amount" type="text" class="refund_price" readonly
-                                       value="{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}">
-                            </p>
-                            <div class="refund_info_item">
-                                <span>@lang('order.Application description')</span>
-                                    <textarea name="remark_from_user" class="step2_textarea" maxlength="200" readonly
-                                              placeholder="@lang('order.Please fill in the reason for the refund')">
-                                    </textarea>
-                            </div>
-                            <p class="upload_voucher_title">@lang('order.product picture')</p>
-                            <div class="refund_info_item upload_voucher">
-                                <img src="{{ asset('static_m/img/blockImg.png') }}">
-                                <div class="refunds_photos dis_n">
-                                    <span class="uploader_camera"></span>
-                                    <span>0/5</span>
-                                </div>
-                                <input class="dis_ni" type="file" name="image" accept="image/*"
-                                       onchange='handleInputChange'>
-                            </div>
-                        </form>
-                        <!--第三步第四步第五步都是这个-->
-                    @elseif(isset($refund) && in_array($refund->status, [\App\Models\OrderRefund::ORDER_REFUND_STATUS_SHIPPING, \App\Models\OrderRefund::ORDER_REFUND_STATUS_RECEIVING, \App\Models\OrderRefund::ORDER_REFUND_STATUS_REFUNDED, \App\Models\OrderRefund::ORDER_REFUND_STATUS_DECLINED]))
+                            <!--第二步-->
+                    <form method="POST" action="{{ route('orders.update_refund', ['order' => $order->id]) }}"
+                          enctype="multipart/form-data" id="step-2-form">
+                        {{ method_field('PUT') }}
+                        {{ csrf_field() }}
+                        <input type="hidden" name="order_id" value="{{ $order->id }}">
                         <p>
                             <span>@lang('order.Refund amount')</span>
                             <input name="amount" type="text" class="refund_price" readonly
@@ -154,18 +130,42 @@
                         </p>
                         <div class="refund_info_item">
                             <span>@lang('order.Application description')</span>
-                                <textarea name="remark_from_user" maxlength="200" readonly
-                                          placeholder="@lang('order.Please fill in the reason for the refund')">
-                                </textarea>
+                                    <textarea name="remark_from_user" class="step2_textarea" maxlength="200" readonly
+                                              placeholder="@lang('order.Please fill in the reason for the refund')">
+                                    </textarea>
                         </div>
                         <p class="upload_voucher_title">@lang('order.product picture')</p>
                         <div class="refund_info_item upload_voucher">
-                            @if($refund->photos_for_refund)
-                                @foreach($refund->refund_photo_urls as $refund_photo_url)
-                                    <img src="{{ $refund_photo_url }}">
-                                @endforeach
-                            @endif
+                            <img src="{{ asset('static_m/img/blockImg.png') }}">
+                            <div class="refunds_photos dis_n">
+                                <span class="uploader_camera"></span>
+                                <span>0/5</span>
+                            </div>
+                            <input class="dis_ni" type="file" name="image" accept="image/*"
+                                   onchange='handleInputChange'>
                         </div>
+                    </form>
+                    @elseif(isset($refund) && in_array($refund->status, [\App\Models\OrderRefund::ORDER_REFUND_STATUS_SHIPPING, \App\Models\OrderRefund::ORDER_REFUND_STATUS_RECEIVING, \App\Models\OrderRefund::ORDER_REFUND_STATUS_REFUNDED, \App\Models\OrderRefund::ORDER_REFUND_STATUS_DECLINED]))
+                            <!--第三步第四步第五步都是这个-->
+                    <p>
+                        <span>@lang('order.Refund amount')</span>
+                        <input name="amount" type="text" class="refund_price" readonly
+                               value="{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}">
+                    </p>
+                    <div class="refund_info_item">
+                        <span>@lang('order.Application description')</span>
+                                <textarea name="remark_from_user" maxlength="200" readonly
+                                          placeholder="@lang('order.Please fill in the reason for the refund')">
+                                </textarea>
+                    </div>
+                    <p class="upload_voucher_title">@lang('order.product picture')</p>
+                    <div class="refund_info_item upload_voucher">
+                        @if($refund->photos_for_refund)
+                            @foreach($refund->refund_photo_urls as $refund_photo_url)
+                                <img src="{{ $refund_photo_url }}">
+                            @endforeach
+                        @endif
+                    </div>
                     @endif
                 </div>
                 @if(isset($refund) && in_array($refund->status, [\App\Models\OrderRefund::ORDER_REFUND_STATUS_SHIPPING, \App\Models\OrderRefund::ORDER_REFUND_STATUS_RECEIVING, \App\Models\OrderRefund::ORDER_REFUND_STATUS_REFUNDED, \App\Models\OrderRefund::ORDER_REFUND_STATUS_DECLINED]))
@@ -273,27 +273,32 @@
                 </div>
             </div>
             <div class="refund_btns">
-                <!--第一步显示-->
-                @if(false)
+                <div>
+                    @if(! $refund)
+                            <!--第一步显示-->
                     <a href="javascript:void(0);" class="doneBtn submint_one">@lang('app.submit')</a>
-                    <!--第二步显示-->
-                @elseif(false)
-                    <div>
-                        <a class="ordDetailBtnC change_btn" href="javascript:void(0);" data-url="">
-                            @lang('order.Modify')
-                        </a>
-                        <a class="ordDetailBtnC save_btn dis_ni" href="javascript:void(0);" data-url="">
-                            @lang('order.Save changes')
-                        </a>
-                        <a class="ordDetailBtnS Revocation_btn" href="javascript:void(0);"
-                           code="{{ route('orders.revoke_refund', ['order' => 1]) }}">
-                            @lang('order.Revocation of application')
-                        </a>
-                    </div>
-                    <!--第三步显示，第四与第五步没有按钮不需要显示-->
-                @else
-                    <a href="javascript:void(0);" class="doneBtn logistics_submint">@lang('app.submit')</a>
-                @endif
+                    @elseif(isset($refund) && $refund->status == \App\Models\OrderRefund::ORDER_REFUND_STATUS_CHECKING)
+                            <!--第二步显示-->
+                    <a class="ordDetailBtnC change_btn" href="javascript:void(0);"
+                       data-url="{{ route('orders.update_refund', ['order' => $order->id]) }}">
+                        @lang('order.Modify')
+                    </a>
+                    <a class="ordDetailBtnC save_btn dis_ni" href="javascript:void(0);"
+                       data-url="{{ route('orders.store_refund', ['order' => $order->id]) }}">
+                        @lang('order.Save changes')
+                    </a>
+                    <a class="ordDetailBtnS Revocation_btn" href="javascript:void(0);"
+                       data-url="{{ route('orders.revoke_refund', ['order' => 1]) }}">
+                        @lang('order.Revocation of application')
+                    </a>
+                    @elseif(isset($refund) && $refund->status == \App\Models\OrderRefund::ORDER_REFUND_STATUS_SHIPPING)
+                            <!--第三步显示，第四与第五步没有按钮不需要显示-->
+                    <a class="doneBtn logistics_submint" href="javascript:void(0);"
+                       data-url="{{ route('orders.update_refund', ['order' => $order->id]) }}">
+                        @lang('app.submit')
+                    </a>
+                    @endif
+                </div>
             </div>
         </div>
     </div>
