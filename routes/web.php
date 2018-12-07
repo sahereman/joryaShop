@@ -94,10 +94,12 @@ Route::group(['middleware' => 'auth'], function () {
     /*商品收藏*/
     Route::get('user_favourites', 'UserFavouritesController@index')->name('user_favourites.index'); // 列表
     Route::post('user_favourites', 'UserFavouritesController@store')->name('user_favourites.store'); // 加入收藏
+    Route::delete('user_favourites/multi_delete', 'UserFavouritesController@multiDelete')->name('user_favourites.multi_delete'); // 删除多条收藏记录
     Route::delete('user_favourites/{favourite}', 'UserFavouritesController@destroy')->name('user_favourites.destroy'); // 删除
 
     /*浏览历史*/
     Route::get('user_histories', 'UserHistoriesController@index')->name('user_histories.index'); // 列表
+    Route::delete('user_histories/multi_delete', 'UserHistoriesController@multiDelete')->name('user_histories.multi_delete'); // 删除多条浏览历史
     Route::delete('user_histories/{history}', 'UserHistoriesController@destroy')->name('user_histories.destroy'); // 删除
     Route::delete('user_histories', 'UserHistoriesController@flush')->name('user_histories.flush'); // 清空
 

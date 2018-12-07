@@ -25,6 +25,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Validator;
 
 class OrdersController extends Controller
@@ -132,11 +133,13 @@ class OrdersController extends Controller
     // GET 选择地址+币种页面
     public function prePayment(PostOrderRequest $request)
     {
+        $user = $request->user();
         $total_amount = 0;
         $total_amount_en = 0;
         $total_shipping_fee = 0;
         $total_shipping_fee_en = 0;
         $items = [];
+        $is_nil = true;
         if ($request->has('sku_id') && $request->has('number')) {
             $sku = ProductSku::find($request->query('sku_id'));
             $sku->price_en = ExchangeRate::exchangePrice($sku->price, 'USD');
@@ -154,10 +157,15 @@ class OrdersController extends Controller
             $total_amount_en = bcmul($sku->price_en, $number, 2);
             $total_shipping_fee = bcmul($product->shipping_fee, $number, 2);
             $total_shipping_fee_en = bcmul($product->shipping_fee_en, $number, 2);
+            $is_nil = false;
         } elseif ($request->has('cart_ids')) {
-            $cart_ids = explode(',', $request->query('cart_ids'));
+            $cart_ids = explode(',', $request->query('cart_ids', ''));
             foreach ($cart_ids as $key => $cart_id) {
                 $cart = Cart::find($cart_id);
+                if ($cart->user_id != $user->id) {
+                    // array_forget($cart_ids, $key);
+                    continue;
+                }
                 $number = $cart->number;
                 $sku = $cart->sku;
                 $sku->price_en = ExchangeRate::exchangePrice($sku->price, 'USD');
@@ -174,13 +182,19 @@ class OrdersController extends Controller
                 $total_amount_en += bcmul($sku->price_en, $number, 2);
                 $total_shipping_fee += bcmul($product->shipping_fee, $number, 2);
                 $total_shipping_fee_en += bcmul($product->shipping_fee_en, $number, 2);
+                $is_nil = false;
             }
         }
         $total_fee = bcadd($total_amount, $total_shipping_fee, 2);
         $total_fee_en = bcadd($total_amount_en, $total_shipping_fee_en, 2);
 
+        if ($is_nil) {
+            return redirect()->back();
+        }
+
         $address = false;
         $userAddress = UserAddress::where('user_id', $request->user()->id);
+        // $userAddress = $request->user()->addresses();
         if ($userAddress->where('is_default', 1)->exists()) {
             // 默认地址
             $address = $userAddress->where('is_default', 1)
@@ -218,11 +232,16 @@ class OrdersController extends Controller
             $snapshot = [];
             $total_shipping_fee = 0;
             $total_amount = 0;
+            $is_nil = true;
             if ($request->has('cart_ids')) {
                 // 来自购物车的订单
-                $cartIds = explode(',', $request->input('cart_ids'));
-                foreach ($cartIds as $key => $cartId) {
+                $cart_ids = explode(',', $request->input('cart_ids', ''));
+                foreach ($cart_ids as $key => $cartId) {
                     $cart = Cart::find($cartId);
+                    if ($cart->user_id != $user->id) {
+                        array_forget($cart_ids, $key);
+                        continue;
+                    }
                     $number = $cart->number;
                     $sku = $cart->sku;
                     $product = $sku->product;
@@ -232,10 +251,13 @@ class OrdersController extends Controller
                     $snapshot[$key]['number'] = $cart->number;
                     $total_shipping_fee += bcmul($product->shipping_fee, $number, 2);
                     $total_amount += bcmul($price, $number, 2);
+                    $is_nil = false;
                 }
                 $total_shipping_fee = ExchangeRate::exchangePrice($total_shipping_fee, $currency);
-                // 删除相关购物车记录
-                Cart::destroy($cartIds);
+                if ($is_nil == false) {
+                    // 删除相关购物车记录
+                    Cart::destroy($cart_ids);
+                }
             } else {
                 // 来自SKU的订单
                 $sku_id = $request->input('sku_id');
@@ -248,6 +270,19 @@ class OrdersController extends Controller
                 $snapshot[0]['number'] = $number;
                 $total_shipping_fee = ExchangeRate::exchangePrice(bcmul($product->shipping_fee, $number, 2), $currency);
                 $total_amount = bcmul($price, $number, 2);
+                $is_nil = false;
+            }
+
+            if ($is_nil) {
+                return response()->json([
+                    'code' => 200,
+                    'message' => 'success',
+                    'data' => [
+                        'order' => $user->orders()->latest()->first(),
+                        'request_url' => URL::previous(),
+                        'mobile_request_url' => URL::previous(),
+                    ],
+                ]);
             }
 
             // 创建一条订单记录

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exceptions\InvalidRequestException;
+use App\Http\Requests\UserHistoryRequest;
 use App\Models\User;
 use App\Models\UserHistory;
 use Illuminate\Http\Request;
@@ -38,6 +39,40 @@ class UserHistoriesController extends Controller
             'previous_page' => $previous_page,
             'next_page' => $next_page,
         ]);
+    }
+
+    // DELETE 删除多条浏览历史
+    public function multiDelete(UserHistoryRequest $request)
+    {
+        $history_ids = explode(',', $request->input('history_ids', ''));
+        $is_nil = true;
+        foreach ($history_ids as $key => $history_id) {
+            if (UserHistory::where(['id' => $history_id, 'user_id' => $request->user()->id])->exists()) {
+                $is_nil = false;
+                continue;
+            }
+            array_forget($history_ids, $key);
+        }
+
+        if ($is_nil) {
+            return response()->json([
+                'code' => 200,
+                'message' => 'success',
+            ]);
+        }
+
+        $result = UserHistory::destroy($history_ids);
+        if ($result) {
+            return response()->json([
+                'code' => 200,
+                'message' => 'success',
+            ]);
+        } else {
+            return response()->json([
+                'code' => 422,
+                'message' => 'Unprocessable Entity',
+            ], 422);
+        }
     }
 
     // DELETE 删除
