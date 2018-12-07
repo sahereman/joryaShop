@@ -1,12 +1,12 @@
 @extends('layouts.mobile')
-@section('title', '我的订单')
+@section('title', App::isLocale('en') ? 'My_order' : '我的订单')
 @section('content')
     <div class="orderBox">
         <div class="orderHeadTop">
             <div class="headerBar">
                 <img src="{{ asset('static_m/img/icon_backtop.png') }}" class="backImg"
                      onclick="javascript:history.back(-1);"/>
-                <span>我的订单</span>
+                <span>@lang('basic.users.My_order')</span>
             </div>
             <div class="orderHead">
                 <div class="index orderActive"
@@ -108,7 +108,6 @@
                         data: data,
                         dataType: 'json',
                         success: function (data) {
-                        	console.log(data)
                             var dataobj = data.data.orders.data;
                             var html = "";
                             var name, symbol, price,sku_name,total_shipping_fee,total_shipping;

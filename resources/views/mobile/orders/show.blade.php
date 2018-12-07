@@ -1,5 +1,5 @@
 @extends('layouts.mobile')
-@section('title', App::isLocale('en') ? Order Details : 订单详情)
+@section('title', App::isLocale('en') ? 'Order Details' : '订单详情')
 @section('content')
     <div class="headerBar fixHeader">
         <img src="{{ asset('static_m/img/icon_backtop.png') }}" class="backImg" onclick="javascript:history.back(-1);"/>

@@ -105,4 +105,11 @@ return [
     'Recent Searches' => 'Recent Searches',
     'No search history' => 'No search history',
     'Top Searches' => 'Top Searches',
+    'My Favorites' => 'My Favorites',
+    'Edit' => 'Edit',
+    'Cancel Favorites' => 'Cancel Favorites',
+    'Return' => 'Return',
+    'Are you sure you want to cancel your attention to this product' => 'Are you sure you want to cancel your attention to this product?',
+    'Are you sure you want to delete this item' => 'Are you sure you want to delete this item?',
+    'Deletes the selected' => 'Deletes the selected',
 ];

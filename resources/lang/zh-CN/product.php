@@ -106,4 +106,11 @@ return [
     'Recent Searches' => '最近搜索',
     'No search history' => '暂无搜索历史',
     'Top Searches' => '热门搜索',
+    'My Favorites' => '我的收藏',
+    'Edit' => '编辑',
+    'Cancel Favorites' => '取消收藏',
+    'Return' => '返回',
+    'Are you sure you want to cancel your attention to this product' => '确定要取消关注此商品吗？',
+    'Are you sure you want to delete this item' => '确定要删除此商品吗？',
+    'Deletes the selected' => '删除所选',
 ];
