@@ -48,45 +48,12 @@
                 </div>
                 <!--申请内容-->
                 <div class="refund_info">
-                    <!--第一步-->
-                    @if(false)
-                        <form method="POST" action="{{ route('orders.store_refund', ['order' => $order->id]) }}"
-                              enctype="multipart/form-data" id="step-1-form">
-                            {{ csrf_field() }}
-                            <input type="hidden" name="order_id" value="{{ $order->id }}">
-                            <p>
-                                <span>@lang('order.Refund amount')</span>
-                                <input name="amount" type="text" class="refund_price" readonly
-                                       value="{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}">
-                            </p>
-                            <div class="refund_info_item">
-                                <span>@lang('order.Application description')</span>
-                                <textarea name="remark_from_user" maxlength="200"
-                                          placeholder="@lang('order.Please fill in the reason for the refund')">
-                                </textarea>
-                            </div>
-                        </form>
-                        <!--第二步-->
-                    @elseif(false)
-                        <form method="POST" action="{{ route('orders.update_refund', ['order' => $order->id]) }}"
-                              enctype="multipart/form-data" id="step-2-form">
-                            {{ method_field('PUT') }}
-                            {{ csrf_field() }}
-                            <input type="hidden" name="order_id" value="{{ $order->id }}">
-                            <p>
-                                <span>@lang('order.Refund amount')</span>
-                                <input name="amount" type="text" class="refund_price" readonly
-                                       value="{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}">
-                            </p>
-                            <div class="refund_info_item">
-                                <span>@lang('order.Application description')</span>
-                                <textarea name="remark_from_user" class="step2_textarea" maxlength="200" readonly
-                                          placeholder="@lang('order.Please fill in the reason for the refund')">
-                                </textarea>
-                            </div>
-                        </form>
-                        <!--第三步第四步都是这个-->
-                    @else
+                    @if(! $refund)
+                            <!--第一步-->
+                    <form method="POST" enctype="multipart/form-data" id="step-1-form"
+                          action="{{ route('orders.store_refund', ['order' => $order->id]) }}">
+                        {{ csrf_field() }}
+                        <input type="hidden" name="order_id" value="{{ $order->id }}">
                         <p>
                             <span>@lang('order.Refund amount')</span>
                             <input name="amount" type="text" class="refund_price" readonly
@@ -94,10 +61,43 @@
                         </p>
                         <div class="refund_info_item">
                             <span>@lang('order.Application description')</span>
+                                <textarea name="remark_from_user" maxlength="200"
+                                          placeholder="@lang('order.Please fill in the reason for the refund')">
+                                </textarea>
+                        </div>
+                    </form>
+                    @elseif(isset($refund) && $refund->status == \App\Models\OrderRefund::ORDER_REFUND_STATUS_CHECKING)
+                            <!--第二步-->
+                    <form method="POST" enctype="multipart/form-data" id="step-2-form"
+                          action="{{ route('orders.update_refund', ['order' => $order->id]) }}">
+                        {{ method_field('PUT') }}
+                        {{ csrf_field() }}
+                        <input type="hidden" name="order_id" value="{{ $order->id }}">
+                        <p>
+                            <span>@lang('order.Refund amount')</span>
+                            <input name="amount" type="text" class="refund_price" readonly
+                                   value="{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}">
+                        </p>
+                        <div class="refund_info_item">
+                            <span>@lang('order.Application description')</span>
+                                <textarea name="remark_from_user" class="step2_textarea" maxlength="200" readonly
+                                          placeholder="@lang('order.Please fill in the reason for the refund')">
+                                </textarea>
+                        </div>
+                    </form>
+                    @else
+                            <!--第三步第四步都是这个-->
+                    <p>
+                        <span>@lang('order.Refund amount')</span>
+                        <input name="amount" type="text" class="refund_price" readonly
+                               value="{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}">
+                    </p>
+                    <div class="refund_info_item">
+                        <span>@lang('order.Application description')</span>
                             <textarea name="remark_from_user" maxlength="200" readonly
                                       placeholder="@lang('order.Please fill in the reason for the refund')">
                             </textarea>
-                        </div>
+                    </div>
                     @endif
                 </div>
                 <!--订单内容-->

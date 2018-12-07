@@ -89,9 +89,8 @@
                 <div class="refund_info">
                     @if(! $refund)
                             <!--第一步-->
-                    <form method="POST"
-                          action="{{ route('orders.store_refund_with_shipment', ['order' => $order->id]) }}"
-                          enctype="multipart/form-data" id="step-1-form">
+                    <form method="POST" enctype="multipart/form-data" id="step-1-form"
+                          action="{{ route('orders.store_refund_with_shipment', ['order' => $order->id]) }}">
                         {{ csrf_field() }}
                         <input type="hidden" name="order_id" value="{{ $order->id }}">
                         <p>
@@ -118,8 +117,8 @@
                     </form>
                     @elseif(isset($refund) && $refund->status == \App\Models\OrderRefund::ORDER_REFUND_STATUS_CHECKING)
                             <!--第二步-->
-                    <form method="POST" action="{{ route('orders.update_refund', ['order' => $order->id]) }}"
-                          enctype="multipart/form-data" id="step-2-form">
+                    <form method="POST" enctype="multipart/form-data" id="step-2-form"
+                          action="{{ route('orders.update_refund', ['order' => $order->id]) }}">
                         {{ method_field('PUT') }}
                         {{ csrf_field() }}
                         <input type="hidden" name="order_id" value="{{ $order->id }}">
