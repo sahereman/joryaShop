@@ -206,12 +206,12 @@
                         console.log(err);
                         if (err.status == 403) {
                             layer.open({
-                                content: "@lang('app.Unable to complete operation')"
+                                content: "@lang('app.Unable to complete operation')",
                                 skin: 'msg',
                                 time: 2, //2秒后自动关闭
                             });
                         }
-                    }
+                    },
                 });
             });
         });

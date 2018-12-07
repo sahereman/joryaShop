@@ -665,7 +665,7 @@
                 layer.open({
                     title: "@lang('app.Prompt')",
                     content: "@lang('app.picture_type_error')",
-                    btn: "@lang('app.determine')"
+                    btn: "@lang('app.determine')",
                 });
                 upLoadBtnSwitch = 0;
                 return false
