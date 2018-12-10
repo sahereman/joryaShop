@@ -84,7 +84,7 @@ class PostersController extends Controller
         $grid->name('名称');
         $grid->slug('标示');
         $grid->link('链接');
-        $grid->is_show('是否显示')->switch();
+//        $grid->is_show('是否显示')->switch();
 
         return $grid;
     }
@@ -105,9 +105,9 @@ class PostersController extends Controller
         $show->link('链接');
         $show->created_at('创建时间');
         $show->updated_at('更新时间');
-        $show->is_show('是否显示')->as(function ($item) {
-            return $item ? '<span class="label label-primary">ON</span>' : '<span class="label label-default">OFF</span>';
-        });
+//        $show->is_show('是否显示')->as(function ($item) {
+//            return $item ? '<span class="label label-primary">ON</span>' : '<span class="label label-default">OFF</span>';
+//        });
 
         return $show;
     }
@@ -127,7 +127,7 @@ class PostersController extends Controller
         })->help('可使用的标示 : pc_index_new_1 | pc_index_new_2 | pc_index_new_3 | ' .
             'pc_index_2f_1');
         $form->url('link', '链接');
-        $form->switch('is_show', '是否显示');
+//        $form->switch('is_show', '是否显示');
 
 
 
