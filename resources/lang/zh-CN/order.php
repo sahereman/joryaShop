@@ -132,4 +132,5 @@ return [
     'Logistics services' => '物流服务',
     'Release' => '发布',
     'No more than 5 sheets' => '最多5张',
+    'Please complete the information' => '请将信息填写完整',
 ];

@@ -9,6 +9,13 @@
     <div class="refund">
         <div class="refund_con">
             <div class="refund_content">
+            	<div class="img-box full photoList dis_n" id="imgupup">
+					<div class="input_content up_img clear_fix">
+						<div id="div_imglook">
+							<div id="div_imgfile"></div>
+						</div>
+					</div>
+				</div>
                 <!--售后状态-->
                 <div class="after_sales_status">
                     @if(! $refund)
@@ -100,19 +107,17 @@
                         </p>
                         <div class="refund_info_item">
                             <span>@lang('order.Application description')</span>
-                                    <textarea name="remark_from_user" maxlength="200"
-                                              placeholder="@lang('order.Please fill in the reason for the refund')">
-                                    </textarea>
+                            <textarea name="remark_from_user" maxlength="200"
+                                      placeholder="@lang('order.Please fill in the reason for the refund')">
+                            </textarea>
                         </div>
                         <p class="upload_voucher_title">@lang('order.product picture')</p>
                         <div class="refund_info_item upload_voucher">
-                            <img src="{{ asset('static_m/img/blockImg.png') }}">
-                            <div class="refunds_photos">
+                            <div class="refunds_photos product_pic" code="{{ $order->id }}">
                                 <span class="uploader_camera"></span>
-                                <span>0/5</span>
+                                <span>@lang('order.No more than 5 sheets')</span>
                             </div>
-                            <input class="dis_ni" type="file" name="image" accept="image/*"
-                                   onchange='handleInputChange'>
+                            <input type="hidden" name="photos_for_refund">
                         </div>
                     </form>
                     @elseif(isset($refund) && $refund->status == \App\Models\OrderRefund::ORDER_REFUND_STATUS_CHECKING)
@@ -129,19 +134,26 @@
                         </p>
                         <div class="refund_info_item">
                             <span>@lang('order.Application description')</span>
-                                    <textarea name="remark_from_user" class="step2_textarea" maxlength="200" readonly
-                                              placeholder="@lang('order.Please fill in the reason for the refund')">
-                                    </textarea>
+                            <textarea name="remark_from_user" class="step2_textarea" maxlength="200" readonly>
+                            {{ $refund->remark_from_user }}
+                            </textarea>
                         </div>
                         <p class="upload_voucher_title">@lang('order.product picture')</p>
                         <div class="refund_info_item upload_voucher">
-                            <img src="{{ asset('static_m/img/blockImg.png') }}">
-                            <div class="refunds_photos dis_n">
+                            @if($refund->photos_for_refund)
+                                @foreach($refund->refund_photo_urls as $refund_photo_url)
+                                    <div class='refundItem' data-path='{{ $refund_photo_url }}'>
+	                                    <img src='{{ $refund_photo_url }}' class='goodsItemPicImg' >
+	                                    <img src="{{ asset('static_m/img/icon_Closed.png') }}" class='closeImg dis_n'/>
+                                    </div>
+                                @endforeach
+                            @endif
+                            <div class="refunds_photos product_pic dis_n" code="{{ $order->id }}">
                                 <span class="uploader_camera"></span>
-                                <span>0/5</span>
+                                <span>@lang('order.No more than 5 sheets')</span>
                             </div>
-                            <input class="dis_ni" type="file" name="image" accept="image/*"
-                                   onchange='handleInputChange'>
+                            <input type="hidden" name="photos_for_refund"
+                                   value="{{ $refund->photos_for_refund }}">
                         </div>
                     </form>
                     @elseif(isset($refund) && in_array($refund->status, [\App\Models\OrderRefund::ORDER_REFUND_STATUS_SHIPPING, \App\Models\OrderRefund::ORDER_REFUND_STATUS_RECEIVING, \App\Models\OrderRefund::ORDER_REFUND_STATUS_REFUNDED, \App\Models\OrderRefund::ORDER_REFUND_STATUS_DECLINED]))
@@ -154,7 +166,7 @@
                     <div class="refund_info_item">
                         <span>@lang('order.Application description')</span>
                                 <textarea name="remark_from_user" maxlength="200" readonly
-                                          placeholder="@lang('order.Please fill in the reason for the refund')">
+                                          placeholder="@lang('order.Please fill in the reason for the refund')">{{ $refund->remark_from_user }}
                                 </textarea>
                     </div>
                     <p class="upload_voucher_title">@lang('order.product picture')</p>
@@ -194,13 +206,11 @@
                                 </li>
                                 <li>
                                     <span>@lang('order.Logistics documents')：</span>
-                                    <img src="{{ asset('static_m/img/blockImg.png') }}">
-                                    <div class="refunds_photos">
+                                    <div class="refunds_photos logistics_pic" code="{{ $order->id }}">
                                         <span class="uploader_camera"></span>
-                                        <span>0/5</span>
+                                        <span>@lang('order.No more than 5 sheets')</span>
                                     </div>
-                                    <input class="dis_ni" type="file" name="image" accept="image/*"
-                                           onchange='handleInputChange'>
+                                    <input type="hidden" name="photos_for_shipment">
                                 </li>
                             @else
                                 <li>
@@ -219,9 +229,9 @@
                                     <span>@lang('order.Logistics documents')：</span>
                                     @if($refund->photos_for_shipment)
                                         @foreach($refund->shipment_photo_urls as $shipment_photo_url)
-                                            <div class='refund-path'>
-                                                <img src="{{ $shipment_photo_url }}">
-                                            </div>
+                                            <div class='refundItem'>
+			                                    <img src='{{ $shipment_photo_url }}' class='goodsItemPicImg' >
+		                                    </div>
                                         @endforeach
                                     @endif
                                 </li>
@@ -306,23 +316,39 @@
     <script src="{{ asset('js/swiper/js/swiper.js') }}"></script>
     <script type="text/javascript">
         $(function () {
+        	var click_whichDom = "";
             $(".refund_con").css("min-height", $(window).height() - $(".headerBar ").height());
             //第一步表单提交
             $(".submint_one").on("click", function () {
-                $("#step-1-form").submit();
+            	set_path("#step-1-form", 'photos_for_refund');
+            	if ($("#step-1-form").find("textarea").val() == null || $("#step-1-form").find("textarea").val() == "") {
+                    layer.open({
+	                    content: "@lang('order.Please fill in the application instructions')",
+	                    skin: 'msg',
+	                    time: 2, //2秒后自动关闭
+	                });
+                } else {
+                    if (set_finish == true) {
+                        $("#step-1-form").submit();
+                    }
+                }
             });
             //第二步修改申请
             $(".change_btn").on("click", function () {
                 $(this).addClass("dis_ni");
                 $(".save_btn").removeClass("dis_ni");
                 $(".refunds_photos").removeClass("dis_n");
+                $(".closeImg").removeClass("dis_n");
             });
             //保存修改
             $(".save_btn").on("click", function () {
+            	set_path("#step-2-form", 'photos_for_refund');
                 $(this).addClass("dis_ni");
                 $(".change_btn").removeClass("dis_ni");
                 $(".refunds_photos").addClass("dis_n");
-                $("#step-2-form").submit();
+                if (set_finish == true) {
+                    $("#step-2-form").submit();
+                }
             });
             //撤销申请
             $(".Revocation_btn").on("click", function () {
@@ -352,193 +378,191 @@
             });
             //提交物流信息
             $(".logistics_submint").on("click", function () {
-                $("#step-3-form").submit();
+            	if($("input[name='shipment_company']").val()==""||$("input[name='shipment_sn']").val()==""||$("input[name='remark_for_shipment_from_user']").val()==""){
+            		layer.open({
+                        content: "@lang('order.Please complete the information')",
+                        skin: 'msg',
+                        time: 2, //2秒后自动关闭
+                    });
+            	}else{
+            		set_path("#step-3-form", 'photos_for_shipment');
+	                if (set_finish == true) {
+	                    $("#step-3-form").submit();
+	                }	
+            	}
             });
-
-            // 全局对象，不同function使用传递数据
-            const imgFile = {};
-
-            function handleInputChange(event) {
-                // 获取当前选中的文件
-                const file = event.target.files[0];
-                const imgMasSize = 1024 * 1024 * 10; // 10MB
-                // 检查文件类型
-                if (['jpeg', 'png', 'gif', 'jpg'].indexOf(file.type.split("/")[1]) < 0) {
-                    // 自定义报错方式
-                    // Toast.error("文件类型仅支持 jpeg/png/gif！", 2000, undefined, false);
-                    return;
-                }
-                // 文件大小限制
-                if (file.size > imgMasSize) {
-                    // 文件大小自定义限制
-                    // Toast.error("文件大小不能超过10MB！", 2000, undefined, false);
-                    return;
-                }
-                // 判断是否是ios
-                if (!!window.navigator.userAgent.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/)) {
-                    // iOS
-                    transformFileToFormData(file);
-                    return;
-                }
-                // 图片压缩之旅
-                transformFileToDataUrl(file);
-            }
-
-            // 将File append进 FormData
-            function transformFileToFormData(file) {
-                const formData = new FormData();
-                // 自定义formData中的内容
-                // type
-                formData.append('type', file.type);
-                // size
-                formData.append('size', file.size || "image/jpeg");
-                // name
-                formData.append('name', file.name);
-                // lastModifiedDate
-                formData.append('lastModifiedDate', file.lastModifiedDate);
-                // append 文件
-                formData.append('file', file);
-                // 上传图片
-                uploadImg(formData);
-            }
-
-            // 将file转成dataUrl
-            function transformFileToDataUrl(file) {
-                const imgCompassMaxSize = 200 * 1024; // 超过 200k 就压缩
-
-                // 存储文件相关信息
-                imgFile.type = file.type || 'image/jpeg'; // 部分安卓出现获取不到type的情况
-                imgFile.size = file.size;
-                imgFile.name = file.name;
-                imgFile.lastModifiedDate = file.lastModifiedDate;
-
-                // 封装好的函数
-                const reader = new FileReader();
-
-                // file转dataUrl是个异步函数，要将代码写在回调里
-                reader.onload = function (e) {
-                    const result = e.target.result;
-
-                    if (result.length < imgCompassMaxSize) {
-                        compress(result, processData, false); // 图片不压缩
-                    } else {
-                        compress(result, processData); // 图片压缩
-                    }
-                };
-
-                reader.readAsDataURL(file);
-            }
-
-            // 使用canvas绘制图片并压缩
-            function compress(dataURL, callback, shouldCompress) {
-                const img = new window.Image();
-
-                img.src = dataURL;
-
-                img.onload = function () {
-                    const canvas = document.createElement('canvas');
-                    const ctx = canvas.getContext('2d');
-
-                    canvas.width = img.width;
-                    canvas.height = img.height;
-
-                    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-
-                    let compressedDataUrl;
-
-                    if (shouldCompress) {
-                        compressedDataUrl = canvas.toDataURL(imgFile.type, 0.2);
-                    } else {
-                        compressedDataUrl = canvas.toDataURL(imgFile.type, 1);
-                    }
-
-                    callback(compressedDataUrl);
-                }
-            }
-
-            function processData(dataURL) {
-                // 这里使用二进制方式处理dataUrl
-                const binaryString = window.atob(dataUrl.split(',')[1]);
-                const arrayBuffer = new ArrayBuffer(binaryString.length);
-                const intArray = new Uint8Array(arrayBuffer);
-                const imgFile = this.imgFile;
-
-                for (let i = 0, j = binaryString.length; i < j; i++) {
-                    intArray[i] = binaryString.charCodeAt(i);
-                }
-
-                const data = [intArray];
-
-                let blob;
-
-                try {
-                    blob = new Blob(data, {type: imgFile.type});
-                } catch (error) {
-                    window.BlobBuilder = window.BlobBuilder ||
-                            window.WebKitBlobBuilder ||
-                            window.MozBlobBuilder ||
-                            window.MSBlobBuilder;
-                    if (error.name === 'TypeError' && window.BlobBuilder) {
-                        const builder = new BlobBuilder();
-                        builder.append(arrayBuffer);
-                        blob = builder.getBlob(imgFile.type);
-                    } else {
-                        // Toast.error("版本过低，不支持上传图片", 2000, undefined, false);
-                        throw new Error('版本过低，不支持上传图片');
-                    }
-                }
-
-                // blob 转file
-                const fileOfBlob = new File([blob], imgFile.name);
-                const formData = new FormData();
-
-                // type
-                formData.append('type', imgFile.type);
-                // size
-                formData.append('size', fileOfBlob.size);
-                // name
-                formData.append('name', imgFile.name);
-                // lastModifiedDate
-                formData.append('lastModifiedDate', imgFile.lastModifiedDate);
-                // append 文件
-                formData.append('file', fileOfBlob);
-
-                uploadImg(formData);
-            }
-
-            // 上传图片
-            function uploadImg(formData) {
-                const xhr = new XMLHttpRequest();
-
-                // 进度监听
-                xhr.upload.addEventListener('progress', (e) = > {console.log(e.loaded / e.total)
-            },
-                false
-            )
-                ;
-                // 加载监听
-                // xhr.addEventListener('load', ()=>{console.log("加载中");}, false);
-                // 错误监听
-                xhr.addEventListener('error', () = > {Toast.error("上传失败！", 2000, undefined, false);
-            },
-                false
-            )
-                ;
-                xhr.onreadystatechange = function () {
-                    if (xhr.readyState === 4) {
-                        const result = JSON.parse(xhr.responseText);
-                        if (xhr.status === 200) {
-                            // 上传成功
-
-
-                        } else {
-                            // 上传失败
-                        }
-                    }
-                };
-                xhr.open('POST', '/uploadUrl', true);
-                xhr.send(formData);
-            }
+            
+            //点击上传退货商品图片与修改相同
+            var which_click = 0;
+            $(".product_pic").on("click",function(){
+            	var had_evaImg = $(this).parents(".upload_voucher").find(".refundItem");
+            	if(had_evaImg.length<5){
+            		$("#div_imgfile").trigger("click");
+            	    which_click = $(this).attr("code");
+            	    click_whichDom = "product_pic";
+            	}else{
+            		layer.open({
+					    content: "@lang('product.Upload up to 5 image')"
+					    ,skin: 'msg'
+					    ,time: 2 //2秒后自动关闭
+					});
+            	}
+            })
+            //上传物流信息
+            $(".logistics_pic").on("click",function(){
+            	var had_evaImg = $(this).parents("li").find(".refundItem");
+            	if(had_evaImg.length<5){
+            		$("#div_imgfile").trigger("click");
+            		which_click = $(this).attr("code");
+            		click_whichDom = "logistics_pic";
+            	}else{
+            		layer.open({
+					    content: "@lang('product.Upload up to 5 image')"
+					    ,skin: 'msg'
+					    ,time: 2 //2秒后自动关闭
+					});
+            	}
+            })
+            
+            //删除图片
+            $(document).on("click", ".closeImg", function () {
+            	var code = $(this).parents(".refundItem").attr("code")
+	            $(this).parents('.refundItem').remove();
+	            $("#div_imglook").find(".lookimg[num="+ code +"]").remove();
+	        })
+            
+            
+            // 本地图片上传 按钮
+	        function UpLoadImg(obj,number) {
+	            var formData = new FormData();
+	            formData.append('image', obj);
+	            formData.append('_token', "{{ csrf_token() }}");
+	            $.ajax({
+	                url: "{{ route('image.upload') }}",
+	                data: formData,
+	                dataType: 'json',
+	                cache: false,
+	                contentType: false,//必须false才会避开jQuery对 formdata 的默认处理 XMLHttpRequest会对 formdata 进行正确的处理
+	                processData: false,//必须false才会自动加上正确的Content-Type
+	                type: 'post',
+	                success: function (data) {
+	                	var html = "<div class='refundItem' code='"+ number +"' data-path='" + data.path + "'>"+
+                                   "<img src='"+ data.preview +"' class='goodsItemPicImg' >"+
+                                   "<img src='{{ asset('static_m/img/icon_Closed.png') }}' class='closeImg'/>"+
+                                   "</div>"
+	                    $("."+ click_whichDom +"[code='" + which_click + "']").before(html);
+	                }, 
+	                error: function (e) {
+	                    console.log(e);
+	                }
+	            });
+	        }
+	        
+	        function set_path(dom, input_name) {
+	            var order_list = $(dom).find(".refundItem");
+	            var path_url = "";
+	            $.each(order_list, function (i, n) {
+	                path_url += $(n).attr('data-path') + ",";
+	            });
+	            path_url = path_url.substring(0, path_url.length - 1);
+	            console.log(path_url);
+	            $(dom).find("input[name='" + input_name + "']").val(path_url);
+	            set_finish = true;
+	            return set_finish;
+	        }
+            
+            var IMG_LENGTH = 10;//图片最大1MB
+			var IMG_MAXCOUNT = 5;//最多选中图片张数
+			var UP_IMGCOUNT = 0;//上传图片张数记录
+			//打开文件选择对话框
+			$("#div_imgfile").click(function () {
+//			    if ($(".lookimg").length >= IMG_MAXCOUNT) {
+//			        layer.open({
+//					    content: "一次最多上传" + IMG_MAXCOUNT + "张图片"
+//					    ,skin: 'msg'
+//					    ,time: 2 //2秒后自动关闭
+//					});
+//			        return;
+//			    }
+			    var _CRE_FILE = document.createElement("input");
+			    if ($(".imgfile").length <= $(".lookimg").length) {//个数不足则新创建对象
+			        _CRE_FILE.setAttribute("type", "file");
+			        _CRE_FILE.setAttribute("name", "image");
+			        _CRE_FILE.setAttribute("class", "imgfile");
+			        _CRE_FILE.setAttribute("capture", "camera");
+			        _CRE_FILE.setAttribute("accept", "image/png,image/jpg,image/jpeg");
+			        _CRE_FILE.setAttribute("id", "{{ $order_item['id'] }}");
+			        _CRE_FILE.setAttribute("data-url","{{ route('comment_image.upload') }}");
+			        _CRE_FILE.setAttribute("num", UP_IMGCOUNT);//记录此对象对应的编号
+			        
+			        $("#div_imgfile").nextAll().remove();     //上传头像只能传一张照片
+			        
+			        $("#div_imgfile").after(_CRE_FILE);
+			    }
+			    else { //否则获取最后未使用对象
+			        _CRE_FILE = $(".imgfile").eq(0).get(0);
+			    }
+			    return $(_CRE_FILE).click();//打开对象选择框
+			});
+			
+			//创建预览图，在动态创建的file元素onchange事件中处理
+			$("#imgupup").on("change",".imgfile",function () {
+			    if ($(this).val().length > 0) {//判断是否有选中图片
+			        //判断图片格式是否正确
+			        var FORMAT = $(this).val().substr($(this).val().length - 3, 3);
+			        if (FORMAT != "png" && FORMAT != "jpg" && FORMAT != "peg") {
+			            layer.open({
+						    content: "@lang('basic.users.File format is incorrect')！！！"
+						    ,skin: 'msg'
+						    ,time: 2 //2秒后自动关闭
+						});
+			            return;
+			        }
+			
+			        //判断图片是否过大，当前设置1MB
+			        var file = this.files[0];//获取file文件对象
+			        if (file.size > (IMG_LENGTH * 1024 * 1024)) {
+			            layer.open({
+						    content: "@lang('basic.users.Picture size cannot exceed')" + IMG_LENGTH + "MB"
+						    ,skin: 'msg'
+						    ,time: 2 //2秒后自动关闭
+						});
+			            $(this).val("");
+			            return;
+			        }
+			        //创建预览外层
+			        var _prevdiv = document.createElement("div");
+			        _prevdiv.setAttribute("class", "lookimg");
+			        //创建内层img对象
+			        var preview = document.createElement("img");
+			        $(_prevdiv).append(preview);
+			        //创建删除按钮
+			        var IMG_DELBTN = document.createElement("div");
+			        IMG_DELBTN.setAttribute("class", "lookimg_delBtn");
+			//      IMG_DELBTN.innerHTML = "移除";
+			        $(_prevdiv).append(IMG_DELBTN);
+			        //记录此对象对应编号
+			        _prevdiv.setAttribute("num", $(this).attr("num"));
+			        //对象注入界面
+			        $("#div_imglook").children("div:last").before(_prevdiv);
+			        UP_IMGCOUNT++;//编号增长防重复
+			        //预览功能 start
+			        var reader = new FileReader();//创建读取对象
+			        reader.onloadend = function () {
+			            preview.src = reader.result;//读取加载，将图片编码绑定到元素
+			        }
+			        if (file) {//如果对象正确
+			            reader.readAsDataURL(file);//获取图片编码
+			        } else {
+			            preview.src = "";//返回空值
+			        }
+			        //预览功能 end
+			        var number = UP_IMGCOUNT;
+			        UpLoadImg(file,number);
+			    }
+			});
+            
+            
 
         });
     </script>

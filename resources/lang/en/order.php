@@ -131,4 +131,5 @@ return [
     'Logistics services' => 'Logistics services',
     'Release' => 'Release',
     'No more than 5 sheets' => 'Up to 5 sheets',
+    'Please complete the information' => 'Please complete the information',
 ];
