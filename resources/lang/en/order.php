@@ -124,4 +124,11 @@ return [
     'Refund application' => 'Refund application',
     'Application checked and waiting for buyer to ship the goods back' => 'Application checked and waiting for buyer to ship the goods back',
     'Goods shipped back and waiting for seller to receive' => 'Goods shipped back and waiting for seller to receive',
+    'Publish an evaluation' => 'Publish an evaluation',
+    'Product Rating' => 'Product Rating',
+    'Quality Satisfaction' => 'Quality Satisfaction',
+    'Service attitude' => 'Service attitude',
+    'Logistics services' => 'Logistics services',
+    'Release' => 'Release',
+    'No more than 5 sheets' => 'Up to 5 sheets',
 ];

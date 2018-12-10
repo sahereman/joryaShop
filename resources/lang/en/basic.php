@@ -86,6 +86,13 @@ return [
         'Stored shipping address' => 'Stored shipping address',
         'Up to' => 'Up to',
         'addresses_and can save' => 'addresses, and can save',
+        'Personal information' => 'Personal information',
+        'Click to modify the Avatar' => 'Click to modify the Avatar',
+        'Set up' => 'Set up',
+        'Mailbox changes' => 'Mailbox changes',
+        'Exit Login' => 'Exit Login',
+        'File format is incorrect' => 'File format is incorrect',
+        'Picture size cannot exceed' => 'Picture size cannot exceed',
     ],
     'address' => [
         'The consignee' => 'The consignee',

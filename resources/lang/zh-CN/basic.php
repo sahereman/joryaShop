@@ -87,6 +87,13 @@ return [
         'Stored shipping address' => '已保存收货地址',
         'Up to' => '地址最多',
         'addresses_and can save' => '条，还能保存',
+        'Personal information' => '个人信息',
+        'Click to modify the Avatar' => '点击修改头像',
+        'Set up' => '设置',
+        'Mailbox changes' => '邮箱更改',
+        'Exit Login' => '退出登录',
+        'File format is incorrect' => '文件格式不正确',
+        'Picture size cannot exceed' => '图片大小不能超过',
     ],
     'address' => [
         'The consignee' => '收货人',

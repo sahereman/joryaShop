@@ -1,5 +1,5 @@
 @extends('layouts.mobile')
-@section('title', '个人中心')
+@section('title', App::isLocale('en') ? 'Personal Center' : '个人中心')
 @section('content')
     {{--如果需要引入子视图--}}
     {{--@include('layouts._header')--}}

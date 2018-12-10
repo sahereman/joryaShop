@@ -125,4 +125,11 @@ return [
     'Refund application' => '申请退款',
     'Application checked and waiting for buyer to ship the goods back' => '审核通过等待买家发货',
     'Goods shipped back and waiting for seller to receive' => '等待卖家验货',
+    'Publish an evaluation' => '发布评价',
+    'Product Rating' => '商品评分',
+    'Quality Satisfaction' => '质量满意',
+    'Service attitude' => '服务态度',
+    'Logistics services' => '物流服务',
+    'Release' => '发布',
+    'No more than 5 sheets' => '最多5张',
 ];

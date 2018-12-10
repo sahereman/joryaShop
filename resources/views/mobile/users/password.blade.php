@@ -1,12 +1,12 @@
 @extends('layouts.mobile')
-@section('title', '修改密码')
+@section('title', App::isLocale('en') ? 'Modify password' : '修改密码')
 @section('content')
     {{--如果需要引入子视图--}}
     {{--@include('layouts._header')--}}
     {{--填充页面内容--}}
     <div class="headerBar">
         <img src="{{ asset('static_m/img/icon_backtop.png') }}" class="backImg" onclick="javascript:history.back(-1);"/>
-        <span>修改密码</span>
+        <span>@lang('basic.users.Change_Password')</span>
     </div>
     <div class="editPsdBox">
         <form method="POST" action="{{ route('mobile.users.update_password', ['user' => $user->id]) }}"

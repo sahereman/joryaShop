@@ -1,5 +1,5 @@
 @extends('layouts.mobile')
-@section('title', '信息修改')
+@section('title', App::isLocale('en') ? 'Information modification' : '信息修改')
 @section('content')
     {{--如果需要引入子视图--}}
     {{--@include('layouts._header')--}}
@@ -7,7 +7,7 @@
     {{--填充页面内容--}}
     <div class="headerBar" style="border: none;">
         <img src="{{ asset('static_m/img/icon_backtop.png') }}" class="backImg" onclick="javascript:history.back(-1);"/>
-        <span>个人信息</span>
+        <span>@lang('basic.users.Personal information')</span>
     </div>
     <div class="editUser">
         <div class="editUserMain">
@@ -17,12 +17,19 @@
                 {{ method_field('PUT') }}
                 <div class="editUserHead">
                     <div class="editUserHeadBox">
-                        <img src="{{ $user->avatar_url }}"/>
-                        <input type="file" name="avatar" value="{{ $user->avatar_url }}"
+                        <img class="user_image" src="{{ $user->avatar_url }}"/>
+                        <!--<input type="file" name="avatar" value="{{ $user->avatar_url }}"
                                data-url="{{ route('image.preview') }}" id="upload_head"
-                               onchange="imgChange(this)">
+                               onchange="imgChange(this)">-->
+						<div class="img-box full photoList dis_n" id="imgupup">
+							<div class="input_content up_img clear_fix">
+								<div id="div_imglook">
+									<div id="div_imgfile"></div>
+								</div>
+							</div>
+						</div>
                     </div>
-                    <p>点击修改头像</p>
+                    <p>@lang('basic.users.Click to modify the Avatar')</p>
                 </div>
                 <div class="editUserItem">
                     <label>@lang('basic.users.Username')</label>
@@ -98,30 +105,11 @@
             $(".photograph").on('click', function () {
                 $("#upload_head").click();
             });
+            //点击更换头像
+            $(".user_image").on("click",function(){
+            	$("#div_imgfile").trigger("click");
+            })
         });
-        // 图片上传入口按钮 input[type=file]值发生改变时触发
-        function imgChange(obj) {
-            var filePath = $(obj).val();
-            var url = $(obj).attr("data-url")
-            if (filePath.indexOf("jpg") != -1 || filePath.indexOf("png") != -1 || filePath.indexOf("jpeg") != -1 || filePath.indexOf("gif") != -1 || filePath.indexOf("bmp") != -1) {
-                $(".fileerrorTip").html("").hide();
-                var arr = filePath.split('\\');
-                var fileName = arr[arr.length - 1];
-                $(".showFileName").html(fileName);
-                upLoadBtnSwitch = 1;
-                UpLoadImg(url);
-            } else {
-                $(".showFileName").html("");
-                layer.open({
-                    title: "@lang('app.Prompt')",
-                    content: "@lang('app.picture_type_error')",
-                    btn: "@lang('app.determine')"
-                });
-                upLoadBtnSwitch = 0;
-                return false;
-            }
-        }
-
         // 本地图片上传 按钮
         function UpLoadImg(url) {
             var formData = new FormData();
@@ -136,11 +124,115 @@
                 processData: false,//必须false才会自动加上正确的Content-Type
                 type: 'post',
                 success: function (data) {
-                    $(".user_Avatar img").attr('src', data.preview);
+                    $(".user_image").attr('src', data.preview);
                 }, error: function (e) {
                     console.log(e);
                 }
             });
         }
+        
+        var IMG_LENGTH = 10;//图片最大1MB
+		var IMG_MAXCOUNT = 5;//最多选中图片张数
+		var UP_IMGCOUNT = 0;//上传图片张数记录
+		//打开文件选择对话框
+		$("#div_imgfile").click(function () {
+//		    if ($(".lookimg").length >= IMG_MAXCOUNT) {
+//		        layer.alert("一次最多上传" + IMG_MAXCOUNT + "张图片");
+//		        return;
+//		    }
+		    var _CRE_FILE = document.createElement("input");
+//		    if ($(".imgfile").length <= $(".lookimg").length) {//个数不足则新创建对象
+		        _CRE_FILE.setAttribute("type", "file");
+		        _CRE_FILE.setAttribute("name", "avatar");
+		        _CRE_FILE.setAttribute("class", "imgfile");
+		        _CRE_FILE.setAttribute("capture", "camera");
+		        _CRE_FILE.setAttribute("accept", "image/png,image/jpg,image/jpeg");
+		        _CRE_FILE.setAttribute("id", "upload_head");
+		        _CRE_FILE.setAttribute("data-url","{{ route('image.preview') }}");
+		        _CRE_FILE.setAttribute("num", UP_IMGCOUNT);//记录此对象对应的编号
+		        
+		        $("#div_imgfile").nextAll().remove();     //上传头像只能传一张照片
+		        
+		        $("#div_imgfile").after(_CRE_FILE);
+//		    }
+//		    else { //否则获取最后未使用对象
+//		        _CRE_FILE = $(".imgfile").eq(0).get(0);
+//		    }
+		    return $(_CRE_FILE).click();//打开对象选择框
+		});
+		
+		//创建预览图，在动态创建的file元素onchange事件中处理
+		$("#imgupup").on("change",".imgfile",function () {
+		    if ($(this).val().length > 0) {//判断是否有选中图片
+		        //判断图片格式是否正确
+		        var FORMAT = $(this).val().substr($(this).val().length - 3, 3);
+		        if (FORMAT != "png" && FORMAT != "jpg" && FORMAT != "peg") {
+		            layer.open({
+					    content: "@lang('basic.users.File format is incorrect')！！！"
+					    ,skin: 'msg'
+					    ,time: 2 //2秒后自动关闭
+					});
+		            return;
+		        }
+		
+		        //判断图片是否过大，当前设置1MB
+		        var file = this.files[0];//获取file文件对象
+		        if (file.size > (IMG_LENGTH * 1024 * 1024)) {
+		            layer.open({
+					    content: "@lang('basic.users.Picture size cannot exceed')" + IMG_LENGTH + "MB"
+					    ,skin: 'msg'
+					    ,time: 2 //2秒后自动关闭
+					});
+		            $(this).val("");
+		            return;
+		        }
+		        //创建预览外层
+		        var _prevdiv = document.createElement("div");
+		        _prevdiv.setAttribute("class", "lookimg");
+		        //创建内层img对象
+		        var preview = document.createElement("img");
+		        $(_prevdiv).append(preview);
+		        //创建删除按钮
+		        var IMG_DELBTN = document.createElement("div");
+		        IMG_DELBTN.setAttribute("class", "lookimg_delBtn");
+		//      IMG_DELBTN.innerHTML = "移除";
+		        $(_prevdiv).append(IMG_DELBTN);
+		        //记录此对象对应编号
+		        _prevdiv.setAttribute("num", $(this).attr("num"));
+		        //对象注入界面
+		        $("#div_imglook").children("div:last").before(_prevdiv);
+		        UP_IMGCOUNT++;//编号增长防重复
+		        //预览功能 start
+		        var reader = new FileReader();//创建读取对象
+		        reader.onloadend = function () {
+		            preview.src = reader.result;//读取加载，将图片编码绑定到元素
+		        }
+		        if (file) {//如果对象正确
+		            reader.readAsDataURL(file);//获取图片编码
+		        } else {
+		            preview.src = "";//返回空值
+		        }
+		        //预览功能 end
+		        var url = $("#upload_head").attr("data-url");
+		        UpLoadImg(url);
+		    }
+		});
+		
+		//删除选中图片
+		$("#imgupup").on("click",".lookimg_delBtn",function () {
+			var that = $(this).attr("data-attid");
+			var num = $(this).parents(".lookimg").attr("num")
+			if (eidt == "eidt") {
+				if(num == ""){
+					visitorsRegis.fn.delVisitrecordAttIpad(that);
+				}
+			}
+		    $(".imgfile[num=" + $(this).parent().attr("num") + "]").remove();//移除图片file
+		    $(this).parent().remove();//移除图片显示
+		    
+		});
+        
+        
+        
     </script>
 @endsection
