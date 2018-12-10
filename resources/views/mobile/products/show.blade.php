@@ -54,7 +54,7 @@
                 <div class="gIntroConDetail">
                     {{ App::isLocale('en') ? $product->content_en : $product->content_zh }}
                 </div>
-                <div class="gIntroConEvaluate" code="App::isLocale('en') ? en : zh" data-url="{{config('app.url')}}">
+                <div class="gIntroConEvaluate" code="App::isLocale('en') ? en : zh" data-url="{{ config('app.url') }}">
                     <!--<div class="gEvaHead">
                         <span class="gEvaHeadActive">全部({{ $comment_count }})</span>
                         <span>有图({{ $photo_comment_count }})</span>

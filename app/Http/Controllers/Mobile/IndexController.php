@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Mobile;
 
+use App\Exceptions\InvalidRequestException;
 use App\Models\Banner;
 use App\Models\Product;
 use App\Models\ProductCategory;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\App;
 
 class IndexController extends Controller
 {
@@ -34,6 +36,27 @@ class IndexController extends Controller
             'latest' => $latest,
             'products' => $products,
             'guesses' => $guesses,
+        ]);
+    }
+
+    // GET search more ... [for Ajax request]
+    public function guessMore(Request $request)
+    {
+        $current_page = $request->has('page') ? $request->input('page') : 1;
+        if (preg_match('/^\d+$/', $current_page) != 1) {
+            if (App::isLocale('en')) {
+                throw new InvalidRequestException('The parameter page must be an integer.');
+            } else {
+                throw new InvalidRequestException('页码参数必须为数字！');
+            }
+        }
+        $guesses = Product::where(['is_index' => 1, 'on_sale' => 1])->orderByDesc('heat')->simplePaginate(8);
+        return response()->json([
+            'code' => 200,
+            'message' => 'success',
+            'data' => [
+                'guesses' => $guesses,
+            ],
         ]);
     }
 

@@ -437,7 +437,7 @@
                             html += "</div>";
                             html += "<div class='evaluation_results_right'>";
                             html += "<div class='five_star_evaluation'>";
-                            html += "<img src='../img/star-" + n.composite_index + ".png') }}'>";
+                            html += "<img src='" + {{ config('app.url') }} + "/img/star-" + n.composite_index + ".png'>";
                             html += "</div>";
                             html += "<p class='product_parameters'>";
                             html += "<span>" + n.name + "</span>";

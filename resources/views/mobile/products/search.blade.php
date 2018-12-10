@@ -78,7 +78,7 @@
             window.location.href = "{{route('mobile.search')}}";
         });
         $(".goodsListMain").on('click', '.goodsListItem', function () {
-            window.location.href = "{{config('app.url')}}" + "/mobile/products/" + $(this).attr('code');
+            window.location.href = "{{  config('app.url') }}" + "/mobile/products/" + $(this).attr('code');
         });
         window.onload = function () {
             getResults();

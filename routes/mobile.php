@@ -10,6 +10,7 @@ Route::get('test', function () {
 
 /*首页*/
 Route::get('/', 'IndexController@root')->name('mobile.root'); // 首页
+Route::get('guess_more', 'IndexController@guessMore')->name('mobile.guess_more'); // guess more ... @ mobile root page [for Ajax request]
 Route::get('search', 'IndexController@search')->name('mobile.search'); // 搜索 页面 [仅展示页面]
 Route::get('locale', 'IndexController@localeShow')->name('mobile.locale.show'); // 修改网站语言 页面
 

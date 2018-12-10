@@ -119,7 +119,7 @@
                 <ul>
                     <li class="row">
                         <!--<div class="share-component " data-disabled="qzone, tencent, douban, diandian, google, linkedin"></div>-->
-                        <div class="social-share" data-initialized="true" data-url="{{config('app.url')}}"
+                        <div class="social-share" data-initialized="true" data-url="{{ config('app.url') }}"
                              data-title="Jorya卓雅美业">
                             <a href="javascript:void(0);" class="social-share-icon icon-weibo"></a>
                             <a href="javascript:void(0);" class="social-share-icon icon-wechat"></a>
