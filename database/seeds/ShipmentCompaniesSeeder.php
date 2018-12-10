@@ -133,7 +133,8 @@ class ShipmentCompaniesSeeder extends Seeder
             'name' => '中通速递',
         ]);*/
 
-        $shipment_companies = require('ShipmentCompanies.php');
+        // $shipment_companies = require('../demo/ShipmentCompanies.php');
+        $shipment_companies = require(database_path('demo/ShipmentCompanies.php'));
 
         foreach($shipment_companies as $shipment_company){
             ShipmentCompany::create([

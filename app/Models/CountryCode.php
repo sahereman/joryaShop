@@ -14,7 +14,7 @@ class CountryCode extends Model
     protected $fillable = [
         'country_name',
         // 'country_name_zh',
-        'country_iso',
+        'country_iso', // 备用字段
         'country_code',
         'sort',
     ];

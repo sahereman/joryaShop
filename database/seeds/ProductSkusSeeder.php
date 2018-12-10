@@ -13,9 +13,20 @@ class ProductSkusSeeder extends Seeder
     public function run()
     {
         Product::all()->each(function (Product $product) {
-
-            factory(ProductSku::class, random_int(2, 4))->create([
+            factory(ProductSku::class)->create([
                 'product_id' => $product->id,
+                'name_en' => 'A 型 - en',
+                'name_zh' => 'A 型 - zh',
+            ]);
+            factory(ProductSku::class)->create([
+                'product_id' => $product->id,
+                'name_en' => 'B 型 - en',
+                'name_zh' => 'B 型 - zh',
+            ]);
+            factory(ProductSku::class)->create([
+                'product_id' => $product->id,
+                'name_en' => 'C 型 - en',
+                'name_zh' => 'C 型 - zh',
             ]);
         });
     }

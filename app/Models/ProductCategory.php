@@ -25,7 +25,13 @@ class ProductCategory extends Model
      * @var array
      */
     protected $fillable = [
-        'banner', 'name_zh', 'name_en', 'description_en', 'description_zh', 'is_index', 'sort',
+        'name_zh',
+        'name_en',
+        'description_en',
+        'description_zh',
+        'banner', // 备用字段
+        'is_index',
+        'sort',
     ];
 
     /**

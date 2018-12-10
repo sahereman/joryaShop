@@ -13,9 +13,23 @@ class Product extends Model
      * @var array
      */
     protected $fillable = [
-        'product_category_id', 'name_en', 'name_zh', 'description_en', 'description_zh',
-        'content_en', 'content_zh', 'thumb', 'photos', 'shipping_fee', 'stock', 'sales',
-        'index', 'heat', 'price', 'is_index', 'on_sale'
+        'product_category_id',
+        'name_en',
+        'name_zh',
+        'description_en',
+        'description_zh',
+        'content_en',
+        'content_zh',
+        'thumb',
+        'photos',
+        'shipping_fee',
+        'stock',
+        'sales',
+        'index',
+        'heat',
+        'price',
+        'is_index',
+        'on_sale',
     ];
 
     /**

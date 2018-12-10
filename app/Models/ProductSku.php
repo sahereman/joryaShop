@@ -13,7 +13,13 @@ class ProductSku extends Model
      * @var array
      */
     protected $fillable = [
-        'product_id', 'name_en', 'name_zh', 'photo', 'price', 'stock', 'sales'
+        'product_id',
+        'name_en',
+        'name_zh',
+        'photo', // 备用字段
+        'price',
+        'stock',
+        'sales',
     ];
 
 

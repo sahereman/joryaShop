@@ -40,6 +40,7 @@ class OrderRefund extends Model
         'seller_info',
         'type',
         'status',
+        'amount', // 备用字段
         'remark_from_user',
         'remark_from_seller',
         'remark_for_shipment_from_user',

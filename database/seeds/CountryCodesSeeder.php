@@ -20,7 +20,7 @@ class CountryCodesSeeder extends Seeder
          * 俄罗斯，韩国，日本，德国，瑞典，
          * 瑞士
          * */
-        CountryCode::create([
+        /*CountryCode::create([
             'country_name' => 'United States',
             // 'country_name_zh' => '美国',
             'country_iso' => 'US',
@@ -109,7 +109,7 @@ class CountryCodesSeeder extends Seeder
             // 'country_name_zh' => '瑞士',
             'country_iso' => 'CH',
             'country_code' => '41',
-        ]);
+        ]);*/
 
         /*CountryCode::create([
             'country_name' => 'United Kingdom',
@@ -118,7 +118,7 @@ class CountryCodesSeeder extends Seeder
             'country_code' => '44',
         ]);*/
 
-        CountryCode::create([
+        /*CountryCode::create([
             'country_name' => 'Sweden',
             // 'country_name_zh' => '瑞典',
             'country_iso' => 'SE',
@@ -201,6 +201,14 @@ class CountryCodesSeeder extends Seeder
             // 'country_name_zh' => '伊朗',
             'country_iso' => 'IR',
             'country_code' => '98',
-        ]);
+        ]);*/
+
+        // $country_codes = require('../demo/CountryCodes.php');
+        $country_codes = require(database_path('demo/CountryCodes.php'));
+
+        foreach ($country_codes as $country_code) {
+            // CountryCode::create($country_code);
+            factory(CountryCode::class)->create($country_code);
+        }
     }
 }

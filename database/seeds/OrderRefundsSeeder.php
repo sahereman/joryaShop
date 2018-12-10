@@ -14,7 +14,7 @@ class OrderRefundsSeeder extends Seeder
      */
     public function run()
     {
-        Order::find([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])->each(function(Order $order){
+        /*Order::find([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])->each(function(Order $order){
             factory(OrderRefund::class)->create([
                 'order_id' => $order->id,
             ]);
@@ -31,7 +31,7 @@ class OrderRefundsSeeder extends Seeder
                 'order_id' => $order->id,
                 'type' => OrderRefund::ORDER_REFUND_TYPE_REFUND_WITH_SHIPMENT,
             ]);
-        });
+        });*/
 
     }
 }
