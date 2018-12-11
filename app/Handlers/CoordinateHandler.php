@@ -4,7 +4,8 @@ namespace App\Handlers;
 
 /*
  * Demo:
- * 腾讯地图坐标拾取器
+ *
+ * Helper link: 腾讯地图坐标拾取器
  * https://lbs.qq.com/tool/getpoint/index.html
  *
  * $handler = new CoordinateHandler();
@@ -58,7 +59,8 @@ class CoordinateHandler
 
         //google maps里面实现的算法
         $distance = 2 * asin(sqrt(pow(sin($dLatitudeRadian / 2), 2) + cos($a->latitudeRadian) * cos($b->latitudeRadian) * pow(sin($dLongitudeRadian / 2), 2))); //google maps里面实现的算法
-        $distance = $distance * Coordinate::EARTH_RADIUS;
+        // $distance = $distance * Coordinate::EARTH_RADIUS;
+        $distance = $distance * $a->localEarthRadius;
 
         return $distance;
     }
@@ -69,7 +71,7 @@ class CoordinateHandler
 // vertical,perpendicular,upright,erect,plumb: 垂直的; horizontal: 水平的.
 class Coordinate
 {
-    const EARTH_RADIUS = 6378137; // 地球半径 人类规定 (单位：m)
+    // const EARTH_RADIUS = 6378137; // 地球半径 人类规定 (单位：m)
     const EQUATORIAL_RADIUS = 6378137; // 赤道半径 (单位：m)
     const POLAR_RADIUS = 6356725; // 极半径 (单位：m)
 
