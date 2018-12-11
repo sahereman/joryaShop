@@ -6,11 +6,11 @@
         <span>@lang('basic.users.Change_Password')</span>
     </div>
     <div class="editPsdBox">
+        <form method="POST" action="{{ route('mobile.users.update_password', ['user' => $user->id]) }}"
+              enctype="multipart/form-data">
+            {{ csrf_field() }}
+            {{ method_field('PUT') }}
             <div class="editPsdMain">
-            	{{--<form method="POST" action="{{ route('mobile.users.update_password', ['user' => $user->id]) }}"
-		              enctype="multipart/form-data">
-		            {{ csrf_field() }}
-		            {{ method_field('PUT') }}--}}
                 <div class="editPsdItem">
                     <label>@lang('basic.users.old_password')</label>
                     <input type="password" name="password_original"
@@ -45,9 +45,9 @@
                         </span>
                     @endif
                 </div>
-                <!--</form>-->
             </div>
-            <button type="submit">@lang('basic.users.submit')</button>
+            <button class="doneBtn" type="submit">@lang('basic.users.submit')</button>
+        </form>
     </div>
 @endsection
 @section('scriptsAfterJs')
