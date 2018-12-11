@@ -61,7 +61,7 @@
                 <!--商品参数-->
                 <div class="parameters_content">
                     <h4>{{ App::isLocale('en') ? $product->name_en : $product->name_zh }}</h4>
-                    <p class="small_title">{{ App::isLocale('en') ? $product->description_en : $product->description_zh }}</p>
+                    <p class="small_title">{!! App::isLocale('en') ? $product->description_en : $product->description_zh !!}</p>
                     <div class="price_service">
                         <p class="original_price">
                             <span>@lang('product.product_details.the original price')</span>
@@ -194,7 +194,7 @@
                             <strong>({{ $comment_count }})</strong></li>
                     </ul>
                     <div class="mc tabcon product_info">
-                        {{ App::isLocale('en') ? $product->content_en : $product->content_zh }}
+                        {!! App::isLocale('en') ? $product->content_en : $product->content_zh !!}
                     </div>
                     <div class="mc tabcon dis_n">
                         <ul class="comment-score">
@@ -437,7 +437,7 @@
                             html += "</div>";
                             html += "<div class='evaluation_results_right'>";
                             html += "<div class='five_star_evaluation'>";
-                            html += "<img src='" + {{ config('app.url') }} + "/img/star-" + n.composite_index + ".png'>";
+                            html += "<img src='" + "{{ config('app.url') }}" + "/img/star-" + n.composite_index + ".png' />";
                             html += "</div>";
                             html += "<p class='product_parameters'>";
                             html += "<span>" + n.name + "</span>";
