@@ -104,7 +104,7 @@
                     <div class="addCart_buyNow">
                         @guest
                         <a class="buy_now for_show_login">@lang('product.product_details.Buy now')</a>
-                        <a class="add_carts for_show_login">@lang('app.Add to Shopping Cart')<</a>
+                        <a class="add_carts for_show_login">@lang('app.Add to Shopping Cart')</a>
                         @else
                             <a class="buy_now"
                                data-url="{{ route('orders.pre_payment') }}">@lang('product.product_details.Buy now')</a>
