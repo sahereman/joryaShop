@@ -59,7 +59,11 @@ class ProductSku extends Model
 
     public function getPriceInUsdAttribute()
     {
-        return ExchangeRate::exchangePrice($this->attributes['price'], 'USD');
+        $price_in_usd = ExchangeRate::exchangePrice($this->attributes['price'], 'USD');
+        if ($price_in_usd == 0.00) {
+            return 0.01;
+        }
+        return $price_in_usd;
     }
 
     public function product()

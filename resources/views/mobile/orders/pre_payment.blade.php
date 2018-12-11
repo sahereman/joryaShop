@@ -145,7 +145,6 @@
                                 {{ App::isLocale('en') ? $item['product']->name_en : $item['product']->name_zh }}
                             </div>
                             <div class="goodsSpec">
-                                <sapn>颜色：</sapn>
                                 <span>{{ App::isLocale('en') ? $item['sku']->name_en : $item['sku']->name_zh }}</span>
                             </div>
                             <div class="goodsPri">
@@ -204,7 +203,7 @@
                     $(".adsBox").show();
                     getAddressList($(this).attr("data-url"));
                 }
-            })
+            });
             //关闭地址弹窗
             $(".close_layer_img").on('click', function () {
                 $('.address_choose').removeClass("fadeInRightBig");
@@ -216,7 +215,7 @@
                 $('.pro_lists').removeClass("dis_n");
                 $('.pro_lists').removeClass("fadeOutRightBig");
                 $('.pro_lists').addClass("fadeInRightBig");
-            })
+            });
             //关闭商品明细弹窗
             $(".close_pro_lists_img").on('click', function () {
                 $('.pro_lists').removeClass("fadeInRightBig");
@@ -250,12 +249,12 @@
                 $('.address_choose').removeClass("fadeInRightBig");
                 $('.address_choose').addClass("fadeOutRightBig");
                 $('.address_choose').addClass("dis_n");
-            })
+            });
             //点击地址中的新建地址
             $(".creat_address_btn").on("click", function () {
                 $(".addAdsBox").show();
                 $(".adsBox").hide();
-            })
+            });
             //点击保存
             $(".save_new_address").on("click", function () {
                 $(".address_name").html($("#new_address_name").val());
@@ -264,10 +263,10 @@
                 $('.address_choose').removeClass("fadeInRightBig");
                 $('.address_choose').addClass("fadeOutRightBig");
                 $('.address_choose').addClass("dis_n");
-            })
+            });
             //获取地址列表
             function getAddressList(url) {
-                console.log(url)
+                // console.log(url);
                 $.ajax({
                     type: "get",
                     url: url,
@@ -279,20 +278,20 @@
                             if (dataObj.length > 0) {
                                 var html = "";
                                 $.each(dataObj, function (i, n) {
-                                    html += "<div class='adsItem'>"
-                                    html += "<div class='adsName'>"
-                                    html += "<span class='ads_Name'>" + n.name + "</span>"
+                                    html += "<div class='adsItem'>";
+                                    html += "<div class='adsName'>";
+                                    html += "<span class='ads_Name'>" + n.name + "</span>";
                                     if (n.is_default == true) {
-                                        html += "<span class='defaultAds'>默认</span>"
+                                        html += "<span class='defaultAds'>默认</span>";
                                     } else {
-                                        html += ""
+                                        html += "";
                                     }
-                                    html += "</div>"
-                                    html += "<div class='adsDetail'>"
-                                    html += "<span class='adsP'>" + n.phone + "</span>"
-                                    html += "<span class='adsD'>" + n.address + "</span>"
-                                    html += "</div>"
-                                    html += "</div>"
+                                    html += "</div>";
+                                    html += "<div class='adsDetail'>";
+                                    html += "<span class='adsP'>" + n.phone + "</span>";
+                                    html += "<span class='adsD'>" + n.address + "</span>";
+                                    html += "</div>";
+                                    html += "</div>";
                                 });
                                 $(".adsBox .adsList").html("");
                                 $(".adsBox .adsList").append(html);
@@ -352,7 +351,7 @@
                             break;
                     }
                 }
-            })
+            });
             //第一类创建订单（直接下单）
             function payment_one(sku_id, number, url) {
                 var data = {
@@ -364,7 +363,7 @@
                     address: $(".address_info_all").html(),
                     remark: $(".remark").val(),
                     currency: $(".currency_selection").find("a.active").attr("country")
-                }
+                };
                 $.ajax({
                     type: "post",
                     url: url,
@@ -388,7 +387,7 @@
                         });
                     },
                     complete: function () {
-                    }
+                    },
                 });
             }
 
@@ -401,8 +400,8 @@
                     phone: $(".address_phone").html(),
                     address: $(".address_info_all").html(),
                     remark: $(".remark").val(),
-                    currency: $(".currency_selection").find("a.active").attr("country")
-                }
+                    currency: $(".currency_selection").find("a.active").attr("country"),
+                };
                 $.ajax({
                     type: "post",
                     url: url,

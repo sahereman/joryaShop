@@ -98,8 +98,8 @@
                                         <a href="{{ route('products.show', ['product' => $product->id]) }}">
                                             <img class="lazy" data-src="{{ $product->thumb_url }}">
                                             <h5 title="{{ App::isLocale('en') ? $product->name_en : $product->name_zh }}">{{App::isLocale('en') ? $product->name_en : $product->name_zh }}</h5>
-                                            <span title="{{ App::isLocale('en') ? $product->description_en : $product->description_zh }}">
-                                                {{ App::isLocale('en') ? $product->description_en : $product->description_zh }}
+                                            <span title="{{ App::isLocale('en') ? strip_tags($product->description_en) : strip_tags($product->description_zh) }}">
+                                                {!! App::isLocale('en') ? $product->description_en : $product->description_zh !!}
                                             </span>
                                             <p class="product_price">@lang('basic.currency.symbol') {{ App::isLocale('en') ? $product->price_in_usd : $product->price }}</p>
                                         </a>
@@ -155,7 +155,9 @@
                                             </a>
                                         </div>
                                         <h5 title="{{ App::isLocale('en') ? $product->name_en : $product->name_zh }}">{{ App::isLocale('en') ? $product->name_en : $product->name_zh }}</h5>
-                                        <span title="{{ App::isLocale('en') ? $product->description_en : $product->description_zh }}">{{ App::isLocale('en') ? $product->description_en : $product->description_zh }}</span>
+                                        <span title="{{ App::isLocale('en') ? strip_tags($product->description_en) : strip_tags($product->description_zh) }}">
+                                            {!! App::isLocale('en') ? $product->description_en : $product->description_zh !!}
+                                        </span>
                                         <p class="product_price">@lang('basic.currency.symbol') {{ App::isLocale('en') ? $product->price_in_usd : $product->price }}</p>
                                     </li>
                                 @endforeach

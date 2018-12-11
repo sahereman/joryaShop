@@ -50,7 +50,7 @@
                                     <p class="p-info">
                                         <a class="specifications"
                                            href="{{ route('products.show', $order_item['sku']['product']['id']) }}">
-                                            {{ App::isLocale('en') ? $order_item['sku']['product']['description_en'] : $order_item['sku']['product']['description_zh'] }}
+                                            {!! App::isLocale('en') ? $order_item['sku']['product']['description_en'] : $order_item['sku']['product']['description_zh'] !!}
                                         </a>
                                     </p>
                                 </td>

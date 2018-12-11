@@ -200,15 +200,15 @@
                         <ul class="comment-score">
                             <li>
                                 <span>@lang('product.product_details.Overall rating')</span>
-                                <h3 class="composite_index">4.8</h3>
+                                <h3 class="composite_index">4</h3>
                             </li>
                             <li>
                                 <span>@lang('product.product_details.Description match')</span>
-                                <h3 class="description_index">4.8</h3>
+                                <h3 class="description_index">4</h3>
                             </li>
                             <li>
                                 <span>@lang('product.product_details.Logistics Services')</span>
-                                <h3 class="shipment_index">4.8</h3>
+                                <h3 class="shipment_index">4</h3>
                             </li>
                         </ul>
                         <div class="comment-items">

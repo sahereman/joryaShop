@@ -187,7 +187,7 @@
                                                 "nonceStr": data.nonceStr, //随机串
                                                 "package": data.package,
                                                 "signType": data.signType, //微信签名方式：
-                                                "paySign": data.paySign //微信签名
+                                                "paySign": data.paySign, //微信签名
                                             },
                                             function (res) {
                                                 if (res.err_msg == "get_brand_wcpay_request:ok") {
@@ -196,7 +196,7 @@
                                             });
                                 },
                                 error: function (e) {
-                                    alert("支付失败");
+                                    alert("@lang('order.Order payment failed')");
                                 }
                             });
                             break;
@@ -210,9 +210,9 @@
                                         window.location.href = json.data.redirect_url;
                                     } else {
                                         layer.open({
-                                            content: json.message
-                                            , skin: 'msg'
-                                            , time: 2 //2秒后自动关闭
+                                            content: json.message,
+                                            skin: 'msg',
+                                            time: 2, //2秒后自动关闭
                                         });
                                     }
                                 }
@@ -224,9 +224,9 @@
                     }
                 } else {
                     layer.open({
-                        content: "请选择支付方式"
-                        , skin: 'msg'
-                        , time: 2 //2秒后自动关闭
+                        content: "@lang('order.Please select the payment method')",
+                        skin: 'msg',
+                        time: 2, //2秒后自动关闭
                     });
                 }
             });

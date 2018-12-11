@@ -38,7 +38,9 @@
                 <div class="classified-display">
                     <div class="classified-title">
                         <h3 title="{{ App::isLocale('en') ? $child->name_en : $child->name_zh }}">{{ App::isLocale('en') ? $child->name_en : $child->name_zh }}</h3>
-                        <p title="{{ App::isLocale('en') ? $child->description_en : $child->description_zh }}">{{ App::isLocale('en') ? $child->description_en : $child->description_zh }}</p>
+                        <p title="{{ App::isLocale('en') ? strip_tags($child->description_en) : strip_tags($child->description_zh) }}">
+                            {!! App::isLocale('en') ? $child->description_en : $child->description_zh !!}
+                        </p>
                     </div>
                     <div class="classified-products">
                         <ul class="classified-lists">
