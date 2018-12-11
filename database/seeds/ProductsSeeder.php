@@ -38,11 +38,11 @@ class ProductsSeeder extends Seeder
         $products = factory(Product::class, 100)->make();
         $products->map(function ($product) use ($categories, $product_names) {
             $category = $categories->random();
-            $category_name_en = $category->parent_id == 0 ? $category->name_en : $category->parent->name_en;
+            $category_name_zh = $category->parent_id == 0 ? $category->name_zh : $category->parent->name_zh;
             $product->product_category_id = $category->id;
-            $product_name = array_random($product_names[$category_name_en]);
-            $product->name_en = $product_name . ' - en';
-            $product->name_zh = $product_name . ' - zh';
+            list($product_name_en, $product_name_zh) = array_random($product_names[$category_name_zh]);
+            $product->name_en = $product_name_en;
+            $product->name_zh = $product_name_zh;
             Product::create(array_except($product->toArray(), [
                 'thumb_url',
                 'photo_urls',

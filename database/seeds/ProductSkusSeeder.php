@@ -15,18 +15,18 @@ class ProductSkusSeeder extends Seeder
         Product::all()->each(function (Product $product) {
             factory(ProductSku::class)->create([
                 'product_id' => $product->id,
-                'name_en' => 'A 型 - en',
-                'name_zh' => 'A 型 - zh',
+                'name_en' => 'A - 1',
+                'name_zh' => 'A - 1 型',
             ]);
             factory(ProductSku::class)->create([
                 'product_id' => $product->id,
-                'name_en' => 'B 型 - en',
-                'name_zh' => 'B 型 - zh',
+                'name_en' => 'B - 1',
+                'name_zh' => 'B - 1 型',
             ]);
             factory(ProductSku::class)->create([
                 'product_id' => $product->id,
-                'name_en' => 'C 型 - en',
-                'name_zh' => 'C 型 - zh',
+                'name_en' => 'C - 1',
+                'name_zh' => 'C - 1 型',
             ]);
         });
     }
