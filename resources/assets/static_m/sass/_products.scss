@@ -315,6 +315,9 @@
                     justify-content:  flex-start;
                     align-items: center;
                     padding-left: 0;
+                    li {
+                        margin-bottom:.7rem;
+                    }
                     span{
                         padding: .3rem .5rem;
                         border: 1px solid #d9d9d9;

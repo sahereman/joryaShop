@@ -1,11 +1,19 @@
 @extends('layouts.mobile')
-@section('title', '购物车')
+@section('title', App::isLocale('en') ? 'Cart' : '购物车')
 @section('content')
     <div class="headerBar fixHeader">
         <img src="{{ asset('static_m/img/icon_backtop.png') }}" class="backImg" onclick="javascript:history.back(-1);"/>
-        <span>购物车</span>
+        <span>@lang('app.Shopping Cart')</span>
     </div>
     <div class="cartsBox">
+    	@if($carts->isEmpty())
+        <!--当购物车内容为空时显示-->
+        <div class="empty_shopping_cart">
+            <div></div>
+            <p>@lang('product.shopping_cart.shopping_cart_still_empty')</p>
+            <a href="{{ route('root') }}">@lang('product.shopping_cart.Go_shopping')</a>
+        </div>
+        @else
         <div class="cartsCon">
             @foreach($carts as $cart)
                 <div class="cartItem">
@@ -37,30 +45,29 @@
                 </div>
             @endforeach
         </div>
+        @endif
         <div class="cartsTotle">
             <div class="cartsTotleDiv">
                 <input type="checkbox" name="cart_ids" id="totalIpt" value=""/>
                 <span class="bagLbl"></span>
-                <label for="totalIpt" class="totalIpt">全选</label>
+                <label for="totalIpt" class="totalIpt">@lang('product.shopping_cart.all_selected')</label>
             </div>
             <div class="Settlement_btns">
-                <a class="cancelBtn">删除所选</a>
+                <a class="cancelBtn">@lang('product.Deletes the selected')</a>
                 @guest
                 <a class="total_num for_show_login" data-url="{{ route('mobile.orders.pre_payment') }}">
-                    结算：{{ App::isLocale('en') ? '&#36;' : '&#165;' }}
+                    @lang('product.shopping_cart.Total')：{{ App::isLocale('en') ? '&#36;' : '&#165;' }}
                     <span>0.00</span>
                 </a>
                 @else
                     <a class="total_num" data-url="{{ route('mobile.orders.pre_payment') }}">
-                        结算：{{ App::isLocale('en') ? '&#36;' : '&#165;' }}
+                        @lang('product.shopping_cart.Total')：{{ App::isLocale('en') ? '&#36;' : '&#165;' }}
                         <span>0.00</span>
                     </a>
                 @endguest
             </div>
         </div>
     </div>
-
-    {{--如果需要引入子视图--}}
     @include('layouts._footer_mobile')
 @endsection
 
@@ -168,7 +175,7 @@
             } else {
                 if (clickDom.hasClass("active") != true) {
                     layer.open({
-                        content: "请选择需要结算的商品！",
+                        content: "@lang('product.shopping_cart.Please select the item you want to settle')！",
                         skin: 'msg',
                         time: 2, //2秒后自动关闭
                     });
@@ -184,7 +191,7 @@
                         window.location.href = url + "?cart_ids="+cart_ids+"&sendWay=2";
                     } else {
                         layer.open({
-                            content: "请选择需要结算的商品！",
+                            content: "@lang('product.shopping_cart.Please select the item you want to settle')！",
                             skin: 'msg',
                             time: 2, //2秒后自动关闭
                         });

@@ -264,7 +264,6 @@
                 } else {
                     if (type == '1') {
                         $('#' + remain_id).html("@lang('order.Order has timed out')");
-                        $("")
                     } else {
                         $('#' + remain_id).html("@lang('order.Order has timed out')");
                     }

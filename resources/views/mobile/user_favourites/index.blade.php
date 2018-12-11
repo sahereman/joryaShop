@@ -15,7 +15,7 @@
     @else
         <div class="favBox">
             @foreach($favourites as $favourite)
-                <div class="favItem" data-url="{{ route('mobile.products.show', ['product' => $favourite->product->id]) }}">
+                <div class="favItem" code='{{ $favourite->id }}' data-url="{{ route('mobile.products.show', ['product' => $favourite->product->id]) }}">
                     <img src="{{ $favourite->product->thumb_url }}"/>
                     <div class="favDetail">
                         <div class="goodsName">
@@ -38,7 +38,7 @@
         </div>
         <div class="editFav">
             @foreach($favourites as $favourite)
-                <div class="favItem">
+                <div class="favItem" code='{{ $favourite->id }}'>
                     <label class="favItemLab">
                         <input type="checkbox" name="" id="" value="{{ $favourite->id }}" code="{{ route('user_favourites.destroy', $favourite->id) }}">
                         <span></span>
@@ -67,7 +67,6 @@
             <span class="cancelBtn" data-url="{{ route('user_favourites.multi_delete') }}">@lang('product.Cancel Favorites')</span>
         </div>
     @endif
-    {{--如果需要引入子视图--}}
     {{--@include('layouts._footer')--}}
 @endsection
 

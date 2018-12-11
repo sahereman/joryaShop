@@ -199,7 +199,6 @@
                                 	$(".dropload-down").remove();
                                 }
                             }
-                            // 为了测试，延迟1秒加载
                             $(".histories_box .lists").append(html);
                             page++;
                             // 每次数据插入，必须重置
@@ -264,8 +263,7 @@
                 url: $(".cancelBtn").attr("data-url"),
                 data: data,
                 success: function (data) {
-                	console.log(data);
-//                  window.location.reload();
+                    window.location.reload();
                 },
                 error: function (err) {
                     console.log(err);

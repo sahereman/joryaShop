@@ -39,6 +39,8 @@ return [
         'Add_favorites_successfully' => '成功加入收藏夹',
         'sure_to_delete_product' => '确定要删除该商品吗？',
         'sure_to_empty_cart' => '确定要清空购物车吗？',
+        'Please select the item you want to settle' => '请选择需要结算的商品',
+        'Total' => '合计',
     ],
     'No footprint yet' => '还没有任何足迹',
     'Clear all browsing history' => '清空所有浏览历史',
@@ -113,4 +115,5 @@ return [
     'Are you sure you want to cancel your attention to this product' => '确定要取消关注此商品吗？',
     'Are you sure you want to delete this item' => '确定要删除此商品吗？',
     'Deletes the selected' => '删除所选',
+    'Product Details' => '商品明细',
 ];

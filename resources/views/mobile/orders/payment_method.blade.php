@@ -3,7 +3,7 @@
 @section('content')
     <div class="headerBar fixHeader">
         <img src="{{ asset('static_m/img/icon_backtop.png') }}" class="backImg" onclick="javascript:history.back(-1);"/>
-        <span>确认订单</span>
+        <span>@lang('app.Confirm the Order')</span>
     </div>
     <div class="pre_payment">
         <div class="pre_paymentCon">
@@ -69,7 +69,7 @@
         </div>
         <div class="pre_paymentTotal">
             <span class="amount_of_money cost_of_total">{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}</span>
-            <a href="javascript:void(0);" class="Topayment_btn" data-url="{{ route('orders.store') }}">去支付</a>
+            <a href="javascript:void(0);" class="Topayment_btn" data-url="{{ route('orders.store') }}">@lang('basic.orders.To pay')</a>
         </div>
     </div>
     <!--选择支付方式弹窗-->
@@ -78,12 +78,12 @@
         <div class="pay_choose">
             <p class="pay_choose_title">
                 <span class="close_btn_payChoose"></span>
-                <span>付款</span>
+                <span>@lang('basic.orders.payment')</span>
                 <span class="count_down"
                       seconds_to_close_order="{{ (strtotime($order->created_at) + \App\Models\Order::getSecondsToCloseOrder() - time()) > 0 ? (strtotime($order->created_at) + \App\Models\Order::getSecondsToCloseOrder() - time()) : 0 }}"></span>
             </p>
             <p class="pay_choose_order">
-                <span>订单编号：</span>
+                <span>@lang('basic.users.Order_number')：</span>
                 <span>{{ $order->order_sn }}</span>
             </p>
             <ul>
@@ -127,11 +127,11 @@
                 @endif
             </ul>
             <p class="need_to_pay">
-                <span>支付</span>
+                <span>@lang('basic.orders.Pay')</span>
                 <span class="total_num_toPay">{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}</span>
             </p>
             <p class="rel_topayment">
-                <a href="javascript:void(0);">支付</a>
+                <a href="javascript:void(0);">@lang('basic.orders.Pay')</a>
             </p>
         </div>
     </div>
@@ -219,7 +219,11 @@
                             });
                             break;
                         default :
-                            layer.alert("@lang('order.Please select the payment method')");
+                            layer.open({
+		                        content: "@lang('order.Please select the payment method')",
+		                        skin: 'msg',
+		                        time: 2, //2秒后自动关闭
+		                    });
                             break;
                     }
                 } else {

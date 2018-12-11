@@ -38,7 +38,7 @@ return [
         'Modify_Personal_Information' => 'Modify Personal Information',
         'Transaction_record' => 'Transaction record',
         'Pending_payment' => 'Pending payment',
-        'On_the_receiving_line' => 'On the receiving line',
+        'On_the_receiving_line' => 'Pending receipt',
         'Pending_feedback' => 'Pending feedback',
         'After_sales_order' => 'After sales order',
         'The_order_details' => 'The order details',
@@ -93,6 +93,9 @@ return [
         'Exit Login' => 'Exit Login',
         'File format is incorrect' => 'File format is incorrect',
         'Picture size cannot exceed' => 'Picture size cannot exceed',
+        "ALL" => 'ALL',
+        'My address' => 'My address',
+        'My footprints' => 'My footprints',
     ],
     'address' => [
         'The consignee' => 'The consignee',
@@ -121,6 +124,7 @@ return [
         'Please fill in the consignee' => 'Please fill in the consignee',
         'Please fill in your mobile phone number' => 'Please fill in your mobile phone number',
         'Edit Shipping Address' => 'Edit Shipping Address',
+        'Add a shipping address' => 'Add a shipping address',
     ],
     'orders' => [
         'All orders' => 'All orders',
@@ -147,6 +151,9 @@ return [
         'Request a refund' => 'Request a refund',
         'item' => 'item',
         'in total' => 'in total',
+        'Submit an Order' => 'Submit an Order',
+        'To pay' => 'To pay',
+        'Pay' => 'Pay',
     ],
 
 ];

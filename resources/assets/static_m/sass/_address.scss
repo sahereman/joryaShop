@@ -110,10 +110,11 @@
                 color: #f95b5c;
             }
             label{
-                width: 5rem;
+                min-width: 5rem;
             }
             input{
-                width: 70%;
+                width: 65%;
+                text-align: right;
             }
         }
         .doneBtn{

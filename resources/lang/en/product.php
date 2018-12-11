@@ -39,6 +39,8 @@ return [
         'Add_favorites_successfully' => 'Add favorites successfully',
         'sure_to_delete_product' => 'Are you sure you want to delete the product?',
         'sure_to_empty_cart' => 'Are you sure you want to empty the shopping cart?',
+        'Please select the item you want to settle' => 'Please select the item you want to settle',
+        'Total' => 'Total',
     ],
     'No footprint yet' => 'No footprint yet',
     'Clear all browsing history' => 'Clear all browsing history',
@@ -111,5 +113,6 @@ return [
     'Return' => 'Return',
     'Are you sure you want to cancel your attention to this product' => 'Are you sure you want to cancel your attention to this product?',
     'Are you sure you want to delete this item' => 'Are you sure you want to delete this item?',
-    'Deletes the selected' => 'Deletes the selected',
+    'Deletes the selected' => 'Deletes',
+    'Product Details' => 'Product Details',
 ];

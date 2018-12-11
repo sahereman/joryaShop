@@ -127,7 +127,7 @@
                                     symbol = ($(".goodsListMain").attr("code") == "en") ? "&#36;" : "&#165;";
                                     price = ($(".goodsListMain").attr("code") == "en") ? n.price_in_usd : n.price;
                                     html += "<div class='goodsListItem' code='" + n.id + "'>";
-                                    html += "<img src='" + n.thumb_url + "' >";
+                                    html += "<img class='lazy' src='" + n.thumb_url + "' >";
                                     html += "<div class='goodsItemBlock'>";
                                     html += "<div class='goodsBlockName'>" + name + "</div>";
                                     html += "<div class='goodsBlockPrice'>" + symbol + price + "</div>";
@@ -140,16 +140,15 @@
                                 me.lock();
                                 // 无数据
                                 me.noData();
-                                $(".no_results").removeClass("dis_n");
-		                        $(".dropload-down").remove();
+                                if(page==1){
+	                            	$(".no_results").removeClass("dis_n");
+		                            $(".dropload-down").remove();
+	                            }
                             }
-                            // 为了测试，延迟1秒加载
-                            setTimeout(function () {
                                 $(".goodsListMain .lists").append(html);
                                 page++;
                                 // 每次数据插入，必须重置
                                 me.resetload();
-                            }, 1000);
                         },
                         error: function (xhr, type) {
                             // 即使加载出错，也得重置

@@ -65,6 +65,18 @@ textarea {
 .dis_n {
     display: none;
 }
+
+img {
+    &.lazy {
+        min-width: 20px;
+        background: url(/defaults/defaults_pc_loading.png) center no-repeat;
+        background-size: 30%;
+        
+    }
+}
+.imgFadeIn{
+    transition: all .3s;
+}
 @import "footer";
 @import "index";
 @import "login";

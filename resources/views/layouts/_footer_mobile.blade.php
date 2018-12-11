@@ -1,22 +1,22 @@
 <div class="footer">
     <div class="itemsF itemsS itemsActive">
         <img src="{{ asset('static_m/img/Select_home.png') }}"/>
-        <span>首页</span>
+        <span>@lang('app.Home')</span>
     </div>
     <div class="itemsF itemsL">
         <img src="{{ asset('static_m/img/Unchecked_classification.png') }}"/>
-        <span>分类</span>
+        <span>@lang('app.Classification')</span>
     </div>
     <div class="itemsF itemsG">
         @if($cart_count)
             <label class="num">{{ $cart_count }}</label>
         @endif
         <img src="{{ asset('static_m/img/Unchecked_Shopping.png') }}"/>
-        <span>购物车</span>
+        <span>@lang('app.Shopping Cart')</span>
     </div>
     <div class="itemsF itemsW">
         <img src="{{ asset('static_m/img/Unchecked_my.png') }}"/>
-        <span>我</span>
+        <span>@lang('app.Account')</span>
     </div>
 </div>
 

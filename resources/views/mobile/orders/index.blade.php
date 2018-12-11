@@ -213,7 +213,7 @@
                                             }
                                             break;
                                         case "refunding":
-                                            if (order.refund.type == "refund") {
+                                            if (order.shipped_at == null) {
                                                 html += "<button class='orderBtnC after_sales_status' code='" + order.id + "'> @lang('order.View after sales status')</button>";
                                                 html += "<button class='orderBtnS Revoke_refund' code='" + order.id + "'> @lang('order.Revoke the refund application')</button>";
                                             } else {
@@ -231,11 +231,12 @@
                                 me.lock();
                                 // 无数据
                                 me.noData();
-                                $(".no_order").removeClass("dis_n");
-                                $(".orderMain .lists").addClass("dis_n");
-                                $(".dropload-down").remove();
+                                if(page==1){
+	                            	$(".no_order").removeClass("dis_n");
+	                                $(".orderMain .lists").addClass("dis_n");
+	                                $(".dropload-down").remove();
+	                            }
                             }
-                            // 为了测试，延迟1秒加载
                             $(".orderMain .lists").append(html);
                             page++;
                             // 每次数据插入，必须重置

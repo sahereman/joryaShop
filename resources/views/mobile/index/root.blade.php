@@ -5,8 +5,7 @@
         <div class="searchBox">
             <a href="{{route('mobile.search')}}" class="searchCon">
                 <img src="{{ asset('static_m/img/Unchecked_search.png') }}"/>
-                {{-- TODO ... placeholder --}}
-                <input type="text" name="" id="" value="" placeholder="搜索商品，供12351款好货" readonly="readonly"/>
+                <input type="text" name="" id="" value="" placeholder="@lang('app.Search for goods for good goods')" readonly="readonly"/>
             </a>
             <a href="javascript:void(0);" data-href="{{ route('mobile.locale.show') }}"
                code="{{ App::isLocale('en') ? '0' : '1' }}" class="LanguageSwitch">
@@ -38,15 +37,14 @@
         <div class="proBox">
             <div class="new_pro">
                 <div class="new_title">
-                    <img src="{{ asset('static_m/img/Title_New.png') }}"/>
-                    <span class="new_name">新品首发</span>
+                    <span class="new_name">@lang('app.New Product Starter')</span>
                 </div>
                 <div class="swiper-container swiper-containers">
                     <div class="swiper-wrapper">
                         @foreach($latest as $product)
                             <div class="swiper-slide swiper-slides"
                                  data-url="{{route('mobile.products.show', ['product' => $product->id])}}">
-                                <img src="{{ $product->thumb_url }}"/>
+                                <img class="lazy" data-src="{{ $product->thumb_url }}"/>
                                 <div class="new_pro_name">{{ App::isLocale('en') ? $product->name_en : $product->name_zh }}</div>
                                 <span class="new_pro_price">
                                     @lang('basic.currency.symbol') {{ App::isLocale('en') ? $product->price_in_usd : $product->price }}
@@ -61,14 +59,14 @@
                     <div class="block_trend">
                         <div class="block_title">
                             <span>{{ App::isLocale('en') ? $category_products['category']->name_en : $category_products['category']->name_zh }}</span>
-                            <a href="{{ route('mobile.product_categories.index') . '?category=' . $category_products['category']->id }}">更多></a>
+                            <a href="{{ route('mobile.product_categories.index') . '?category=' . $category_products['category']->id }}">@lang('app.More')></a>
                         </div>
                         @if($poster = \App\Models\Poster::getPosterBySlug('mobile_index_floor_' . $key))
                             <a class="buy_now" href="{{ $poster->link }}">
-                                <img src="{{ $poster->image_url }}" class="block_theme"/>
+                                <img data-src="{{ $poster->image_url }}" class="block_theme lazy"/>
                             </a>
                         @else
-                            <img src="{{ asset('defaults/default_mobile_index_floor_odd.png') }}" class="block_theme"/>
+                            <img data-src="{{ asset('defaults/default_mobile_index_floor_odd.png') }}" class="block_theme lazy"/>
                         @endif
                         <div class="blockBox">
                             @foreach($category_products['products'] as $k => $product)
@@ -83,7 +81,7 @@
                                 @endif
                                 <div class="blockItem">
                                     <a href="{{ route('mobile.products.show', ['product' => $product->id]) }}">
-                                        <img src="{{ $product->thumb_url }}"/>
+                                        <img class="lazy" data-src="{{ $product->thumb_url }}"/>
                                         <div class="block_name">{{ App::isLocale('en') ? $product->name_en : $product->name_zh }}</div>
                                         <span class="block_price">
                                             @lang('basic.currency.symbol') {{ App::isLocale('en') ? $product->price_in_usd : $product->price }}
@@ -97,14 +95,14 @@
                     <div class="block_trend">
                         <div class="block_title">
                             <span>{{ App::isLocale('en') ? $category_products['category']->name_en : $category_products['category']->name_zh }}</span>
-                            <a href="{{ route('mobile.product_categories.index') . '?category=' . $category_products['category']->id }}">更多></a>
+                            <a href="{{ route('mobile.product_categories.index') . '?category=' . $category_products['category']->id }}">@lang('app.More')></a>
                         </div>
                         @if($poster = \App\Models\Poster::getPosterBySlug('mobile_index_floor_' . $key))
                             <a class="buy_now" href="{{ $poster->link }}">
-                                <img src="{{ $poster->image_url }}" class="block_theme"/>
+                                <img data-src="{{ $poster->image_url }}" class="block_theme lazy"/>
                             </a>
                         @else
-                            <img src="{{ asset('defaults/default_mobile_index_floor_even.png') }}" class="block_theme"/>
+                            <img data-src="{{ asset('defaults/default_mobile_index_floor_even.png') }}" class="block_theme lazy"/>
                         @endif
                         <div class="blockBox">
                             @foreach($category_products['products'] as $k => $product)
@@ -119,7 +117,7 @@
                                 @endif
                                 <div class="blockItem blockItemCus">
                                     <a href="{{ route('mobile.products.show', ['product' => $product->id]) }}">
-                                        <img src="{{ $product->thumb_url }}"/>
+                                        <img class="lazy" data-src="{{ $product->thumb_url }}"/>
                                         <div class="block_name">{{ App::isLocale('en') ? $product->name_en : $product->name_zh }}</div>
                                         <span class="block_price">
                                             @lang('basic.currency.symbol') {{ App::isLocale('en') ? $product->price_in_usd : $product->price }}
@@ -131,30 +129,30 @@
                     </div>
                 @endif
             @endforeach
-            <div class="pro_rec ">
+            <div class="pro_rec" data-url="{{ route('mobile.guess_more') }}" code="{{ App::isLocale('en') ? 'en' : 'zh' }}">
                 <div class="new_title">
-                    <img src="{{ asset('static_m/img/Title_Like.png') }}"/>
-                    <span class="new_name">商品推荐</span>
+                    <span class="new_name">@lang('app.Featured Products')</span>
                 </div>
                 <div class="recBox">
-                    @foreach($guesses as $k => $guess)
+                	
+                    {{--@foreach($guesses as $k => $guess)
                         <div class="recItem">
                             <a href="{{ route('mobile.products.show', ['product' => $guess->id]) }}">
-                                <img src="{{ $guess->thumb_url }}"/>
+                                <img class="lazy" data-src="{{ $guess->thumb_url }}"/>
                                 <div class="block_name">{{ App::isLocale('en') ? $guess->name_en : $guess->name_zh }}</div>
                                 <span class="block_price">@lang('basic.currency.symbol') {{ App::isLocale('en') ? $guess->price_in_usd : $guess->price }}</span>
                             </a>
                         </div>
-                    @endforeach
+                    @endforeach--}}
                 </div>
             </div>
         </div>
-        {{--footer子视图--}}
         @include('layouts._footer_mobile')
     </div>
 @endsection
 
 @section('scriptsAfterJs')
+<script type="text/javascript" src="{{ asset('static_m/js/dropload/dropload.min.js') }}"></script>
     <script type="text/javascript">
         var mySwiper = new Swiper('.swiper-containerL', {
             slidesPerView: 'auto',
@@ -198,5 +196,61 @@
         $(".LanguageSwitch").on("click", function () {
             window.location.href = $(this).attr("data-href") + "?language_type=" + $(this).attr("code");
         });
+        //获取最新商品推荐
+            // 页数
+            var page = 1;
+            $('.pro_rec').dropload({
+                scrollArea: window,
+                domDown: { // 下方DOM
+                    domClass: 'dropload-down',
+                    domRefresh: "<div class='dropload-refresh'>↑@lang('product.product_details.Pull up load more')</div>",
+                    domLoad: "<div class='dropload-load'><span class='loading'></span>@lang('product.product_details.Loading in')...</div>",
+                    domNoData: "<div class='dropload-noData'>@lang('product.product_details.over the end')</div>"
+                },
+                loadDownFn: function (me) {
+                    // 拼接HTML
+                    var html = '';
+                    var data = {
+                        page: page,
+                    };
+                    $.ajax({
+                        type: "get",
+                        url: $(".pro_rec").attr("data-url"),
+                        data: data,
+                        dataType: 'json',
+                        success: function (data) {
+                            var dataobj = data.data.guesses.data;
+                            var html = "";
+                            var name, symbol, price;
+                            if (dataobj.length > 0) {
+                                $.each(dataobj, function (i, n) {
+                                    name = ($(".pro_rec").attr("code") == "en") ? n.name_en : n.name_zh;
+                                    symbol = ($(".pro_rec").attr("code") == "en") ? "&#36;" : "&#165;";
+                                    price = ($(".pro_rec").attr("code") == "en") ? n.price_in_usd : n.price;
+                                    html += "<div class='recItem' code='" + n.id + "'>";
+                                    html += "<img class='lazy' src='" + n.thumb_url + "' >";
+                                    html += "<div class='block_name'>"+ name +"</div>";
+                                    html += "<span class='block_price'>"+ symbol + price + "</span>";
+                                    html += "</div>";
+                                });
+                                // 如果没有数据
+                            } else {
+                                // 锁定
+                                me.lock();
+                                // 无数据
+                                me.noData();
+                            }
+                                $(".pro_rec .recBox").append(html);
+                                page++;
+                                // 每次数据插入，必须重置
+                                me.resetload();
+                        },
+                        error: function (xhr, type) {
+                            // 即使加载出错，也得重置
+                            me.resetload();
+                        }
+                    });
+                }
+            });
     </script>
 @endsection

@@ -77,7 +77,12 @@ return [
 	'The new password has been set successfully' => '新密码已设置成功',
 	'Sign in now' => '立即登录',
 	'Please select a country first' => '请先选择国家',
-
-	
-
+	'Search for goods for good goods' => '搜索商品，供12351款好货',
+	'More' => '更多',
+	'Featured Products' => '商品推荐',
+	'Home' => '首页',
+	'Classification' => '分类',
+	'Shopping Cart' => '购物车',
+	'Account' => '我的',
+	'Confirm the Order' => '确认订单',
 ];

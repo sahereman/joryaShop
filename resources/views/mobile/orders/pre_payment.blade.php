@@ -1,9 +1,9 @@
 @extends('layouts.mobile')
-@section('title', '确认订单')
+@section('title', App::isLocale('en') ? 'Confirm the Order' : '确认订单')
 @section('content')
     <div class="headerBar fixHeader">
         <img src="{{ asset('static_m/img/icon_backtop.png') }}" class="backImg" onclick="javascript:history.back(-1);"/>
-        <span>确认订单</span>
+        <span>@lang('app.Confirm the Order')</span>
     </div>
     <div class="pre_payment">
         <div class="pre_paymentCon">
@@ -16,7 +16,7 @@
                         </p>
                         <p class="address_info">
                             @if($address->is_default == 1)
-                                <span class="default_btn">默认</span>
+                                <span class="default_btn">@lang('basic.address.Default')</span>
                             @endif
                             <span class="address_info_all">{{ $address->address }}</span>
                         </p>
@@ -27,7 +27,7 @@
                 <div class="pre_address no_address" data-url="{{ route('user_addresses.list_all') }}">
                     <div>
                         <img src="{{ asset('static_m/img/icon_pre_address.png') }}">
-                        <span class="no_address">添加收货地址</span>
+                        <span class="no_address">@lang('basic.address.Add a shipping address')</span>
                     </div>
                     <img src="{{ asset('static_m/img/icon_more.png') }}">
                 </div>
@@ -85,7 +85,7 @@
         <div class="pre_paymentTotal">
             <span class="RMB_num amount_of_money">&#165; <span>{{ $total_fee }}</span></span>
             <span class="dis_ni dollar_num amount_of_money">&#36; <span>{{ $total_fee_en }}</span></span>
-            <a href="javascript:void(0);" class="payment_btn" data-url="{{ route('orders.store') }}">提交订单</a>
+            <a href="javascript:void(0);" class="payment_btn" data-url="{{ route('orders.store') }}">@lang('basic.orders.Submit an Order')</a>
         </div>
     </div>
     <!--新增地址与选择地址的弹窗-->
@@ -94,35 +94,35 @@
             <a href="javascript:void(0);" class="close_layer_img">
                 <img src="{{ asset('static_m/img/icon_backtop.png') }}" class="backImg">
             </a>
-            <span>收货地址</span>
+            <span>@lang('basic.address.Receiving_address')</span>
         </div>
         <!--如果有地址显示地址列表与新增地址按钮-->
         <div class="adsBox lay_content">
             <!--有收货地址数据时-->
             <div class="adsList"></div>
             <div class="btnBox">
-                <a href="javascript:void(0);" class="doneBtn creat_address_btn">新建地址</a>
+                <a href="javascript:void(0);" class="doneBtn creat_address_btn">@lang('basic.address.The new address')</a>
             </div>
         </div>
         <!--如果没有地址显示新建地址与保存按钮-->
         <div class="addAdsBox lay_content">
             <div class="addAdsForm">
                 <div class="addAdsItem">
-                    <label class="must">收货人</label>
-                    <input type="text" name="" id="new_address_name" value="" placeholder="请填写收货人"/>
+                    <label class="must">@lang('basic.address.The consignee')</label>
+                    <input type="text" name="" id="new_address_name" value="" placeholder="@lang('basic.address.Please fill in the consignee')"/>
                 </div>
                 <div class="addAdsItem">
-                    <label class="must">手机号码</label>
-                    <input type="text" name="" id="new_address_phone" value="" placeholder="请填写手机号"/>
+                    <label class="must">@lang('basic.address.Cellphone number')</label>
+                    <input type="text" name="" id="new_address_phone" value="" placeholder="@lang('basic.address.Please fill in your mobile phone number')"/>
                 </div>
                 <div class="addAdsItem" style="border:none;">
-                    <label class="must">详细地址</label>
-                    <input type="text" name="" id="new_address_info" value="" placeholder="请填写详细地址，街道，门牌号等"/>
+                    <label class="must">@lang('basic.address.Detailed address')</label>
+                    <input type="text" name="" id="new_address_info" value="" placeholder="@lang('basic.address.Detailed_address')"/>
                 </div>
-                <button class="doneBtn save_new_address">保存</button>
+                <button class="doneBtn save_new_address">@lang('basic.users.Save')</button>
             </div>
             <div class="defaultBox">
-                <label>设为默认地址</label>
+                <label>@lang('basic.address.Set as default address')</label>
                 <img src="{{ asset('static_m/img/icon_OFF.png') }}" class="switchBtn"/>
             </div>
         </div>
@@ -133,7 +133,7 @@
             <a href="javascript:void(0);" class="close_pro_lists_img">
                 <img src="{{ asset('static_m/img/icon_backtop.png') }}" class="backImg">
             </a>
-            <span>商品明细</span>
+            <span>@lang('product.Product Details')</span>
         </div>
         <div class="pro_listsCon lay_content">
             @if($items)
@@ -282,7 +282,7 @@
                                     html += "<div class='adsName'>";
                                     html += "<span class='ads_Name'>" + n.name + "</span>";
                                     if (n.is_default == true) {
-                                        html += "<span class='defaultAds'>默认</span>";
+                                        html += "<span class='defaultAds'>@lang('basic.address.Default')</span>";
                                     } else {
                                         html += "";
                                     }

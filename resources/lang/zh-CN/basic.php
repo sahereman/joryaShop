@@ -94,6 +94,9 @@ return [
         'Exit Login' => '退出登录',
         'File format is incorrect' => '文件格式不正确',
         'Picture size cannot exceed' => '图片大小不能超过',
+        "ALL" => '查看全部订单',
+        'My address' => '我的地址',
+        'My footprints' => '我的足迹',
     ],
     'address' => [
         'The consignee' => '收货人',
@@ -122,6 +125,7 @@ return [
         'Please fill in the consignee' => '请填写收货人',
         'Please fill in your mobile phone number' => '请填写手机号',
         'Edit Shipping Address' => '编辑收货地址',
+        'Add a shipping address' => '添加收货地址',
     ],
     'orders' => [
         'All orders' => '所有订单',
@@ -148,6 +152,9 @@ return [
         'Request a refund' => '申请退款',
         'item' => '件',
         'in total' => '共',
+        'Submit an Order' => '提交订单',
+        'To pay' => '去支付',
+        'Pay' => '支付',
     ],
 
 ];

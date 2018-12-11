@@ -113,7 +113,6 @@
                 width: 10rem;
             }
             .new_name{
-                position: absolute;
                 left: 43%;
                 color: #bc8c61;
             }
@@ -202,6 +201,7 @@
         .block_theme{
             width: 100%;
             margin-bottom: .5rem;
+            height: 18.4rem;
         }
         .blockBox{
             display: flex;
@@ -215,6 +215,7 @@
                 margin-bottom: .4rem;
                 img{
                     width: 100%;
+                    height: 5.7rem;
                 }
                 .block_name{
                   font-size: .8rem;
