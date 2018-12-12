@@ -48,6 +48,26 @@
             color: #636b6f;
             text-decoration: none;
         }
+        .error_box {
+		    width: 100%;
+		}
+		.error_box img {
+			width: 10rem;
+		}
+		.content {
+	        font-size: 2rem;
+	        color: #d9d9d9;
+	        margin: .5rem;
+	    }
+	    .btnBox {
+	    	width: 100%;
+	    }
+	    .btnBox a {
+	    	font-size: 1rem;
+		    border: 1px solid;
+		    padding: .6rem;
+		    border-radius: 50%/100%;
+	    }
     </style>
 </head>
 <body>

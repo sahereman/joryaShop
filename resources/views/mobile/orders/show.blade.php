@@ -172,57 +172,57 @@
                     @lang('order.Immediate payment')
                 </a>
             @elseif($order->status == \App\Models\Order::ORDER_STATUS_CLOSED)
-                <a class="" data-url="{{ route('orders.destroy', ['order' => $order->id]) }}">
+                <a class="ordDetailBtnS" data-url="{{ route('orders.destroy', ['order' => $order->id]) }}">
                     @lang('order.Delete order')
                 </a>
             @elseif($order->status == \App\Models\Order::ORDER_STATUS_SHIPPING)
-                <a class="" href="{{ route('mobile.orders.refund', ['order' => $order->id]) }}">
+                <a class="ordDetailBtnC" href="{{ route('mobile.orders.refund', ['order' => $order->id]) }}">
                     @lang('order.Request a refund')
                 </a>
-                <a class="">
+                <a class="ordDetailBtnS">
                     @lang('basic.orders.Remind shipments')
                 </a>
             @elseif($order->status == \App\Models\Order::ORDER_STATUS_RECEIVING)
-                <a href="{{ route('mobile.orders.refund_with_shipment', ['order' => $order->id]) }}">
+                <a class="ordDetailBtnC" href="{{ route('mobile.orders.refund_with_shipment', ['order' => $order->id]) }}">
                     @lang('order.Request a refund')
                 </a>
-                <a class="main_operation" data-url="{{ route('orders.complete', ['order' => $order->id]) }}">
+                <a class="main_operation ordDetailBtnS" data-url="{{ route('orders.complete', ['order' => $order->id]) }}">
                     @lang('order.Confirm reception')
                 </a>
             @elseif($order->status == \App\Models\Order::ORDER_STATUS_COMPLETED && $order->commented_at == null)
-                <a class="" data-url="{{ route('orders.destroy', ['order' => $order->id]) }}">
+                <a class="ordDetailBtnC" data-url="{{ route('orders.destroy', ['order' => $order->id]) }}">
                     @lang('order.Delete order')
                 </a>
-                <a class="" href="{{ route('mobile.orders.create_comment', ['order' => $order->id]) }}">
+                <a class="ordDetailBtnS" href="{{ route('mobile.orders.create_comment', ['order' => $order->id]) }}">
                     @lang('order.To comment')
                 </a>
             @elseif($order->status == \App\Models\Order::ORDER_STATUS_COMPLETED && $order->commented_at != null)
-                <a class="" data-url="{{ route('orders.destroy', ['order' => $order->id]) }}">
+                <a class="ordDetailBtnC" data-url="{{ route('orders.destroy', ['order' => $order->id]) }}">
                     @lang('order.Delete order')
                 </a>
-                <a class="" href="{{ route('mobile.orders.show_comment', ['order' => $order->id]) }}">
+                <a class="ordDetailBtnS" href="{{ route('mobile.orders.show_comment', ['order' => $order->id]) }}">
                     @lang('order.View comments')
                 </a>
             @elseif($order->status == \App\Models\Order::ORDER_STATUS_REFUNDING)
                 @if(isset($order_refund_type) && $order_refund_type == \App\Models\OrderRefund::ORDER_REFUND_TYPE_REFUND)
-                    <a class="main_operation" href="{{ route('mobile.orders.refund', ['order' => $order->id]) }}">
+                    <a class="main_operation ordDetailBtnC" href="{{ route('mobile.orders.refund', ['order' => $order->id]) }}">
                         @lang('order.View after sales status')
                     </a>
-                    <a class="revocation_after_sale"
+                    <a class="revocation_after_sale ordDetailBtnS"
                        data-url="{{ route('orders.revoke_refund', ['order' => $order->id]) }}">
                         @lang('order.Revoke the refund application')
                     </a>
                 @elseif(isset($order_refund_type) && $order_refund_type == \App\Models\OrderRefund::ORDER_REFUND_TYPE_REFUND_WITH_SHIPMENT)
-                    <a class="main_operation"
+                    <a class="main_operation ordDetailBtnC"
                        href="{{ route('mobile.orders.refund_with_shipment', ['order' => $order->id]) }}">
                         @lang('order.View after sales status')
                     </a>
-                    <a class="revocation_after_sale"
+                    <a class="revocation_after_sale ordDetailBtnS"
                        data-url="{{ route('orders.revoke_refund', ['order' => $order->id]) }}">
                         @lang('order.Revoke the refund application')
                     </a>
                 @else
-                    <a class="revocation_after_sale"
+                    <a class="revocation_after_sale ordDetailBtnS"
                        data-url="{{ route('orders.revoke_refund', ['order' => $order->id]) }}">
                         @lang('order.Revoke the refund application')
                     </a>

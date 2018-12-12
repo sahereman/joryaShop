@@ -43,8 +43,7 @@
             </div>
             <div class="commentCon">
                 <textarea name="content[{{ $order_item['id'] }}]" maxlength="200" rows="3" cols=""
-                          placeholder="@lang('product.comments.Please enter a product evaluation of less than 200 words')">
-                </textarea>
+                          placeholder="@lang('product.comments.Please enter a product evaluation of less than 200 words')"></textarea>
                 <!--上传图片-->
                 <div class="goodspicture" code="{{ $order_item['id'] }}">
                     <!--<div class="goodsItem">
@@ -166,7 +165,6 @@
             })
             //删除图片
             $(document).on("click", ".closeImg", function () {
-            	console.log(code)
             	var code = $(this).parents(".goodsItem").attr("code")
 	            $(this).parents('.goodsItem').remove();
 	            $("#div_imglook").find(".lookimg[num="+ code +"]").remove();
