@@ -19,7 +19,6 @@ class ProductCategory extends Model
         $this->setOrderColumn('sort');
     }
 
-
     /**
      * The attributes that are mass assignable.
      * @var array
@@ -39,7 +38,7 @@ class ProductCategory extends Model
      * @var array
      */
     protected $hidden = [
-        //
+        'banner', // 备用字段
     ];
 
     /**

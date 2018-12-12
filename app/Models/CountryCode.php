@@ -20,11 +20,18 @@ class CountryCode extends Model
     ];
 
     /**
+     * The attributes that should be hidden for serialization.
+     * @var array
+     */
+    protected $hidden = [
+        'country_iso', // 备用字段
+    ];
+
+    /**
      * Indicates if the model should be timestamped.
      * @var bool
      */
     public $timestamps = false;
-
 
     public static $cache_key;
 
