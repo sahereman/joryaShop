@@ -364,6 +364,7 @@
                     remark: $(".remark").val(),
                     currency: $(".currency_selection").find("a.active").attr("country")
                 };
+                console.log(data);
                 $.ajax({
                     type: "post",
                     url: url,
@@ -376,7 +377,8 @@
                         });
                     },
                     success: function (json) {
-                        window.location.href = json.data.mobile_request_url;
+                    	console.log(json)
+//                      window.location.href = json.data.mobile_request_url;
                     },
                     error: function (err) {
                         console.log(err);
