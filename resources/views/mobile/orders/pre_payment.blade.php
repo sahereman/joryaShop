@@ -79,7 +79,7 @@
             </div>
             <div class="pre_note">
                 <p>@lang('order.order note')</p>
-                <textarea placeholder="@lang('order.Optional message')" maxlength="50"></textarea>
+                <textarea class="remark" placeholder="@lang('order.Optional message')" maxlength="50"></textarea>
             </div>
         </div>
         <div class="pre_paymentTotal">

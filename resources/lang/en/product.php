@@ -115,4 +115,6 @@ return [
     'Are you sure you want to delete this item' => 'Are you sure you want to delete this item?',
     'Deletes the selected' => 'Deletes',
     'Product Details' => 'Product Details',
+    'Content has been copied to the clipboard' => 'Content has been copied to the clipboard',
+    'Copy to clipboard failed' => 'Copy to clipboard failed, please copy or open browser sharing function manually',
 ];

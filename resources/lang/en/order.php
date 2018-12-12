@@ -112,7 +112,7 @@ return [
     'Place an order time' => 'Order Date',
     'Total Merchandise' => 'Total Merchandise',
     'Order Details' => 'Order Details',
-    'View shipment details' => 'View shipment details',
+    'View shipment details' => 'Logistics Details',
     'Shipment details' => 'Shipment details',
     'In transit' => 'In transit',
     'Orders have been made' => 'Orders have been made',

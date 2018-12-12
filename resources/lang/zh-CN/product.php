@@ -116,4 +116,6 @@ return [
     'Are you sure you want to delete this item' => '确定要删除此商品吗？',
     'Deletes the selected' => '删除所选',
     'Product Details' => '商品明细',
+    'Content has been copied to the clipboard' => '内容已复制到剪切板',
+    'Copy to clipboard failed' => '复制到剪切板失败请手动复制或打开浏览器分享功能',
 ];

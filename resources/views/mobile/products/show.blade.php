@@ -70,13 +70,14 @@
         </div>
         <div class="gFooter">
             <div class="gList">
-                <div class="gShare">
+            	<input type="text" value="{{config('app.url')}}" class="dis_n" id="forShare">
+                <div class="gShare" data-clipboard-action="copy" data-clipboard-target="#forShare">
                     <img src="{{ asset('static_m/img/icon_share4.png') }}" alt=""/>
                     <span>@lang('product.product_details.Share')</span>
                 </div>
                 <div class="backCart">
                     <img src="{{ asset('static_m/img/icon_ShoppingCart5.png') }}" alt=""/>
-                    <span>@lang('product.shopping_cart.Shop_cart')</span>
+                    <span>@lang('app.Shopping Cart')</span>
                 </div>
                 <div class="gCollect" code="{{ $product->id }}" data-url="{{ route('user_favourites.store') }}"
                      data-url_2="{{ route('user_favourites.destroy', $product->id) }}">
@@ -144,6 +145,7 @@
 @endsection
 
 @section('scriptsAfterJs')
+    <script type="text/javascript" src="{{ asset('static_m/js/clipboard/clipboard.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('static_m/js/dropload/dropload.min.js') }}"></script>
     <script type="text/javascript">
         //页面单独JS写这里
@@ -375,6 +377,27 @@
                 }
             }
         }
+        //分享复制到剪切板
+        var clipboard = new ClipboardJS('.gShare');
+
+	    clipboard.on('success', function(e) {
+	        console.log(e);
+	        layer.open({
+                content: "@lang('product.Content has been copied to the clipboard')",
+                skin: 'msg',
+                time: 2, //2秒后自动关闭
+            });
+	    });
+	
+	    clipboard.on('error', function(e) {
+	        console.log(e);
+	        layer.open({
+                content: "@lang('product.Copy to clipboard failed')",
+                skin: 'msg',
+                time: 2, //2秒后自动关闭
+            });
+	    });
+        
         //下拉加载获取评价内容
         function getEva() {
             // 页数
