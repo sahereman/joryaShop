@@ -21,8 +21,8 @@
                     </div>
                     <img class="phone left" src="{{ asset('img/wechat_pay.png') }}">
                 </div>
-                <!--<img src="{!! generate_qr_code($qr_code_url) !!}">-->
-                <!--<p>Scan the qr code to wechat-pay.</p>-->
+                {{--<img src="{!! generate_qr_code($qr_code_url) !!}">
+                <p>Scan the qr code to wechat-pay.</p>--}}
             </div>
         </div>
     </div>

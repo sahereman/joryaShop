@@ -7,7 +7,8 @@ use Illuminate\Contracts\Queue\QueueableCollection;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class OrderSnapshotEventListener implements ShouldQueue
+// class OrderSnapshotEventListener implements ShouldQueue
+class OrderSnapshotEventListener
 {
     /**
      * Create the event listener.

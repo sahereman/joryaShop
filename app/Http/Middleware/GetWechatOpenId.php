@@ -17,7 +17,7 @@ class GetWechatOpenId
      */
     public function handle($request, Closure $next)
     {
-        if (!Session::has('wechat-basic_user_info')) {
+        if (is_wechat_browser() && !Session::has('wechat-basic_user_info')) {
             Session::put('previous_url', $request->url());
             return redirect(route('mobile.payments.get_wechat_open_id'));
         }

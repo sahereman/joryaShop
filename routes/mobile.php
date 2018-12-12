@@ -3,6 +3,7 @@
 //以下所有路由 URL 为 site.com/mobile/ + 路由URL
 
 Route::get('test', function () {
+    Session::forget('wechat-basic_user_info');
     App::setLocale('en');
     return 'test';
 });
@@ -80,7 +81,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('orders', 'OrdersController@index')->name('mobile.orders.index'); // 列表 页面
     Route::get('orders/more', 'OrdersController@more')->name('mobile.orders.more'); // 获取订单数据 请求 [for Ajax request]
     Route::get('orders/pre_payment', 'OrdersController@prePayment')->name('mobile.orders.pre_payment'); // 订单预支付页面：选择地址+币种页面
-    Route::get('orders/{order}/payment_method', 'OrdersController@paymentMethod')->name('mobile.orders.payment_method'); // 选择支付方式页面
+    Route::get('orders/{order}/payment_method', 'OrdersController@paymentMethod')->name('mobile.orders.payment_method')->middleware('openid'); // 选择支付方式页面
     Route::get('orders/{order}', 'OrdersController@show')->name('mobile.orders.show'); // 详情 页面
     Route::get('orders/{order}/show_shipment', 'OrdersController@showShipment')->name('mobile.orders.show_shipment'); // 物流详情 页面
     Route::get('orders/{order}/refund', 'OrdersController@refund')->name('mobile.orders.refund'); // 售后订单 [仅退款] 退单申请页面
@@ -95,7 +96,9 @@ Route::group(['middleware' => 'auth'], function () {
 
     /*支付*/
     Route::get('payments/{order}/alipay/wap', 'PaymentsController@alipayWap')->name('mobile.payments.alipay.wap'); // Alipay Mobile-Wap 支付页面
-    Route::get('payments/{order}/wechat/mp', 'PaymentsController@wechatMp')->name('mobile.payments.wechat.mp')->middleware('openid'); // Wechat Mobile-MP(公众号) 支付页面
+    // [Note: Ajax 不走中间件！！！]
+    // Route::get('payments/{order}/wechat/mp', 'PaymentsController@wechatMp')->name('mobile.payments.wechat.mp')->middleware('openid'); // Wechat Mobile-MP(公众号) 支付页面
+    Route::get('payments/{order}/wechat/mp', 'PaymentsController@wechatMp')->name('mobile.payments.wechat.mp'); // Wechat Mobile-MP(公众号) 支付页面
     Route::get('payments/{order}/wechat/wap', 'PaymentsController@wechatWap')->name('mobile.payments.wechat.wap'); // Wechat Mobile-Wap 支付页面
     Route::get('payments/{order}/paypal/create', 'PaymentsController@paypalCreate')->name('mobile.payments.paypal.create'); // PayPal: create a payment
     // Route::get('payments/{order}/paypal/get', 'PaymentsController@paypalGet')->name('mobile.payments.paypal.get'); // PayPal: get the info of a payment [Test API]

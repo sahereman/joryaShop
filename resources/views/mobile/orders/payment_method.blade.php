@@ -24,7 +24,11 @@
                         @if($key > 2)
                             @break
                         @endif
-                        @if(isset($order_item['sku']))
+                        <li>
+                            <img src="{{ $order_item['sku']['product']['thumb_url'] }}">
+                            <span>&#215; {{ $order_item['number'] }}</span>
+                        </li>
+                        {{--@if(isset($order_item['sku']))
                             <li>
                                 <img src="{{ $order_item['sku']['product']['thumb_url'] }}">
                                 <span>&#215; {{ $order_item['number'] }}</span>
@@ -34,7 +38,7 @@
                                 <img src="{{ \App\Models\ProductSku::find($order_item['sku_id'])->product->thumb_url }}">
                                 <span>&#215; {{ $order_item['number'] }}</span>
                             </li>
-                        @endif
+                        @endif--}}
                     @endforeach
                 </ul>
                 <!--显示商品总数量-->
@@ -181,7 +185,6 @@
                              "signType":"MD5",
                              "paySign":"3B74D2147CB604894208B3838C09D4EE"
                              }*/
-                            url = location_href;
                             $.ajax({
                                 type: "GET",
                                 url: url,
@@ -198,7 +201,8 @@
                                             },
                                             function (res) {
                                                 if (res.err_msg == "get_brand_wcpay_request:ok") {
-                                                    window.location.reload();
+                                                    // window.location.reload();
+                                                    window.location.href = "{{ route('mobile.payments.success', ['order' => $order->id]) }}";
                                                 }
                                             });
                                 },
