@@ -223,13 +223,12 @@ class OrdersController extends Controller
     {
         $user = $request->user();
         $currency = $request->has('currency') ? $request->input('currency') : 'CNY';
-        $snapshot = [];
 
         // 开启事务
-        $order = DB::transaction(function () use ($request, $user, $currency, &$snapshot) {
+        $order = DB::transaction(function () use ($request, $user, $currency) {
 
             // 生成子订单信息快照 snapshot
-            // $snapshot = [];
+            $snapshot = [];
             $total_shipping_fee = 0;
             $total_amount = 0;
             $is_nil = true;
@@ -317,7 +316,6 @@ class OrdersController extends Controller
             'message' => 'success',
             'data' => [
                 'order' => $order,
-                'snapshot' => $snapshot,
                 'request_url' => route('orders.payment_method', [
                     'order' => $order->id,
                 ]),
