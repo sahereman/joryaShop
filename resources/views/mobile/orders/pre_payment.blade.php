@@ -364,7 +364,6 @@
                     remark: $(".remark").val(),
                     currency: $(".currency_selection").find("a.active").attr("country")
                 };
-                console.log(data);
                 $.ajax({
                     type: "post",
                     url: url,

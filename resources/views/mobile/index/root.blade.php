@@ -252,5 +252,9 @@
                     });
                 }
             });
+        //查看商品详情product_info
+        $(".pro_rec .recBox").on("click", ".recItem", function () {
+            window.location.href = "{{ config('app.url') }}" + "/mobile/products/" + $(this).attr("code");
+        });
     </script>
 @endsection
