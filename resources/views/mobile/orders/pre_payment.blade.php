@@ -378,7 +378,7 @@
                     },
                     success: function (json) {
                     	console.log(json)
-//                      window.location.href = json.data.mobile_request_url;
+                        window.location.href = json.data.mobile_request_url;
                     },
                     error: function (err) {
                         console.log(err);
