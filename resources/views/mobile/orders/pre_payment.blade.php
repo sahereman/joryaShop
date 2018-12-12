@@ -95,7 +95,7 @@
             <a href="javascript:void(0);" class="close_layer_img">
                 <img src="{{ asset('static_m/img/icon_backtop.png') }}" class="backImg">
             </a>
-            <span>@lang('basic.address.Receiving_address')</span>
+            <span>@lang('basic.users.Receiving_address')</span>
         </div>
         <!--如果有地址显示地址列表与新增地址按钮-->
         <div class="adsBox lay_content">

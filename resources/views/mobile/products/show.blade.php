@@ -79,12 +79,20 @@
                     <img src="{{ asset('static_m/img/icon_ShoppingCart5.png') }}" alt=""/>
                     <span>@lang('app.Shopping Cart')</span>
                 </div>
-                <div class="gCollect" code="{{ $product->id }}" data-url="{{ route('user_favourites.store') }}"
-                     data-url_2="{{ route('user_favourites.destroy', $product->id) }}">
+                @guest
+                <div class="gCollect for_show_login" data-url="{{ route('mobile.login.show') }}">
                     <img src="{{ asset('static_m/img/icon_Collection4.png') }}" alt="" class="no_collection"/>
                     <img src="{{ asset('static_m/img/icon_Collection3.png') }}" alt="" class="had_collection dis_n"/>
                     <span>@lang('product.product_details.Collection')</span>
                 </div>
+                @else
+	                <div class="gCollect" code="{{ $product->id }}" data-url="{{ route('user_favourites.store') }}"
+	                     data-url_2="{{ route('user_favourites.destroy', $product->id) }}">
+	                    <img src="{{ asset('static_m/img/icon_Collection4.png') }}" alt="" class="no_collection"/>
+	                    <img src="{{ asset('static_m/img/icon_Collection3.png') }}" alt="" class="had_collection dis_n"/>
+	                    <span>@lang('product.product_details.Collection')</span>
+	                </div>
+                @endguest
             </div>
             @guest
             <div class="addCart for_show_login"
@@ -95,7 +103,7 @@
                 <div class="addCart" data-url="{{ route('carts.store') }}">@lang('app.Add to Shopping Cart')</div>
                 <div class="buy"
                      data-url="{{ route('mobile.orders.pre_payment') }}">@lang('product.product_details.Buy now')</div>
-                @endguest
+            @endguest
         </div>
         <div class="skuBox">
             <div class="mask"></div>
@@ -158,6 +166,10 @@
         });
         var which_click = 0;   //通过判断which_click的值来确定是什么功能,0:选择规格,1:添加收藏，2：加入购物车，3：立即购买
         var clickDom;
+        //点击透明阴影关闭弹窗
+        $(".mask").on("click",function(){
+        	$(this).parents(".skuBox").css("display","none");
+        })
         // 为减少和添加商品数量的按钮绑定事件回调
         $('.buyNum .Operation_btn').on('click', function (evt) {
             if ($(this).text() == '-') {
@@ -252,7 +264,11 @@
                     break;
                 case 1:      //添加收藏
                     if (clickDom.hasClass('active') != true) {
-                        add_favourites(clickDom);
+                    	if (clickDom.hasClass('for_show_login') == true) {
+		                    window.location.href = clickDom.attr("data-url");
+		                } else {
+		                	add_favourites(clickDom);
+		                }
                     } else {
                         remove_favorites(clickDom);
                     }
