@@ -109,15 +109,15 @@
             <div class="addAdsForm">
                 <div class="addAdsItem">
                     <label class="must">@lang('basic.address.The consignee')</label>
-                    <input type="text" name="" id="new_address_name" value="" placeholder="@lang('basic.address.Please fill in the consignee')"/>
+                    <input type="text" name="name" id="new_address_name" value="" placeholder="@lang('basic.address.Please fill in the consignee')"/>
                 </div>
                 <div class="addAdsItem">
                     <label class="must">@lang('basic.address.Cellphone number')</label>
-                    <input type="text" name="" id="new_address_phone" value="" placeholder="@lang('basic.address.Please fill in your mobile phone number')"/>
+                    <input type="text" name="phone" id="new_address_phone" value="" placeholder="@lang('basic.address.Please fill in your mobile phone number')"/>
                 </div>
                 <div class="addAdsItem" style="border:none;">
                     <label class="must">@lang('basic.address.Detailed address')</label>
-                    <input type="text" name="" id="new_address_info" value="" placeholder="@lang('basic.address.Detailed_address')"/>
+                    <input type="text" name="address" id="new_address_info" value="" placeholder="@lang('basic.address.Detailed_address')"/>
                 </div>
                 <button class="doneBtn save_new_address">@lang('basic.users.Save')</button>
             </div>
@@ -226,7 +226,7 @@
             $(".currency_selection").on("click", 'a', function () {
                 $(".currency_selection").find("a").removeClass("active");
                 $(this).addClass("active");
-            })
+            });
             //点击切换默认地址
             $(".switchBtn").on("click", function () {
                 if ($(this).attr("src") == "{{ asset('static_m/img/icon_OFF.png') }}") {
@@ -381,9 +381,9 @@
                     error: function (err) {
                         console.log(err);
                         layer.open({
-                            content: $.parseJSON(err.responseText).errors.currency[0]
-                            , skin: 'msg'
-                            , time: 2 //2秒后自动关闭
+                            content: $.parseJSON(err.responseText).errors.currency[0],
+                            skin: 'msg',
+                            time: 2, //2秒后自动关闭
                         });
                     },
                     complete: function () {
@@ -410,7 +410,7 @@
                         loading_animation = layer.open({
                             type: 2,
                             content: '@lang('app.Please wait')',
-                            time: false //取消自动关闭
+                            time: false, //取消自动关闭
                         });
                     },
                     success: function (json) {
@@ -419,13 +419,13 @@
                     error: function (err) {
                         console.log(err);
                         layer.open({
-                            content: $.parseJSON(err.responseText).errors.currency[0]
-                            , skin: 'msg'
-                            , time: 2 //2秒后自动关闭
+                            content: $.parseJSON(err.responseText).errors.currency[0],
+                            skin: 'msg',
+                            time: 2, //2秒后自动关闭
                         });
                     },
                     complete: function () {
-                    }
+                    },
                 });
             }
         });

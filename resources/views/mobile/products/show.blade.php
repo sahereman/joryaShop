@@ -107,7 +107,7 @@
                             <span class="pro_price">{{ App::isLocale('en') ? $skus[0]->price_in_usd : $skus[0]->price }}</span>
                         </label>
                         <p>
-                            @lang('product.product.product_details.stock'):
+                            @lang('product.product_details.stock'):
                             <span>{{ $skus[0]->stock }}</span>
                         </p>
                         <span class="pro_name">
@@ -165,9 +165,9 @@
                     $(this).next().html(count);
                 } else {
                     layer.open({
-                        content: "@lang('order.The number of goods is at least 1')"
-                        , skin: 'msg'
-                        , time: 2 //2秒后自动关闭
+                        content: "@lang('order.The number of goods is at least 1')",
+                        skin: 'msg',
+                        time: 2, //2秒后自动关闭
                     });
                 }
             } else {
@@ -177,9 +177,9 @@
                     $(this).prev().html(count);
                 } else {
                     layer.open({
-                        content: "@lang('order.Cannot add more quantities')"
-                        , skin: 'msg'
-                        , time: 2 //2秒后自动关闭
+                        content: "@lang('order.Cannot add more quantities')",
+                        skin: 'msg',
+                        time: 2, //2秒后自动关闭
                     });
                 }
             }
@@ -258,9 +258,9 @@
                 case 2:
                     if ($(".skuListMain").find("li").hasClass('active') != true) {
                         layer.open({
-                            content: "@lang('product.product_details.Please select specifications')"
-                            , skin: 'msg'
-                            , time: 2 //2秒后自动关闭
+                            content: "@lang('product.product_details.Please select specifications')",
+                            skin: 'msg',
+                            time: 2, //2秒后自动关闭
                         });
                     } else {
                         if (clickDom.hasClass('for_show_login') == true) {
@@ -301,9 +301,9 @@
                     console.log(err);
                     if (err.status == 422) {
                         layer.open({
-                            content: $.parseJSON(err.responseText).errors.product_id[0]
-                            , skin: 'msg'
-                            , time: 2 //2秒后自动关闭
+                            content: $.parseJSON(err.responseText).errors.product_id[0],
+                            skin: 'msg',
+                            time: 2, //2秒后自动关闭
                         });
                     }
                 }
@@ -346,9 +346,9 @@
                 data: data,
                 success: function (data) {
                     layer.open({
-                        content: "@lang('product.product_details.Shopping cart added successfully')"
-                        , skin: 'msg'
-                        , time: 2 //2秒后自动关闭
+                        content: "@lang('product.product_details.Shopping cart added successfully')",
+                        skin: 'msg',
+                        time: 2, //2秒后自动关闭
                     });
                     $(".skuBox").css("display", "none");
                     $(".header-search").load(location.href + " .header-search");
@@ -362,9 +362,9 @@
         function buy_now(clickDom) {
             if ($(".skuListMain").find("li").hasClass('active') != true) {
                 layer.open({
-                    content: "@lang('product.product_details.Please select specifications')"
-                    , skin: 'msg'
-                    , time: 2 //2秒后自动关闭
+                    content: "@lang('product.product_details.Please select specifications')",
+                    skin: 'msg',
+                    time: 2, //2秒后自动关闭
                 });
             } else {
                 if (clickDom.hasClass('for_show_login') == true) {
@@ -386,13 +386,13 @@
                     domClass: 'dropload-down',
                     domRefresh: "<div class='dropload-refresh'>↑@lang('product.product_details.Pull up load more')</div>",
                     domLoad: "<div class='dropload-load'><span class='loading'></span>@lang('product.product_details.Loading in')...</div>",
-                    domNoData: "<div class='dropload-noData'>@lang('product.product_details.over the end')</div>"
+                    domNoData: "<div class='dropload-noData'>@lang('product.product_details.over the end')</div>",
                 },
                 loadDownFn: function (me) {
                     // 拼接HTML
                     var html = '';
                     var data = {
-                        page: page
+                        page: page,
                     };
                     $.ajax({
                         type: 'GET',
@@ -425,7 +425,6 @@
                                     html += "<div class='comPicture'>";
                                     $.each(dataObj_photo, function (a, b) {
                                         html += "<img src='" + b + "'>";
-                                        ;
                                     });
                                     html += "</div>";
                                     html += "<div class='comDate'>" + n.created_at + "</div>";

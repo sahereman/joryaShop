@@ -13,15 +13,11 @@ class Article extends Model
         'content_zh',
     ];
 
-    public static function getContentBySlug(string $slug, string $locale = 'zh_CN')
+    public static function getArticleBySlug(string $slug)
     {
         $article = self::where('slug', $slug)->first();
         if ($article) {
-            if ($locale == 'zh_CN') {
-                return $article->content_zh;
-            } else {
-                return $article->content_en;
-            }
+            return $article;
         }
         return false;
     }

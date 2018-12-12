@@ -69,7 +69,7 @@
         </div>
         <div class="pre_paymentTotal">
             <span class="amount_of_money cost_of_total">{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}</span>
-            <a href="javascript:void(0);" class="Topayment_btn" data-url="{{ route('orders.store') }}">@lang('basic.orders.To pay')</a>
+            <a href="javascript:void(0);" class="Topayment_btn">@lang('basic.orders.To pay')</a>
         </div>
     </div>
     <!--选择支付方式弹窗-->
@@ -220,10 +220,10 @@
                             break;
                         default :
                             layer.open({
-		                        content: "@lang('order.Please select the payment method')",
-		                        skin: 'msg',
-		                        time: 2, //2秒后自动关闭
-		                    });
+                                content: "@lang('order.Please select the payment method')",
+                                skin: 'msg',
+                                time: 2, //2秒后自动关闭
+                            });
                             break;
                     }
                 } else {

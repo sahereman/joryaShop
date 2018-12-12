@@ -13,14 +13,10 @@ class ArticlesController extends Controller
     // GET 通用-单页展示
     public function show(Request $request, string $slug)
     {
-        if (App::isLocale('en')) {
-            $content = Article::getContentBySlug($slug, 'en');
-        } else {
-            $content = Article::getContentBySlug($slug, 'zh-CN');
-        }
-        if ($content) {
-            return view('mobile.common.article', [
-                'content' => $content,
+        $article = Article::getArticleBySlug($slug);
+        if ($article) {
+            return view('mobile.articles.show', [
+                'article' => $article,
             ]);
         } else {
             throw new InvalidRequestException('参数错误，请重试');
