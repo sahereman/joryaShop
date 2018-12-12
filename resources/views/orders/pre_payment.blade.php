@@ -76,15 +76,21 @@
                                     <div class="left w150 center">
                                         <span>{{ App::isLocale('en') ? $item['sku']->name_en : $item['sku']->name_zh }}</span>
                                     </div>
-                                    <div class="left w150 center RMB_num">&#165; <span>{{ $item['sku']->price }}</span>
+                                    <div class="left w150 center RMB_num">
+                                        &#165; <span>{{ $item['sku']->price }}</span>
                                     </div>
-                                    <div class="left w150 dis_n center dollar_num">&#36;
-                                        <span>{{ $item['sku']->price_en }}</span></div>
-                                    <div class="left w150 center counter"><span>{{ $item['number'] }}</span></div>
-                                    <div class="left w150 s_total red center RMB_num">&#165;
-                                        <span>{{ $item['amount'] }}</span></div>
-                                    <div class="left w150 s_total dis_n red dollar_num center">&#36;
-                                        <span>{{ $item['amount_en'] }}</span></div>
+                                    <div class="left w150 dis_n center dollar_num">
+                                        &#36; <span>{{ $item['sku']->price_en }}</span>
+                                    </div>
+                                    <div class="left w150 center counter">
+                                        <span>{{ $item['number'] }}</span>
+                                    </div>
+                                    <div class="left w150 s_total red center RMB_num">
+                                        &#165; <span>{{ $item['amount'] }}</span>
+                                    </div>
+                                    <div class="left w150 s_total dis_n red dollar_num center">
+                                        &#36; <span>{{ $item['amount_en'] }}</span>
+                                    </div>
                                 </div>
                             @endforeach
                         @endif

@@ -287,7 +287,11 @@ class OrdersController extends Controller
             // 创建一条订单记录
             $order = new Order([
                 'user_id' => $user->id,
-                'user_info' => collect($request->only(['name', 'phone', 'address']))->toArray(),
+                'user_info' => collect([
+                    'name' => $request->input('name'),
+                    'phone' => strip_tags($request->input('phone')),
+                    'address' => $request->input('address'),
+                ])->toArray(),
                 'status' => Order::ORDER_STATUS_PAYING,
                 'currency' => $currency,
                 'snapshot' => collect($snapshot)->toArray(),
