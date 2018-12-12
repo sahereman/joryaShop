@@ -1,11 +1,7 @@
 @extends('layouts.mobile')
 @section('title', App::isLocale('en') ? 'Information modification' : '信息修改')
 @section('content')
-    {{--如果需要引入子视图--}}
-    {{--@include('layouts._header')--}}
-
-    {{--填充页面内容--}}
-    <div class="headerBar" style="border: none;">
+    <div class="headerBar fixHeader" style="border: none;">
         <img src="{{ asset('static_m/img/icon_backtop.png') }}" class="backImg" onclick="javascript:history.back(-1);"/>
         <span>@lang('basic.users.Personal information')</span>
     </div>
