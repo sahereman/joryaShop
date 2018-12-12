@@ -34,9 +34,9 @@
             <span>|</span>
             <a href="{{ route('mobile.reset.sms.show') }}">@lang('app.forget password')></a>
         </div>
-        <div class="downBox">
+        <!--<div class="downBox">
             ——— @lang('app.Jorya Limited') ———
-        </div>
+        </div>-->
     </div>
 @endsection
 

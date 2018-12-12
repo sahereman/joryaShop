@@ -37,9 +37,9 @@
                 @lang('app.Next')
             </button>
         </form>
-        <div class="downBox">
+        <!--<div class="downBox">
             ——— @lang('app.Jorya Limited') ———
-        </div>
+        </div>-->
     </div>
 @endsection
 @section('scriptsAfterJs')
