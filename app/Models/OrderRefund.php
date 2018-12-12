@@ -72,6 +72,8 @@ class OrderRefund extends Model
      */
     protected $casts = [
         'seller_info' => 'json',
+        'photos_for_refund' => 'json',
+        'photos_for_shipment' => 'json',
     ];
 
     /**
@@ -128,9 +130,13 @@ class OrderRefund extends Model
     public function getRefundPhotoUrlsAttribute()
     {
         $refund_photo_urls = [];
-        if ($this->attributes['photos_for_refund'] != '') {
-            $photos_for_refund = explode(',', $this->attributes['photos_for_refund']);
+        $photos_for_refund = json_decode($this->attributes['photos_for_refund'], true);
+        if (count($photos_for_refund) > 0) {
             foreach ($photos_for_refund as $photo_for_refund) {
+                /*if (Str::startsWith($photo_for_refund, ['http://', 'https://'])) {
+                    $refund_photo_urls[] = $photo_for_refund;
+                }
+                $refund_photo_urls[] = Storage::disk('public')->url($photo_for_refund);*/
                 $refund_photo_urls[] = generate_image_url($photo_for_refund);
             }
         }
@@ -140,9 +146,13 @@ class OrderRefund extends Model
     public function getShipmentPhotoUrlsAttribute()
     {
         $shipment_photo_urls = [];
-        if ($this->attributes['photos_for_shipment'] != '') {
-            $photos_for_shipment = explode(',', $this->attributes['photos_for_shipment']);
+        $photos_for_shipment = json_decode($this->attributes['photos_for_shipment'], true);
+        if (count($photos_for_shipment) > 0) {
             foreach ($photos_for_shipment as $photo_for_shipment) {
+                /*if (Str::startsWith($photo_for_shipment, ['http://', 'https://'])) {
+                    $shipment_photo_urls[] = $photo_for_shipment;
+                }
+                $shipment_photo_urls[] = Storage::disk('public')->url($photo_for_shipment);*/
                 $shipment_photo_urls[] = generate_image_url($photo_for_shipment);
             }
         }

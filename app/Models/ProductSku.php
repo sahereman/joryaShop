@@ -36,9 +36,7 @@ class ProductSku extends Model
      * @var array
      */
     protected $casts = [
-        // 'is_index' => 'boolean',
-        // 'on_sale' => 'boolean',
-        // 'photos' => 'json',
+        //
     ];
 
     /**

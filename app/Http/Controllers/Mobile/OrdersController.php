@@ -3,8 +3,6 @@
 namespace App\Http\Controllers\Mobile;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\PostOrderCommentRequest;
-use App\Http\Requests\PutOrderCommentRequest;
 use App\Http\Requests\PostOrderRequest;
 use App\Http\Requests\RefundOrderRequest;
 use App\Http\Requests\RefundOrderWithShipmentRequest;

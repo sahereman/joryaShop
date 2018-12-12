@@ -175,8 +175,7 @@
                                         </div>
                                         <input type="file" name="image" value="" id="refunds_photos_2"
                                                onchange="imgChange(this)">
-                                        <input type="hidden" name="photos_for_refund"
-                                               value="{{ $refund->photos_for_refund }}">
+                                        <input type="hidden" name="photos_for_refund" value="">
                                         <!--获取的图片按照下面的格式存放不超过3张-->
                                         @if($refund->photos_for_refund)
                                             @foreach($refund->refund_photo_urls as $refund_photo_url)

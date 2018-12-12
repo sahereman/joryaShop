@@ -12,7 +12,6 @@ $factory->define(App\Models\ProductComment::class, function (Faker $faker) {
     $created_at = $faker->dateTimeThisMonth($updated_at);
 
     return [
-//        'parent_id' => 0,
 //        'user_id' => $faker->randomDigit,
 //        'order_id' => $faker->randomNumber(2),
 //        'product_id' => $faker->randomDigit,

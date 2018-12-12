@@ -3,23 +3,29 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Tests\Models\User;
 
-class ProductComment extends Model
+class ProductCommentSupplement extends Model
 {
+    const PRODUCT_COMMENT_SUPPLEMENT_FROM_USER = 'user';
+    const PRODUCT_COMMENT_SUPPLEMENT_FROM_SELLER = 'seller';
+
+    public static $productCommentSupplementFromMap = [
+        self::PRODUCT_COMMENT_SUPPLEMENT_FROM_USER => '来自用户的追加评论',
+        self::PRODUCT_COMMENT_SUPPLEMENT_FROM_SELLER => '来自卖家的追加评论',
+    ];
+
     /**
      * The attributes that are mass assignable.
      * @var array
      */
     protected $fillable = [
+        'product_comment_id',
         'user_id',
-        'order_id',
-        'order_item_id',
         'product_id',
-        'composite_index',
-        'description_index',
-        'shipment_index',
         'content',
         'photos',
+        'from',
     ];
 
     /**
@@ -35,8 +41,17 @@ class ProductComment extends Model
      * @var array
      */
     protected $appends = [
+        'user',
         'photo_urls',
     ];
+
+    public function getUserAttribute()
+    {
+        if ($this->attributes['from'] == self::PRODUCT_COMMENT_SUPPLEMENT_FROM_USER && !is_null($this->attributes['user_id'])) {
+            return User::find($this->attributes['user_id']);
+        }
+        return null; // 来自卖家的追加评论.
+    }
 
     public function getPhotoUrlsAttribute()
     {
@@ -54,24 +69,9 @@ class ProductComment extends Model
         return $photo_urls;
     }
 
-    public function supplements()
+    public function comment()
     {
-        return $this->hasMany(ProductCommentSupplement::class);
-    }
-
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
-
-    public function order()
-    {
-        return $this->belongsTo(Order::class);
-    }
-
-    public function orderItem()
-    {
-        return $this->belongsTo(OrderItem::class);
+        return $this->belongsTo(ProductComment::class);
     }
 
     public function product()

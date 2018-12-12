@@ -49,8 +49,8 @@ class CreateOrderRefundsTable extends Migration
             $table->string('remark_for_shipment_from_seller')->nullable()->comment('remark for shipment from seller');
             $table->string('shipment_company')->nullable()->comment('refund-shipment-company');
             $table->string('shipment_sn')->nullable()->comment('refund-shipment-sn');
-            $table->text('photos_for_refund')->nullable()->comment('用户上传商品及证件图片集');
-            $table->text('photos_for_shipment')->nullable()->comment('退货物流证件图片集');
+            $table->json('photos_for_refund')->nullable()->comment('用户上传商品及证件图片集');
+            $table->json('photos_for_shipment')->nullable()->comment('退货物流证件图片集');
 
             $table->timestamp('checked_at')->nullable()->comment('卖家通过审核时间');
             $table->timestamp('shipped_at')->nullable()->comment('买家配送发货时间');

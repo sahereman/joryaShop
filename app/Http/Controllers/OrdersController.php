@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\PostOrderCommentRequest;
-use App\Http\Requests\PutOrderCommentRequest;
 use App\Http\Requests\PostOrderRequest;
 use App\Http\Requests\RefundOrderRequest;
 use App\Http\Requests\RefundOrderWithShipmentRequest;
@@ -416,8 +415,11 @@ class OrdersController extends Controller
         $order_items = $order->items()->with('sku.product')->get()->groupBy('id');
 
         foreach ($order_items as $order_item_id => $order_item) {
+            if ($request->input('photos')[$order_item_id] != '') {
+                $photos = explode(',', $request->input('photos')[$order_item_id]);
+                $photos = collect($photos)->toArray();
+            }
             ProductComment::create([
-                'parent_id' => 0,
                 'user_id' => $order->user_id,
                 'order_id' => $order->id,
                 'order_item_id' => $order_item_id,
@@ -426,7 +428,7 @@ class OrdersController extends Controller
                 'description_index' => $request->input('description_index')[$order_item_id],
                 'shipment_index' => $request->input('shipment_index')[$order_item_id],
                 'content' => $request->input('content')[$order_item_id],
-                'photos' => $request->input('photos')[$order_item_id],
+                'photos' => $photos ?? null,
             ]);
         }
 
@@ -467,33 +469,6 @@ class OrdersController extends Controller
         ]);
     }
 
-    // POST 追加订单评价 [可针对某一款产品单独追加评论]
-    /*public function appendComment(PutOrderCommentRequest $request, Order $order)
-    {
-        $this->authorize('append_comment', $order);
-
-        if ($request->input('order_id') != $order->id) {
-            return redirect()->back()->withInput();
-        }
-
-        $order_items = $order->items()->with('sku.product')->get()->groupBy('id');
-
-        ProductComment::create([
-            'parent_id' => $request->input('parent_id'),
-            'user_id' => $order->user_id,
-            'order_id' => $order->id,
-            'order_item_id' => $request->input('order_item_id'),
-            'product_id' => $order_items[$request->input('order_item_id')][0]->sku->product->id,
-            'content' => $request->input('content'),
-            'photos' => $request->input('photos'),
-        ]);
-
-        return response()->json([
-            'code' => 200,
-            'message' => 'success',
-        ]);
-    }*/
-
     /*--售后订单--*/
     // GET 退单申请页面 [仅退款]
     public function refund(Request $request, Order $order)
@@ -518,7 +493,6 @@ class OrdersController extends Controller
             'status' => OrderRefund::ORDER_REFUND_STATUS_CHECKING,
             // 'amount' => $request->input('amount'),
             'remark_from_user' => $request->input('remark_from_user'),
-            // 'photos_for_refund' => $request->has('photos_for_refund') ? $request->input('photos_for_refund') : '',
         ]);
 
         $order->status = Order::ORDER_STATUS_REFUNDING;
@@ -530,19 +504,6 @@ class OrdersController extends Controller
             'message' => 'success',
         ]);*/
     }
-
-    // GET 更新退单申请页面 [仅退款]
-    /*public function editRefund(Request $request, Order $order)
-    {
-        $this->authorize('refund', $order);
-
-        return view('orders.refund', [
-            'order' => $order,
-            'refund' => $order->refund,
-            'snapshot' => $order->snapshot,
-            'is_edit' => true,
-        ]);
-    }*/
 
     // PUT 更新退单申请 [仅退款]
     public function updateRefund(RefundOrderRequest $request, Order $order)
@@ -562,10 +523,6 @@ class OrdersController extends Controller
             $order->refund->remark_from_seller = $request->input('remark_from_seller');
             $updated = true;
         }
-        /*if ($request->has('photos_for_refund')) {
-            $order->refund->photos_for_refund = $request->input('photos_for_refund');
-            $updated = true;
-        }*/
 
         if ($updated) {
             $order->refund->save();
@@ -585,7 +542,7 @@ class OrdersController extends Controller
 
         $refund = $order->refund;
         $shipment_company_name = '';
-        if(isset($refund)){
+        if (isset($refund)) {
             $shipment_company_name = ShipmentCompany::codeTransformName($refund->shipment_company);
         }
 
@@ -602,13 +559,17 @@ class OrdersController extends Controller
     {
         $this->authorize('refund_with_shipment', $order);
 
+        if ($request->has('photos_for_refund')) {
+            $photos_for_refund = explode(',', $request->input('photos_for_refund'));
+            $photos_for_refund = collect($photos_for_refund)->toArray();
+        }
         OrderRefund::create([
             'order_id' => $order->id,
             'type' => OrderRefund::ORDER_REFUND_TYPE_REFUND_WITH_SHIPMENT,
             'status' => OrderRefund::ORDER_REFUND_STATUS_CHECKING,
             // 'amount' => $request->input('amount'),
             'remark_from_user' => $request->input('remark_from_user'),
-            'photos_for_refund' => $request->has('photos_for_refund') ? $request->input('photos_for_refund') : '',
+            'photos_for_refund' => $photos_for_refund ?? null,
         ]);
 
         $order->status = Order::ORDER_STATUS_REFUNDING;
@@ -620,19 +581,6 @@ class OrdersController extends Controller
             'message' => 'success',
         ]);*/
     }
-
-    // GET 更新退单申请页面 [退货并退款]
-    /*public function editRefundWithShipment(Request $request, Order $order)
-    {
-        $this->authorize('refund_with_shipment', $order);
-
-        return view('orders.refund_with_shipment', [
-            'order' => $order,
-            'refund' => $order->refund,
-            'snapshot' => $order->snapshot,
-            'is_edit' => true,
-        ]);
-    }*/
 
     // PUT 更新退单申请 [退货并退款]
     public function updateRefundWithShipment(RefundOrderWithShipmentRequest $request, Order $order)
@@ -672,11 +620,15 @@ class OrdersController extends Controller
             $updated = true;
         }
         if ($request->has('photos_for_refund')) {
-            $order->refund->photos_for_refund = $request->input('photos_for_refund');
+            $photos_for_refund = explode(',', $request->input('photos_for_refund'));
+            $photos_for_refund = collect($photos_for_refund)->toArray();
+            $order->refund->photos_for_refund = $photos_for_refund;
             $updated = true;
         }
         if ($request->has('photos_for_shipment')) {
-            $order->refund->photos_for_shipment = $request->input('photos_for_shipment');
+            $photos_for_shipment = explode(',', $request->input('photos_for_shipment'));
+            $photos_for_shipment = collect($photos_for_shipment)->toArray();
+            $order->shipment->photos_for_shipment = $photos_for_shipment;
             $updated = true;
         }
 

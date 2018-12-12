@@ -19,7 +19,7 @@ class CreateOrdersTable extends Migration
             $table->unique('order_sn');
 
             $table->unsignedInteger('user_id')->nullable(false)->comment('user-id');
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 
             $table->json('user_info')->nullable(false)->comment('user-info-data-for-shipping-in-json-format[data:name&phone&address]'); // 买家信息
 
