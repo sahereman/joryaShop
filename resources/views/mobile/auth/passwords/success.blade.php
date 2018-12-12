@@ -1,5 +1,5 @@
 @extends('layouts.mobile')
-@section('title', '设置成功')
+@section('title', App::isLocale('en') ? 'Set up successfully' : '设置成功')
 @section('content')
     <div class="regMain">
         <div class="logoImgBox">
@@ -7,9 +7,9 @@
         </div>
         <div class="sucBox">
             <img src="{{ asset('static_m/img/icon_Success.png') }}"/>
-            <div>新密码已设置成功</div>
+            <div>@lang('app.The new password has been set successfully')</div>
             <button type="submit" class="subBtn">
-                <a href="{{route('mobile.login.show')}}">登录</a>
+                <a href="{{route('mobile.login.show')}}">@lang('app.Sign_in')</a>
             </button>
         </div>
     </div>

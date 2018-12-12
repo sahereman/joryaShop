@@ -1,16 +1,6 @@
 @extends('layouts.mobile')
-@section('title', '注册')
+@section('title', App::isLocale('en') ? 'Registered' : '注册')
 @section('content')
-    {{--如果需要引入子视图--}}
-    {{--@include('layouts._header')--}}
-
-    {{--填充页面内容--}}
-
-    {{--@if (count($errors) > 0)
-        @foreach ($errors->all() as $error)
-            <li> {{ $error }}</li>
-        @endforeach
-    @endif--}}
     <div class="regMain">
         <div class="logoImgBox">
             <img src="{{ asset('static_m/img/logo.png') }}"/>
@@ -19,7 +9,7 @@
             {{ csrf_field() }}
             <div class="nameBox">
                 <img src="{{ asset('static_m/img/icon_name.png') }}" class="fImg"/>
-                <input type="text" name="name" value="{{ old('name') }}" placeholder="请输入用户名">
+                <input type="text" name="name" value="{{ old('name') }}" placeholder="@lang('app.please enter user name')">
                 <div class="tipBox">
                     @if ($errors->has('name'))
                         <img src="{{ asset('static_m/img/icon_tip.png') }}"/>
@@ -29,7 +19,7 @@
             </div>
             <div class="psdBox">
                 <img src="{{ asset('static_m/img/icon_password.png') }}" class="fImg"/>
-                <input type="password" name="password" placeholder="请输入密码">
+                <input type="password" name="password" placeholder="@lang('app.Please enter your password')">
                 <div class="tipBox">
                     @if ($errors->has('password'))
                         <img src="{{ asset('static_m/img/icon_tip.png') }}"/>
@@ -46,7 +36,7 @@
                     @endforeach
                 </select>
                 <span class="valSpan"></span>
-                <input type="text" name="phone" value="{{ old('phone') }}" placeholder="请先选择国家" class="phoneIpt"
+                <input type="text" name="phone" value="{{ old('phone') }}" placeholder="@lang('app.Please select a country first')" class="phoneIpt"
                        maxlength="11">
                 <div class="tipBox">
                     @if ($errors->has('phone'))
@@ -57,18 +47,16 @@
             </div>
             <div class="codeBox">
                 <img src="{{ asset('static_m/img/icon_yzm.png') }}" class="fImg"/>
-                <input type="text" name="code" value="" placeholder="请输入动态验证码" class="codeIpt" maxlength="6">
+                <input type="text" name="code" value="" placeholder="@lang('app.please enter verification code')" class="codeIpt" maxlength="6">
                 <div class="getYBox">
-                    <span class="getY">获取动态验证码</span>
+                    <span class="getY">@lang('app.get verification code')</span>
                     <span class="cutTime"></span>
                 </div>
             </div>
-            <button type="submit" class="subBtn">
-                注册
-            </button>
+            <button type="submit" class="subBtn">@lang('app.Registered')</button>
         </form>
         <div class="downBox">
-            ——— 卓雅美业有限公司 ———
+            ——— @lang('app.Jorya Limited') ———
         </div>
     </div>
 
@@ -83,7 +71,7 @@
             if (phoneVal == "") {
                 //未填手机号
                 layer.open({
-                    content: '请填写手机号'
+                    content: "@lang('app.Please fill in your mobile phone number')"
                     , time: 2
                     , skin: 'msg'
                 });
@@ -103,7 +91,7 @@
                         //请求成功时处理
                         // console.log(response);
                         layer.open({
-                            content: "发送成功"
+                            content: "@lang('app.Sent successfully')"
                             , time: 2
                             , skin: 'msg'
                         });
@@ -123,7 +111,7 @@
                             });
                         } else {
                             layer.open({
-                                content: "系统错误"
+                                content: "@lang('app.System error')"
                                 , time: 2
                                 , skin: 'msg'
                             });
@@ -155,14 +143,14 @@
         $("#myselect").change(function () {
             var opt = $("#myselect").val();
             $(".valSpan").html(opt);
-            $(".phoneIpt").attr("placeholder", "请输入手机号");
+            $(".phoneIpt").attr("placeholder", "@lang('app.Please enter phone number')");
         });
         $(".phoneIpt").on("focus", function () {
             var countryCode = $(".valSpan").html();
             if (countryCode == "") {
                 $(this).blur();
                 layer.open({
-                    content: '请先选择国家'
+                    content: "@lang('app.Please select a country first')"
                     , time: 2
                     , skin: 'msg'
                 });

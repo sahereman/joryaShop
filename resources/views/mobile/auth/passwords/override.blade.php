@@ -1,12 +1,6 @@
 @extends('layouts.mobile')
-@section('title', '重置密码')
+@section('title', App::isLocale('en') ? 'Reset Password' : '重置密码')
 @section('content')
-    {{--@if (count($errors) > 0)
-        @foreach ($errors->all() as $error)
-            <li> {{ $error }}</li>
-        @endforeach
-    @endif--}}
-
     <div class="regMain">
         <div class="logoImgBox">
             <img src="{{ asset('static_m/img/logo.png') }}"/>
@@ -15,7 +9,7 @@
             {{ csrf_field() }}
             <div class="nameBox">
                 <img src="{{ asset('static_m/img/icon_password.png') }}" class="fImg"/>
-                <input type="password" name="password" placeholder="请输入新密码">
+                <input type="password" name="password" placeholder="@lang('app.Please enter a new password')">
                 <div class="tipBox">
                     @if ($errors->has('password'))
                         <img src="{{ asset('static_m/img/icon_tip.png') }}"/>
@@ -25,7 +19,7 @@
             </div>
             <div class="psdBox">
                 <img src="{{ asset('static_m/img/icon_password.png') }}" class="fImg"/>
-                <input type="password" name="password_confirmation" placeholder="请确认密码">
+                <input type="password" name="password_confirmation" placeholder="@lang('app.Confirm Password')">
                 <div class="tipBox">
                     @if ($errors->has('password_confirmation'))
                         <img src="{{ asset('static_m/img/icon_tip.png') }}"/>
@@ -35,11 +29,11 @@
             </div>
 
             <button type="submit" class="subBtn">
-                完成
+                @lang('app.Complete')
             </button>
         </form>
         <div class="downBox">
-            ——— 卓雅美业有限公司 ———
+            ——— @lang('app.Jorya Limited') ———
         </div>
     </div>
 

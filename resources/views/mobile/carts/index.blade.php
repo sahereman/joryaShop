@@ -21,7 +21,9 @@
                         <input type="checkbox" name="selectOne" id="" code="{{ $cart->sku->id }}" value="{{ $cart->id }}"/>
                         <span></span>
                     </label>
-                    <img src="{{ $cart->sku->product->thumb_url }}"/>
+                    <a class="cur_p" href="{{ route('mobile.products.show', $cart->sku->product_id) }}">
+                        <img src="{{ $cart->sku->product->thumb_url }}"/>
+                    </a>
                     <div class="cartDetail">
                         <div class="goodsName">
                             {{ App::isLocale('en') ? $cart->sku->product->name_en : $cart->sku->product->name_zh }}

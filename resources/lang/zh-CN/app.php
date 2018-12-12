@@ -85,4 +85,9 @@ return [
 	'Shopping Cart' => '购物车',
 	'Account' => '我的',
 	'Confirm the Order' => '确认订单',
+	'Jorya Limited' => '卓雅美业有限公司',
+	'Please fill in your mobile phone number' => '请填写手机号',
+	'Sent successfully' => '发送成功',
+	'System error' => '系统错误',
+	'SMS Reset' => '短信重置',
 ];

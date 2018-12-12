@@ -86,4 +86,9 @@ return [
 	'Shopping Cart' => 'Cart',
 	'Account' => 'Account',
 	'Confirm the Order' => 'Confirm the Order',
+	'Jorya Limited' => 'Jorya Limited',
+	'Please fill in your mobile phone number' => 'Please fill in your mobile phone number',
+	'Sent successfully' => 'Sent successfully',
+	'System error' => 'System error',
+	'SMS Reset' => 'SMS Reset',
 ];

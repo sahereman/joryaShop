@@ -1,10 +1,6 @@
 @extends('layouts.mobile')
-@section('title', '登录')
+@section('title', App::isLocale('en') ? 'Sign in' : '登录')
 @section('content')
-    {{--如果需要引入子视图--}}
-    {{--@include('layouts._header')--}}
-
-    {{--填充页面内容--}}
     <div class="logMain">
         <div class="logoImgBox">
             <img src="{{ asset('static_m/img/logo.png') }}"/>
@@ -13,7 +9,7 @@
             {{ csrf_field() }}
             <div class="nameBox">
                 <img src="{{ asset('static_m/img/icon_name.png') }}" class="fImg"/>
-                <input id="username" type="text" name="username" value="{{ old('username') }}" placeholder="请输入用户名">
+                <input id="username" type="text" name="username" value="{{ old('username') }}" placeholder="@lang('app.please enter user name')">
                 <div class="tipBox">
                     @if ($errors->has('name'))
                         <img src="{{ asset('static_m/img/icon_tip.png') }}"/>
@@ -23,7 +19,7 @@
             </div>
             <div class="psdBox">
                 <img src="{{ asset('static_m/img/icon_password.png') }}" class="fImg"/>
-                <input id="password" type="password" name="password" placeholder="请输入密码">
+                <input id="password" type="password" name="password" placeholder="@lang('app.Please enter your password')">
                 <div class="tipBox">
                     @if ($errors->has('password'))
                         <img src="{{ asset('static_m/img/icon_tip.png') }}"/>
@@ -31,22 +27,17 @@
                     @endif
                 </div>
             </div>
-            <button type="submit" class="subBtn">
-                登录
-            </button>
+            <button type="submit" class="subBtn">@lang('app.Sign_in')</button>
         </form>
         <div class="logJump">
-            <a href="{{ route('mobile.register.show') }}">账号注册></a>
+            <a href="{{ route('mobile.register.show') }}">@lang('app.New User Registration')></a>
             <span>|</span>
-            <a href="{{ route('mobile.reset.sms.show') }}">忘记密码></a>
+            <a href="{{ route('mobile.reset.sms.show') }}">@lang('app.forget password')></a>
         </div>
         <div class="downBox">
-            ——— 卓雅美业有限公司 ———
+            ——— @lang('app.Jorya Limited') ———
         </div>
     </div>
-
-    {{--如果需要引入子视图--}}
-    {{--@include('layouts._footer')--}}
 @endsection
 
 @section('scriptsAfterJs')
