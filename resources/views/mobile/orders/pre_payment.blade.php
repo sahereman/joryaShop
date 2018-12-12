@@ -85,7 +85,8 @@
         <div class="pre_paymentTotal">
             <span class="RMB_num amount_of_money">&#165; <span>{{ $total_fee }}</span></span>
             <span class="dis_ni dollar_num amount_of_money">&#36; <span>{{ $total_fee_en }}</span></span>
-            <a href="javascript:void(0);" class="payment_btn" data-url="{{ route('orders.store') }}">@lang('basic.orders.Submit an Order')</a>
+            <a href="javascript:void(0);" class="payment_btn"
+               data-url="{{ route('orders.store') }}">@lang('basic.orders.Submit an Order')</a>
         </div>
     </div>
     <!--新增地址与选择地址的弹窗-->
@@ -101,7 +102,8 @@
             <!--有收货地址数据时-->
             <div class="adsList"></div>
             <div class="btnBox">
-                <a href="javascript:void(0);" class="doneBtn creat_address_btn">@lang('basic.address.The new address')</a>
+                <a href="javascript:void(0);"
+                   class="doneBtn creat_address_btn">@lang('basic.address.The new address')</a>
             </div>
         </div>
         <!--如果没有地址显示新建地址与保存按钮-->
@@ -109,15 +111,18 @@
             <div class="addAdsForm">
                 <div class="addAdsItem">
                     <label class="must">@lang('basic.address.The consignee')</label>
-                    <input type="text" name="name" id="new_address_name" value="" placeholder="@lang('basic.address.Please fill in the consignee')"/>
+                    <input type="text" name="name" id="new_address_name" value=""
+                           placeholder="@lang('basic.address.Please fill in the consignee')"/>
                 </div>
                 <div class="addAdsItem">
                     <label class="must">@lang('basic.address.Cellphone number')</label>
-                    <input type="text" name="phone" id="new_address_phone" value="" placeholder="@lang('basic.address.Please fill in your mobile phone number')"/>
+                    <input type="text" name="phone" id="new_address_phone" value=""
+                           placeholder="@lang('basic.address.Please fill in your mobile phone number')"/>
                 </div>
                 <div class="addAdsItem" style="border:none;">
                     <label class="must">@lang('basic.address.Detailed address')</label>
-                    <input type="text" name="address" id="new_address_info" value="" placeholder="@lang('basic.address.Detailed_address')"/>
+                    <input type="text" name="address" id="new_address_info" value=""
+                           placeholder="@lang('basic.address.Detailed_address')"/>
                 </div>
                 <button class="doneBtn save_new_address">@lang('basic.users.Save')</button>
             </div>
@@ -332,9 +337,9 @@
                 var sendWay = getUrlVars("sendWay");
                 if (address_name == "" || address_phone == "" || address_location == "") {
                     layer.open({
-                        content: "@lang('order.Please fill in the address completely')"
-                        , skin: 'msg'
-                        , time: 2 //2秒后自动关闭
+                        content: "@lang('order.Please fill in the address completely')",
+                        skin: 'msg',
+                        time: 2, //2秒后自动关闭
                     });
                 } else {
                     switch (sendWay) {
@@ -372,11 +377,11 @@
                         loading_animation = layer.open({
                             type: 2,
                             content: '@lang('app.Please wait')',
-                            time: false //取消自动关闭
+                            time: false, //取消自动关闭
                         });
                     },
                     success: function (json) {
-                    	console.log(json)
+                        // console.log(json);
                         window.location.href = json.data.mobile_request_url;
                     },
                     error: function (err) {

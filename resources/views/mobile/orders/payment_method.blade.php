@@ -20,15 +20,19 @@
             </div>
             <div class="pre_products">
                 <ul>
-                    @foreach($order->snapshot as $key => $order_item)
-                        <li>
-                            <img src="{{ $order_item['sku']['product']['thumb_url'] }}">
-                            <span>&#215; {{ $order_item['number'] }}</span>
-                        </li>
-                        @if($key > 1)
-                            @break
-                        @endif
-                    @endforeach
+                    @if($snapshot)
+                        @foreach($snapshot as $key => $item)
+                            @if($key > 2)
+                                @break
+                            @endif
+                            @if(isset($item['sku_id']))
+                                <li>
+                                    <img src="{{ \App\Models\ProductSku::find($item['sku_id'])->product->thumb_url }}">
+                                    <span>&#215; {{ $item['number'] }}</span>
+                                </li>
+                            @endif
+                        @endforeach
+                    @endif
                 </ul>
                 <!--显示商品总数量-->
                 @if(\Illuminate\Support\Facades\App::isLocale('en'))
