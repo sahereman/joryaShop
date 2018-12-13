@@ -41,8 +41,8 @@ class ConfigsSeeder extends Seeder
                         ['name' => '增值电信业务经营许可证', 'code' => 'certificate_no', 'type' => "text", 'sort' => 30, 'value' => '鲁B2-20110000'],
                         // ICP （电信与信息服务业务经营许可证）: Internet Content Provider
                         ['name' => '鲁公网备案号', 'code' => 'icp_no', 'type' => "text", 'sort' => 40, 'value' => '33010600000000'],
-                        ['name' => '关注公众号', 'code' => 'wechat_mp_qr_code', 'type' => "image", 'sort' => 50, 'value' => '/default/wechat_mp_qr_code.png', 'help' => '网站首页的关注公众号二维码图片',],
-                        ['name' => '手机逛商城', 'code' => 'mobile_website_qr_code', 'type' => "image", 'sort' => 60, 'value' => '/default/mobile_website_qr_code.png', 'help' => '网站首页的手机逛商城二维码图片',],
+                        ['name' => '关注公众号', 'code' => 'wechat_mp_qr_code', 'type' => "image", 'sort' => 50, 'value' => '/defaults/wechat_mp_qr_code.png', 'help' => '网站首页的关注公众号二维码图片',],
+                        ['name' => '手机逛商城', 'code' => 'mobile_website_qr_code', 'type' => "image", 'sort' => 60, 'value' => '/defaults/mobile_website_qr_code.png', 'help' => '网站首页的手机逛商城二维码图片',],
                         //                        ['name' => '网站Logo', 'code' => 'logo', 'type' => "image", 'sort' => 40,
                         //                            'help' => '网站首页的Logo',],
                         //                        ['name' => '网站关闭', 'code' => 'site_close', 'type' => "radio", 'sort' => 50,
