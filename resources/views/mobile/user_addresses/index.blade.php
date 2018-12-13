@@ -31,7 +31,7 @@
                         <img data-url="{{ route('mobile.user_addresses.edit', ['address' => $address->id]) }}"
                              src="{{ asset('static_m/img/icon_edit.png') }}" class="adsE"/>
                         <img data-url="{{ route('user_addresses.destroy', ['address' => $address->id]) }}"
-                             src="{{ asset('static_m/img/icon_delete.png') }}" class="adsD"/>
+                             src="{{ asset('static_m/img/icon_delete.png') }}" class="adsD add_del"/>
                     </div>
                 </div>
             @endforeach
@@ -50,7 +50,7 @@
             // 跳转地址编辑页面（需要传参）
             window.location.href = $(this).attr("data-url");
         });
-        $(".adsD").on("click", function () {
+        $(".adsList").on("click", ".add_del",function () {
             var url = $(this).attr("data-url");
             layer.open({
                 anim: 'up',
