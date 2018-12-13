@@ -632,7 +632,7 @@ class OrdersController extends Controller
         if ($request->has('photos_for_shipment')) {
             $photos_for_shipment = explode(',', $request->input('photos_for_shipment'));
             $photos_for_shipment = collect($photos_for_shipment)->toArray();
-            $order->shipment->photos_for_shipment = $photos_for_shipment;
+            $order->refund->photos_for_shipment = $photos_for_shipment;
             $updated = true;
         }
 
