@@ -19,7 +19,8 @@
             </div>
             <div class="addAdsItem" style="border:none;">
                 <label class="must">@lang('basic.address.Detailed address')</label>
-                <input type="text" name="address" id="" value="" placeholder="@lang('basic.address.Detailed_address')"/>
+                {{--<input type="text" name="address" id="" value="" placeholder="@lang('basic.address.Detailed_address')"/>--}}
+                <textarea name="address" placeholder="@lang('basic.address.Detailed_address')"></textarea>
             </div>
             <div class="defaultBox">
                 <label>@lang('basic.address.Set as default address')</label>

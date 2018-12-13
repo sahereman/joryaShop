@@ -110,11 +110,17 @@
                 color: #f95b5c;
             }
             label{
-                min-width: 5rem;
+                width: 100%;
             }
             input{
-                width: 65%;
-                text-align: right;
+                width: 100%;
+                text-align: left;
+            }
+            textarea {
+                width: 100%;
+                text-align: left;
+                height: 5rem;
+                padding-left: .5rem;
             }
         }
         .doneBtn{
@@ -141,6 +147,7 @@
         margin-top: 1rem;
         background: #fff;
         padding: .7rem 1rem;
+        padding-left: 0;
         img{
             width: 2.2rem;
         }

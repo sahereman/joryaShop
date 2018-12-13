@@ -98,7 +98,7 @@
             <span>@lang('basic.users.Receiving_address')</span>
         </div>
         <!--如果有地址显示地址列表与新增地址按钮-->
-        <div class="adsBox lay_content">
+        <div class="ads1Box lay_content">
             <!--有收货地址数据时-->
             <div class="adsList"></div>
             <div class="btnBox">
@@ -121,13 +121,14 @@
                 </div>
                 <div class="addAdsItem" style="border:none;">
                     <label class="must">@lang('basic.address.Detailed address')</label>
-                    <input type="text" name="address" id="new_address_info" value=""
-                           placeholder="@lang('basic.address.Detailed_address')"/>
+                    {{--<input type="text" name="address" id="new_address_info" value=""
+                           placeholder="@lang('basic.address.Detailed_address')"/>--}}
+                    <textarea name="address" id="new_address_info" placeholder="@lang('basic.address.Detailed_address')"></textarea>
                 </div>
                 <button class="doneBtn save_new_address">@lang('basic.users.Save')</button>
             </div>
             <div class="defaultBox">
-                <label>@lang('basic.address.Set as default address')</label>
+                <label style="padding-left: 1rem;">@lang('basic.address.Set as default address')</label>
                 <img src="{{ asset('static_m/img/icon_OFF.png') }}" class="switchBtn"/>
             </div>
         </div>
@@ -206,7 +207,7 @@
                     $(".adsBox").hide();
                 } else {
                     $(".addAdsBox").hide();
-                    $(".adsBox").show();
+                    $(".ads1Box").show();
                     getAddressList($(this).attr("data-url"));
                 }
             });
@@ -259,7 +260,7 @@
             //点击地址中的新建地址
             $(".creat_address_btn").on("click", function () {
                 $(".addAdsBox").show();
-                $(".adsBox").hide();
+                $(".ads1Box").hide();
             });
             //点击保存
             $(".save_new_address").on("click", function () {
@@ -299,12 +300,12 @@
                                     html += "</div>";
                                     html += "</div>";
                                 });
-                                $(".adsBox .adsList").html("");
-                                $(".adsBox .adsList").append(html);
+                                $(".ads1Box .adsList").html("");
+                                $(".ads1Box .adsList").append(html);
                             } else {
                                 //显示新建
                                 $(".addAdsBox").show();
-                                $(".adsBox").hide();
+                                $(".ads1Box").hide();
                             }
                         }
                     },

@@ -155,6 +155,7 @@
                         data: data,
                         dataType: 'json',
                         success: function (data) {
+//                      	alert("111111");
                         	var dataobj = data.data.histories;
                             var html = "";
                             var name, symbol, price,sku_name,total_shipping_fee,total_shipping;
@@ -194,7 +195,7 @@
                                 // 无数据
                                 me.noData();
                                 if(page==1){
-                                	$(".notFav").addClass("dis_ni");
+                                	$(".notFav").removeClass("dis_ni");
                                 	$(".dropload-down").remove();
                                 }
                             }
