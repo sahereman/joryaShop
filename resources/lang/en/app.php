@@ -78,7 +78,7 @@ return [
 	'The new password has been set successfully' => 'The new password has been set successfully',
 	'Sign in now' => 'Sign in now',
 	'Please select a country first' => 'Please select a country first',
-	'Search for goods for good goods' => 'Search for goods for good goods',
+	'Search for goods for good goods' => 'Jorya Hair',
 	'More' => 'More',
 	'Featured Products' => 'Featured Products',
 	'Home' => 'Home',

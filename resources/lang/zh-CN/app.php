@@ -77,7 +77,7 @@ return [
 	'The new password has been set successfully' => '新密码已设置成功',
 	'Sign in now' => '立即登录',
 	'Please select a country first' => '请先选择国家',
-	'Search for goods for good goods' => '搜索商品，供12351款好货',
+	'Search for goods for good goods' => '卓雅美发',
 	'More' => '更多',
 	'Featured Products' => '商品推荐',
 	'Home' => '首页',

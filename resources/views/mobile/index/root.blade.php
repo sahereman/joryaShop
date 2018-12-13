@@ -5,7 +5,7 @@
         <div class="searchBox">
             <a href="{{route('mobile.search')}}" class="searchCon">
                 <img src="{{ asset('static_m/img/Unchecked_search.png') }}"/>
-                <input type="text" name="" id="" value="" placeholder="@lang('app.Search for goods for good goods')" readonly="readonly"/>
+                <input type="text" style="text-align: center;" value="" placeholder="@lang('app.Search for goods for good goods')" readonly="readonly"/>
             </a>
             <a href="javascript:void(0);" data-href="{{ route('mobile.locale.show') }}"
                code="{{ App::isLocale('en') ? '0' : '1' }}" class="LanguageSwitch">
