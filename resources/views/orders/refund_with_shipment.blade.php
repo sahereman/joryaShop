@@ -22,82 +22,82 @@
                     <!--分步骤显示图片一共四张-->
                     @if(! $refund)
                         <div class="first active">
-                            1.@lang('order.Buyer applies for return refund')
+                            1.@lang('order.Request for refund begins')
                         </div>
                         <div class="second">
-                            2.@lang('order.Seller handles return request')
+                            2.@lang('order.Request being handled')
                             <div class="active_2 active"></div>
                         </div>
                         <div class="third">
-                            3.@lang('order.Buyers return')
+                            3.@lang('order.Goods being shipped back')
                             <div class="active_2"></div>
                         </div>
                         <div class="fourth">
-                            4.@lang('order.Refunds are complete')
+                            4.@lang('order.Request for refund terminated')
                             <div class="active_2"></div>
                         </div>
                     @elseif(isset($refund) && $refund->status == \App\Models\OrderRefund::ORDER_REFUND_STATUS_CHECKING)
                         {{--<img src="{{ asset('img/process-2.png') }}">--}}
                         <div class="first">
-                            1.@lang('order.Buyer applies for return refund')
+                            1.@lang('order.Request for refund begins')
                         </div>
                         <div class="second active">
-                            2.@lang('order.Seller handles return request')
+                            2.@lang('order.Request being handled')
                             <div class="active_2"></div>
                         </div>
                         <div class="third">
-                            3.@lang('order.Buyers return')
+                            3.@lang('order.Goods being shipped back')
                             <div class="active_2 active"></div>
                         </div>
                         <div class="fourth">
-                            4.@lang('order.Refunds are complete')
+                            4.@lang('order.Request for refund terminated')
                             <div class="active_2"></div>
                         </div>
                     @elseif(isset($refund) && in_array($refund->status, [\App\Models\OrderRefund::ORDER_REFUND_STATUS_SHIPPING, \App\Models\OrderRefund::ORDER_REFUND_STATUS_RECEIVING]))
                         {{--<img src="{{ asset('img/process-3.png') }}">--}}
                         <div class="first">
-                            1.@lang('order.Buyer applies for return refund')
+                            1.@lang('order.Request for refund begins')
                         </div>
                         <div class="second">
-                            2.@lang('order.Seller handles return request')
+                            2.@lang('order.Request being handled')
                             <div class="active_2"></div>
                         </div>
                         <div class="third active">
-                            3.@lang('order.Buyers return')
+                            3.@lang('order.Goods being shipped back')
                             <div class="active_2"></div>
                         </div>
                         <div class="fourth">
-                            4.@lang('order.Refunds are complete')
+                            4.@lang('order.Request for refund terminated')
                             <div class="active_2 active"></div>
                         </div>
                     @elseif(isset($refund) && $refund->status == \App\Models\OrderRefund::ORDER_REFUND_STATUS_REFUNDED)
                         {{--<img src="{{ asset('img/process-4.png') }}">--}}
                         <div class="first">
-                            1.@lang('order.Buyer applies for return refund')
+                            1.@lang('order.Request for refund begins')
                         </div>
                         <div class="second">
-                            2.@lang('order.Seller handles return request')
+                            2.@lang('order.Request being handled')
                             <div class="active_2"></div>
                         </div>
                         <div class="third">
-                            3.@lang('order.Buyers return')
+                            3.@lang('order.Goods being shipped back')
                             <div class="active_2"></div>
                         </div>
                         <div class="fourth active">
-                            4.@lang('order.Refunds are complete')
+                            4.@lang('order.Request for refund terminated')
                             <div class="active_2"></div>
                         </div>
                     @elseif(isset($refund) && $refund->status == \App\Models\OrderRefund::ORDER_REFUND_STATUS_DECLINED)
                         {{--<img src="{{ asset('img/process-5.png') }}">--}}
                         <div class="first">
-                            1.@lang('order.Buyer applies for return refund')
+                            1.@lang('order.Request for refund begins')
                         </div>
                         <div class="second">
-                            2.@lang('order.Seller handles return request')
+                            2.@lang('order.Request being handled')
                             <div class="active_2"></div>
                         </div>
                         <div class="third">
-                            3.@lang('order.Buyers return')
+                            3.@lang('order.Goods being shipped back')
                             <div class="active_2"></div>
                         </div>
                         <div class="fourth active">
@@ -320,11 +320,11 @@
                         <div class="step_content step-4">
                             <div class="read_info">
                                 <p class="read_info_title">
-                                    @lang('order.Audit passed, successful refund')
+                                    @lang('order.Request granted, and refund successfully')
                                     <span>
-                                        @lang('order.Refunds were successful')
-                                        , {{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}
-                                        @lang('order.It has been returned according to the original hit path')
+                                        @lang('order.Refund successfully'),
+                                        {{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}
+                                        @lang('order.has been refunded by the previous payment method').
                                     </span>
                                 </p>
                                 <div class="read_address_info">
@@ -389,9 +389,9 @@
                         <div class="step_content step-5">
                             <div class="read_info last_level">
                                 <p class="read_info_title">
-                                    @lang('order.Audit not passed')
+                                    @lang('order.Request denied')
                                     <span>
-                                        @lang('order.You can contact online customer service')
+                                        @lang('order.You can contact online with our customer service agent')
                                     </span>
                                 </p>
                                 <ul class="step-ul">
@@ -673,6 +673,7 @@
         function UpLoadImg(obj) {
             var formData = new FormData();
             formData.append('image', $(obj)[0].files[0]);
+            formData.append('_token', "{{ csrf_token() }}");
             $.ajax({
                 url: "{{ route('image.upload') }}",
                 data: formData,

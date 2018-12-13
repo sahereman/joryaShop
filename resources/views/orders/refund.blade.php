@@ -30,7 +30,7 @@
                             <div class="active_2 active"></div>
                         </div>
                         <div class="third type_2">
-                            3.@lang('order.Refunds are complete')
+                            3.@lang('order.Request for refund terminated')
                             <div class="active_2"></div>
                         </div>
                     @elseif(isset($refund) && $refund->status == \App\Models\OrderRefund::ORDER_REFUND_STATUS_CHECKING)
@@ -43,7 +43,7 @@
                             <div class="active_2"></div>
                         </div>
                         <div class="third type_2">
-                            3.@lang('order.Refunds are complete')
+                            3.@lang('order.Request for refund terminated')
                             <div class="active_2 active"></div>
                         </div>
                     @elseif(isset($refund) && $refund->status == \App\Models\OrderRefund::ORDER_REFUND_STATUS_REFUNDED)
@@ -56,7 +56,7 @@
                             <div class="active_2"></div>
                         </div>
                         <div class="third type_2 active">
-                            3.@lang('order.Refunds are complete')
+                            3.@lang('order.Request for refund terminated')
                             <div class="active_2"></div>
                         </div>
                     @elseif(isset($refund) && $refund->status == \App\Models\OrderRefund::ORDER_REFUND_STATUS_DECLINED)
@@ -138,11 +138,11 @@
                         <div class="step_content step-3">
                             <div class="read_info last_level">
                                 <p class="read_info_title">
-                                    @lang('order.Audit passed, successful refund')
+                                    @lang('order.Request granted, and refund successfully')
                                     <span>
-                                        @lang('order.Refunds were successful')
-                                        , {{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}
-                                        @lang('order.It has been returned according to the original hit path')
+                                        @lang('order.Refund successfully'),
+                                        {{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}
+                                        @lang('order.has been refunded by the previous payment method').
                                     </span>
                                 </p>
                                 <ul class="step-ul">
@@ -164,9 +164,9 @@
                         <div class="step_content step-4">
                             <div class="read_info last_level">
                                 <p class="read_info_title">
-                                    @lang('order.Audit not passed')
+                                    @lang('order.Request denied')
                                     <span>
-                                        @lang('order.You can contact online customer service')
+                                        @lang('order.You can contact online with our customer service agent')
                                     </span>
                                 </p>
                                 <ul class="step-ul">

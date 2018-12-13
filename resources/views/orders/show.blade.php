@@ -28,7 +28,7 @@
                             <p>
                                 <img src="{{ asset('img/exclamation.png') }}">
                                 <span>@lang('basic.users.Order_Status')：</span>
-                                <span class="order_status_tips">@lang('basic.orders.Waiting for buyers payment')</span>
+                                <span class="order_status_tips">@lang('basic.orders.Waiting for the customer to pay')</span>
                             </p>
                             <p id="{{ $order->order_sn }}" mark="{{ $order->order_sn }}" class="cunt_down paying_time"
                                created_at="{{ strtotime($order->created_at) }}"
@@ -55,7 +55,7 @@
                             <p>
                                 <img src="{{ asset('img/pending.png') }}">
                                 <span>@lang('basic.users.Order_Status')：</span>
-                                <span class="order_status_tips">@lang('order.The buyer has paid, waiting for the seller to ship')</span>
+                                <span class="order_status_tips">@lang('order.The customer has paid, waiting for the seller to ship')</span>
                             </p>
                             <p class="operation_area">
                                 <a class="main_operation reminding_shipments">
@@ -72,7 +72,7 @@
                             <p>
                                 <img src="{{ asset('img/pending.png') }}">
                                 <span>@lang('basic.users.Order_Status')：</span>
-                                <span class="order_status_tips">@lang('order.The seller has shipped, waiting for the buyer to receive the goods')</span>
+                                <span class="order_status_tips">@lang('order.The seller has shipped, waiting for the customer to receive the goods')</span>
                             </p>
                             <p id="{{ $order->order_sn }}" mark="{{ $order->order_sn }}"
                                class="cunt_down tobe_received_count"

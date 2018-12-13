@@ -11,7 +11,7 @@
         <div class="orderDHead">
             <div class="odrHeadLeft">
                 <img src="{{ asset('static_m/img/icon_wait.png') }}"/>
-                <span>@lang('basic.orders.Waiting for buyers payment')</span>
+                <span>@lang('basic.orders.Waiting for the customer to pay')</span>
             </div>
             <div class="odrHeadRight">
                 <div class="paying_time" mark="{{ $order->order_sn }}" created_at="{{ strtotime($order->created_at) }}"
@@ -44,7 +44,7 @@
         <div class="orderDHead">
             <div class="odrHeadLeft">
                 <img src="{{ asset('static_m/img/icon_wait.png') }}"/>
-                <span>@lang('order.The buyer has paid, waiting for the seller to ship')</span>
+                <span>@lang('order.The customer has paid, waiting for the seller to ship')</span>
             </div>
             <div class="odrHeadRight">
                 <img src="{{ asset('static_m/img/img_goods.png') }}"/>
@@ -58,7 +58,7 @@
                  time_to_complete_order="{{ \App\Models\Config::config('time_to_complete_order') * 3600 * 24 }}"
                  seconds_to_complete_order="{{ $seconds_to_complete_order }}">
                 <img src="{{ asset('static_m/img/icon_wait.png') }}"/>
-                <span>@lang('order.The seller has shipped, waiting for the buyer to receive the goods')</span>
+                <span>@lang('order.The seller has shipped, waiting for the customer to receive the goods')</span>
                 <p id="{{ $order->order_sn }}" class="odrLeftS">
                     {{ generate_order_ttl_message($order->shipped_at, \App\Models\Order::ORDER_STATUS_RECEIVING) }}
                     @lang('order.for confirmation')

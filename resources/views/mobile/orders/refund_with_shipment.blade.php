@@ -4,7 +4,7 @@
     <div class="headerBar fixHeader">
         <img src="{{ asset('static_m/img/icon_backtop.png') }}" class="backImg"
              onclick="javascript:history.back(-1);"/>
-        <span>@lang('order.Refund application')</span>
+        <span>@lang('order.Refund request')</span>
     </div>
     <div class="refund">
         <div class="refund_con">
@@ -23,7 +23,7 @@
                     <div class="aftersales_status_item">
                         <img src="{{ asset('static_m/img/refund_5.png') }}">
                         <p>
-                            <span class="status_title">@lang('order.Buyer applies for return refund')</span>
+                            <span class="status_title">@lang('order.Request for refund begins')</span>
                         </p>
                     </div>
                     @elseif(isset($refund) && $refund->status == \App\Models\OrderRefund::ORDER_REFUND_STATUS_CHECKING)
@@ -39,7 +39,7 @@
                     <div class="aftersales_status_item">
                         <img src="{{ asset('static_m/img/refund_3.png') }}">
                         <p>
-                            <span class="status_title">@lang('order.Application checked and waiting for buyer to ship the goods back')</span>
+                            <span class="status_title">@lang('order.Request granted and waiting for customer to ship the goods back')</span>
                         </p>
                     </div>
                     @elseif(isset($refund) && $refund->status == \App\Models\OrderRefund::ORDER_REFUND_STATUS_RECEIVING)
@@ -55,10 +55,12 @@
                     <div class="aftersales_status_item">
                         <img src="{{ asset('static_m/img/refund_3.png') }}">
                         <p>
-                            <span class="status_title">@lang('order.Refunds are complete')</span>
-                            <span>@lang('order.Refunds were successful')
-                                , {{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}
-                                @lang('order.It has been returned according to the original hit path')</span>
+                            <span class="status_title">@lang('order.Request for refund terminated')</span>
+                            <span>
+                                @lang('order.Refund successfully'),
+                                {{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}
+                                @lang('order.has been refunded by the previous payment method').
+                            </span>
                         </p>
                     </div>
                     @elseif(isset($refund) && $refund->status == \App\Models\OrderRefund::ORDER_REFUND_STATUS_DECLINED)
@@ -67,7 +69,7 @@
                         <img src="{{ asset('static_m/img/refund_4.png') }}">
                         <p>
                             <span class="status_title">@lang('order.Refund failed')</span>
-                            <span>@lang('order.You can contact online customer service')</span>
+                            <span>@lang('order.You can contact online with our customer service agent')</span>
                         </p>
                     </div>
                     @endif
