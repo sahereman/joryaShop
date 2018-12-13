@@ -242,9 +242,12 @@
         //点击收藏
         $(".gCollect").on("click", function () {
             if ($(this).hasClass('active') != true) {
-                $(".skuBox").css("display", "block");
-                which_click = 1;
-                clickDom = $(this);
+//              $(".skuBox").css("display", "block");
+                if ($(this).hasClass('for_show_login') == true) {
+                    window.location.href = $(this).attr("data-url");
+                } else {
+                    add_favourites($(this));
+                }
             } else {
                 remove_favourites($(this));
             }
@@ -275,11 +278,6 @@
                     $(".skuBox").css("display", "none");
                     break;
                 case 1:      //添加收藏
-                    if (clickDom.hasClass('for_show_login') == true) {
-                        window.location.href = clickDom.attr("data-url");
-                    } else {
-                        add_favourites(clickDom);
-                    }
                     break;
                 case 2:
                     if ($(".skuListMain").find("li").hasClass('active') != true) {
