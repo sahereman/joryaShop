@@ -108,7 +108,6 @@
                         data: data,
                         dataType: 'json',
                         success: function (data) {
-                        	console.log(data)
                             var orders = data.data.orders.data;
                             var html = "";
                             var name, sum, symbol, price, sku_name;
@@ -171,18 +170,17 @@
                                     }
                                     html += "</div>";
                                     html += "<div class='orderItemTotle'>";
-                                    if ($(".orderMain").attr("code") == "zh") {
-                                        html += "<span>共" + order.snapshot.length + "件商品</span>";
-                                    } else {
-                                        if (order.snapshot.length == 1) {
-                                            html += "<span>" + order.snapshot.length + " commodity @lang('basic.orders.in total')</span>";
-                                        } else {
-                                            html += "<span>" + order.snapshot.length + " commodities @lang('basic.orders.in total')</span>";
-                                        }
-                                    }
+//                                  if ($(".orderMain").attr("code") == "zh") {
+//                                      html += "<span>共" + order.snapshot.length + "件商品</span>";
+//                                  } else {
+//                                      if (order.snapshot.length == 1) {
+//                                          html += "<span>" + order.snapshot.length + " commodity @lang('basic.orders.in total')</span>";
+//                                      } else {
+//                                          html += "<span>" + order.snapshot.length + " commodities @lang('basic.orders.in total')</span>";
+//                                      }
+//                                  }
                                     html += " <span class='orderCen'>" + sum + ": </span>";
                                     html += "<span>" + symbol + " " +(order.total_amount + order.total_shipping_fee) + "</span>";
-                                    html += "<br>";
                                     html += "<span>(@lang('order.Postage included'))</span>";
                                     html += "</div>";
                                     html += " <div class='orderBtns'>";
@@ -275,7 +273,7 @@
                 url: url,
                 data: data,
                 success: function (data) {
-                    $(this).parents(".orderItem").remove();
+                    $($(this).parents(".orderItem")).remove();
                 },
                 error: function (err) {
                     console.log(err.status);
@@ -291,17 +289,18 @@
         });
         //删除按钮
         $(".orderMain .lists").on("click", ".Delete", function () {
+        	var clickDom = $(this);
             var data = {
                 _method: "DELETE",
                 _token: "{{ csrf_token() }}",
             };
-            var url = "{{ config('app.url') }}" + "/orders/" + $(this).attr('code');
+            var url = "{{ config('app.url') }}" + "/orders/" + clickDom.attr('code');
             $.ajax({
                 type: "post",
                 url: url,
                 data: data,
-                success: function (data) {
-                    $(this).parents(".orderItem").remove();
+                success: function (json) {
+                    $(clickDom.parents(".orderItem")).remove();
                 },
                 error: function (err) {
                     console.log(err.status);

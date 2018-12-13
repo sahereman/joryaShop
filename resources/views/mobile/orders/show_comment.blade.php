@@ -1,9 +1,10 @@
 @extends('layouts.mobile')
 @section('title', '查看评价')
+@section('title', App::isLocale('en') ? 'View comments' : '查看评价')
 @section('content')
     <div class="headerBar fixHeader">
         <img src="{{ asset('static_m/img/icon_backtop.png') }}" class="backImg" onclick="javascript:history.back(-1);"/>
-        <span>查看评价</span>
+        <span>@lang('order.View comments')</span>
     </div>
     <div class="showCommentBox commentBox">
         @foreach($order->snapshot as $order_item)
@@ -15,7 +16,7 @@
                     <div class="ordDetailName">{{ App::isLocale('en') ? $order_item['sku']['product']['name_en'] : $order_item['sku']['product']['name_zh'] }}</div>
                     <div>
                         <span>
-                            数量：{{ $order_item['number'] }}
+                            @lang('order.Quantity')：{{ $order_item['number'] }}
                             &nbsp;&nbsp;
                         </span>
                         <span>

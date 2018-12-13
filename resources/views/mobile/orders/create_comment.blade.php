@@ -166,7 +166,7 @@
             //删除图片
             $(document).on("click", ".closeImg", function () {
             	var code = $(this).parents(".goodsItem").attr("code")
-	            $(this).parents('.goodsItem').remove();
+	            $($(this).parents('.goodsItem')).remove();
 	            $("#div_imglook").find(".lookimg[num="+ code +"]").remove();
 	        })
             //点击提交
@@ -188,7 +188,9 @@
 	                    star_status = false;
 	                    return star_status;
 	                }
-	                if ($(n).find("textarea").val() == "" || $(n).find("textarea").val() == null) {
+	            });
+	            $.each($(".commentCon"), function(i,n) {
+	            	if ($(n).find("textarea").val() == "" || $(n).find("textarea").val() == null) {
 	                    textarea_status = false;
 	                    layer.open({
 						    content: "@lang('product.Please fill in the evaluation content')！"
