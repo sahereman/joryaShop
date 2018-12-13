@@ -68,14 +68,10 @@ class OrderRefundsController extends Controller
     {
         if ($refund->status == OrderRefund::ORDER_REFUND_STATUS_REFUNDED)
         {
-            return response()->json([
-                'messages' => '订单已退款,不可重复退款'
-            ], 422);
+            throw new InvalidRequestException('订单已退款,不可重复退款');
         } else if ($refund->status == OrderRefund::ORDER_REFUND_STATUS_DECLINED)
         {
-            return response()->json([
-                'messages' => '订单退款已被拒绝'
-            ], 422);
+            throw new InvalidRequestException('订单退款已被拒绝');
         }
 
         if ($refund->type == OrderRefund::ORDER_REFUND_TYPE_REFUND) // 仅退款
