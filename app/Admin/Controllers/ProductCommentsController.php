@@ -2,6 +2,7 @@
 
 namespace App\Admin\Controllers;
 
+use App\Exceptions\InvalidRequestException;
 use App\Models\ProductComment;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\HasResourceActions;
@@ -18,6 +19,11 @@ class ProductCommentsController extends Controller
     //删除评论
     public function delete(ProductComment $comment)
     {
+        if($comment->deleted_at != null)
+        {
+            throw new InvalidRequestException('评论已被删除,无需重复操作');
+        }
+
         $comment->photos = [];
         $comment->content = '该评论已被删除!';
         $comment->deleted_at = now();

@@ -199,7 +199,12 @@ class ProductsController extends Controller
                 $actions->disableView();
                 $actions->disableEdit();
                 $actions->disableDelete();
+                if ($actions->row->deleted_at == null)// 可以删除的评论
+                {
+                    $actions->append(new Ajax_Delete(route('admin.product_comments.delete', [$actions->getKey()])));
+                }
                 $actions->append(new Ajax_Delete(route('admin.product_comments.delete', [$actions->getKey()])));
+
             });
 
             /*属性*/
