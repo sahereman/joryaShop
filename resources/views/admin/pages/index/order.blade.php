@@ -36,19 +36,19 @@
                     borderColor: 'rgba(255, 99, 132, 1)',
                     data: paying_counts,
                     fill: false,
-                },{
+                }, {
                     label: '待发货订单',
                     backgroundColor: 'rgba(54, 162, 235, 0.3)',
                     borderColor: 'rgba(54, 162, 235, 1)',
                     data: shiping_counts,
                     fill: false,
-                },{
+                }, {
                     label: '待收货订单',
                     backgroundColor: 'rgba(75, 192, 192, 0.3)',
                     borderColor: 'rgba(75, 192, 192, 1)',
                     data: receiving_counts,
                     fill: false,
-                },{
+                }, {
                     label: '售后订单',
                     backgroundColor: 'rgba(255, 206, 86, 0.3)',
                     borderColor: 'rgba(255, 206, 86, 1)',
@@ -57,6 +57,14 @@
                 }]
             },
             options: {
+                tooltips: {
+                    mode: 'index',
+                    intersect: false,
+                },
+                hover: {
+                    mode: 'nearest',
+                    intersect: true
+                },
                 scales: {
                     yAxes: [{
                         ticks: {
