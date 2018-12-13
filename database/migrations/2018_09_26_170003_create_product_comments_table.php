@@ -33,6 +33,7 @@ class CreateProductCommentsTable extends Migration
             $table->string('content')->nullable(false)->comment('comment-content');
             $table->json('photos')->nullable()->comment('图片集');
 
+            $table->softDeletes(); // timestamp deleted_at used for soft deletes.
             $table->timestamps();
         });
     }

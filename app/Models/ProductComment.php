@@ -20,6 +20,7 @@ class ProductComment extends Model
         'shipment_index',
         'content',
         'photos',
+        'deleted_at',
     ];
 
     /**
@@ -28,6 +29,14 @@ class ProductComment extends Model
      */
     protected $casts = [
         'photos' => 'json',
+    ];
+
+    /**
+     * The attributes that should be mutated to dates.
+     * @var array
+     */
+    protected $dates = [
+        'deleted_at',
     ];
 
     /**
