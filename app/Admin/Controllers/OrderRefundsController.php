@@ -66,6 +66,18 @@ class OrderRefundsController extends Controller
      */
     public function check(OrderRefund $refund, Request $request)
     {
+        if ($refund->status == OrderRefund::ORDER_REFUND_STATUS_REFUNDED)
+        {
+            return response()->json([
+                'messages' => '订单已退款,不可重复退款'
+            ], 422);
+        } else if ($refund->status == OrderRefund::ORDER_REFUND_STATUS_DECLINED)
+        {
+            return response()->json([
+                'messages' => '订单退款已被拒绝'
+            ], 422);
+        }
+
         if ($refund->type == OrderRefund::ORDER_REFUND_TYPE_REFUND) // 仅退款
         {
 
@@ -189,21 +201,6 @@ class OrderRefundsController extends Controller
 
     public function refundMoney($order)
     {
-
-        if ($order->refund->status == OrderRefund::ORDER_REFUND_STATUS_REFUNDED)
-        {
-            return response()->json([
-                'code' => 200,
-                'message' => 'Order Refunded Already',
-            ]);
-        } else if ($order->refund->status == OrderRefund::ORDER_REFUND_STATUS_DECLINED)
-        {
-            return response()->json([
-                'code' => 400,
-                'message' => 'Order Refund Declined',
-            ]);
-        }
-
         switch ($order->payment_method)
         {
             case Order::PAYMENT_METHOD_ALIPAY:
