@@ -63,7 +63,7 @@
             </div>
         </div>
         @foreach($products as $key => $category_products)
-            @if($key % 2 == 1)
+            @if(($key+1) % 2 == 1)
                 <div class="fashion_trend product-part">
                     <div class="m-wrapper">
                         <div class="part_title">
@@ -77,7 +77,9 @@
                                     @endif
                                     <li>
                                         <a href="{{ route('product_categories.index', ['category' => $child->id]) }}">{{App::isLocale('en') ? $child->name_en : $child->name_zh }}</a>
-                                        <span>/</span>
+                                        @if($k != 0)
+                                            <span>/</span>
+                                        @endif
                                     </li>
                                 @endforeach
                             </ul>
@@ -123,7 +125,9 @@
                                     @endif
                                     <li>
                                         <a href="{{ route('product_categories.index', ['category' => $child->id]) }}">{{ App::isLocale('en') ? $child->name_en : $child->name_zh }}</a>
-                                        <span>/</span>
+                                        @if($k != 0)
+                                            <span>/</span>
+                                        @endif
                                     </li>
                                 @endforeach
                             </ul>
@@ -136,7 +140,7 @@
                             @else
                                 <a class="buy_now" href="{{ route('root') }}">
                                     <img class="lazy"
-                                         data-src="{{ asset('defaults/default_pc_index_floor_even.png') }}" />
+                                         data-src="{{ asset('defaults/default_pc_index_floor_even.png') }}"/>
                                 </a>
                             @endif
                         </div>
