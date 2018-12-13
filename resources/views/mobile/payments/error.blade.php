@@ -1,23 +1,26 @@
-@extends('layouts.app')
+@extends('layouts.mobile')
 @section('title', App::isLocale('en') ? 'Payment failed' : '支付失败')
 @section('content')
+	<div class="headerBar">
+        <img src="{{ asset('static_m/img/icon_backtop.png') }}" class="backImg"
+             onclick="javascript:history.back(-1);"/>
+        <span>@lang('order.Order payment failed')</span>
+    </div>
     <div class="payment_method">
-        <div class="m-wrapper">
             <div class="payment_success">
-                <img src="{{ asset('img/reset_success.png') }}">
-                <p>@lang('order.Order payment failed')</p>
+                <img src="{{ asset('static_m/img/refund_4.png') }}">
+                <p class="failed_text">@lang('order.Order payment failed')</p>
                 <p class="clear">
                     @if(isset($order))
-                    <a href="{{ route('orders.show', ['order' =>  $order->id]) }}">@lang('order.View order details')</a>
+                    <a href="{{ route('mobile.orders.show', ['order' =>  $order->id]) }}">@lang('order.View order details')</a>
                     @else
-                    <a href="{{ route('orders.index') }}">@lang('order.View order list')</a>
+                    <a href="{{ route('mobile.orders.index') }}">@lang('order.View order list')</a>
                     @endif
-                    <a href="{{ route('root') }}">@lang('order.Continue to buy')</a>
+                    <a href="{{ route('mobile.root') }}">@lang('basic.users.Return to the home page')</a>
                 </p>
-                <h3>错误信息：</h3>
-                {{ $message }}
+                {{--<h3>错误信息：</h3>
+                {{ $message }}--}}
             </div>
-        </div>
     </div>
 @endsection
 @section('scriptsAfterJs')

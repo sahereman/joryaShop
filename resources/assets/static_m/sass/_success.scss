@@ -209,3 +209,25 @@
         border: none;
     }
 }
+
+//微信支付成功页
+.payment_method {
+    text-align: center;
+    margin-top: 50%;
+    img {
+        margin-bottom: 1rem;
+    }
+    .failed_text {
+        font-size: 1rem;
+    }
+    .clear {
+        margin-top: 2rem;
+        a {
+            border: 1px solid #d9d9d9;
+            color: #d9d9d9;
+            padding: .5rem .8rem;
+            border-radius: 50%/100%;
+            margin: 0 .3rem;
+        }
+    }
+}
