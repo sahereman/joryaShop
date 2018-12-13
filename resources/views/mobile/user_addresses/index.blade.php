@@ -5,7 +5,7 @@
         <img src="{{ asset('static_m/img/icon_backtop.png') }}" class="backImg" onclick="javascript:history.back(-1);"/>
         <span>@lang('basic.address.Address Management')</span>
     </div>
-    <div class="adsBox">
+    <div class="ads1Box">
         @if($addresses->isEmpty())
                 <!--暂无收货地址时-->
         <div class="notAds">
