@@ -235,9 +235,13 @@
         });
         //点击收藏
         $(".gCollect").on("click", function () {
-            $(".skuBox").css("display", "block");
-            which_click = 1;
-            clickDom = $(this);
+        	if ($(this).hasClass('active') != true) {
+            	$(".skuBox").css("display", "block");
+	            which_click = 1;
+	            clickDom = $(this);
+           } else {
+                remove_favorites($(this));
+            }
         });
         //点击加入购物车
         $(".addCart").on("click", function () {
@@ -265,15 +269,11 @@
                     $(".skuBox").css("display", "none");
                     break;
                 case 1:      //添加收藏
-                    if (clickDom.hasClass('active') != true) {
-                    	if (clickDom.hasClass('for_show_login') == true) {
-		                    window.location.href = clickDom.attr("data-url");
-		                } else {
-		                	add_favourites(clickDom);
-		                }
-                    } else {
-                        remove_favorites(clickDom);
-                    }
+                	if (clickDom.hasClass('for_show_login') == true) {
+	                    window.location.href = clickDom.attr("data-url");
+	                } else {
+	                	add_favourites(clickDom);
+	                }
                     break;
                 case 2:
                     if ($(".skuListMain").find("li").hasClass('active') != true) {
@@ -336,11 +336,14 @@
                 _token: "{{ csrf_token() }}",
             };
             var url = clickDom.attr('data-url_2');
+            console.log(data);
+            console.log(url)
             $.ajax({
                 type: "post",
                 url: url,
                 data: data,
                 success: function (data) {
+                	console.log(data)
                     clickDom.removeClass('active');
                     $(".gCollect").find("span").html("@lang('product.product_details.Collection')");
                     $(".had_collection").addClass("dis_n");
@@ -483,12 +486,10 @@
 	                            }
                             }
                             // 为了测试，延迟1秒加载
-                            setTimeout(function () {
                                 $(".gIntroConEvaluate .lists").append(html);
                                 page++;
                                 // 每次数据插入，必须重置
                                 me.resetload();
-                            }, 1000);
                         },
                         error: function (xhr, type) {
                             // 即使加载出错，也得重置
