@@ -27,9 +27,17 @@
             <div class="searchNow">
                 <h5>@lang('product.Top Searches')</h5>
                 <div class="searchNowBox search_by_heart">
-                    <a href="javascript:void(0);"><span>精品</span></a>
-                    <a href="javascript:void(0);"><span>黄色假发</span></a>
-                    <a href="javascript:void(0);"><span>中长假发</span></a>
+                    @if($categories)
+                        @foreach($categories as $category)
+                            <a href="{{ route('mobile.products.search') . '?query=' . (\Illuminate\Support\Facades\App::isLocale('en')? $category->name_en : $category->name_zh) }}">
+                                <span>{{ \Illuminate\Support\Facades\App::isLocale('en')? $category->name_en : $category->name_zh }}</span>
+                            </a>
+                        @endforeach
+                    @else
+                        <a href="javascript:void(0);"><span>精品</span></a>
+                        <a href="javascript:void(0);"><span>黄色假发</span></a>
+                        <a href="javascript:void(0);"><span>中长假发</span></a>
+                    @endif
                 </div>
             </div>
         </div>

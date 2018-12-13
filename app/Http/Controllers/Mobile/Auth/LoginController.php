@@ -116,6 +116,6 @@ class LoginController extends Controller
 
         $this->guard()->logout();
 
-        return redirect($this->redirectTo);
+        return redirect($this->redirectTo());
     }
 }

@@ -63,7 +63,10 @@ class IndexController extends Controller
     // GET 搜索页面 [仅展示页面]
     public function search(Request $request)
     {
-        return view('mobile.index.search');
+        $categories = ProductCategory::where(['parent_id' => 0, 'is_index' => 1])->get();
+        return view('mobile.index.search', [
+            'categories' => $categories,
+        ]);
     }
 
     // GET 修改网站语言 页面

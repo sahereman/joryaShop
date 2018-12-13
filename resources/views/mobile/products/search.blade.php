@@ -43,7 +43,7 @@
             </div>
         </div>
         <div class="goodsListMain" code="{{ App::isLocale('en') ? 'en' : 'zh' }}">
-        	<p class="no_results dis_n">@lang('product.not found')@lang('product.related products')</p>
+            <p class="no_results dis_n">@lang('product.not found')@lang('product.related products')</p>
             <div class="lists"></div>
         </div>
     </div>
@@ -140,15 +140,15 @@
                                 me.lock();
                                 // 无数据
                                 me.noData();
-                                if(page==1){
-	                            	$(".no_results").removeClass("dis_n");
-		                            $(".dropload-down").remove();
-	                            }
+                                if (page == 1) {
+                                    $(".no_results").removeClass("dis_n");
+                                    $(".dropload-down").remove();
+                                }
                             }
-                                $(".goodsListMain .lists").append(html);
-                                page++;
-                                // 每次数据插入，必须重置
-                                me.resetload();
+                            $(".goodsListMain .lists").append(html);
+                            page++;
+                            // 每次数据插入，必须重置
+                            me.resetload();
                         },
                         error: function (xhr, type) {
                             // 即使加载出错，也得重置

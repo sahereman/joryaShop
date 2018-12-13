@@ -34,7 +34,18 @@ class UserHistoriesController extends Controller
                 throw new InvalidRequestException('页码参数必须为数字！');
             }
         }
-        $histories = $request->user()->histories()->with('product')->orderByDesc('browsed_at')->get()->groupBy(function ($item, $key) {
+        $user = $request->user();
+        if ($user->histories->isEmpty()) {
+            return response()->json([
+                'code' => 200,
+                'message' => 'success',
+                'data' => [
+                    'histories' => [],
+                    'request_url' => false,
+                ],
+            ]);
+        }
+        $histories = $user->histories()->with('product')->orderByDesc('browsed_at')->get()->groupBy(function ($item, $key) {
             return date('y.m.d', strtotime($item['browsed_at']));
             // return Carbon::createFromFormat('y-m-d H:i:s', $item['browsed_at'])->toDateString();
             // return Carbon::createFromFormat('y-m-d H:i:s', $item['browsed_at'])->format('y.m.d');
