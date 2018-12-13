@@ -46,16 +46,18 @@
                         <ul class="classified-lists">
                             @foreach($products[$child->id] as $product)
                                 <li>
-                                    <div class="list-img">
-                                        <img class="lazy" data-src="{{ $product->thumb_url }}">
-                                    </div>
-                                    <div class="list-info">
-                                        <p title="{{ App::isLocale('en') ? $product->name_en : $product->name_zh }}" class="list-info-title">{{ App::isLocale('en') ? $product->name_en : $product->name_zh }}</p>
-                                        <p>
-                                            <span class="old-price"><i>@lang('basic.currency.symbol') </i>{{ App::isLocale('en') ? bcmul($product->price_in_usd, 1.2, 2) : bcmul($product->price, 1.2, 2) }}</span>
-                                            <span class="new-price"><i>@lang('basic.currency.symbol') </i>{{ App::isLocale('en') ? $product->price_in_usd : $product->price }}</span>
-                                        </p>
-                                    </div>
+                                	<a href="{{ route('products.show', ['product' => $product->id]) }}">
+	                                    <div class="list-img">
+	                                        <img class="lazy" data-src="{{ $product->thumb_url }}">
+	                                    </div>
+	                                    <div class="list-info">
+	                                        <p title="{{ App::isLocale('en') ? $product->name_en : $product->name_zh }}" class="list-info-title">{{ App::isLocale('en') ? $product->name_en : $product->name_zh }}</p>
+	                                        <p>
+	                                            <span class="old-price"><i>@lang('basic.currency.symbol') </i>{{ App::isLocale('en') ? bcmul($product->price_in_usd, 1.2, 2) : bcmul($product->price, 1.2, 2) }}</span>
+	                                            <span class="new-price"><i>@lang('basic.currency.symbol') </i>{{ App::isLocale('en') ? $product->price_in_usd : $product->price }}</span>
+	                                        </p>
+	                                    </div>
+                                    </a>
                                 </li>
                             @endforeach
                         </ul>
