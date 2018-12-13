@@ -505,6 +505,7 @@
                                     cursor: pointer;
                                     position: relative;
                                     input {
+                                        position: relative;
                                         margin-right: 5px;
                                         outline: none;
                                         appearance: none;
@@ -522,8 +523,8 @@
                                             border-color: #7CA442;
                                             &:after {
                                                 content: '';    
-                                                top: 12px;    
-                                                left: 2px;    
+                                                top: 1px;    
+                                                left: 1px;    
                                                 position: absolute;    
                                                 background: transparent;    
                                                 border: #7CA442 solid 2px;    

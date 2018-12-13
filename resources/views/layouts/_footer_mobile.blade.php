@@ -8,9 +8,9 @@
         <span>@lang('app.Classification')</span>
     </div>
     <div class="itemsF itemsG">
-        @if($cart_count)
+        {{--@if($cart_count)
             <label class="num">{{ $cart_count }}</label>
-        @endif
+        @endif--}}
         <img src="{{ asset('static_m/img/Unchecked_Shopping.png') }}"/>
         <span>@lang('app.Shopping Cart')</span>
     </div>

@@ -119,7 +119,8 @@
                                     symbol = (order.currency == "USD") ? '&#36;' : '&#165;';
                                     html += "<div class='orderItem'>";
                                     html += "<div class='orderItemH'>";
-                                    html += "<span class='order_info' code='" + order.id + "'>@lang('basic.users.Order_number')： " + order.order_sn + "</span>";
+//                                  html += "<span class='order_info' code='" + order.id + "'>@lang('basic.users.Order_number')： " + order.order_sn + "</span>";
+                                    html += "<span class='order_info' code='" + order.id + "'>@lang('basic.users.The_order_details') >></span>";
                                     switch (order.status) {
                                         case "paying":
                                             html += "<span class='orderItemState'>@lang('basic.orders.Pending payment')</span>";
@@ -249,7 +250,7 @@
                 }
             });
         }
-        //点击查看订单详情(跳转错误)
+        //点击查看订单详情
         $(".orderMain .lists").on("click", ".order_info", function () {
             window.location.href = "{{ config('app.url') }}" + "/mobile/orders/" + $(this).attr("code");
         });
