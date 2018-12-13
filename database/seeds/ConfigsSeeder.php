@@ -8,7 +8,7 @@ class ConfigsSeeder extends Seeder
 {
     private $config_groups =
         [
-            //站点设置
+            // 站点设置
             [
                 'parent_id' => '0',
                 'name' => '站点设置',
@@ -28,11 +28,35 @@ class ConfigsSeeder extends Seeder
                     ]
             ],
 
+            // 公司信息
+            [
+                'parent_id' => '0',
+                'name' => '公司信息',
+                'type' => "group",
+                'sort' => 2000,
+                'configs' =>
+                    [
+                        ['name' => '客服电话', 'code' => 'service_phone', 'type' => "text", 'sort' => 10, 'value' => '400-100-5678'],
+                        ['name' => '营业执照注册号', 'code' => 'registration_no', 'type' => "text", 'sort' => 20, 'value' => '330106000000000'],
+                        ['name' => '增值电信业务经营许可证', 'code' => 'certificate_no', 'type' => "text", 'sort' => 30, 'value' => '鲁B2-20110000'],
+                        // ICP （电信与信息服务业务经营许可证）: Internet Content Provider
+                        ['name' => '鲁公网备案号', 'code' => 'icp_no', 'type' => "text", 'sort' => 40, 'value' => '33010600000000'],
+                        ['name' => '关注公众号', 'code' => 'wechat_mp_qr_code', 'type' => "image", 'sort' => 50, 'value' => '/default/wechat_mp_qr_code.png', 'help' => '网站首页的关注公众号二维码图片',],
+                        ['name' => '手机逛商城', 'code' => 'mobile_website_qr_code', 'type' => "image", 'sort' => 60, 'value' => '/default/mobile_website_qr_code.png', 'help' => '网站首页的手机逛商城二维码图片',],
+                        //                        ['name' => '网站Logo', 'code' => 'logo', 'type' => "image", 'sort' => 40,
+                        //                            'help' => '网站首页的Logo',],
+                        //                        ['name' => '网站关闭', 'code' => 'site_close', 'type' => "radio", 'sort' => 50,
+                        //                            'select_range' => [['value' => 0, 'name' => '开启'], ['value' => 1, 'name' => '关闭']],
+                        //                            'help' => '网站开启临时维护时,请关闭站点',
+                        //                        ],
+                    ]
+            ],
+
             // 订单设置
             [
                 'name' => '订单设置',
                 'type' => "group",
-                'sort' => 2000,
+                'sort' => 3000,
                 'configs' =>
                     [
                         ['name' => '用户保存收货地址数目上限', 'code' => 'max_user_address_count', 'type' => "text", 'sort' => 10, 'value' => '20'],

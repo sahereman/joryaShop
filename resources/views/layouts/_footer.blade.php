@@ -65,12 +65,12 @@
             </div>
             <div class="pay_attention">
                 <div>
-                    <img src="{{ asset('img/qr.png') }}">
-                    <p>关注公众号</p>
+                    <img src="{{ \App\Models\Config::config('wechat_mp_qr_code') }}">
+                    <p>@lang('app.Follow the public number')</p>
                 </div>
                 <div>
-                    <img src="{{ asset('img/qr.png') }}">
-                    <p>手机逛商城</p>
+                    <img src="{{ \App\Models\Config::config('mobile_website_qr_code') }}">
+                    <p>@lang('app.Browse the mobile shopping mall')</p>
                 </div>
             </div>
         </div>
@@ -150,7 +150,7 @@
                 <img src="{{ asset('img/qr_tip.png') }}">
             </a>
             <div class="qr_info">
-                <img src="{{ asset('img/qr.png') }}">
+                <img src="{{ \App\Models\Config::config('wechat_mp_qr_code') }}">
                 <p>@lang('app.Follow the public number')</p>
             </div>
         </li>
