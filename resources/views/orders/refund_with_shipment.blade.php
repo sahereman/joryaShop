@@ -126,8 +126,7 @@
                                     <li>
                                         <span><i class="red">*</i>@lang('order.Application description')：</span>
                                         <textarea name="remark_from_user" class="reasons_for_refunds step-1-textarea"
-                                                  placeholder="@lang('order.Please fill in the reason for the refund')">
-                                        </textarea>
+                                                  placeholder="@lang('order.Please fill in the reason for the refund')"></textarea>
                                         <span class="remainder">200</span>
                                     </li>
                                     <li>
@@ -162,9 +161,8 @@
                                     </li>
                                     <li>
                                         <span><i class="red">*</i>@lang('order.Application description')：</span>
-                                        <textarea name="remark_from_user" class="reasons_for_refunds no_border" readonly
-                                                  placeholder="@lang('order.Please fill in the reason for the refund')">{{ $refund->remark_from_user }}
-                                        </textarea>
+                                        <textarea name="remark_from_user" class="reasons_for_refunds no_border"
+                                                  readonly>{{ $refund->remark_from_user }}</textarea>
                                         <span class="remainder hidden">200</span>
                                     </li>
                                     <li>

@@ -62,8 +62,7 @@
                         <div class="refund_info_item">
                             <span>@lang('order.Application description')</span>
                                 <textarea name="remark_from_user" maxlength="200"
-                                          placeholder="@lang('order.Please fill in the reason for the refund')">
-                                </textarea>
+                                          placeholder="@lang('order.Please fill in the reason for the refund')"></textarea>
                         </div>
                     </form>
                     @elseif(isset($refund) && $refund->status == \App\Models\OrderRefund::ORDER_REFUND_STATUS_CHECKING)
@@ -81,8 +80,7 @@
                         <div class="refund_info_item">
                             <span>@lang('order.Application description')</span>
                                 <textarea name="remark_from_user" class="step2_textarea" maxlength="200" readonly
-                                          placeholder="@lang('order.Please fill in the reason for the refund')">
-                                </textarea>
+                                          placeholder="@lang('order.Please fill in the reason for the refund')"></textarea>
                         </div>
                     </form>
                     @else
@@ -95,8 +93,7 @@
                     <div class="refund_info_item">
                         <span>@lang('order.Application description')</span>
                             <textarea name="remark_from_user" maxlength="200" readonly
-                                      placeholder="@lang('order.Please fill in the reason for the refund')">
-                            </textarea>
+                                      placeholder="@lang('order.Please fill in the reason for the refund')"></textarea>
                     </div>
                     @endif
                 </div>

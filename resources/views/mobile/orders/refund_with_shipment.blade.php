@@ -108,8 +108,7 @@
                         <div class="refund_info_item">
                             <span>@lang('order.Application description')</span>
                             <textarea name="remark_from_user" maxlength="200"
-                                      placeholder="@lang('order.Please fill in the reason for the refund')">
-                            </textarea>
+                                      placeholder="@lang('order.Please fill in the reason for the refund')"></textarea>
                         </div>
                         <p class="upload_voucher_title">@lang('order.product picture')</p>
                         <div class="refund_info_item upload_voucher">
@@ -134,9 +133,8 @@
                         </p>
                         <div class="refund_info_item">
                             <span>@lang('order.Application description')</span>
-                            <textarea name="remark_from_user" class="step2_textarea" maxlength="200" readonly>
-                            {{ $refund->remark_from_user }}
-                            </textarea>
+                            <textarea name="remark_from_user" class="step2_textarea" maxlength="200"
+                                      readonly>{{ $refund->remark_from_user }}</textarea>
                         </div>
                         <p class="upload_voucher_title">@lang('order.product picture')</p>
                         <div class="refund_info_item upload_voucher">
@@ -164,9 +162,8 @@
                     </p>
                     <div class="refund_info_item">
                         <span>@lang('order.Application description')</span>
-                                <textarea name="remark_from_user" maxlength="200" readonly
-                                          placeholder="@lang('order.Please fill in the reason for the refund')">{{ $refund->remark_from_user }}
-                                </textarea>
+                        <textarea name="remark_from_user" maxlength="200"
+                                  readonly>{{ $refund->remark_from_user }}</textarea>
                     </div>
                     <p class="upload_voucher_title">@lang('order.product picture')</p>
                     <div class="refund_info_item upload_voucher">
@@ -475,13 +472,13 @@
             //打开文件选择对话框
             $("#div_imgfile").click(function () {
                 /*if ($(".lookimg").length >= IMG_MAXCOUNT) {
-                    layer.open({
-                        content: "一次最多上传" + IMG_MAXCOUNT + "张图片",
-                        skin: 'msg',
-                        time: 2, //2秒后自动关闭
-                    });
-                    return;
-                }*/
+                 layer.open({
+                 content: "一次最多上传" + IMG_MAXCOUNT + "张图片",
+                 skin: 'msg',
+                 time: 2, //2秒后自动关闭
+                 });
+                 return;
+                 }*/
                 var _CRE_FILE = document.createElement("input");
                 if ($(".imgfile").length <= $(".lookimg").length) {//个数不足则新创建对象
                     _CRE_FILE.setAttribute("type", "file");
