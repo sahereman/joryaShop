@@ -22,8 +22,10 @@
             display: inline-block;
             .userHeaderImg{
                 width: 4.2rem;
+                height: 4.2rem;
                 vertical-align: middle;
                 margin-right: .5rem;
+                border-radius: 50%;
             }
             .userInfo{
                 display: inline-block;

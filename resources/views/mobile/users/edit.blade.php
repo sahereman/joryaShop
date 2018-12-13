@@ -33,11 +33,11 @@
                            placeholder="@lang('basic.users.Username')" readonly
                            required>
                 </div>
-                <div class="editUserItem">
+                {{--<div class="editUserItem">
                     <label>@lang('basic.users.Real_name')</label>
                     <input type="text" name="real_name" value="{{ $user->real_name }}"
                            placeholder="@lang('basic.users.Real_name')">
-                </div>
+                </div>--}}
                 <div class="editUserItem">
                     <label>@lang('basic.users.Gender')</label>
                     @if($user->gender == null || $user->gender == 'male')

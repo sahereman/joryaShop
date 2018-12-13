@@ -41,11 +41,11 @@
                                        placeholder="@lang('basic.users.Username')" readonly
                                        required>
                             </li>
-                            <li>
+                            {{--<li>
                                 <span>@lang('basic.users.Real_name')</span>
                                 <input type="text" name="real_name" value="{{ $user->real_name }}"
                                        placeholder="@lang('basic.users.Real_name')">
-                            </li>
+                            </li>--}}
                             <li class="sexChoose">
                                 <span>@lang('basic.users.Gender')</span>
                                 <div>

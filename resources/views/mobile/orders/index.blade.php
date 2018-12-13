@@ -264,6 +264,7 @@
         });
         //取消订单
         $(".orderMain .lists").on("click", ".cancel", function () {
+        	var clickDom = $(this);
             var data = {
                 _method: "PATCH",
                 _token: "{{ csrf_token() }}",
@@ -274,7 +275,7 @@
                 url: url,
                 data: data,
                 success: function (data) {
-                    $($(this).parents(".orderItem")).remove();
+                   $(clickDom.parents(".orderItem")).remove();
                 },
                 error: function (err) {
                     console.log(err.status);

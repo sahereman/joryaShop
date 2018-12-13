@@ -48,13 +48,14 @@
                 justify-content: space-between;
                 position: absolute;
                 bottom: 0;
-                left: 0;             
+                left: 0;   
+                width: 100%;          
                 img{
                     width: 1.6rem;
                     height:1.6rem;
                     margin-right: 0;
                     position: absolute;
-                    right: -10rem;
+                    right: 0rem;
                 }
                 .realPri{
                     color: #bc8c61;

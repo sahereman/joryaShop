@@ -155,7 +155,6 @@
                         data: data,
                         dataType: 'json',
                         success: function (data) {
-                        	console.log(data)
                         	var dataobj = data.data.histories;
                             var html = "";
                             var name, symbol, price,sku_name,total_shipping_fee,total_shipping;
