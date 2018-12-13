@@ -18,7 +18,7 @@ use App\Admin\Extensions\Form\WangEditor;
 
 app('view')->prependNamespace('admin', resource_path('views/admin'));
 
-Admin::js('vendor/laravel-admin/laravel-admin-ext-chart/Chart.Bundle.min.js');
+Admin::js('vendor/laravel-admin/laravel-admin-ext-chart/Chart.bundle.min.js');
 
 Encore\Admin\Form::forget(['map', 'editor']);
 Encore\Admin\Form::extend('editor', WangEditor::class);
