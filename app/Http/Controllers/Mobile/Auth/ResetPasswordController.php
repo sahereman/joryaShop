@@ -12,6 +12,7 @@ use App\Models\User;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\URL;
 
 class ResetPasswordController extends Controller
 {
@@ -32,7 +33,7 @@ class ResetPasswordController extends Controller
      * Where to redirect users after resetting their password.
      * @var string
      */
-    protected $redirectTo = '/mobile';
+    // protected $redirectTo = '/mobile';
 
     private $overrideSessionKey = 'overridePassword';
 
@@ -43,6 +44,11 @@ class ResetPasswordController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('successShow');
+    }
+
+    public function redirectTo()
+    {
+        return URL::previous();
     }
 
     protected function rules()

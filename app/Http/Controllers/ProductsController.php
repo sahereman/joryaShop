@@ -10,6 +10,7 @@ use App\Models\Product;
 use App\Models\ProductSku;
 use App\Models\ProductCategory;
 use App\Models\ProductComment;
+use App\Models\UserFavourite;
 use App\Models\UserHistory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -145,6 +146,11 @@ class ProductsController extends Controller
         $guesses = Product::where(['is_index' => 1, 'on_sale' => 1])->orderByDesc('index')->limit(8)->get();
         $hot_sales = Product::where(['is_index' => 1, 'on_sale' => 1])->orderByDesc('heat')->limit(8)->get();
         $best_sellers = Product::where(['is_index' => 1, 'on_sale' => 1])->orderByDesc('sales')->limit(8)->get();
+        $user = $request->user();
+        $favourite = null;
+        if ($user) {
+            $favourite = UserFavourite::where('user_id', $user->id)->where('product_id', $product->id)->first();
+        }
 
         // user browsing history - appending (maybe firing an event)
         $this->appendUserBrowsingHistoryCacheByProduct($product);
@@ -157,6 +163,7 @@ class ProductsController extends Controller
             'guesses' => $guesses,
             'hot_sales' => $hot_sales,
             'best_sellers' => $best_sellers,
+            'favourite' => $favourite,
         ]);
     }
 

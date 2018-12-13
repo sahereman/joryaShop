@@ -1,9 +1,9 @@
 @extends('layouts.mobile')
-@section('title', App::isLocale('en') ? 'My Favorites' : '我的收藏')
+@section('title', App::isLocale('en') ? 'My Favourites' : '我的收藏')
 @section('content')
     <div class="headerBar fixHeader">
         <img src="{{ asset('static_m/img/icon_backtop.png') }}" class="backImg" onclick="javascript:history.back(-1);"/>
-        <span>@lang('product.My Favorites')</span>
+        <span>@lang('product.My Favourites')</span>
     </div>
     @if($favourites->isEmpty())
             <!--暂无收藏-->
@@ -64,7 +64,7 @@
         </div>
         <div class="editFixt">
             <span class="editBtn">@lang('product.Edit')</span>
-            <span class="cancelBtn" data-url="{{ route('user_favourites.multi_delete') }}">@lang('product.Cancel Favorites')</span>
+            <span class="cancelBtn" data-url="{{ route('user_favourites.multi_delete') }}">@lang('product.Cancel Favourites')</span>
         </div>
     @endif
     {{--@include('layouts._footer')--}}

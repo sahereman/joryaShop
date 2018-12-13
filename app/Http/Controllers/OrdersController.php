@@ -439,11 +439,6 @@ class OrdersController extends Controller
         $order->commented_at = Carbon::now()->toDateTimeString();
         $order->save();
 
-        /*return response()->json([
-            'code' => 200,
-            'message' => 'success',
-        ]);*/
-
         if (\Browser::isMobile()) {
             return redirect()->route('mobile.orders.show_comment', [
                 'order' => $order->id,
@@ -503,10 +498,6 @@ class OrdersController extends Controller
         $order->save();
 
         return redirect()->back();
-        /*return response()->json([
-            'code' => 200,
-            'message' => 'success',
-        ]);*/
     }
 
     // PUT 更新退单申请 [仅退款]
@@ -533,10 +524,6 @@ class OrdersController extends Controller
         }
 
         return redirect()->back();
-        /*return response()->json([
-            'code' => 200,
-            'message' => 'success',
-        ]);*/
     }
 
     // GET 退单申请页面 [退货并退款]
@@ -580,10 +567,6 @@ class OrdersController extends Controller
         $order->save();
 
         return redirect()->back();
-        /*return response()->json([
-            'code' => 200,
-            'message' => 'success',
-        ]);*/
     }
 
     // PUT 更新退单申请 [退货并退款]
@@ -641,10 +624,6 @@ class OrdersController extends Controller
         }
 
         return redirect()->back();
-        /*return response()->json([
-            'code' => 200,
-            'message' => 'success',
-        ]);*/
     }
 
     // PATCH 撤销退单申请 [订单恢复状态:status->shipping | receiving]

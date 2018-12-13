@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Mobile;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ProductRequest;
 use App\Models\Product;
+use App\Models\UserFavourite;
 use Illuminate\Http\Request;
 
 class ProductsController extends Controller
@@ -26,11 +27,17 @@ class ProductsController extends Controller
         $comment_count = $product->comments->count();
         /* SQL: SELECT COUNT(*) FROM `product_comments` WHERE `photos` IS NOT NULL AND `photos` <> ''; */
         $photo_comment_count = $product->comments()->whereNotNull('photos')->Where('photos', '<>', '')->count();
+        $user = $request->user();
+        $favourite = null;
+        if ($user) {
+            $favourite = UserFavourite::where('user_id', $user->id)->where('product_id', $product->id)->first();
+        }
         return view('mobile.products.show', [
             'product' => $product,
             'skus' => $skus,
             'comment_count' => $comment_count,
             'photo_comment_count' => $photo_comment_count,
+            'favourite' => $favourite,
         ]);
     }
 }

@@ -28,7 +28,7 @@ return [
         'Account_information' => 'Account information',
         'Change_Password' => 'Change Password',
         'Receiving_address' => 'Shipping address',
-        'My_collection' => 'My Favorites',
+        'My_collection' => 'My Favourites',
         'Browse_history' => 'Browsing history',
         'Transaction_management' => 'Transaction',
         'My_order' => 'My order',

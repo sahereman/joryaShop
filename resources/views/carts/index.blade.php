@@ -66,8 +66,8 @@
                             </div>
                             <div class="left w120 center">
                                 <p>
-                                    <a class="cur_p add_favorites" code="{{ $cart->sku->product_id }}"
-                                       data-url="{{ route('user_favourites.store') }}">@lang('product.shopping_cart.Move_to_favorites')</a>
+                                    <a class="cur_p add_favourites" code="{{ $cart->sku->product_id }}"
+                                       data-url="{{ route('user_favourites.store') }}">@lang('product.shopping_cart.Move_to_favourites')</a>
                                     <a class="cur_p single_delete"
                                        data-url="{{ route('carts.destroy', $cart->id) }}">@lang('basic.delete')</a>
                                 </p>
@@ -283,7 +283,7 @@
                 });
             });
             //加入收藏夹
-            $('.single-item').on('click', ".add_favorites", function () {
+            $('.single-item').on('click', ".add_favourites", function () {
                 var clickDom = $(this);
                 var data = {
                     _token: "{{ csrf_token() }}",
@@ -298,7 +298,7 @@
                         calcTotal();
                         layer.open({
                             title: "@lang('app.Prompt')",
-                            content: "@lang('product.shopping_cart.Add_favorites_successfully')",
+                            content: "@lang('product.shopping_cart.Add_favourites_successfully')",
                             btn: "@lang('app.determine')"
                         });
                     },

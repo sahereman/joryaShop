@@ -46,7 +46,7 @@ class LoginController extends Controller
      * Where to redirect users after login.
      * @var string
      */
-    protected $redirectTo = '/';
+    // protected $redirectTo = '/';
 
     /**
      * Create a new controller instance.
@@ -59,7 +59,6 @@ class LoginController extends Controller
 
     public function redirectTo()
     {
-
         return URL::previous();
         // return url()->previous();
         // return Redirect::back()->getTargetUrl();

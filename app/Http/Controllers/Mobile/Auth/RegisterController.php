@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Rules\RegisterSmsCodeValidRule;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Validator;
 
 class RegisterController extends Controller
@@ -27,7 +28,7 @@ class RegisterController extends Controller
      * Where to redirect users after registration.
      * @var string
      */
-    protected $redirectTo = '/mobile';
+    // protected $redirectTo = '/mobile';
 
     /**
      * Create a new controller instance.
@@ -36,6 +37,11 @@ class RegisterController extends Controller
     public function __construct()
     {
         $this->middleware('guest');
+    }
+
+    public function redirectTo()
+    {
+        return URL::previous();
     }
 
     public function showRegistrationForm()

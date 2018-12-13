@@ -29,16 +29,16 @@
                 <span>@lang('product.product_details.stock'): {{ $product->stock }}</span>
             </div>
             @if(!App::isLocale('en'))
-            <div class="gExplain">
-                <div>
-                    <img src="{{ asset('static_m/img/icon_Certified.png') }}" alt=""/>
-                    <span>@lang('product.product_details.no reason for a refund within seven days')</span>
+                <div class="gExplain">
+                    <div>
+                        <img src="{{ asset('static_m/img/icon_Certified.png') }}" alt=""/>
+                        <span>@lang('product.product_details.no reason for a refund within seven days')</span>
+                    </div>
+                    <div>
+                        <img src="{{ asset('static_m/img/icon_Certified.png') }}" alt=""/>
+                        <span>@lang('product.product_details.Quick refund in 48 hours')</span>
+                    </div>
                 </div>
-                <div>
-                    <img src="{{ asset('static_m/img/icon_Certified.png') }}" alt=""/>
-                    <span>@lang('product.product_details.Quick refund in 48 hours')</span>
-                </div>
-            </div>
             @endif
         </div>
         <div class="gChoose">
@@ -72,7 +72,7 @@
         </div>
         <div class="gFooter">
             <div class="gList">
-            	<input type="text" value="{{config('app.url')}}" class="dis_n" id="forShare">
+                <input type="text" value="{{config('app.url')}}" class="dis_n" id="forShare">
                 <div class="gShare" data-clipboard-action="copy" data-clipboard-target="#forShare">
                     <img src="{{ asset('static_m/img/icon_share4.png') }}" alt=""/>
                     <span>@lang('product.product_details.Share')</span>
@@ -88,12 +88,18 @@
                     <span>@lang('product.product_details.Collection')</span>
                 </div>
                 @else
-	                <div class="gCollect" code="{{ $product->id }}" data-url="{{ route('user_favourites.store') }}"
-	                     data-url_2="{{ route('user_favourites.destroy', $product->id) }}">
-	                    <img src="{{ asset('static_m/img/icon_Collection4.png') }}" alt="" class="no_collection"/>
-	                    <img src="{{ asset('static_m/img/icon_Collection3.png') }}" alt="" class="had_collection dis_n"/>
-	                    <span>@lang('product.product_details.Collection')</span>
-	                </div>
+                <div class="gCollect {{ $favourite ? 'active' : '' }}" code="{{ $product->id }}" data-url="{{ route('user_favourites.store') }}"
+                     data-url_2="{{ $favourite ? route('user_favourites.destroy', ['favourite' => $favourite->id]) : '' }}">
+                    <img src="{{ asset('static_m/img/icon_Collection4.png') }}" alt=""
+                         class="no_collection {{ $favourite ? 'dis_n' : '' }}"/>
+                    <img src="{{ asset('static_m/img/icon_Collection3.png') }}" alt=""
+                         class="had_collection {{ $favourite ? '' : 'dis_n' }}"/>
+                    @if($favourite)
+                        <span>@lang('product.product_details.Favourites')</span>
+                    @else
+                        <span>@lang('product.product_details.Collection')</span>
+                    @endif
+                </div>
                 @endguest
             </div>
             @guest
@@ -105,7 +111,7 @@
                 <div class="addCart" data-url="{{ route('carts.store') }}">@lang('app.Add to Shopping Cart')</div>
                 <div class="buy"
                      data-url="{{ route('mobile.orders.pre_payment') }}">@lang('product.product_details.Buy now')</div>
-            @endguest
+                @endguest
         </div>
         <div class="skuBox">
             <div class="mask"></div>
@@ -169,9 +175,9 @@
         var which_click = 0;   //通过判断which_click的值来确定是什么功能,0:选择规格,1:添加收藏，2：加入购物车，3：立即购买
         var clickDom;
         //点击透明阴影关闭弹窗
-        $(".mask").on("click",function(){
-        	$(this).parents(".skuBox").css("display","none");
-        })
+        $(".mask").on("click", function () {
+            $(this).parents(".skuBox").css("display", "none");
+        });
         // 为减少和添加商品数量的按钮绑定事件回调
         $('.buyNum .Operation_btn').on('click', function (evt) {
             if ($(this).text() == '-') {
@@ -235,12 +241,12 @@
         });
         //点击收藏
         $(".gCollect").on("click", function () {
-        	if ($(this).hasClass('active') != true) {
-            	$(".skuBox").css("display", "block");
-	            which_click = 1;
-	            clickDom = $(this);
-           } else {
-                remove_favorites($(this));
+            if ($(this).hasClass('active') != true) {
+                $(".skuBox").css("display", "block");
+                which_click = 1;
+                clickDom = $(this);
+            } else {
+                remove_favourites($(this));
             }
         });
         //点击加入购物车
@@ -269,11 +275,11 @@
                     $(".skuBox").css("display", "none");
                     break;
                 case 1:      //添加收藏
-                	if (clickDom.hasClass('for_show_login') == true) {
-	                    window.location.href = clickDom.attr("data-url");
-	                } else {
-	                	add_favourites(clickDom);
-	                }
+                    if (clickDom.hasClass('for_show_login') == true) {
+                        window.location.href = clickDom.attr("data-url");
+                    } else {
+                        add_favourites(clickDom);
+                    }
                     break;
                 case 2:
                     if ($(".skuListMain").find("li").hasClass('active') != true) {
@@ -311,9 +317,10 @@
                 url: url,
                 data: data,
                 success: function (data) {
-                    $(".gCollect").find("span").html("@lang('product.product_details.Favorites')");
+                    $(".gCollect").find("span").html("@lang('product.product_details.Favourites')");
                     $(".had_collection").removeClass("dis_n");
                     $(".no_collection").addClass("dis_n");
+                    clickDom.attr('data-url_2', "{{ config('app.url') }}" + '/user_favourites/' + data.data.favourite.id);
                     clickDom.addClass('active');
                     $(".skuBox").css("display", "none");
                 },
@@ -330,20 +337,21 @@
             });
         }
         //移除收藏
-        function remove_favorites(clickDom) {
+        function remove_favourites(clickDom) {
             var data = {
                 _method: "DELETE",
                 _token: "{{ csrf_token() }}",
             };
             var url = clickDom.attr('data-url_2');
-            console.log(data);
-            console.log(url)
+            // console.log(data);
+            // console.log(url);
             $.ajax({
                 type: "post",
                 url: url,
                 data: data,
                 success: function (data) {
-                	console.log(data)
+                    // console.log(data);
+                    clickDom.attr('data-url_2', '');
                     clickDom.removeClass('active');
                     $(".gCollect").find("span").html("@lang('product.product_details.Collection')");
                     $(".had_collection").addClass("dis_n");
@@ -401,24 +409,24 @@
         //分享复制到剪切板
         var clipboard = new ClipboardJS('.gShare');
 
-	    clipboard.on('success', function(e) {
-	        console.log(e);
-	        layer.open({
+        clipboard.on('success', function (e) {
+            console.log(e);
+            layer.open({
                 content: "@lang('product.Content has been copied to the clipboard')",
                 skin: 'msg',
                 time: 2, //2秒后自动关闭
             });
-	    });
-	
-	    clipboard.on('error', function(e) {
-	        console.log(e);
-	        layer.open({
+        });
+
+        clipboard.on('error', function (e) {
+            console.log(e);
+            layer.open({
                 content: "@lang('product.Copy to clipboard failed')",
                 skin: 'msg',
                 time: 2, //2秒后自动关闭
             });
-	    });
-        
+        });
+
         //下拉加载获取评价内容
         function getEva() {
             // 页数
@@ -480,16 +488,16 @@
                                 me.lock();
                                 // 无数据
                                 me.noData();
-                                if(page==1){
-	                            	$(".no_eva").removeClass("dis_n");
-		                            $(".dropload-down").remove();
-	                            }
+                                if (page == 1) {
+                                    $(".no_eva").removeClass("dis_n");
+                                    $(".dropload-down").remove();
+                                }
                             }
                             // 为了测试，延迟1秒加载
-                                $(".gIntroConEvaluate .lists").append(html);
-                                page++;
-                                // 每次数据插入，必须重置
-                                me.resetload();
+                            $(".gIntroConEvaluate .lists").append(html);
+                            page++;
+                            // 每次数据插入，必须重置
+                            me.resetload();
                         },
                         error: function (xhr, type) {
                             // 即使加载出错，也得重置

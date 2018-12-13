@@ -21,15 +21,20 @@ class UserFavouritesController extends Controller
     public function store(UserFavouriteRequest $request)
     {
         $user = $request->user();
-        $favourite = new UserFavourite();
-        $favourite->user_id = $user->id;
-        $favourite->product_id = $request->input('product_id');
-        $favourite->user()->associate($user);
-        $result = $favourite->save();
-        if ($result) {
+        $favourite = UserFavourite::where('user_id', $user->id)->where('product_id', $request->input('product_id'))->first();
+        if(! $favourite){
+            $favourite = UserFavourite::create([
+                'user_id' => $user->id,
+                'product_id' => $request->input('product_id'),
+            ]);
+        }
+        if ($favourite) {
             return response()->json([
                 'code' => 200,
                 'message' => 'success',
+                'data' => [
+                    'favourite' => $favourite->toArray(),
+                ],
             ]);
         } else {
             return response()->json([

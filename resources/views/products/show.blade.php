@@ -103,20 +103,26 @@
                     <!--添加购物车与立即购买-->
                     <div class="addCart_buyNow">
                         @guest
-                        <a class="buy_now for_show_login">@lang('product.product_details.Buy now')</a>
-                        <a class="add_carts for_show_login">@lang('app.Add to Shopping Cart')</a>
+                        <a class="buy_now for_show_login">
+                            @lang('product.product_details.Buy now')
+                        </a>
+                        <a class="add_carts for_show_login">
+                            @lang('app.Add to Shopping Cart')
+                        </a>
                         @else
-                            <a class="buy_now"
-                               data-url="{{ route('orders.pre_payment') }}">@lang('product.product_details.Buy now')</a>
-                            <a class="add_carts"
-                               data-url="{{ route('carts.store') }}">@lang('app.Add to Shopping Cart')</a>
-                            @endguest
-                            <a class="add_favourites" code="{{ $product->id }}"
-                               data-url="{{ route('user_favourites.store') }}"
-                               data-url_2="{{ route('user_favourites.destroy', $product->id) }}">
-                                <span class="favourites_img"></span>
-                                <span>@lang('product.product_details.Collection')</span>
-                            </a>
+                        <a class="buy_now" data-url="{{ route('orders.pre_payment') }}">
+                            @lang('product.product_details.Buy now')
+                        </a>
+                        <a class="add_carts" data-url="{{ route('carts.store') }}">
+                            @lang('app.Add to Shopping Cart')
+                        </a>
+                        @endguest
+                        <a class="add_favourites {{ $favourite ? 'active' : '' }}" code="{{ $product->id }}"
+                           data-url="{{ route('user_favourites.store') }}"
+                           data-url_2="{{ $favourite ? route('user_favourites.destroy', ['favourite' => $favourite->id]) : '' }}">
+                            <span class="favourites_img"></span>
+                            <span>@lang('product.product_details.Collection')</span>
+                        </a>
                     </div>
                 </div>
                 <!--猜你喜欢-->
@@ -291,7 +297,7 @@
         //点击添加收藏
         $(".add_favourites").on("click", function () {
             var clickDom = $(this);
-            if (clickDom.hasClass('active') != true) {
+            if (clickDom.hasClass('active') != true && clickDom.attr('data-url_2') == '') {
                 var data = {
                     _token: "{{ csrf_token() }}",
                     product_id: clickDom.attr("code")
@@ -302,6 +308,7 @@
                     url: url,
                     data: data,
                     success: function (data) {
+                        clickDom.attr('data-url_2', "{{ config('app.url') }}" + '/user_favourites/' + data.data.favourite.id);
                         clickDom.addClass('active');
                     },
                     error: function (err) {
@@ -322,6 +329,7 @@
                     url: url,
                     data: data,
                     success: function (data) {
+                        clickDom.attr('data-url_2', '');
                         clickDom.removeClass('active');
                     },
                     error: function (err) {

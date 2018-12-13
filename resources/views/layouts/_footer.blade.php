@@ -31,7 +31,7 @@
     <div class="footer-top">
         <div class="m-wrapper">
             <div class="contact_us">
-                <h4>400-100-5678 </h4>
+                <h4>{{ \App\Models\Config::config('service_phone') }}</h4>
                 <p>@lang('app.Monday-Sunday') 9:00-21:00</p>
                 <a href="{{ route('root') }}">@lang('app.Contact Customer Service')</a>
             </div>
@@ -70,7 +70,7 @@
                 </div>
                 <div>
                     <img src="{{ asset('img/qr.png') }}">
-                    <p>手机逛XX</p>
+                    <p>手机逛商城</p>
                 </div>
             </div>
         </div>
@@ -80,17 +80,17 @@
             <ul class="web_info">
                 <li>
                     <p>
-                        营业执照注册号：330106000000000
+                        营业执照注册号：{{ \App\Models\Config::config('registration_no') }}
                     </p>
                 </li>
                 <li>
                     <p>
-                        增值电信业务经营许可证：鲁B2-20110000
+                        增值电信业务经营许可证：{{ \App\Models\Config::config('certificate_no') }}
                     </p>
                 </li>
                 <li>
                     <p>
-                        鲁公网备案号 33010600000000
+                        鲁公网备案 {{ \App\Models\Config::config('icp_no') }} 号
                     </p>
                 </li>
             </ul>
@@ -141,7 +141,7 @@
             <div class="customer_info">
                 <p>@lang('app.please login first')</p>
                 <a>@lang('app.Contact Customer Service')</a>
-                <p>@lang('app.Customer Service Phone')：400-100-5678</p>
+                <p>@lang('app.Customer Service Phone')：{{ \App\Models\Config::config('service_phone') }}</p>
                 <p>早9:00-晚21:00</p>
             </div>
         </li>
