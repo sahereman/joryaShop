@@ -47,15 +47,15 @@
                     @endif
                 </ul>
                 <!--显示商品总数量-->
-                @if(\Illuminate\Support\Facades\App::isLocale('en'))
+                {{--@if(\Illuminate\Support\Facades\App::isLocale('en'))
                     <span class="pre_products_num">
                         {{ count($items) .' '. (count($items) > 1 ? \Illuminate\Support\Str::plural(__('order.Commodity')) : __('order.Commodity')) .' '. __('order.in total') }}
                     </span>
-                @else
+                @else--}}
                     <span class="pre_products_num">
-                        {{ __('order.in total') .' '. count($items) .' '. __('order.Commodity') }}
+                        {{ count($items) }}
                     </span>
-                @endif
+                {{--@endif--}}
                 <img src="{{ asset('static_m/img/icon_more.png') }}">
             </div>
             <div class="pre_amount">
@@ -174,7 +174,8 @@
         $(function () {
             var address_layer;   //地址弹窗
             var pro_lists_layer;   //商品明细弹窗
-            $(".lay_content").css("min-height", document.body.clientHeight);
+            var minHeight = $(window).height();
+            $(".lay_content").css("min-height",minHeight);
             //货币种类切换
             $(".currency_selection a").on("click", function () {
                 $(".currency_selection a").removeClass("active");

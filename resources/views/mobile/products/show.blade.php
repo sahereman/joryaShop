@@ -28,6 +28,7 @@
                 <span>@lang('product.product_details.sales'): {{ $product->sales }}</span>
                 <span>@lang('product.product_details.stock'): {{ $product->stock }}</span>
             </div>
+            @if(!App::isLocale('en'))
             <div class="gExplain">
                 <div>
                     <img src="{{ asset('static_m/img/icon_Certified.png') }}" alt=""/>
@@ -38,6 +39,7 @@
                     <span>@lang('product.product_details.Quick refund in 48 hours')</span>
                 </div>
             </div>
+            @endif
         </div>
         <div class="gChoose">
             <div class="gChooseBox">
