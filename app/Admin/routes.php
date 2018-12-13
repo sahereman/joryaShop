@@ -45,6 +45,9 @@ Route::group([
     /*产品*/
     $router->resource('products', ProductsController::class)->names('admin.products');
 
+    /*评价*/
+    $router->delete('products_comments/{comment}/delete', 'ProductCommentsController@delete')->name('admin.product_comments.delete');
+
     /*广告位*/
     $router->resource('posters', PostersController::class)->names('admin.posters');
 

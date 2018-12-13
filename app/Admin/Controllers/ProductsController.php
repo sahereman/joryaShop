@@ -2,6 +2,7 @@
 
 namespace App\Admin\Controllers;
 
+use App\Admin\Extensions\Ajax\Ajax_Delete;
 use App\Http\Requests\Request;
 use App\Models\Product;
 use App\Http\Controllers\Controller;
@@ -81,7 +82,7 @@ class ProductsController extends Controller
         $category = ProductCategory::find($request->input('cid'));
 
         $grid = new Grid(new Product);
-        $grid->model()->orderBy('id', 'desc'); // 设置初始排序条件
+        $grid->model()->with('comments')->orderBy('created_at', 'desc'); // 设置初始排序条件
 
         if ($category)
         {
@@ -100,8 +101,12 @@ class ProductsController extends Controller
         $grid->category()->name_zh('分类')->display(function ($data) {
             return "<a href='" . route('admin.products.index', ['cid' => $this->product_category_id]) . "'>$data</a>";
         });
-        $grid->name_zh('名称(中文)');
-        $grid->name_en('名称(英文)');
+        $grid->name_zh('名称(中文)')->display(function ($data) {
+            return "<span style='width: 120px;display: inline-block;overflow: hidden'>$data</span>";
+        });
+        $grid->name_en('名称(英文)')->display(function ($data) {
+            return "<span style='width: 120px;display: inline-block;overflow: hidden'>$data</span>";
+        });
         $grid->stock('库存')->sortable();
         $grid->price('价格')->sortable();
         $grid->sales('销量')->sortable();
@@ -112,6 +117,7 @@ class ProductsController extends Controller
 
         $grid->index('综合指数')->sortable();
         $grid->heat('人气')->sortable();
+        $grid->comments('评论数')->count();
 
         return $grid;
     }
@@ -165,7 +171,7 @@ class ProductsController extends Controller
             $category->name_en('名称(英文)');
         });
 
-        $show->skus('SKU 列表', function ($sku) {
+        $show->skus('SKU列表', function ($sku) {
             /*禁用*/
             $sku->disableActions();
             $sku->disableRowSelector();
@@ -180,6 +186,36 @@ class ProductsController extends Controller
             $sku->price('单价');
             $sku->stock('剩余库存');
             $sku->sales('销量');
+        });
+
+        $show->comments('评价列表', function ($comment) {
+            /*禁用*/
+            $comment->disableRowSelector();
+            $comment->disableExport();
+            $comment->disableFilter();
+            $comment->disableCreateButton();
+
+            $comment->actions(function ($actions) {
+                $actions->disableView();
+                $actions->disableEdit();
+                $actions->disableDelete();
+                $actions->append(new Ajax_Delete(route('admin.product_comments.delete', [$actions->getKey()])));
+            });
+
+            /*属性*/
+            $comment->user()->name('买家');
+            $comment->photo_urls('图片')->display(function ($urls) {
+                $text = '';
+                foreach ($urls as $url)
+                {
+                    $text .= '<img src="' . $url . '" style="margin:0 8px 8px 0;max-width:80px;max-height:80px" class="img">';
+                }
+                return $text;
+            });
+            $comment->content('内容')->display(function ($data) {
+                return "<span style='width: 220px;display: inline-block;overflow: hidden'>$data</span>";
+            });
+            $comment->created_at('评价时间');
         });
 
         return $show;
@@ -200,7 +236,9 @@ class ProductsController extends Controller
             $form->text('name_en', '名称(英文)')->rules('required');
             $form->text('description_zh', '描述(中文)')->rules('required');
             $form->text('description_en', '描述(英文)')->rules('required');
-            $form->multipleImage('photos', '相册')->uniqueName()->removable()->move('original/' . date('Ym', now()->timestamp))->rules('image');
+            $form->multipleImage('photos', '相册')->uniqueName()->removable()->resize(420, 380)
+                ->move('original/' . date('Ym', now()->timestamp))
+                ->help('相册尺寸:420 * 380')->rules('image');
             $form->switch('on_sale', '售卖状态');
             $form->switch('is_index', '首页推荐');
 
@@ -237,18 +275,21 @@ class ProductsController extends Controller
         // 定义事件回调，当模型即将保存时会触发这个回调
         $form->saving(function (Form $form) {
 
-            if (\request()->input('_from_') == 'edit' && collect($form->input('skus'))->where(Form::REMOVE_FLAG_NAME, 0)->isEmpty())
+            if (request()->input('photos') != '_file_del_')
             {
-                $error = new MessageBag([
-                    'title' => 'SKU 列表 必须填写',
-                ]);
-                return back()->withInput()->with(compact('error'));
+                if (request()->input('_from_') == 'edit' && collect($form->input('skus'))->where(Form::REMOVE_FLAG_NAME, 0)->isEmpty())
+                {
+                    $error = new MessageBag([
+                        'title' => 'SKU 列表 必须填写',
+                    ]);
+                    return back()->withInput()->with(compact('error'));
+                }
+
+                $form->ignore(['_from_']);
+
+                $form->model()->price = collect($form->input('skus'))->where(Form::REMOVE_FLAG_NAME, 0)->min('price'); // 生成商品价格 - 最低SKU价格
+                $form->model()->stock = collect($form->input('skus'))->where(Form::REMOVE_FLAG_NAME, 0)->sum('stock'); // 生成商品库存 - 求和SKU库存
             }
-
-            $form->ignore(['_from_']);
-
-            $form->model()->price = collect($form->input('skus'))->where(Form::REMOVE_FLAG_NAME, 0)->min('price'); // 生成商品价格 - 最低SKU价格
-            $form->model()->stock = collect($form->input('skus'))->where(Form::REMOVE_FLAG_NAME, 0)->sum('stock'); // 生成商品库存 - 求和SKU库存
 
         });
         return $form;
