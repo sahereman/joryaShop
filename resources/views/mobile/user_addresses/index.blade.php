@@ -2,8 +2,10 @@
 @section('title', App::isLocale('en') ? 'Address List' : '地址列表')
 @section('content')
     <div class="headerBar">
+    	@if(!is_wechat_browser())
         <img src="{{ asset('static_m/img/icon_backtop.png') }}" class="backImg" onclick="javascript:history.back(-1);"/>
         <span>@lang('basic.address.Address Management')</span>
+        @endif
     </div>
     <div class="ads1Box">
         @if($addresses->isEmpty())
@@ -24,7 +26,7 @@
                         @endif
                     </div>
                     <div class="adsDetail">
-                        <span class="adsP">{{ substr($address->phone, 0, 3) . '****' . substr($address->phone, -4) }}</span>
+                        <span class="adsP">{{ mb_substr($address->phone, 0, 3) . '****' . mb_substr($address->phone, -3) }}</span>
                         <span class="adsD">{{ $address->address }}</span>
                     </div>
                     <div class="adsEdit">

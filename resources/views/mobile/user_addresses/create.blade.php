@@ -2,8 +2,10 @@
 @section('title', App::isLocale('en') ? 'New Addresses' : '新增地址')
 @section('content')
     <div class="headerBar">
+    	@if(!is_wechat_browser())
         <img src="{{ asset('static_m/img/icon_backtop.png') }}" class="backImg" onclick="javascript:history.back(-1);"/>
         <span>@lang('basic.address.New Revenue Address')</span>
+        @endif
     </div>
     <div class="addAdsBox">
         <form method="POST" action="{{ route('user_addresses.store') }}" enctype="multipart/form-data" id="creat-form"

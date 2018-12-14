@@ -133,4 +133,9 @@ return [
     'Release' => '发布',
     'No more than 5 sheets' => '最多5张',
     'Please complete the information' => '请将信息填写完整',
+    'Order cancelled successfully' => '订单取消成功',
+    'Order deleted successfully' => '订单删除成功',
+    'Are you sure you want to confirm the receipt' => '您确定要确认收货吗？',
+    'Confirm receipt success' => '确认收货成功',
+    'Cancel the application successfully' => '撤销申请成功',
 ];

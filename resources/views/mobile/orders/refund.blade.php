@@ -2,8 +2,10 @@
 @section('title', App::isLocale('en') ? 'Request a refund' : '申请退款')
 @section('content')
     <div class="headerBar fixHeader">
+    	@if(!is_wechat_browser())
         <img src="{{ asset('static_m/img/icon_backtop.png') }}" class="backImg" onclick="javascript:history.back(-1);"/>
         <span>@lang('order.Refund request')</span>
+        @endif
     </div>
     <div class="refund">
         <div class="refund_con">

@@ -2,8 +2,10 @@
 @section('title', App::isLocale('en') ? 'Create an evaluation' : '创建评价')
 @section('content')
     <div class="headerBar fixHeader">
+    	@if(!is_wechat_browser())
         <img src="{{ asset('static_m/img/icon_backtop.png') }}" class="backImg" onclick="javascript:history.back(-1);"/>
         <span>@lang('order.Publish an evaluation')</span>
+        @endif
     </div>
     <div class="commentBox">
     	<form method="POST" action="{{ route('orders.store_comment', ['order' => $order->id]) }}"
@@ -268,7 +270,7 @@
 			        _CRE_FILE.setAttribute("type", "file");
 			        _CRE_FILE.setAttribute("name", "image");
 			        _CRE_FILE.setAttribute("class", "imgfile");
-			        _CRE_FILE.setAttribute("capture", "camera");
+//			        _CRE_FILE.setAttribute("capture", "camera");
 			        _CRE_FILE.setAttribute("accept", "image/png,image/jpg,image/jpeg");
 			        _CRE_FILE.setAttribute("id", "{{ $order_item['id'] }}");
 			        _CRE_FILE.setAttribute("data-url","{{ route('comment_image.upload') }}");

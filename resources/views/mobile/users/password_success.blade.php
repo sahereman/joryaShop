@@ -1,31 +1,19 @@
-@extends('layouts.app')
-@section('title', App::isLocale('en') ? 'Personal Center-Modify password' : '个人中心-修改密码')
+@extends('layouts.mobile')
+@section('title', App::isLocale('en') ? 'Modify password' : '修改密码')
 @section('content')
-    <div class="User_psw_edit User_center">
-        <div class="m-wrapper">
-            <div>
-                <p class="Crumbs">
-                    <a href="{{ route('root') }}">@lang('basic.home')</a>
-                    <span>></span>
-                    <a href="{{ route('users.home') }}">@lang('basic.users.Personal_Center')</a>
-                    <span>></span>
-                    <a href="javascript:void(0);">@lang('basic.users.Change_Password')</a>
-                </p>
-            </div>
-            <!--左侧导航栏-->
-            @include('users._left_navigation')
-                    <!--右侧内容-->
-            <div class="UserInfo_content">
-                <div class="UserInfo_content_title">
-                    <p>@lang('basic.users.Change_Password')</p>
-                </div>
-                <div class="psw_success_content">
-                    <div class="success_content">
-                        <img src="{{ asset('img/reset_success.png') }}">
-                        <p>@lang('basic.users.The new password has been set successfully')</p>
-                        <a href="{{ route('root') }}">@lang('basic.users.Return to the home page')</a>
-                    </div>
-                </div>
+    <div class="headerBar">
+    	@if(!is_wechat_browser())
+        <img src="{{ asset('static_m/img/icon_backtop.png') }}" class="backImg" onclick="javascript:history.back(-1);"/>
+        <span>@lang('basic.users.Change_Password')</span>
+        @endif
+    </div>
+     <!--右侧内容-->
+    <div class="psdedit_success">
+        <div class="psw_success_content">
+            <div class="success_content">
+                <img src="{{ asset('static_m/img/reset_success.png') }}">
+                <p>@lang('basic.users.The new password has been set successfully')</p>
+                <a href="{{ route('mobile.root') }}">@lang('basic.users.Return to the home page')</a>
             </div>
         </div>
     </div>
@@ -33,14 +21,6 @@
 @section('scriptsAfterJs')
     <script type="text/javascript">
         $(function () {
-            $(".navigation_left ul li").removeClass("active");
-            $(".change_psw").addClass("active");
-            $('.user_Avatar img').on('click', function () {
-                $('#upload_head').click();
-            });
-            $(".photograph").on('click', function () {
-                $('#upload_head').click();
-            });
         });
     </script>
 @endsection

@@ -2,8 +2,10 @@
 @section('title', App::isLocale('en') ? 'Information modification' : '信息修改')
 @section('content')
     <div class="headerBar fixHeader" style="border: none;">
+    	@if(!is_wechat_browser())
         <img src="{{ asset('static_m/img/icon_backtop.png') }}" class="backImg" onclick="javascript:history.back(-1);"/>
         <span>@lang('basic.users.Personal information')</span>
+        @endif
     </div>
     <div class="editUser">
         <div class="editUserMain">
@@ -155,7 +157,7 @@
 		        _CRE_FILE.setAttribute("type", "file");
 		        _CRE_FILE.setAttribute("name", "avatar");
 		        _CRE_FILE.setAttribute("class", "imgfile");
-		        _CRE_FILE.setAttribute("capture", "camera");
+//		        _CRE_FILE.setAttribute("capture", "camera");
 		        _CRE_FILE.setAttribute("accept", "image/png,image/jpg,image/jpeg");
 		        _CRE_FILE.setAttribute("id", "upload_head");
 		        _CRE_FILE.setAttribute("data-url","{{ route('image.preview') }}");

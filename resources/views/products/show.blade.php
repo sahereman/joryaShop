@@ -448,7 +448,7 @@
                             html += "<img src='" + "{{ config('app.url') }}" + "/img/star-" + n.composite_index + ".png' />";
                             html += "</div>";
                             html += "<p class='product_parameters'>";
-                            html += "<span>" + n.name + "</span>";
+                            html += "<span>" + name + "</span>";
                             html += "</p>";
                             html += "<p class='eva_text'>" + n.content + "</p>";
                             html += "<ul class='evaluation_img'>";

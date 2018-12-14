@@ -2,8 +2,10 @@
 @section('title', App::isLocale('en') ? 'Confirm the Order' : '确认订单')
 @section('content')
     <div class="headerBar fixHeader">
+    	@if(!is_wechat_browser())
         <img src="{{ asset('static_m/img/icon_backtop.png') }}" class="backImg" onclick="javascript:history.back(-1);"/>
         <span>@lang('app.Confirm the Order')</span>
+        @endif
     </div>
     <div class="pre_payment">
         <div class="pre_paymentCon">

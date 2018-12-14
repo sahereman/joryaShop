@@ -2,8 +2,10 @@
 @section('title', '切换语言')
 @section('content')
     <div class="headerBar">
+    	@if(!is_wechat_browser())
         <img src="{{ asset('static_m/img/icon_backtop.png') }}" class="backImg" onclick="javascript:history.back(-1);"/>
         <span>切换语言</span>
+        @endif
     </div>
     <div class="langBox">
         <div class="langItem">

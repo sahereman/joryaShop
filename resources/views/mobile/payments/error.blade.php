@@ -2,9 +2,11 @@
 @section('title', App::isLocale('en') ? 'Payment failed' : '支付失败')
 @section('content')
 	<div class="headerBar">
+		@if(!is_wechat_browser())
         <img src="{{ asset('static_m/img/icon_backtop.png') }}" class="backImg"
              onclick="javascript:history.back(-1);"/>
         <span>@lang('order.Order payment failed')</span>
+        @endif
     </div>
     <div class="payment_method">
             <div class="payment_success">

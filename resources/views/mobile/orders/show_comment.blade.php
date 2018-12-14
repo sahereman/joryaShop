@@ -3,8 +3,10 @@
 @section('title', App::isLocale('en') ? 'View comments' : '查看评价')
 @section('content')
     <div class="headerBar fixHeader">
+    	@if(!is_wechat_browser())
         <img src="{{ asset('static_m/img/icon_backtop.png') }}" class="backImg" onclick="javascript:history.back(-1);"/>
         <span>@lang('order.View comments')</span>
+        @endif
     </div>
     <div class="showCommentBox commentBox">
         @foreach($order->snapshot as $order_item)

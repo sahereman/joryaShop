@@ -206,9 +206,9 @@
                 }
             }
         });
-        $(function(){
-        	getEva();
-        })
+//      $(function(){
+//      	getEva();
+//      })
         //商品详情与商品评价切换
         $(".gIntroHead>span").on("click", function () {
             $(this).addClass("gIntroHeadActive").siblings().removeClass("gIntroHeadActive");
@@ -217,7 +217,7 @@
             if (_index == 1) {
                 $(".dropload-down").remove();
                 $(".lists").children().remove();
-                getEva();
+                getEva($('.gIntroConEvaluate'));
             }
             //让内容框的第 _index 个显示出来，其他的被隐藏
             $(".gIntroCon>div").eq(_index).show().siblings().hide();
@@ -425,12 +425,13 @@
             });
         });
         //下拉加载获取评价内容
-        function getEva() {
+        function getEva(dom) {
             // 页数
             var page = 1;
+            var Dom = dom||window;
             // dropload
             $('.gIntroConEvaluate').dropload({
-                scrollArea: $('.gIntroConEvaluate'),
+                scrollArea: Dom,
                 domDown: { // 下方DOM
                     domClass: 'dropload-down',
                     domRefresh: "<div class='dropload-refresh'>↑@lang('product.product_details.Pull up load more')</div>",

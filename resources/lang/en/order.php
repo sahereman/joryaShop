@@ -132,4 +132,9 @@ return [
     'Release' => 'Release',
     'No more than 5 sheets' => 'Up to 5 sheets',
     'Please complete the information' => 'Please complete the information',
+    'Order cancelled successfully' => 'Order cancelled successfully',
+    'Order deleted successfully' => 'Order deleted successfully',
+    'Are you sure you want to confirm the receipt' => 'Are you sure you want to confirm the receipt?',
+    'Confirm receipt success' => 'Confirm receipt success',
+    'Cancel the application successfully' => 'Cancel the application successfully',
 ];

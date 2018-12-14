@@ -2,8 +2,10 @@
 @section('title', App::isLocale('en') ? 'Browse History' : '浏览记录')
 @section('content')
     <div class="headerBar fixHeader" data-url="{{ route('mobile.user_histories.more') }}" code="{{ App::isLocale('en') ? 'en' : 'zh' }}">
+    	@if(!is_wechat_browser())
         <img src="{{ asset('static_m/img/icon_backtop.png') }}" class="backImg" onclick="javascript:history.back(-1);"/>
         <span>@lang('basic.users.Browse_history')</span>
+        @endif
     </div>
     <!--暂无浏览历史-->
     <div class="notFav dis_ni">

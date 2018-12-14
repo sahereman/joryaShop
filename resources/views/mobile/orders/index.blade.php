@@ -4,9 +4,11 @@
     <div class="orderBox">
         <div class="orderHeadTop">
             <div class="headerBar">
+            	@if(!is_wechat_browser())
                 <img src="{{ asset('static_m/img/icon_backtop.png') }}" class="backImg"
                      onclick="javascript:history.back(-1);"/>
                 <span>@lang('basic.users.My_order')</span>
+                @endif
             </div>
             <div class="orderHead">
                 <div class="index orderActive"
@@ -108,10 +110,9 @@
                         data: data,
                         dataType: 'json',
                         success: function (data) {
-                        	console.log(data)
                             var orders = data.data.orders.data;
                             var html = "";
-                            var name, sum, symbol, price, sku_name;
+                            var name, sum, symbol, price, sku_name,total_price,total_price1,total_price2;
                             if (orders.length > 0) {
                                 $(".no_order").addClass("dis_n");
                                 $(".orderMain .lists").removeClass("dis_n");
@@ -153,6 +154,9 @@
                                             name = ($(".orderMain").attr("code") == "en") ? order_item.sku.product.name_en : order_item.sku.product.name_zh;
                                             sku_name = ($(".orderMain").attr("code") == "en") ? order_item.sku.name_en : order_item.sku.name_zh;
                                             price = (order.currency == "CNY") ? order_item.sku.product.price : order_item.sku.product.price_in_usd;
+                                            total_price1 = js_number_format(Math.imul(float_multiply_by_100(order.total_amount), 12) / 1000);
+                                            total_price2 = js_number_format(Math.imul(float_multiply_by_100(order.total_shipping_fee), 12) / 1000);
+                                            total_price = parseFloat(total_price1)+parseFloat(total_price2)
                                             html += "<div class='orderItemDetail_item'>";
                                             html += "<a class='product_info' code='" + order.id + "'>";
                                             html += "<img src='" + order_item.sku.product.thumb_url + "'/>";
@@ -182,7 +186,8 @@
 //                                      }
 //                                  }
                                     html += " <span class='orderCen'>" + sum + ": </span>";
-                                    html += "<span>" + symbol + " " +(parseInt(order.total_amount) + parseInt(order.total_shipping_fee)) + "</span>";
+                                    html += "<span>" + symbol + " " +total_price.toFixed(2) + "</span>";
+//                                  js_number_format(Math.imul(float_multiply_by_100(price), 12) / 1000)
                                     html += "<span>(@lang('order.Postage included'))</span>";
                                     html += "</div>";
                                     html += " <div class='orderBtns'>";
@@ -270,56 +275,82 @@
         //取消订单
         $(".orderMain .lists").on("click", ".cancel", function () {
         	var clickDom = $(this);
-            var data = {
-                _method: "PATCH",
-                _token: "{{ csrf_token() }}",
-            };
-            var url = "{{ config('app.url') }}" + "/orders/" + $(this).attr('code') + "/close";
-            $.ajax({
-                type: "post",
-                url: url,
-                data: data,
-                success: function (data) {
-                   $(clickDom.parents(".orderItem")).remove();
-                },
-                error: function (err) {
-                    console.log(err.status);
-                    if (err.status == 403) {
-                        layer.open({
-                            content: "@lang('app.Unable to complete operation')",
-                            skin: 'msg',
-                            time: 2, //2秒后自动关闭
-                        });
-                    }
-                },
-            });
+        	layer.open({
+			    content: "@lang('basic.orders.Make sure to cancel the order')",
+			    btn: ["@lang('app.determine')", "@lang('app.cancel')"],
+			    yes: function(index){
+			        var data = {
+		                _method: "PATCH",
+		                _token: "{{ csrf_token() }}",
+		            };
+		            var url = "{{ config('app.url') }}" + "/orders/" + clickDom.attr('code') + "/close";
+		            $.ajax({
+		                type: "post",
+		                url: url,
+		                data: data,
+		                success: function (data) {
+		                   $(clickDom.parents(".orderItem")).remove();
+		                   window.location.reload();
+		                   layer.open({
+	                            content: "@lang('order.Order cancelled successfully')",
+	                            skin: 'msg',
+	                            time: 2, //2秒后自动关闭
+	                        });
+		                },
+		                error: function (err) {
+		                    console.log(err.status);
+		                    if (err.status == 403) {
+		                        layer.open({
+		                            content: "@lang('app.Unable to complete operation')",
+		                            skin: 'msg',
+		                            time: 2, //2秒后自动关闭
+		                        });
+		                    }
+		                },
+		            });
+			        layer.close(index);
+			    }
+			});
         });
         //删除按钮
         $(".orderMain .lists").on("click", ".Delete", function () {
         	var clickDom = $(this);
-            var data = {
-                _method: "DELETE",
-                _token: "{{ csrf_token() }}",
-            };
-            var url = "{{ config('app.url') }}" + "/orders/" + clickDom.attr('code');
-            $.ajax({
-                type: "post",
-                url: url,
-                data: data,
-                success: function (json) {
-                    $(clickDom.parents(".orderItem")).remove();
-                },
-                error: function (err) {
-                    console.log(err.status);
-                    if (err.status == 403) {
-                        layer.open({
-                            content: "@lang('app.Unable to complete operation')",
-                            skin: 'msg',
-                            time: 2, //2秒后自动关闭
-                        });
-                    }
-                },
-            });
+        	layer.open({
+			    content: "@lang('order.Make sure to delete the order information')",
+			    btn: ["@lang('app.determine')", "@lang('app.cancel')"],
+			    yes: function(index){
+			        var data = {
+		                _method: "DELETE",
+		                _token: "{{ csrf_token() }}",
+		            };
+		            var url = "{{ config('app.url') }}" + "/orders/" + clickDom.attr('code');
+		            $.ajax({
+		                type: "post",
+		                url: url,
+		                data: data,
+		                success: function (json) {
+		                    $(clickDom.parents(".orderItem")).remove();
+		                    layer.open({
+	                            content: "@lang('order.Order deleted successfully')",
+	                            skin: 'msg',
+	                            time: 2, //2秒后自动关闭
+	                        });
+	                        window.location.reload();
+		                },
+		                error: function (err) {
+		                    console.log(err.status);
+		                    if (err.status == 403) {
+		                        layer.open({
+		                            content: "@lang('app.Unable to complete operation')",
+		                            skin: 'msg',
+		                            time: 2, //2秒后自动关闭
+		                        });
+		                    }
+		                },
+		            });
+			        layer.close(index);
+			    }
+			});
         });
         //提醒发货  Remind_shipments
         $(".orderMain .lists").on("click", ".Remind_shipments", function () {
@@ -339,28 +370,41 @@
         });
         //确认收货 
         $(".orderMain .lists").on("click", ".Confirm_reception", function () {
-            var data = {
-                _method: "PATCH",
-                _token: "{{ csrf_token() }}",
-            };
-            var url = "{{ config('app.url') }}" + "/orders/" + $(this).attr('code') + "/complete";
-            $.ajax({
-                type: "post",
-                url: url,
-                data: data,
-                success: function (data) {
-                    $(".orderHead .pending_reception").trigger("click");
-                },
-                error: function (err) {
-                    if (err.status == 403) {
-                        layer.open({
-                            content: "@lang('app.Unable to complete operation')",
-                            skin: 'msg',
-                            time: 2, //2秒后自动关闭
-                        });
-                    }
-                }
-            });
+        	var clickDom = $(this)
+        	layer.open({
+			    content: "@lang('order.Are you sure you want to confirm the receipt')",
+			    btn: ["@lang('app.determine')", "@lang('app.cancel')"],
+			    yes: function(index){
+			        var data = {
+		                _method: "PATCH",
+		                _token: "{{ csrf_token() }}",
+		            };
+		            var url = "{{ config('app.url') }}" + "/orders/" + clickDom.attr('code') + "/complete";
+		            $.ajax({
+		                type: "post",
+		                url: url,
+		                data: data,
+		                success: function (data) {
+		                    $(".orderHead .pending_reception").trigger("click");
+		                    layer.open({
+	                            content: "@lang('order.Confirm receipt success')",
+	                            skin: 'msg',
+	                            time: 2, //2秒后自动关闭
+	                        });
+		                },
+		                error: function (err) {
+		                    if (err.status == 403) {
+		                        layer.open({
+		                            content: "@lang('app.Unable to complete operation')",
+		                            skin: 'msg',
+		                            time: 2, //2秒后自动关闭
+		                        });
+		                    }
+		                }
+		            });
+			        layer.close(index);
+			    }
+			});
         });
         //查看物流信息 shipment_details
         $(".orderMain .lists").on("click", ".shipment_details", function () {
@@ -384,30 +428,83 @@
         });
         //撤销售后申请
         $(".orderMain .lists").on("click", ".Revoke_refund", function () {
-            window.location.href = "{{ config('app.url') }}" + "/mobile/orders/" + $(this).attr("code") + "/revoke_refund";
-            var data = {
-                _method: "PATCH",
-                _token: "{{ csrf_token() }}",
-            };
-            var url = "{{ config('app.url') }}" + "/mobile/orders/" + $(this).attr("code") + "/revoke_refund";
-            $.ajax({
-                type: "post",
-                url: url,
-                data: data,
-                success: function (data) {
-                    $(".orderHead .After_sale_order").trigger("click");
-                },
-                error: function (err) {
-                    console.log(err);
-                    if (err.status == 403) {
-                        layer.open({
-                            content: "@lang('app.Unable to complete operation')",
-                            skin: 'msg',
-                            time: 2, //2秒后自动关闭
-                        });
-                    }
-                },
-            });
+        	var clickDom = $(this)
+//          window.location.href = "{{ config('app.url') }}" + "/mobile/orders/" + $(this).attr("code") + "/revoke_refund";
+            layer.open({
+			    content: "@lang('order.Make sure to apply after withdrawing sales')",
+			    btn: ["@lang('app.determine')", "@lang('app.cancel')"],
+			    yes: function(index){
+			        var data = {
+		                _method: "PATCH",
+		                _token: "{{ csrf_token() }}",
+		            };
+		            var url = "{{ config('app.url') }}" + "/mobile/orders/" + $(this).attr("code") + "/revoke_refund";
+		            $.ajax({
+		                type: "post",
+		                url: url,
+		                data: data,
+		                success: function (data) {
+		                    $(".orderHead .After_sale_order").trigger("click");
+		                    layer.open({
+	                            content: "@lang('order.Cancel the application successfully')",
+	                            skin: 'msg',
+	                            time: 2, //2秒后自动关闭
+	                        });
+		                },
+		                error: function (err) {
+		                    console.log(err);
+		                    if (err.status == 403) {
+		                        layer.open({
+		                            content: "@lang('app.Unable to complete operation')",
+		                            skin: 'msg',
+		                            time: 2, //2秒后自动关闭
+		                        });
+		                    }
+		                },
+		            });
+			        layer.close(index);
+			    }
+			});
         })
+        
+        //数字转换
+        function float_multiply_by_100(float) {
+            float = String(float);
+            // float = float.toString();
+            var index_of_dec_point = float.indexOf('.');
+            if (index_of_dec_point == -1) {
+                float += '00';
+            } else {
+                var float_splitted = float.split('.');
+                var dec_length = float_splitted[1].length;
+                if (dec_length == 1) {
+                    float_splitted[1] += '0';
+                } else if (dec_length > 2) {
+                    float_splitted[1] = float_splitted[1].substring(0, 1);
+                }
+                float = float_splitted.join('');
+            }
+            return Number(float);
+        }
+
+        function js_number_format(number) {
+            number = String(number);
+            // number = number.toString();
+            var index_of_dec_point = number.indexOf('.');
+            if (index_of_dec_point == -1) {
+                number += '.00';
+            } else {
+                var number_splitted = number.split('.');
+                var dec_length = number_splitted[1].length;
+                if (dec_length == 1) {
+                    number += '0';
+                } else if (dec_length > 2) {
+                    number_splitted[1] = number_splitted[1].substring(0, 2);
+                    number = number_splitted.join('.');
+                }
+            }
+            return number;
+        }
+        
     </script>
 @endsection
