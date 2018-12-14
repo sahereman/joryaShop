@@ -112,7 +112,7 @@ class PaymentsController extends Controller
     {
         return array_merge(config('payment.wechat'), [
             'notify_url' => route('payments.wechat.notify', ['order' => $order->id]),
-            'return_url' => route('mobile.payments.success', ['order' => $order->id]),
+            'return_url' => route('mobile.payments.wechat_return', ['order' => $order->id]),
         ]);
     }
 
@@ -676,6 +676,24 @@ class PaymentsController extends Controller
             // return $response_array;
             // dd($response_array);
         }
+    }
+
+    public function wechatReturn(Request $request, Order $order)
+    {
+        // 判断订单是否属于当前用户
+        if ($request->user()->id !== $order->user_id) {
+            throw new InvalidRequestException('您没有权限操作此订单');
+        }
+
+        if ($order->paid_at != null && $order->payment_method != null && $order->payment_sn != null) {
+            return redirect()->route('mobile.payments.success', [
+                'order' => $order->id,
+            ]);
+        }
+
+        return view('mobile.payments.wechat_return', [
+            'order' => $order,
+        ]);
     }
 
     // GET 通用 - 支付成功页面
