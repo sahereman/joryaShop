@@ -89,7 +89,6 @@
                     },
                     success: function (response, status, xhr) {
                         //请求成功时处理
-                        // console.log(response);
                         layer.open({
                             content: "@lang('app.Sent successfully')"
                             , time: 2

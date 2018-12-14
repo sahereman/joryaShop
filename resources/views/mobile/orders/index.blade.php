@@ -108,6 +108,7 @@
                         data: data,
                         dataType: 'json',
                         success: function (data) {
+                        	console.log(data)
                             var orders = data.data.orders.data;
                             var html = "";
                             var name, sum, symbol, price, sku_name;
@@ -119,8 +120,8 @@
                                     symbol = (order.currency == "USD") ? '&#36;' : '&#165;';
                                     html += "<div class='orderItem'>";
                                     html += "<div class='orderItemH'>";
-//                                  html += "<span class='order_info' code='" + order.id + "'>@lang('basic.users.Order_number')： " + order.order_sn + "</span>";
-                                    html += "<span class='order_info' code='" + order.id + "'>@lang('basic.users.The_order_details') >></span>";
+                                    html += "<span class='order_info' code='" + order.id + "'>@lang('basic.users.Order_number')： " + order.order_sn + "</span>";
+//                                  html += "<span class='order_info' code='" + order.id + "'>@lang('basic.users.The_order_details') >></span>";
                                     switch (order.status) {
                                         case "paying":
                                             html += "<span class='orderItemState'>@lang('basic.orders.Pending payment')</span>";
@@ -153,10 +154,10 @@
                                             sku_name = ($(".orderMain").attr("code") == "en") ? order_item.sku.name_en : order_item.sku.name_zh;
                                             price = (order.currency == "CNY") ? order_item.sku.product.price : order_item.sku.product.price_in_usd;
                                             html += "<div class='orderItemDetail_item'>";
-                                            html += "<a class='product_info' code='" + order_item.sku.product.id + "'>";
+                                            html += "<a class='product_info' code='" + order.id + "'>";
                                             html += "<img src='" + order_item.sku.product.thumb_url + "'/>";
                                             html += "</a>";
-                                            html += "<div class='orderDal'>";
+                                            html += "<div class='orderDal' code='" + order.id + "'>";
                                             html += "<div class='orderIntroduce'>";
                                             html += "<div class='goodsName'>" + name + "</div>";
                                             html += "<div class='goodsSku'>" + sku_name + "</div>";
@@ -181,7 +182,7 @@
 //                                      }
 //                                  }
                                     html += " <span class='orderCen'>" + sum + ": </span>";
-                                    html += "<span>" + symbol + " " +(order.total_amount + order.total_shipping_fee) + "</span>";
+                                    html += "<span>" + symbol + " " +(parseInt(order.total_amount) + parseInt(order.total_shipping_fee)) + "</span>";
                                     html += "<span>(@lang('order.Postage included'))</span>";
                                     html += "</div>";
                                     html += " <div class='orderBtns'>";
@@ -198,7 +199,7 @@
                                             html += "<button class='orderBtnC Remind_shipments' code='" + order.id + "'> @lang('basic.orders.Remind shipments')</button>";
                                             break;
                                         case "receiving":
-                                            html += "<button class='orderBtnC refund_with_ship' code='" + order.id + "'> @lang('order.Request a refund')</button>";
+//                                          html += "<button class='orderBtnC refund_with_ship' code='" + order.id + "'> @lang('order.Request a refund')</button>";
                                             html += "<button class='orderBtnC shipment_details' code='" + order.id + "'> @lang('order.View shipment details')</button>";
                                             html += "<button class='orderBtnS Confirm_reception' code='" + order.id + "'> @lang('order.Confirm reception')</button>";
                                             break;
@@ -254,9 +255,13 @@
         $(".orderMain .lists").on("click", ".order_info", function () {
             window.location.href = "{{ config('app.url') }}" + "/mobile/orders/" + $(this).attr("code");
         });
-        //查看商品详情product_info
+        //点击查看订单详情
         $(".orderMain .lists").on("click", ".product_info", function () {
-            window.location.href = "{{ config('app.url') }}" + "/mobile/products/" + $(this).attr("code");
+            window.location.href = "{{ config('app.url') }}" + "/mobile/orders/" + $(this).attr("code");
+        });
+        //点击查看订单详情
+        $(".orderMain .lists").on("click", ".orderDal", function () {
+            window.location.href = "{{ config('app.url') }}" + "/mobile/orders/" + $(this).attr("code");
         });
         //付款按钮
         $(".orderMain .lists").on("click", ".payment", function () {

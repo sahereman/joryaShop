@@ -68,21 +68,35 @@
                     <label>QQ</label>
                     <input type="text" name="qq" value="{{ $user->qq }}"
                            placeholder="@lang('basic.users.Enter_QQ_account')">
+                    @if ($errors->has('qq'))
+                        <span> {{ $errors->first('qq') }}</span>
+                    @endif
                 </div>
                 <div class="editUserItem">
                     <label>@lang('basic.users.Wechat')</label>
                     <input type="text" name="wechat" value="{{ $user->wechat }}"
                            placeholder="@lang('basic.users.Enter_WeChat_account')">
+                    @if ($errors->has('wechat'))
+                        <span> {{ $errors->first('wechat') }}</span>
+                    @endif
                 </div>
                 <div class="editUserItem">
                     <label>Facebook</label>
                     <input type="text" name="facebook" value="{{ $user->facebook }}"
                            placeholder="@lang('basic.users.Enter_your_Facebook_account')">
+                    @if ($errors->has('facebook'))
+                        <span> {{ $errors->first('facebook') }}</span>
+                    @endif
                 </div>
                 <div class="editUserItem editUserItemLast">
                     <label>@lang('basic.users.email_address')</label>
                     <input type="text" name="email" value="{{ $user->email }}"
                            placeholder="@lang('basic.users.Enter_email_address')">
+                    <div class="tipBox">
+	                    @if ($errors->has('email'))
+	                        <span> {{ $errors->first('email') }}</span>
+	                    @endif
+	                </div>
                 </div>
                 <button type="submit" class="doneBtn">@lang('basic.users.Save')</button>
             </form>

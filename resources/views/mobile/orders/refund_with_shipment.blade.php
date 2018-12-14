@@ -462,7 +462,6 @@
                     path_url += $(n).attr('data-path') + ",";
                 });
                 path_url = path_url.substring(0, path_url.length - 1);
-                console.log(path_url);
                 $(dom).find("input[name='" + input_name + "']").val(path_url);
                 set_finish = true;
                 return set_finish;

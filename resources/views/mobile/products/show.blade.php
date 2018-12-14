@@ -341,14 +341,11 @@
                 _token: "{{ csrf_token() }}",
             };
             var url = clickDom.attr('data-url_2');
-            // console.log(data);
-            // console.log(url);
             $.ajax({
                 type: "post",
                 url: url,
                 data: data,
                 success: function (data) {
-                    // console.log(data);
                     clickDom.attr('data-url_2', '');
                     clickDom.removeClass('active');
                     $(".gCollect").find("span").html("@lang('product.product_details.Collection')");
@@ -424,7 +421,6 @@
                 time: 2, //2秒后自动关闭
             });
         });
-
         //下拉加载获取评价内容
         function getEva() {
             // 页数

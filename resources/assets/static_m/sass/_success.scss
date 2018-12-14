@@ -143,11 +143,15 @@
         .editUserItem{
             padding: .8rem 0;
             border-bottom: 1px solid #e2e2e2;
+            position: relative;
             label{
                 min-width: 3.5rem;
             }
             input{
                 color: #747474;
+            }
+            input[type="text"] {
+                width: 79%;
             }
             .radioBox{
                 display: inline-block;
@@ -207,6 +211,21 @@
         color: #fff;
         border-radius: 1.5rem;
         border: none;
+    }
+    .tipBox{
+        float: right;
+        font-size: .65rem;
+        color: #bd8e64;
+        position: absolute;
+        right: 0;
+        bottom: 1rem;
+        img{
+            width: .7rem;
+            vertical-align: middle;
+        }
+        span{
+            vertical-align: middle;
+        }
     }
 }
 

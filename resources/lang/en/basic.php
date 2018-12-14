@@ -54,7 +54,7 @@ return [
         'Once_again_to_buy' => 'Once again to buy',
         'No_orders_yet' => 'No orders yet',
         'Make_sure_to_delete' => 'Make sure to delete the order information?',
-        'Order_number' => 'Order number',
+        'Order_number' => 'NO.',
         'Edit_account_information' => 'Edit account information',
         'User_profile_picture' => 'Profile picture',
         'Username' => 'Username',
