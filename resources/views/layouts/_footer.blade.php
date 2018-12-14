@@ -65,12 +65,12 @@
             </div>
             <div class="pay_attention">
                 <div>
-                    <img src="{{ \App\Models\Config::config('wechat_mp_qr_code') }}">
-                    <p>@lang('app.Follow the public number')</p>
+                    <img src="{{ \App\Models\Config::config('wechat_mp_qr_code') ? asset(\App\Models\Config::config('wechat_mp_qr_code')) : config('app.url') . '/defaults/wechat_mp_qr_code.png' }}">
+                    <p>@lang('app.Our WeChat public number')</p>
                 </div>
                 <div>
-                    <img src="{{ \App\Models\Config::config('mobile_website_qr_code') }}">
-                    <p>@lang('app.Browse the mobile shopping mall')</p>
+                    <img src="{{ \App\Models\Config::config('mobile_website_qr_code') ? asset(\App\Models\Config::config('mobile_website_qr_code')) : config('app.url') . '/defaults/mobile_website_qr_code.png' }}">
+                    <p>@lang('app.Our mobile shopping mall')</p>
                 </div>
             </div>
         </div>
@@ -151,7 +151,7 @@
             </a>
             <div class="qr_info">
                 <img src="{{ \App\Models\Config::config('wechat_mp_qr_code') }}">
-                <p>@lang('app.Follow the public number')</p>
+                <p>@lang('app.Our WeChat public number')</p>
             </div>
         </li>
         <li class="backtop" title="@lang('app.Click to return to the top')">
