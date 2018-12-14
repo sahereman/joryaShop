@@ -81,8 +81,7 @@
                         </p>
                         <div class="refund_info_item">
                             <span>@lang('order.Application description')</span>
-                                <textarea name="remark_from_user" class="step2_textarea" maxlength="200" readonly
-                                          placeholder="@lang('order.Please fill in the reason for the refund')"></textarea>
+                                <textarea name="remark_from_user" class="step2_textarea" maxlength="200" readonly>{{ $order->refund->remark_from_user }}</textarea>
                         </div>
                     </form>
                     @else
@@ -94,8 +93,7 @@
                     </p>
                     <div class="refund_info_item">
                         <span>@lang('order.Application description')</span>
-                            <textarea name="remark_from_user" maxlength="200" readonly
-                                      placeholder="@lang('order.Please fill in the reason for the refund')"></textarea>
+                            <textarea name="remark_from_user" maxlength="200" readonly>{{ $order->refund->remark_from_user }}</textarea>
                     </div>
                     @endif
                 </div>
@@ -175,7 +173,7 @@
             $(".refund_con").css("min-height", $(window).height() - $(".headerBar ").height());
             //第一步表单提交
             $(".step-1-submit").on("click", function () {
-            	if($("#step-1-form").find("textarea").va()==null||$("#step-1-form").find("textarea").va()==""){
+            	if($("#step-1-form").find("textarea").val()==null||$("#step-1-form").find("textarea").val()==""){
             		layer.open({
                         content: "@lang('order.Please fill in the reason for the refund')",
                         skin: 'msg',
@@ -193,33 +191,49 @@
             });
             //保存修改
             $(".save_btn").on("click", function () {
+            	if($("#step-2-form").find("textarea").val()==null||$("#step-2-form").find("textarea").val()==""){
+            		layer.open({
+                        content: "@lang('order.Please fill in the reason for the refund')",
+                        skin: 'msg',
+                        time: 2, //2秒后自动关闭
+                    });
+                    return false;
+            	}
                 $("#step-2-form").submit();
             });
             //撤销退款申请
             $(".Revocation_btn").on("click", function () {
-                var data = {
-                    _method: "PATCH",
-                    _token: "{{ csrf_token() }}",
-                };
-                var url = $(this).attr('code');
-                $.ajax({
-                    type: "post",
-                    url: url,
-                    data: data,
-                    success: function (data) {
-                        window.location.href = "{{ route('mobile.orders.index') }}";
-                    },
-                    error: function (err) {
-                        console.log(err);
-                        if (err.status == 403) {
-                            layer.open({
-                                content: "@lang('app.Unable to complete operation')",
-                                skin: 'msg',
-                                time: 2, //2秒后自动关闭
-                            });
-                        }
-                    },
-                });
+            	var clickDom = $(this);
+            	layer.open({
+				    content: "@lang('order.Make sure to apply after withdrawing sales')",
+				    btn: ["@lang('app.determine')", "@lang('app.cancel')"],
+				    yes: function(index){
+				        var data = {
+		                    _method: "PATCH",
+		                    _token: "{{ csrf_token() }}",
+		                };
+		                var url = clickDom.attr('code');
+		                $.ajax({
+		                    type: "post",
+		                    url: url,
+		                    data: data,
+		                    success: function (data) {
+		                        window.location.href = "{{ route('mobile.orders.index') }}";
+		                    },
+		                    error: function (err) {
+		                        console.log(err);
+		                        if (err.status == 403) {
+		                            layer.open({
+		                                content: "@lang('app.Unable to complete operation')",
+		                                skin: 'msg',
+		                                time: 2, //2秒后自动关闭
+		                            });
+		                        }
+		                    },
+		                });
+				        layer.close(index);
+				    }
+				});
             });
         });
     </script>
