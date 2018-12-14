@@ -4,7 +4,7 @@ namespace App\Admin\Controllers;
 
 use App\Admin\Extensions\Ajax\Ajax_Delete;
 use App\Http\Requests\Request;
-use App\Models\Product;
+use App\Admin\Models\Product;
 use App\Http\Controllers\Controller;
 use App\Models\ProductCategory;
 use Encore\Admin\Controllers\HasResourceActions;
@@ -131,7 +131,6 @@ class ProductsController extends Controller
     {
         $show = new Show(Product::findOrFail($id));
 
-
         $show->id('ID');
         $show->name_zh('名称(中文)');
         $show->name_en('名称(英文)');
@@ -203,8 +202,6 @@ class ProductsController extends Controller
                 {
                     $actions->append(new Ajax_Delete(route('admin.product_comments.delete', [$actions->getKey()])));
                 }
-                $actions->append(new Ajax_Delete(route('admin.product_comments.delete', [$actions->getKey()])));
-
             });
 
             /*属性*/
@@ -220,6 +217,10 @@ class ProductsController extends Controller
             $comment->content('内容')->display(function ($data) {
                 return "<span style='width: 220px;display: inline-block;overflow: hidden'>$data</span>";
             });
+            $comment->composite_index('综合评分');
+            $comment->description_index('描述相符');
+            $comment->shipment_index('物流服务');
+
             $comment->created_at('评价时间');
         });
 
@@ -232,7 +233,7 @@ class ProductsController extends Controller
      */
     protected function form()
     {
-        $form = new Form(new Product);
+        $form = new Form(new Product());
 
         $form->tab('基础', function ($form) {
 
