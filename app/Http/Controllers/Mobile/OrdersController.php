@@ -149,41 +149,39 @@ class OrdersController extends Controller
         $items = [];
         if ($request->has('sku_id') && $request->has('number')) {
             $sku = ProductSku::find($request->query('sku_id'));
-            $sku->price_en = ExchangeRate::exchangePrice($sku->price, 'USD');
             $product = $sku->product;
-            $product->shipping_fee_en = ExchangeRate::exchangePrice($product->shipping_fee, 'USD');
             $number = $request->query('number');
             $items[0]['sku'] = $sku;
             $items[0]['product'] = $product;
             $items[0]['number'] = $number;
             $items[0]['amount'] = bcmul($sku->price, $number, 2);
-            $items[0]['amount_en'] = bcmul($sku->price_en, $number, 2);
+            $items[0]['amount_en'] = bcmul($sku->price_in_usd, $number, 2);
             $items[0]['shipping_fee'] = bcmul($product->shipping_fee, $number, 2);
-            $items[0]['shipping_fee_en'] = bcmul($product->shipping_fee_en, $number, 2);
+            $items[0]['shipping_fee_en'] = bcmul($product->shipping_fee_in_usd, $number, 2);
             $total_amount = bcmul($sku->price, $number, 2);
-            $total_amount_en = bcmul($sku->price_en, $number, 2);
+            $total_amount_en = bcmul($sku->price_in_usd, $number, 2);
             $total_shipping_fee = bcmul($product->shipping_fee, $number, 2);
-            $total_shipping_fee_en = bcmul($product->shipping_fee_en, $number, 2);
+            $total_shipping_fee_en = bcmul($product->shipping_fee_in_usd, $number, 2);
         } elseif ($request->has('cart_ids')) {
             $cart_ids = explode(',', $request->query('cart_ids'));
             foreach ($cart_ids as $key => $cart_id) {
                 $cart = Cart::find($cart_id);
                 $number = $cart->number;
                 $sku = $cart->sku;
-                $sku->price_en = ExchangeRate::exchangePrice($sku->price, 'USD');
+                $sku->price_in_usd = ExchangeRate::exchangePrice($sku->price, 'USD');
                 $product = $sku->product;
-                $product->shipping_fee_en = ExchangeRate::exchangePrice($product->shipping_fee, 'USD');
+                $product->shipping_fee_in_usd = ExchangeRate::exchangePrice($product->shipping_fee, 'USD');
                 $items[$key]['sku'] = $sku;
                 $items[$key]['product'] = $product;
                 $items[$key]['number'] = $number;
                 $items[$key]['amount'] = bcmul($sku->price, $number, 2);
-                $items[$key]['amount_en'] = bcmul($sku->price_en, $number, 2);
+                $items[$key]['amount_en'] = bcmul($sku->price_in_usd, $number, 2);
                 $items[$key]['shipping_fee'] = bcmul($product->shipping_fee, $number, 2);
-                $items[$key]['shipping_fee_en'] = bcmul($product->shipping_fee_en, $number, 2);
+                $items[$key]['shipping_fee_en'] = bcmul($product->shipping_fee_in_usd, $number, 2);
                 $total_amount += bcmul($sku->price, $number, 2);
-                $total_amount_en += bcmul($sku->price_en, $number, 2);
+                $total_amount_en += bcmul($sku->price_in_usd, $number, 2);
                 $total_shipping_fee += bcmul($product->shipping_fee, $number, 2);
-                $total_shipping_fee_en += bcmul($product->shipping_fee_en, $number, 2);
+                $total_shipping_fee_en += bcmul($product->shipping_fee_in_usd, $number, 2);
             }
         }
         $total_fee = bcadd($total_amount, $total_shipping_fee, 2);

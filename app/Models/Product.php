@@ -111,6 +111,10 @@ class Product extends Model
 
     public function getShippingFeeInUsdAttribute()
     {
+        // 运费可以为0.00
+        if ($this->attributes['shipping_fee'] == 0.00) {
+            return 0.00;
+        }
         $shipping_fee_in_usd = ExchangeRate::exchangePrice($this->attributes['shipping_fee'], 'USD');
         if ($shipping_fee_in_usd == 0.00) {
             return 0.01;
