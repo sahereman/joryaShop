@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.mobile')
 @section('title', App::isLocale('en') ? 'Payment success' : '支付成功')
 @section('content')
     <div class="payment_method">
