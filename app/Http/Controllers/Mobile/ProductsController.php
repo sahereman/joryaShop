@@ -33,7 +33,7 @@ class ProductsController extends Controller
             $favourite = UserFavourite::where('user_id', $user->id)->where('product_id', $product->id)->first();
         }
         return view('mobile.products.show', [
-            'product' => $product,
+            'product' => $product->makeVisible(['content_en', 'content_zh']),
             'skus' => $skus,
             'comment_count' => $comment_count,
             'photo_comment_count' => $photo_comment_count,

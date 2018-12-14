@@ -157,7 +157,7 @@ class ProductsController extends Controller
 
         return view('products.show', [
             'category' => $category,
-            'product' => $product,
+            'product' => $product->makeVisible(['content_en', 'content_zh']),
             'skus' => $skus,
             'comment_count' => $comment_count,
             'guesses' => $guesses,

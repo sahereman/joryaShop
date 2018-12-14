@@ -37,7 +37,8 @@ class Product extends Model
      * @var array
      */
     protected $hidden = [
-        //
+        'content_en',
+        'content_zh',
     ];
 
     /**

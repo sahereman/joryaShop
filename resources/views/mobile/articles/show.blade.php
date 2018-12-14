@@ -21,7 +21,7 @@
     <br>
     <br>
 
-    {{ \Illuminate\Support\Facades\App::isLocale('en') ? $article->content_en : $article->content_zh }}
+    {!! App::isLocale('en') ? $article->content_en : $article->content_zh !!}
 
     @include('layouts._footer_mobile')
 @endsection

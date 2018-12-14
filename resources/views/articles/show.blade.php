@@ -19,6 +19,6 @@
     CONTENT:
     <br>
     <br>
-    {{ \Illuminate\Support\Facades\App::isLocale('en') ? $article->content_en : $article->content_zh }}
+    {!! App::isLocale('en') ? $article->content_en : $article->content_zh !!}
 
 @endsection
