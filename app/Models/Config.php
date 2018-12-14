@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Str;
 
 class Config extends Model
 {
@@ -41,10 +42,21 @@ class Config extends Model
 
     public static function config($code = null)
     {
-        if (empty($code) || !self::configs()->where('code', $code)->first())
+
+        if (empty($code) || !$config = self::configs()->where('code', $code)->first())
         {
             return '';
         }
-        return self::configs()->where('code', $code)->first()->value;
+
+
+        if ($config->type == 'image')
+        {
+            if (!Str::startsWith($config->value, ['http://', 'https://']))
+            {
+                return \Storage::disk('public')->url($config->value);
+            }
+        }
+
+        return $config->value;
     }
 }

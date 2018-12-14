@@ -64,7 +64,7 @@ class ConfigsController extends Controller
                             }
                             if (!empty($config['value']))
                             {
-                                $image_url = \Storage::disk('public')->url($config['value']);
+                                $image_url = Config::config($config['code']);
                                 $form->display("")->setWidth(1)->default("<img width='100%' src='$image_url' />");
                             }
                             break;
