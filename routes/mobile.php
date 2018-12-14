@@ -108,5 +108,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('payments/{order}/alipay/return', 'PaymentsController@alipayReturn')->name('mobile.payments.alipay.return'); // Alipay 支付回调
 
     /*支付成功: Wechat & Paypal*/
+    Route::get('payments/{order}/wechat_return', 'PaymentsController@wechatReturn')->name('mobile.payments.wechat_return'); // Wechat Mobile-Wap 支付返回页面 [JS轮询,等待跳转支付成功页面]
     Route::get('payments/{order}/success', 'PaymentsController@success')->name('mobile.payments.success'); // 通用 - 支付成功页面 [Wechat & Paypal]
 });
