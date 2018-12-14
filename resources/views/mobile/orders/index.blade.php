@@ -116,7 +116,7 @@
                                 $(".no_order").addClass("dis_n");
                                 $(".orderMain .lists").removeClass("dis_n");
                                 $.each(orders, function (n, order) {
-                                    sum = ($(".orderMain").attr("code") == "en") ? "Sum" : "需付款";
+                                    sum = ($(".orderMain").attr("code") == "en") ? "Sum" : "实付款";
                                     symbol = (order.currency == "USD") ? '&#36;' : '&#165;';
                                     html += "<div class='orderItem'>";
                                     html += "<div class='orderItemH'>";

@@ -41,6 +41,38 @@
                 border-radius: 1rem;
             }
         }
+        .item_bg {
+            width: 1rem;
+            height: 1rem;
+            background: url('../img/footer_icon.png') center no-repeat;
+            overflow: hidden;
+            background-size: 1rem;
+            margin: auto;
+            &.itemsS_bg {
+                background-position: 0 0;
+                &.active {
+                    background-position: 0 -1rem;
+                }
+            }
+            &.itemsL_bg {
+                background-position: 0 -2rem;
+                &.active {
+                    background-position: 0 -3rem;
+                }
+            }
+            &.itemsG_bg {
+                background-position: 0 -4rem;
+                &.active {
+                    background-position: 0 -5rem;
+                }
+            }
+            &.itemsW_bg {
+                background-position: 0 -6rem;
+                &.active {
+                    background-position: 0 -7rem;
+                }
+            }
+        }
     }
 }
 .itemsActive{

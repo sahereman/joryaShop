@@ -81,6 +81,20 @@
             }
         }
         init(); //调用
+        /*获取url参数*/
+        function getQueryString(name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null)
+                return decodeURI(r[2]);
+            return null;
+        }
+        window.onload = function(){
+        	var content = getQueryString("search_con");
+        	if(content!=null||content!=""){
+        		$("#ipt").val(content);
+        	}
+        }
         //点击搜索按钮是将搜索内容存入到local storage
         $("#search").click(function () {
             var value = $("#ipt").val();
@@ -123,7 +137,10 @@
             $(".searchResult").css("display", "block");
             lastTime = event.timeStamp;
             var clickDom = $(this);
-            setTimeout(function () {
+            if($(this).val()==null||$(this).val()==""){
+            	return false;
+            }
+        	setTimeout(function () {
                 if (lastTime - event.timeStamp == 0) {
                     $.ajax({
                         type: "get",
@@ -150,7 +167,7 @@
                         }
                     });
                 }
-            }, 200);
+            }, 200);	
         });
         //点击查询结果进行跳转
         $(".searchResult").on("click", 'a', function () {

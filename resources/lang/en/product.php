@@ -16,7 +16,7 @@ return [
     'choose_settlement' => 'Please choose settlement commodities',
     'Please select a Star' => 'Please select a Star',
     'Please fill in the evaluation content' => 'Please fill in the evaluation content',
-    'Evaluation content is not less than 15 words' => 'Evaluation content is not less than 15 words',
+    'Evaluation content is not less than 15 words' => 'Evaluation content is not less than 3 words',
     'The content of the evaluation should not exceed 200 words' => 'The content of the evaluation should not exceed 200 words',
     'Upload up to 5 image' => 'Upload up to 5 image',
     'shopping_cart' => [

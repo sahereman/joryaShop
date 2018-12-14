@@ -75,7 +75,7 @@
             getResults();
         });
         $("#ipt").on("focus", function () {
-            window.location.href = "{{route('mobile.search')}}";
+            window.location.href = "{{route('mobile.search')}}"+"?search_con="+$("#ipt").val();
         });
         $(".goodsListMain").on('click', '.goodsListItem', function () {
             window.location.href = "{{  config('app.url') }}" + "/mobile/products/" + $(this).attr('code');
