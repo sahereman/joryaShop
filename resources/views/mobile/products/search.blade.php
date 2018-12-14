@@ -22,8 +22,8 @@
                 <div class="fillterItem price" code="price_desc">
                     @lang('product.price')
                     <div class="liftingBox">
-                        <span class="up" code='price_asc'>▴</span>
-                        <span class="down" code='price_desc'>▾</span>
+                        <span class="up" code='price_asc'><i code='price_asc' class="w-icon-arrow arrow-up"></i></span>
+                        <span class="down" code='price_desc'><i code='price_desc' class="w-icon-arrow arrow-down"></i></span>
                     </div>
                 </div>
                 <div class="fillterItem" code="heat">

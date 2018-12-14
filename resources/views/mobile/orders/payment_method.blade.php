@@ -132,6 +132,7 @@
                     <li>
                         <input type="radio" name="payMethod" value="4" id="paypal"
                                data-href="{{ route('mobile.payments.paypal.create', ['order' => $order->id]) }}">
+                        <span class="bagLbl"></span>
                         <label class="cur_p clear" for="paypal">
                             <img src="{{ asset('static_m/img/icon_paypal_small.png') }}">
                         </label>

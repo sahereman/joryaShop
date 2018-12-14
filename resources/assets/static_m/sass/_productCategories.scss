@@ -213,12 +213,42 @@
                     top: 0.4rem;
                     left: 0;
                     font-size: 1rem;
+                    i {
+                        display: inline-block;
+                        width: 10px;
+                        height: 5px;
+                        float: left;
+                        margin: 2px 0;
+                        &.arrow-up {
+                            background: url(../img/arrow-up.png) no-repeat;
+                            margin-top: .5rem;
+                        }
+                        &.arrow-down {
+                            background: url(../img/arrow-down.png) no-repeat;
+                            margin-top: .5rem;
+                        }
+                    }
                 }
                 .up{
                     position: absolute;
                     top: -.1rem;
                     left: 0;
                     font-size: 1rem;
+                    i {
+                        display: inline-block;
+                        width: 10px;
+                        height: 5px;
+                        float: left;
+                        margin: 2px 0;
+                        &.arrow-up {
+                            background: url(../img/arrow-up.png) no-repeat;
+                            margin-top: .5rem;
+                        }
+                        &.arrow-down {
+                            background: url(../img/arrow-down.png) no-repeat;
+                            margin-top: .5rem;
+                        }
+                    }
                 }
             }
             .dropDownBox{

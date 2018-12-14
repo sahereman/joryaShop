@@ -145,7 +145,7 @@
                 <div>
                     @if(! $refund)
                             <!--第一步显示-->
-                    <a class="doneBtn" href="javascript:void(0);"
+                    <a class="doneBtn step-1-submit" href="javascript:void(0);"
                        data-url="{{ route('orders.store_refund', ['order' => $order->id]) }}">
                         @lang('app.submit')
                     </a>
@@ -175,6 +175,14 @@
             $(".refund_con").css("min-height", $(window).height() - $(".headerBar ").height());
             //第一步表单提交
             $(".step-1-submit").on("click", function () {
+            	if($("#step-1-form").find("textarea").va()==null||$("#step-1-form").find("textarea").va()==""){
+            		layer.open({
+                        content: "@lang('order.Please fill in the reason for the refund')",
+                        skin: 'msg',
+                        time: 2, //2秒后自动关闭
+                    });
+                    return false;
+            	}
                 $("#step-1-form").submit();
             });
             //点击修改申请
