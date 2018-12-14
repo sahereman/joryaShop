@@ -206,6 +206,9 @@
                 }
             }
         });
+        $(function(){
+        	getEva();
+        })
         //商品详情与商品评价切换
         $(".gIntroHead>span").on("click", function () {
             $(this).addClass("gIntroHeadActive").siblings().removeClass("gIntroHeadActive");
@@ -427,7 +430,7 @@
             var page = 1;
             // dropload
             $('.gIntroConEvaluate').dropload({
-                scrollArea: window,
+                scrollArea: $('.gIntroConEvaluate'),
                 domDown: { // 下方DOM
                     domClass: 'dropload-down',
                     domRefresh: "<div class='dropload-refresh'>↑@lang('product.product_details.Pull up load more')</div>",
