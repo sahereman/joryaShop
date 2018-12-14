@@ -72,24 +72,29 @@ class Product extends Model
 
     public function getThumbUrlAttribute()
     {
-        // 如果 thumb 字段本身就已经是完整的 url 就直接返回
-        if (Str::startsWith($this->attributes['thumb'], ['http://', 'https://'])) {
-            return $this->attributes['thumb'];
+        if ($this->attributes['thumb_url']) {
+            // 如果 thumb 字段本身就已经是完整的 url 就直接返回
+            if (Str::startsWith($this->attributes['thumb'], ['http://', 'https://'])) {
+                return $this->attributes['thumb'];
+            }
+            return Storage::disk('public')->url($this->attributes['thumb']);
         }
-        return Storage::disk('public')->url($this->attributes['thumb']);
+        return '';
     }
 
     public function getPhotoUrlsAttribute()
     {
         $photo_urls = [];
-        $photos = json_decode($this->attributes['photos'], true);
-        if (count($photos) > 0) {
-            foreach ($photos as $photo) {
-                /*if (Str::startsWith($photo, ['http://', 'https://'])) {
-                    $photo_urls[] = $photo;
+        if ($this->attributes['photos']) {
+            $photos = json_decode($this->attributes['photos'], true);
+            if (count($photos) > 0) {
+                foreach ($photos as $photo) {
+                    /*if (Str::startsWith($photo, ['http://', 'https://'])) {
+                        $photo_urls[] = $photo;
+                    }
+                    $photo_urls[] = Storage::disk('public')->url($photo);*/
+                    $photo_urls[] = generate_image_url($photo, 'public');
                 }
-                $photo_urls[] = Storage::disk('public')->url($photo);*/
-                $photo_urls[] = generate_image_url($photo);
             }
         }
         return $photo_urls;

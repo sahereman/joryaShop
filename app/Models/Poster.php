@@ -22,15 +22,26 @@ class Poster extends Model
 
     public function getImageUrlAttribute()
     {
-        // 如果 image 字段本身就已经是完整的 url 就直接返回
-        if (Str::startsWith($this->attributes['image'], ['http://', 'https://'])) {
-            return $this->attributes['image'];
+        if ($this->attributes['image']) {
+            // 如果 image 字段本身就已经是完整的 url 就直接返回
+            /*if (Str::startsWith($this->attributes['image'], ['http://', 'https://'])) {
+                return $this->attributes['image'];
+            }
+            return Storage::disk($this->attributes['disk'])->url($this->attributes['image']);*/
+            if ($this->attributes['disk']) {
+                return generate_image_url($this->attributes['image'], $this->attributes['disk']);
+            }
+            return generate_image_url($this->attributes['image'], 'public');
         }
-        return Storage::disk($this->attributes['disk'])->url($this->attributes['image']);
+        return '';
     }
 
-    public static function getPosterBySlug($slug)
+    public static function getPosterBySlug(string $slug)
     {
-        return self::where('slug', $slug)->first();
+        $poster = self::where('slug', $slug)->first();
+        if ($poster) {
+            return $poster;
+        }
+        return false;
     }
 }

@@ -64,14 +64,16 @@ class ProductCommentSupplement extends Model
     public function getPhotoUrlsAttribute()
     {
         $photo_urls = [];
-        $photos = json_decode($this->attributes['photos'], true);
-        if (count($photos) > 0) {
-            foreach ($photos as $photo) {
-                /*if (Str::startsWith($photo, ['http://', 'https://'])) {
-                    $photo_urls[] = $photo;
+        if ($this->attributes['photos']) {
+            $photos = json_decode($this->attributes['photos'], true);
+            if (count($photos) > 0) {
+                foreach ($photos as $photo) {
+                    /*if (Str::startsWith($photo, ['http://', 'https://'])) {
+                        $photo_urls[] = $photo;
+                    }
+                    $photo_urls[] = Storage::disk('public')->url($photo);*/
+                    $photo_urls[] = generate_image_url($photo, 'public');
                 }
-                $photo_urls[] = Storage::disk('public')->url($photo);*/
-                $photo_urls[] = generate_image_url($photo);
             }
         }
         return $photo_urls;
