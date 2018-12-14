@@ -74,8 +74,8 @@
             </div>
             <div class="pre_note">
                 <p>@lang('order.order note')</p>
-                <textarea name="remark" placeholder="@lang('order.Optional message')" maxlength="50" readonly
-                          value="{{ $order->remark }}">{{ $order->remark }}</textarea>
+                <textarea name="remark" placeholder="@lang('order.Optional message')" maxlength="50"
+                          readonly>{{ $order->remark }}</textarea>
             </div>
         </div>
         <div class="pre_paymentTotal">
