@@ -112,6 +112,7 @@ class PaymentsController extends Controller
     {
         return array_merge(config('payment.wechat'), [
             'notify_url' => route('payments.wechat.notify', ['order' => $order->id]),
+            'return_url' => route('mobile.payments.success', ['order' => $order->id]),
         ]);
     }
 

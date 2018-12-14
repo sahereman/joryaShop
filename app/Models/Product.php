@@ -72,7 +72,7 @@ class Product extends Model
 
     public function getThumbUrlAttribute()
     {
-        if ($this->attributes['thumb_url']) {
+        if ($this->attributes['thumb']) {
             // 如果 thumb 字段本身就已经是完整的 url 就直接返回
             if (Str::startsWith($this->attributes['thumb'], ['http://', 'https://'])) {
                 return $this->attributes['thumb'];

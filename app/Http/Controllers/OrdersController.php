@@ -381,7 +381,10 @@ class OrdersController extends Controller
                 $item->sku->product->decrement('sales', $item->number);
             }
         });
-        return response()->json([]);
+        return response()->json([
+            'code' => 200,
+            'message' => 'success',
+        ]);
     }
 
     // PATCH 确认收货，交易关闭 [订单进入交易结束状态:status->completed]
@@ -392,7 +395,10 @@ class OrdersController extends Controller
         $order->status = Order::ORDER_STATUS_COMPLETED;
         $order->completed_at = Carbon::now()->toDateTimeString();
         $order->save();
-        return response()->json([]);
+        return response()->json([
+            'code' => 200,
+            'message' => 'success',
+        ]);
     }
 
     /*--订单评价--*/
@@ -400,6 +406,12 @@ class OrdersController extends Controller
     public function createComment(Request $request, Order $order)
     {
         $this->authorize('store_comment', $order);
+
+        if ($order->comments->isNotEmpty()) {
+            return redirect()->route('orders.show_comment', [
+                'order' => $order->id,
+            ]);
+        }
 
         return view('orders.create_comment', [
             'order' => $order,

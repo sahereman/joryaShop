@@ -256,6 +256,12 @@ class OrdersController extends Controller
     {
         $this->authorize('store_comment', $order);
 
+        if ($order->comments->isNotEmpty()) {
+            return redirect()->route('mobile.orders.show_comment', [
+                'order' => $order->id,
+            ]);
+        }
+
         return view('mobile.orders.create_comment', [
             'order' => $order,
             // 'order_items' => $order->items()->with('sku.product')->get(),
