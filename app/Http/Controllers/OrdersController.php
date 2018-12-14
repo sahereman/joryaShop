@@ -242,15 +242,14 @@ class OrdersController extends Controller
                     $number = $cart->number;
                     $sku = $cart->sku;
                     $product = $sku->product;
-                    $price = ExchangeRate::exchangePrice($sku->price, $currency);
+                    $price = ($currency == 'CNY') ? $sku->price : $sku->price_in_usd;
                     $snapshot[$key]['sku_id'] = $sku->id;
                     $snapshot[$key]['price'] = $price;
                     $snapshot[$key]['number'] = $cart->number;
-                    $total_shipping_fee += bcmul($product->shipping_fee, $number, 2);
+                    $total_shipping_fee += ($currency == 'CNY') ? bcmul($product->shipping_fee, $number, 2) : bcmul($product->shipping_fee_in_usd, $number, 2);
                     $total_amount += bcmul($price, $number, 2);
                     $is_nil = false;
                 }
-                $total_shipping_fee = ExchangeRate::exchangePrice($total_shipping_fee, $currency);
                 if ($is_nil == false) {
                     // 删除相关购物车记录
                     Cart::destroy($cart_ids);
@@ -261,11 +260,11 @@ class OrdersController extends Controller
                 $number = $request->input('number');
                 $sku = ProductSku::find($sku_id);
                 $product = $sku->product;
-                $price = ExchangeRate::exchangePrice($sku->price, $currency);
+                $price = ($currency == 'CNY') ? $sku->price : $sku->price_in_usd;
                 $snapshot[0]['sku_id'] = $sku_id;
                 $snapshot[0]['price'] = $price;
                 $snapshot[0]['number'] = $number;
-                $total_shipping_fee = ExchangeRate::exchangePrice(bcmul($product->shipping_fee, $number, 2), $currency);
+                $total_shipping_fee = ($currency == 'CNY') ? bcmul($product->shipping_fee, $number, 2) : bcmul($product->shipping_fee_in_usd, $number, 2);
                 $total_amount = bcmul($price, $number, 2);
                 $is_nil = false;
             }
