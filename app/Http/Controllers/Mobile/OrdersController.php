@@ -220,6 +220,12 @@ class OrdersController extends Controller
     {
         $this->authorize('pay', $order);
 
+        if ($order->paid_at != null && $order->payment_method != null && $order->payment_sn != null) {
+            return redirect()->route('mobile.payments.success', [
+                'order' => $order->id,
+            ]);
+        }
+
         return view('mobile.orders.payment_method', [
             'order' => $order,
         ]);

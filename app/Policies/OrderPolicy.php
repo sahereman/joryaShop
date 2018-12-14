@@ -37,10 +37,11 @@ class OrderPolicy
      */
     public function pay(User $user, Order $order)
     {
-        if ($this->update($user, $order)) {
+        /*if ($this->update($user, $order)) {
             return $order->status === Order::ORDER_STATUS_PAYING;
         }
-        return false;
+        return false;*/
+        return $this->update($user, $order);
     }
 
     /**
@@ -109,11 +110,14 @@ class OrderPolicy
      */
     public function store_comment(User $user, Order $order)
     {
-        if ($this->update($user, $order) && $order->status === Order::ORDER_STATUS_COMPLETED) {
+        /*if ($this->update($user, $order) && $order->status === Order::ORDER_STATUS_COMPLETED) {
             return !ProductComment::where([
                 'user_id' => $user->id,
                 'order_id' => $order->id,
             ])->exists();
+        }*/
+        if ($this->update($user, $order)) {
+            return $order->status === Order::ORDER_STATUS_COMPLETED;
         }
         return false;
     }
