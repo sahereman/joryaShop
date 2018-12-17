@@ -63,6 +63,7 @@ class OrdersController extends Controller
             // 售后订单
             case Order::ORDER_STATUS_REFUNDING:
                 $builder->where('status', Order::ORDER_STATUS_REFUNDING)
+                    // ->with('refund')
                     ->orderByDesc('updated_at');
                 break;
             // 已完成订单
@@ -101,11 +102,6 @@ class OrdersController extends Controller
             }
         }
 
-        $order_refund_type = OrderRefund::ORDER_REFUND_TYPE_REFUND;
-        if ($order->status == Order::ORDER_STATUS_REFUNDING) {
-            $order_refund_type = $order->refund->type;
-        }
-
         $seconds_to_close_order = 0;
         $seconds_to_complete_order = 0;
         if ($order->status == Order::ORDER_STATUS_PAYING) {
@@ -126,7 +122,6 @@ class OrdersController extends Controller
             'shipment_sn' => $order->shipment_sn,
             'shipment_company' => $shipment_company_name,
             'order_shipment_traces' => $order_shipment_traces,
-            'order_refund_type' => $order_refund_type,
             'seconds_to_close_order' => $seconds_to_close_order,
             'seconds_to_complete_order' => $seconds_to_complete_order,
         ]);

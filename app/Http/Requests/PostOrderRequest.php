@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use App\Models\ExchangeRate;
 use App\Models\ProductSku;
+use App\Models\UserAddress;
 use Illuminate\Support\Facades\App;
 use Illuminate\Validation\Rule;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -83,9 +84,17 @@ class PostOrderRequest extends Request
                     'string',
                     'regex:/^\d+(\,\d+)*$/'
                 ],
-                'name' => 'bail|required|string',
-                'phone' => 'bail|required|string',
-                'address' => 'bail|required|string',
+                'address_id' => [
+                    'bail',
+                    'required',
+                    'integer',
+                    // 'exists:user_addresses,id',
+                    function ($attribute, $value, $fail) {
+                        if (!UserAddress::where(['id' => $value, 'user_id' => $this->user()->id])->exists()) {
+                            $fail('该用户地址不存在');
+                        }
+                    },
+                ],
                 'remark' => 'bail|sometimes|nullable|string',
             ];
         } elseif ($this->routeIs('orders.pre_payment') || $this->routeIs('mobile.orders.pre_payment')) {
@@ -160,9 +169,7 @@ class PostOrderRequest extends Request
             'sku_id' => '商品SKU-ID',
             'number' => '商品购买数量',
             'cart_ids' => '购物车IDs',
-            'name' => '收货人',
-            'phone' => '手机号码',
-            'address' => '详细地址',
+            'address_id' => '用户地址ID',
             'remark' => '订单备注',
         ];
     }

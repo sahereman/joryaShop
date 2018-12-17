@@ -6,6 +6,7 @@ use App\Events\OrderSnapshotEvent;
 use Illuminate\Contracts\Queue\QueueableCollection;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Support\Facades\DB;
 
 // class OrderSnapshotEventListener implements ShouldQueue
 class OrderSnapshotEventListener
@@ -30,7 +31,10 @@ class OrderSnapshotEventListener
     {
         // override order snapshot.
         $order = $event->getOrder();
-        $order->snapshot = $order->items()->with('sku.product')->get()->toArray();
+        $order->snapshot = DB::transaction(function () use ($order) {
+            $order_items = $order->items()->with('sku.product')->get()->toArray();
+            return $order_items;
+        });
         $order->save();
     }
 }

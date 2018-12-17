@@ -154,25 +154,18 @@
                                 <span class="order_status_tips">@lang('order.After sale')</span>
                             </p>
                             <p class="operation_area">
-                                @if(isset($order_refund_type) && $order_refund_type == \App\Models\OrderRefund::ORDER_REFUND_TYPE_REFUND)
+                                @if($order->refund->type == \App\Models\OrderRefund::ORDER_REFUND_TYPE_REFUND)
                                     <a class="main_operation"
                                        href="{{ route('orders.refund', ['order' => $order->id]) }}">
                                         @lang('order.View after sales status')
                                     </a>
-                                    <a class="revocation_after_sale"
-                                       data-url="{{ route('orders.revoke_refund', ['order' => $order->id]) }}">
-                                        @lang('order.Revoke the refund application')
-                                    </a>
-                                @elseif(isset($order_refund_type) && $order_refund_type == \App\Models\OrderRefund::ORDER_REFUND_TYPE_REFUND_WITH_SHIPMENT)
+                                @elseif($order->refund->type == \App\Models\OrderRefund::ORDER_REFUND_TYPE_REFUND_WITH_SHIPMENT)
                                     <a class="main_operation"
                                        href="{{ route('orders.refund_with_shipment', ['order' => $order->id]) }}">
                                         @lang('order.View after sales status')
                                     </a>
-                                    <a class="revocation_after_sale"
-                                       data-url="{{ route('orders.revoke_refund', ['order' => $order->id]) }}">
-                                        @lang('order.Revoke the refund application')
-                                    </a>
-                                @else
+                                @endif
+                                @if(in_array($order->refund->status, [\App\Models\OrderRefund::ORDER_REFUND_STATUS_REFUNDED, \App\Models\OrderRefund::ORDER_REFUND_STATUS_DECLINED]))
                                     <a class="revocation_after_sale"
                                        data-url="{{ route('orders.revoke_refund', ['order' => $order->id]) }}">
                                         @lang('order.Revoke the refund application')

@@ -66,6 +66,7 @@ class OrdersController extends Controller
             // 售后订单
             case Order::ORDER_STATUS_REFUNDING:
                 $builder->where('status', Order::ORDER_STATUS_REFUNDING)
+                    ->with('refund')
                     ->orderByDesc('updated_at');
                 break;
             // 已完成订单

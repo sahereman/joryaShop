@@ -9,6 +9,7 @@ use App\Models\OrderItem;
 use App\Models\ProductSku;
 use App\Models\UserAddress;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class OrderObserver
 {
@@ -23,32 +24,17 @@ class OrderObserver
 
     public function created(Order $order)
     {
-        $userAddressData = $order->user_info;
-        $userAddressData['user_id'] = $order->user_id;
-        if($order->user->addresses->count() < Config::config('max_user_address_count')){
-            // 更新或创建一条用户地址信息记录
-            $userAddress = UserAddress::firstOrNew($userAddressData);
-            $userAddress->last_used_at = Carbon::now()->toDateTimeString();
-            $userAddress->save();
-        }else{
-            // 更新一条用户地址信息记录
-            $userAddress = UserAddress::first($userAddressData);
-            if($userAddress instanceof UserAddress){
-                $userAddress->last_used_at = Carbon::now()->toDateTimeString();
-                $userAddress->save();
-            }/*else{
-                // Do nothing.
-            }*/
-        }
-
-        // 创建多条子订单OrderItem记录
-        foreach ($order->snapshot as $item) {
-            $itemData['order_id'] = $order->id;
-            $itemData['product_sku_id'] = $item['sku_id'];
-            $itemData['price'] = $item['price'];
-            $itemData['number'] = $item['number'];
-            OrderItem::create($itemData);
-        }
+        // 开启事务
+        DB::transaction(function () use ($order) {
+            // 创建多条子订单OrderItem记录
+            foreach ($order->snapshot as $item) {
+                $itemData['order_id'] = $order->id;
+                $itemData['product_sku_id'] = $item['sku_id'];
+                $itemData['price'] = $item['price'];
+                $itemData['number'] = $item['number'];
+                OrderItem::create($itemData);
+            }
+        });
 
         event(new OrderSnapshotEvent($order));
     }
