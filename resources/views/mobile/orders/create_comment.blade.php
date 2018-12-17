@@ -153,7 +153,7 @@
                 $(this).parents(".star").find("input[code='" + $(this).attr("code") + "']").attr("checked", true);
             });
             //点击上传图片
-            $(".creat_comment_form").on("click", ".goodsChoice" function () {
+            $(".creat_comment_form").on("click", ".goodsChoice",function (){
                 var had_evaImg = $(this).parents(".goodspicture").find(".goodsItem");
                 if (had_evaImg.length < 5) {
                     $("#div_imgfile").trigger("click");
