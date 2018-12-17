@@ -216,7 +216,7 @@
                             @else
                                 <li>
                                     <span>@lang('order.Logistics company')：</span>
-                                    <span>{{ $shipment_company }}</span>
+                                    <span>{{ $refund->shipment_company }}</span>
                                 </li>
                                 <li>
                                     <span>@lang('order.shipment number')：</span>

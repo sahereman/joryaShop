@@ -306,17 +306,16 @@ class OrdersController extends Controller
     {
         $this->authorize('refund_with_shipment', $order);
 
-        $refund = $order->refund;
-        $shipment_company_name = '';
+        /*$shipment_company_name = '';
         if (isset($refund)) {
             $shipment_company_name = ShipmentCompany::codeTransformName($refund->shipment_company);
-        }
+        }*/
 
         return view('mobile.orders.refund_with_shipment', [
             'order' => $order,
-            'refund' => $refund,
+            'refund' => $order->refund,
             'snapshot' => $order->snapshot,
-            'shipment_company' => $shipment_company_name,
+            // 'shipment_company' => $shipment_company_name,
         ]);
     }
 }
