@@ -51,12 +51,11 @@ class AutoCloseOrderJob implements ShouldQueue
                 'status' => Order::ORDER_STATUS_CLOSED,
                 'closed_at' => Carbon::now()->toDateTimeString(),
             ]);
-            // 恢复 Product & Sku +库存 & -销量
+
+            // 恢复 Product & Sku +库存
             foreach ($this->order->items as $item) {
                 $item->sku->increment('stock', $item->number);
-                $item->sku->decrement('sales', $item->number);
                 $item->sku->product->increment('stock', $item->number);
-                $item->sku->product->decrement('sales', $item->number);
             }
         });
     }

@@ -52,3 +52,21 @@ class CreateProductsTable extends Migration
         Schema::dropIfExists('products');
     }
 }
+
+/*
+ * stock: according to order[store(-)|close(+)|refund(+)]
+ *          OrderItem[Observer] + OrderClosed[Event|EventListener] + OrderRefundedWithShipment[Event|EventListener]
+ *          Status: TODO with OrderRefundedWithShipment[Event|EventListener] ... @ admin
+ *
+ * sales: according to order[complete(+)] (Never Decrement for now ...)
+ *          OrderCompleted[Event|EventListener] + AutoCompleteOrder[Job]
+ *          Status: Done.
+ *
+ * index: according to order[store(+)|close(-)|refund(-)] & product_comment[store(+)]
+ *          OrderItem[Observer] + OrderClosed[Event|EventListener] + OrderRefunding[Event|EventListener] + ProductComment[Observer]
+ *          Status: Done.
+ *
+ * heat: according to order[store(+)|close(-)|refund(-)] & favourite[store(+)|delete(-)]
+ *          OrderItem[Observer] + OrderClosed[Event|EventListener] + OrderRefunding[Event|EventListener] + UserFavourite[Observer]
+ *          Status: Done.
+ */

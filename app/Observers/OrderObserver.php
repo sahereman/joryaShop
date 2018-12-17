@@ -52,25 +52,4 @@ class OrderObserver
 
         event(new OrderSnapshotEvent($order));
     }
-
-    public function updated(Order $order)
-    {
-        $userAddressData = $order->user_info;
-        $userAddressData['user_id'] = $order->user_id;
-        if($order->user->addresses->count() < Config::config('max_user_address_count')){
-            // 更新或创建一条用户地址信息记录
-            $userAddress = UserAddress::firstOrNew($userAddressData);
-            $userAddress->last_used_at = Carbon::now()->toDateTimeString();
-            $userAddress->save();
-        }else{
-            // 更新一条用户地址信息记录
-            $userAddress = UserAddress::first($userAddressData);
-            if($userAddress instanceof UserAddress){
-                $userAddress->last_used_at = Carbon::now()->toDateTimeString();
-                $userAddress->save();
-            }/*else{
-                // Do nothing.
-            }*/
-        }
-    }
 }

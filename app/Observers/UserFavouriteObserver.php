@@ -2,9 +2,9 @@
 
 namespace App\Observers;
 
-use App\Models\OrderItem;
+use App\Models\UserFavourite;
 
-class OrderItemObserver
+class UserFavouriteObserver
 {
     /*Eloquent 的模型触发了几个事件，可以在模型的生命周期的以下几点进行监控：
     retrieved、creating、created、updating、updated、saving、saved、deleting、deleted、restoring、restored
@@ -15,14 +15,15 @@ class OrderItemObserver
     当模型不存在，需要新增的时候，依次触发的顺序则是:
     saving -> creating -> created -> saved(不会触发保存操作)*/
 
-    public function created(OrderItem $orderItem)
+    public function created(UserFavourite $favourite)
     {
-        // 更新 Sku -库存
-        $orderItem->sku->decrement('stock', $orderItem->number);
+        // 更新 Product +人气|热度
+        $favourite->product->increment('heat');
+    }
 
-        // 更新 Product -库存 & +综合指数 & +人气|热度
-        $orderItem->sku->product->decrement('stock', $orderItem->number);
-        $orderItem->sku->product->increment('index', $orderItem->number);
-        $orderItem->sku->product->increment('heat');
+    public function deleted(UserFavourite $favourite)
+    {
+        // 更新 Product +人气|热度
+        $favourite->product->decrement('heat');
     }
 }

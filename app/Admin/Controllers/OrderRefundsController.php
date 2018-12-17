@@ -2,9 +2,11 @@
 
 namespace App\Admin\Controllers;
 
+use App\Events\OrderRefundedWithShipmentEvent;
 use App\Exceptions\InvalidRequestException;
 use App\Http\Controllers\PaymentsController;
 use App\Http\Requests\Request;
+use App\Jobs\AutoDeclineOrderRefundJob;
 use App\Models\Order;
 use App\Models\OrderRefund;
 use App\Http\Controllers\Controller;
@@ -127,6 +129,9 @@ class OrderRefundsController extends Controller
                         'seller_info' => ['name' => $request->name, 'phone' => $request->phone, 'address' => $request->address]
                     ]);
 
+                    // TODO ...
+                    // $this->dispatch(new AutoDeclineOrderRefundJob($order, OrderRefund::getSecondsToDeclineOrderRefund()));
+
                     return response()->json([
                         'messages' => '审核通过并提醒买家发货'
                     ], 200);
@@ -223,6 +228,10 @@ class OrderRefundsController extends Controller
             'checked_at' => now(), // 审核时间
             'refunded_at' => now(), // 退款时间
         ]);
+
+        if ($order->refund->type == OrderRefund::ORDER_REFUND_TYPE_REFUND_WITH_SHIPMENT) {
+            event(new OrderRefundedWithShipmentEvent($order));
+        }
 
         return true;
     }

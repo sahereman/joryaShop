@@ -51,6 +51,12 @@ class AutoCompleteOrderJob implements ShouldQueue
                 'status' => Order::ORDER_STATUS_COMPLETED,
                 'completed_at' => Carbon::now()->toDateTimeString(),
             ]);
+
+            // Product & Sku +销量
+            foreach ($this->order->items as $item) {
+                $item->sku->increment('sales', $item->number);
+                $item->sku->product->increment('sales', $item->number);
+            }
         });
     }
 }

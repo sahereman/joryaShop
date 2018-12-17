@@ -37,6 +37,18 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\OrderSnapshotEvent' => [
             'App\Listeners\OrderSnapshotEventListener',
         ],
+        'App\Events\OrderClosedEvent' => [
+            'App\Listeners\OrderClosedEventListener',
+        ],
+        'App\Events\OrderCompletedEvent' => [
+            'App\Listeners\OrderCompletedEventListener',
+        ],
+        'App\Events\OrderRefundingEvent' => [
+            'App\Listeners\OrderRefundingEventListener',
+        ],
+        'App\Events\OrderRefundedWithShipmentEvent' => [
+            'App\Listeners\OrderRefundedWithShipmentEventListener',
+        ],
         'App\Events\UserBrowsingHistoryEvent' => [
             'App\Listeners\UserBrowsingHistoryEventListener',
         ],

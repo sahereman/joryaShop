@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\OrderClosedEvent;
+use App\Events\OrderCompletedEvent;
+use App\Events\OrderRefundingEvent;
 use App\Http\Requests\PostOrderCommentRequest;
 use App\Http\Requests\PostOrderRequest;
 use App\Http\Requests\RefundOrderRequest;
@@ -376,14 +379,10 @@ class OrdersController extends Controller
                 'status' => Order::ORDER_STATUS_CLOSED,
                 'close_at' => Carbon::now()->toDateTimeString(),
             ]);
-            // 恢复 Product & Sku +库存 & -销量
-            foreach ($order->items as $item) {
-                $item->sku->increment('stock', $item->number);
-                $item->sku->decrement('sales', $item->number);
-                $item->sku->product->increment('stock', $item->number);
-                $item->sku->product->decrement('sales', $item->number);
-            }
         });
+
+        event(new OrderClosedEvent($order));
+
         return response()->json([
             'code' => 200,
             'message' => 'success',
@@ -395,9 +394,15 @@ class OrdersController extends Controller
     {
         $this->authorize('complete', $order);
 
-        $order->status = Order::ORDER_STATUS_COMPLETED;
-        $order->completed_at = Carbon::now()->toDateTimeString();
-        $order->save();
+        // 通过事务执行 sql
+        DB::transaction(function () use ($order) {
+            // 将订单的 status 字段标记为 completed，即确认订单
+            $order->update([
+                'status' => Order::ORDER_STATUS_COMPLETED,
+                'completed_at' => Carbon::now()->toDateTimeString(),
+            ]);
+        });
+        event(new OrderCompletedEvent($order));
         return response()->json([
             'code' => 200,
             'message' => 'success',
@@ -501,16 +506,21 @@ class OrdersController extends Controller
     {
         $this->authorize('refund', $order);
 
-        OrderRefund::create([
-            'order_id' => $order->id,
-            'type' => OrderRefund::ORDER_REFUND_TYPE_REFUND,
-            'status' => OrderRefund::ORDER_REFUND_STATUS_CHECKING,
-            // 'amount' => $request->input('amount'),
-            'remark_from_user' => $request->input('remark_from_user'),
-        ]);
+        // 开启事务
+        DB::transaction(function () use ($request, $order) {
+            OrderRefund::create([
+                'order_id' => $order->id,
+                'type' => OrderRefund::ORDER_REFUND_TYPE_REFUND,
+                'status' => OrderRefund::ORDER_REFUND_STATUS_CHECKING,
+                // 'amount' => $request->input('amount'),
+                'remark_from_user' => $request->input('remark_from_user'),
+            ]);
 
-        $order->status = Order::ORDER_STATUS_REFUNDING;
-        $order->save();
+            $order->status = Order::ORDER_STATUS_REFUNDING;
+            $order->save();
+        });
+
+        event(new OrderRefundingEvent($order));
 
         return redirect()->back();
     }
@@ -569,17 +579,23 @@ class OrdersController extends Controller
             $photos_for_refund = explode(',', $request->input('photos_for_refund'));
             $photos_for_refund = collect($photos_for_refund)->toArray();
         }
-        OrderRefund::create([
-            'order_id' => $order->id,
-            'type' => OrderRefund::ORDER_REFUND_TYPE_REFUND_WITH_SHIPMENT,
-            'status' => OrderRefund::ORDER_REFUND_STATUS_CHECKING,
-            // 'amount' => $request->input('amount'),
-            'remark_from_user' => $request->input('remark_from_user'),
-            'photos_for_refund' => $photos_for_refund ?? null,
-        ]);
 
-        $order->status = Order::ORDER_STATUS_REFUNDING;
-        $order->save();
+        // 开启事务
+        DB::transaction(function () use ($request, $order) {
+            OrderRefund::create([
+                'order_id' => $order->id,
+                'type' => OrderRefund::ORDER_REFUND_TYPE_REFUND_WITH_SHIPMENT,
+                'status' => OrderRefund::ORDER_REFUND_STATUS_CHECKING,
+                // 'amount' => $request->input('amount'),
+                'remark_from_user' => $request->input('remark_from_user'),
+                'photos_for_refund' => $photos_for_refund ?? null,
+            ]);
+
+            $order->status = Order::ORDER_STATUS_REFUNDING;
+            $order->save();
+        });
+
+        event(new OrderRefundingEvent($order));
 
         return redirect()->back();
     }
