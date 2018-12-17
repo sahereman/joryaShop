@@ -236,6 +236,7 @@
 
 <script type="text/javascript">
 
+    var network_switch = true;
     //仅退款 审核通过
     $('#check-refund').click(function () {
         swal({
@@ -245,11 +246,14 @@
             closeOnConfirm: false,
             confirmButtonText: "确认",
             cancelButtonText: "取消",
-        }, function (ret) {
+        }, function (ret, aa) {
+
             // 用户点击取消，不做任何操作
-            if (!ret) {
+            if (!ret || !network_switch) {
                 return;
             }
+            network_switch = false;
+
             $.ajax({
                 url: '{{ route('admin.order_refunds.check', [$refund->id]) }}',
                 method: 'POST',
