@@ -261,7 +261,7 @@
                                         <li>
                                             <span><i class="red">*</i>@lang('order.Memo Content')：</span>
                                         <textarea name="remark_for_shipment_from_user" class="remarks_for_refunds"
-                                                  placeholder="@lang('order.Please fill in the contents of the remarks')"></textarea>
+                                                  placeholder="@lang('order.Please fill in the contents of the remarks')">{{ old('remark_for_shipment_from_user') }}</textarea>
                                         </li>
                                         <li>
                                             <span><i class="red">*</i>@lang('order.Logistics documents')：</span>

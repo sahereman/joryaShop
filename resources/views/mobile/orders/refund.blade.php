@@ -64,7 +64,7 @@
                         <div class="refund_info_item">
                             <span>@lang('order.Application description')</span>
                                 <textarea name="remark_from_user" maxlength="200"
-                                          placeholder="@lang('order.Please fill in the reason for the refund')"></textarea>
+                                          placeholder="@lang('order.Please fill in the reason for the refund')">{{ old('remark_from_user') }}</textarea>
                         </div>
                     </form>
                     @elseif(isset($refund) && $refund->status == \App\Models\OrderRefund::ORDER_REFUND_STATUS_CHECKING)

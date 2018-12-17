@@ -2,10 +2,10 @@
 @section('title', App::isLocale('en') ? 'Request a refund' : '申请退款')
 @section('content')
     <div class="headerBar fixHeader">
-    	@if(!is_wechat_browser())
-        <img src="{{ asset('static_m/img/icon_backtop.png') }}" class="backImg"
-             onclick="javascript:history.back(-1);"/>
-        <span>@lang('order.Refund request')</span>
+        @if(!is_wechat_browser())
+            <img src="{{ asset('static_m/img/icon_backtop.png') }}" class="backImg"
+                 onclick="javascript:history.back(-1);"/>
+            <span>@lang('order.Refund request')</span>
         @endif
     </div>
     <div class="refund">
@@ -112,7 +112,7 @@
                         <div class="refund_info_item">
                             <span>@lang('order.Application description')</span>
                             <textarea name="remark_from_user" maxlength="200"
-                                      placeholder="@lang('order.Please fill in the reason for the refund')"></textarea>
+                                      placeholder="@lang('order.Please fill in the reason for the refund')">{{ old('remark_from_user') }}</textarea>
                         </div>
                         <p class="upload_voucher_title">@lang('order.product picture')</p>
                         <div class="refund_info_item upload_voucher">
@@ -202,7 +202,8 @@
                                 <li>
                                     <span>@lang('order.Memo Content')：</span>
                                     <input name="remark_for_shipment_from_user"
-                                           placeholder="@lang('order.Please describe in detail the reason for the refund')">
+                                           placeholder="@lang('order.Please describe in detail the reason for the refund')"
+                                           value="{{ old('remark_for_shipment_from_user') }}">
                                 </li>
                                 <li>
                                     <span>@lang('order.Logistics documents')：</span>
@@ -328,7 +329,7 @@
                         time: 2, //2秒后自动关闭
                     });
                     return false;
-                }else {
+                } else {
                     if ($("#step-1-form").find("textarea").val().length < 3) {
                         layer.open({
                             content: "@lang('product.Evaluation content is not less than 15 words')！",
@@ -344,7 +345,7 @@
                         });
                         return false;
                     }
-                } 
+                }
                 if (set_finish == true) {
                     $("#step-1-form").submit();
                 }
@@ -369,7 +370,7 @@
                         time: 2, //2秒后自动关闭
                     });
                     return false;
-                }else {
+                } else {
                     if ($("#step-2-form").find("textarea").val().length < 3) {
                         layer.open({
                             content: "@lang('product.Evaluation content is not less than 15 words')！",
@@ -385,7 +386,7 @@
                         });
                         return false;
                     }
-                } 
+                }
                 if (set_finish == true) {
                     $("#step-2-form").submit();
                 }
@@ -522,15 +523,15 @@
                  });
                  return;
                  }*/
-                var sUserAgent= navigator.userAgent.toLowerCase();
+                var sUserAgent = navigator.userAgent.toLowerCase();
                 var _CRE_FILE = document.createElement("input");
                 if ($(".imgfile").length <= $(".lookimg").length) {//个数不足则新创建对象
                     _CRE_FILE.setAttribute("type", "file");
                     _CRE_FILE.setAttribute("name", "image");
                     _CRE_FILE.setAttribute("class", "imgfile");
-                    if(sUserAgent.match(/Android/i) == "android"){
-			            _CRE_FILE.setAttribute("capture", "camera");	
-			        }
+                    if (sUserAgent.match(/Android/i) == "android") {
+                        _CRE_FILE.setAttribute("capture", "camera");
+                    }
 //                  _CRE_FILE.setAttribute("capture", "camera");
                     _CRE_FILE.setAttribute("accept", "image/png,image/jpg,image/jpeg");
                     _CRE_FILE.setAttribute("id", "{{ $order_item['id'] }}");
