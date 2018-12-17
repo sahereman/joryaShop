@@ -28,17 +28,17 @@ class ProductCategoriesSeeder extends Seeder
         // $product_categories = require('../demo/ProductCategories.php'); // It doesn't work.
         $product_categories = require(database_path('demo/ProductCategories.php')); // It works.
 
-        foreach ($product_categories['parents'] as $parent_name_en => $parent_name_zh) {
-            $parent = factory(ProductCategory::class)->create([
+        foreach ($product_categories['parents'] as $key => $parent) {
+            $parent_model = factory(ProductCategory::class)->create([
                 'parent_id' => 0,
-                'is_index' => 1,
-                'name_en' => $parent_name_en,
-                'name_zh' => $parent_name_zh,
+                'is_index' => $parent['is_index'],
+                'name_en' => $parent['name_en'],
+                'name_zh' => $parent['name_zh'],
             ]);
-            foreach ($product_categories['children'][$parent->name_zh] as $child_name_en => $child_name_zh) {
+            foreach ($product_categories['children'][$key] as $child_name_en => $child_name_zh) {
                 factory(ProductCategory::class)->create([
-                    'parent_id' => $parent->id,
-                    'is_index' => 1,
+                    'parent_id' => $parent_model->id,
+                    'is_index' => 0,
                     'name_en' => $child_name_en,
                     'name_zh' => $child_name_zh,
                 ]);
