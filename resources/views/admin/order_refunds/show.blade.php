@@ -295,9 +295,10 @@
             cancelButtonText: "取消",
         }, function (ret) {
             // 用户点击取消，不做任何操作
-            if (!ret) {
+            if (!ret || !network_switch) {
                 return;
             }
+            network_switch = false;
             $.ajax({
                 url: '{{ route('admin.order_refunds.check', [$refund->id]) }}',
                 method: 'POST',
@@ -322,6 +323,10 @@
                     }
 
                 },
+                complete: function (xhr, status) {
+                    //请求完成的处理
+                    network_switch = true;
+                }
             });
         });
     });
@@ -338,9 +343,10 @@
             cancelButtonText: "取消",
         }, function (ret) {
             // 用户点击取消，不做任何操作
-            if (!ret) {
+            if (!ret || !network_switch) {
                 return;
             }
+            network_switch = false;
             $.ajax({
                 url: '{{ route('admin.order_refunds.receive', [$refund->id]) }}',
                 method: 'POST',
@@ -362,6 +368,10 @@
                     }
 
                 },
+                complete: function (xhr, status) {
+                    //请求完成的处理
+                    network_switch = true;
+                }
             });
         });
     });
