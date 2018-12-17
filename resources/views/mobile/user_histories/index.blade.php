@@ -1,11 +1,13 @@
 @extends('layouts.mobile')
 @section('title', App::isLocale('en') ? 'Browse History' : '浏览记录')
 @section('content')
-    <div class="headerBar fixHeader" data-url="{{ route('mobile.user_histories.more') }}" code="{{ App::isLocale('en') ? 'en' : 'zh' }}">
-    	@if(!is_wechat_browser())
+    @if(!is_wechat_browser())
+        <div class="headerBar fixHeader" data-url="{{ route('mobile.user_histories.more') }}" code="{{ App::isLocale('en') ? 'en' : 'zh' }}">
+    @else
+        <div class="headerBar fixHeader height_no" data-url="{{ route('mobile.user_histories.more') }}" code="{{ App::isLocale('en') ? 'en' : 'zh' }}">
+    @endif
         <img src="{{ asset('static_m/img/icon_backtop.png') }}" class="backImg" onclick="javascript:history.back(-1);"/>
         <span>@lang('basic.users.Browse_history')</span>
-        @endif
     </div>
     <!--暂无浏览历史-->
     <div class="notFav dis_ni">
@@ -13,7 +15,11 @@
         <span>@lang('product.No footprint yet')</span>
         <a href="{{ route('mobile.root') }}">@lang('product.shop_now')</a>
     </div>
+    @if(!is_wechat_browser())
     <div class="favBox histories_box">
+    @else
+    <div class="favBox histories_box margin-top_no">
+    @endif
     	<div class="lists"></div>
     </div>
     <div class="editFav histories_box">

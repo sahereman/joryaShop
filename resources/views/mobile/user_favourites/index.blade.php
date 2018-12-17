@@ -1,11 +1,13 @@
 @extends('layouts.mobile')
 @section('title', App::isLocale('en') ? 'My Favourites' : '我的收藏')
 @section('content')
+    @if(!is_wechat_browser())
     <div class="headerBar fixHeader">
-    	@if(!is_wechat_browser())
+    @else
+    <div class="headerBar fixHeader height_no">
+    @endif
         <img src="{{ asset('static_m/img/icon_backtop.png') }}" class="backImg" onclick="javascript:history.back(-1);"/>
         <span>@lang('product.My Favourites')</span>
-        @endif
     </div>
     @if($favourites->isEmpty())
             <!--暂无收藏-->
@@ -15,7 +17,11 @@
         <a href="{{ route('mobile.root') }}">@lang('product.shop_now')</a>
     </div>
     @else
+        @if(!is_wechat_browser())
         <div class="favBox">
+        @else
+        <div class="favBox margin-top_no">
+        @endif
             @foreach($favourites as $favourite)
                 <div class="favItem" code='{{ $favourite->id }}' data-url="{{ route('mobile.products.show', ['product' => $favourite->product->id]) }}">
                     <img src="{{ $favourite->product->thumb_url }}"/>

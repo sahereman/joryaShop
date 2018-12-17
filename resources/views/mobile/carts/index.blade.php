@@ -1,13 +1,19 @@
 @extends('layouts.mobile')
 @section('title', App::isLocale('en') ? 'Cart' : '购物车')
 @section('content')
+    @if(!is_wechat_browser())
     <div class="headerBar fixHeader">
-    	@if(!is_wechat_browser())
+    @else
+    <div class="headerBar fixHeader height_no">
+    @endif
         <img src="{{ asset('static_m/img/icon_backtop.png') }}" class="backImg" onclick="javascript:history.back(-1);"/>
         <span>@lang('app.Shopping Cart')</span>
-        @endif
     </div>
+    @if(!is_wechat_browser())
     <div class="cartsBox">
+    @else
+    <div class="cartsBox margin-top_no">
+    @endif
     	@if($carts->isEmpty())
         <!--当购物车内容为空时显示-->
         <div class="empty_shopping_cart">

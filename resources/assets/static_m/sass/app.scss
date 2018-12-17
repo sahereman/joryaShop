@@ -77,8 +77,13 @@ img {
 .imgFadeIn{
     transition: all .3s;
 }
-
-
+.height_no {
+    height: 0 !important;
+    overflow: hidden;
+}
+.margin-top_no{
+    margin-top: 0 !important;
+}
 
 
 @import "footer";
