@@ -530,12 +530,25 @@
             //第一步提交退款申请
             $(".step-1-submit").on("click", function () {
                 set_path("#step-1-form", 'photos_for_refund');
-                if ($(".step-1-textarea").val() == null || $(".step-1-textarea").val() == "") {
+                if ($("#step-1-form").find("textarea").val() == null || $("#step-1-form").find("textarea").val() == "") {
                     layer.msg("@lang('order.Please fill in the application instructions')");
-                } else {
-                    if (set_finish == true) {
-                        $("#step-1-form").submit();
+                    return false;
+                }else {
+                    if ($("#step-1-form").find("textarea").val().length < 3) {
+                        layer.msg("@lang('product.Evaluation content is not less than 15 words')");
+                        return false;
+                    } else if ($("#step-1-form").find("textarea").val().length >= 199) {
+                        layer.open({
+                            content: "@lang('product.The content of the evaluation should not exceed 200 words')！",
+                            skin: 'msg',
+                            time: 2, //2秒后自动关闭
+                        });
+                        layer.msg("@lang('product.The content of the evaluation should not exceed 200 words')！");
+                        return false;
                     }
+                } 
+                if (set_finish == true) {
+                    $("#step-1-form").submit();
                 }
             });
             //判断文本域的字数
@@ -586,6 +599,18 @@
             //提交保存修改
             $(".step-2-submit-2").on("click", function () {
                 set_path("#step-2-form", 'photos_for_refund');
+                if ($("#step-2-form").find("textarea").val() == null || $("#step-2-form").find("textarea").val() == "") {
+                    layer.msg("@lang('order.Please fill in the application instructions')");
+                    return false;
+                }else {
+                    if ($("#step-2-form").find("textarea").val().length < 3) {
+                        layer.msg("@lang('product.Evaluation content is not less than 15 words')！");
+                        return false;
+                    } else if ($("#step-2-form").find("textarea").val().length >= 199) {
+                        layer.msg("@lang('product.The content of the evaluation should not exceed 200 words')！");
+                        return false;
+                    }
+                } 
                 if (set_finish == true) {
                     $("#step-2-form").submit();
                 }

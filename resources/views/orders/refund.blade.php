@@ -289,6 +289,18 @@
             //第一步提交退款申请
             $(".step-1-submit").on("click", function () {
                 set_path("#step-1-form");
+                if($("#step-1-form").find("textarea").val()==null||$("#step-1-form").find("textarea").val()==""){
+                    layer.msg("@lang('order.Please fill in the reason for the refund')");
+                    return false;
+            	}else {
+                    if ($("#step-1-form").find("textarea").val().length < 3) {
+                        layer.msg("@lang('product.Evaluation content is not less than 15 words')！");
+                        return false;
+                    } else if ($("#step-1-form").find("textarea").val().length >= 199) {
+                        layer.msg("@lang('product.The content of the evaluation should not exceed 200 words')！");
+                        return false;
+                    }
+                }
                 if (set_finish == true) {
                     $("#step-1-form").submit();
                 }
@@ -341,6 +353,18 @@
             //提交保存修改
             $(".step-2-submit-2").on("click", function () {
                 set_path("#step-2-form");
+                if($("#step-2-form").find("textarea").val()==null||$("#step-2-form").find("textarea").val()==""){
+            		layer.msg("@lang('order.Please fill in the reason for the refund')");
+                    return false;
+            	}else {
+                    if ($("#step-2-form").find("textarea").val().length < 3) {
+                        layer.msg("@lang('product.Evaluation content is not less than 15 words')！");
+                        return false;
+                    } else if ($("#step-2-form").find("textarea").val().length >= 199) {
+                        layer.msg("@lang('product.The content of the evaluation should not exceed 200 words')！");
+                        return false;
+                    }
+                }
                 if (set_finish == true) {
                     $("#step-2-form").submit();
                 }
