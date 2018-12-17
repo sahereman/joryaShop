@@ -1,8 +1,9 @@
 <?php
 
 use Faker\Generator as Faker;
+use App\Admin\Models\Product;
 
-$factory->define(App\Models\Product::class, function (Faker $faker) {
+$factory->define(Product::class, function (Faker $faker) {
     // 现在时间
     $now = \Carbon\Carbon::now()->toDateTimeString();
     // 随机取一个月以内的时间
