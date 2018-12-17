@@ -124,7 +124,7 @@
                                         "<p>" +
                                         "<img src='{{ asset('img/warning.png') }}'>" +
                                         "@lang('product.not found')" +
-                                        "“<span class='red'>" + getQueryString("query") + "</span>”@lang('product.related products')" +
+                                        "@lang('product.related products')" +
                                         "</p>" +
                                         "</li>";
                             } else {
