@@ -318,6 +318,7 @@
     <script type="text/javascript">
         $(function () {
             var click_whichDom = "";
+            var set_finish = false;
             $(".refund_con").css("min-height", $(window).height() - $(".headerBar ").height());
             //第一步表单提交
             $(".submint_one").on("click", function () {
@@ -419,7 +420,7 @@
             });
             //提交物流信息
             $(".logistics_submint").on("click", function () {
-                if ($("input[name='shipment_company']").val() == "" || $("input[name='shipment_sn']").val() == "" || $("input[name='remark_for_shipment_from_user']").val() == "") {
+                if ($("input[name='shipment_company']").val() == "" || $("input[name='shipment_sn']").val() == "") {
                     layer.open({
                         content: "@lang('order.Please complete the information')",
                         skin: 'msg',

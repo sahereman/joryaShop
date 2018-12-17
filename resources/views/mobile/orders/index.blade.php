@@ -119,7 +119,6 @@
                         data: data,
                         dataType: 'json',
                         success: function (data) {
-                        	console.log(data)
                             var orders = data.data.orders.data;
                             var html = "";
                             var name, sum, symbol, price, sku_name, total_price, total_price1, total_price2;
