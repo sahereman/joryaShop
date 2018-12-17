@@ -114,6 +114,7 @@
                         data: data,
                         dataType: 'json',
                         success: function (data) {
+                        	console.log(data)
                             var orders = data.data.orders.data;
                             var html = "";
                             var name, sum, symbol, price, sku_name, total_price, total_price1, total_price2;
@@ -230,7 +231,7 @@
                                                 html += "<button class='orderBtnC after_sales_status_ship' code='" + order.id + "'> @lang('order.View after sales status')</button>";
                                                 // html += "<button class='orderBtnS Revoke_refund' code='" + order.id + "'> @lang('order.Revoke the refund application')</button>";
                                             }
-                                            if (order_refund_status_finished.indexOf(order.refund.status) != -1) {
+                                            if (order.refund != null && order.refund.status != null && order_refund_status_finished.indexOf(order.refund.status) == -1) {
                                                 html += "<button class='orderBtnS Revoke_refund' code='" + order.id + "'> @lang('order.Revoke the refund application')</button>";
                                             }
                                             break;

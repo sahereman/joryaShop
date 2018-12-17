@@ -9,7 +9,7 @@
                     <span>></span>
                     <a href="javascript:void(0);">@lang('order.Confirm Order')</a>
                 </p>
-                <div class="pre_payment_header">
+                <div class="pre_payment_header" code='{{ $address->id }}'>
                     <div class="address_info clear">
                         <ul class="left">
                             <li class="clear">
@@ -243,7 +243,7 @@
                             if (dataObj.length > 0) {
                                 var html = "";
                                 $.each(dataObj, function (i, n) {
-                                    html += "<li class='clear'>" +
+                                    html += "<li class='clear' code='"+ n.id +"'>" +
                                             "<p class='clear'><span>@lang('order.Contact')：</span><span class='name'>" + n.name + "</span></p>" +
                                             "<p class='clear'><span>@lang('order.Contact information')：</span><span class='phone'>" + n.phone + "</span></p>" +
                                             "<p class='clear'><span>@lang('order.contact address')：</span><span class='address'>" + n.address + "</span></p>" +
@@ -268,6 +268,7 @@
                                             $(".address_name").html($(".changeAddress").find("li.active").find(".name").html());
                                             $(".address_phone").html($(".changeAddress").find("li.active").find(".phone").html());
                                             $(".address_location").html($(".changeAddress").find("li.active").find(".address").html());
+                                            $(".pre_payment_header").attr("code",$(".changeAddress").find("li.active").attr("code"));
                                             layer.close(changeAdd);
                                         }
                                     },
@@ -315,7 +316,6 @@
                 var address_location = $(".address_location").html();
                 var url = $(this).attr("data-url");
                 var sendWay = getUrlVars("sendWay");
-                console.log(address_name);
                 if (address_name == "" || address_phone == "" || address_location == "") {
                     layer.msg("@lang('order.Please fill in the address completely')");
                 } else {
@@ -340,9 +340,7 @@
                     _token: "{{ csrf_token() }}",
                     sku_id: sku_id,
                     number: number,
-                    name: $(".address_name").html(),
-                    phone: $(".address_phone").html(),
-                    address: $(".address_location").html(),
+                    address_id: $(".pre_payment_header").attr("code"),
                     remark: $(".remark").val(),
                     currency: $(".currency_selection").find("a.active").attr("country")
                 };
@@ -374,9 +372,7 @@
                 var data = {
                     _token: "{{ csrf_token() }}",
                     cart_ids: cart_ids,
-                    name: $(".address_name").html(),
-                    phone: $(".address_phone").html(),
-                    address: $(".address_location").html(),
+                    address_id: $(".pre_payment_header").attr("code"),
                     remark: $(".remark").val(),
                     currency: $(".currency_selection").find("a.active").attr("country")
                 };

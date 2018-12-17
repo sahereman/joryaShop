@@ -327,10 +327,28 @@
                         skin: 'msg',
                         time: 2, //2秒后自动关闭
                     });
-                } else {
-                    if (set_finish == true) {
-                        $("#step-1-form").submit();
+                    return false;
+                }else {
+                    if ($("#step-1-form").find("textarea").val().length < 3) {
+                        textarea_status = false;
+                        layer.open({
+                            content: "@lang('product.Evaluation content is not less than 15 words')！",
+                            skin: 'msg',
+                            time: 2, //2秒后自动关闭
+                        });
+                        return false;
+                    } else if ($("#step-1-form").find("textarea").val().length >= 199) {
+                        textarea_status = false;
+                        layer.open({
+                            content: "@lang('product.The content of the evaluation should not exceed 200 words')！",
+                            skin: 'msg',
+                            time: 2, //2秒后自动关闭
+                        });
+                        return false;
                     }
+                } 
+                if (set_finish == true) {
+                    $("#step-1-form").submit();
                 }
             });
             //第二步修改申请
@@ -346,6 +364,32 @@
                 $(this).addClass("dis_ni");
                 $(".change_btn").removeClass("dis_ni");
                 $(".refunds_photos").addClass("dis_n");
+                if ($("#step-2-form").find("textarea").val() == null || $("#step-2-form").find("textarea").val() == "") {
+                    layer.open({
+                        content: "@lang('order.Please fill in the application instructions')",
+                        skin: 'msg',
+                        time: 2, //2秒后自动关闭
+                    });
+                    return false;
+                }else {
+                    if ($("#step-2-form").find("textarea").val().length < 3) {
+                        textarea_status = false;
+                        layer.open({
+                            content: "@lang('product.Evaluation content is not less than 15 words')！",
+                            skin: 'msg',
+                            time: 2, //2秒后自动关闭
+                        });
+                        return false;
+                    } else if ($("#step-2-form").find("textarea").val().length >= 199) {
+                        textarea_status = false;
+                        layer.open({
+                            content: "@lang('product.The content of the evaluation should not exceed 200 words')！",
+                            skin: 'msg',
+                            time: 2, //2秒后自动关闭
+                        });
+                        return false;
+                    }
+                } 
                 if (set_finish == true) {
                     $("#step-2-form").submit();
                 }

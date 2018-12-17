@@ -180,7 +180,25 @@
                         time: 2, //2秒后自动关闭
                     });
                     return false;
-            	}
+            	}else {
+                    if ($("#step-1-form").find("textarea").val().length < 3) {
+                        textarea_status = false;
+                        layer.open({
+                            content: "@lang('product.Evaluation content is not less than 15 words')！",
+                            skin: 'msg',
+                            time: 2, //2秒后自动关闭
+                        });
+                        return false;
+                    } else if ($("#step-1-form").find("textarea").val().length >= 199) {
+                        textarea_status = false;
+                        layer.open({
+                            content: "@lang('product.The content of the evaluation should not exceed 200 words')！",
+                            skin: 'msg',
+                            time: 2, //2秒后自动关闭
+                        });
+                        return false;
+                    }
+                }
                 $("#step-1-form").submit();
             });
             //点击修改申请
@@ -198,7 +216,25 @@
                         time: 2, //2秒后自动关闭
                     });
                     return false;
-            	}
+            	}else {
+                    if ($("#step-2-form").find("textarea").val().length < 3) {
+                        textarea_status = false;
+                        layer.open({
+                            content: "@lang('product.Evaluation content is not less than 15 words')！",
+                            skin: 'msg',
+                            time: 2, //2秒后自动关闭
+                        });
+                        return false;
+                    } else if ($("#step-2-form").find("textarea").val().length >= 199) {
+                        textarea_status = false;
+                        layer.open({
+                            content: "@lang('product.The content of the evaluation should not exceed 200 words')！",
+                            skin: 'msg',
+                            time: 2, //2秒后自动关闭
+                        });
+                        return false;
+                    }
+                }
                 $("#step-2-form").submit();
             });
             //撤销退款申请
