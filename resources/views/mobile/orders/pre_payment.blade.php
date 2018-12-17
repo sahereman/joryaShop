@@ -12,7 +12,7 @@
             @if($address)
                 <div class="pre_address edit_address" data-url="{{ route('user_addresses.list_all') }}">
                     <div>
-                        <p class="address_title">
+                        <p class="address_title" code='{{ $address->id }}'>
                             <span class="address_name">{{ $address->name }}</span>
                             <span class="address_phone">{{ $address->phone }}</span>
                         </p>
@@ -246,7 +246,6 @@
             });
             //选中地址显示在界面上
             $(".adsList").on("click", '.adsItem', function () {
-                console.log($(this).find(".defaultAds").length)
                 if ($(this).find(".defaultAds").length == 1) {
                     $(".default_btn").css("display", 'block');
                 } else {
@@ -258,6 +257,7 @@
                 $('.address_choose').removeClass("fadeInRightBig");
                 $('.address_choose').addClass("fadeOutRightBig");
                 $('.address_choose').addClass("dis_n");
+                $(".address_title").attr("code",$(this).attr("code"));
             });
             //点击地址中的新建地址
             $(".creat_address_btn").on("click", function () {
@@ -275,7 +275,6 @@
             });
             //获取地址列表
             function getAddressList(url) {
-                // console.log(url);
                 $.ajax({
                     type: "get",
                     url: url,
@@ -287,7 +286,7 @@
                             if (dataObj.length > 0) {
                                 var html = "";
                                 $.each(dataObj, function (i, n) {
-                                    html += "<div class='adsItem'>";
+                                    html += "<div class='adsItem' code='"+ n.id +"'>";
                                     html += "<div class='adsName'>";
                                     html += "<span class='ads_Name'>" + n.name + "</span>";
                                     if (n.is_default == true) {
@@ -367,9 +366,7 @@
                     _token: "{{ csrf_token() }}",
                     sku_id: sku_id,
                     number: number,
-                    name: $(".address_name").html(),
-                    phone: $(".address_phone").html(),
-                    address: $(".address_info_all").html(),
+                    address_id: $(".address_title").attr("code"),
                     remark: $(".remark").val(),
                     currency: $(".currency_selection").find("a.active").attr("country")
                 };
@@ -385,7 +382,6 @@
                         });
                     },
                     success: function (json) {
-                        // console.log(json);
                         window.location.href = json.data.mobile_request_url;
                     },
                     error: function (err) {
@@ -406,9 +402,7 @@
                 var data = {
                     _token: "{{ csrf_token() }}",
                     cart_ids: cart_ids,
-                    name: $(".address_name").html(),
-                    phone: $(".address_phone").html(),
-                    address: $(".address_info_all").html(),
+                    address_id: $(".address_title").attr("code"),
                     remark: $(".remark").val(),
                     currency: $(".currency_selection").find("a.active").attr("country"),
                 };
