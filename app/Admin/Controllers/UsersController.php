@@ -83,8 +83,10 @@ class UsersController extends Controller
 
         $grid->id('ID')->sortable();
         $grid->avatar('头像')->image('', 40);
-        $grid->email('邮箱');
         $grid->name('用户名');
+        $grid->column('format_phone', '手机号')->display(function () {
+            return "+$this->country_code " . $this->phone;
+        });
         $grid->created_at('创建时间')->sortable();
 
         // 不在页面显示 `新建` 按钮，因为我们不需要在后台新建用户
@@ -102,12 +104,22 @@ class UsersController extends Controller
         $form = new Form(new User);
 
         $form->tools(function (Form\Tools $tools) {
-//            $tools->disableDelete();
+            //            $tools->disableDelete();
         });
 
         $form->display('id', 'ID');
         $form->image('avatar', '头像')->uniqueName()->move('avatar/' . date('Ym', now()->timestamp))->rules('required|image');
-        $form->display('name', '用户名');
+        $form->text('name', '用户名');
+        $form->text('email', '邮箱');
+        $form->text('gender', '性别');
+        $form->text('qq', 'QQ');
+        $form->text('wechat', '微信');
+        $form->text('facebook', 'Facebook');
+        $form->divider();
+        $form->display('country_code', '国家|地区码');
+        $form->display('phone', '手机号');
+        $form->divider();
+
         $form->display('created_at', '创建时间');
         $form->display('updated_at', '更新时间');
 
@@ -131,8 +143,18 @@ class UsersController extends Controller
         $show->id('ID');
         $show->divider();
         $show->avatar('头像')->image('', 120);
-        $show->email('邮箱');
+
+
         $show->name('用户名');
+        $show->email('邮箱');
+        $show->gender('性别');
+        $show->qq('QQ');
+        $show->wechat('微信');
+        $show->facebook('Facebook');
+        $show->divider();
+        $show->country_code('国家|地区码');
+        $show->phone('手机号');
+        $show->divider();
         $show->created_at('创建时间');
         $show->updated_at('更新时间');
 
