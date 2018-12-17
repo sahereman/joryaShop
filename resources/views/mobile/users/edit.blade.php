@@ -152,12 +152,15 @@
 //		        layer.alert("一次最多上传" + IMG_MAXCOUNT + "张图片");
 //		        return;
 //		    }
+            var sUserAgent= navigator.userAgent.toLowerCase();
 		    var _CRE_FILE = document.createElement("input");
 //		    if ($(".imgfile").length <= $(".lookimg").length) {//个数不足则新创建对象
 		        _CRE_FILE.setAttribute("type", "file");
 		        _CRE_FILE.setAttribute("name", "avatar");
 		        _CRE_FILE.setAttribute("class", "imgfile");
-//		        _CRE_FILE.setAttribute("capture", "camera");
+		        if(sUserAgent.match(/Android/i) == "android"){
+		            _CRE_FILE.setAttribute("capture", "camera");	
+		        }
 		        _CRE_FILE.setAttribute("accept", "image/png,image/jpg,image/jpeg");
 		        _CRE_FILE.setAttribute("id", "upload_head");
 		        _CRE_FILE.setAttribute("data-url","{{ route('image.preview') }}");

@@ -265,11 +265,15 @@
 //					});
 //			        return;
 //			    }
+                var sUserAgent= navigator.userAgent.toLowerCase();
 			    var _CRE_FILE = document.createElement("input");
 			    if ($(".imgfile").length <= $(".lookimg").length) {//个数不足则新创建对象
 			        _CRE_FILE.setAttribute("type", "file");
 			        _CRE_FILE.setAttribute("name", "image");
 			        _CRE_FILE.setAttribute("class", "imgfile");
+			        if(sUserAgent.match(/Android/i) == "android"){
+			            _CRE_FILE.setAttribute("capture", "camera");	
+			        }
 //			        _CRE_FILE.setAttribute("capture", "camera");
 			        _CRE_FILE.setAttribute("accept", "image/png,image/jpg,image/jpeg");
 			        _CRE_FILE.setAttribute("id", "{{ $order_item['id'] }}");
