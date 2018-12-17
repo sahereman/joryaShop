@@ -93,7 +93,7 @@
                                     <li>
                                         <span><i class="red">*</i>@lang('order.Application description')：</span>
                                         <textarea name="remark_from_user" class="reasons_for_refunds"
-                                                  placeholder="@lang('order.Please fill in the reason for the refund')"></textarea>
+                                                  placeholder="@lang('order.Please fill in the reason for the refund')">{{ old('remark_from_user') }}</textarea>
                                         <span class="remainder">200</span>
                                     </li>
                                 </ul>

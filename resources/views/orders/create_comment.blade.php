@@ -163,9 +163,8 @@
                                     </div>
                                 </div>
                                 <textarea name="content[{{ $order_item['id'] }}]" maxlength="200"
-                                          placeholder="@lang('product.comments.Please enter a product evaluation of less than 200 words')"></textarea>
-                                <!--<input id="imgPath-[{{ $order_item['id'] }}]" type="hidden" name="photos[{{ $order_item['id'] }}]"-->
-
+                                          placeholder="@lang('product.comments.Please enter a product evaluation of less than 200 words')">{{ old('content')[$order_item['id']] }}</textarea>
+                                {{--<input id="imgPath-[{{ $order_item['id'] }}]" type="hidden" name="photos[{{ $order_item['id'] }}]"--}}
                                 <div class="picture_area">
                                     <input id="imgPath-[{{ $order_item['id'] }}]" type="hidden"
                                            name="photos[{{ $order_item['id'] }}]" value="">
@@ -178,8 +177,7 @@
                                             <img src="{{ asset('img/pic_upload.png') }}">
                                             <input type="file" name="image" value=""
                                                    data-url="{{ route('comment_image.upload') }}"
-                                                   id="{{ $order_item['id'] }}"
-                                                   onchange="imgChange(this)"/>
+                                                   id="{{ $order_item['id'] }}" onchange="imgChange(this)"/>
                                         </div>
                                     </div>
                                 </div>
@@ -207,8 +205,8 @@
             $(".pictures_btn").on("click", function () {
                 which_click = $(this).attr("code");
                 $(document).on("click", ".pictures_btn input", function () {
-                })
-            })
+                });
+            });
         });
         // 图片上传入口按钮 input[type=file]值发生改变时触发
         function imgChange(obj) {
@@ -259,7 +257,6 @@
             });
         }
 
-
         //表单提交
         $(".sub_evaluation").on("click", function () {
             var five_star_one, five_star_two, five_star_three, star_status, textarea_status;
@@ -279,7 +276,6 @@
                     layer.msg("@lang('product.Please fill in the evaluation content')！");
                     return textarea_status;
                 } else {
-                    console.log();
                     if ($(n).find("textarea").val().length < 3) {
                         textarea_status = false;
                         layer.msg("@lang('product.Evaluation content is not less than 15 words')！");
@@ -296,7 +292,7 @@
             if (set_finish == true && textarea_status == true && star_status == true) {
                 $("#creat_comment_form").submit();
             }
-        })
+        });
         function set_path() {
             var order_list = $(".comment_content").find(".evaluation_order .pictures");
             $.each(order_list, function (i, n) {
@@ -314,6 +310,6 @@
         //删除
         $(document).on("click", ".close_btn", function () {
             $(this).parents('.img_path').remove();
-        })
+        });
     </script>
 @endsection
