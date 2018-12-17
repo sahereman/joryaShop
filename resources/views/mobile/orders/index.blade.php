@@ -3,13 +3,13 @@
 @section('content')
     <div class="orderBox">
         <div class="orderHeadTop">
+        	@if(!is_wechat_browser())
             <div class="headerBar">
-                @if(!is_wechat_browser())
                     <img src="{{ asset('static_m/img/icon_backtop.png') }}" class="backImg"
                          onclick="javascript:history.back(-1);"/>
                     <span>@lang('basic.users.My_order')</span>
-                @endif
             </div>
+            @endif
             <div class="orderHead">
                 <div class="index orderActive"
                      data-url="{{ route('mobile.orders.more') }}">@lang('basic.orders.All orders')</div>
@@ -30,7 +30,12 @@
                 <p>@lang('basic.users.No_orders_yet')</p>
                 <a href="{{ route('root') }}">@lang('product.shopping_cart.Go_shopping')</a>
             </div>
-            <div class="lists"></div>
+            @if(!is_wechat_browser())
+            <div class="lists">
+            @else
+            <div class="lists small_margin">
+            @endif
+            </div>
         </div>
     </div>
 @endsection

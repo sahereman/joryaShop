@@ -1,13 +1,19 @@
 @extends('layouts.mobile')
 @section('title', App::isLocale('en') ? 'Information modification' : '信息修改')
 @section('content')
+    @if(!is_wechat_browser())
     <div class="headerBar fixHeader" style="border: none;">
-    	@if(!is_wechat_browser())
+    @else
+    <div class="headerBar fixHeader height_no" style="border: none;">
+    @endif
         <img src="{{ asset('static_m/img/icon_backtop.png') }}" class="backImg" onclick="javascript:history.back(-1);"/>
         <span>@lang('basic.users.Personal information')</span>
-        @endif
     </div>
+    @if(!is_wechat_browser())
     <div class="editUser">
+    @else
+    <div class="editUser margin-top_no">
+    @endif
         <div class="editUserMain">
             <form method="POST" action="{{ route('users.update', ['user' => $user->id]) }}"
                   enctype="multipart/form-data" id="img_form">
