@@ -275,6 +275,10 @@
                     }
 
                 },
+                complete: function (xhr, status) {
+                    //请求完成的处理
+                    network_switch = true;
+                }
             });
         });
     });
