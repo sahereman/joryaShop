@@ -165,7 +165,7 @@
                                         @lang('order.View after sales status')
                                     </a>
                                 @endif
-                                @if(in_array($order->refund->status, [\App\Models\OrderRefund::ORDER_REFUND_STATUS_REFUNDED, \App\Models\OrderRefund::ORDER_REFUND_STATUS_DECLINED]))
+                                @if(! in_array($order->refund->status, [\App\Models\OrderRefund::ORDER_REFUND_STATUS_REFUNDED, \App\Models\OrderRefund::ORDER_REFUND_STATUS_DECLINED]))
                                     <a class="revocation_after_sale"
                                        data-url="{{ route('orders.revoke_refund', ['order' => $order->id]) }}">
                                         @lang('order.Revoke the refund application')

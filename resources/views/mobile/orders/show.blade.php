@@ -2,9 +2,10 @@
 @section('title', App::isLocale('en') ? 'Order Details' : '订单详情')
 @section('content')
     <div class="headerBar fixHeader">
-    	@if(!is_wechat_browser())
-        <img src="{{ asset('static_m/img/icon_backtop.png') }}" class="backImg" onclick="javascript:history.back(-1);"/>
-        <span>@lang('order.Order Details')</span>
+        @if(!is_wechat_browser())
+            <img src="{{ asset('static_m/img/icon_backtop.png') }}" class="backImg"
+                 onclick="javascript:history.back(-1);"/>
+            <span>@lang('order.Order Details')</span>
         @endif
     </div>
     <div class="orderDetailBox">
@@ -170,7 +171,8 @@
                 <a class="ordDetailBtnC cancel" data-url="{{ route('orders.close', ['order' => $order->id]) }}">
                     @lang('app.cancel')
                 </a>
-                <a class="ordDetailBtnS payment" href="{{ route('mobile.orders.payment_method', ['order' => $order->id]) }}">
+                <a class="ordDetailBtnS payment"
+                   href="{{ route('mobile.orders.payment_method', ['order' => $order->id]) }}">
                     @lang('order.Immediate payment')
                 </a>
             @elseif($order->status == \App\Models\Order::ORDER_STATUS_CLOSED)
@@ -185,10 +187,12 @@
                     @lang('basic.orders.Remind shipments')
                 </a>
             @elseif($order->status == \App\Models\Order::ORDER_STATUS_RECEIVING)
-                <a class="ordDetailBtnC" href="{{ route('mobile.orders.refund_with_shipment', ['order' => $order->id]) }}">
+                <a class="ordDetailBtnC"
+                   href="{{ route('mobile.orders.refund_with_shipment', ['order' => $order->id]) }}">
                     @lang('order.Request a refund')
                 </a>
-                <a class="main_operation Confirm_reception ordDetailBtnS" data-url="{{ route('orders.complete', ['order' => $order->id]) }}">
+                <a class="main_operation Confirm_reception ordDetailBtnS"
+                   data-url="{{ route('orders.complete', ['order' => $order->id]) }}">
                     @lang('order.Confirm reception')
                 </a>
             @elseif($order->status == \App\Models\Order::ORDER_STATUS_COMPLETED && $order->commented_at == null)
@@ -206,24 +210,18 @@
                     @lang('order.View comments')
                 </a>
             @elseif($order->status == \App\Models\Order::ORDER_STATUS_REFUNDING)
-                @if(isset($order_refund_type) && $order_refund_type == \App\Models\OrderRefund::ORDER_REFUND_TYPE_REFUND)
-                    <a class="main_operation ordDetailBtnC" href="{{ route('mobile.orders.refund', ['order' => $order->id]) }}">
+                @if($order->refund->type == \App\Models\OrderRefund::ORDER_REFUND_TYPE_REFUND)
+                    <a class="main_operation ordDetailBtnC"
+                       href="{{ route('mobile.orders.refund', ['order' => $order->id]) }}">
                         @lang('order.View after sales status')
                     </a>
-                    <a class="revocation_after_sale ordDetailBtnS"
-                       data-url="{{ route('orders.revoke_refund', ['order' => $order->id]) }}">
-                        @lang('order.Revoke the refund application')
-                    </a>
-                @elseif(isset($order_refund_type) && $order_refund_type == \App\Models\OrderRefund::ORDER_REFUND_TYPE_REFUND_WITH_SHIPMENT)
+                @elseif($order->refund->type == \App\Models\OrderRefund::ORDER_REFUND_TYPE_REFUND_WITH_SHIPMENT)
                     <a class="main_operation ordDetailBtnC"
                        href="{{ route('mobile.orders.refund_with_shipment', ['order' => $order->id]) }}">
                         @lang('order.View after sales status')
                     </a>
-                    <a class="revocation_after_sale ordDetailBtnS"
-                       data-url="{{ route('orders.revoke_refund', ['order' => $order->id]) }}">
-                        @lang('order.Revoke the refund application')
-                    </a>
-                @else
+                @endif
+                @if(! in_array($order->refund->status, [\App\Models\OrderRefund::ORDER_REFUND_STATUS_REFUNDED, \App\Models\OrderRefund::ORDER_REFUND_STATUS_DECLINED]))
                     <a class="revocation_after_sale ordDetailBtnS"
                        data-url="{{ route('orders.revoke_refund', ['order' => $order->id]) }}">
                         @lang('order.Revoke the refund application')
@@ -276,168 +274,168 @@
             var sh = setInterval(_fresh, 1000);
         }
         //点击提醒发货
-        $(".ordDetailBtn").on("click",".Remind_shipments",function(){
-        	layer.open({
+        $(".ordDetailBtn").on("click", ".Remind_shipments", function () {
+            layer.open({
                 content: "@lang('basic.orders.The seller has been reminded to ship the goods, please wait for good news')",
                 skin: 'msg',
                 time: 2, //2秒后自动关闭
             });
-        })
+        });
         //取消订单
         $(".ordDetailBtn").on("click", ".cancel", function () {
-        	var clickDom = $(this);
-        	layer.open({
-			    content: "@lang('basic.orders.Make sure to cancel the order')",
-			    btn: ["@lang('app.determine')", "@lang('app.cancel')"],
-			    yes: function(index){
-			        var data = {
-		                _method: "PATCH",
-		                _token: "{{ csrf_token() }}",
-		            };
-		            var url = clickDom.attr("data-url");
-		            $.ajax({
-		                type: "post",
-		                url: url,
-		                data: data,
-		                success: function (data) {
-		                    layer.open({
-	                            content: "@lang('order.Order cancelled successfully')",
-	                            skin: 'msg',
-	                            time: 2, //2秒后自动关闭
-	                        });
-	                        window.location.href = "{{ route('mobile.orders.index') }}";
-		                },
-		                error: function (err) {
-		                    console.log(err.status);
-		                    if (err.status == 403) {
-		                        layer.open({
-		                            content: "@lang('app.Unable to complete operation')",
-		                            skin: 'msg',
-		                            time: 2, //2秒后自动关闭
-		                        });
-		                    }
-		                },
-		            });
-			        layer.close(index);
-			    }
-			});
+            var clickDom = $(this);
+            layer.open({
+                content: "@lang('basic.orders.Make sure to cancel the order')",
+                btn: ["@lang('app.determine')", "@lang('app.cancel')"],
+                yes: function (index) {
+                    var data = {
+                        _method: "PATCH",
+                        _token: "{{ csrf_token() }}",
+                    };
+                    var url = clickDom.attr("data-url");
+                    $.ajax({
+                        type: "post",
+                        url: url,
+                        data: data,
+                        success: function (data) {
+                            layer.open({
+                                content: "@lang('order.Order cancelled successfully')",
+                                skin: 'msg',
+                                time: 2, //2秒后自动关闭
+                            });
+                            window.location.href = "{{ route('mobile.orders.index') }}";
+                        },
+                        error: function (err) {
+                            console.log(err.status);
+                            if (err.status == 403) {
+                                layer.open({
+                                    content: "@lang('app.Unable to complete operation')",
+                                    skin: 'msg',
+                                    time: 2, //2秒后自动关闭
+                                });
+                            }
+                        },
+                    });
+                    layer.close(index);
+                }
+            });
         });
         //删除订单
         $(".ordDetailBtn").on("click", ".Delete", function () {
-        	var clickDom = $(this);
-        	layer.open({
-			    content: "@lang('order.Make sure to delete the order information')",
-			    btn: ["@lang('app.determine')", "@lang('app.cancel')"],
-			    yes: function(index){
-			        var data = {
-		                _method: "DELETE",
-		                _token: "{{ csrf_token() }}",
-		            };
-		            var url = clickDom.attr("data-url");
-		            $.ajax({
-		                type: "post",
-		                url: url,
-		                data: data,
-		                success: function (json) {
-		                	layer.open({
-	                            content: "@lang('order.Order deleted successfully')",
-	                            skin: 'msg',
-	                            time: 2, //2秒后自动关闭
-	                       });
-	                       window.location.href = "{{ route('mobile.orders.index') }}";
-		                },
-		                error: function (err) {
-		                    console.log(err.status);
-		                    if (err.status == 403) {
-		                        layer.open({
-		                            content: "@lang('app.Unable to complete operation')",
-		                            skin: 'msg',
-		                            time: 2, //2秒后自动关闭
-		                        });
-		                    }
-		                },
-		            });
-			        layer.close(index);
-			    }
-			});
+            var clickDom = $(this);
+            layer.open({
+                content: "@lang('order.Make sure to delete the order information')",
+                btn: ["@lang('app.determine')", "@lang('app.cancel')"],
+                yes: function (index) {
+                    var data = {
+                        _method: "DELETE",
+                        _token: "{{ csrf_token() }}",
+                    };
+                    var url = clickDom.attr("data-url");
+                    $.ajax({
+                        type: "post",
+                        url: url,
+                        data: data,
+                        success: function (json) {
+                            layer.open({
+                                content: "@lang('order.Order deleted successfully')",
+                                skin: 'msg',
+                                time: 2, //2秒后自动关闭
+                            });
+                            window.location.href = "{{ route('mobile.orders.index') }}";
+                        },
+                        error: function (err) {
+                            console.log(err.status);
+                            if (err.status == 403) {
+                                layer.open({
+                                    content: "@lang('app.Unable to complete operation')",
+                                    skin: 'msg',
+                                    time: 2, //2秒后自动关闭
+                                });
+                            }
+                        },
+                    });
+                    layer.close(index);
+                }
+            });
         });
         //撤销售后申请
         $(".ordDetailBtn").on("click", ".revocation_after_sale", function () {
-        	var clickDom = $(this)
-//          window.location.href = "{{ config('app.url') }}" + "/mobile/orders/" + $(this).attr("code") + "/revoke_refund";
+            var clickDom = $(this);
+            // window.location.href = "{{ config('app.url') }}" + "/mobile/orders/" + $(this).attr("code") + "/revoke_refund";
             layer.open({
-			    content: "@lang('order.Make sure to apply after withdrawing sales')",
-			    btn: ["@lang('app.determine')", "@lang('app.cancel')"],
-			    yes: function(index){
-			        var data = {
-		                _method: "PATCH",
-		                _token: "{{ csrf_token() }}",
-		            };
-		            var url = clickDom.attr("data-url");
-		            $.ajax({
-		                type: "post",
-		                url: url,
-		                data: data,
-		                success: function (data) {
-		                    layer.open({
-	                            content: "@lang('order.Cancel the application successfully')",
-	                            skin: 'msg',
-	                            time: 2, //2秒后自动关闭
-	                        });
-	                        window.location.href = "{{ route('mobile.orders.index') }}";
-		                },
-		                error: function (err) {
-		                    console.log(err);
-		                    if (err.status == 403) {
-		                        layer.open({
-		                            content: "@lang('app.Unable to complete operation')",
-		                            skin: 'msg',
-		                            time: 2, //2秒后自动关闭
-		                        });
-		                    }
-		                },
-		            });
-			        layer.close(index);
-			    }
-			});
-        })
+                content: "@lang('order.Make sure to apply after withdrawing sales')",
+                btn: ["@lang('app.determine')", "@lang('app.cancel')"],
+                yes: function (index) {
+                    var data = {
+                        _method: "PATCH",
+                        _token: "{{ csrf_token() }}",
+                    };
+                    var url = clickDom.attr("data-url");
+                    $.ajax({
+                        type: "post",
+                        url: url,
+                        data: data,
+                        success: function (data) {
+                            layer.open({
+                                content: "@lang('order.Cancel the application successfully')",
+                                skin: 'msg',
+                                time: 2, //2秒后自动关闭
+                            });
+                            window.location.href = "{{ route('mobile.orders.index') }}";
+                        },
+                        error: function (err) {
+                            console.log(err);
+                            if (err.status == 403) {
+                                layer.open({
+                                    content: "@lang('app.Unable to complete operation')",
+                                    skin: 'msg',
+                                    time: 2, //2秒后自动关闭
+                                });
+                            }
+                        },
+                    });
+                    layer.close(index);
+                }
+            });
+        });
         //确认收货 
         $(".ordDetailBtn").on("click", ".Confirm_reception", function () {
-        	var clickDom = $(this)
-        	layer.open({
-			    content: "@lang('order.Are you sure you want to confirm the receipt')",
-			    btn: ["@lang('app.determine')", "@lang('app.cancel')"],
-			    yes: function(index){
-			        var data = {
-		                _method: "PATCH",
-		                _token: "{{ csrf_token() }}",
-		            };
-		            var url = clickDom.attr("data-url");
-		            $.ajax({
-		                type: "post",
-		                url: url,
-		                data: data,
-		                success: function (data) {
-		                    layer.open({
-	                            content: "@lang('order.Confirm receipt success')",
-	                            skin: 'msg',
-	                            time: 2, //2秒后自动关闭
-	                        });
-	                        window.location.href = "{{ route('mobile.orders.index') }}";
-		                },
-		                error: function (err) {
-		                    if (err.status == 403) {
-		                        layer.open({
-		                            content: "@lang('app.Unable to complete operation')",
-		                            skin: 'msg',
-		                            time: 2, //2秒后自动关闭
-		                        });
-		                    }
-		                }
-		            });
-			        layer.close(index);
-			    }
-			});
+            var clickDom = $(this);
+            layer.open({
+                content: "@lang('order.Are you sure you want to confirm the receipt')",
+                btn: ["@lang('app.determine')", "@lang('app.cancel')"],
+                yes: function (index) {
+                    var data = {
+                        _method: "PATCH",
+                        _token: "{{ csrf_token() }}",
+                    };
+                    var url = clickDom.attr("data-url");
+                    $.ajax({
+                        type: "post",
+                        url: url,
+                        data: data,
+                        success: function (data) {
+                            layer.open({
+                                content: "@lang('order.Confirm receipt success')",
+                                skin: 'msg',
+                                time: 2, //2秒后自动关闭
+                            });
+                            window.location.href = "{{ route('mobile.orders.index') }}";
+                        },
+                        error: function (err) {
+                            if (err.status == 403) {
+                                layer.open({
+                                    content: "@lang('app.Unable to complete operation')",
+                                    skin: 'msg',
+                                    time: 2, //2秒后自动关闭
+                                });
+                            }
+                        }
+                    });
+                    layer.close(index);
+                }
+            });
         });
     </script>
 @endsection
