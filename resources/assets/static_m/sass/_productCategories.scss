@@ -92,12 +92,15 @@
                             height: 4rem;
                         }
                         p{
+                            width: 5rem;
                             overflow: hidden;
                             text-overflow: ellipsis;
+                            white-space: nowrap;
                             height: 1rem;
                             text-align: center;
                             font-size: .65rem;
                             margin-top: .5rem;
+                            line-height: 1rem;
                         }
                     }
                 }

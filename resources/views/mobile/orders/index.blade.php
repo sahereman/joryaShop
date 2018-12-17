@@ -164,9 +164,8 @@
                                             name = ($(".orderMain").attr("code") == "en") ? order_item.sku.product.name_en : order_item.sku.product.name_zh;
                                             sku_name = ($(".orderMain").attr("code") == "en") ? order_item.sku.name_en : order_item.sku.name_zh;
                                             price = (order.currency == "CNY") ? order_item.sku.product.price : order_item.sku.product.price_in_usd;
-                                            total_price1 = js_number_format(Math.imul(float_multiply_by_100(order.total_amount), 12) / 1000);
-                                            total_price2 = js_number_format(Math.imul(float_multiply_by_100(order.total_shipping_fee), 12) / 1000);
-                                            total_price = parseFloat(total_price1) + parseFloat(total_price2)
+                                            total_price1 = float_multiply_by_100(order.total_amount)+float_multiply_by_100(order.total_shipping_fee);
+                                            total_price = js_number_format(total_price1/100);
                                             html += "<div class='orderItemDetail_item'>";
                                             html += "<a class='product_info' code='" + order.id + "'>";
                                             html += "<img src='" + order_item.sku.product.thumb_url + "'/>";
@@ -196,7 +195,7 @@
 //                                      }
 //                                  }
                                     html += " <span class='orderCen'>" + sum + ": </span>";
-                                    html += "<span>" + symbol + " " + total_price.toFixed(2) + "</span>";
+                                    html += "<span>" + symbol + " " + total_price + "</span>";
 //                                  js_number_format(Math.imul(float_multiply_by_100(price), 12) / 1000)
                                     html += "<span>(@lang('order.Postage included'))</span>";
                                     html += "</div>";
