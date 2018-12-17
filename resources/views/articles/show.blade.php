@@ -2,7 +2,7 @@
 @section('title', $article->slug)
 @section('content')
 
-    <h3>DEMO PAGE:</h3>
+    {{--<h3>DEMO PAGE:</h3>
 
     route: articles/{slug}
     <br>
@@ -18,7 +18,11 @@
     <br>
     CONTENT:
     <br>
-    <br>
-    {!! App::isLocale('en') ? $article->content_en : $article->content_zh !!}
+    <br>--}}
+    <div class="common_articles products-search-level">
+    	<div class="m-wrapper">
+    		{!! App::isLocale('en') ? $article->content_en : $article->content_zh !!}
+    	</div>
+    </div>
 
 @endsection
