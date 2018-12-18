@@ -282,7 +282,7 @@ class OrdersController extends Controller
             // 创建一条订单记录
             $order = new Order([
                 'user_id' => $user->id,
-                'user_info' => UserAddress::select(['name','phone','address',])->find($request->input('address_id'))->toArray(),
+                'user_info' => UserAddress::select(['name', 'phone', 'address',])->find($request->input('address_id'))->toArray(),
                 'status' => Order::ORDER_STATUS_PAYING,
                 'currency' => $currency,
                 'snapshot' => collect($snapshot)->toArray(),
@@ -578,7 +578,7 @@ class OrdersController extends Controller
                 'status' => OrderRefund::ORDER_REFUND_STATUS_CHECKING,
                 // 'amount' => $request->input('amount'),
                 'remark_from_user' => $request->input('remark_from_user'),
-                'photos_for_refund' => $photos_for_refund ?? null,
+                'photos_for_refund' => isset($photos_for_refund) ? $photos_for_refund : null,
             ]);
 
             $order->status = Order::ORDER_STATUS_REFUNDING;
