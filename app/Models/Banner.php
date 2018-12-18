@@ -12,6 +12,7 @@ class Banner extends Model
         'type',
         'disk',
         'image',
+        'sort',
     ];
 
     protected $appends = [
@@ -26,5 +27,4 @@ class Banner extends Model
         }
         return Storage::disk($this->attributes['disk'])->url($this->attributes['image']);
     }
-
 }

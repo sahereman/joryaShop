@@ -565,20 +565,21 @@ class OrdersController extends Controller
     {
         $this->authorize('refund_with_shipment', $order);
 
+        $photos_for_refund = null;
         if ($request->has('photos_for_refund')) {
             $photos_for_refund = explode(',', $request->input('photos_for_refund'));
             $photos_for_refund = collect($photos_for_refund)->toArray();
         }
 
         // 开启事务
-        DB::transaction(function () use ($request, $order) {
+        DB::transaction(function () use ($request, $order, $photos_for_refund) {
             OrderRefund::create([
                 'order_id' => $order->id,
                 'type' => OrderRefund::ORDER_REFUND_TYPE_REFUND_WITH_SHIPMENT,
                 'status' => OrderRefund::ORDER_REFUND_STATUS_CHECKING,
                 // 'amount' => $request->input('amount'),
                 'remark_from_user' => $request->input('remark_from_user'),
-                'photos_for_refund' => isset($photos_for_refund) ? $photos_for_refund : null,
+                'photos_for_refund' => $photos_for_refund,
             ]);
 
             $order->status = Order::ORDER_STATUS_REFUNDING;

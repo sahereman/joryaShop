@@ -20,6 +20,8 @@ class CreateBannersTable extends Migration
             $table->string('disk')->nullable()->comment('image-filesystem-disk:local|public|cloud');
             $table->string('image')->nullable(false)->comment('image-path');
 
+            $table->unsignedSmallInteger('sort')->nullable(false)->default(0)->comment('排序值');
+
             $table->timestamps();
         });
     }

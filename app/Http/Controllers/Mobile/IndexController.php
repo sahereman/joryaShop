@@ -15,7 +15,7 @@ class IndexController extends Controller
     // GET 首页
     public function root(Request $request)
     {
-        $banners = Banner::where('type', 'mobile')->latest()->get();
+        $banners = Banner::where('type', 'mobile')->orderByDesc('sort')->get();
         $latest = Product::where('is_index', 1)->latest('updated_at')->limit(8)->get();
         $products = [];
         $categories = ProductCategory::where(['parent_id' => 0, 'is_index' => 1])->get();

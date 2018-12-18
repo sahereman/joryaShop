@@ -20,12 +20,14 @@ class BannersSeeder extends Seeder
             'type' => 'index',
             'disk' => 'public',
             'image' => $faker->image($prefix_path, 1920, 780, null, false),
+            'sort' => 10,
         ]);
 
         factory(Banner::class, 1)->create([
             'type' => 'mobile',
             'disk' => 'public',
             'image' => $faker->image($prefix_path, 960, 390, null, false),
+            'sort' => 20,
         ]);
     }
 }
