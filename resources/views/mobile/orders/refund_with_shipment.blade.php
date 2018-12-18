@@ -290,7 +290,7 @@
                     @elseif(isset($refund) && $refund->status == \App\Models\OrderRefund::ORDER_REFUND_STATUS_CHECKING)
                             <!--第二步显示-->
                     <a class="ordDetailBtnC change_btn" href="javascript:void(0);"
-                       data-url="{{ route('orders.update_refund', ['order' => $order->id]) }}">
+                       data-url="{{ route('orders.update_refund_with_shipment', ['order' => $order->id]) }}">
                         @lang('order.Modify')
                     </a>
                     <a class="ordDetailBtnC save_btn dis_ni" href="javascript:void(0);"
@@ -304,7 +304,7 @@
                     @elseif(isset($refund) && $refund->status == \App\Models\OrderRefund::ORDER_REFUND_STATUS_SHIPPING)
                             <!--第三步显示，第四与第五步没有按钮不需要显示-->
                     <a class="doneBtn logistics_submint" href="javascript:void(0);"
-                       data-url="{{ route('orders.update_refund', ['order' => $order->id]) }}">
+                       data-url="{{ route('orders.update_refund_with_shipment', ['order' => $order->id]) }}">
                         @lang('app.submit')
                     </a>
                     @endif
