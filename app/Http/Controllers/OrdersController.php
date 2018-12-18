@@ -292,7 +292,7 @@ class OrdersController extends Controller
                 'to_be_close_at' => Carbon::now()->addSeconds(Order::getSecondsToCloseOrder())->toDateTimeString(),
             ]);
 
-            $order->user()->associate($user);
+            // $order->user()->associate($user);
 
             $order->save();
 

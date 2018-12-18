@@ -56,7 +56,7 @@ class UserAddressesController extends Controller
                 ->update(['is_default' => false]);
             $address->is_default = true;
         }
-        $address->user()->associate($user);
+        // $address->user()->associate($user);
         $address->save();
         return response()->json([
             'code' => 200,
