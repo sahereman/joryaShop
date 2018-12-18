@@ -2,10 +2,16 @@
 @section('title', App::isLocale('en') ? 'Product Search' : '商品搜索')
 @section('content')
     <div class="seaBox">
+    	@if(!is_wechat_browser())
         <div class="headerBar">
+        @else
+        <div class="headerBar height_no">
+        @endif
+            @if(!is_wechat_browser())
             <img src="{{ asset('static_m/img/icon_backtop.png') }}" class="backImg"
                  onclick="javascript:history.back(-1);"/>
             <span>@lang('product.Search')</span>
+            @endif
         </div>
         <div class="searchHead">
             <div class="searchHeadMain" code="{{ App::isLocale('en') ? 'en' : 'zh' }}">

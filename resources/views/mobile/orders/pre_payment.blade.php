@@ -212,7 +212,7 @@
                 $('.address_choose').addClass("fadeInRightBig");
                 if ($(this).hasClass("no_address")) {
                     $(".addAdsBox").show();
-                    $(".adsBox").hide();
+                    $(".ads1Box").hide();
                 } else {
                     $(".addAdsBox").hide();
                     $(".ads1Box").show();
