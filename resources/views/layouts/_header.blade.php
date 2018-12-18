@@ -55,7 +55,7 @@
                         </li>
                     </ul>
                     <img src="{{ asset('img/header/down_arrow.png') }}">
-                    <a class="about-us" href="{{ route('root') }}">@lang('app.About_us')</a>
+                    <a class="about-us" href="{{ route('articles.show', ['slug' => 'about']) }}">@lang('app.About_us')</a>
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                         {{ csrf_field() }}
                     </form>
