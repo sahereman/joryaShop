@@ -451,8 +451,8 @@ img {
                                 border-radius: 100%;
                                 text-align: center;
                                 line-height: 20px;
-                                top: -10px;
-                                right: -10px;
+                                top: -35px;
+                                right: -35px;
                             }
                         }
                     }
@@ -1023,12 +1023,12 @@ footer {
         .footer-top-center {
             float: left;
             margin-top: 60px;
-            margin-left: 50px;
+            margin-left: 20px;
             ul {
                 overflow: hidden;
                 li {
                     float: left;
-                    margin: auto 25px;
+                    margin: auto 20px;
                     min-width: 131px;
                     p {
                         font-size: 15px;
@@ -1049,11 +1049,12 @@ footer {
         }
         .pay_attention {
             float: right;
-            width: 225px;
+            min-width: 225px;
             overflow: hidden;
             margin-top: 60px;
             div {
                 float: left;
+                text-align: center;
                 img {
                     border: 1px solid #d8d8d8;
                     padding: 5px;
@@ -1066,7 +1067,7 @@ footer {
                     margin-top: 12px;
                 }
                 &:first-of-type {
-                    margin-right: 10px;
+                    margin-right: 5px;
                 }
             }
         }
