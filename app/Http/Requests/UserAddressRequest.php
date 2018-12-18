@@ -14,7 +14,7 @@ class UserAddressRequest extends Request
      */
     public function rules()
     {
-        if ($this->routeIs('user_addresses.store')) {
+        if ($this->routeIs('user_addresses.store') || $this->routeIs('mobile.user_addresses.store')) {
             return [
                 'name' => 'required|string',
                 'phone' => 'required|string',
