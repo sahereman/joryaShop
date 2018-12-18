@@ -133,7 +133,7 @@
                            placeholder="@lang('basic.address.Detailed_address')"/>--}}
                     <textarea name="address" id="new_address_info" placeholder="@lang('basic.address.Detailed_address')"></textarea>
                 </div>
-                <button class="doneBtn save_new_address">@lang('basic.users.Save')</button>
+                <button class="doneBtn save_new_address" data-url="{{ route('mobile.user_addresses.store') }}">@lang('basic.users.Save')</button>
             </div>
             <div class="defaultBox">
                 <label style="padding-left: 1rem;">@lang('basic.address.Set as default address')</label>
@@ -272,12 +272,45 @@
             });
             //点击保存
             $(".save_new_address").on("click", function () {
-                $(".address_name").html($("#new_address_name").val());
-                $(".address_phone").html($("#new_address_phone").val());
-                $(".address_info_all").html($("#new_address_info").val());
-                $('.address_choose').removeClass("fadeInRightBig");
-                $('.address_choose').addClass("fadeOutRightBig");
-                $('.address_choose').addClass("dis_n");
+            	if($("#new_address_name").val()==""||$("#new_address_phone").val()==""||$("#new_address_info").val()==""){
+            		layer.open({
+                        content:"@lang('order.Please complete the information')",
+                        skin: 'msg',
+                        time: 2, //2秒后自动关闭
+                    });
+                    return false
+            	}
+                var data = {
+                	_token: "{{ csrf_token() }}",
+                	name:$("#new_address_name").val(),
+                	phone:$("#new_address_phone").val(),
+                	address:$("#new_address_info").val()
+                }
+                $.ajax({
+                	type:"post",
+                	url:$(this).attr("data-url"),
+                	data: data,
+                	beforeSend: function () {},
+                    success: function (json) {
+                        $(".address_name").html(json.data.address.name);
+		                $(".address_phone").html(json.data.address.phone);
+		                $(".address_info_all").html(json.data.address.address);
+		                $(".address_title").attr("code",json.data.address.id)
+		                $('.address_choose').removeClass("fadeInRightBig");
+		                $('.address_choose').addClass("fadeOutRightBig");
+		                $('.address_choose').addClass("dis_n");
+                    },
+                    error: function (err) {
+                        console.log(err);
+                        layer.open({
+                            content: $.parseJSON(err.responseText).errors.address[0]||$.parseJSON(err.responseText).errors.name[0]||$.parseJSON(err.responseText).errors.phone[0],
+                            skin: 'msg',
+                            time: 2, //2秒后自动关闭
+                        });
+                    },
+                    complete: function () {
+                    },
+                });
             });
             //获取地址列表
             function getAddressList(url) {
@@ -326,7 +359,6 @@
 
             //提交订单
             var loading_animation;
-
             function getUrlVars(url_name) {
                 var vars = [], hash;
                 var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
@@ -339,17 +371,20 @@
             }
 
             $(".payment_btn").on("click", function () {
-                var address_name = $(".address_name").html();
-                var address_phone = $(".address_phone").html();
-                var address_location = $(".address_info_all").html();
+                var address_name = $(".address_name").text();
+                var address_phone = $(".address_phone").text();
+                var address_location = $(".address_info_all").text();
                 var url = $(this).attr("data-url");
                 var sendWay = getUrlVars("sendWay");
-                if (address_name == "" || address_phone == "" || address_location == "") {
-                    layer.open({
+                if($(".pre_address").hasClass("no_address")==true){
+                	layer.open({
                         content: "@lang('order.Please fill in the address completely')",
                         skin: 'msg',
                         time: 2, //2秒后自动关闭
                     });
+                    return false;
+                }
+                if (address_name == " " || address_phone == " " || address_location == " ") {
                 } else {
                     switch (sendWay) {
                         case "1":
@@ -392,6 +427,7 @@
                     },
                     error: function (err) {
                         console.log(err);
+                        layer.close(loading_animation);
                         layer.open({
                             content: $.parseJSON(err.responseText).errors.currency[0],
                             skin: 'msg',
@@ -399,6 +435,7 @@
                         });
                     },
                     complete: function () {
+                    	layer.close(loading_animation);
                     },
                 });
             }
@@ -428,6 +465,7 @@
                     },
                     error: function (err) {
                         console.log(err);
+                        layer.close(loading_animation);
                         layer.open({
                             content: $.parseJSON(err.responseText).errors.currency[0],
                             skin: 'msg',
@@ -435,6 +473,7 @@
                         });
                     },
                     complete: function () {
+                    	layer.close(loading_animation);
                     },
                 });
             }
