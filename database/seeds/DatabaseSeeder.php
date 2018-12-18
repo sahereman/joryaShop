@@ -40,6 +40,7 @@ class DatabaseSeeder extends Seeder
         $this->call(OrdersSeeder::class);
         $this->call(OrderItemsSeeder::class);
         $this->call(OrderRefundsSeeder::class);
+        $this->call(RefundReasonsSeeder::class);
         // $this->call(ProductCommentsSeeder::class);
 
         //菜单

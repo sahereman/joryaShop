@@ -9,6 +9,7 @@ use App\Models\Menu;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
+use App\Models\RefundReason;
 use App\Models\ShipmentCompany;
 use App\Models\User;
 use App\Observers\ConfigObserver;
@@ -18,6 +19,7 @@ use App\Observers\MenuObserver;
 use App\Observers\OrderObserver;
 use App\Observers\OrderItemObserver;
 use App\Observers\ProductObserver;
+use App\Observers\RefundReasonObserver;
 use App\Observers\ShipmentCompanyObserver;
 use App\Observers\UserObserver;
 use Carbon\Carbon;
@@ -38,6 +40,7 @@ class AppServiceProvider extends ServiceProvider
         Order::observe(OrderObserver::class);
         OrderItem::observe(OrderItemObserver::class);
         Product::observe(ProductObserver::class);
+        RefundReason::observe(RefundReasonObserver::class);
         ShipmentCompany::observe(ShipmentCompanyObserver::class);
         User::observe(UserObserver::class);
 
