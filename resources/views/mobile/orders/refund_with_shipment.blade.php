@@ -126,7 +126,7 @@
                     @elseif(isset($refund) && $refund->status == \App\Models\OrderRefund::ORDER_REFUND_STATUS_CHECKING)
                             <!--第二步-->
                     <form method="POST" enctype="multipart/form-data" id="step-2-form"
-                          action="{{ route('orders.update_refund', ['order' => $order->id]) }}">
+                          action="{{ route('orders.update_refund_with_shipment', ['order' => $order->id]) }}">
                         {{ method_field('PUT') }}
                         {{ csrf_field() }}
                         <input type="hidden" name="order_id" value="{{ $order->id }}">
@@ -322,7 +322,6 @@
             $(".refund_con").css("min-height", $(window).height() - $(".headerBar ").height());
             //第一步表单提交
             $(".submint_one").on("click", function () {
-                set_path("#step-1-form", 'photos_for_refund');
                 if ($("#step-1-form").find("textarea").val() == null || $("#step-1-form").find("textarea").val() == "") {
                     layer.open({
                         content: "@lang('order.Please fill in the application instructions')",
@@ -347,6 +346,7 @@
                         return false;
                     }
                 }
+                set_path("#step-1-form", 'photos_for_refund');
                 if (set_finish == true) {
                     $("#step-1-form").submit();
                 }
