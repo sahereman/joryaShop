@@ -33,7 +33,7 @@
                 @guest
                 <a class="login">@lang('app.Sign_in')</a>
                 <a class="register">@lang('app.Registered')</a>
-                <a class="about-us" href="{{ route('root') }}">@lang('app.About_us')</a>
+                <a class="about-us" href="{{ route('articles.show', ['slug' => 'about']) }}">@lang('app.About_us')</a>
                 @else
                     <a id="user_info_btn" role="button" data-toggle="dropdown" aria-haspopup="true"
                        aria-expanded="false" class="user_name">
