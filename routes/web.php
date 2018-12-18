@@ -106,7 +106,8 @@ Route::group(['middleware' => 'auth'], function () {
     /*收货地址*/
     Route::get('user_addresses', 'UserAddressesController@index')->name('user_addresses.index'); // 列表
     Route::get('user_addresses/list_all', 'UserAddressesController@listAll')->name('user_addresses.list_all'); // 获取当前用户收货地址列表 [for Ajax request]
-    Route::post('user_addresses', 'UserAddressesController@store')->name('user_addresses.store'); // 提交
+    Route::post('user_addresses', 'UserAddressesController@store')->name('user_addresses.store'); // 创建用户收货地址表单提交
+    Route::post('user_addresses/store_for_ajax', 'UserAddressesController@storeForAjax')->name('user_addresses.store_for_ajax'); // 创建用户收货地址 [for Ajax request]
     Route::put('user_addresses/{address}', 'UserAddressesController@update')->name('user_addresses.update'); // 更新
     Route::delete('user_addresses/{address}', 'UserAddressesController@destroy')->name('user_addresses.destroy'); // 删除
     Route::patch('user_addresses/{address}/set_default', 'UserAddressesController@setDefault')->name('user_addresses.set_default'); // 设置默认
@@ -173,6 +174,8 @@ Route::get('/', 'IndexController@root')->name('root'); // 首页
 
 /*通用-获取上传图片预览 [应用场景:用户中心]*/
 Route::post('image/preview', 'IndexController@imagePreview')->name('image.preview');
+/*通用-获取上传Avatar头像图片路径+预览 [应用场景:用户中心]*/
+Route::post('image/avatar_upload', 'IndexController@avatarUpload')->name('image.avatar_upload');
 /*通用-获取原上传图片路径+预览 [应用场景:退款]*/
 Route::post('image/upload', 'IndexController@imageUpload')->name('image.upload');
 /*通用-获取评论上传图片路径+预览 [应用场景:评价]*/

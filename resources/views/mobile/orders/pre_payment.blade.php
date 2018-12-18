@@ -133,7 +133,7 @@
                            placeholder="@lang('basic.address.Detailed_address')"/>--}}
                     <textarea name="address" id="new_address_info" placeholder="@lang('basic.address.Detailed_address')"></textarea>
                 </div>
-                <button class="doneBtn save_new_address" data-url="{{ route('mobile.user_addresses.store') }}">@lang('basic.users.Save')</button>
+                <button class="doneBtn save_new_address" data-url="{{ route('user_addresses.store_for_ajax') }}">@lang('basic.users.Save')</button>
             </div>
             <div class="defaultBox">
                 <label style="padding-left: 1rem;">@lang('basic.address.Set as default address')</label>

@@ -14,14 +14,17 @@ class UserAddressRequest extends Request
      */
     public function rules()
     {
-        if ($this->routeIs('user_addresses.store') || $this->routeIs('mobile.user_addresses.store')) {
+        if ($this->routeIs('user_addresses.store') || $this->routeIs('user_addresses.store_for_ajax')) {
             return [
                 'name' => 'required|string',
                 'phone' => 'required|string',
                 'address' => [
                     'required',
                     'string',
-                    Rule::unique('user_addresses')->where('user_id', $this->user()->id),
+                    // Rule::unique('user_addresses')
+                    //->where('user_id', $this->user()->id)
+                    //->where('name', $this->input('name')),
+                    //->where('phone', $this->input('phone')),
                 ],
             ];
         } elseif ($this->routeIs('user_addresses.update')) {
@@ -31,7 +34,11 @@ class UserAddressRequest extends Request
                 'address' => [
                     'required',
                     'string',
-                    Rule::unique('user_addresses')->ignore($this->route('address')->id)->where('user_id', $this->user()->id),
+                    // Rule::unique('user_addresses')
+                    //->ignore($this->route('address')->id)
+                    //->where('user_id', $this->user()->id)
+                    //->where('name', $this->input('name')),
+                    //->where('phone', $this->input('phone')),
                 ],
             ];
         } else {

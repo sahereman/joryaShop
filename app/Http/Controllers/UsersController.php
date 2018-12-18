@@ -101,7 +101,8 @@ class UsersController extends Controller
         // $data = $request->only('name', 'avatar', 'email', 'password', 'real_name', 'gender', 'qq', 'wechat', 'country_code', 'phone', 'facebook');
 
         if ($request->hasFile('avatar')) {
-            $data['avatar'] = $imageUploadHandler->uploadOriginal($request->avatar);
+            // $data['avatar'] = $imageUploadHandler->uploadOriginal($request->avatar);
+            $data['avatar'] = $imageUploadHandler->uploadAvatar($request->avatar);
         }
 
         if ($request->has('password') && $user->password != $data['password']) {

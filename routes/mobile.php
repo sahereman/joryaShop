@@ -60,7 +60,6 @@ Route::group(['middleware' => 'auth'], function () {
     /*收货地址*/
     Route::get('user_addresses', 'UserAddressesController@index')->name('mobile.user_addresses.index'); // 列表 页面
     Route::get('user_addresses/create', 'UserAddressesController@create')->name('mobile.user_addresses.create'); // 新增 页面
-    Route::post('user_addresses', 'UserAddressesController@store')->name('mobile.user_addresses.store'); // 创建提交 [for Ajax request]
     Route::get('user_addresses/{address}/edit', 'UserAddressesController@edit')->name('mobile.user_addresses.edit'); // 编辑 页面
     //Route::post('user_addresses', 'UserAddressesController@store')->name('user_addresses.store'); // 新增 请求
     //Route::put('user_addresses/{userAddress}', 'UserAddressesController@update')->name('user_addresses.update'); // 编辑 请求

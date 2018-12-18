@@ -8,6 +8,11 @@ use Intervention\Image\Facades\Image;
 
 class ImageUploadHandler
 {
+    private $avatar_width = 400;
+    private $avatar_height = 400;
+
+    private $preview_width = 300;
+    private $preview_height = 300;
 
     private $thumb_width = 240;/*缩略图宽度*/
     private $thumb_height = 240;/*缩略图高度*/
@@ -66,8 +71,35 @@ class ImageUploadHandler
             $path = Storage::disk('public')->putFile($child_path, $file);
         }
 
-
         Image::make($prefix_path . $path)->resize($this->thumb_width, $this->thumb_height)->save();
+
+        return $path;
+    }
+
+    /**
+     * 上传一张缩略图到avatar目录 （头像图尺寸根据类属性设定）（如有可选参数 指定目录及文件名）
+     * @param $file & 表单的file对象
+     * @param bool $save_path
+     * @param bool $name
+     * @return mixed 返回需要入数据库的文件路径
+     */
+    public function uploadAvatar($file, $save_path = false, $name = false)
+    {
+        // $date = Carbon::now();
+        $prefix_path = Storage::disk('public')->getAdapter()->getPathPrefix();
+        $child_path = 'avatar'; /*存储文件格式为 avatar 文件夹内*/
+
+        if ($save_path && $name) {
+            $path = Storage::disk('public')->putFileAs($save_path, $file, $name . strrchr($file->getClientOriginalName(), '.'));/*自己拼接保持原本上传的后缀名*/
+        } else {
+            $path = Storage::disk('public')->putFile($child_path, $file);
+        }
+
+        // Image::make($prefix_path . $path)->resize($this->avatar_width, $this->avatar_height)->save();
+        Image::make($prefix_path . $path)->resize($this->avatar_width, $this->avatar_height, function ($constraint) {
+            $constraint->aspectRatio();
+            $constraint->upsize();
+        })->save();
 
         return $path;
     }
@@ -85,6 +117,13 @@ class ImageUploadHandler
         }
 
         $path = Storage::disk('public')->putFile('temp', $file);
+
+        $prefix_path = $prefix_path ?? Storage::disk('public')->getAdapter()->getPathPrefix();
+        // Image::make($prefix_path . $path)->resize($this->preview_width, $this->preview_height)->save();
+        Image::make($prefix_path . $path)->resize($this->preview_width, $this->preview_height, function ($constraint) {
+            $constraint->aspectRatio();
+            $constraint->upsize();
+        })->save();
 
         return $path;
     }
@@ -142,5 +181,4 @@ class ImageUploadHandler
             }
         }
     }
-
 }
