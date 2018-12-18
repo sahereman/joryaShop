@@ -25,10 +25,10 @@
                     @endforeach
                 @else
                     <div class="swiper-slide swiper-slideL">
-                        <img src="{{ asset('defaults/defaults_mobile_banner.png') }}" class="main-img">
+                        <img src="{{ asset('defaults/default_mobile_banner.png') }}" class="main-img">
                     </div>
                     <div class="swiper-slide swiper-slideL">
-                        <img src="{{ asset('defaults/defaults_mobile_banner.png') }}" class="main-img">
+                        <img src="{{ asset('defaults/default_mobile_banner.png') }}" class="main-img">
                     </div>
                 @endif
             </div>
