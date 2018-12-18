@@ -1,14 +1,20 @@
 @extends('layouts.mobile')
 @section('title', App::isLocale('en') ? 'Create an evaluation' : '创建评价')
 @section('content')
+    @if(!is_wechat_browser())
     <div class="headerBar fixHeader">
-        @if(!is_wechat_browser())
+    @else
+    <div class="headerBar fixHeader height_no">
+    @endif
             <img src="{{ asset('static_m/img/icon_backtop.png') }}" class="backImg"
                  onclick="javascript:history.back(-1);"/>
             <span>@lang('order.Publish an evaluation')</span>
-        @endif
     </div>
+    @if(!is_wechat_browser())
     <div class="commentBox">
+    @else
+    <div class="commentBox top_no">
+    @endif
         <form method="POST" action="{{ route('orders.store_comment', ['order' => $order->id]) }}"
               enctype="multipart/form-data" id="creat_comment_form">
             {{ csrf_field() }}
@@ -153,7 +159,7 @@
                 $(this).parents(".star").find("input[code='" + $(this).attr("code") + "']").attr("checked", true);
             });
             //点击上传图片
-            $(".creat_comment_form").on("click", ".goodsChoice",function (){
+            $("#creat_comment_form").on("click", ".goodsChoice",function (){
                 var had_evaImg = $(this).parents(".goodspicture").find(".goodsItem");
                 if (had_evaImg.length < 5) {
                     $("#div_imgfile").trigger("click");

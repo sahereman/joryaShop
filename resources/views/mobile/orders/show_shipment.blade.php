@@ -1,13 +1,19 @@
 @extends('layouts.mobile')
 @section('title', App::isLocale('en') ? 'Shipment details' : '物流详情')
 @section('content')
+    @if(!is_wechat_browser())
     <div class="headerBar fixHeader">
-    	@if(!is_wechat_browser())
+    @else
+    <div class="headerBar fixHeader height_no">
+    @endif
         <img src="{{ asset('static_m/img/icon_backtop.png') }}" class="backImg" onclick="javascript:history.back(-1);"/>
         <span>@lang('order.Shipment details')</span>
-        @endif
     </div>
+    @if(!is_wechat_browser())
     <div class="logisticsBox">
+    @else
+    <div class="logisticsBox margin-top_no">
+    @endif
         <div class="lgtHead">
             <div class="lgtHeadMain">
                 <img src="{{ asset('static_m/img/icon_express.png') }}"/>
