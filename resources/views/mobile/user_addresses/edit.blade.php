@@ -2,15 +2,17 @@
 @section('title', App::isLocale('en') ? 'Address editing' : '地址编辑')
 @section('content')
     <div class="headerBar">
-    	@if(!is_wechat_browser())
-        <img src="{{ asset('static_m/img/icon_backtop.png') }}" class="backImg" onclick="javascript:history.back(-1);"/>
-        <span>@lang('basic.address.Edit Shipping Address')</span>
+        @if(!is_wechat_browser())
+            <img src="{{ asset('static_m/img/icon_backtop.png') }}" class="backImg"
+                 onclick="javascript:history.back(-1);"/>
+            <span>@lang('basic.address.Edit Shipping Address')</span>
         @endif
     </div>
     <div class="addAdsBox">
-        <form action="{{ route('user_addresses.update', ['address' => $address->id]) }}"  method="post" class="addAdsForm">
-        	{{ csrf_field() }}
-        	{{ method_field('PUT') }}
+        <form action="{{ route('user_addresses.update', ['address' => $address->id]) }}" method="post"
+              class="addAdsForm">
+            {{ csrf_field() }}
+            {{ method_field('PUT') }}
             <div class="addAdsItem">
                 <label class="must">@lang('basic.address.The consignee')</label>
                 <input type="text" name="name" id="" value="{{ $address->name }}"/>

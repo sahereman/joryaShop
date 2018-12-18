@@ -189,7 +189,7 @@
                     <form method="POST" action=""
                           enctype="multipart/form-data" id="edit-form">
                         {{ csrf_field() }}
-                        <input type="hidden" name="_method" value="PUT">
+                        {{ method_field('PUT') }}
                         <ul>
                             <li>
                                 <p>
@@ -263,16 +263,14 @@
                     },
                     address: {
                         required: "@lang('Please enter the detailed shipping address')"
-                    }
-                }
+                    },
+                },
             });
             $(".new_receipt_address").on("click", ".success", function () {
                 if ($("#creat-form").valid()) {
                     $('#creat-form').submit();
                 }
             });
-
-
             //点击表格中的编辑
             $(".address_list table").on("click", ".edit_address", function () {
                 $("#edit-form").prop("action", $(this).attr("url"));
@@ -309,8 +307,8 @@
                     },
                     address: {
                         required: "@lang('Please enter the detailed shipping address')"
-                    }
-                }
+                    },
+                },
             });
             //编辑收货地址弹窗中的确定按钮
             $(".edit_harvest_address").on("click", ".success", function () {
@@ -325,7 +323,7 @@
                         _method: "PATCH",
                         _token: "{{ csrf_token() }}",
                         is_default: 1
-                    }
+                    };
                     var url = $(this).attr('url');
                     $.ajax({
                         type: "post",
@@ -336,11 +334,10 @@
                         },
                         error: function (err) {
                             console.log(err);
-                        }
+                        },
                     });
                 }
             });
-
             //点击表格中的删除
             $(".address_list table").on("click", ".delete_address", function () {
                 $(".textarea_content span").attr('url', $(this).attr('url'));
@@ -350,7 +347,7 @@
             $(".confirm_delete").on("click", ".success", function () {
                 var data = {
                     _method: "DELETE",
-                    _token: "{{ csrf_token() }}"
+                    _token: "{{ csrf_token() }}",
                 };
                 var url = $(".textarea_content span").attr('url');
                 $.ajax({
@@ -362,7 +359,7 @@
                     },
                     error: function (err) {
                         console.log(err);
-                    }
+                    },
                 });
             });
         });

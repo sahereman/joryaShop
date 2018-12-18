@@ -51,9 +51,9 @@
                                             <span class="old_price">@lang('basic.currency.symbol') {{ App::isLocale('en') ? bcmul($history->product->price_in_usd, 1.2, 2) : bcmul($history->product->price, 1.2, 2) }}</span>
                                         </p>
                                         <a class="add_to_cart"
-                                           href="{{ route('products.show', $history->id) }}">@lang('app.see details')</a>
+                                           href="{{ route('products.show', ['product' => $history->product->id]) }}">@lang('app.see details')</a>
                                         <a class="delete_mark"
-                                           code="{{ route('user_histories.destroy', $history->id) }}"
+                                           code="{{ route('user_histories.destroy', ['history' => $history->id]) }}"
                                            title="@lang('app.Click to remove the item')"></a>
                                     </li>
                                 @endforeach
@@ -144,7 +144,7 @@
                         var data = {
                             _method: "DELETE",
                             _token: "{{ csrf_token() }}",
-                        }
+                        };
                         $.ajax({
                             type: "post",
                             url: url,
@@ -161,43 +161,43 @@
                                         btn: ["@lang('app.determine')", "@lang('app.cancel')"],
                                     });
                                 }
-                            }
+                            },
                         });
                     },
                     btn2: function () {
                         layer.close(index);
-                    }
+                    },
                 });
             });
-//          $(".confirm_delete").on("click",".success",function(){
-//              var data = {
-//                  _method: "DELETE",
-//                  _token: "{{ csrf_token() }}",
-//              }
-//              var url = $(".textarea_content span").attr('code');
-//              $.ajax({
-//                  type: "post",
-//                  url: url,
-//                  data: data,
-//                  success: function (data) {
-//                      window.location.reload();
-//                  },
-//                  error: function (err) {
-//                      console.log(err);
-//                      if (err.status==403) {
-//                          layer.open({
-//                              title: '提示'
-//                              ,content: '无法完成操作'
-//                            });     
-//                      }
-//                  }
-//              });
-//          })
+            /*$(".confirm_delete").on("click", ".success", function () {
+             var data = {
+             _method: "DELETE",
+             _token: "{{ csrf_token() }}",
+             };
+             var url = $(".textarea_content span").attr('code');
+             $.ajax({
+             type: "post",
+             url: url,
+             data: data,
+             success: function (data) {
+             window.location.reload();
+             },
+             error: function (err) {
+             console.log(err);
+             if (err.status == 403) {
+             layer.open({
+             title: '提示'
+             , content: '无法完成操作'
+             });
+             }
+             }
+             });
+             });*/
             $(".history_empty").on("click", function () {
                 var url = $(this).attr("data-url");
-//              $(".empty_history_dia form").attr("data-url",data_url);
-//              $(".empty_history_dia").show();
-//              var url = $(this).attr("code");
+                /*$(".empty_history_dia form").attr("data-url", data_url);
+                 $(".empty_history_dia").show();
+                 var url = $(this).attr("code");*/
                 var index = layer.open({
                     title: "@lang('app.Prompt')",
                     content: "@lang('product.Cannot be recovered after emptying, continue to continue')",
@@ -206,7 +206,7 @@
                         var data = {
                             _method: "DELETE",
                             _token: "{{ csrf_token() }}",
-                        }
+                        };
                         $.ajax({
                             type: "post",
                             url: url,
@@ -233,48 +233,48 @@
                             },
                             complete: function () {
                                 layer.close(loading_animation);
-                            }
+                            },
                         });
                     },
                     btn2: function () {
                         layer.close(index);
-                    }
+                    },
                 });
             });
-//          $(".empty_history_dia").on("click",".success",function(){
-//              var data = {
-//                  _method: "DELETE",
-//                  _token: "{{ csrf_token() }}",
-//            }
-//              var url = $(".empty_history_dia form").attr("data-url");
-//              $.ajax({
-//                  type: "post",
-//                  url: url,
-//                  data: data,
-//                  beforeSend:function(){
-//                        loading_animation = layer.msg('请稍候', {
-//                            icon: 16,
-//                            shade: 0.4,
-//                            time:false //取消自动关闭
-//                        });
-//                    },
-//                  success: function (data) {
-//                      window.location.reload();
-//                  },
-//                  error: function (err) {
-//                      console.log(err);
-//                      if (err.status==403) {
-//                          layer.open({
-//                              title: '提示'
-//                              ,content: '无法完成操作'
-//                            });     
-//                      }
-//                  },
-//                  complete:function(){
-//                        layer.close(loading_animation);
-//                    }
-//              });
-//          })
+            /*$(".empty_history_dia").on("click", ".success", function () {
+                var data = {
+                    _method: "DELETE",
+                    _token: "{{ csrf_token() }}",
+                };
+                var url = $(".empty_history_dia form").attr("data-url");
+                $.ajax({
+                    type: "post",
+                    url: url,
+                    data: data,
+                    beforeSend: function () {
+                        loading_animation = layer.msg('请稍候', {
+                            icon: 16,
+                            shade: 0.4,
+                            time: false, // 取消自动关闭
+                        });
+                    },
+                    success: function (data) {
+                        window.location.reload();
+                    },
+                    error: function (err) {
+                        console.log(err);
+                        if (err.status == 403) {
+                            layer.open({
+                                title: '提示',
+                                content: '无法完成操作',
+                            });
+                        }
+                    },
+                    complete: function () {
+                        layer.close(loading_animation);
+                    },
+                });
+            });*/
         });
     </script>
 @endsection

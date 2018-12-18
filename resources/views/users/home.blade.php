@@ -117,12 +117,12 @@
                                     <div class="col-info pull-left">
                                      <span class="o-no">
                                          @lang('basic.users.Order_number')：
-                                         <a href="{{ route('orders.show', $order->id) }}">{{ $order->order_sn }}</a>
+                                         <a href="{{ route('orders.show', ['order' => $order->id]) }}">{{ $order->order_sn }}</a>
                                      </span>
                                     </div>
                                     @if(in_array($order->status, [\App\Models\Order::ORDER_STATUS_CLOSED, \App\Models\Order::ORDER_STATUS_COMPLETED]))
                                         <div class="col-delete pull-right"
-                                             code="{{ route('orders.destroy', $order->id) }}">
+                                             code="{{ route('orders.destroy', ['order' => $order->id]) }}">
                                             <a>
                                                 <img src="{{ asset('img/delete.png') }}">
                                             </a>
@@ -138,7 +138,7 @@
                                         <tr>
                                             <td class="col-pro-img">
                                                 <p class="p-img">
-                                                    <a href="{{ route('products.show', $item->sku->product->id) }}">
+                                                    <a href="{{ route('products.show', ['product' => $item->sku->product->id]) }}">
                                                         <img src="{{ $item->sku->product->thumb_url }}">
                                                     </a>
                                                 </p>
@@ -146,7 +146,7 @@
                                             <td class="col-pro-info">
                                                 <p class="p-info">
                                                     <a code="{{ $item->sku->id }}"
-                                                       href="{{ route('products.show', $item->sku->product->id) }}">{{ App::isLocale('en') ? $item->sku->product->name_en : $item->sku->product->name_zh }}</a>
+                                                       href="{{ route('products.show', ['product' => $item->sku->product->id]) }}">{{ App::isLocale('en') ? $item->sku->product->name_en : $item->sku->product->name_zh }}</a>
                                                 </p>
                                             </td>
                                             <td class="col-price">
@@ -181,7 +181,7 @@
                                                     <p>@lang('basic.orders.After-sale order')</p>
                                                 @endif
                                                 <p>
-                                                    <a href="{{ route('orders.show', $order->id) }}">@lang('app.see details')</a>
+                                                    <a href="{{ route('orders.show', ['order' => $order->id]) }}">@lang('app.see details')</a>
                                                 </p>
                                             </td>
                                             <td rowspan="{{ $order->items->count() }}" class="col-operate">
@@ -198,9 +198,9 @@
                                                         {{ generate_order_ttl_message($order->create_at, \App\Models\Order::ORDER_STATUS_PAYING) }}
                                                     </span>
                                                     <a class="payment"
-                                                       href="{{ route('orders.payment_method', $order->id) }}">@lang('basic.orders.payment')</a>
+                                                       href="{{ route('orders.payment_method', ['order' => $order->id]) }}">@lang('basic.orders.payment')</a>
                                                     <a class="cancellation"
-                                                       code="{{ route('orders.close', $order->id) }}">@lang('basic.orders.cancel order')</a>
+                                                       code="{{ route('orders.close', ['order' => $order->id]) }}">@lang('basic.orders.cancel order')</a>
                                                     @elseif($order->status == \App\Models\Order::ORDER_STATUS_CLOSED)
                                                             <!--再次购买-->
                                                     <a class="Buy_again"
@@ -220,11 +220,11 @@
                                                         {{ generate_order_ttl_message($order->shipped_at, \App\Models\Order::ORDER_STATUS_RECEIVING) }}
                                                     </span>
                                                     <a class="confirmation_receipt"
-                                                       code="{{ route('orders.complete', $order->id) }}">@lang('basic.orders.Confirm reception')</a>
+                                                       code="{{ route('orders.complete', ['order' => $order->id]) }}">@lang('basic.orders.Confirm reception')</a>
                                                     @elseif($order->status == \App\Models\Order::ORDER_STATUS_COMPLETED && $order->commented_at == null)
                                                             <!--订单待评价-->
                                                     <a class="evaluate"
-                                                       href="{{ route('orders.create_comment', $order->id) }}">@lang('basic.orders.To comment')</a>
+                                                       href="{{ route('orders.create_comment', ['order' => $order->id]) }}">@lang('basic.orders.To comment')</a>
                                                     <!--再次购买-->
                                                     <a class="buy_more"
                                                        data-url="{{ route('carts.store') }}">@lang('basic.orders.buy again')</a>
@@ -232,7 +232,7 @@
                                                             <!--订单已评价-->
                                                     <!--查看评价-->
                                                     <a class="View_evaluation"
-                                                       href="{{  route('orders.show_comment', $order->id) }}">@lang('basic.orders.View comments')</a>
+                                                       href="{{  route('orders.show_comment', ['order' => $order->id]) }}">@lang('basic.orders.View comments')</a>
                                                     <!--再次购买-->
                                                     <a class="buy_more"
                                                        data-url="{{ route('carts.store') }}">@lang('basic.orders.buy again')</a>
@@ -250,7 +250,7 @@
                                         <tr class="order_top">
                                             <td class="col-pro-img">
                                                 <p class="p-img">
-                                                    <a href="{{ route('products.show', ['order' => $item->sku->product->id]) }}">
+                                                    <a href="{{ route('products.show', ['product' => $item->sku->product->id]) }}">
                                                         <img src="{{ $item->sku->product->thumb_url }}">
                                                     </a>
                                                 </p>
@@ -258,7 +258,7 @@
                                             <td class="col-pro-info">
                                                 <p class="p-info">
                                                     <a code="{{ $item->sku->id }}"
-                                                       href="{{ route('products.show', $item->sku->product->id) }}">{{ App::isLocale('en') ? $item->sku->product->name_en : $item->sku->product->name_zh }}</a>
+                                                       href="{{ route('products.show', ['product' => $item->sku->product->id]) }}">{{ App::isLocale('en') ? $item->sku->product->name_en : $item->sku->product->name_zh }}</a>
                                                 </p>
                                             </td>
                                             <td class="col-price">
@@ -303,7 +303,7 @@
                                         <span class="old_price">{{ App::isLocale('en') ? '&#36;' : '&#165;' }} {{  App::isLocale('en') ? bcmul($guess->price_in_usd, 1.2, 2) : bcmul($guess->price, 1.2, 2) }}</span>
                                     </p>
                                     <a class="add_to_cart"
-                                       href="{{ route('products.show', $guess->id) }}">@lang('app.see details')</a>
+                                       href="{{ route('products.show', ['product' => $guess->id]) }}">@lang('app.see details')</a>
                                 </li>
                             @endforeach
                         </ul>

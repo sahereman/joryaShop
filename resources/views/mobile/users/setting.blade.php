@@ -2,14 +2,10 @@
 @section('title', '设置')
 @section('title', App::isLocale('en') ? 'Set up' : '设置')
 @section('content')
-    @if(!is_wechat_browser())
-    <div class="headerBar">
-    @else
-    <div class="headerBar height_no">
-    @endif
+    <div class="headerBar {{ is_wechat_browser() ? 'height_no' : '' }}">
         @if(!is_wechat_browser())
-        <img src="{{ asset('static_m/img/icon_backtop.png') }}" class="backImg" onclick="javascript:history.back(-1);"/>
-        <span>@lang('basic.users.Set up')</span>
+            <img src="{{ asset('static_m/img/icon_backtop.png') }}" class="backImg" onclick="javascript:history.back(-1);"/>
+            <span>@lang('basic.users.Set up')</span>
         @endif
     </div>
     <div class="setBox">

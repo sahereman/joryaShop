@@ -1,9 +1,6 @@
 @extends('layouts.app')
-
 @section('content')
-
     @include('layouts._header')
-
 
     <h1>个人设置</h1>
 

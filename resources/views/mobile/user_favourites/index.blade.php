@@ -1,29 +1,22 @@
 @extends('layouts.mobile')
 @section('title', App::isLocale('en') ? 'My Favourites' : '我的收藏')
 @section('content')
-    @if(!is_wechat_browser())
-    <div class="headerBar fixHeader">
-    @else
-    <div class="headerBar fixHeader height_no">
-    @endif
+    <div class="headerBar fixHeader {{ is_wechat_browser() ? 'height_no' : '' }}">
         <img src="{{ asset('static_m/img/icon_backtop.png') }}" class="backImg" onclick="javascript:history.back(-1);"/>
         <span>@lang('product.My Favourites')</span>
     </div>
+    <!--暂无收藏-->
     @if($favourites->isEmpty())
-            <!--暂无收藏-->
-    <div class="notFav">
-        <img src="{{ asset('static_m/img/Nocollection.png') }}"/>
-        <span>@lang('product.No collection yet')</span>
-        <a href="{{ route('mobile.root') }}">@lang('product.shop_now')</a>
-    </div>
+        <div class="notFav">
+            <img src="{{ asset('static_m/img/Nocollection.png') }}"/>
+            <span>@lang('product.No collection yet')</span>
+            <a href="{{ route('mobile.root') }}">@lang('product.shop_now')</a>
+        </div>
     @else
-        @if(!is_wechat_browser())
-        <div class="favBox">
-        @else
-        <div class="favBox margin-top_no">
-        @endif
+        <div class="favBox {{ is_wechat_browser() ? 'margin-top_no' : '' }}">
             @foreach($favourites as $favourite)
-                <div class="favItem" code='{{ $favourite->id }}' data-url="{{ route('mobile.products.show', ['product' => $favourite->product->id]) }}">
+                <div class="favItem" code='{{ $favourite->id }}'
+                     data-url="{{ route('mobile.products.show', ['product' => $favourite->product->id]) }}">
                     <img src="{{ $favourite->product->thumb_url }}"/>
                     <div class="favDetail">
                         <div class="goodsName">
@@ -38,7 +31,8 @@
                                     @lang('basic.currency.symbol') {{ App::isLocale('en') ? bcmul($favourite->product->price_in_usd, 1.2, 2) : bcmul($favourite->product->price, 1.2, 2) }}
                                 </s>
                             </div>
-                            <img class="addTo_cart" src="{{ asset('static_m/img/icon_ShoppingCart2.png') }}"/>
+                            <img class="addTo_cart"
+                                 src="{{ asset('static_m/img/icon_ShoppingCart2.png') }}"/>
                         </div>
                     </div>
                 </div>
@@ -48,11 +42,14 @@
             @foreach($favourites as $favourite)
                 <div class="favItem" code='{{ $favourite->id }}'>
                     <label class="favItemLab">
-                        <input type="checkbox" name="" id="" value="{{ $favourite->id }}" code="{{ route('user_favourites.destroy', $favourite->id) }}">
+                        <input type="checkbox" name="" id="" value="{{ $favourite->id }}"
+                               code="{{ route('user_favourites.destroy', $favourite->id) }}">
                         <span></span>
                     </label>
-                    <img data-url="{{ route('mobile.products.show', ['product' => $favourite->product->id]) }}" src="{{ $favourite->product->thumb_url }}"/>
-                    <div class="favDetail" data-url="{{ route('mobile.products.show', ['product' => $favourite->product->id]) }}">
+                    <img data-url="{{ route('mobile.products.show', ['product' => $favourite->product->id]) }}"
+                         src="{{ $favourite->product->thumb_url }}"/>
+                    <div class="favDetail"
+                         data-url="{{ route('mobile.products.show', ['product' => $favourite->product->id]) }}">
                         <div class="goodsName">
                             {{ App::isLocale('en') ? $favourite->product->name_en : $favourite->product->name_zh }}
                         </div>
@@ -72,7 +69,9 @@
         </div>
         <div class="editFixt">
             <span class="editBtn">@lang('product.Edit')</span>
-            <span class="cancelBtn" data-url="{{ route('user_favourites.multi_delete') }}">@lang('product.Cancel Favourites')</span>
+                <span class="cancelBtn" data-url="{{ route('user_favourites.multi_delete') }}">
+                    @lang('product.Cancel Favourites')
+                </span>
         </div>
     @endif
     {{--@include('layouts._footer')--}}
@@ -108,40 +107,40 @@
                         anim: 'up',
                         content: "@lang('product.Are you sure you want to cancel your attention to this product')",
                         btn: ["@lang('app.determine')", "@lang('app.cancel')"],
-                        yes: function(index){
-                        	var favourite_ids = "";
-	                    	var choose_history = $(".editFav").find("input[type='checkbox']:checked");
-	                    	if(choose_history.length>0){
-	                    		$.each(choose_history,function(i,n){
-	                    			favourite_ids+= $(n).val()+","
-	                    		})
-	                    		favourite_ids = favourite_ids.substring(0,favourite_ids.length-1);
-	                    	}
-	                    	var data = {
-				                _method: "DELETE",
-				                _token: "{{ csrf_token() }}",
-				                favourite_ids: favourite_ids
-				            }
-				            $.ajax({
-				                type: "post",
-				                url: $(".cancelBtn").attr("data-url"),
-				                data: data,
-				                success: function (data) {
-				                	layer.close(index);
-				                    window.location.reload();
-				                },
-				                error: function (err) {
-				                    console.log(err);
-				                    if (err.status == 403) {
-				                         layer.open({
-										    content: "@lang('app.Unable to complete operation')"
-										    ,skin: 'msg'
-										    ,time: 2 //2秒后自动关闭
-										  });
-				                    }
-				                }
-				            });
-                        }
+                        yes: function (index) {
+                            var favourite_ids = "";
+                            var choose_history = $(".editFav").find("input[type='checkbox']:checked");
+                            if (choose_history.length > 0) {
+                                $.each(choose_history, function (i, n) {
+                                    favourite_ids += $(n).val() + ","
+                                });
+                                favourite_ids = favourite_ids.substring(0, favourite_ids.length - 1);
+                            }
+                            var data = {
+                                _method: "DELETE",
+                                _token: "{{ csrf_token() }}",
+                                favourite_ids: favourite_ids,
+                            };
+                            $.ajax({
+                                type: "post",
+                                url: $(".cancelBtn").attr("data-url"),
+                                data: data,
+                                success: function (data) {
+                                    layer.close(index);
+                                    window.location.reload();
+                                },
+                                error: function (err) {
+                                    console.log(err);
+                                    if (err.status == 403) {
+                                        layer.open({
+                                            content: "@lang('app.Unable to complete operation')",
+                                            skin: 'msg',
+                                            time: 2, //2秒后自动关闭
+                                        });
+                                    }
+                                },
+                            });
+                        },
                     });
                 });
             } else {

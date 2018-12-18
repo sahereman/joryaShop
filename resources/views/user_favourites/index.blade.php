@@ -46,8 +46,8 @@
                                         </span>
                                     </p>
                                     <a class="add_to_cart"
-                                       href="{{ route('products.show', $favourite->id) }}">@lang('app.Add to Shopping Cart')</a>
-                                    <a class="delete_mark" code="{{ route('user_favourites.destroy', $favourite->id) }}"
+                                       href="{{ route('products.show', ['product' => $favourite->product->id]) }}">@lang('app.Add to Shopping Cart')</a>
+                                    <a class="delete_mark" code="{{ route('user_favourites.destroy', ['favourite' => $favourite->id]) }}"
                                        title="@lang('app.Click to remove the item')"></a>
                                 </li>
                             @endforeach

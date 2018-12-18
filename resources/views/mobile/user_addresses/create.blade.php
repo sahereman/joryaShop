@@ -2,9 +2,10 @@
 @section('title', App::isLocale('en') ? 'New Addresses' : '新增地址')
 @section('content')
     <div class="headerBar">
-    	@if(!is_wechat_browser())
-        <img src="{{ asset('static_m/img/icon_backtop.png') }}" class="backImg" onclick="javascript:history.back(-1);"/>
-        <span>@lang('basic.address.New Revenue Address')</span>
+        @if(!is_wechat_browser())
+            <img src="{{ asset('static_m/img/icon_backtop.png') }}" class="backImg"
+                 onclick="javascript:history.back(-1);"/>
+            <span>@lang('basic.address.New Revenue Address')</span>
         @endif
     </div>
     <div class="addAdsBox">
@@ -13,11 +14,13 @@
             {{ csrf_field() }}
             <div class="addAdsItem">
                 <label class="must">@lang('basic.address.The consignee')</label>
-                <input type="text" name="name" id="" value="" placeholder="@lang('basic.address.Please fill in the consignee')"/>
+                <input type="text" name="name" id="" value=""
+                       placeholder="@lang('basic.address.Please fill in the consignee')"/>
             </div>
             <div class="addAdsItem">
                 <label class="must">@lang('basic.address.Cellphone number')</label>
-                <input type="text" name="phone" id="" value="" placeholder="@lang('basic.address.Please fill in your mobile phone number')"/>
+                <input type="text" name="phone" id="" value=""
+                       placeholder="@lang('basic.address.Please fill in your mobile phone number')"/>
             </div>
             <div class="addAdsItem" style="border:none;">
                 <label class="must">@lang('basic.address.Detailed address')</label>

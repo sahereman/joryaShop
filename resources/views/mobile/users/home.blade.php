@@ -59,7 +59,6 @@
                         <span>@lang('basic.users.After_sales_order')</span>
                     </div>
                 </a>
-
             </div>
         </div>
         <div class="userItemBox">
@@ -84,10 +83,8 @@
                     <img src="{{ asset('static_m/img/icon_more.png') }}" class="userItemBack"/>
                 </div>
             </a>
-
         </div>
     </div>
-
     @include('layouts._footer_mobile')
 @endsection
 
