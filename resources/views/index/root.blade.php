@@ -133,7 +133,7 @@
                             </ul>
                         </div>
                         <div class="customization_banner">
-                            @if($poster = \App\Models\Poster::getPosterBySlug('pc_index_floor_' . $key))
+                            @if($poster = \App\Models\Poster::getPosterBySlug('pc_index_floor_' . ($key+1)))
                                 <a class="buy_now" href="{{ $poster->link }}">
                                     <img class="lazy" data-src="{{ $poster->image_url }}" style="height: 310px;">
                                 </a>

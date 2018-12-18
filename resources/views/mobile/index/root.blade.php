@@ -55,13 +55,13 @@
                 </div>
             </div>
             @foreach($products as $key => $category_products)
-                @if($key % 2 == 1)
+                @if(($key+1) % 2 == 1)
                     <div class="block_trend">
                         <div class="block_title">
                             <span>{{ App::isLocale('en') ? $category_products['category']->name_en : $category_products['category']->name_zh }}</span>
                             <a href="{{ route('mobile.product_categories.index') . '?category=' . $category_products['category']->id }}">@lang('app.More')></a>
                         </div>
-                        @if($poster = \App\Models\Poster::getPosterBySlug('mobile_index_floor_' . $key))
+                        @if($poster = \App\Models\Poster::getPosterBySlug('mobile_index_floor_' . ($key+1)))
                             <a class="buy_now" href="{{ $poster->link }}">
                                 <img data-src="{{ $poster->image_url }}" class="block_theme lazy"/>
                             </a>
@@ -97,7 +97,7 @@
                             <span>{{ App::isLocale('en') ? $category_products['category']->name_en : $category_products['category']->name_zh }}</span>
                             <a href="{{ route('mobile.product_categories.index') . '?category=' . $category_products['category']->id }}">@lang('app.More')></a>
                         </div>
-                        @if($poster = \App\Models\Poster::getPosterBySlug('mobile_index_floor_' . $key))
+                        @if($poster = \App\Models\Poster::getPosterBySlug('mobile_index_floor_' . ($key+1)))
                             <a class="buy_now" href="{{ $poster->link }}">
                                 <img data-src="{{ $poster->image_url }}" class="block_theme lazy"/>
                             </a>
