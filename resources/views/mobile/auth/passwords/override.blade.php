@@ -36,7 +36,6 @@
             ——— @lang('app.Jorya Limited') ———
         </div>-->
     </div>
-
 @endsection
 
 @section('scriptsAfterJs')

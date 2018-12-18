@@ -58,7 +58,7 @@ class UserAddressesController extends Controller
         }
         $address->user()->associate($user);
         $address->save();
-        if(\Browser::isMobile()){
+        if (\Browser::isMobile()) {
             return redirect()->route('mobile.user_addresses.index');
         }
         return redirect()->route('user_addresses.index');
@@ -92,7 +92,7 @@ class UserAddressesController extends Controller
             $address->is_default = false;
         }
         $address->save();
-        if(\Browser::isMobile()){
+        if (\Browser::isMobile()) {
             return redirect()->route('mobile.user_addresses.index');
         }
         return redirect()->route('user_addresses.index');
@@ -102,18 +102,21 @@ class UserAddressesController extends Controller
     public function destroy(Request $request, UserAddress $address)
     {
         $this->authorize('delete', $address);
-        if ($address->is_default) {
-            UserAddress::where(['user_id' => $request->user()->id, 'is_default' => true])
-                ->where('id', '<>', $address->id)
-                ->update(['is_default' => false]);
-            $address = UserAddress::where('user_id', $request->user()->id)
-                ->where('id', '<>', $address->id)
-                ->latest('last_used_at')
-                ->latest('updated_at')
-                ->latest()
-                ->first();
-            $address->is_default = true;
-            $address->save();
+        $user = $request->user();
+        if ($user->addresses->count() > 1) {
+            if ($address->is_default) {
+                UserAddress::where(['user_id' => $user->id, 'is_default' => true])
+                    ->where('id', '<>', $address->id)
+                    ->update(['is_default' => false]);
+                $address_model = UserAddress::where('user_id', $user->id)
+                    ->where('id', '<>', $address->id)
+                    ->latest('last_used_at')
+                    ->latest('updated_at')
+                    ->latest()
+                    ->first();
+                $address_model->is_default = true;
+                $address_model->save();
+            }
         }
         $address->user()->dissociate();
         $result = $address->delete();

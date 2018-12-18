@@ -13,9 +13,7 @@
             </button>
         </div>
     </div>
-
 @endsection
-
 
 @section('scriptsAfterJs')
     <script type="text/javascript">
