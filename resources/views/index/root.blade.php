@@ -34,7 +34,7 @@
                 <div class="new_product_left pull-left">
                     @if($poster = \App\Models\Poster::getPosterBySlug('pc_index_left_top'))
                         <div class="product_left_top">
-                            <img class="lazy" data-src="{{ $poster->image_url }}">
+                            <a href="{{ $poster->link }}"><img class="lazy" data-src="{{ $poster->image_url }}"></a>
                         </div>
                     @else
                         <div class="product_left_top">
@@ -43,7 +43,7 @@
                     @endif
                     @if($poster = \App\Models\Poster::getPosterBySlug('pc_index_left_bottom'))
                         <div class="product_left_bottom">
-                            <img class="lazy" data-src="{{ $poster->image_url }}">
+                            <a href="{{ $poster->link }}"><img class="lazy" data-src="{{ $poster->image_url }}"></a>
                         </div>
                     @else
                         <div class="product_left_bottom">

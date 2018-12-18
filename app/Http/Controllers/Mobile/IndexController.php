@@ -17,17 +17,18 @@ class IndexController extends Controller
     {
         $banners = Banner::where('type', 'mobile')->orderByDesc('sort')->get();
         $latest = Product::where('is_index', 1)->latest('updated_at')->limit(8)->get();
+
         $products = [];
-        $categories = ProductCategory::where(['parent_id' => 0, 'is_index' => 1])->get();
-        foreach ($categories as $category) {
+        $categories = ProductCategory::where(['parent_id' => 0, 'is_index' => 1])->get()->reject(function ($item, $key) {
+            return $item->children->isEmpty();
+        });
+        $categories = $categories->values(); // reset the indices.
+        foreach ($categories as $key => $category) {
             $children = $category->children;
-            if ($children->isEmpty()) {
-                continue;
-            }
             $children_ids = $children->pluck('id')->all();
-            $products[$category->id]['category'] = $category;
-            $products[$category->id]['children'] = $children;
-            $products[$category->id]['products'] = Product::where('is_index', 1)->whereIn('product_category_id', $children_ids)->orderByDesc('index')->limit(8)->get();
+            $products[$key]['category'] = $category;
+            $products[$key]['children'] = $children;
+            $products[$key]['products'] = Product::where('is_index', 1)->whereIn('product_category_id', $children_ids)->orderByDesc('index')->limit(8)->get();
         }
         $guesses = Product::where(['is_index' => 1, 'on_sale' => 1])->orderByDesc('heat')->limit(8)->get();
 
