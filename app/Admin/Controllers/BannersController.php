@@ -97,7 +97,7 @@ class BannersController extends Controller
         $show = new Show(Banner::findOrFail($id));
 
         $show->id('ID');
-        $show->image('Banner图');
+        $show->image('Banner图')->image('', 300);
         $show->type('类型');
         $show->sort('排序');
         $show->created_at('创建时间');
