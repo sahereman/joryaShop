@@ -9,7 +9,7 @@
                     <span>></span>
                     <a href="javascript:void(0);">@lang('order.Confirm Order')</a>
                 </p>
-                <div class="pre_payment_header" code='{{ $address->id }}'>
+                <div class="pre_payment_header" code='{{ $address ? $address->id : ''}}'>
                     <div class="address_info clear">
                         <ul class="left">
                             <li class="clear">
