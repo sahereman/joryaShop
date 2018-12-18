@@ -184,7 +184,7 @@
                 </div>
             </div>
             <div class="btn_area">
-                <a class="success">@lang('app.determine')</a>
+                <a class="success" data-url="{{ route('user_addresses.store_for_ajax') }}">@lang('app.determine')</a>
                 <a class="cancel">@lang('app.cancel')</a>
             </div>
         </div>
@@ -223,10 +223,35 @@
                 $(".new_receipt_address").show();
             });
             $(".new_receipt_address").on("click", ".success", function () {
-                $(".address_name").html($(".new_receipt_address .user_name").val());
-                $(".address_phone").html($(".new_receipt_address .user_tel").val());
-                $(".address_location").html($(".new_receipt_address textarea").val());
-                $(".new_receipt_address").hide();
+                if($(".new_receipt_address .user_name").val()==""||$(".new_receipt_address .user_tel").val()==""||$(".new_receipt_address textarea").val()==""){
+                    layer.msg("@lang('order.Please complete the information')")
+                    return false
+            	}
+                var data = {
+                	_token: "{{ csrf_token() }}",
+                	name:$(".new_receipt_address .user_name").val(),
+                	phone:$(".new_receipt_address .user_tel").val(),
+                	address:$(".new_receipt_address textarea").val(),
+                	is_default: "0"
+                }
+                $.ajax({
+                	type:"post",
+                	url:$(this).attr("data-url"),
+                	data: data,
+                	beforeSend: function () {},
+                    success: function (json) {
+                        $(".address_name").html(json.data.address.name);
+		                $(".address_phone").html(json.data.address.phone);
+		                $(".address_location").html(json.data.address.address);
+		                $(".new_receipt_address").hide();
+                    },
+                    error: function (err) {
+                        console.log(err);
+                        layer.msg($.parseJSON(err.responseText).errors.address[0]||$.parseJSON(err.responseText).errors.name[0]||$.parseJSON(err.responseText).errors.phone[0])
+                    },
+                    complete: function () {
+                    },
+                });
             });
             //切换地址
             $(".change_address").on("click", function () {

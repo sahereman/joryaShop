@@ -137,6 +137,7 @@
             </div>
             <div class="defaultBox">
                 <label style="padding-left: 1rem;">@lang('basic.address.Set as default address')</label>
+                <input type="hidden" name="is_default" class="setas_default">
                 <img src="{{ asset('static_m/img/icon_OFF.png') }}" class="switchBtn"/>
             </div>
         </div>
@@ -242,14 +243,6 @@
                 $(".currency_selection").find("a").removeClass("active");
                 $(this).addClass("active");
             });
-            //点击切换默认地址
-            $(".switchBtn").on("click", function () {
-                if ($(this).attr("src") == "{{ asset('static_m/img/icon_OFF.png') }}") {
-                    $(this).attr("src", "{{ asset('static_m/img/icon_ON.png') }}");
-                } else {
-                    $(this).attr("src", "{{ asset('static_m/img/icon_OFF.png') }}");
-                }
-            });
             //选中地址显示在界面上
             $(".adsList").on("click", '.adsItem', function () {
                 if ($(this).find(".defaultAds").length == 1) {
@@ -270,6 +263,15 @@
                 $(".addAdsBox").show();
                 $(".ads1Box").hide();
             });
+            $(".switchBtn").on("click", function () {
+	            if ($(this).attr("src") == "{{ asset('static_m/img/icon_OFF.png') }}") {
+	                $(this).attr("src", "{{ asset('static_m/img/icon_ON.png') }}");
+	                $(".setas_default").val("1");
+	            } else {
+	                $(this).attr("src", "{{ asset('static_m/img/icon_OFF.png') }}");
+	                $(".setas_default").val("0");
+	            }
+	        });
             //点击保存
             $(".save_new_address").on("click", function () {
             	if($("#new_address_name").val()==""||$("#new_address_phone").val()==""||$("#new_address_info").val()==""){
@@ -284,7 +286,8 @@
                 	_token: "{{ csrf_token() }}",
                 	name:$("#new_address_name").val(),
                 	phone:$("#new_address_phone").val(),
-                	address:$("#new_address_info").val()
+                	address:$("#new_address_info").val(),
+                	is_defalut: $(".setas_default").val()
                 }
                 $.ajax({
                 	type:"post",
@@ -292,6 +295,7 @@
                 	data: data,
                 	beforeSend: function () {},
                     success: function (json) {
+                    	console.log(json)
                         $(".address_name").html(json.data.address.name);
 		                $(".address_phone").html(json.data.address.phone);
 		                $(".address_info_all").html(json.data.address.address);
