@@ -83,7 +83,7 @@ class CountryCodesController extends Controller
         $grid->model()->orderBy('sort', 'desc'); // 设置初始排序条件
 
         $grid->country_name('国家名称');
-        $grid->country_iso('国家iso标示');
+//        $grid->country_iso('国家iso标示');
         $grid->country_code('国际电话区号');
         $grid->sort('排序')->sortable();
 
@@ -102,7 +102,7 @@ class CountryCodesController extends Controller
 
         $show->id('ID');
         $show->country_name('国家名称');
-        $show->country_iso('国家iso标示');
+//        $show->country_iso('国家iso标示');
         $show->country_code('国际电话区号');
         $show->sort('排序');
 
@@ -119,7 +119,7 @@ class CountryCodesController extends Controller
         $form = new Form(new CountryCode);
 
         $form->text('country_name', '国家名称');
-        $form->text('country_iso', '国家iso标示');
+//        $form->text('country_iso', '国家iso标示');
         $form->text('country_code', '国际电话区号');
         $form->number('sort', '排序');
 
