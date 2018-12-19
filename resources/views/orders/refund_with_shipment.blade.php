@@ -126,13 +126,20 @@
                                     <li>
                                         <span><i class="red">*</i>@lang('order.Application description')：</span>
                                         <select class="choose_remark" name="">
-			                            	<option value="default" selected="selected" disabled="disabled">请选择申请理由</option>
-			                            	@for($i=0;$i<=5;$i++)
-			                            	<option value="0">{{ $i }}</option>
-			                            	@endfor
-			                            	<option value="other">其他</option>
-			                            </select>
-                                        <textarea name="remark_from_user" class="reasons_for_refunds step-1-textarea dis_n"
+                                            <option value="default" selected="selected" disabled="disabled">
+                                                @lang('order.Please select the refund reason')
+                                            </option>
+                                            @if($refund_reasons = \App\Models\RefundReason::refundReasons())
+                                                @foreach($refund_reasons as $refund_reason)
+                                                    <option value="{{ \Illuminate\Support\Facades\App::isLocale('en') ? $refund_reason->reason_en : $refund_reason->reason_zh }}">
+                                                        {{ \Illuminate\Support\Facades\App::isLocale('en') ? $refund_reason->reason_en : $refund_reason->reason_zh }}
+                                                    </option>
+                                                @endforeach
+                                            @endif
+                                            <option value="etc">@lang('order.Etc')</option>
+                                        </select>
+                                        <textarea name="remark_from_user"
+                                                  class="reasons_for_refunds step-1-textarea dis_n"
                                                   placeholder="@lang('order.Please fill in the reason for the refund')">{{ old('remark_from_user') }}</textarea>
                                         <span class="remainder dis_ni">200</span>
                                     </li>
@@ -169,12 +176,18 @@
                                     <li>
                                         <span><i class="red">*</i>@lang('order.Application description')：</span>
                                         <select class="choose_remark" disabled="disabled" name="">
-			                            	<option value="default" selected="selected" disabled="disabled">请选择申请理由</option>
-			                            	@for($i=0;$i<=5;$i++)
-			                            	<option value="0">{{ $i }}</option>
-			                            	@endfor
-			                            	<option value="other">其他</option>
-			                            </select>
+                                            <option value="default" selected="selected" disabled="disabled">
+                                                @lang('order.Please select the refund reason')
+                                            </option>
+                                            @if($refund_reasons = \App\Models\RefundReason::refundReasons())
+                                                @foreach($refund_reasons as $refund_reason)
+                                                    <option value="{{ \Illuminate\Support\Facades\App::isLocale('en') ? $refund_reason->reason_en : $refund_reason->reason_zh }}">
+                                                        {{ \Illuminate\Support\Facades\App::isLocale('en') ? $refund_reason->reason_en : $refund_reason->reason_zh }}
+                                                    </option>
+                                                @endforeach
+                                            @endif
+                                            <option value="etc">@lang('order.Etc')</option>
+                                        </select>
                                         <textarea name="remark_from_user" class="reasons_for_refunds no_border dis_n"
                                                   readonly>{{ $refund->remark_from_user }}</textarea>
                                         <span class="remainder hidden dis_ni">200</span>
@@ -547,9 +560,9 @@
                 if ($("#step-1-form").find("textarea").val() == null || $("#step-1-form").find("textarea").val() == "") {
                     layer.msg("@lang('order.Please fill in the application instructions')");
                     return false;
-                }else {
+                } else {
                     if ($("#step-1-form").find("textarea").val().length < 3) {
-                        layer.msg("@lang('product.Evaluation content is not less than 15 words')");
+                        layer.msg("@lang('product.Evaluation content is not less than 3 words')");
                         return false;
                     } else if ($("#step-1-form").find("textarea").val().length >= 199) {
                         layer.open({
@@ -560,7 +573,7 @@
                         layer.msg("@lang('product.The content of the evaluation should not exceed 200 words')！");
                         return false;
                     }
-                } 
+                }
                 if (set_finish == true) {
                     $("#step-1-form").submit();
                 }
@@ -616,15 +629,15 @@
                 if ($("#step-2-form").find("textarea").val() == null || $("#step-2-form").find("textarea").val() == "") {
                     layer.msg("@lang('order.Please fill in the application instructions')");
                     return false;
-                }else {
+                } else {
                     if ($("#step-2-form").find("textarea").val().length < 3) {
-                        layer.msg("@lang('product.Evaluation content is not less than 15 words')！");
+                        layer.msg("@lang('product.Evaluation content is not less than 3 words')！");
                         return false;
                     } else if ($("#step-2-form").find("textarea").val().length >= 199) {
                         layer.msg("@lang('product.The content of the evaluation should not exceed 200 words')！");
                         return false;
                     }
-                } 
+                }
                 if (set_finish == true) {
                     $("#step-2-form").submit();
                 }
@@ -689,14 +702,14 @@
                 });
             })
             //退款理由下拉菜单切换
-            $(".choose_remark").on("change",function(){
-            	if($(this).val()=="other"){
-            		$(".reasons_for_refunds").removeClass("dis_n");
-            		$(".remainder").removeClass("dis_ni");
-            	}else{
-            		$(".reasons_for_refunds").addClass("dis_n");
-            		$(".remainder").addClass("dis_ni");
-            	}
+            $(".choose_remark").on("change", function () {
+                if ($(this).val() == "etc") {
+                    $(".reasons_for_refunds").removeClass("dis_n");
+                    $(".remainder").removeClass("dis_ni");
+                } else {
+                    $(".reasons_for_refunds").addClass("dis_n");
+                    $(".remainder").addClass("dis_ni");
+                }
             })
         });
         // 图片上传入口按钮 input[type=file]值发生改变时触发

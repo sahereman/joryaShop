@@ -202,7 +202,7 @@
                         if ($(n).find("textarea").val().length < 3) {
                             textarea_status = false;
                             layer.open({
-                                content: "@lang('product.Evaluation content is not less than 15 words')！",
+                                content: "@lang('product.Evaluation content is not less than 3 words')！",
                                 skin: 'msg',
                                 time: 2, //2秒后自动关闭
                             });

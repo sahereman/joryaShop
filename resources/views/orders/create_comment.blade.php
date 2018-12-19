@@ -278,7 +278,7 @@
                 } else {
                     if ($(n).find("textarea").val().length < 3) {
                         textarea_status = false;
-                        layer.msg("@lang('product.Evaluation content is not less than 15 words')！");
+                        layer.msg("@lang('product.Evaluation content is not less than 3 words')！");
                     } else if ($(n).find("textarea").val().length >= 199) {
                         textarea_status = false;
                         layer.msg("@lang('product.The content of the evaluation should not exceed 200 words')！");

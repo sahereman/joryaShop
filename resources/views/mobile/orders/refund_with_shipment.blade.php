@@ -122,7 +122,7 @@
                                         </option>
                                     @endforeach
                                 @endif
-                                <option value="other">@lang('order.Etc')</option>
+                                <option value="etc">@lang('order.Etc')</option>
                             </select>
                         </div>
                         <div class="refund_info_item other_reason dis_ni">
@@ -164,7 +164,7 @@
                                         </option>
                                     @endforeach
                                 @endif
-                                <option value="other">@lang('order.Etc')</option>
+                                <option value="etc">@lang('order.Etc')</option>
                             </select>
                         </div>
                         <!--这个地方需要判断上一步的申请理由是什么如果是其他则显示下面的div并对文本域进行赋值，如果有值得时候将dis_ni去掉-->
@@ -362,10 +362,10 @@
                     });
                     return false;
                 } else {
-                    if ($("#step-1-form").find(".choose_remark").val() == "other") {
+                    if ($("#step-1-form").find(".choose_remark").val() == "etc") {
                         if ($("#step-1-form").find("textarea").val().length < 3) {
                             layer.open({
-                                content: "@lang('product.Evaluation content is not less than 15 words')！",
+                                content: "@lang('product.Evaluation content is not less than 3 words')！",
                                 skin: 'msg',
                                 time: 2, //2秒后自动关闭
                             });
@@ -407,10 +407,10 @@
                     });
                     return false;
                 } else {
-                    if ($("#step-2-form").find(".choose_remark").val() == "other") {
+                    if ($("#step-2-form").find(".choose_remark").val() == "etc") {
                         if ($("#step-2-form").find("textarea").val().length < 3) {
                             layer.open({
-                                content: "@lang('product.Evaluation content is not less than 15 words')！",
+                                content: "@lang('product.Evaluation content is not less than 3 words')！",
                                 skin: 'msg',
                                 time: 2, //2秒后自动关闭
                             });
@@ -644,7 +644,7 @@
             });
             //切换下拉菜单
             $(".choose_remark").on("change", function () {
-                if ($(this).val() == "other") {
+                if ($(this).val() == "etc") {
                     $(".other_reason").removeClass("dis_ni");
                 } else {
                     $(".other_reason").addClass("dis_ni");

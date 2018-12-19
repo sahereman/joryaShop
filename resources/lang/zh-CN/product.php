@@ -16,7 +16,7 @@ return [
     'choose_settlement' => '请选择结算商品',
     'Please select a Star' => '请选择星级',
     'Please fill in the evaluation content' => '请填写评价内容',
-    'Evaluation content is not less than 15 words' => '评价内容不少于3个字',
+    'Evaluation content is not less than 3 words' => '评价内容不少于3个字',
     'The content of the evaluation should not exceed 200 words' => '评价内容不能超过200字',
     'Upload up to 5 image' => '最多上传5张图片',
     'shopping_cart' => [

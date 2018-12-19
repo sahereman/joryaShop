@@ -75,7 +75,7 @@
                                         </option>
                                     @endforeach
                                 @endif
-                                <option value="other">@lang('order.Etc')</option>
+                                <option value="etc">@lang('order.Etc')</option>
                             </select>
                         </div>
                         <div class="refund_info_item other_reason dis_ni">
@@ -109,7 +109,7 @@
                                         </option>
                                     @endforeach
                                 @endif
-                                <option value="other">@lang('order.Etc')</option>
+                                <option value="etc">@lang('order.Etc')</option>
                             </select>
                         </div>
                         <!--同样需要判断是否需要显示手写理由，如没有则不需要展示 判断是上面的下拉菜单是否选择了其他-->
@@ -218,7 +218,7 @@
                 } else {
                     if ($("#step-1-form").find("textarea").val().length < 3) {
                         layer.open({
-                            content: "@lang('product.Evaluation content is not less than 15 words')！",
+                            content: "@lang('product.Evaluation content is not less than 3 words')！",
                             skin: 'msg',
                             time: 2, //2秒后自动关闭
                         });
@@ -252,7 +252,7 @@
                 } else {
                     if ($("#step-2-form").find("textarea").val().length < 3) {
                         layer.open({
-                            content: "@lang('product.Evaluation content is not less than 15 words')！",
+                            content: "@lang('product.Evaluation content is not less than 3 words')！",
                             skin: 'msg',
                             time: 2, //2秒后自动关闭
                         });
@@ -304,7 +304,7 @@
             });
             //切换下拉菜单
             $(".choose_remark").on("change", function () {
-                if ($(this).val() == "other") {
+                if ($(this).val() == "etc") {
                     $(".other_reason").removeClass("dis_ni");
                 } else {
                     $(".other_reason").addClass("dis_ni");
