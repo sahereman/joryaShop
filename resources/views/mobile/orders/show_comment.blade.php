@@ -2,19 +2,11 @@
 @section('title', '查看评价')
 @section('title', App::isLocale('en') ? 'View comments' : '查看评价')
 @section('content')
-    @if(!is_wechat_browser())
-    <div class="headerBar fixHeader">
-    @else
-    <div class="headerBar fixHeader height_no">
-    @endif
+    <div class="headerBar fixHeader {{ is_wechat_browser() ? 'height_no' : '' }}">
         <img src="{{ asset('static_m/img/icon_backtop.png') }}" class="backImg" onclick="javascript:history.back(-1);"/>
         <span>@lang('order.View comments')</span>
     </div>
-    @if(!is_wechat_browser())
-    <div class="showCommentBox commentBox">
-    @else
-    <div class="showCommentBox commentBox top_no">
-    @endif
+    <div class="showCommentBox commentBox {{ is_wechat_browser() ? 'top_no' : '' }}">
         @foreach($order->snapshot as $order_item)
             <div class="ordDetail">
                 <a href="{{ route('products.show', $order_item['sku']['product']['id']) }}">

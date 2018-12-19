@@ -138,4 +138,6 @@ return [
     'Are you sure you want to confirm the receipt' => '您确定要确认收货吗？',
     'Confirm receipt success' => '确认收货成功',
     'Cancel the application successfully' => '撤销申请成功',
+    'Please select the refund reason' => '请选择申请理由',
+    'Etc' => '其他',
 ];

@@ -2,11 +2,7 @@
 @section('title', App::isLocale('en') ? 'Product Search' : '商品搜索')
 @section('content')
     <div class="seaBox">
-    	@if(!is_wechat_browser())
-        <div class="headerBar">
-        @else
-        <div class="headerBar height_no">
-        @endif
+            <div class="headerBar {{ is_wechat_browser() ? 'height_no' : '' }}">
             @if(!is_wechat_browser())
             <img src="{{ asset('static_m/img/icon_backtop.png') }}" class="backImg"
                  onclick="javascript:history.back(-1);"/>
@@ -96,11 +92,11 @@
             return null;
         }
         window.onload = function(){
-        	var content = getQueryString("search_con");
-        	if(content!=null||content!=""){
-        		$("#ipt").val(content);
-        	}
-        }
+            var content = getQueryString("search_con");
+            if(content!=null||content!=""){
+                $("#ipt").val(content);
+            }
+        };
         //点击搜索按钮是将搜索内容存入到local storage
         $("#search").click(function () {
             var value = $("#ipt").val();
@@ -144,15 +140,15 @@
             lastTime = event.timeStamp;
             var clickDom = $(this);
             if($(this).val()==null||$(this).val()==""){
-            	return false;
+                return false;
             }
-        	setTimeout(function () {
+            setTimeout(function () {
                 if (lastTime - event.timeStamp == 0) {
                     $.ajax({
                         type: "get",
                         url: clickDom.attr("data-url"),
                         data: {
-                            "query": $("#ipt").val()
+                            "query": $("#ipt").val(),
                         },
                         success: function (json) {
                             var html = "";
@@ -170,10 +166,10 @@
                             console.log(e);
                             if (e.status == 422) {
                             }
-                        }
+                        },
                     });
                 }
-            }, 200);	
+            }, 200);
         });
         //点击查询结果进行跳转
         $(".searchResult").on("click", 'a', function () {

@@ -1,20 +1,11 @@
 @extends('layouts.mobile')
 @section('title', App::isLocale('en') ? 'Create an evaluation' : '创建评价')
 @section('content')
-    @if(!is_wechat_browser())
-    <div class="headerBar fixHeader">
-    @else
-    <div class="headerBar fixHeader height_no">
-    @endif
-            <img src="{{ asset('static_m/img/icon_backtop.png') }}" class="backImg"
-                 onclick="javascript:history.back(-1);"/>
-            <span>@lang('order.Publish an evaluation')</span>
+    <div class="headerBar fixHeader {{ is_wechat_browser() ? 'height_no' : '' }}">
+        <img src="{{ asset('static_m/img/icon_backtop.png') }}" class="backImg" onclick="javascript:history.back(-1);"/>
+        <span>@lang('order.Publish an evaluation')</span>
     </div>
-    @if(!is_wechat_browser())
-    <div class="commentBox">
-    @else
-    <div class="commentBox top_no">
-    @endif
+    <div class="commentBox {{ is_wechat_browser() ? 'top_no' : '' }}">
         <form method="POST" action="{{ route('orders.store_comment', ['order' => $order->id]) }}"
               enctype="multipart/form-data" id="creat_comment_form">
             {{ csrf_field() }}
@@ -55,10 +46,10 @@
                           placeholder="@lang('product.comments.Please enter a product evaluation of less than 200 words')"></textarea>
                     <!--上传图片-->
                     <div class="goodspicture" code="{{ $order_item['id'] }}">
-                        <!--<div class="goodsItem">
-                        <img src="{{ asset('static_m/img/blockImg.png') }}" class="goodsItemPicImg"/>
-                        <img src="{{ asset('static_m/img/icon_Closed.png') }}" class="closeImg"/>
-                    </div>-->
+                        {{--<div class="goodsItem">
+                            <img src="{{ asset('static_m/img/blockImg.png') }}" class="goodsItemPicImg"/>
+                            <img src="{{ asset('static_m/img/icon_Closed.png') }}" class="closeImg"/>
+                        </div>--}}
                         <div class="goodsChoice" code="{{ $order_item['id'] }}">
                             <img src="{{ asset('static_m/img/icon_Additive.png') }}"/>
                             <span class="img_nums">@lang('order.No more than 5 sheets')</span>
@@ -159,7 +150,7 @@
                 $(this).parents(".star").find("input[code='" + $(this).attr("code") + "']").attr("checked", true);
             });
             //点击上传图片
-            $("#creat_comment_form").on("click", ".goodsChoice",function (){
+            $("#creat_comment_form").on("click", ".goodsChoice", function () {
                 var had_evaImg = $(this).parents(".goodspicture").find(".goodsItem");
                 if (had_evaImg.length < 5) {
                     $("#div_imgfile").trigger("click");
@@ -264,13 +255,13 @@
             //打开文件选择对话框
             $("#div_imgfile").click(function () {
                 /*if ($(".lookimg").length >= IMG_MAXCOUNT) {
-                    layer.open({
-                        content: "一次最多上传" + IMG_MAXCOUNT + "张图片",
-                        skin: 'msg',
-                        time: 2, //2秒后自动关闭
-                    });
-                    return;
-                }*/
+                 layer.open({
+                 content: "一次最多上传" + IMG_MAXCOUNT + "张图片",
+                 skin: 'msg',
+                 time: 2, //2秒后自动关闭
+                 });
+                 return;
+                 }*/
                 var sUserAgent = navigator.userAgent.toLowerCase();
                 var _CRE_FILE = document.createElement("input");
                 if ($(".imgfile").length <= $(".lookimg").length) {//个数不足则新创建对象
@@ -280,7 +271,7 @@
                     if (sUserAgent.match(/Android/i) == "android") {
                         _CRE_FILE.setAttribute("capture", "camera");
                     }
-//                    _CRE_FILE.setAttribute("capture", "camera");
+                    // _CRE_FILE.setAttribute("capture", "camera");
                     _CRE_FILE.setAttribute("accept", "image/png,image/jpg,image/jpeg");
                     _CRE_FILE.setAttribute("id", "{{ $order_item['id'] }}");
                     _CRE_FILE.setAttribute("data-url", "{{ route('comment_image.upload') }}");

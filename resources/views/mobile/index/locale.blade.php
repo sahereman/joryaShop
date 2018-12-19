@@ -2,7 +2,7 @@
 @section('title', App::isLocale('en') ? 'switch language' : '切换语言')
 @section('content')
     <div class="headerBar">
-    	@if(!is_wechat_browser())
+        @if(!is_wechat_browser())
         <img src="{{ asset('static_m/img/icon_backtop.png') }}" class="backImg" onclick="javascript:history.back(-1);"/>
         <span>@lang('app.switch language')</span>
         @endif
@@ -31,7 +31,6 @@
     </div>
 @endsection
 
-
 @section('scriptsAfterJs')
     <script type="text/javascript">
         //页面单独JS写这里
@@ -42,7 +41,7 @@
                     url: $(this).attr("data-url"),
                     success: function () {
                         window.location.href = "{{ route('mobile.root') }}";
-                    }
+                    },
                 });
             });
             //获取url参数
@@ -56,11 +55,10 @@
                 }
                 return vars["language_type"];
             }
-
             var action = "";
             $(document).ready(function () {
                 $("input[value=" + getUrlVars() + "]").attr("checked", true);
-            })
-        })
+            });
+        });
     </script>
 @endsection

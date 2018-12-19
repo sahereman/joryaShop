@@ -1,19 +1,11 @@
 @extends('layouts.mobile')
 @section('title', App::isLocale('en') ? 'Shipment details' : '物流详情')
 @section('content')
-    @if(!is_wechat_browser())
-    <div class="headerBar fixHeader">
-    @else
-    <div class="headerBar fixHeader height_no">
-    @endif
+    <div class="headerBar fixHeader {{ is_wechat_browser() ? 'height_no' : '' }}">
         <img src="{{ asset('static_m/img/icon_backtop.png') }}" class="backImg" onclick="javascript:history.back(-1);"/>
         <span>@lang('order.Shipment details')</span>
     </div>
-    @if(!is_wechat_browser())
-    <div class="logisticsBox">
-    @else
-    <div class="logisticsBox margin-top_no">
-    @endif
+    <div class="logisticsBox {{ is_wechat_browser() ? 'margin-top_no' : '' }}">
         <div class="lgtHead">
             <div class="lgtHeadMain">
                 <img src="{{ asset('static_m/img/icon_express.png') }}"/>
@@ -34,18 +26,18 @@
                     </div>
                 </div>
             </div>--}}
-            <!--物流信息根据需要判断是否显示，目前显示的订单状态：待收货、未评价、已评价、退款订单-->
+                    <!--物流信息根据需要判断是否显示，目前显示的订单状态：待收货、未评价、已评价、退款订单-->
             @if(!empty($order_shipment_traces))
-	            <div class="lgtConItem">
-	                <div class="lgtConItemDate"></div>
-	                <div class="lgtConRight">
-	                    <img src="{{ asset('static_m/img/icon_Collectgoods.png') }}"/>
-	                    <div class="lgtConRightMain">
-	                        <span></span>
-	                        <span>【 @lang('order.Shipping address')】{{ $order->user_info['address'] }}</span>
-	                    </div>
-	                </div>
-	            </div>
+                <div class="lgtConItem">
+                    <div class="lgtConItemDate"></div>
+                    <div class="lgtConRight">
+                        <img src="{{ asset('static_m/img/icon_Collectgoods.png') }}"/>
+                        <div class="lgtConRightMain">
+                            <span></span>
+                            <span>【 @lang('order.Shipping address')】{{ $order->user_info['address'] }}</span>
+                        </div>
+                    </div>
+                </div>
                 @foreach($order_shipment_traces as $key => $order_shipment_trace)
                     @if($key == 0)
                         <div class="lgtConItem">

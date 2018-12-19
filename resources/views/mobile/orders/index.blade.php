@@ -3,12 +3,12 @@
 @section('content')
     <div class="orderBox">
         <div class="orderHeadTop">
-        	@if(!is_wechat_browser())
-            <div class="headerBar">
+            @if(!is_wechat_browser())
+                <div class="headerBar">
                     <img src="{{ asset('static_m/img/icon_backtop.png') }}" class="backImg"
                          onclick="javascript:history.back(-1);"/>
                     <span>@lang('basic.users.My_order')</span>
-            </div>
+                </div>
             @endif
             <div class="orderHead">
                 <div class="index orderActive"
@@ -30,11 +30,7 @@
                 <p>@lang('basic.users.No_orders_yet')</p>
                 <a href="{{ route('root') }}">@lang('product.shopping_cart.Go_shopping')</a>
             </div>
-            @if(!is_wechat_browser())
-            <div class="lists">
-            @else
-            <div class="lists small_margin">
-            @endif
+            <div class="lists {{ is_wechat_browser() ? 'small_margin' : '' }}">
             </div>
         </div>
     </div>
@@ -131,7 +127,7 @@
                                     html += "<div class='orderItem'>";
                                     html += "<div class='orderItemH'>";
                                     html += "<span class='order_info' code='" + order.id + "'>@lang('basic.users.Order_number')： " + order.order_sn + "</span>";
-//                                  html += "<span class='order_info' code='" + order.id + "'>@lang('basic.users.The_order_details') >></span>";
+                                    // html += "<span class='order_info' code='" + order.id + "'>@lang('basic.users.The_order_details') >></span>";
                                     switch (order.status) {
                                         case "paying":
                                             html += "<span class='orderItemState'>@lang('basic.orders.Pending payment')</span>";
@@ -163,8 +159,8 @@
                                             name = ($(".orderMain").attr("code") == "en") ? order_item.sku.product.name_en : order_item.sku.product.name_zh;
                                             sku_name = ($(".orderMain").attr("code") == "en") ? order_item.sku.name_en : order_item.sku.name_zh;
                                             price = (order.currency == "CNY") ? order_item.sku.product.price : order_item.sku.product.price_in_usd;
-                                            total_price1 = float_multiply_by_100(order.total_amount)+float_multiply_by_100(order.total_shipping_fee);
-                                            total_price = js_number_format(total_price1/100);
+                                            total_price1 = float_multiply_by_100(order.total_amount) + float_multiply_by_100(order.total_shipping_fee);
+                                            total_price = js_number_format(total_price1 / 100);
                                             html += "<div class='orderItemDetail_item'>";
                                             html += "<a class='product_info' code='" + order.id + "'>";
                                             html += "<img src='" + order_item.sku.product.thumb_url + "'/>";
@@ -184,18 +180,20 @@
                                     }
                                     html += "</div>";
                                     html += "<div class='orderItemTotle'>";
-//                                  if ($(".orderMain").attr("code") == "zh") {
-//                                      html += "<span>共" + order.snapshot.length + "件商品</span>";
-//                                  } else {
-//                                      if (order.snapshot.length == 1) {
-//                                          html += "<span>" + order.snapshot.length + " commodity @lang('basic.orders.in total')</span>";
-//                                      } else {
-//                                          html += "<span>" + order.snapshot.length + " commodities @lang('basic.orders.in total')</span>";
-//                                      }
-//                                  }
+
+                                    /*if ($(".orderMain").attr("code") == "zh") {
+                                     html += "<span>共" + order.snapshot.length + "件商品</span>";
+                                     } else {
+                                     if (order.snapshot.length == 1) {
+                                     html += "<span>" + order.snapshot.length + " commodity @lang('basic.orders.in total')</span>";
+                                     } else {
+                                     html += "<span>" + order.snapshot.length + " commodities @lang('basic.orders.in total')</span>";
+                                     }
+                                     }*/
+
                                     html += " <span class='orderCen'>" + sum + ": </span>";
                                     html += "<span>" + symbol + " " + total_price + "</span>";
-//                                  js_number_format(Math.imul(float_multiply_by_100(price), 12) / 1000)
+                                    // js_number_format(Math.imul(float_multiply_by_100(price), 12) / 1000)
                                     html += "<span>(@lang('order.Postage included'))</span>";
                                     html += "</div>";
                                     html += " <div class='orderBtns'>";
@@ -212,7 +210,7 @@
                                             html += "<button class='orderBtnC Remind_shipments' code='" + order.id + "'> @lang('basic.orders.Remind shipments')</button>";
                                             break;
                                         case "receiving":
-//                                          html += "<button class='orderBtnC refund_with_ship' code='" + order.id + "'> @lang('order.Request a refund')</button>";
+                                            // html += "<button class='orderBtnC refund_with_ship' code='" + order.id + "'> @lang('order.Request a refund')</button>";
                                             html += "<button class='orderBtnC shipment_details' code='" + order.id + "'> @lang('order.View shipment details')</button>";
                                             html += "<button class='orderBtnS Confirm_reception' code='" + order.id + "'> @lang('order.Confirm reception')</button>";
                                             break;
@@ -375,11 +373,11 @@
         $(".orderMain .lists").on("click", ".refund", function () {
             window.location.href = "{{ config('app.url') }}" + "/mobile/orders/" + $(this).attr("code") + "/refund";
         });
-        //申请退款并退货     
+        //申请退款并退货
         $(".orderMain .lists").on("click", ".refund_with_ship", function () {
             window.location.href = "{{ config('app.url') }}" + "/mobile/orders/" + $(this).attr("code") + "/refund_with_shipment";
         });
-        //确认收货 
+        //确认收货
         $(".orderMain .lists").on("click", ".Confirm_reception", function () {
             var clickDom = $(this);
             layer.open({

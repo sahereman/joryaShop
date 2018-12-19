@@ -1,19 +1,11 @@
 @extends('layouts.mobile')
 @section('title', App::isLocale('en') ? 'Confirm the Order' : '确认订单')
 @section('content')
-    @if(!is_wechat_browser())
-    <div class="headerBar fixHeader">
-    @else
-    <div class="headerBar fixHeader height_no">
-    @endif
+    <div class="headerBar fixHeader {{ is_wechat_browser() ? 'height_no' : '' }}">
         <img src="{{ asset('static_m/img/icon_backtop.png') }}" class="backImg" onclick="javascript:history.back(-1);"/>
         <span>@lang('app.Confirm the Order')</span>
     </div>
-    @if(!is_wechat_browser())
-    <div class="pre_payment">
-    @else
-    <div class="pre_payment margin-top_no">
-    @endif
+    <div class="pre_payment {{ is_wechat_browser() ? 'margin-top_no' : '' }}">
         <div class="pre_paymentCon">
             @if($address)
                 <div class="pre_address edit_address" data-url="{{ route('user_addresses.list_all') }}">
@@ -39,7 +31,8 @@
                     </div>
                     <img src="{{ asset('static_m/img/icon_more.png') }}">
                 </div>
-                <div class="pre_address no_address edit_address dis_ni" data-url="{{ route('user_addresses.list_all') }}">
+                <div class="pre_address no_address edit_address dis_ni"
+                     data-url="{{ route('user_addresses.list_all') }}">
                     <div>
                         <p class="address_title" code=''>
                             <span class="address_name"></span>
@@ -73,7 +66,7 @@
                         {{ count($items) .' '. (count($items) > 1 ? \Illuminate\Support\Str::plural(__('order.Commodity')) : __('order.Commodity')) .' '. __('order.in total') }}
                     </span>
                 @else--}}
-                    <span class="pre_products_num">
+                <span class="pre_products_num">
                         {{ count($items) }}
                     </span>
                 {{--@endif--}}
@@ -100,7 +93,8 @@
             </div>
             <div class="pre_note">
                 <p>@lang('order.order note')</p>
-                <textarea name="remark" class="remark" placeholder="@lang('order.Optional message')" maxlength="50"></textarea>
+                <textarea name="remark" class="remark" placeholder="@lang('order.Optional message')"
+                          maxlength="50"></textarea>
             </div>
         </div>
         <div class="pre_paymentTotal">
@@ -144,9 +138,11 @@
                     <label class="must">@lang('basic.address.Detailed address')</label>
                     {{--<input type="text" name="address" id="new_address_info" value=""
                            placeholder="@lang('basic.address.Detailed_address')"/>--}}
-                    <textarea name="address" id="new_address_info" placeholder="@lang('basic.address.Detailed_address')"></textarea>
+                    <textarea name="address" id="new_address_info"
+                              placeholder="@lang('basic.address.Detailed_address')"></textarea>
                 </div>
-                <button class="doneBtn save_new_address" data-url="{{ route('user_addresses.store_for_ajax') }}">@lang('basic.users.Save')</button>
+                <button class="doneBtn save_new_address"
+                        data-url="{{ route('user_addresses.store_for_ajax') }}">@lang('basic.users.Save')</button>
             </div>
             <div class="defaultBox">
                 <label style="padding-left: 1rem;">@lang('basic.address.Set as default address')</label>
@@ -198,7 +194,7 @@
             var address_layer;   //地址弹窗
             var pro_lists_layer;   //商品明细弹窗
             var minHeight = $(window).height();
-            $(".lay_content").css("min-height",minHeight);
+            $(".lay_content").css("min-height", minHeight);
             //货币种类切换
             $(".currency_selection a").on("click", function () {
                 $(".currency_selection a").removeClass("active");
@@ -221,17 +217,17 @@
                 }
             });
             $(".pre_address").on("click", function () {
-            	var clickDom = $(this);
+                var clickDom = $(this);
                 $('.address_choose').removeClass("dis_n");
                 $('.address_choose').removeClass("fadeOutRightBig");
                 $('.address_choose').addClass("fadeInRightBig");
                 if ($(this).hasClass("no_address")) {
-                    if(clickDom.hasClass("edit_address")){
-                    	$(".addAdsBox").hide();
-	                    $(".ads1Box").show();
-	                    getAddressList($(this).attr("data-url"));
-                    }else{
-                    	$(".addAdsBox").show();
+                    if (clickDom.hasClass("edit_address")) {
+                        $(".addAdsBox").hide();
+                        $(".ads1Box").show();
+                        getAddressList($(this).attr("data-url"));
+                    } else {
+                        $(".addAdsBox").show();
                         $(".ads1Box").hide();
                     }
                 } else {
@@ -276,7 +272,7 @@
                 $('.address_choose').removeClass("fadeInRightBig");
                 $('.address_choose').addClass("fadeOutRightBig");
                 $('.address_choose').addClass("dis_n");
-                $(".address_title").attr("code",$(this).attr("code"));
+                $(".address_title").attr("code", $(this).attr("code"));
             });
             //点击地址中的新建地址
             $(".creat_address_btn").on("click", function () {
@@ -284,58 +280,59 @@
                 $(".ads1Box").hide();
             });
             $(".switchBtn").on("click", function () {
-	            if ($(this).attr("src") == "{{ asset('static_m/img/icon_OFF.png') }}") {
-	                $(this).attr("src", "{{ asset('static_m/img/icon_ON.png') }}");
-	                $(".setas_default").val("1");
-	            } else {
-	                $(this).attr("src", "{{ asset('static_m/img/icon_OFF.png') }}");
-	                $(".setas_default").val("0");
-	            }
-	        });
+                if ($(this).attr("src") == "{{ asset('static_m/img/icon_OFF.png') }}") {
+                    $(this).attr("src", "{{ asset('static_m/img/icon_ON.png') }}");
+                    $(".setas_default").val("1");
+                } else {
+                    $(this).attr("src", "{{ asset('static_m/img/icon_OFF.png') }}");
+                    $(".setas_default").val("0");
+                }
+            });
             //点击保存
             $(".save_new_address").on("click", function () {
-            	if($("#new_address_name").val()==""||$("#new_address_phone").val()==""||$("#new_address_info").val()==""){
-            		layer.open({
-                        content:"@lang('order.Please complete the information')",
+                if ($("#new_address_name").val() == "" || $("#new_address_phone").val() == "" || $("#new_address_info").val() == "") {
+                    layer.open({
+                        content: "@lang('order.Please complete the information')",
                         skin: 'msg',
                         time: 2, //2秒后自动关闭
                     });
                     return false
-            	}
-                var data = {
-                	_token: "{{ csrf_token() }}",
-                	name:$("#new_address_name").val(),
-                	phone:$("#new_address_phone").val(),
-                	address:$("#new_address_info").val(),
-                	is_defalut: $(".setas_default").val()
                 }
+                var data = {
+                    _token: "{{ csrf_token() }}",
+                    name: $("#new_address_name").val(),
+                    phone: $("#new_address_phone").val(),
+                    address: $("#new_address_info").val(),
+                    is_default: $(".setas_default").val()
+                };
                 $.ajax({
-                	type:"post",
-                	url:$(this).attr("data-url"),
-                	data: data,
-                	beforeSend: function () {},
+                    type: "post",
+                    url: $(this).attr("data-url"),
+                    data: data,
+                    beforeSend: function () {
+                    },
                     success: function (json) {
                         $(".address_name").html(json.data.address.name);
-		                $(".address_phone").html(json.data.address.phone);
-		                $(".address_info_all").html(json.data.address.address);
-		                $(".address_title").attr("code",json.data.address.id)
-		                $('.address_choose').removeClass("fadeInRightBig");
-		                $('.address_choose').addClass("fadeOutRightBig");
-		                $('.address_choose').addClass("dis_n");
-		                if($(".setas_default").val()==0){
-		                	$(".default_btn").css("display","none");
-		                }else{
-		                	$(".default_btn").css("display","block");
-		                }
-		                if($(".pre_address").hasClass("no_address")==true){
-		                	$(".add_address").addClass("dis_ni");
-		                	$(".edit_address").removeClass("dis_ni");
-		                }
+                        $(".address_phone").html(json.data.address.phone);
+                        $(".address_info_all").html(json.data.address.address);
+                        $(".address_title").attr("code", json.data.address.id)
+                        $('.address_choose').removeClass("fadeInRightBig");
+                        $('.address_choose').addClass("fadeOutRightBig");
+                        $('.address_choose').addClass("dis_n");
+                        if ($(".setas_default").val() == 0) {
+                            $(".default_btn").css("display", "none");
+                        } else {
+                            $(".default_btn").css("display", "block");
+                        }
+                        if ($(".pre_address").hasClass("no_address") == true) {
+                            $(".add_address").addClass("dis_ni");
+                            $(".edit_address").removeClass("dis_ni");
+                        }
                     },
                     error: function (err) {
                         console.log(err);
                         layer.open({
-                            content: $.parseJSON(err.responseText).errors.address[0]||$.parseJSON(err.responseText).errors.name[0]||$.parseJSON(err.responseText).errors.phone[0],
+                            content: $.parseJSON(err.responseText).errors.address[0] || $.parseJSON(err.responseText).errors.name[0] || $.parseJSON(err.responseText).errors.phone[0],
                             skin: 'msg',
                             time: 2, //2秒后自动关闭
                         });
@@ -357,7 +354,7 @@
                             if (dataObj.length > 0) {
                                 var html = "";
                                 $.each(dataObj, function (i, n) {
-                                    html += "<div class='adsItem' code='"+ n.id +"'>";
+                                    html += "<div class='adsItem' code='" + n.id + "'>";
                                     html += "<div class='adsName'>";
                                     html += "<span class='ads_Name'>" + n.name + "</span>";
                                     if (n.is_default == true) {
@@ -391,6 +388,7 @@
 
             //提交订单
             var loading_animation;
+
             function getUrlVars(url_name) {
                 var vars = [], hash;
                 var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
@@ -408,16 +406,18 @@
                 var address_location = $(".address_info_all").text();
                 var url = $(this).attr("data-url");
                 var sendWay = getUrlVars("sendWay");
-//              if($(".pre_address").hasClass("no_address")&&$(".pre_address").hasClass("add_address")&&$(".pre_address").hasClass("dis_ni")==false){
-//              	layer.open({
-//                      content: "@lang('order.Please fill in the address completely')",
-//                      skin: 'msg',
-//                      time: 2, //2秒后自动关闭
-//                  });
-//                  return false;
-//              }
+
+                /*if ($(".pre_address").hasClass("no_address") && $(".pre_address").hasClass("add_address") && $(".pre_address").hasClass("dis_ni") == false) {
+                    layer.open({
+                        content: "@lang('order.Please fill in the address completely')",
+                        skin: 'msg',
+                        time: 2, //2秒后自动关闭
+                    });
+                    return false;
+                }*/
+
                 if (address_name == "" || address_phone == "" || address_location == "") {
-                	layer.open({
+                    layer.open({
                         content: "@lang('order.Please fill in the address completely')",
                         skin: 'msg',
                         time: 2, //2秒后自动关闭
@@ -473,7 +473,7 @@
                         });
                     },
                     complete: function () {
-                    	layer.close(loading_animation);
+                        layer.close(loading_animation);
                     },
                 });
             }
@@ -511,7 +511,7 @@
                         });
                     },
                     complete: function () {
-                    	layer.close(loading_animation);
+                        layer.close(loading_animation);
                     },
                 });
             }

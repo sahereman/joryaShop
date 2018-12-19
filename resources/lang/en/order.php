@@ -137,4 +137,6 @@ return [
     'Are you sure you want to confirm the receipt' => 'Are you sure you want to confirm the receipt?',
     'Confirm receipt success' => 'Confirm receipt success',
     'Cancel the application successfully' => 'Cancel the application successfully',
+    'Please select the refund reason' => 'Please select the refund reason',
+    'Etc' => 'Etc',
 ];

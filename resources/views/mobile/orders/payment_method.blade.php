@@ -1,19 +1,11 @@
 @extends('layouts.mobile')
 @section('title', App::isLocale('en') ? 'Choosing a Payment method' : '选择支付方式')
 @section('content')
-    @if(!is_wechat_browser())
-    <div class="headerBar fixHeader">
-    @else
-    <div class="headerBar fixHeader height_no">
-    @endif
+    <div class="headerBar fixHeader {{ is_wechat_browser() ? 'height_no' : '' }}">
         <img src="{{ asset('static_m/img/icon_backtop.png') }}" class="backImg" onclick="javascript:history.back(-1);"/>
         <span>@lang('app.Confirm the Order')</span>
     </div>
-    @if(!is_wechat_browser())
-    <div class="pre_payment">
-    @else
-    <div class="pre_payment margin-top_no">
-    @endif
+    <div class="pre_payment {{ is_wechat_browser() ? 'margin-top_no' : '' }}">
         <div class="pre_paymentCon">
             <div class="pre_address edit_address" data-url="{{ route('user_addresses.list_all') }}">
                 <div>
@@ -281,7 +273,6 @@
                         $('.' + remain_id).html("@lang('order.payment')");
                     }
                 }
-
                 _fresh();
                 var sh = setInterval(_fresh, 1000);
             }

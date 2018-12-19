@@ -112,15 +112,21 @@
                         <div class="refund_info_item">
                             <span>@lang('order.Application description')</span>
                             <select class="choose_remark" name="">
-                            	<option value="default" selected="selected" disabled="disabled">请选择申请理由</option>
-                            	@for($i=0;$i<=5;$i++)
-                            	<option value="0">{{ $i }}</option>
-                            	@endfor
-                            	<option value="other">其他</option>
+                                <option value="default" selected="selected" disabled="disabled">
+                                    @lang('order.Please select the refund reason')
+                                </option>
+                                @if($refund_reasons = \App\Models\RefundReason::refundReasons())
+                                    @foreach($refund_reasons as $refund_reason)
+                                        <option value="{{ \Illuminate\Support\Facades\App::isLocale('en') ? $refund_reason->reason_en : $refund_reason->reason_zh }}">
+                                            {{ \Illuminate\Support\Facades\App::isLocale('en') ? $refund_reason->reason_en : $refund_reason->reason_zh }}
+                                        </option>
+                                    @endforeach
+                                @endif
+                                <option value="other">@lang('order.Etc')</option>
                             </select>
                         </div>
                         <div class="refund_info_item other_reason dis_ni">
-                        	<textarea name="remark_from_user" maxlength="200"
+                            <textarea name="remark_from_user" maxlength="200"
                                       placeholder="@lang('order.Please fill in the reason for the refund')">{{ old('remark_from_user') }}</textarea>
                         </div>
                         <p class="upload_voucher_title">@lang('order.product picture')</p>
@@ -148,16 +154,22 @@
                             <span>@lang('order.Application description')</span>
                             <!--需判断上一步的选择是什么如果是其他则需要参考下面文本域的注释内容-->
                             <select class="choose_remark" disabled="disabled" name="">
-                            	<option value="default" selected="selected" disabled="disabled">请选择申请理由</option>
-                            	@for($i=0;$i<=5;$i++)
-                            	<option value="0">{{ $i }}</option>
-                            	@endfor
-                            	<option value="other">其他</option>
+                                <option value="default" selected="selected" disabled="disabled">
+                                    @lang('order.Please select the refund reason')
+                                </option>
+                                @if($refund_reasons = \App\Models\RefundReason::refundReasons())
+                                    @foreach($refund_reasons as $refund_reason)
+                                        <option value="{{ \Illuminate\Support\Facades\App::isLocale('en') ? $refund_reason->reason_en : $refund_reason->reason_zh }}">
+                                            {{ \Illuminate\Support\Facades\App::isLocale('en') ? $refund_reason->reason_en : $refund_reason->reason_zh }}
+                                        </option>
+                                    @endforeach
+                                @endif
+                                <option value="other">@lang('order.Etc')</option>
                             </select>
                         </div>
                         <!--这个地方需要判断上一步的申请理由是什么如果是其他则显示下面的div并对文本域进行赋值，如果有值得时候将dis_ni去掉-->
                         <div class="refund_info_item other_reason dis_ni">
-                        	<textarea name="remark_from_user" class="step2_textarea" maxlength="200"
+                            <textarea name="remark_from_user" class="step2_textarea" maxlength="200"
                                       readonly>{{ $refund->remark_from_user }}</textarea>
                         </div>
                         <p class="upload_voucher_title">@lang('order.product picture')</p>
@@ -350,23 +362,23 @@
                     });
                     return false;
                 } else {
-                	if($("#step-1-form").find(".choose_remark").val() == "other"){
-                		if ($("#step-1-form").find("textarea").val().length < 3) {
-	                        layer.open({
-	                            content: "@lang('product.Evaluation content is not less than 15 words')！",
-	                            skin: 'msg',
-	                            time: 2, //2秒后自动关闭
-	                        });
-	                        return false;
-	                    } else if ($("#step-1-form").find("textarea").val().length >= 199) {
-	                        layer.open({
-	                            content: "@lang('product.The content of the evaluation should not exceed 200 words')！",
-	                            skin: 'msg',
-	                            time: 2, //2秒后自动关闭
-	                        });
-	                        return false;
-	                    }	
-                	}
+                    if ($("#step-1-form").find(".choose_remark").val() == "other") {
+                        if ($("#step-1-form").find("textarea").val().length < 3) {
+                            layer.open({
+                                content: "@lang('product.Evaluation content is not less than 15 words')！",
+                                skin: 'msg',
+                                time: 2, //2秒后自动关闭
+                            });
+                            return false;
+                        } else if ($("#step-1-form").find("textarea").val().length >= 199) {
+                            layer.open({
+                                content: "@lang('product.The content of the evaluation should not exceed 200 words')！",
+                                skin: 'msg',
+                                time: 2, //2秒后自动关闭
+                            });
+                            return false;
+                        }
+                    }
                 }
                 set_path("#step-1-form", 'photos_for_refund');
                 if (set_finish == true) {
@@ -379,7 +391,7 @@
                 $(".save_btn").removeClass("dis_ni");
                 $(".refunds_photos").removeClass("dis_n");
                 $(".closeImg").removeClass("dis_n");
-                $(".choose_remark").attr("disabled",false);
+                $(".choose_remark").attr("disabled", false);
             });
             //保存修改
             $(".save_btn").on("click", function () {
@@ -395,23 +407,23 @@
                     });
                     return false;
                 } else {
-                	if($("#step-2-form").find(".choose_remark").val() == "other"){
-                		if ($("#step-2-form").find("textarea").val().length < 3) {
-	                        layer.open({
-	                            content: "@lang('product.Evaluation content is not less than 15 words')！",
-	                            skin: 'msg',
-	                            time: 2, //2秒后自动关闭
-	                        });
-	                        return false;
-	                    } else if ($("#step-2-form").find("textarea").val().length >= 199) {
-	                        layer.open({
-	                            content: "@lang('product.The content of the evaluation should not exceed 200 words')！",
-	                            skin: 'msg',
-	                            time: 2, //2秒后自动关闭
-	                        });
-	                        return false;
-	                    }	
-                	}
+                    if ($("#step-2-form").find(".choose_remark").val() == "other") {
+                        if ($("#step-2-form").find("textarea").val().length < 3) {
+                            layer.open({
+                                content: "@lang('product.Evaluation content is not less than 15 words')！",
+                                skin: 'msg',
+                                time: 2, //2秒后自动关闭
+                            });
+                            return false;
+                        } else if ($("#step-2-form").find("textarea").val().length >= 199) {
+                            layer.open({
+                                content: "@lang('product.The content of the evaluation should not exceed 200 words')！",
+                                skin: 'msg',
+                                time: 2, //2秒后自动关闭
+                            });
+                            return false;
+                        }
+                    }
                 }
                 if (set_finish == true) {
                     $("#step-2-form").submit();
@@ -631,12 +643,12 @@
                 }
             });
             //切换下拉菜单
-            $(".choose_remark").on("change",function(){
-            	if($(this).val()=="other"){
-            		$(".other_reason").removeClass("dis_ni");
-            	}else{
-            		$(".other_reason").addClass("dis_ni");
-            	}
+            $(".choose_remark").on("change", function () {
+                if ($(this).val() == "other") {
+                    $(".other_reason").removeClass("dis_ni");
+                } else {
+                    $(".other_reason").addClass("dis_ni");
+                }
             })
         });
     </script>
