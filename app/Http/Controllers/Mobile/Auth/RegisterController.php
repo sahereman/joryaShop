@@ -28,7 +28,7 @@ class RegisterController extends Controller
      * Where to redirect users after registration.
      * @var string
      */
-    // protected $redirectTo = '/mobile';
+    protected $redirectTo = '/mobile/users';
 
     /**
      * Create a new controller instance.
@@ -39,10 +39,10 @@ class RegisterController extends Controller
         $this->middleware('guest');
     }
 
-    public function redirectTo()
+    /*public function redirectTo()
     {
         return URL::previous();
-    }
+    }*/
 
     public function showRegistrationForm()
     {

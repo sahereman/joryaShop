@@ -18,7 +18,7 @@ class LoginController extends Controller
 {
     use AuthenticatesUsers;
 
-    // protected $redirectTo = '/mobile';
+    protected $redirectTo = '/mobile/users';
 
 
     public function __construct()
@@ -26,10 +26,10 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
-    public function redirectTo()
+    /*public function redirectTo()
     {
         return URL::previous();
-    }
+    }*/
 
     public function username()
     {

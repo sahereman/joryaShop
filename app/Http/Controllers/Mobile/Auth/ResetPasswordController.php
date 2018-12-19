@@ -33,7 +33,7 @@ class ResetPasswordController extends Controller
      * Where to redirect users after resetting their password.
      * @var string
      */
-    // protected $redirectTo = '/mobile';
+    protected $redirectTo = '/mobile/users';
 
     private $overrideSessionKey = 'overridePassword';
 
@@ -46,10 +46,10 @@ class ResetPasswordController extends Controller
         $this->middleware('guest')->except('successShow');
     }
 
-    public function redirectTo()
+    /*public function redirectTo()
     {
         return URL::previous();
-    }
+    }*/
 
     protected function rules()
     {
