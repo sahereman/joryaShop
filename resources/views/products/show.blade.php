@@ -85,7 +85,7 @@
                         <span>@lang('product.product_details.classification')</span>
                         <ul>
                             @foreach($skus as $sku)
-                                <li code_price='{{ App::isLocale('en') ? $sku->price_in_usd : $sku->price }}'>
+                                <li code_num="{{ $sku->stock }}" code_price='{{ App::isLocale('en') ? $sku->price_in_usd : $sku->price }}'>
                                     <span>{{ App::isLocale('en') ? $sku->name_en : $sku->name_zh }}</span>
                                     <input type="hidden" name="sku_id" value="{{ $sku->id }}">
                                 </li>
@@ -279,9 +279,17 @@
         });
         //控制商品下单的数量显示
         $(".add").on("click", function () {
-            $(".reduce").removeClass('no_allow');
-            var num = parseInt($("#pro_num").val()) + 1;
-            $("#pro_num").val(num);
+        	if ($(".kindOfPro").find("li").hasClass('active') != true) {
+                layer.msg("@lang('product.product_details.Please select specifications')");
+            } else {
+	            $(".reduce").removeClass('no_allow');
+	            if(parseInt($("#pro_num").val())<parseInt($(".kindOfPro").find("li.active").attr('code_num'))){
+	            	var num = parseInt($("#pro_num").val()) + 1;
+	                $("#pro_num").val(num);	
+	            }else{
+	            	layer.msg("@lang('order.Cannot add more quantities')");
+	            }
+            }
         });
         $(".reduce").on("click", function () {
             if ($(this).hasClass('no_allow') != true && $("#pro_num").val() > 1) {
@@ -355,6 +363,7 @@
             $(".kindOfPro").find('li').removeClass("active");
             $(this).addClass('active');
             $(".changePrice_num").html("@lang('basic.currency.symbol')" + $(this).attr('code_price'));
+            $("#pro_num").val("1");
         });
         //加入购物车
         $(".add_carts").on("click", function () {
