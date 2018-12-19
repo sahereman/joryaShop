@@ -154,6 +154,7 @@ return [
         'Submit an Order' => 'Submit an Order',
         'To pay' => 'To pay',
         'Pay' => 'Pay',
+        'Insufficient_sku_stock' => 'The stock of this product sku is not sufficient. Plz re-enter another appropriate number',
     ],
 
 ];

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Mobile;
 
+use App\Exceptions\InvalidRequestException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PostOrderRequest;
 use App\Http\Requests\RefundOrderRequest;
@@ -138,11 +139,13 @@ class OrdersController extends Controller
     // GET 选择地址+币种页面
     public function prePayment(PostOrderRequest $request)
     {
+        $user = $request->user();
         $total_amount = 0;
         $total_amount_en = 0;
         $total_shipping_fee = 0;
         $total_shipping_fee_en = 0;
         $items = [];
+        $is_nil = true;
         if ($request->has('sku_id') && $request->has('number')) {
             $sku = ProductSku::find($request->query('sku_id'));
             $product = $sku->product;
@@ -158,12 +161,20 @@ class OrdersController extends Controller
             $total_amount_en = bcmul($sku->price_in_usd, $number, 2);
             $total_shipping_fee = bcmul($product->shipping_fee, $number, 2);
             $total_shipping_fee_en = bcmul($product->shipping_fee_in_usd, $number, 2);
+            $is_nil = false;
         } elseif ($request->has('cart_ids')) {
             $cart_ids = explode(',', $request->query('cart_ids'));
             foreach ($cart_ids as $key => $cart_id) {
                 $cart = Cart::find($cart_id);
+                if ($cart->user_id != $user->id) {
+                    // array_forget($cart_ids, $key);
+                    continue;
+                }
                 $number = $cart->number;
                 $sku = $cart->sku;
+                if ($number > $sku->stock) {
+                    throw new InvalidRequestException(trans('basic.orders.Insufficient_sku_stock'));
+                }
                 $sku->price_in_usd = ExchangeRate::exchangePrice($sku->price, 'USD');
                 $product = $sku->product;
                 $product->shipping_fee_in_usd = ExchangeRate::exchangePrice($product->shipping_fee, 'USD');
@@ -178,13 +189,19 @@ class OrdersController extends Controller
                 $total_amount_en += bcmul($sku->price_in_usd, $number, 2);
                 $total_shipping_fee += bcmul($product->shipping_fee, $number, 2);
                 $total_shipping_fee_en += bcmul($product->shipping_fee_in_usd, $number, 2);
+                $is_nil = false;
             }
         }
         $total_fee = bcadd($total_amount, $total_shipping_fee, 2);
         $total_fee_en = bcadd($total_amount_en, $total_shipping_fee_en, 2);
 
+        if ($is_nil) {
+            return redirect()->back();
+        }
+
         $address = false;
         $userAddress = UserAddress::where('user_id', $request->user()->id);
+        // $userAddress = $request->user()->addresses();
         if ($userAddress->where('is_default', 1)->exists()) {
             // 默认地址
             $address = $userAddress->where('is_default', 1)

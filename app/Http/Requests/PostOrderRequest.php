@@ -135,11 +135,7 @@ class PostOrderRequest extends Request
                     function ($attribute, $value, $fail) {
                         $sku = ProductSku::find($this->input('sku_id'));
                         if ($sku->stock < $value) {
-                            if (App::isLocale('en')) {
-                                $fail("The stock of this product sku is not sufficient. Plz re-enter another appropriate number.");
-                            } else {
-                                $fail('该商品库存不足，请重新调整商品购买数量');
-                            }
+                            $fail(trans('basic.orders.Insufficient_sku_stock'));
                         }
                     },
                 ],

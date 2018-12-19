@@ -155,6 +155,7 @@ return [
         'Submit an Order' => '提交订单',
         'To pay' => '去支付',
         'Pay' => '支付',
+        'Insufficient_sku_stock' => '该商品库存不足，请重新调整商品购买数量',
     ],
 
 ];

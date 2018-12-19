@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Events\OrderClosedEvent;
 use App\Events\OrderCompletedEvent;
 use App\Events\OrderRefundingEvent;
+use App\Exceptions\InvalidRequestException;
 use App\Http\Requests\PostOrderCommentRequest;
 use App\Http\Requests\PostOrderRequest;
 use App\Http\Requests\RefundOrderRequest;
@@ -163,6 +164,9 @@ class OrdersController extends Controller
                 }
                 $number = $cart->number;
                 $sku = $cart->sku;
+                if ($number > $sku->stock) {
+                    throw new InvalidRequestException(trans('basic.orders.Insufficient_sku_stock'));
+                }
                 $sku->price_in_usd = ExchangeRate::exchangePrice($sku->price, 'USD');
                 $product = $sku->product;
                 $product->shipping_fee_in_usd = ExchangeRate::exchangePrice($product->shipping_fee, 'USD');
@@ -228,7 +232,20 @@ class OrdersController extends Controller
             $total_shipping_fee = 0;
             $total_amount = 0;
             $is_nil = true;
-            if ($request->has('cart_ids')) {
+            if ($request->has('sku_id') && $request->has('number')) {
+                // 来自SKU的订单
+                $sku_id = $request->input('sku_id');
+                $number = $request->input('number');
+                $sku = ProductSku::find($sku_id);
+                $product = $sku->product;
+                $price = ($currency == 'CNY') ? $sku->price : $sku->price_in_usd;
+                $snapshot[0]['sku_id'] = $sku_id;
+                $snapshot[0]['price'] = $price;
+                $snapshot[0]['number'] = $number;
+                $total_shipping_fee = ($currency == 'CNY') ? bcmul($product->shipping_fee, $number, 2) : bcmul($product->shipping_fee_in_usd, $number, 2);
+                $total_amount = bcmul($price, $number, 2);
+                $is_nil = false;
+            } elseif ($request->has('cart_ids')) {
                 // 来自购物车的订单
                 $cart_ids = explode(',', $request->input('cart_ids', ''));
                 foreach ($cart_ids as $key => $cartId) {
@@ -239,6 +256,9 @@ class OrdersController extends Controller
                     }
                     $number = $cart->number;
                     $sku = $cart->sku;
+                    if ($number > $sku->stock) {
+                        throw new InvalidRequestException(trans('basic.orders.Insufficient_sku_stock'));
+                    }
                     $product = $sku->product;
                     $price = ($currency == 'CNY') ? $sku->price : $sku->price_in_usd;
                     $snapshot[$key]['sku_id'] = $sku->id;
@@ -252,19 +272,6 @@ class OrdersController extends Controller
                     // 删除相关购物车记录
                     Cart::destroy($cart_ids);
                 }
-            } else {
-                // 来自SKU的订单
-                $sku_id = $request->input('sku_id');
-                $number = $request->input('number');
-                $sku = ProductSku::find($sku_id);
-                $product = $sku->product;
-                $price = ($currency == 'CNY') ? $sku->price : $sku->price_in_usd;
-                $snapshot[0]['sku_id'] = $sku_id;
-                $snapshot[0]['price'] = $price;
-                $snapshot[0]['number'] = $number;
-                $total_shipping_fee = ($currency == 'CNY') ? bcmul($product->shipping_fee, $number, 2) : bcmul($product->shipping_fee_in_usd, $number, 2);
-                $total_amount = bcmul($price, $number, 2);
-                $is_nil = false;
             }
 
             if ($is_nil) {
