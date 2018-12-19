@@ -237,7 +237,7 @@
                     }
                 } else {
                     var count = parseInt($(this).prev().val());
-                    if (count < 200) {
+                    if (count<=10000) {
                         count += 1;
                         $(this).prev().val(count);
                         update_pro_num($(this).prev());
@@ -388,6 +388,14 @@
                     },
                     error: function (err) {
                         console.log(err);
+                        var count = dom.val();
+                        count = --count;
+                        dom.val(count);
+                        var price = parseFloat(dom.parent().prev().find('span.price').text());
+                        dom.parent().next().html("{{ App::isLocale('en') ? '&#36;' : '&#165;' }}" + (price * count).toFixed(2));
+                        calcTotal();
+                        var obj = err.responseJSON.errors;
+                        layer.msg(Object.values(obj)[0][0]);
                     },
                 });
             }
