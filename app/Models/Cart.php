@@ -24,6 +24,20 @@ class Cart extends Model
         //
     ];
 
+    /**
+     * The accessors to append to the model's array form.
+     * @var array
+     */
+    protected $appends = [
+        'favourite',
+    ];
+
+    public function getFavouriteAttribute()
+    {
+        $favourite = UserFavourite::where('user_id', $this->attributes['user_id'])->where('product_id', $this->sku->product_id)->first();
+        return $favourite;
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);

@@ -1,60 +1,53 @@
 @extends('layouts.mobile')
 @section('title', App::isLocale('en') ? 'Cart' : '购物车')
 @section('content')
-    @if(!is_wechat_browser())
-    <div class="headerBar fixHeader">
-    @else
-    <div class="headerBar fixHeader height_no">
-    @endif
+    <div class="headerBar fixHeader {{ is_wechat_browser() ? 'height_no' : '' }}">
         <img src="{{ asset('static_m/img/icon_backtop.png') }}" class="backImg" onclick="javascript:history.back(-1);"/>
         <span>@lang('app.Shopping Cart')</span>
     </div>
-    @if(!is_wechat_browser())
-    <div class="cartsBox">
-    @else
-    <div class="cartsBox margin-top_no">
-    @endif
-    	@if($carts->isEmpty())
+    <div class="cartsBox {{ is_wechat_browser() ? 'margin-top_no' : '' }}">
         <!--当购物车内容为空时显示-->
-        <div class="empty_shopping_cart">
-            <div></div>
-            <p>@lang('product.shopping_cart.shopping_cart_still_empty')</p>
-            <a href="{{ route('root') }}">@lang('product.shopping_cart.Go_shopping')</a>
-        </div>
+        @if($carts->isEmpty())
+            <div class="empty_shopping_cart">
+                <div></div>
+                <p>@lang('product.shopping_cart.shopping_cart_still_empty')</p>
+                <a href="{{ route('root') }}">@lang('product.shopping_cart.Go_shopping')</a>
+            </div>
         @else
-        <div class="cartsCon">
-            @foreach($carts as $cart)
-                <div class="cartItem">
-                    <label class="cartItemLab">
-                        <input type="checkbox" name="selectOne" id="" code="{{ $cart->sku->id }}" value="{{ $cart->id }}"/>
-                        <span></span>
-                    </label>
-                    <a class="cur_p" href="{{ route('mobile.products.show', $cart->sku->product_id) }}">
-                        <img src="{{ $cart->sku->product->thumb_url }}"/>
-                    </a>
-                    <div class="cartDetail">
-                        <div class="goodsName">
-                            {{ App::isLocale('en') ? $cart->sku->product->name_en : $cart->sku->product->name_zh }}
-                        </div>
-                        <div class="goodsSpec">
-                            <span>{{ App::isLocale('en') ? $cart->sku->name_en : $cart->sku->name_zh }}</span>
-                        </div>
-                        <div class="goodsPri">
-                            <div>
-                                <span class="price">{{ App::isLocale('en') ? '&#36;' : '&#165;' }}</span>
-                                <span class="realPri">{{ App::isLocale('en') ? $cart->sku->price_in_usd : $cart->sku->price }}</span>
+            <div class="cartsCon">
+                @foreach($carts as $cart)
+                    <div class="cartItem">
+                        <label class="cartItemLab">
+                            <input type="checkbox" name="selectOne" id="" code="{{ $cart->sku->id }}"
+                                   value="{{ $cart->id }}"/>
+                            <span></span>
+                        </label>
+                        <a class="cur_p" href="{{ route('mobile.products.show', ['product' => $cart->sku->product_id]) }}">
+                            <img src="{{ $cart->sku->product->thumb_url }}"/>
+                        </a>
+                        <div class="cartDetail">
+                            <div class="goodsName">
+                                {{ App::isLocale('en') ? $cart->sku->product->name_en : $cart->sku->product->name_zh }}
                             </div>
-                            <div class="goodsNum">
-                                <span class="Operation_btn">-</span>
-                                <input class="gNum" type="text" size="4"
-                                       data-url="{{ route('carts.update', $cart->id) }}" value="{{ $cart->number }}">
-                                <span class="Operation_btn">+</span>
+                            <div class="goodsSpec">
+                                <span>{{ App::isLocale('en') ? $cart->sku->name_en : $cart->sku->name_zh }}</span>
+                            </div>
+                            <div class="goodsPri">
+                                <div>
+                                    <span class="price">{{ App::isLocale('en') ? '&#36;' : '&#165;' }}</span>
+                                    <span class="realPri">{{ App::isLocale('en') ? $cart->sku->price_in_usd : $cart->sku->price }}</span>
+                                </div>
+                                <div class="goodsNum">
+                                    <span class="Operation_btn">-</span>
+                                    <input class="gNum" type="text" size="4" value="{{ $cart->number }}"
+                                           data-url="{{ route('carts.update', ['cart' => $cart->id]) }}">
+                                    <span class="Operation_btn">+</span>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            @endforeach
-        </div>
+                @endforeach
+            </div>
         @endif
         <div class="cartsTotle">
             <div class="cartsTotleDiv">
@@ -74,7 +67,7 @@
                         @lang('product.shopping_cart.Total')：{{ App::isLocale('en') ? '&#36;' : '&#165;' }}
                         <span>0.00</span>
                     </a>
-                @endguest
+                    @endguest
             </div>
         </div>
     </div>
@@ -111,16 +104,16 @@
         //单个商品绑定计算
         $('input[name="selectOne"]').on('change', function () {
             calcTotal();
-            if($("input[name=selectOne]:checked").length==0){
-            	$(".cancelBtn").css("background", "#dcdcdc");
-            }else {
-            	$(".cancelBtn").css("background", "#bc8c61");
+            if ($("input[name=selectOne]:checked").length == 0) {
+                $(".cancelBtn").css("background", "#dcdcdc");
+            } else {
+                $(".cancelBtn").css("background", "#bc8c61");
             }
             if (!$(this).prop('checked')) {
                 $('#totalIpt').prop('checked', false);
             }
         });
-        
+
         // 为减少和添加商品数量的按钮绑定事件回调
         $('.cartItem .Operation_btn').on('click', function (evt) {
             $(this).parent().parent().find('input[name="selectOne"]').prop('checked', true);
@@ -129,12 +122,12 @@
                 if (count > 1) {
                     count -= 1;
                     $(this).next().val(count);
-                       update_pro_num($(this).next());
+                    update_pro_num($(this).next());
                 } else {
                     layer.open({
-                        content: "@lang('order.The number of goods is at least 1')"
-                        , skin: 'msg'
-                        , time: 2 //2秒后自动关闭
+                        content: "@lang('order.The number of goods is at least 1')",
+                        skin: 'msg',
+                        time: 2, //2秒后自动关闭
                     });
                 }
             } else {
@@ -142,12 +135,12 @@
                 if (count < 200) {
                     count += 1;
                     $(this).prev().val(count);
-                       update_pro_num($(this).prev());
+                    update_pro_num($(this).prev());
                 } else {
                     layer.open({
-                        content: "@lang('order.Cannot add more quantities')"
-                        , skin: 'msg'
-                        , time: 2 //2秒后自动关闭
+                        content: "@lang('order.Cannot add more quantities')",
+                        skin: 'msg',
+                        time: 2, //2秒后自动关闭
                     });
                 }
             }
@@ -198,7 +191,7 @@
                         });
                         cart_ids = cart_ids.substring(0, cart_ids.length - 1);
                         var url = clickDom.attr('data-url');
-                        window.location.href = url + "?cart_ids="+cart_ids+"&sendWay=2";
+                        window.location.href = url + "?cart_ids=" + cart_ids + "&sendWay=2";
                     } else {
                         layer.open({
                             content: "@lang('product.shopping_cart.Please select the item you want to settle')！",
@@ -209,13 +202,13 @@
                 }
             }
         });
-         //更新购物车记录（增减数量）
+        //更新购物车记录（增减数量）
         function update_pro_num(dom) {
             var url = dom.attr("data-url");
             var data = {
                 _method: "PATCH",
                 _token: "{{ csrf_token() }}",
-                number: dom.val()
+                number: dom.val(),
             };
             $.ajax({
                 type: "post",
@@ -226,7 +219,7 @@
                 },
                 error: function (err) {
                     console.log(err);
-                }
+                },
             });
         }
     </script>
