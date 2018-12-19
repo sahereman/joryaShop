@@ -63,8 +63,17 @@
                         </p>
                         <div class="refund_info_item">
                             <span>@lang('order.Application description')</span>
-                                <textarea name="remark_from_user" maxlength="200"
-                                          placeholder="@lang('order.Please fill in the reason for the refund')">{{ old('remark_from_user') }}</textarea>
+                            <select class="choose_remark" name="">
+                            	<option value="default" selected="selected" disabled="disabled">请选择申请理由</option>
+                            	@for($i=0;$i<=5;$i++)
+                            	<option value="0">{{ $i }}</option>
+                            	@endfor
+                            	<option value="other">其他</option>
+                            </select>
+                        </div>
+                        <div class="refund_info_item other_reason dis_ni">
+                        	<textarea name="remark_from_user" maxlength="200"
+                                      placeholder="@lang('order.Please fill in the reason for the refund')">{{ old('remark_from_user') }}</textarea>
                         </div>
                     </form>
                     @elseif(isset($refund) && $refund->status == \App\Models\OrderRefund::ORDER_REFUND_STATUS_CHECKING)
@@ -81,7 +90,18 @@
                         </p>
                         <div class="refund_info_item">
                             <span>@lang('order.Application description')</span>
-                                <textarea name="remark_from_user" class="step2_textarea" maxlength="200" readonly>{{ $order->refund->remark_from_user }}</textarea>
+                            <!--需要跟据第一步用户的选择判断显示的内容，如选择的其他请按照格式显示并显示下方的文本域-->
+                                <select class="choose_remark" name="">
+	                            	<option value="default" selected="selected" disabled="disabled">请选择申请理由</option>
+	                            	@for($i=0;$i<=5;$i++)
+	                            	<option value="0">{{ $i }}</option>
+	                            	@endfor
+	                            	<option value="other">其他</option>
+	                            </select>
+                        </div>
+                        <!--同样需要判断是否需要显示手写理由，如没有则不需要展示 判断是上面的下拉菜单是否选择了其他-->
+                        <div class="refund_info_item other_reason dis_ni">
+                        	<textarea name="remark_from_user" class="step2_textarea" maxlength="200" readonly>{{ $order->refund->remark_from_user }}</textarea>
                         </div>
                     </form>
                     @else
@@ -267,6 +287,14 @@
 				    }
 				});
             });
+            //切换下拉菜单
+            $(".choose_remark").on("change",function(){
+            	if($(this).val()=="other"){
+            		$(".other_reason").removeClass("dis_ni");
+            	}else{
+            		$(".other_reason").addClass("dis_ni");
+            	}
+            })
         });
     </script>
 @endsection

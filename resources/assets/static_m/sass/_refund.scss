@@ -64,10 +64,11 @@
                 justify-content: flex-start;
                 align-items: stretch;
                 textarea {
-                    width: 79%;
-                    margin-left: .5rem;
+                    width: 100%;
                     min-height: 4.5rem;
                     font-size: .8rem;
+                    border: 1px solid #e0e0e0;
+                    padding: .5rem;
                 }
                 &.upload_voucher {
                     padding-bottom: 1rem;
@@ -282,5 +283,14 @@
                 height: 1rem !important;
             }
         }
+    }
+    .choose_remark {
+        width: 79%;
+        margin-left: .5rem;
+        height: 1.5rem;
+        font-size: .8rem;
+        background-color: transparent;
+        border: 1px solid #e0e0e0;
+        outline: none;
     }
 }
