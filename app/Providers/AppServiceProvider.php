@@ -9,6 +9,7 @@ use App\Models\Menu;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
+use App\Admin\Models\Product as AdminProduct;
 use App\Models\RefundReason;
 use App\Models\ShipmentCompany;
 use App\Models\User;
@@ -40,6 +41,7 @@ class AppServiceProvider extends ServiceProvider
         Order::observe(OrderObserver::class);
         OrderItem::observe(OrderItemObserver::class);
         Product::observe(ProductObserver::class);
+        AdminProduct::observe(ProductObserver::class);
         RefundReason::observe(RefundReasonObserver::class);
         ShipmentCompany::observe(ShipmentCompanyObserver::class);
         User::observe(UserObserver::class);
