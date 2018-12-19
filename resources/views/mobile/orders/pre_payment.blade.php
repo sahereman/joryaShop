@@ -32,10 +32,23 @@
                     <img src="{{ asset('static_m/img/icon_more.png') }}">
                 </div>
             @else
-                <div class="pre_address no_address" data-url="{{ route('user_addresses.list_all') }}">
+                <div class="pre_address add_address no_address" data-url="{{ route('user_addresses.list_all') }}">
                     <div>
                         <img src="{{ asset('static_m/img/icon_pre_address.png') }}">
                         <span class="no_address">@lang('basic.address.Add a shipping address')</span>
+                    </div>
+                    <img src="{{ asset('static_m/img/icon_more.png') }}">
+                </div>
+                <div class="pre_address no_address edit_address dis_ni" data-url="{{ route('user_addresses.list_all') }}">
+                    <div>
+                        <p class="address_title" code=''>
+                            <span class="address_name"></span>
+                            <span class="address_phone"></span>
+                        </p>
+                        <p class="address_info">
+                            <span class="default_btn">@lang('basic.address.Default')</span>
+                            <span class="address_info_all"></span>
+                        </p>
                     </div>
                     <img src="{{ asset('static_m/img/icon_more.png') }}">
                 </div>
@@ -208,12 +221,19 @@
                 }
             });
             $(".pre_address").on("click", function () {
+            	var clickDom = $(this);
                 $('.address_choose').removeClass("dis_n");
                 $('.address_choose').removeClass("fadeOutRightBig");
                 $('.address_choose').addClass("fadeInRightBig");
                 if ($(this).hasClass("no_address")) {
-                    $(".addAdsBox").show();
-                    $(".ads1Box").hide();
+                    if(clickDom.hasClass("edit_address")){
+                    	$(".addAdsBox").hide();
+	                    $(".ads1Box").show();
+	                    getAddressList($(this).attr("data-url"));
+                    }else{
+                    	$(".addAdsBox").show();
+                        $(".ads1Box").hide();
+                    }
                 } else {
                     $(".addAdsBox").hide();
                     $(".ads1Box").show();
@@ -295,7 +315,6 @@
                 	data: data,
                 	beforeSend: function () {},
                     success: function (json) {
-                    	console.log(json)
                         $(".address_name").html(json.data.address.name);
 		                $(".address_phone").html(json.data.address.phone);
 		                $(".address_info_all").html(json.data.address.address);
@@ -303,6 +322,15 @@
 		                $('.address_choose').removeClass("fadeInRightBig");
 		                $('.address_choose').addClass("fadeOutRightBig");
 		                $('.address_choose').addClass("dis_n");
+		                if($(".setas_default").val()==0){
+		                	$(".default_btn").css("display","none");
+		                }else{
+		                	$(".default_btn").css("display","block");
+		                }
+		                if($(".pre_address").hasClass("no_address")==true){
+		                	$(".add_address").addClass("dis_ni");
+		                	$(".edit_address").removeClass("dis_ni");
+		                }
                     },
                     error: function (err) {
                         console.log(err);
@@ -380,7 +408,7 @@
                 var address_location = $(".address_info_all").text();
                 var url = $(this).attr("data-url");
                 var sendWay = getUrlVars("sendWay");
-                if($(".pre_address").hasClass("no_address")==true){
+                if($(".pre_address").hasClass("no_address")&&(".pre_address").hasClass("add_address$")){
                 	layer.open({
                         content: "@lang('order.Please fill in the address completely')",
                         skin: 'msg',
