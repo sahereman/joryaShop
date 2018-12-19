@@ -95,7 +95,7 @@ class ImageUploadHandler
         $image = Image::make($prefix_path . $path)->orientate();
         $width = $image->width();
         $height = $image->height();
-        $image->fit(min($width, $height))->resize($this->preview_width, $this->preview_height, function ($constraint) {
+        $image->fit(min($width, $height))->resize($this->avatar_width, $this->avatar_height, function ($constraint) {
             // $constraint->aspectRatio();
             $constraint->upsize();
         })->save();
