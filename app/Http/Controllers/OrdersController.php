@@ -437,6 +437,7 @@ class OrdersController extends Controller
         $order_items = $order->items()->with('sku.product')->get()->groupBy('id');
 
         foreach ($order_items as $order_item_id => $order_item) {
+            $photos = [];
             if ($request->input('photos')[$order_item_id] != '') {
                 $photos = explode(',', $request->input('photos')[$order_item_id]);
                 $photos = collect($photos)->toArray();
