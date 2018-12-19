@@ -408,15 +408,21 @@
                 var address_location = $(".address_info_all").text();
                 var url = $(this).attr("data-url");
                 var sendWay = getUrlVars("sendWay");
-                if($(".pre_address").hasClass("no_address")&&(".pre_address").hasClass("add_address$")){
+//              if($(".pre_address").hasClass("no_address")&&$(".pre_address").hasClass("add_address")&&$(".pre_address").hasClass("dis_ni")==false){
+//              	layer.open({
+//                      content: "@lang('order.Please fill in the address completely')",
+//                      skin: 'msg',
+//                      time: 2, //2秒后自动关闭
+//                  });
+//                  return false;
+//              }
+                if (address_name == "" || address_phone == "" || address_location == "") {
                 	layer.open({
                         content: "@lang('order.Please fill in the address completely')",
                         skin: 'msg',
                         time: 2, //2秒后自动关闭
                     });
                     return false;
-                }
-                if (address_name == " " || address_phone == " " || address_location == " ") {
                 } else {
                     switch (sendWay) {
                         case "1":
