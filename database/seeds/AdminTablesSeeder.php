@@ -75,6 +75,12 @@ class AdminTablesSeeder extends Seeder
                 'http_method' => '',
                 'http_path' => "/menus",
             ],
+            [
+                'name' => '退款原因管理',
+                'slug' => 'refund_reasons',
+                'http_method' => '',
+                'http_path' => "/refund_reasons",
+            ],
         ];
 
     /*自定义添加的菜单*/
@@ -193,7 +199,13 @@ class AdminTablesSeeder extends Seeder
                 'icon' => 'fa-list',
                 'uri' => 'menus',
             ],
-
+            [
+                'parent_id' => 18,
+                'order' => 5,
+                'title' => '退款原因管理',
+                'icon' => 'fa-list',
+                'uri' => 'refund_reasons',
+            ],
 
         ];
 
@@ -349,7 +361,6 @@ class AdminTablesSeeder extends Seeder
         ];
         $menus = array_merge($menus, $this->custom_menus);
         Menu::insert($menus);
-
 
     }
 }

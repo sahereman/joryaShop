@@ -69,6 +69,9 @@ Route::group([
     /*导航菜单管理*/
     $router->resource('menus', MenusController::class)->names('admin.menus');
 
+    /*退款原因管理*/
+    $router->resource('refund_reasons', RefundReasonsController::class)->names('admin.refund_reasons');
+
     //    $router->resource('example', ExampleController::class)->names('admin.example');
     //    $router->get('example', 'ExampleController@index')->name('admin.example.index');
     //    $router->get('example/create', 'ExampleController@create')->name('admin.example.create');

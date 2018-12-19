@@ -15,8 +15,8 @@ class CreateRefundReasonsTable extends Migration
     {
         Schema::create('refund_reasons', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('reason_en')->nullable(false)->comment('原因英文');
-            $table->string('reason_zh')->nullable(false)->comment('原因中文');
+            $table->string('reason_en')->nullable(false)->comment('退款原因英文');
+            $table->string('reason_zh')->nullable(false)->comment('退款原因中文');
             $table->unsignedSmallInteger('sort')->nullable(false)->default(0)->comment('排序值');
             // $table->timestamps();
         });
