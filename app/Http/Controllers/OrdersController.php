@@ -296,7 +296,7 @@ class OrdersController extends Controller
                 'total_shipping_fee' => $total_shipping_fee,
                 'total_amount' => $total_amount,
                 'remark' => $request->has('remark') ? $request->input('remark') : '',
-                'to_be_close_at' => Carbon::now()->addSeconds(Order::getSecondsToCloseOrder())->toDateTimeString(),
+                'to_be_closed_at' => Carbon::now()->addSeconds(Order::getSecondsToCloseOrder())->toDateTimeString(),
             ]);
 
             // $order->user()->associate($user);
