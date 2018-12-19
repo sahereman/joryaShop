@@ -60,6 +60,16 @@ class IndexController extends Controller
         ]);
     }
 
+    // POST 获取上传Avatar头像图片预览
+    public function avatarPreview(ImageUploadRequest $request, ImageUploadHandler $handler)
+    {
+        $preview_path = $handler->uploadAvatarPreview($request->image);
+        $preview_url = Storage::disk('public')->url($preview_path);
+        return response()->json([
+            'preview' => $preview_url,
+        ]);
+    }
+
     // POST 获取上传Avatar头像图片路径+预览
     public function avatarUpload(ImageUploadRequest $request, ImageUploadHandler $handler)
     {

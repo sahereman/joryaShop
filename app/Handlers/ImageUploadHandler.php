@@ -71,7 +71,36 @@ class ImageUploadHandler
             $path = Storage::disk('public')->putFile($child_path, $file);
         }
 
-        Image::make($prefix_path . $path)->resize($this->thumb_width, $this->thumb_height)->save();
+        Image::make($prefix_path . $path)->orientate()->resize($this->thumb_width, $this->thumb_height)->save();
+
+        return $path;
+    }
+
+    /**
+     * 上传一个缩略图临时文件到temp目录
+     * @param $file
+     * @return false|string
+     */
+    public function uploadAvatarPreview($file)
+    {
+        if (mt_rand(0, $this->clear_temp_odds) == 0) {
+            $prefix_path = Storage::disk('public')->getAdapter()->getPathPrefix();
+            self::truncateFolder($prefix_path . 'temp');
+        }
+
+        $path = Storage::disk('public')->putFile('temp', $file);
+
+        $prefix_path = $prefix_path ?? Storage::disk('public')->getAdapter()->getPathPrefix();
+        // Image::make($prefix_path . $path)->orientate()->resize($this->preview_width, $this->preview_height)->save();
+        $image = Image::make($prefix_path . $path)->orientate();
+        $width = $image->width();
+        $height = $image->height();
+        $this->preview_width = min($width, $height);
+        $this->preview_height = min($width, $height);
+        $image->resize($this->preview_width, $this->preview_height, function ($constraint) {
+            $constraint->aspectRatio();
+            $constraint->upsize();
+        })->save();
 
         return $path;
     }
@@ -95,8 +124,13 @@ class ImageUploadHandler
             $path = Storage::disk('public')->putFile($child_path, $file);
         }
 
-        // Image::make($prefix_path . $path)->resize($this->avatar_width, $this->avatar_height)->save();
-        Image::make($prefix_path . $path)->resize($this->avatar_width, $this->avatar_height, function ($constraint) {
+        // Image::make($prefix_path . $path)->orientate()->resize($this->avatar_width, $this->avatar_height)->save();
+        $image = Image::make($prefix_path . $path)->orientate();
+        $width = $image->width();
+        $height = $image->height();
+        $this->avatar_width = min($width, $height);
+        $this->avatar_height = min($width, $height);
+        $image->resize($this->avatar_width, $this->avatar_height, function ($constraint) {
             $constraint->aspectRatio();
             $constraint->upsize();
         })->save();
@@ -119,8 +153,8 @@ class ImageUploadHandler
         $path = Storage::disk('public')->putFile('temp', $file);
 
         $prefix_path = $prefix_path ?? Storage::disk('public')->getAdapter()->getPathPrefix();
-        // Image::make($prefix_path . $path)->resize($this->preview_width, $this->preview_height)->save();
-        Image::make($prefix_path . $path)->resize($this->preview_width, $this->preview_height, function ($constraint) {
+        // Image::make($prefix_path . $path)->orientate()->resize($this->preview_width, $this->preview_height)->save();
+        Image::make($prefix_path . $path)->orientate()->resize($this->preview_width, $this->preview_height, function ($constraint) {
             $constraint->aspectRatio();
             $constraint->upsize();
         })->save();
@@ -147,7 +181,7 @@ class ImageUploadHandler
             $path = Storage::disk('public')->putFile($child_path, $file);
         }
 
-        Image::make($prefix_path . $path)->resize($width, $height)->save();
+        Image::make($prefix_path . $path)->orientate()->resize($width, $height)->save();
 
         return $path;
     }

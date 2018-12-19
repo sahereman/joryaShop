@@ -30,7 +30,7 @@
                                 <div class="user_Avatar">
                                     <img src="{{ $user->avatar_url }}" width="80">
                                     <input type="file" name="avatar" value="{{ $user->avatar_url }}"
-                                           data-url="{{ route('image.preview') }}" id="upload_head"
+                                           data-url="{{ route('image.avatar_preview') }}" id="upload_head"
                                            onchange="imgChange(this)">
                                 </div>
                                 <img src="{{ asset('img/photograph.png') }}" class="photograph">

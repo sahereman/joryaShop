@@ -15,7 +15,7 @@
                     <div class="editUserHeadBox">
                         <img class="user_image" src="{{ $user->avatar_url }}"/>
                         {{--<input type="file" name="avatar" value="{{ $user->avatar_url }}"
-                               data-url="{{ route('image.preview') }}" id="upload_head"
+                               data-url="{{ route('image.avatar_preview') }}" id="upload_head"
                                onchange="imgChange(this)">--}}
                         <div class="img-box full photoList dis_n" id="imgupup">
                             <div class="input_content up_img clear_fix">
@@ -162,7 +162,7 @@
             }
             _CRE_FILE.setAttribute("accept", "image/png,image/jpg,image/jpeg");
             _CRE_FILE.setAttribute("id", "upload_head");
-            _CRE_FILE.setAttribute("data-url", "{{ route('image.preview') }}");
+            _CRE_FILE.setAttribute("data-url", "{{ route('image.avatar_preview') }}");
             _CRE_FILE.setAttribute("num", UP_IMGCOUNT);//记录此对象对应的编号
 
             $("#div_imgfile").nextAll().remove();     //上传头像只能传一张照片

@@ -174,6 +174,8 @@ Route::get('/', 'IndexController@root')->name('root'); // 首页
 
 /*通用-获取上传图片预览 [应用场景:用户中心]*/
 Route::post('image/preview', 'IndexController@imagePreview')->name('image.preview');
+/*通用-获取上传Avatar头像图片预览 [应用场景:用户中心]*/
+Route::post('image/avatar_preview', 'IndexController@avatarPreview')->name('image.avatar_preview');
 /*通用-获取上传Avatar头像图片路径+预览 [应用场景:用户中心]*/
 Route::post('image/avatar_upload', 'IndexController@avatarUpload')->name('image.avatar_upload');
 /*通用-获取原上传图片路径+预览 [应用场景:退款]*/
