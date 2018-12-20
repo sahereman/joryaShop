@@ -31,9 +31,9 @@
             </div>
             <div class="navbar-top-right pull-right">
                 @guest
-                <a class="login">@lang('app.Sign_in')</a>
-                <a class="register">@lang('app.Registered')</a>
-                <a class="about-us" href="{{ route('articles.show', ['slug' => 'about']) }}">@lang('app.About_us')</a>
+                    <a class="login">@lang('app.Sign_in')</a>
+                    <a class="register">@lang('app.Registered')</a>
+                    <a class="about-us" href="{{ route('articles.show', ['slug' => 'about']) }}">@lang('app.About_us')</a>
                 @else
                     <a id="user_info_btn" role="button" data-toggle="dropdown" aria-haspopup="true"
                        aria-expanded="false" class="user_name">
@@ -59,7 +59,7 @@
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                         {{ csrf_field() }}
                     </form>
-                    @endguest
+                @endguest
             </div>
         </div>
     </div>
@@ -109,12 +109,12 @@
                             <img src="{{ asset('img/header/shop_car.png') }}">
                             @if(isset($cart_count))
                                 <div class="for_cart_num">
-                                	<span class="shop_cart_num">{{ $cart_count }}</span>
+                                    <span class="shop_cart_num">{{ $cart_count }}</span>
                                 </div>
                             @else
-	                            <div class="for_cart_num">
-	                            	<span class="shop_cart_num">0</span>
-	                            </div>
+                                <div class="for_cart_num">
+                                    <span class="shop_cart_num">0</span>
+                                </div>
                             @endif
                         </a>
                     </li>
