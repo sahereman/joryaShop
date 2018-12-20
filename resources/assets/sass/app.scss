@@ -438,6 +438,9 @@ img {
                         }
                     }
                     &.shppingCart {
+                        .for_cart_num {
+                            position: relative;
+                        }
                         .shop_cart {
                             position: relative;
                             .shop_cart_num {
@@ -452,7 +455,7 @@ img {
                                 text-align: center;
                                 line-height: 20px;
                                 top: -35px;
-                                right: -35px;
+                                right: -10px;
                             }
                         }
                     }
