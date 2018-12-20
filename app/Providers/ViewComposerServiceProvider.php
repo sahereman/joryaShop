@@ -22,7 +22,7 @@ class ViewComposerServiceProvider extends ServiceProvider
             'layouts._header',
             'layouts._footer_mobile',
         ], function ($view) {
-            $cart_count = false;
+            $cart_count = 0;
             if (Auth::check()) {
                 $cart_count = Cart::where('user_id', Auth::id())->count();
             }
