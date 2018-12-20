@@ -100,7 +100,7 @@
                             <!--需要跟据第一步用户的选择判断显示的内容，如选择的其他请按照格式显示并显示下方的文本域-->
                             <select class="choose_remark" name="">
                                 <option value="default" selected="selected" disabled="disabled">
-                                    @lang('order.Please select the refund reason)
+                                    @lang('order.Please select the refund reason')
                                 </option>
                                 @if($refund_reasons = \App\Models\RefundReason::refundReasons())
                                     @foreach($refund_reasons as $refund_reason)
