@@ -27,21 +27,13 @@ class CartRequest extends Request
                     function ($attribute, $value, $fail) {
                         $sku = ProductSku::find($value);
                         if ($sku->product->on_sale == 0) {
-                            if (App::isLocale('en')) {
-                                $fail('This product sku is off sale already.');
-                            } else {
-                                $fail('该商品已下架');
-                            }
+                            $fail(trans('basic.orders.Product_sku_off_sale'));
                         }
                         if ($sku->stock == 0) {
-                            if (App::isLocale('en')) {
-                                $fail('This product sku is out of stock already.');
-                            } else {
-                                $fail('该商品已售罄');
-                            }
+                            $fail(trans('basic.orders.Product_sku_out_of_stock'));
                         }
                         /*if ($sku->stock < $this->input('number')) {
-                            $fail('该商品库存不足，请重新调整商品购买数量');
+                            $fail(trans('basic.orders.Insufficient_sku_stock'));
                         }*/
                     },
                 ],
@@ -54,11 +46,7 @@ class CartRequest extends Request
                     function ($attribute, $value, $fail) {
                         $sku = ProductSku::find($this->input('sku_id'));
                         if ($sku->stock < $value) {
-                            if (App::isLocale('en')) {
-                                $fail("The stock of this product sku is not sufficient. Plz re-enter another appropriate number.");
-                            } else {
-                                $fail('该商品库存不足，请重新调整商品购买数量');
-                            }
+                            $fail(trans('basic.orders.Insufficient_sku_stock'));
                         }
                     },
                 ],
@@ -72,7 +60,7 @@ class CartRequest extends Request
                     'min:1',
                     function ($attribute, $value, $fail) {
                         if ($this->route('cart')->sku->stock < $value) {
-                            $fail('该商品库存不足，请重新调整商品购买数量');
+                            $fail(trans('basic.orders.Insufficient_sku_stock'));
                         }
                     },
                 ],
@@ -103,11 +91,8 @@ class CartRequest extends Request
      */
     public function messages()
     {
-        if (App::isLocale('en')) {
-            return [];
-        }
         return [
-            'sku_id.exists' => '该商品不存在',
+            'sku_id.exists' => trans('basic.orders.Product_sku_does_not_exist'),
         ];
     }
 }

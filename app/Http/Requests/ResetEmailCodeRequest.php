@@ -58,11 +58,8 @@ class ResetEmailCodeRequest extends Request
      */
     public function messages()
     {
-        if (App::isLocale('en')) {
-            return [];
-        }
         return [
-            'email.exists' => '该邮箱尚未注册用户',
+            'email.exists' => trans('basic.users.Email_has_not_been_registered_as_user'),
         ];
     }
 }

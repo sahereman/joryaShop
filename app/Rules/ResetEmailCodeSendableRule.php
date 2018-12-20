@@ -37,9 +37,6 @@ class ResetEmailCodeSendableRule implements Rule
      */
     public function message()
     {
-        if (App::isLocale('en')) {
-            return 'The Email verification code was sent already.';
-        }
-        return '邮箱验证码已发送';
+        return trans('basic.users.Email_verification_code_sent_already');
     }
 }

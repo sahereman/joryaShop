@@ -44,15 +44,9 @@ class ResetEmailCodeValidRule implements Rule
      */
     public function message()
     {
-        if (App::isLocale('en')) {
-            if ($this->is_expired) {
-                return 'The Email verification code is expired already.';
-            }
-            return 'The Email verification code is wrong.';
-        }
         if ($this->is_expired) {
-            return '邮箱验证码已过期';
+            return trans('basic.users.Email_verification_code_expired');
         }
-        return '邮箱验证码错误';
+        return trans('basic.users.Wrong_email_verification_code');
     }
 }

@@ -26,11 +26,7 @@ class PostOrderRequest extends Request
                     'string',
                     function ($attribute, $value, $fail) {
                         if ($value != 'CNY' && ExchangeRate::where('currency', $value)->doesntExist()) {
-                            if (App::isLocale('en')) {
-                                $fail('This currency is not supported yet.');
-                            } else {
-                                $fail('该币种支付暂不支持');
-                            }
+                            $fail(trans('basic.orders.Currency_not_supported'));
                         }
                     },
                 ],
@@ -43,21 +39,13 @@ class PostOrderRequest extends Request
                     function ($attribute, $value, $fail) {
                         $sku = ProductSku::find($value);
                         if ($sku->product->on_sale == 0) {
-                            if (App::isLocale('en')) {
-                                $fail('This product sku is off sale already.');
-                            } else {
-                                $fail('该商品已下架');
-                            }
+                            $fail(trans('basic.orders.Product_sku_off_sale'));
                         }
                         if ($sku->stock == 0) {
-                            if (App::isLocale('en')) {
-                                $fail('This product sku is out of stock already.');
-                            } else {
-                                $fail('该商品已售罄');
-                            }
+                            $fail(trans('basic.orders.Product_sku_out_of_stock'));
                         }
                         /*if ($sku->stock < $this->input('number')) {
-                            $fail('该商品库存不足，请重新调整商品购买数量');
+                            $fail(trans('basic.orders.Insufficient_sku_stock'));
                         }*/
                     },
                 ],
@@ -70,11 +58,7 @@ class PostOrderRequest extends Request
                     function ($attribute, $value, $fail) {
                         $sku = ProductSku::find($this->input('sku_id'));
                         if ($sku->stock < $value) {
-                            if (App::isLocale('en')) {
-                                $fail("The stock of this product sku is not sufficient. Plz re-enter another appropriate number.");
-                            } else {
-                                $fail('该商品库存不足，请重新调整商品购买数量');
-                            }
+                            $fail(trans('basic.orders.Insufficient_sku_stock'));
                         }
                     },
                 ],
@@ -108,21 +92,13 @@ class PostOrderRequest extends Request
                     function ($attribute, $value, $fail) {
                         $sku = ProductSku::find($value);
                         if ($sku->product->on_sale == 0) {
-                            if (App::isLocale('en')) {
-                                $fail('This product sku is off sale already.');
-                            } else {
-                                $fail('该商品已下架');
-                            }
+                            $fail(trans('basic.orders.Product_sku_off_sale'));
                         }
                         if ($sku->stock == 0) {
-                            if (App::isLocale('en')) {
-                                $fail('This product sku is out of stock already.');
-                            } else {
-                                $fail('该商品已售罄');
-                            }
+                            $fail(trans('basic.orders.Product_sku_out_of_stock'));
                         }
                         /*if ($sku->stock < $this->input('number')) {
-                            $fail('该商品库存不足，请重新调整商品购买数量');
+                            $fail(trans('basic.orders.Insufficient_sku_stock'));
                         }*/
                     },
                 ],
@@ -176,12 +152,9 @@ class PostOrderRequest extends Request
      */
     public function messages()
     {
-        if (App::isLocale('en')) {
-            return [];
-        }
         return [
-            'sku_id.exists' => '该商品不存在',
-            'cart_ids.regex' => '购物车IDs格式不正确',
+            'sku_id.exists' => trans('basic.orders.Product_sku_does_not_exist'),
+            'cart_ids.regex' => trans('basic.orders.Cart_ids_with_bad_format'),
         ];
     }
 }

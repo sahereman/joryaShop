@@ -42,11 +42,7 @@ class PostOrderCommentRequest extends Request
                         sort($this->order_item_ids);
                     }
                     if ($order_item_ids != $this->order_item_ids) {
-                        if (App::isLocale('en')) {
-                            $fail('Plz mark the composite index on every product sku.');
-                        } else {
-                            $fail('请确保评价每个商品的综合评分。');
-                        }
+                        $fail(trans('basic.comments.Plz_mark_every_composite_index'));
                     }
                 },
             ],
@@ -63,11 +59,7 @@ class PostOrderCommentRequest extends Request
                         sort($this->order_item_ids);
                     }
                     if ($order_item_ids != $this->order_item_ids) {
-                        if (App::isLocale('en')) {
-                            $fail('Plz mark the description index on every product sku.');
-                        } else {
-                            $fail('请确保评价每个商品的描述相符。');
-                        }
+                        $fail(trans('basic.comments.Plz_mark_every_description_index'));
                     }
                 },
             ],
@@ -84,11 +76,7 @@ class PostOrderCommentRequest extends Request
                         sort($this->order_item_ids);
                     }
                     if ($order_item_ids != $this->order_item_ids) {
-                        if (App::isLocale('en')) {
-                            $fail('Plz mark the shipment index on every product sku.');
-                        } else {
-                            $fail('请确保评价每个商品的物流服务。');
-                        }
+                        $fail(trans('basic.comments.Plz_mark_every_shipment_index'));
                     }
                 },
             ],
@@ -105,10 +93,7 @@ class PostOrderCommentRequest extends Request
                         sort($this->order_item_ids);
                     }
                     if ($order_item_ids != $this->order_item_ids) {
-                        if (App::isLocale('en')) {
-                            $fail('Plz make comment on every product sku.');
-                        }
-                        $fail('请确保填写每个商品的评价内容。');
+                        $fail(trans('basic.comments.Plz_make_every_comment'));
                     }
                 },
             ],
@@ -126,11 +111,7 @@ class PostOrderCommentRequest extends Request
                         sort($this->order_item_ids);
                     }
                     if ($order_item_ids != $this->order_item_ids) {
-                        if (App::isLocale('en')) {
-                            $fail('Plz upload photos for every product sku.');
-                        } else {
-                            $fail('请确保上传每个商品的评价图片集。');
-                        }
+                        $fail(trans('basic.comments.Plz_upload_every_photo'));
                     }
                 },
             ],

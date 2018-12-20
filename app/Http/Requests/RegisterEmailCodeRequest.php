@@ -63,12 +63,9 @@ class RegisterEmailCodeRequest extends Request
      */
     public function messages()
     {
-        if (App::isLocale('en')) {
-            return [];
-        }
         return [
-            'name.unique' => '该用户名已注册用户',
-            'email.unique' => '该邮箱已注册用户',
+            'name.unique' => trans('basic.users.Username_has_been_registered_as_user'),
+            'email.unique' => trans('basic.users.Email_has_been_registered_as_user'),
         ];
     }
 }

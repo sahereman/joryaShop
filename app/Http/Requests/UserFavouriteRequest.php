@@ -54,12 +54,9 @@ class UserFavouriteRequest extends Request
 
     public function messages()
     {
-        if (App::isLocale('en')) {
-            return [];
-        }
         return [
-            'product_id.exits' => '请选择商品添加收藏',
-            'product_id.unique' => '该商品已添加收藏',
+            'product_id.exits' => trans('basic.favourites.Plz_select_a_product'),
+            'product_id.unique' => trans('basic.favourites.Product_added_to_favourites'),
         ];
     }
 }

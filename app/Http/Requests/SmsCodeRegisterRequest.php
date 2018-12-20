@@ -28,11 +28,7 @@ class SmsCodeRegisterRequest extends Request
                         'phone' => $value,
                     ])->exists()
                     ) {
-                        if (App::isLocale('en')) {
-                            $fail('Sorry, this phone number is registered as our user already.');
-                        } else {
-                            $fail('对不起，该手机号码已注册过用户');
-                        }
+                        $fail(trans('basic.users.Phone_has_been_registered_as_user'));
                     }
                 },
                 new RegisterSmsCodeSendableRule($this->input('country_code')),
@@ -61,12 +57,9 @@ class SmsCodeRegisterRequest extends Request
      */
     public function messages()
     {
-        if (App::isLocale('en')) {
-            return [];
-        }
         return [
-            'country_code.regex' => '国家|地区码 格式不正确（仅支持数字组合）',
-            'phone.regex' => '手机号码 格式不正确（仅支持数字组合）',
+            'country_code.regex' => trans('basic.users.Country_code_with_bad_format'),
+            'phone.regex' => trans('basic.users.Phone_with_bad_format'),
         ];
     }
 }

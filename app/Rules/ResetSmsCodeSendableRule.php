@@ -39,9 +39,6 @@ class ResetSmsCodeSendableRule implements Rule
      */
     public function message()
     {
-        if (App::isLocale('en')) {
-            return 'The Sms verification code was sent already.';
-        }
-        return '短信验证码已发送';
+        return trans('basic.users.Sms_verification_code_sent_already');
     }
 }

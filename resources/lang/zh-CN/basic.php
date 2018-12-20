@@ -13,7 +13,6 @@ return [
 
     'lang_label' => 'zh',
 
-
     'time' => [
         'day' => '天',
         'hour' => '小时',
@@ -97,6 +96,20 @@ return [
         "ALL" => '查看全部订单',
         'My address' => '我的地址',
         'My footprints' => '我的足迹',
+        'Email_verification_code_sent_already' => '邮箱验证码已发送',
+        'Email_has_not_been_registered_as_user' => '该邮箱尚未注册用户',
+        'Email_has_been_registered_as_user' => '该邮箱已注册用户',
+        'Username_has_been_registered_as_user' => '该用户名已注册用户',
+        'Email_verification_code_expired' => '邮箱验证码已过期',
+        'Wrong_email_verification_code' => '邮箱验证码错误',
+        'Sms_verification_code_sent_already' => '短信验证码已发送',
+        'Phone_has_not_been_registered_as_user' => '该手机号码尚未注册用户',
+        'Phone_has_been_registered_as_user' => '该手机号码已注册用户',
+        'Sms_verification_code_expired' => '短信验证码已过期',
+        'Wrong_sms_verification_code' => '短信验证码错误',
+        'Country_code_with_bad_format' => '国家|地区码 格式不正确（仅支持数字组合）',
+        'Phone_with_bad_format' => '手机号码 格式不正确（仅支持数字组合）',
+        'Code_with_bad_format' => '短信验证码 格式不正确（仅支持数字组合）',
     ],
     'address' => [
         'The consignee' => '收货人',
@@ -155,7 +168,22 @@ return [
         'Submit an Order' => '提交订单',
         'To pay' => '去支付',
         'Pay' => '支付',
+        'Currency_not_supported' => '该币种支付暂不支持',
+        'Product_sku_off_sale' => '该商品已下架',
+        'Product_sku_out_of_stock' => '该商品已售罄',
         'Insufficient_sku_stock' => '该商品库存不足，请重新调整商品购买数量',
+        'Product_sku_does_not_exist' => '该商品不存在',
+        'Cart_ids_with_bad_format' => '购物车IDs格式不正确',
     ],
-
+    'comments' => [
+        'Plz_mark_every_composite_index' => '请确保评价每个商品的综合评分',
+        'Plz_mark_every_description_index' => '请确保评价每个商品的描述相符',
+        'Plz_mark_every_shipment_index' => '请确保评价每个商品的物流服务',
+        'Plz_make_every_comment' => '请确保填写每个商品的评价内容',
+        'Plz_upload_every_photo' => '请确保上传每个商品的评价图片集',
+    ],
+    'favourites' => [
+        'Plz_select_a_product' => '请选择商品添加收藏',
+        'Product_added_to_favourites' => '该商品已添加收藏',
+    ],
 ];
