@@ -47,6 +47,9 @@
 @section('scriptsAfterJs')
     <script type="text/javascript">
         //页面单独JS写这里
+        $(".logoImgBox").on("click",function(){
+        	window.location.href = "{{ route('mobile.root') }}"
+        })
         $(".getY").on("click", function () {
             var phoneVal = $(".phoneIpt").val();
             var countryCode = $(".valSpan").html();
