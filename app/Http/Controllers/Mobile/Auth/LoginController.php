@@ -13,13 +13,11 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Validator;
 
-
 class LoginController extends Controller
 {
     use AuthenticatesUsers;
 
     protected $redirectTo = '/mobile/users';
-
 
     public function __construct()
     {
@@ -57,12 +55,10 @@ class LoginController extends Controller
         ]);
     }
 
-
     public function showLoginForm()
     {
         return view('mobile.auth.login');
     }
-
 
     public function login(Request $request)
     {
@@ -116,6 +112,12 @@ class LoginController extends Controller
 
         $this->guard()->logout();
 
-        return redirect($this->redirectTo());
+        // return redirect($this->redirectTo());
+        // return redirect($this->redirectTo);
+        if (method_exists($this, 'redirectTo')) {
+            return $this->redirectTo();
+        }
+        // return redirect('/mobile');
+        return redirect('/mobile/login');
     }
 }

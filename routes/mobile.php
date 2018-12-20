@@ -8,7 +8,6 @@ Route::get('test', function () {
     return 'test';
 });
 
-
 /*首页*/
 Route::get('/', 'IndexController@root')->name('mobile.root'); // 首页
 Route::get('guess_more', 'IndexController@guessMore')->name('mobile.guess_more'); // guess more ... @ mobile root page [for Ajax request]
@@ -24,7 +23,6 @@ Route::post('login', 'Auth\LoginController@login')->name('mobile.login.store'); 
 Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('mobile.register.show'); // 注册 页面
 Route::post('register', 'Auth\RegisterController@register')->name('mobile.register.store'); // 注册 请求
 Route::post('logout', 'Auth\LoginController@logout')->name('mobile.logout'); // Log out
-
 
 /*重置密码*/
 Route::get('password/reset/sms', 'Auth\ResetPasswordController@smsShow')->name('mobile.reset.sms.show'); // 重置密码(短信方式) 页面

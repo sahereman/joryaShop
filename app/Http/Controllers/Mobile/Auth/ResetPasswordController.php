@@ -111,16 +111,12 @@ class ResetPasswordController extends Controller
         if ($overrideSession && $overrideSession['status'] === true) {
             $password = $request->input('password');
             $auth = $overrideSession['auth'];
-
-
             $this->resetPassword($auth, $password);
 
             return redirect()->route('mobile.reset.success.show');
-
         } else {
             return redirect()->route('mobile.reset.sms.show');
         }
-
     }
 
     // GET 重置密码成功页面
