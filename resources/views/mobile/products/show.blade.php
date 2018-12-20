@@ -137,7 +137,7 @@
                     <div class="skuListHead">@lang('product.product_details.classification')</div>
                     <ul class="skuListMain">
                         @foreach($skus as $sku)
-                            <li code_price='{{ App::isLocale('en') ? $sku->price_in_usd : $sku->price }}'>
+                            <li code_num="{{ $sku->stock }}" code_price='{{ App::isLocale('en') ? $sku->price_in_usd : $sku->price }}'>
                                 <span>{{ App::isLocale('en') ? $sku->name_en : $sku->name_zh }}</span>
                                 <input type="hidden" name="sku_id" value="{{ $sku->id }}">
                             </li>
@@ -193,16 +193,24 @@
                     });
                 }
             } else {
-                var count = parseInt($(this).prev().html());
-                if (count < 10000) {
-                    count += 1;
-                    $(this).prev().html(count);
-                } else {
-                    layer.open({
-                        content: "@lang('order.Cannot add more quantities')",
+            	if ($(".skuListMain").find("li").hasClass('active') != true) {
+	                layer.open({
+                        content: "@lang('product.product_details.Please select specifications')",
                         skin: 'msg',
                         time: 2, //2秒后自动关闭
                     });
+	            } else {
+	            	var count = parseInt($(this).prev().html());
+	            	if(parseInt(count)<parseInt($(".skuListMain").find("li.active").attr('code_num'))){
+	                    count += 1;
+	                    $(this).prev().html(count);
+		            }else{
+		            	layer.open({
+	                        content: "@lang('order.Cannot add more quantities')",
+	                        skin: 'msg',
+	                        time: 2, //2秒后自动关闭
+	                    });
+		            }
                 }
             }
         });

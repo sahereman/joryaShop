@@ -6,7 +6,7 @@
             @if(!is_wechat_browser())
                 <div class="headerBar">
                     <img src="{{ asset('static_m/img/icon_backtop.png') }}" class="backImg"
-                         onclick="javascript:history.back(-1);"/>
+                         onclick="javascript:window.location.href='{{ route('mobile.users.home') }}'"/>
                     <span>@lang('basic.users.My_order')</span>
                 </div>
             @endif

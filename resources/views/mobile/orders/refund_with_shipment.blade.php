@@ -153,7 +153,7 @@
                         <div class="refund_info_item">
                             <span>@lang('order.Application description')</span>
                             <!--需判断上一步的选择是什么如果是其他则需要参考下面文本域的注释内容-->
-                            <select class="choose_remark" disabled="disabled" name="">
+                            <select class="choose_remark dis_n"  name="">
                                 <option value="default" selected="selected" disabled="disabled">
                                     @lang('order.Please select the refund reason')
                                 </option>
@@ -168,7 +168,7 @@
                             </select>
                         </div>
                         <!--这个地方需要判断上一步的申请理由是什么如果是其他则显示下面的div并对文本域进行赋值，如果有值得时候将dis_ni去掉-->
-                        <div class="refund_info_item other_reason dis_ni">
+                        <div class="refund_info_item other_reason">
                             <textarea name="remark_from_user" class="step2_textarea" maxlength="200"
                                       readonly>{{ $refund->remark_from_user }}</textarea>
                         </div>
@@ -391,7 +391,9 @@
                 $(".save_btn").removeClass("dis_ni");
                 $(".refunds_photos").removeClass("dis_n");
                 $(".closeImg").removeClass("dis_n");
-                $(".choose_remark").attr("disabled", false);
+                $(".step2_textarea").attr("readonly", false);
+                $(".other_reason").addClass("dis_ni");
+                $(".choose_remark").removeClass("dis_n");
             });
             //保存修改
             $(".save_btn").on("click", function () {
@@ -648,6 +650,7 @@
                     $(".other_reason").removeClass("dis_ni");
                 } else {
                     $(".other_reason").addClass("dis_ni");
+                    $(".other_reason textarea").val($(this).val());
                 }
             })
         });

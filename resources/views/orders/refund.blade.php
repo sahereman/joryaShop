@@ -131,7 +131,7 @@
                                     </li>
                                     <li>
                                         <span><i class="red">*</i>@lang('order.Application description')：</span>
-                                        <select class="choose_remark" disabled="disabled" name="">
+                                        <select class="choose_remark dis_n" name="">
                                             <option value="default" selected="selected" disabled="disabled">
                                                 @lang('order.Please select the refund reason')
                                             </option>
@@ -144,7 +144,7 @@
                                             @endif
                                             <option value="etc">@lang('order.Etc')</option>
                                         </select>
-                                        <textarea name="remark_from_user" class="reasons_for_refunds no_border dis_n"
+                                        <textarea name="remark_from_user" class="reasons_for_refunds marginLeftImpor"
                                                   readonly>{{ $refund->remark_from_user }}</textarea>
                                         <span class="remainder hidden dis_ni">200</span>
                                     </li>
@@ -370,9 +370,11 @@
                 $(".step-2 input").removeClass("no_border");
                 $(".step-2 textarea").removeClass("no_border");
                 $(".step-2 textarea").prop("readonly", false);
+                $(".step-2 textarea").removeClass("marginLeftImpor");
                 $(".step-2 .del_btn").removeClass('dis_n');
                 $(".refunds_2").removeClass('dis_n');
                 $(".remainder").removeClass('hidden');
+                $(".choose_remark").removeClass("dis_n");
                 $(this).addClass("dis_ni");
                 $(".step-2-submit-2").removeClass("dis_ni");
             });
@@ -454,6 +456,7 @@
                     $(".remainder").removeClass("dis_ni");
                 } else {
                     $(".reasons_for_refunds").addClass("dis_n");
+                    $(".reasons_for_refunds").val($(this).val());
                     $(".remainder").addClass("dis_ni");
                 }
             })

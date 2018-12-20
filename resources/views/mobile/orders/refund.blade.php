@@ -239,6 +239,8 @@
                 $(this).addClass("dis_ni");
                 $(".save_btn").removeClass("dis_ni");
                 $(".step2_textarea").prop("readonly", false);
+                $(".other_reason").addClass("dis_ni");
+                $(".choose_remark").removeClass("dis_n");
             });
             //保存修改
             $(".save_btn").on("click", function () {
@@ -308,6 +310,7 @@
                     $(".other_reason").removeClass("dis_ni");
                 } else {
                     $(".other_reason").addClass("dis_ni");
+                    $(".other_reason textarea").val($(this).val());
                 }
             });
         });
