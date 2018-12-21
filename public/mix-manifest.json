@@ -1,5 +1,8 @@
 {
     "/js/app.js": "/js/app.js",
     "/css/app.css": "/css/app.css",
-    "/js/main.js": "/js/main.js"
+    "/static_m/css/app.css": "/static_m/css/app.css",
+    "/static_m/js/app.js": "/static_m/js/app.js",
+    "/js/jquery.validate.min.js": "/js/jquery.validate.min.js",
+    "/static_m/js/jquery.countdown-2.2.0": "/static_m/js/jquery.countdown-2.2.0"
 }
