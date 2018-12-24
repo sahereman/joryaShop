@@ -3,6 +3,8 @@
 namespace App\Handlers;
 
 use Carbon\Carbon;
+use Illuminate\Http\File;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
 
@@ -33,12 +35,12 @@ class ImageUploadHandler
 
     /**
      * 上传一个原始文件到original目录 （如有可选参数 指定目录及文件名）
-     * @param $file & 表单的file对象
+     * @param File|UploadedFile $file & 表单的file对象
      * @param bool $save_path
      * @param bool $name
      * @return mixed & 返回需要入数据库的文件路径
      */
-    public function uploadOriginal($file, $save_path = false, $name = false)
+    public function uploadOriginal(UploadedFile $file, $save_path = false, $name = false)
     {
         $date = Carbon::now();
         $child_path = 'original/' . date('Ym', $date->timestamp);/*存储文件格式为 201706 文件夹内*/
@@ -54,12 +56,12 @@ class ImageUploadHandler
 
     /**
      * 上传一张缩略图到thumb目录 （缩略图尺寸根据类属性设定）（如有可选参数 指定目录及文件名）
-     * @param $file & 表单的file对象
+     * @param File|UploadedFile $file & 表单的file对象
      * @param bool $save_path
      * @param bool $name
      * @return mixed 返回需要入数据库的文件路径
      */
-    public function uploadThumb($file, $save_path = false, $name = false)
+    public function uploadThumb(UploadedFile $file, $save_path = false, $name = false)
     {
         $date = Carbon::now();
         $prefix_path = Storage::disk('public')->getAdapter()->getPathPrefix();
@@ -78,10 +80,10 @@ class ImageUploadHandler
 
     /**
      * 上传一个缩略图临时文件到temp目录
-     * @param $file
+     * @param File|UploadedFile $file & 表单的file对象
      * @return false|string
      */
-    public function uploadAvatarPreview($file)
+    public function uploadAvatarPreview(UploadedFile $file)
     {
         if (mt_rand(0, $this->clear_temp_odds) == 0) {
             $prefix_path = Storage::disk('public')->getAdapter()->getPathPrefix();
@@ -105,12 +107,12 @@ class ImageUploadHandler
 
     /**
      * 上传一张缩略图到avatar目录 （头像图尺寸根据类属性设定）（如有可选参数 指定目录及文件名）
-     * @param $file & 表单的file对象
+     * @param File|UploadedFile $file & 表单的file对象
      * @param bool $save_path
      * @param bool $name
      * @return mixed 返回需要入数据库的文件路径
      */
-    public function uploadAvatar($file, $save_path = false, $name = false)
+    public function uploadAvatar(UploadedFile $file, $save_path = false, $name = false)
     {
         // $date = Carbon::now();
         $prefix_path = Storage::disk('public')->getAdapter()->getPathPrefix();
@@ -136,10 +138,10 @@ class ImageUploadHandler
 
     /**
      * 上传一个临时文件到temp目录
-     * @param $file
+     * @param File|UploadedFile $file & 表单的file对象
      * @return false|string
      */
-    public function uploadTemp($file)
+    public function uploadTemp(UploadedFile $file)
     {
         if (mt_rand(0, $this->clear_temp_odds) == 0) {
             $prefix_path = Storage::disk('public')->getAdapter()->getPathPrefix();
@@ -160,12 +162,12 @@ class ImageUploadHandler
 
     /**
      * 上传一个原始文件到 comment_image 目录 （如有可选参数 指定目录及文件名）
-     * @param $file & 表单的file对象
+     * @param File|UploadedFile $file & 表单的file对象
      * @param bool $save_path
      * @param bool $name
      * @return mixed & 返回需要入数据库的文件路径
      */
-    public function uploadCommentImage($file, $save_path = false, $name = false, $width = 240, $height = 240)
+    public function uploadCommentImage(UploadedFile $file, $save_path = false, $name = false, $width = 240, $height = 240)
     {
         $date = Carbon::now();
         $prefix_path = Storage::disk('public')->getAdapter()->getPathPrefix();

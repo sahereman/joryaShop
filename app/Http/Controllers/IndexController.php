@@ -39,6 +39,7 @@ class IndexController extends Controller
     }
 
     // POST 获取上传图片预览
+    // $request->image ie. $request->file('image')
     public function imagePreview(ImageUploadRequest $request, ImageUploadHandler $handler)
     {
         $preview_path = $handler->uploadTemp($request->image);
@@ -49,6 +50,7 @@ class IndexController extends Controller
     }
 
     // POST 获取原上传图片路径+预览
+    // $request->image ie. $request->file('image')
     public function imageUpload(ImageUploadRequest $request, ImageUploadHandler $handler)
     {
         $path = $handler->uploadOriginal($request->image);
@@ -61,6 +63,7 @@ class IndexController extends Controller
     }
 
     // POST 获取上传Avatar头像图片预览
+    // $request->image ie. $request->file('image')
     public function avatarPreview(ImageUploadRequest $request, ImageUploadHandler $handler)
     {
         $preview_path = $handler->uploadAvatarPreview($request->image);
@@ -71,6 +74,7 @@ class IndexController extends Controller
     }
 
     // POST 获取上传Avatar头像图片路径+预览
+    // $request->image ie. $request->file('image')
     public function avatarUpload(ImageUploadRequest $request, ImageUploadHandler $handler)
     {
         $path = $handler->uploadAvatar($request->image);
@@ -83,6 +87,7 @@ class IndexController extends Controller
     }
 
     // POST 获取评论上传图片路径+预览
+    // $request->image ie. $request->file('image')
     public function commentImageUpload(ImageUploadRequest $request, ImageUploadHandler $handler)
     {
         $path = $handler->uploadCommentImage($request->image, false, false, 240, 240);
