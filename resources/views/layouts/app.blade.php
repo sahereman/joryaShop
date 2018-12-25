@@ -8,6 +8,8 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'Web 标题')</title>
+    <link rel="icon" href="{{ asset('img/favicon.jpg') }}" type="image/x-icon" />
+    <link rel="shortcut icon" href="{{ asset('img/favicon.jpg') }}" type="image/x-icon" />
     <!-- 样式 -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('js/swiper/css/swiper.css') }}" rel="stylesheet">
