@@ -27,7 +27,7 @@ return [
     'Customer Service Phone' => 'Phone',
     'Help' => 'Using help',
     'Newbie Guide' => 'Newbie Guide',
-    'Common problems' => 'Common problems',
+    'Common Problems' => 'Common Problems',
     'User Agreement' => 'User Agreement',
     'Method of Payment' => 'Method of Payment',
     'ALIPAY' => 'ALIPAY',

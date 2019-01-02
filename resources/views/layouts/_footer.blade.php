@@ -40,7 +40,7 @@
                     <li>
                         <p>@lang('app.Help')</p>
                         <a href="{{ route('articles.show', ['slug' => 'guide']) }}">@lang('app.Newbie Guide')</a>
-                        <a href="{{ route('articles.show', ['slug' => 'problem']) }}">@lang('app.Common problems')</a>
+                        <a href="{{ route('articles.show', ['slug' => 'problem']) }}">@lang('app.Common Problems')</a>
                         <a href="{{ route('articles.show', ['slug' => 'user_protocol']) }}">@lang('app.User Agreement')</a>
                     </li>
                     <li>

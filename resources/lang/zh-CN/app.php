@@ -27,7 +27,7 @@ return [
     'Customer Service Phone' => '客服电话',
     'Help' => '使用帮助',
     'Newbie Guide' => '新手指南',
-    'Common problems' => '常见问题',
+    'Common Problems' => '常见问题',
     'User Agreement' => '用户协议',
     'Method of Payment' => '支付方式',
     'ALIPAY' => '支付宝',
