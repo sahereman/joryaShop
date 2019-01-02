@@ -4,12 +4,16 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <meta name="description" content="卓雅美业欢迎您的光临"/>
+    {{--<meta name="keywords" Content="关键词1,关键词2,关键词3,关键词4">--}}
+    <meta name="keywords" Content="@yield('keywords', \App\Models\Config::config('keywords'))">
+    {{--<meta name="description" content="卓雅美业欢迎您的光临"/>--}}
+    <meta name="description" content="@yield('description', \App\Models\Config::config('description'))"/>
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', 'Web 标题')</title>
-    <link rel="icon" href="{{ asset('img/favicon.jpg') }}" type="image/x-icon" />
-    <link rel="shortcut icon" href="{{ asset('img/favicon.jpg') }}" type="image/x-icon" />
+    {{--<title>@yield('title', 'Web 标题')</title>--}}
+    <title>@yield('title', \App\Models\Config::config('title'))</title>
+    <link rel="icon" href="{{ asset('img/favicon.jpg') }}" type="image/x-icon"/>
+    <link rel="shortcut icon" href="{{ asset('img/favicon.jpg') }}" type="image/x-icon"/>
     <!-- 样式 -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('js/swiper/css/swiper.css') }}" rel="stylesheet">

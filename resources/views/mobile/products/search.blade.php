@@ -1,5 +1,5 @@
 @extends('layouts.mobile')
-@section('title', App::isLocale('en') ? 'Search results' : '搜索结果')
+@section('title', (App::isLocale('en') ? 'Search Results' : '搜索结果') . ' - ' . \App\Models\Config::config('title'))
 @section('content')
     <div class="goodsListBox">
         <div class="goodsListHead">

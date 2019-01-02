@@ -1,5 +1,5 @@
 @extends('layouts.mobile')
-@section('title', App::isLocale('en') ? 'Choosing a Payment method' : '选择支付方式')
+@section('title', (App::isLocale('en') ? 'Choosing A Payment Method' : '选择支付方式') . ' - ' . \App\Models\Config::config('title'))
 @section('content')
     <div class="headerBar fixHeader {{ is_wechat_browser() ? 'height_no' : '' }}">
         <img src="{{ asset('static_m/img/icon_backtop.png') }}" class="backImg" onclick="javascript:history.back(-1);"/>

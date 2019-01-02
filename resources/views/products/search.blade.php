@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', App::isLocale('en') ? 'Search results' : '搜索结果')
+@section('title', (App::isLocale('en') ? 'Search results' : '搜索结果') . ' - ' . \App\Models\Config::config('title'))
 @section('content')
     <div class="products-search-level">
         <div class="m-wrapper">

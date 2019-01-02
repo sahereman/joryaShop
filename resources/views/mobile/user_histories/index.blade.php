@@ -1,5 +1,5 @@
 @extends('layouts.mobile')
-@section('title', App::isLocale('en') ? 'Browse History' : '浏览记录')
+@section('title', (App::isLocale('en') ? 'Browsing History' : '浏览记录') . ' - ' . \App\Models\Config::config('title'))
 @section('content')
     <div class="headerBar fixHeader {{ is_wechat_browser() ? 'height_no' : '' }}"
          data-url="{{ route('mobile.user_histories.more') }}" code="{{ App::isLocale('en') ? 'en' : 'zh' }}">

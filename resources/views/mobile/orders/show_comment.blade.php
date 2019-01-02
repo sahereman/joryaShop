@@ -1,6 +1,5 @@
 @extends('layouts.mobile')
-@section('title', '查看评价')
-@section('title', App::isLocale('en') ? 'View comments' : '查看评价')
+@section('title', (App::isLocale('en') ? 'View Comments' : '查看评价') . ' - ' . \App\Models\Config::config('title'))
 @section('content')
     <div class="headerBar fixHeader {{ is_wechat_browser() ? 'height_no' : '' }}">
         <img src="{{ asset('static_m/img/icon_backtop.png') }}" class="backImg" onclick="javascript:history.back(-1);"/>

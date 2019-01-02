@@ -1,7 +1,6 @@
 @extends('layouts.mobile')
-@section('title', App::isLocale('en') ? 'Payment success' : '支付成功')
+@section('title', (App::isLocale('en') ? 'Payment Success' : '支付成功') . ' - ' . \App\Models\Config::config('title'))
 @section('content')
-
 @endsection
 @section('scriptsAfterJs')
     <script type="text/javascript">
@@ -10,13 +9,11 @@
                 shadeClose: false,
                 shade: 'background-color: rgba(0,0,0,0.4)', //自定义遮罩的透明度
                 type: 2,
-                success: function(elem){
+                success: function (elem) {
                     _fresh();
                     var sh = setInterval(_fresh, 2000);
                 }
             });
-
-
             function _fresh() {
                 $.ajax({
                     type: "get",
@@ -29,8 +26,6 @@
                     }
                 });
             }
-
-
         });
     </script>
 @endsection

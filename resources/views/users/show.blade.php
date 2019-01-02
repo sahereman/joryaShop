@@ -1,4 +1,5 @@
 @extends('layouts.app')
+@section('title', (App::isLocale('en') ? 'Personal Center - Account Information' : '个人中心 - 账户信息') . ' - ' . \App\Models\Config::config('title'))
 @section('content')
     @include('layouts._header')
 

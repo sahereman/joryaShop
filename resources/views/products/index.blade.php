@@ -1,5 +1,6 @@
 @extends('layouts.app')
-@section('title', App::isLocale('en') ? $category->name_en : $category->name_zh)
+@section('title', (App::isLocale('en') ? $category->name_en : $category->name_zh) . ' - ' . \App\Models\Config::config('title'))
+@section('description', App::isLocale('en') ? $category->description_en : $category->description_zh)
 @section('content')
     <div class="products-search-level">
         <div class="m-wrapper">

@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', '购物车')
+@section('title', (App::isLocale('en') ? 'Cart' : '购物车') . ' - ' . \App\Models\Config::config('title'))
 @section('content')
     <div class="shopping_cart">
         <div class="m-wrapper">

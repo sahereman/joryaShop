@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', App::isLocale('en') ? 'Personal Center-Modify password' : '个人中心-修改密码')
+@section('title', (App::isLocale('en') ? 'Personal Center - Modify Password' : '个人中心 - 修改密码') . ' - ' . \App\Models\Config::config('title'))
 @section('content')
     <div class="User_psw_edit User_center">
         <div class="m-wrapper">

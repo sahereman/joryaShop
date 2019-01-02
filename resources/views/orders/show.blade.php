@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', App::isLocale('en') ? 'Personal Center-my order' : '个人中心-我的订单')
+@section('title', (App::isLocale('en') ? 'Personal Center - My Orders' : '个人中心 - 我的订单') . ' - ' . \App\Models\Config::config('title'))
 @section('content')
     <div class="orders_details">
         <div class="m-wrapper">

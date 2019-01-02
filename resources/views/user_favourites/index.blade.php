@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', App::isLocale('en') ? 'Personal Center-My Favourites' : '个人中心-我的收藏')
+@section('title', (App::isLocale('en') ? 'Personal Center - My Favourites' : '个人中心 - 我的收藏') . ' - ' . \App\Models\Config::config('title'))
 @section('content')
     <div class="User_collection">
         <div class="m-wrapper">

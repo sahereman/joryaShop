@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', App::isLocale('en') ? 'Personal Center-shipping Address' : '个人中心-收货地址')
+@section('title', (App::isLocale('en') ? 'Personal Center - Shipping Address' : '个人中心 - 收货地址') . ' - ' . \App\Models\Config::config('title'))
 @section('content')
     <div class="User_addresses">
         <div class="m-wrapper">

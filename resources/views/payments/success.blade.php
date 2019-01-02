@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', App::isLocale('en') ? 'Payment success' : '支付成功')
+@section('title', (App::isLocale('en') ? 'Payment success' : '支付成功') . ' - ' . \App\Models\Config::config('title'))
 @section('content')
     <div class="payment_method">
         <div class="m-wrapper">

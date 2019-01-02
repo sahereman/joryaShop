@@ -1,5 +1,6 @@
 @extends('layouts.mobile')
-@section('title', $article->slug)
+@section('title', $article->slug . ' - ' . \App\Models\Config::config('title'))
+@section('description', mb_substr(strip_tags($article->content_zh), 0, 100))
 @section('content')
 
     <h3>DEMO PAGE:</h3>

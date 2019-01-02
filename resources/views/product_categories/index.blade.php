@@ -1,12 +1,13 @@
 @extends('layouts.app')
-@section('title', App::isLocale('en') ? $category->name_en : $category->name_zh)
+@section('title', (App::isLocale('en') ? $category->name_en : $category->name_zh) . ' - ' . \App\Models\Config::config('title'))
+@section('description', App::isLocale('en') ? $category->description_en : $category->description_zh)
 @section('content')
     <div class="productCate my_orders">
         <!--商品分类导图-->
         <div class="swiper-container Taxonomy" id="Taxonomy">
             <div class="swiper-wrapper">
                 <div class="swiper-slide">
-                	<p>{{ App::isLocale('en') ? $category->name_en : $category->name_zh }}</p>
+                    <p>{{ App::isLocale('en') ? $category->name_en : $category->name_zh }}</p>
                     <img class="lazy" data-src="{{ asset('defaults/defaults_pc_category_banner.jpg') }}">
                 </div>
             </div>
@@ -46,17 +47,17 @@
                         <ul class="classified-lists">
                             @foreach($products[$child->id] as $product)
                                 <li>
-                                	<a href="{{ route('products.show', ['product' => $product->id]) }}">
-	                                    <div class="list-img">
-	                                        <img class="lazy" data-src="{{ $product->thumb_url }}">
-	                                    </div>
-	                                    <div class="list-info">
-	                                        <p title="{{ App::isLocale('en') ? $product->name_en : $product->name_zh }}" class="list-info-title">{{ App::isLocale('en') ? $product->name_en : $product->name_zh }}</p>
-	                                        <p>
-	                                            <span class="old-price"><i>@lang('basic.currency.symbol') </i>{{ App::isLocale('en') ? bcmul($product->price_in_usd, 1.2, 2) : bcmul($product->price, 1.2, 2) }}</span>
-	                                            <span class="new-price"><i>@lang('basic.currency.symbol') </i>{{ App::isLocale('en') ? $product->price_in_usd : $product->price }}</span>
-	                                        </p>
-	                                    </div>
+                                    <a href="{{ route('products.show', ['product' => $product->id]) }}">
+                                        <div class="list-img">
+                                            <img class="lazy" data-src="{{ $product->thumb_url }}">
+                                        </div>
+                                        <div class="list-info">
+                                            <p title="{{ App::isLocale('en') ? $product->name_en : $product->name_zh }}" class="list-info-title">{{ App::isLocale('en') ? $product->name_en : $product->name_zh }}</p>
+                                            <p>
+                                                <span class="old-price"><i>@lang('basic.currency.symbol') </i>{{ App::isLocale('en') ? bcmul($product->price_in_usd, 1.2, 2) : bcmul($product->price, 1.2, 2) }}</span>
+                                                <span class="new-price"><i>@lang('basic.currency.symbol') </i>{{ App::isLocale('en') ? $product->price_in_usd : $product->price }}</span>
+                                            </p>
+                                        </div>
                                     </a>
                                 </li>
                             @endforeach

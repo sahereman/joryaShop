@@ -1,5 +1,5 @@
 @extends('layouts.mobile')
-@section('title', App::isLocale('en') ? 'My_order' : '我的订单')
+@section('title', (App::isLocale('en') ? 'My Orders' : '我的订单') . ' - ' . \App\Models\Config::config('title'))
 @section('content')
     <div class="orderBox">
         <div class="orderHeadTop">

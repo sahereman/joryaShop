@@ -1,5 +1,5 @@
 @extends('layouts.mobile')
-@section('title', App::isLocale('en') ? 'Information modification' : '信息修改')
+@section('title', (App::isLocale('en') ? 'Information Modification' : '信息修改') . ' - ' . \App\Models\Config::config('title'))
 @section('content')
     <div class="headerBar fixHeader {{ is_wechat_browser() ? 'height_no' : '' }}" style="border: none;">
         <img src="{{ asset('static_m/img/icon_backtop.png') }}" class="backImg" onclick="javascript:history.back(-1);"/>

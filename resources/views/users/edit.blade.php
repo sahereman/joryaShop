@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', App::isLocale('en') ? 'Personal Center-account information' : '个人中心-账户信息')
+@section('title', (App::isLocale('en') ? 'Personal Center - Account Information' : '个人中心 - 账户信息') . ' - ' . \App\Models\Config::config('title'))
 @section('content')
     <div class="User_center_edit User_center">
         <div class="m-wrapper">
