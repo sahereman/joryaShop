@@ -14,7 +14,7 @@ return [
     'Account_information' => '账户信息',
     'Sign_out' => '退出',
     'Sign_in' => '登录',
-    'Registered' => '注册',
+    'Register' => '注册',
     'Personal_Center_modify_password' => '个人中心-修改密码',
     'Click to remove the item' => '点击删除该商品',
     'Previous page' => '上一页',

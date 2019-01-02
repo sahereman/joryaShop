@@ -1,5 +1,5 @@
 @extends('layouts.mobile')
-@section('title', App::isLocale('en') ? 'Registered' : '注册')
+@section('title', App::isLocale('en') ? 'Register' : '注册')
 @section('content')
     <div class="regMain">
         <div class="logoImgBox">

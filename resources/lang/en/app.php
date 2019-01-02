@@ -14,7 +14,7 @@ return [
     'Account_information' => 'Account information',
     'Sign_out' => 'Sign out',
     'Sign_in' => 'Sign in',
-    'Registered' => 'Registered',
+    'Register' => 'Register',
     'Personal_Center_modify_password' => 'Personal Center - modify password',
     'Click to remove the item' => 'Click to remove the item',
     'Previous page' => 'Previous page',
