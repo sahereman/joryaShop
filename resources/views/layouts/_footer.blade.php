@@ -50,13 +50,13 @@
                         <a href="javascript:void(0);">Paypal</a>
                     </li>
                     <li>
-                        <p>@lang('app.After-sales Service')</p>
+                        <p>@lang('app.After-Sale Service')</p>
                         <a href="{{ route('articles.show', ['slug' => 'refunding_consultancy']) }}">@lang('app.After Consulting')</a>
                         <a href="{{ route('articles.show', ['slug' => 'refunding_policy']) }}">@lang('app.Return Policy')</a>
                         <a href="{{ route('articles.show', ['slug' => 'refunding_procedure']) }}">@lang('app.Refunding Procedure')</a>
                     </li>
                     <li>
-                        <p>@lang('app.About us')</p>
+                        <p>@lang('app.About Us')</p>
                         <a href="{{ route('articles.show', ['slug' => 'company_introduction']) }}">@lang('app.Company Introduction')</a>
                         <a href="{{ route('articles.show', ['slug' => 'products_features']) }}">@lang('app.Products Features')</a>
                         <a href="{{ route('articles.show', ['slug' => 'contact_us']) }}">@lang('app.Contact Us')</a>
