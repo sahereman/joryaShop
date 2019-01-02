@@ -234,7 +234,7 @@
                     </p>
                 </div>
                 <a class="btn_dialog register_btn" id="register_btn"
-                   data-url="{{ route('register') }}">@lang('app.Registered')</a>
+                   data-url="{{ route('register') }}">@lang('app.Register')</a>
                 <div class="switch-back">
                     <p class="change_title">
                         <span>@lang('app.Existing account')</span>

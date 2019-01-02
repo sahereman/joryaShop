@@ -53,7 +53,7 @@
                     <span class="cutTime"></span>
                 </div>
             </div>
-            <button type="submit" class="subBtn">@lang('app.Registered')</button>
+            <button type="submit" class="subBtn">@lang('app.Register')</button>
         </form>
         <!--<div class="downBox">
             ——— @lang('app.Jorya Limited') ———
