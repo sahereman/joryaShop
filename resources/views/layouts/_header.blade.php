@@ -9,18 +9,18 @@
                     <li class="dropdown">
                         <button id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true"
                                 aria-expanded="false">
-                            <span>{{App::getLocale() == 'en' ? 'English' : '中文'}}</span>
+                            <span>{{ App::getLocale() == 'en' ? 'English' : '中文' }}</span>
                             <img src="{{ asset('img/header/down_arrow.png') }}">
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="dLabel">
                             <li>
-                                <a href="{{route('locale.update', ['locale' => 'zh-CN'])}}">
+                                <a href="{{ route('locale.update', ['locale' => 'zh-CN']) }}">
                                     <img src="{{ asset('img/header/cn_flag.png') }}">
                                     <span>中文</span>
                                 </a>
                             </li>
                             <li>
-                                <a href="{{route('locale.update', ['locale' => 'en'])}}">
+                                <a href="{{ route('locale.update', ['locale' => 'en']) }}">
                                     <img src="{{ asset('img/header/en_flag.png') }}">
                                     <span>English</span>
                                 </a>
