@@ -54,7 +54,7 @@ class PaymentsController extends Controller
             return Pay::alipay($this->getAlipayConfig($order))->web([
                 'out_trade_no' => $order->order_sn, // 订单编号，需保证在商户端不重复
                 'total_amount' => bcadd($order->total_amount, $order->total_shipping_fee, 2), // 订单金额，单位元，支持小数点后两位
-                'subject' => '请支付来自 Jorya Hair 的订单：' . $order->order_sn, // 订单标题
+                'subject' => '请支付来自 Lyrical Hair 的订单：' . $order->order_sn, // 订单标题
             ]);
         } catch (\Exception $e) {
             // error_log($e->getMessage());
@@ -78,7 +78,7 @@ class PaymentsController extends Controller
         "charset": "GBK",
         "gmt_payment": "2018-11-22 13:53:44",
         "notify_time": "2018-11-22 13:53:45",
-        "subject": "请支付来自 Jorya Hair 的订单：20181122100018412042",
+        "subject": "请支付来自 Lyrical Hair 的订单：20181122100018412042",
         "sign": "e86+m7dAGOgEm5YgWqZiMPxFuyAXpZs2AvehVHuwP8iO2aAvuXbCTty9R2CA0fbK87+gpuEP8Btadr4Oc/3tPxWovks9dXcNuF4Q28T4kAikaRAI9zamvAdKq2ImT6OQTPTDePNQMjFtjJ7FVumCNxRUisdPGZElE3fXQ+dwqYJzqVwCH1CnUGq6jQC4p/+HAxnOetkLGH80ohXXR+d6370fvGH8W7WDAKuXhIvPHdfZeGveoOKRY6Yrvev8RCrOi1I/LeHFdU+lk8Zk1j0zevZYu9pr/FhEAASYcPWJEuwCduMHYpnmESScGajwqnmTbkO1gRMpn7greZlDBQCkxQ==",
         "buyer_id": "2088802499494690",
         "invoice_amount": "0.01",
@@ -309,7 +309,7 @@ class PaymentsController extends Controller
             // 调用Wechat的扫码支付(网页支付)
             $response = Pay::wechat($this->getWechatConfig($order))->scan([
                 'out_trade_no' => $order->order_sn, // 订单编号，需保证在商户端不重复
-                'body' => '请支付来自 Jorya Hair 的订单：' . $order->order_sn, // 订单标题
+                'body' => '请支付来自 Lyrical Hair 的订单：' . $order->order_sn, // 订单标题
                 'total_fee' => bcmul(bcadd($order->total_amount, $order->total_shipping_fee, 2), 100, 0), // 订单金额，单位分，参数值不能带小数点
             ]);
 
@@ -465,7 +465,7 @@ class PaymentsController extends Controller
                 'out_refund_no' => $order->refund->refund_sn, // 退款订单流水号
                 'total_fee' => bcmul(bcadd($order->total_amount, $order->total_shipping_fee, 2), 100, 0), // 订单金额，单位分，只能为整数
                 'refund_fee' => bcmul(bcadd($order->total_amount, $order->total_shipping_fee, 2), 100, 0), // 退款金额，单位分，只能为整数
-                'refund_desc' => '这是来自 Jorya Hair 的退款订单' . $order->refund->refund_sn,
+                'refund_desc' => '这是来自 Lyrical Hair 的退款订单' . $order->refund->refund_sn,
             ]);
 
             Log::info('A New Wechat Refund Responded: ' . $response->toJson());

@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', App::isLocale('en') ? 'Joryahair' : '莱瑞美业')
+@section('title', App::isLocale('en') ? 'Lyricalhair' : '莱瑞美业')
 @section('content')
     <div class="home-page">
         <div class="swiper-container banner" id="banner">

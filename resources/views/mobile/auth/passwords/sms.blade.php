@@ -40,7 +40,7 @@
             </button>
         </form>
         <!--<div class="downBox">
-            ——— @lang('app.Jorya Limited') ———
+            ——— @lang('app.Lyrical Limited') ———
         </div>-->
     </div>
 @endsection
