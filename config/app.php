@@ -78,7 +78,8 @@ return [
     |
     */
 
-    'locale' => 'zh-CN',
+    // 'locale' => 'zh-CN',
+    'locale' => 'en',
 
 
     'faker_locale' => 'zh_CN',
