@@ -16,7 +16,7 @@ $factory->define(App\Models\ProductCategory::class, function (Faker $faker) {
         'name_en' => 'Test Product Category - ' . $faker->name . '-en',
         'name_zh' => '测试商品分类 - ' . $faker->name . '-zh',
         'description_en' => 'Your Fashion, We care',
-        'description_zh' => '卓雅美业 真我风采',
+        'description_zh' => '莱瑞美业 真我风采',
         // 'banner' => $faker->imageUrl(), // 备用字段
         'created_at' => $created_at,
         'updated_at' => $updated_at,

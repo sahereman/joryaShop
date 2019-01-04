@@ -1,5 +1,5 @@
 @extends('layouts.mobile')
-@section('title', App::isLocale('en') ? 'Joryahair' : '卓雅美业')
+@section('title', App::isLocale('en') ? 'Joryahair' : '莱瑞美业')
 @section('content')
     <div class="main">
         <div class="searchBox">

@@ -16,9 +16,9 @@ class ConfigsSeeder extends Seeder
                 'sort' => 1000,
                 'configs' =>
                     [
-                        ['name' => '网站标题', 'code' => 'title', 'type' => "text", 'sort' => 10, 'value' => '卓雅美业'],
-                        ['name' => '网站关键字', 'code' => 'keywords', 'type' => "text", 'sort' => 20, 'value' => '卓雅美业 keywords'],
-                        ['name' => '网站描述', 'code' => 'description', 'type' => "text", 'sort' => 30, 'value' => '卓雅美业 description'],
+                        ['name' => '网站标题', 'code' => 'title', 'type' => "text", 'sort' => 10, 'value' => '莱瑞美业'],
+                        ['name' => '网站关键字', 'code' => 'keywords', 'type' => "text", 'sort' => 20, 'value' => '莱瑞美业 keywords'],
+                        ['name' => '网站描述', 'code' => 'description', 'type' => "text", 'sort' => 30, 'value' => '莱瑞美业 description'],
                         /*['name' => '网站Logo', 'code' => 'logo', 'type' => "image", 'sort' => 40, 'help' => '网站首页的Logo',],
                         ['name' => '网站关闭', 'code' => 'site_close', 'type' => "radio", 'sort' => 50,
                             'select_range' => [['value' => 0, 'name' => '开启'], ['value' => 1, 'name' => '关闭']],

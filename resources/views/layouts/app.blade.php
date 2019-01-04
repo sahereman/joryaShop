@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     {{--<meta name="keywords" Content="关键词1,关键词2,关键词3,关键词4">--}}
     <meta name="keywords" Content="@yield('keywords', \App\Models\Config::config('keywords'))">
-    {{--<meta name="description" content="卓雅美业欢迎您的光临"/>--}}
+    {{--<meta name="description" content="莱瑞美业欢迎您的光临"/>--}}
     <meta name="description" content="@yield('description', \App\Models\Config::config('description'))"/>
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
