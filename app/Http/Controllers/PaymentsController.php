@@ -529,12 +529,12 @@ class PaymentsController extends Controller
                     "currency": "USD"
                 },
                 "related_resources": [],
-                "notify_url": "https://test.joryahair.com/payments/7/paypal/notify"
+                "notify_url": "https://lyrical.joryahair.com/payments/7/paypal/notify"
             }
         ],
         "redirect_urls": {
-            "return_url": "https://test.joryahair.com/payments/7/paypal/execute",
-            "cancel_url": "https://test.joryahair.com/payments/7/paypal/execute"
+            "return_url": "https://lyrical.joryahair.com/payments/7/paypal/execute",
+            "cancel_url": "https://lyrical.joryahair.com/payments/7/paypal/execute"
         },
         "id": "PAYID-LP3G6EQ7KL05583F3463784B",
         "state": "created",
@@ -1006,7 +1006,7 @@ class PaymentsController extends Controller
      * Reference:
      * https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421140842
      */
-    // joryashop.test/payments/get_wechat_open_id
+    // lyrical.joryahair.com/payments/get_wechat_open_id
     public function getWechatOpenId(Request $request)
     {
         header('Content-type: text/html; charset=utf-8');
