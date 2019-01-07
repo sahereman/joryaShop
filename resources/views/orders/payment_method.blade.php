@@ -9,7 +9,7 @@
                     <p>@lang('order.payment method')</p>
                     <ul>
                         @if($order->currency == 'CNY')
-                            <li>
+                            {{--<li>
                                 <label class="cur_p clear">
                                     <input type="radio" name="payMethod" value="1" id="alipay"
                                            data-href="{{ route('payments.alipay', ['order' => $order->id]) }}" checked>
@@ -22,7 +22,7 @@
                                            data-href="{{ route('payments.wechat', ['order' => $order->id]) }}">
                                     <img src="{{ asset('img/wxpay.png') }}">
                                 </label>
-                            </li>
+                            </li>--}}
                         @else
                             <li>
                                 <label class="cur_p clear">

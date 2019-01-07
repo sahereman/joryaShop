@@ -98,7 +98,7 @@
             </p>
             <ul>
                 @if($order->currency == 'CNY')
-                    @if(!is_wechat_browser())
+                    {{--@if(!is_wechat_browser())
                         <li>
                             <input type="radio" name="payMethod" value="1" id="alipay"
                                    data-href="{{ route('mobile.payments.alipay.wap', ['order' => $order->id]) }}"
@@ -125,7 +125,7 @@
                                 <img src="{{ asset('static_m/img/icon_wechat_small.png') }}">
                             </label>
                         </li>
-                    @endif
+                    @endif--}}
                 @else
                     <li>
                         <input type="radio" name="payMethod" value="4" id="paypal"
