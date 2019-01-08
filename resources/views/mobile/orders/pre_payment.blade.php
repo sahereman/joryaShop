@@ -174,7 +174,7 @@
                             <div class="goodsPri">
                                 <div>
                                     <span class="realPri RMB_num">&#165; {{ $item['sku']->price }}</span>
-                                    <span class="realPri dis_n dollar_num">&#36; {{ $item['sku']->price_en }}</span>
+                                    <span class="realPri dis_n dollar_num">&#36; {{ $item['sku']->price_in_usd }}</span>
                                 </div>
                                 <div class="goodsNum">
                                     <span class="gNum">&#215; {{ $item['number'] }}</span>
@@ -186,7 +186,6 @@
             @endif
         </div>
     </div>
-
 @endsection
 @section('scriptsAfterJs')
     <script type="text/javascript">
