@@ -80,7 +80,7 @@
                                         &#165; <span>{{ $item['sku']->price }}</span>
                                     </div>
                                     <div class="left w150 dis_n center dollar_num">
-                                        &#36; <span>{{ $item['sku']->price_en }}</span>
+                                        &#36; <span>{{ $item['sku']->price_in_usd }}</span>
                                     </div>
                                     <div class="left w150 center counter">
                                         <span>{{ $item['number'] }}</span>
@@ -224,26 +224,26 @@
             });
             $(".new_receipt_address").on("click", ".success", function () {
                 if($(".new_receipt_address .user_name").val()==""||$(".new_receipt_address .user_tel").val()==""||$(".new_receipt_address textarea").val()==""){
-                    layer.msg("@lang('order.Please complete the information')")
+                    layer.msg("@lang('order.Please complete the information')");
                     return false
-            	}
-                var data = {
-                	_token: "{{ csrf_token() }}",
-                	name:$(".new_receipt_address .user_name").val(),
-                	phone:$(".new_receipt_address .user_tel").val(),
-                	address:$(".new_receipt_address textarea").val(),
-                	is_default: "0"
                 }
+                var data = {
+                    _token: "{{ csrf_token() }}",
+                    name:$(".new_receipt_address .user_name").val(),
+                    phone:$(".new_receipt_address .user_tel").val(),
+                    address:$(".new_receipt_address textarea").val(),
+                    is_default: "0"
+                };
                 $.ajax({
-                	type:"post",
-                	url:$(this).attr("data-url"),
-                	data: data,
-                	beforeSend: function () {},
+                    type:"post",
+                    url:$(this).attr("data-url"),
+                    data: data,
+                    beforeSend: function () {},
                     success: function (json) {
                         $(".address_name").html(json.data.address.name);
-		                $(".address_phone").html(json.data.address.phone);
-		                $(".address_location").html(json.data.address.address);
-		                $(".new_receipt_address").hide();
+                        $(".address_phone").html(json.data.address.phone);
+                        $(".address_location").html(json.data.address.address);
+                        $(".new_receipt_address").hide();
                     },
                     error: function (err) {
                         console.log(err);
