@@ -22,6 +22,13 @@ class Product extends Model
         'content_zh',
         'thumb',
         'photos',
+
+        // 2019-01-22
+        'is_base_size_optional',
+        'is_hair_colour_optional',
+        'is_hair_density_optional',
+        // 2019-01-22
+
         'shipping_fee',
         'stock',
         'sales',
@@ -49,6 +56,12 @@ class Product extends Model
         'is_index' => 'boolean',
         'on_sale' => 'boolean',
         'photos' => 'json',
+
+        // 2019-01-22
+        'is_base_size_optional' => 'boolean',
+        'is_hair_colour_optional' => 'boolean',
+        'is_hair_density_optional' => 'boolean',
+        // 2019-01-22
     ];
 
     /**

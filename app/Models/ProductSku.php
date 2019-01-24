@@ -16,6 +16,16 @@ class ProductSku extends Model
         'product_id',
         'name_en',
         'name_zh',
+
+        // 2019-01-22
+        'base_size_en',
+        'base_size_zh',
+        'hair_colour_en',
+        'hair_colour_zh',
+        'hair_density_en',
+        'hair_density_zh',
+        // 2019-01-22
+
         'photo', // 备用字段
         'price',
         'stock',

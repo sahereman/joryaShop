@@ -28,6 +28,12 @@ class CreateProductsTable extends Migration
             $table->string('thumb')->nullable()->comment('缩略图');
             $table->json('photos')->nullable()->comment('图片集');
 
+            // 2019-01-22
+            $table->boolean('is_base_size_optional')->nullable(false)->default(true)->comment('SKU 参数 base_size 是否可选');
+            $table->boolean('is_hair_colour_optional')->nullable(false)->default(true)->comment('SKU 参数 hair_colour 是否可选');
+            $table->boolean('is_hair_density_optional')->nullable(false)->default(true)->comment('SKU 参数 hair_density 是否可选');
+            // 2019-01-22
+
             $table->unsignedDecimal('shipping_fee', 8, 2)->nullable()->comment('运费');
             $table->unsignedInteger('stock')->nullable(false)->default(0)->comment('库存');
             $table->unsignedInteger('sales')->nullable(false)->default(0)->comment('销量');
