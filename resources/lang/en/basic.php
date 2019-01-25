@@ -174,6 +174,10 @@ return [
         'Insufficient_sku_stock' => 'The stock of this product sku is not sufficient. Plz re-enter another appropriate number',
         'Product_sku_does_not_exist' => 'This product sku does not exist',
         'Cart_ids_with_bad_format' => 'The format of cart_ids is wrong',
+        'Plz_select_a_base_size' => 'Please select a Base Size',
+        'Plz_select_a_hair_colour' => 'Please select a Hair Colour',
+        'Plz_select_a_hair_density' => 'Please select a Hair Density',
+        'Sku_does_not_exist' => 'This SKU does not exist',
     ],
     'comments' => [
         'Plz_mark_every_composite_index' => 'Please mark the composite index on every product sku',

@@ -114,6 +114,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     /*购物车*/
     Route::get('carts', 'CartsController@index')->name('carts.index'); // 购物车
+    Route::post('carts/store_by_sku_parameters', 'CartsController@storeBySkuParameters')->name('carts.store_by_sku_parameters'); // 加入购物车
     Route::post('carts', 'CartsController@store')->name('carts.store'); // 加入购物车
     Route::patch('carts/{cart}', 'CartsController@update')->name('carts.update'); // 更新 (增减数量)
     Route::delete('carts/{cart}', 'CartsController@destroy')->name('carts.destroy'); // 删除
@@ -122,7 +123,9 @@ Route::group(['middleware' => 'auth'], function () {
     /*订单*/
     Route::get('orders', 'OrdersController@index')->name('orders.index'); // 订单列表
     Route::get('orders/pre_payment', 'OrdersController@prePayment')->name('orders.pre_payment'); // 订单预支付页面：选择地址+币种页面
+    Route::get('orders/pre_payment_by_sku_parameters', 'OrdersController@prePaymentBySkuParameters')->name('orders.pre_payment_by_sku_parameters'); // 订单预支付页面：选择地址+币种页面
     Route::get('orders/{order}', 'OrdersController@show')->name('orders.show'); // 订单详情
+    Route::post('orders/store_by_sku_parameters', 'OrdersController@storeBySkuParameters')->name('orders.store_by_sku_parameters'); // 提交订单
     Route::post('orders', 'OrdersController@store')->name('orders.store'); // 提交订单
     Route::get('orders/{order}/payment_method', 'OrdersController@paymentMethod')->name('orders.payment_method'); // 选择支付方式页面
     Route::patch('orders/{order}/close', 'OrdersController@close')->name('orders.close'); // [主动]取消订单，交易关闭 [订单进入交易关闭状态:status->closed]

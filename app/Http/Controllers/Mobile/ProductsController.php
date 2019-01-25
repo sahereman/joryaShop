@@ -7,6 +7,7 @@ use App\Http\Requests\ProductRequest;
 use App\Models\Product;
 use App\Models\UserFavourite;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 
 class ProductsController extends Controller
 {
@@ -32,9 +33,33 @@ class ProductsController extends Controller
         if ($user) {
             $favourite = UserFavourite::where('user_id', $user->id)->where('product_id', $product->id)->first();
         }
+
+        if(App::isLocale('en')){
+            $parameters['base_sizes'] = $product->is_base_size_optional ? $skus->map(function($item, $key) {
+                return $item->base_size_en;
+            }) : [];
+            $parameters['hair_colours'] = $product->is_hair_colour_optional ? $skus->map(function($item, $key) {
+                return $item->hair_colour_en;
+            }) : [];
+            $parameters['hair_densities'] = $product->is_hair_density_optional ? $skus->map(function($item, $key) {
+                return $item->hair_density_en;
+            }) : [];
+        } else {
+            $parameters['base_sizes'] = $product->is_base_size_optional ? $skus->map(function($item, $key) {
+                return $item->base_size_zh;
+            }) : [];
+            $parameters['hair_colours'] = $product->is_hair_colour_optional ? $skus->map(function($item, $key) {
+                return $item->hair_colour_zh;
+            }) : [];
+            $parameters['hair_densities'] = $product->is_hair_density_optional ? $skus->map(function($item, $key) {
+                return $item->hair_density_zh;
+            }) : [];
+        }
+
         return view('mobile.products.show', [
             'product' => $product->makeVisible(['content_en', 'content_zh']),
             'skus' => $skus,
+            'parameters' => $parameters,
             'comment_count' => $comment_count,
             'photo_comment_count' => $photo_comment_count,
             'favourite' => $favourite,

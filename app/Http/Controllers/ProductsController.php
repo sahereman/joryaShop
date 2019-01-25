@@ -155,10 +155,33 @@ class ProductsController extends Controller
         // user browsing history - appending (maybe firing an event)
         $this->appendUserBrowsingHistoryCacheByProduct($product);
 
+        if(App::isLocale('en')){
+            $parameters['base_sizes'] = $product->is_base_size_optional ? $skus->map(function($item, $key) {
+                return $item->base_size_en;
+            }) : [];
+            $parameters['hair_colours'] = $product->is_hair_colour_optional ? $skus->map(function($item, $key) {
+                return $item->hair_colour_en;
+            }) : [];
+            $parameters['hair_densities'] = $product->is_hair_density_optional ? $skus->map(function($item, $key) {
+                return $item->hair_density_en;
+            }) : [];
+        } else {
+            $parameters['base_sizes'] = $product->is_base_size_optional ? $skus->map(function($item, $key) {
+                return $item->base_size_zh;
+            }) : [];
+            $parameters['hair_colours'] = $product->is_hair_colour_optional ? $skus->map(function($item, $key) {
+                return $item->hair_colour_zh;
+            }) : [];
+            $parameters['hair_densities'] = $product->is_hair_density_optional ? $skus->map(function($item, $key) {
+                return $item->hair_density_zh;
+            }) : [];
+        }
+
         return view('products.show', [
             'category' => $category,
             'product' => $product->makeVisible(['content_en', 'content_zh']),
             'skus' => $skus,
+            'parameters' => $parameters,
             'comment_count' => $comment_count,
             'guesses' => $guesses,
             'hot_sales' => $hot_sales,
