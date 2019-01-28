@@ -177,7 +177,7 @@ return [
         'Plz_select_a_base_size' => 'Please select a Base Size',
         'Plz_select_a_hair_colour' => 'Please select a Hair Colour',
         'Plz_select_a_hair_density' => 'Please select a Hair Density',
-        'Sku_does_not_exist' => 'This SKU does not exist',
+        'Sku_does_not_exist' => 'This product SKU does not exist',
         'User_address_does_not_exist' => 'This user address does not exist',
     ],
     'comments' => [
