@@ -85,38 +85,14 @@
                     <div class="priceOfpro kindOfPro kindofsize" data-url="{{ route('products.get_sku_parameters', $product->id) }}">
                         <span>@lang('product.product_details.base_size')</span>
                         <select></select>
-                        {{--<ul>
-                            @foreach($skus as $sku)
-                                <li code_num="{{ $sku->stock }}" code_price='{{ App::isLocale('en') ? $sku->price_in_usd : $sku->price }}'>
-                                    <span>{{ App::isLocale('en') ? $sku->name_en : $sku->name_zh }}</span>
-                                    <input type="hidden" name="sku_id" value="{{ $sku->id }}">
-                                </li>
-                            @endforeach
-                        </ul>--}}
                     </div>
                     <div class="priceOfpro kindOfPro kindofcolor">
                         <span>@lang('product.product_details.hair_colour')</span>
                         <select></select>
-                        {{--<ul>
-                            @foreach($skus as $sku)
-                                <li code_num="{{ $sku->stock }}" code_price='{{ App::isLocale('en') ? $sku->price_in_usd : $sku->price }}'>
-                                    <span>{{ App::isLocale('en') ? $sku->name_en : $sku->name_zh }}</span>
-                                    <input type="hidden" name="sku_id" value="{{ $sku->id }}">
-                                </li>
-                            @endforeach
-                        </ul>--}}
                     </div>
                     <div class="priceOfpro kindOfPro kindofdensity">
                         <span>@lang('product.product_details.hair_density')</span>
                         <select></select>
-                        {{--<ul>
-                            @foreach($skus as $sku)
-                                <li code_num="{{ $sku->stock }}" code_price='{{ App::isLocale('en') ? $sku->price_in_usd : $sku->price }}'>
-                                    <span>{{ App::isLocale('en') ? $sku->name_en : $sku->name_zh }}</span>
-                                    <input type="hidden" name="sku_id" value="{{ $sku->id }}">
-                                </li>
-                            @endforeach
-                        </ul>--}}
                     </div>
                     <div class="priceOfpro">
                         <span class="buy_numbers">@lang('product.product_details.Quantity')</span>

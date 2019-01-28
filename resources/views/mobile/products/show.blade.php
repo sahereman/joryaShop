@@ -134,17 +134,19 @@
                         </span>
                     </div>
                 </div>
-                <div class="skuListBox">
-                    <div class="skuListHead">@lang('product.product_details.classification')</div>
-                    <ul class="skuListMain">
-                        @foreach($skus as $sku)
-                            <li code_num="{{ $sku->stock }}"
-                                code_price='{{ App::isLocale('en') ? $sku->price_in_usd : $sku->price }}'>
-                                <span>{{ App::isLocale('en') ? $sku->name_en : $sku->name_zh }}</span>
-                                <input type="hidden" name="sku_id" value="{{ $sku->id }}">
-                            </li>
-                        @endforeach
-                    </ul>
+                <div class="skuListBox" data-url="{{ route('products.get_sku_parameters', $product->id) }}">
+                    <div class="skuListHead kindofsize">
+                    	<span>@lang('product.product_details.base_size')</span>
+                        <select></select>
+                    </div>
+                     <div class="skuListHead kindofcolor">
+                    	<span>@lang('product.product_details.hair_colour')</span>
+                        <select></select>
+                    </div>
+                     <div class="skuListHead kindofdensity">
+                    	<span>@lang('product.product_details.hair_density')</span>
+                        <select></select>
+                    </div>
                 </div>
                 <div class="buyNum">
                     <span>@lang('product.product_details.Quantity purchased')</span>
@@ -175,7 +177,7 @@
             stopOnLastSlide: true,
         });
         var which_click = 0; // 通过判断which_click的值来确定是什么功能,0:选择规格,1:添加收藏，2：加入购物车，3：立即购买
-        var clickDom;
+        var clickDom,sku_id;
         // 点击透明阴影关闭弹窗
         $(".mask").on("click", function () {
             $(this).parents(".skuBox").css("display", "none");
@@ -287,24 +289,17 @@
         function which_el_toDo(which_click, clickDom) {
             switch (which_click) {
                 case 0:
-                    $(".gChooseBox").html("@lang('product.product_details.classification')：" + $(".skuListMain").find("li.active").find("span").html());
+                    var classificationText = $(".kindofsize select").find("option:checked").text()+"-"+$(".kindofcolor select").find("option:checked").text()+"-"+$(".kindofdensity select").find("option:checked").text();
+                    $(".gChooseBox").html("@lang('product.product_details.classification')：" + classificationText);
                     $(".skuBox").css("display", "none");
                     break;
                 case 1: // 添加收藏
                     break;
                 case 2:
-                    if ($(".skuListMain").find("li").hasClass('active') != true) {
-                        layer.open({
-                            content: "@lang('product.product_details.Please select specifications')",
-                            skin: 'msg',
-                            time: 2, // 2秒后自动关闭
-                        });
+                    if (clickDom.hasClass('for_show_login') == true) {
+                        window.location.href = clickDom.attr("data-url");
                     } else {
-                        if (clickDom.hasClass('for_show_login') == true) {
-                            window.location.href = clickDom.attr("data-url");
-                        } else {
-                            add_carts(clickDom);
-                        }
+                        add_carts(clickDom);
                     }
                     break;
                 case 3:
@@ -373,9 +368,15 @@
         }
         // 加入购物车
         function add_carts(clickDom) {
+        	var query_data = {
+                base_size: $(".kindofsize select").val(),
+                hair_colour: $(".kindofcolor select").val(),
+                hair_density: $(".kindofdensity select").val()
+            };
+            getSkuParameters(query_data, "getSkuId", false);
             var data = {
                 _token: "{{ csrf_token() }}",
-                sku_id: $(".skuListMain").find("li.active").find("input").val(),
+                sku_id: sku_id,
                 number: parseInt($(".gNum").html())
             };
             var url = clickDom.attr('data-url');
@@ -399,20 +400,26 @@
         }
         // 立即购买
         function buy_now(clickDom) {
-            if ($(".skuListMain").find("li").hasClass('active') != true) {
-                layer.open({
-                    content: "@lang('product.product_details.Please select specifications')",
-                    skin: 'msg',
-                    time: 2, // 2秒后自动关闭
-                });
-            } else {
+//          if ($(".skuListMain").find("li").hasClass('active') != true) {
+//              layer.open({
+//                  content: "@lang('product.product_details.Please select specifications')",
+//                  skin: 'msg',
+//                  time: 2, // 2秒后自动关闭
+//              });
+//          } else {
                 if (clickDom.hasClass('for_show_login') == true) {
                     window.location.href = clickDom.attr("data-url");
                 } else {
+                	var query_data = {
+		                base_size: $(".kindofsize select").val(),
+		                hair_colour: $(".kindofcolor select").val(),
+		                hair_density: $(".kindofdensity select").val()
+		            };
+		            getSkuParameters(query_data, "getSkuId", false);
                     var url = clickDom.attr('data-url');
-                    window.location.href = url + "?sku_id=" + $(".skuListMain").find("li.active").find("input").val() + "&number=" + parseInt($(".gNum").html()) + "&sendWay=1";
+                    window.location.href = url + "?sku_id=" + sku_id + "&number=" + parseInt($(".gNum").html()) + "&sendWay=1";
                 }
-            }
+//          }
         }
         // 分享复制到剪切板
         var clipboard = new ClipboardJS('.gShare');
@@ -518,5 +525,72 @@
                 }
             });
         }
+        
+        // 获取sku参数列表
+        var query_data = {};
+        function getSkuParameters(data, requestType, asyncType) {
+            var url = $(".skuListBox").attr('data-url');
+            $.ajax({
+                type: "get",
+                url: url,
+                data: data,
+                async: asyncType,
+                success: function (data) {
+                	console.log(data)
+                    var base_size_options = "";
+                    var hair_colour_options = "";
+                    var hair_density_options = "";
+                    if (data.code == 200) {
+                        if (requestType == "change") {
+                            var base_sizes = data.data.parameters.base_sizes,
+                                    hair_colours = data.data.parameters.hair_colours,
+                                    hair_densities = data.data.parameters.hair_densities;
+                            if (base_sizes.length != 0) {
+                                $.each(base_sizes, function (i, n) {
+                                    base_size_options += "<option value='" + n + "'>" + n + "</option>"
+                                });
+                                $(".kindofsize select").html(base_size_options);
+                            }
+                            if (hair_colours.length != 0) {
+                                $.each(hair_colours, function (i, n) {
+                                    hair_colour_options += "<option value='" + n + "'>" + n + "</option>"
+                                });
+                                $(".kindofcolor select").html(hair_colour_options);
+                            }
+                            if (hair_densities.length != 0) {
+                                $.each(hair_densities, function (i, n) {
+                                    hair_density_options += "<option value='" + n + "'>" + n + "</option>"
+                                });
+                                $(".kindofdensity select").html(hair_density_options);
+                            }
+                        } else {
+                            sku_id = data.data.sku_id;
+                        }
+                    }
+                    if (data.code == 401) {
+                        layer.open({
+                            content: data.message,
+                            skin: 'msg',
+                            time: 2, // 2秒后自动关闭
+                        });
+                    }
+                },
+                error: function (err) {
+                    console.log(err);
+                },
+            });
+        }
+        $(".kindofsize select").on("change", function () {
+            query_data.base_size = $(".kindofsize select").val();
+            getSkuParameters(query_data, "change", true);
+        });
+        $(".kindofcolor select").on("change", function () {
+            query_data.hair_colour = $(".kindofcolor select").val();
+            getSkuParameters(query_data, "change", true);
+        });
+        $(".kindofdensity select").on("change", function () {
+            query_data.hair_density = $(".kindofdensity select").val();
+            getSkuParameters(query_data, "change", true);
+        });
     </script>
 @endsection
