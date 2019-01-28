@@ -251,7 +251,7 @@
                             @if($key == 0)
                                 <tr>
                                     <td class="col-pro-img">
-                                        <a href="">
+                                        <a href="{{ route('products.show', ['product' => $order_item['sku']['product']['id']]) }}">
                                             <img src="{{ $order_item['sku']['product']['thumb_url'] }}">
                                         </a>
                                     </td>
@@ -305,14 +305,16 @@
                             @else
                                 <tr>
                                     <td class="col-pro-img">
-                                        <a href="">
+                                        <a href="{{ route('products.show', ['product' => $order_item['sku']['product']['id']]) }}">
                                             <img src="{{ $order_item['sku']['product']['thumb_url'] }}">
                                         </a>
                                     </td>
                                     <td class="col-pro-info">
                                         <p class="p-info">
                                             <a class="commodity_description"
-                                               href="{{ route('products.show', ['product' => $order_item['sku']['product']['id']]) }}">{{ App::isLocale('en') ? $order_item['sku']['product']['name_en'] : $order_item['sku']['product']['name_zh'] }}</a>
+                                               href="{{ route('products.show', ['product' => $order_item['sku']['product']['id']]) }}">
+                                                {{ App::isLocale('en') ? $order_item['sku']['product']['name_en'] : $order_item['sku']['product']['name_zh'] }}
+                                            </a>
                                             <br><br>
                                             <a class="commodity_description"
                                                href="{{ route('products.show', ['product' => $order_item['sku']['product']['id']]) }}">

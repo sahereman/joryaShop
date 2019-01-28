@@ -38,7 +38,7 @@
                                 <tbody>
                                 <tr>
                                     <td class="col-pro-img">
-                                        <a href="">
+                                        <a href="{{ route('products.show', ['product' => $order_item['sku']['product']['id']]) }}">
                                             <img src="{{ $order_item['sku']['product']['thumb_url'] }}">
                                         </a>
                                     </td>
