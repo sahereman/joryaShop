@@ -71,7 +71,8 @@
             @foreach($order->items as $item)
                 <tr>
                     <td>{{ $item->sku->product->name_zh }}</td>
-                    <td>{{ $item->sku->name_zh }} </td>
+                    {{--<td>{{ $item->sku->name_zh }} </td>--}}
+                    <td>{{ $item->sku->parameters_zh }} </td>
                     <td>{{ $item->price }}</td>
                     <td>{{ $item->number }}</td>
                 </tr>
