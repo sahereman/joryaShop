@@ -470,11 +470,15 @@
                                             <p>
                                                 <span>{{ App::isLocale('en') ? $order_item['sku']['product']['name_en'] : $order_item['sku']['product']['name_zh'] }}</span>
                                             </p>
-                                            <p>{{ App::isLocale('en') ? $order_item['sku']['name_en'] : $order_item['sku']['name_zh'] }}</p>
+                                            <p>
+                                                {{--{{ App::isLocale('en') ? $order_item['sku']['name_en'] : $order_item['sku']['name_zh'] }}--}}
+                                                {{ App::isLocale('en') ? $order_item['sku']['parameters_en'] : $order_item['sku']['parameters_zh'] }}
+                                            </p>
                                             <p>
                                                 @lang('order.Unit Price')
                                                 ：{{ $order->currency == "USD" ? '&#36;' : '&#165;' }} {{ $order_item['price'] }}
-                                                &#215; {{ $order_item['number'] }}</p>
+                                                &#215; {{ $order_item['number'] }}
+                                            </p>
                                         </div>
                                     </a>
                                 </li>

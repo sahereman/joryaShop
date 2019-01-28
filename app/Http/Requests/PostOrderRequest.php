@@ -76,7 +76,7 @@ class PostOrderRequest extends Request
                     // 'exists:user_addresses,id',
                     function ($attribute, $value, $fail) {
                         if (!UserAddress::where(['id' => $value, 'user_id' => $this->user()->id])->exists()) {
-                            $fail('该用户地址不存在');
+                            $fail(trans('basic.orders.User_address_does_not_exist'));
                         }
                     },
                 ],
@@ -176,7 +176,7 @@ class PostOrderRequest extends Request
                     // 'exists:user_addresses,id',
                     function ($attribute, $value, $fail) {
                         if (!UserAddress::where(['id' => $value, 'user_id' => $this->user()->id])->exists()) {
-                            $fail('该用户地址不存在');
+                            $fail(trans('basic.orders.User_address_does_not_exist'));
                         }
                     },
                 ],

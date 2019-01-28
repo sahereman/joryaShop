@@ -45,13 +45,18 @@
                                     <td class="col-pro-info">
                                         <p class="p-info">
                                             <a class="commodity_description"
-                                               href="{{ route('products.show', ['product' => $order_item['sku']['product']['id']]) }}">{{ App::isLocale('en') ? $order_item['sku']['product']['name_en'] : $order_item['sku']['product']['name_zh'] }}</a>
+                                               href="{{ route('products.show', ['product' => $order_item['sku']['product']['id']]) }}">
+                                                {{ App::isLocale('en') ? $order_item['sku']['product']['name_en'] : $order_item['sku']['product']['name_zh'] }}
+                                            </a>
                                         </p>
                                     </td>
                                     <td class="col-pro-speci">
                                         <p class="p-info">
                                             <a class="specifications"
-                                               href="{{ route('products.show', ['product' => $order_item['sku']['product']['id']]) }}">{{App::isLocale('en') ? $order_item['sku']['name_en'] : $order_item['sku']['name_zh'] }}</a>
+                                               href="{{ route('products.show', ['product' => $order_item['sku']['product']['id']]) }}">
+                                                {{--{{ App::isLocale('en') ? $order_item['sku']['name_en'] : $order_item['sku']['name_zh'] }}--}}
+                                                {{ App::isLocale('en') ? $order_item['sku']['parameters_en'] : $order_item['sku']['parameters_zh'] }}
+                                            </a>
                                         </p>
                                     </td>
                                     <td class="col-price">

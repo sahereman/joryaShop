@@ -31,7 +31,8 @@
                         </span>
                         <span>
                             <a href="{{ route('mobile.products.show', ['product' => $order_item['sku']['product']['id']]) }}">
-                                {{ App::isLocale('en') ? $order_item['sku']['name_en'] : $order_item['sku']['name_zh'] }}
+                                {{--{{ App::isLocale('en') ? $order_item['sku']['name_en'] : $order_item['sku']['name_zh'] }}--}}
+                                {{ App::isLocale('en') ? $order_item['sku']['parameters_en'] : $order_item['sku']['parameters_zh'] }}
                             </a>
                         </span>
                         </div>

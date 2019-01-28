@@ -50,7 +50,8 @@
                                     <p class="p-info">
                                         <a class="specifications"
                                            href="{{ route('products.show', $order_item['sku']['product']['id']) }}">
-                                            {{ App::isLocale('en') ? $order_item['sku']['name_en'] : $order_item['sku']['name_zh'] }}
+                                            {{--{{ App::isLocale('en') ? $order_item['sku']['name_en'] : $order_item['sku']['name_zh'] }}--}}
+                                            {{ App::isLocale('en') ? $order_item['sku']['parameters_en'] : $order_item['sku']['parameters_zh'] }}
                                         </a>
                                     </p>
                                 </td>
@@ -89,7 +90,8 @@
                                 </div>
                                 <p class="product_parameters">
                                     <span>
-                                        {{ App::isLocale('en') ? $order_item['sku']['name_en'] : $order_item['sku']['name_zh'] }}
+                                        {{--{{ App::isLocale('en') ? $order_item['sku']['name_en'] : $order_item['sku']['name_zh'] }}--}}
+                                        {{ App::isLocale('en') ? $order_item['sku']['parameters_en'] : $order_item['sku']['parameters_zh'] }}
                                     </span>
                                 </p>
                                 <p class="eva_text">{{ $comments[$order_item['id']][0]->content }}</p>

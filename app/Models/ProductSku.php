@@ -63,6 +63,8 @@ class ProductSku extends Model
      */
     protected $appends = [
         'price_in_usd',
+        'parameters_zh',
+        'parameters_en',
     ];
 
     public function getPriceInUsdAttribute()
@@ -72,6 +74,26 @@ class ProductSku extends Model
             return 0.01;
         }
         return $price_in_usd;
+    }
+
+    public function getParametersZhAttribute()
+    {
+        $product = $this->product;
+        $parameters_zh = '';
+        $parameters_zh .= $product->is_base_size_optional ? $this->attributes['base_size_zh'] : '';
+        $parameters_zh .= $product->is_hair_colour_optional ? $this->attributes['hair_colour_zh'] : '';
+        $parameters_zh .= $product->is_hair_density_optional ? $this->attributes['hair_density_zh'] : '';
+        return $parameters_zh;
+    }
+
+    public function getParametersEnAttribute()
+    {
+        $product = $this->product;
+        $parameters_en = '';
+        $parameters_en .= $product->is_base_size_optional ? $this->attributes['base_size_en'] : '';
+        $parameters_en .= $product->is_hair_colour_optional ? $this->attributes['hair_colour_en'] : '';
+        $parameters_en .= $product->is_hair_density_optional ? $this->attributes['hair_density_en'] : '';
+        return $parameters_en;
     }
 
     public function product()

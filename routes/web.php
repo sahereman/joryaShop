@@ -198,6 +198,7 @@ Route::get('products/search_more', 'ProductsController@searchMore')->name('produ
 Route::get('products/search_hint', 'ProductsController@searchHint')->name('products.search_hint'); // 模糊搜素提示结果 [10 records] [for Ajax request]
 Route::get('products/{product}', 'ProductsController@show')->name('products.show'); // 商品详情页
 Route::get('products/{product}/comment', 'ProductsController@comment')->name('products.comment'); // 获取商品评价 [for Ajax request]
+Route::get('products/{product}/get_sku_parameters', 'ProductsController@getSkuParameters')->name('products.get_sku_parameters'); // 获取SKU参数列表[三级联动] [for Ajax request]
 
 /*支付通知 [notify_url]*/
 Route::post('payments/{order}/alipay/notify', 'PaymentsController@alipayNotify')->name('payments.alipay.notify'); // Alipay 支付成功通知 [notify_url]

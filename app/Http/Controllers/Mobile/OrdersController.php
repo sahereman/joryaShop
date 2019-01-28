@@ -229,7 +229,7 @@ class OrdersController extends Controller
     // GET 选择地址+币种页面
     public function prePaymentBySkuParameters(PostOrderRequest $request)
     {
-        $user = $request->user();
+        // $user = $request->user();
         $items = [];
 
         $base_size = $request->query('base_size');
