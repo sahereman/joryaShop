@@ -47,7 +47,9 @@
                                         <span>{{ App::isLocale('en') ? $cart->sku->product->name_en : $cart->sku->product->name_zh }}</span>
                                     </a>
                                 </div>
-                                <div class="left w120 center">
+                                <div class="left w120 center kindofpro">
+                                    <span>{{ App::isLocale('en') ? $cart->sku->name_en : $cart->sku->name_zh }}</span>
+                                    <span>{{ App::isLocale('en') ? $cart->sku->name_en : $cart->sku->name_zh }}</span>
                                     <span>{{ App::isLocale('en') ? $cart->sku->name_en : $cart->sku->name_zh }}</span>
                                 </div>
                                 <div class="left w100 center">

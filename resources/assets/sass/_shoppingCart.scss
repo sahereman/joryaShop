@@ -146,6 +146,17 @@
                             }
                         }
                     }
+                    &.kindofpro {
+                        span {
+                            display: block;
+                            height: 25px;
+                            line-height: 25px;
+                            margin: auto;
+                            &:first-of-type {
+                                margin-top: 25%;
+                            }
+                        }
+                    }
                 }
             }
         }

@@ -82,16 +82,43 @@
                         <span>@lang('product.product_details.freight')</span>
                         <span><i>@lang('basic.currency.symbol') </i>{{ App::isLocale('en') ? $product->shipping_fee_in_usd : $product->shipping_fee }}</span>
                     </div>
-                    <div class="priceOfpro kindOfPro">
-                        <span>@lang('product.product_details.classification')</span>
-                        <ul>
+                    <div class="priceOfpro kindOfPro kindofsize"  data-url="{{ route('products.get_sku_parameters', $product->id) }}">
+                        <span>@lang('product.product_details.base_size')</span>
+                        <select></select>
+                        
+                        {{--<ul>
                             @foreach($skus as $sku)
                                 <li code_num="{{ $sku->stock }}" code_price='{{ App::isLocale('en') ? $sku->price_in_usd : $sku->price }}'>
                                     <span>{{ App::isLocale('en') ? $sku->name_en : $sku->name_zh }}</span>
                                     <input type="hidden" name="sku_id" value="{{ $sku->id }}">
                                 </li>
                             @endforeach
-                        </ul>
+                        </ul>--}}
+                    </div>
+                    <div class="priceOfpro kindOfPro kindofcolor">
+                        <span>@lang('product.product_details.hair_colour')</span>
+                        <select></select>
+                        {{--<ul>
+                            @foreach($skus as $sku)
+                                <li code_num="{{ $sku->stock }}" code_price='{{ App::isLocale('en') ? $sku->price_in_usd : $sku->price }}'>
+                                    <span>{{ App::isLocale('en') ? $sku->name_en : $sku->name_zh }}</span>
+                                    <input type="hidden" name="sku_id" value="{{ $sku->id }}">
+                                </li>
+                            @endforeach
+                        </ul>--}}
+                        
+                    </div>
+                    <div class="priceOfpro kindOfPro kindofdensity">
+                        <span>@lang('product.product_details.hair_density')</span>
+                        <select></select>
+                        {{--<ul>
+                            @foreach($skus as $sku)
+                                <li code_num="{{ $sku->stock }}" code_price='{{ App::isLocale('en') ? $sku->price_in_usd : $sku->price }}'>
+                                    <span>{{ App::isLocale('en') ? $sku->name_en : $sku->name_zh }}</span>
+                                    <input type="hidden" name="sku_id" value="{{ $sku->id }}">
+                                </li>
+                            @endforeach
+                        </ul>--}}
                     </div>
                     <div class="priceOfpro">
                         <span class="buy_numbers">@lang('product.product_details.Quantity')</span>
@@ -247,6 +274,7 @@
         var next_page;   //下一页的页码
         var pre_page;   //上一页的页码
         var country = $("#dLabel").find("span").html();
+        var sku_id;
         $('#img_x li').eq(0).css('border', '2px solid #bc8c61');
         $('#zhezhao').mousemove(function (e) {
             $('#img_u').show();
@@ -368,17 +396,23 @@
         });
         //加入购物车
         $(".add_carts").on("click", function () {
+        	var data = {
+        		base_size: $(".kindofsize select").val(),
+        		hair_colour: $(".kindofcolor select").val(),
+        		hair_density: $(".kindofdensity select").val()
+        	}
+        	getskuList(data,"getSku",false);
             var clickDom = $(this);
-            if ($(".kindOfPro").find("li").hasClass('active') != true) {
-                layer.msg("@lang('product.product_details.Please select specifications')");
-            } else {
+//          if ($(".kindOfPro").find("li").hasClass('active') != true) {
+//              layer.msg("@lang('product.product_details.Please select specifications')");
+//          } else {
                 if ($(this).hasClass('for_show_login') == true) {
                     $(".login").click();
                 } else {
                     var data = {
                         _token: "{{ csrf_token() }}",
-                        sku_id: $(".kindOfPro ul").find("li.active").find("input").val(),
-                        number: $("#pro_num").val()
+                        sku_id: sku_id,
+                        number: $("#pro_num").val(),
                     };
                     var url = clickDom.attr('data-url');
                     $.ajax({
@@ -394,21 +428,27 @@
                         }
                     });
                 }
-            }
+//          }
         });
         //立即购买
         $(".buy_now").on("click", function () {
             var clickDom = $(this);
-            if ($(".kindOfPro").find("li").hasClass('active') != true) {
-                layer.msg("@lang('product.product_details.Please select specifications')");
-            } else {
+//          if ($(".kindOfPro").find("li").hasClass('active') != true) {
+//              layer.msg("@lang('product.product_details.Please select specifications')");
+//          } else {
                 if ($(this).hasClass('for_show_login') == true) {
                     $(".login").click();
                 } else {
                     var url = clickDom.attr('data-url');
-                    window.location.href = url + "?sku_id=" + $(".kindOfPro ul").find("li.active").find("input").val() + "&number=" + $("#pro_num").val() + "&sendWay=1";
+                    var data = {
+		        		base_size: $(".kindofsize select").val(),
+		        		hair_colour: $(".kindofcolor select").val(),
+		        		hair_density: $(".kindofdensity select").val()
+		        	}
+		        	getskuList(data,"getSku",false);
+                    window.location.href = url + "?sku_id=" + sku_id + "&number=" + $("#pro_num").val() + "&sendWay=1";
                 }
-            }
+//          }
         });
         //获取评价内容
         function getEva(page) {
@@ -542,5 +582,77 @@
                 }
             });
         });
+        //获取sku参数列表
+        var data= {}
+        getskuList(data,"change",true);
+        function getskuList (data,askType,asyncType){
+        	var url = $(".kindofsize").attr('data-url');
+            $.ajax({
+                type: "get",
+                url: url,
+                data: data,
+                async:asyncType,
+                success: function (data) {
+                	var html="";
+                	var html2="";
+                	var html3="";
+                	if(data.code == 200){
+                		if(askType == "change") {
+                			var base_sizes = data.data.$parameters.base_sizes,
+	                		    hair_colours = data.data.$parameters.hair_colours,
+	                		    hair_densities = data.data.$parameters.hair_densities;
+	                		if(base_sizes.length!=0) {
+	                			$.each(base_sizes, function(i,n) {
+	                				html+="<option value='"+ n +"'>"+ n +"</option>"
+	                			});
+	                			$(".kindofsize select").html("");
+	                			$(".kindofsize select").append(html);
+	                		}
+	                		if(hair_colours.length!=0) {
+	                			$.each(hair_colours, function(i,n) {
+	                				html2+="<option value='"+ n +"'>"+ n +"</option>"
+	                			});
+	                			$(".kindofcolor select").html("");
+	                			$(".kindofcolor select").append(html2);
+	                		}
+	                		if(hair_densities.length!=0) {
+	                			$.each(hair_densities, function(i,n) {
+	                				html3+="<option value='"+ n +"'>"+ n +"</option>"
+	                			});
+	                			$(".kindofdensity select").html("");
+	                			$(".kindofdensity select").append(html3);
+	                		}	
+                		}else {
+                			sku_id = data.data.sku_id;
+                		}
+                	}
+                	if(data.code == 401) {
+                		layer.msg(data.message);
+                	}
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            });
+        }
+        $(".kindofsize select").on("change",function(){
+        	var data = {
+        		base_size: $(".kindofsize select").val()
+        	}
+        	getskuList(data,"change",true);
+        })
+        $(".kindofcolor select").on("change",function(){
+        	var data = {
+        		hair_colour: $(".kindofcolor select").val()
+        	}
+        	getskuList(data,"change",true);
+        })
+        $(".kindofdensity select").on("change",function(){
+        	var data = {
+        		hair_density: $(".kindofdensity select").val()
+        	}
+        	getskuList(data,"change",true);
+        })
+        
     </script>
 @endsection
