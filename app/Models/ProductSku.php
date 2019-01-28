@@ -91,8 +91,8 @@ class ProductSku extends Model
         $product = $this->product;
         $parameters_en = '';
         $parameters_en .= $product->is_base_size_optional ? $this->attributes['base_size_en'] : '';
-        $parameters_en .= $product->is_hair_colour_optional ? $this->attributes['hair_colour_en'] : '';
-        $parameters_en .= $product->is_hair_density_optional ? $this->attributes['hair_density_en'] : '';
+        $parameters_en .= $product->is_hair_colour_optional ? ' - ' . $this->attributes['hair_colour_en'] : '';
+        $parameters_en .= $product->is_hair_density_optional ? ' - ' . $this->attributes['hair_density_en'] : '';
         return $parameters_en;
     }
 
