@@ -82,10 +82,9 @@
                         <span>@lang('product.product_details.freight')</span>
                         <span><i>@lang('basic.currency.symbol') </i>{{ App::isLocale('en') ? $product->shipping_fee_in_usd : $product->shipping_fee }}</span>
                     </div>
-                    <div class="priceOfpro kindOfPro kindofsize"  data-url="{{ route('products.get_sku_parameters', $product->id) }}">
+                    <div class="priceOfpro kindOfPro kindofsize" data-url="{{ route('products.get_sku_parameters', $product->id) }}">
                         <span>@lang('product.product_details.base_size')</span>
                         <select></select>
-                        
                         {{--<ul>
                             @foreach($skus as $sku)
                                 <li code_num="{{ $sku->stock }}" code_price='{{ App::isLocale('en') ? $sku->price_in_usd : $sku->price }}'>
@@ -106,7 +105,6 @@
                                 </li>
                             @endforeach
                         </ul>--}}
-                        
                     </div>
                     <div class="priceOfpro kindOfPro kindofdensity">
                         <span>@lang('product.product_details.hair_density')</span>
@@ -269,10 +267,10 @@
 @endsection
 @section('scriptsAfterJs')
     <script type="text/javascript">
-        var loading_animation;  //loading动画的全局name
-        var current_page;  //评价的当前页
-        var next_page;   //下一页的页码
-        var pre_page;   //上一页的页码
+        var loading_animation;  // loading动画的全局name
+        var current_page;  // 评价的当前页
+        var next_page;   // 下一页的页码
+        var pre_page;   // 上一页的页码
         var country = $("#dLabel").find("span").html();
         var sku_id;
         $('#img_x li').eq(0).css('border', '2px solid #bc8c61');
@@ -306,18 +304,18 @@
             $('#mediumContainer img').eq(0).attr('src', $(this).attr('code'));
             $('#img_u img').eq(0).attr('src', $(this).attr('code'));
         });
-        //控制商品下单的数量显示
+        // 控制商品下单的数量显示
         $(".add").on("click", function () {
-        	if ($(".kindOfPro").find("li").hasClass('active') != true) {
+            if ($(".kindOfPro").find("li").hasClass('active') != true) {
                 layer.msg("@lang('product.product_details.Please select specifications')");
             } else {
-	            $(".reduce").removeClass('no_allow');
-	            if(parseInt($("#pro_num").val())<parseInt($(".kindOfPro").find("li.active").attr('code_num'))){
-	            	var num = parseInt($("#pro_num").val()) + 1;
-	                $("#pro_num").val(num);	
-	            }else{
-	            	layer.msg("@lang('order.Cannot add more quantities')");
-	            }
+                $(".reduce").removeClass('no_allow');
+                if (parseInt($("#pro_num").val()) < parseInt($(".kindOfPro").find("li.active").attr('code_num'))) {
+                    var num = parseInt($("#pro_num").val()) + 1;
+                    $("#pro_num").val(num);
+                } else {
+                    layer.msg("@lang('order.Cannot add more quantities')");
+                }
             }
         });
         $(".reduce").on("click", function () {
@@ -331,13 +329,13 @@
                 }
             }
         });
-        //点击添加收藏
+        // 点击添加收藏
         $(".add_favourites").on("click", function () {
             var clickDom = $(this);
             if (clickDom.hasClass('active') != true && clickDom.attr('data-url_2') == '') {
                 var data = {
                     _token: "{{ csrf_token() }}",
-                    product_id: clickDom.attr("code")
+                    product_id: clickDom.attr("code"),
                 };
                 var url = clickDom.attr('data-url');
                 $.ajax({
@@ -353,7 +351,7 @@
                         if (err.status == 422) {
                             layer.msg($.parseJSON(err.responseText).errors.product_id[0]);
                         }
-                    }
+                    },
                 });
             } else {
                 var data = {
@@ -371,7 +369,7 @@
                     },
                     error: function (err) {
                         console.log(err);
-                    }
+                    },
                 });
             }
         });
@@ -396,61 +394,61 @@
         });
         //加入购物车
         $(".add_carts").on("click", function () {
-        	var data = {
-        		base_size: $(".kindofsize select").val(),
-        		hair_colour: $(".kindofcolor select").val(),
-        		hair_density: $(".kindofdensity select").val()
-        	}
-        	getskuList(data,"getSku",false);
+            var data = {
+                base_size: $(".kindofsize select").val(),
+                hair_colour: $(".kindofcolor select").val(),
+                hair_density: $(".kindofdensity select").val(),
+            };
+            getSkuParameters(data, "getSkuId", false);
             var clickDom = $(this);
-//          if ($(".kindOfPro").find("li").hasClass('active') != true) {
-//              layer.msg("@lang('product.product_details.Please select specifications')");
-//          } else {
-                if ($(this).hasClass('for_show_login') == true) {
-                    $(".login").click();
-                } else {
-                    var data = {
-                        _token: "{{ csrf_token() }}",
-                        sku_id: sku_id,
-                        number: $("#pro_num").val(),
-                    };
-                    var url = clickDom.attr('data-url');
-                    $.ajax({
-                        type: "post",
-                        url: url,
-                        data: data,
-                        success: function (data) {
-                            layer.alert("@lang('product.product_details.Shopping cart added successfully')");
-                            $(".for_cart_num").load(location.href + " .shop_cart_num");
-                        },
-                        error: function (err) {
-                            console.log(err);
-                        }
-                    });
-                }
-//          }
+            /*if ($(".kindOfPro").find("li").hasClass('active') != true) {
+             layer.msg("@lang('product.product_details.Please select specifications')");
+             } else {*/
+            if ($(this).hasClass('for_show_login') == true) {
+                $(".login").click();
+            } else {
+                var data = {
+                    _token: "{{ csrf_token() }}",
+                    sku_id: sku_id,
+                    number: $("#pro_num").val(),
+                };
+                var url = clickDom.attr('data-url');
+                $.ajax({
+                    type: "post",
+                    url: url,
+                    data: data,
+                    success: function (data) {
+                        layer.alert("@lang('product.product_details.Shopping cart added successfully')");
+                        $(".for_cart_num").load(location.href + " .shop_cart_num");
+                    },
+                    error: function (err) {
+                        console.log(err);
+                    }
+                });
+            }
+            // }
         });
         //立即购买
         $(".buy_now").on("click", function () {
             var clickDom = $(this);
-//          if ($(".kindOfPro").find("li").hasClass('active') != true) {
-//              layer.msg("@lang('product.product_details.Please select specifications')");
-//          } else {
-                if ($(this).hasClass('for_show_login') == true) {
-                    $(".login").click();
-                } else {
-                    var url = clickDom.attr('data-url');
-                    var data = {
-		        		base_size: $(".kindofsize select").val(),
-		        		hair_colour: $(".kindofcolor select").val(),
-		        		hair_density: $(".kindofdensity select").val()
-		        	}
-		        	getskuList(data,"getSku",false);
-                    window.location.href = url + "?sku_id=" + sku_id + "&number=" + $("#pro_num").val() + "&sendWay=1";
-                }
-//          }
+            /*if ($(".kindOfPro").find("li").hasClass('active') != true) {
+             layer.msg("@lang('product.product_details.Please select specifications')");
+             } else {*/
+            if ($(this).hasClass('for_show_login') == true) {
+                $(".login").click();
+            } else {
+                var url = clickDom.attr('data-url');
+                var data = {
+                    base_size: $(".kindofsize select").val(),
+                    hair_colour: $(".kindofcolor select").val(),
+                    hair_density: $(".kindofdensity select").val()
+                };
+                getSkuParameters(data, "getSkuId", false);
+                window.location.href = url + "?sku_id=" + sku_id + "&number=" + $("#pro_num").val() + "&sendWay=1";
+            }
+            // }
         });
-        //获取评价内容
+        // 获取评价内容
         function getEva(page) {
             var data = {
                 page: page
@@ -463,7 +461,7 @@
                     loading_animation = layer.msg("@lang('app.Please wait')", {
                         icon: 16,
                         shade: 0.4,
-                        time: false //取消自动关闭
+                        time: false, // 取消自动关闭
                     });
                 },
                 success: function (json) {
@@ -479,12 +477,14 @@
                         $(".next_page").attr("disabled", true);
                     } else {
                         var html = "";
-                        var name;
+                        // var name;
+                        var parameters;
                         $(".composite_index").text((json.data.composite_index).toFixed(1));
                         $(".description_index").text((json.data.description_index).toFixed(1));
                         $(".shipment_index").text((json.data.shipment_index).toFixed(1));
                         $.each(dataObj, function (i, n) {
-                            name = (country == "中文") ? n.order_item.sku.name_zh : n.order_item.sku.name_en;
+                            // name = (country == "中文") ? n.order_item.sku.name_zh : n.order_item.sku.name_en;
+                            parameters = (country == "中文") ? n.order_item.sku.parameters_zh : n.order_item.sku.parameters_en;
                             dataObj_photo = n.photo_urls;
                             html += "<div class='item'>";
                             html += "<div class='evaluation_results_left'>";
@@ -498,7 +498,8 @@
                             html += "<img src='" + "{{ config('app.url') }}" + "/img/star-" + n.composite_index + ".png' />";
                             html += "</div>";
                             html += "<p class='product_parameters'>";
-                            html += "<span>" + name + "</span>";
+                            // html += "<span>" + name + "</span>";
+                            html += "<span>" + parameters + "</span>";
                             html += "</p>";
                             html += "<p class='eva_text'>" + n.content + "</p>";
                             html += "<ul class='evaluation_img'>";
@@ -535,29 +536,29 @@
                     layer.close(loading_animation);
                 }
             });
-            //放大镜的缩略图的上一页与下一页
+            // 放大镜的缩略图的上一页与下一页
         }
-        //点击分页
-        //上一页
+        // 点击分页
+        // 上一页
         $(".pre_page").on("click", function () {
             getEva($(this).attr("code"));
         });
-        //下一页
+        // 下一页
         $(".next_page").on("click", function () {
             getEva($(this).attr("code"));
         });
-        //图片预览小图移动效果,页面加载时触发
+        // 图片预览小图移动效果,页面加载时触发
         $(function () {
-            var tempLength = 0; //临时变量,当前移动的长度
-            var viewNum = 5; //设置每次显示图片的个数量
-            var moveNum = 2; //每次移动的数量
-            var moveTime = 300; //移动速度,毫秒
-            var scrollDiv = $(".spec-scroll .img_items ul"); //进行移动动画的容器
-            var scrollItems = $(".spec-scroll .img_items ul li"); //移动容器里的集合
-            var moveLength = scrollItems.eq(0).width() * moveNum; //计算每次移动的长度
-            var countLength = (scrollItems.length - viewNum) * scrollItems.eq(0).width(); //计算总长度,总个数*单个长度
+            var tempLength = 0; // 临时变量,当前移动的长度
+            var viewNum = 5; // 设置每次显示图片的个数量
+            var moveNum = 2; // 每次移动的数量
+            var moveTime = 300; // 移动速度,毫秒
+            var scrollDiv = $(".spec-scroll .img_items ul"); // 进行移动动画的容器
+            var scrollItems = $(".spec-scroll .img_items ul li"); // 移动容器里的集合
+            var moveLength = scrollItems.eq(0).width() * moveNum; // 计算每次移动的长度
+            var countLength = (scrollItems.length - viewNum) * scrollItems.eq(0).width(); // 计算总长度,总个数*单个长度
 
-            //下一张
+            // 下一张
             $(".spec-scroll .next").on("click", function () {
                 if (tempLength < countLength) {
                     if ((countLength - tempLength) > moveLength) {
@@ -569,7 +570,7 @@
                     }
                 }
             });
-            //上一张
+            // 上一张
             $(".spec-scroll .prev").on("click", function () {
                 if (tempLength > 0) {
                     if (tempLength > moveLength) {
@@ -582,77 +583,76 @@
                 }
             });
         });
-        //获取sku参数列表
-        var data= {}
-        getskuList(data,"change",true);
-        function getskuList (data,askType,asyncType){
-        	var url = $(".kindofsize").attr('data-url');
+        // 获取sku参数列表
+        var query_data = {};
+        getSkuParameters(query_data, "change", true);
+        function getSkuParameters(data, requestType, asyncType) {
+            var url = $(".kindofsize").attr('data-url');
             $.ajax({
                 type: "get",
                 url: url,
                 data: data,
-                async:asyncType,
+                async: asyncType,
                 success: function (data) {
-                	var html="";
-                	var html2="";
-                	var html3="";
-                	if(data.code == 200){
-                		if(askType == "change") {
-                			var base_sizes = data.data.$parameters.base_sizes,
-	                		    hair_colours = data.data.$parameters.hair_colours,
-	                		    hair_densities = data.data.$parameters.hair_densities;
-	                		if(base_sizes.length!=0) {
-	                			$.each(base_sizes, function(i,n) {
-	                				html+="<option value='"+ n +"'>"+ n +"</option>"
-	                			});
-	                			$(".kindofsize select").html("");
-	                			$(".kindofsize select").append(html);
-	                		}
-	                		if(hair_colours.length!=0) {
-	                			$.each(hair_colours, function(i,n) {
-	                				html2+="<option value='"+ n +"'>"+ n +"</option>"
-	                			});
-	                			$(".kindofcolor select").html("");
-	                			$(".kindofcolor select").append(html2);
-	                		}
-	                		if(hair_densities.length!=0) {
-	                			$.each(hair_densities, function(i,n) {
-	                				html3+="<option value='"+ n +"'>"+ n +"</option>"
-	                			});
-	                			$(".kindofdensity select").html("");
-	                			$(".kindofdensity select").append(html3);
-	                		}	
-                		}else {
-                			sku_id = data.data.sku_id;
-                		}
-                	}
-                	if(data.code == 401) {
-                		layer.msg(data.message);
-                	}
+                    var base_size_options = "";
+                    var hair_colour_options = "";
+                    var hair_density_options = "";
+                    if (data.code == 200) {
+                        if (requestType == "change") {
+                            var base_sizes = data.data.parameters.base_sizes,
+                                    hair_colours = data.data.parameters.hair_colours,
+                                    hair_densities = data.data.parameters.hair_densities;
+                            if (base_sizes.length != 0) {
+                                $.each(base_sizes, function (i, n) {
+                                    base_size_options += "<option value='" + n + "'>" + n + "</option>"
+                                });
+                                $(".kindofsize select").html(base_size_options);
+                            }
+                            if (hair_colours.length != 0) {
+                                $.each(hair_colours, function (i, n) {
+                                    hair_colour_options += "<option value='" + n + "'>" + n + "</option>"
+                                });
+                                $(".kindofcolor select").html(hair_colour_options);
+                            }
+                            if (hair_densities.length != 0) {
+                                $.each(hair_densities, function (i, n) {
+                                    hair_density_options += "<option value='" + n + "'>" + n + "</option>"
+                                });
+                                $(".kindofdensity select").html(hair_density_options);
+                            }
+                        } else {
+                            sku_id = data.data.sku_id;
+                        }
+                    }
+                    if (data.code == 401) {
+                        layer.msg(data.message);
+                    }
                 },
                 error: function (err) {
                     console.log(err);
-                }
+                },
             });
         }
-        $(".kindofsize select").on("change",function(){
-        	var data = {
-        		base_size: $(".kindofsize select").val()
-        	}
-        	getskuList(data,"change",true);
-        })
-        $(".kindofcolor select").on("change",function(){
-        	var data = {
-        		hair_colour: $(".kindofcolor select").val()
-        	}
-        	getskuList(data,"change",true);
-        })
-        $(".kindofdensity select").on("change",function(){
-        	var data = {
-        		hair_density: $(".kindofdensity select").val()
-        	}
-        	getskuList(data,"change",true);
-        })
-        
+        $(".kindofsize select").on("change", function () {
+            /*var data = {
+                base_size: $(".kindofsize select").val(),
+            };*/
+            query_data.base_size = $(".kindofsize select").val();
+            getSkuParameters(query_data, "change", true);
+        });
+        $(".kindofcolor select").on("change", function () {
+            /*var data = {
+                hair_colour: $(".kindofcolor select").val(),
+            };*/
+            query_data.hair_colour = $(".kindofcolor select").val();
+            getSkuParameters(query_data, "change", true);
+        });
+        $(".kindofdensity select").on("change", function () {
+            /*var data = {
+                hair_density: $(".kindofdensity select").val(),
+            };*/
+            query_data.hair_density = $(".kindofdensity select").val();
+            getSkuParameters(query_data, "change", true);
+        });
     </script>
 @endsection

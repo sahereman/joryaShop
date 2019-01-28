@@ -30,7 +30,9 @@
                                 {{ App::isLocale('en') ? $cart->sku->product->name_en : $cart->sku->product->name_zh }}
                             </div>
                             <div class="goodsSpec">
-                                <span>{{ App::isLocale('en') ? $cart->sku->name_en : $cart->sku->name_zh }}</span>
+                                <span>{{ App::isLocale('en') ? $cart->sku->base_size_en : $cart->sku->base_size_zh }}</span>
+                                <span>{{ App::isLocale('en') ? $cart->sku->hair_colour_en : $cart->sku->hair_colour_zh }}</span>
+                                <span>{{ App::isLocale('en') ? $cart->sku->hair_density_en : $cart->sku->hair_density_zh }}</span>
                             </div>
                             <div class="goodsPri">
                                 <div>

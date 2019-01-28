@@ -117,7 +117,8 @@
                         success: function (data) {
                             var orders = data.data.orders.data;
                             var html = "";
-                            var name, sum, symbol, price, sku_name, total_price, total_price1, total_price2;
+                            // var name, sum, symbol, price, sku_name, total_price, total_price1, total_price2;
+                            var name, sum, symbol, price, sku_parameters, total_price, total_price1, total_price2;
                             if (orders.length > 0) {
                                 $(".no_order").addClass("dis_n");
                                 $(".orderMain .lists").removeClass("dis_n");
@@ -157,7 +158,8 @@
                                     if (order.snapshot.length > 0) {
                                         $.each(order.snapshot, function (i, order_item) {
                                             name = ($(".orderMain").attr("code") == "en") ? order_item.sku.product.name_en : order_item.sku.product.name_zh;
-                                            sku_name = ($(".orderMain").attr("code") == "en") ? order_item.sku.name_en : order_item.sku.name_zh;
+                                            // sku_name = ($(".orderMain").attr("code") == "en") ? order_item.sku.name_en : order_item.sku.name_zh;
+                                            sku_parameters = ($(".orderMain").attr("code") == "en") ? order_item.sku.parameters_en : order_item.sku.parameters_zh;
                                             price = (order.currency == "CNY") ? order_item.sku.product.price : order_item.sku.product.price_in_usd;
                                             total_price1 = float_multiply_by_100(order.total_amount) + float_multiply_by_100(order.total_shipping_fee);
                                             total_price = js_number_format(total_price1 / 100);
@@ -168,7 +170,8 @@
                                             html += "<div class='orderDal' code='" + order.id + "'>";
                                             html += "<div class='orderIntroduce'>";
                                             html += "<div class='goodsName'>" + name + "</div>";
-                                            html += "<div class='goodsSku'>" + sku_name + "</div>";
+                                            // html += "<div class='goodsSku'>" + sku_name + "</div>";
+                                            html += "<div class='goodsSku'>" + sku_parameters + "</div>";
                                             html += "</div>";
                                             html += "<div class='orderPrice'>";
                                             html += "<div>" + price + "</div>";

@@ -336,7 +336,7 @@ class ProductsController extends Controller
             'code' => 200,
             'message' => 'success',
             'data' => [
-                '$parameters' => $parameters,
+                'parameters' => $parameters,
             ],
         ]);
     }

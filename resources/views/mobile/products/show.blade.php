@@ -138,7 +138,8 @@
                     <div class="skuListHead">@lang('product.product_details.classification')</div>
                     <ul class="skuListMain">
                         @foreach($skus as $sku)
-                            <li code_num="{{ $sku->stock }}" code_price='{{ App::isLocale('en') ? $sku->price_in_usd : $sku->price }}'>
+                            <li code_num="{{ $sku->stock }}"
+                                code_price='{{ App::isLocale('en') ? $sku->price_in_usd : $sku->price }}'>
                                 <span>{{ App::isLocale('en') ? $sku->name_en : $sku->name_zh }}</span>
                                 <input type="hidden" name="sku_id" value="{{ $sku->id }}">
                             </li>
@@ -165,7 +166,7 @@
     <script type="text/javascript" src="{{ asset('static_m/js/clipboard/clipboard.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('static_m/js/dropload/dropload.min.js') }}"></script>
     <script type="text/javascript">
-        //页面单独JS写这里
+        // 页面单独JS写这里
         var mySwiper = new Swiper('.swiper-container', {
             loop: true,
             // 如果需要分页器
@@ -173,9 +174,9 @@
             autoplay: 3000,
             stopOnLastSlide: true,
         });
-        var which_click = 0;   //通过判断which_click的值来确定是什么功能,0:选择规格,1:添加收藏，2：加入购物车，3：立即购买
+        var which_click = 0; // 通过判断which_click的值来确定是什么功能,0:选择规格,1:添加收藏，2：加入购物车，3：立即购买
         var clickDom;
-        //点击透明阴影关闭弹窗
+        // 点击透明阴影关闭弹窗
         $(".mask").on("click", function () {
             $(this).parents(".skuBox").css("display", "none");
         });
@@ -190,49 +191,49 @@
                     layer.open({
                         content: "@lang('order.The number of goods is at least 1')",
                         skin: 'msg',
-                        time: 2, //2秒后自动关闭
+                        time: 2, // 2秒后自动关闭
                     });
                 }
             } else {
-            	if ($(".skuListMain").find("li").hasClass('active') != true) {
-	                layer.open({
+                if ($(".skuListMain").find("li").hasClass('active') != true) {
+                    layer.open({
                         content: "@lang('product.product_details.Please select specifications')",
                         skin: 'msg',
-                        time: 2, //2秒后自动关闭
+                        time: 2, // 2秒后自动关闭
                     });
-	            } else {
-	            	var count = parseInt($(this).prev().html());
-	            	if(parseInt(count)<parseInt($(".skuListMain").find("li.active").attr('code_num'))){
-	                    count += 1;
-	                    $(this).prev().html(count);
-		            }else{
-		            	layer.open({
-	                        content: "@lang('order.Cannot add more quantities')",
-	                        skin: 'msg',
-	                        time: 2, //2秒后自动关闭
-	                    });
-		            }
+                } else {
+                    var count = parseInt($(this).prev().html());
+                    if (parseInt(count) < parseInt($(".skuListMain").find("li.active").attr('code_num'))) {
+                        count += 1;
+                        $(this).prev().html(count);
+                    } else {
+                        layer.open({
+                            content: "@lang('order.Cannot add more quantities')",
+                            skin: 'msg',
+                            time: 2, // 2秒后自动关闭
+                        });
+                    }
                 }
             }
         });
-//      $(function(){
-//      	getEva();
-//      })
-        //商品详情与商品评价切换
+        // $(function () {
+            // getEva();
+        // });
+        // 商品详情与商品评价切换
         $(".gIntroHead>span").on("click", function () {
             $(this).addClass("gIntroHeadActive").siblings().removeClass("gIntroHeadActive");
-            //通过 .index()方法获取元素下标，从0开始，赋值给某个变量
+            // 通过 .index()方法获取元素下标，从0开始，赋值给某个变量
             var _index = $(this).index();
             if (_index == 1) {
                 $(".dropload-down").remove();
                 $(".lists").children().remove();
                 getEva($('.gIntroConEvaluate'));
             }
-            //让内容框的第 _index 个显示出来，其他的被隐藏
+            // 让内容框的第 _index 个显示出来，其他的被隐藏
             $(".gIntroCon>div").eq(_index).show().siblings().hide();
 
         });
-        //全部和有图进行切换
+        // 全部和有图进行切换
         $(".gEvaHead span").on("click", function () {
             $(this).addClass("gEvaHeadActive").siblings().removeClass("gEvaHeadActive");
         });
@@ -247,14 +248,14 @@
         $(".btnBox button").on("click", function () {
             which_el_toDo(which_click, clickDom);
         });
-        //点击购物车
+        // 点击购物车
         $(".backCart").on("click", function () {
             window.location.href = "{{route('mobile.carts.index')}}";
         });
-        //点击收藏
+        // 点击收藏
         $(".gCollect").on("click", function () {
             if ($(this).hasClass('active') != true) {
-//              $(".skuBox").css("display", "block");
+                // $(".skuBox").css("display", "block");
                 if ($(this).hasClass('for_show_login') == true) {
                     window.location.href = $(this).attr("data-url");
                 } else {
@@ -264,39 +265,39 @@
                 remove_favourites($(this));
             }
         });
-        //点击加入购物车
+        // 点击加入购物车
         $(".addCart").on("click", function () {
             $(".skuBox").css("display", "block");
             clickDom = $(this);
             which_click = 2;
         });
-        //点击立即购买
+        // 点击立即购买
         $(".buy").on("click", function () {
             $(".skuBox").css("display", "block");
             clickDom = $(this);
             which_click = 3;
         });
-        //点击选择规格
+        // 点击选择规格
         $(".gChooseBox").on("click", function () {
             $(".skuBox").css("display", "block");
             clickDom = $(this);
             which_click = 0;
         });
-        //点击确定根据不同的触发条件调用不用的事件
+        // 点击确定根据不同的触发条件调用不用的事件
         function which_el_toDo(which_click, clickDom) {
             switch (which_click) {
                 case 0:
                     $(".gChooseBox").html("@lang('product.product_details.classification')：" + $(".skuListMain").find("li.active").find("span").html());
                     $(".skuBox").css("display", "none");
                     break;
-                case 1:      //添加收藏
+                case 1: // 添加收藏
                     break;
                 case 2:
                     if ($(".skuListMain").find("li").hasClass('active') != true) {
                         layer.open({
                             content: "@lang('product.product_details.Please select specifications')",
                             skin: 'msg',
-                            time: 2, //2秒后自动关闭
+                            time: 2, // 2秒后自动关闭
                         });
                     } else {
                         if (clickDom.hasClass('for_show_login') == true) {
@@ -315,7 +316,7 @@
             }
 
         }
-        //添加收藏
+        // 添加收藏
         function add_favourites(clickDom) {
             var data = {
                 _token: "{{ csrf_token() }}",
@@ -340,13 +341,13 @@
                         layer.open({
                             content: $.parseJSON(err.responseText).errors.product_id[0],
                             skin: 'msg',
-                            time: 2, //2秒后自动关闭
+                            time: 2, // 2秒后自动关闭
                         });
                     }
                 }
             });
         }
-        //移除收藏
+        // 移除收藏
         function remove_favourites(clickDom) {
             var data = {
                 _method: "DELETE",
@@ -370,7 +371,7 @@
                 }
             });
         }
-        //加入购物车
+        // 加入购物车
         function add_carts(clickDom) {
             var data = {
                 _token: "{{ csrf_token() }}",
@@ -386,7 +387,7 @@
                     layer.open({
                         content: "@lang('product.product_details.Shopping cart added successfully')",
                         skin: 'msg',
-                        time: 2, //2秒后自动关闭
+                        time: 2, // 2秒后自动关闭
                     });
                     $(".skuBox").css("display", "none");
                     $(".header-search").load(location.href + " .header-search");
@@ -396,13 +397,13 @@
                 }
             });
         }
-        //立即购买
+        // 立即购买
         function buy_now(clickDom) {
             if ($(".skuListMain").find("li").hasClass('active') != true) {
                 layer.open({
                     content: "@lang('product.product_details.Please select specifications')",
                     skin: 'msg',
-                    time: 2, //2秒后自动关闭
+                    time: 2, // 2秒后自动关闭
                 });
             } else {
                 if (clickDom.hasClass('for_show_login') == true) {
@@ -413,7 +414,7 @@
                 }
             }
         }
-        //分享复制到剪切板
+        // 分享复制到剪切板
         var clipboard = new ClipboardJS('.gShare');
 
         clipboard.on('success', function (e) {
@@ -421,7 +422,7 @@
             layer.open({
                 content: "@lang('product.Content has been copied to the clipboard')",
                 skin: 'msg',
-                time: 2, //2秒后自动关闭
+                time: 2, // 2秒后自动关闭
             });
         });
 
@@ -430,14 +431,14 @@
             layer.open({
                 content: "@lang('product.Copy to clipboard failed')",
                 skin: 'msg',
-                time: 2, //2秒后自动关闭
+                time: 2, // 2秒后自动关闭
             });
         });
-        //下拉加载获取评价内容
+        // 下拉加载获取评价内容
         function getEva(dom) {
             // 页数
             var page = 1;
-            var Dom = dom||window;
+            var Dom = dom || window;
             // dropload
             $('.gIntroConEvaluate').dropload({
                 scrollArea: Dom,
@@ -462,12 +463,14 @@
                             var dataObj = data.data.comments.data;
                             var dataObj_photo;
                             if (dataObj.length > 0) {
-                                var name;
+                                // var name;
+                                var parameters;
                                 $(".composite_index").text((data.data.composite_index).toFixed(1));
                                 $(".description_index").text((data.data.description_index).toFixed(1));
                                 $(".shipment_index").text((data.data.shipment_index).toFixed(1));
                                 $.each(dataObj, function (i, n) {
-                                    name = ($(".gIntroConEvaluate").attr("code") == "en") ? n.order_item.sku.name_en : n.order_item.sku.name_zh;
+                                    // name = ($(".gIntroConEvaluate").attr("code") == "en") ? n.order_item.sku.name_en : n.order_item.sku.name_zh;
+                                    parameters = ($(".gIntroConEvaluate").attr("code") == "en") ? n.order_item.sku.parameters_en : n.order_item.sku.parameters_zh;
                                     dataObj_photo = n.photo_urls;
                                     html += "<div class='commentDetail'>";
                                     html += "<div class='comUser'>";
@@ -478,7 +481,8 @@
                                     html += "</div>";
                                     html += "</div>";
                                     html += "<div class='comSku'>";
-                                    html += "<span>" + name + "</span>";
+                                    // html += "<span>" + name + "</span>";
+                                    html += "<span>" + parameters + "</span>";
                                     html += "</div>";
                                     html += "<div class='comCon'>" + n.content + "</div>";
                                     html += "<div class='comPicture'>";
