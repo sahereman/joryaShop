@@ -266,7 +266,7 @@
         var next_page;   // 下一页的页码
         var pre_page;   // 上一页的页码
         var country = $("#dLabel").find("span").html();
-        var sku_id;
+        var sku_id,sku_stock;
         $('#img_x li').eq(0).css('border', '2px solid #bc8c61');
         $('#zhezhao').mousemove(function (e) {
             $('#img_u').show();
@@ -304,7 +304,15 @@
 //              layer.msg("@lang('product.product_details.Please select specifications')");
 //          } else {
                 $(".reduce").removeClass('no_allow');
-                if (parseInt($("#pro_num").val()) < parseInt($(".kindOfPro").find("li.active").attr('code_num'))) {
+                 var data = {
+                    base_size: $(".kindofsize select").val(),
+                    hair_colour: $(".kindofcolor select").val(),
+                    hair_density: $(".kindofdensity select").val()
+                };
+                if(parseInt($("#pro_num").val()) == 1) {
+                	getSkuParameters(data, "getSkuId", false);	
+                }
+                if (parseInt($("#pro_num").val()) < sku_stock) {
                     var num = parseInt($("#pro_num").val()) + 1;
                     $("#pro_num").val(num);
                 } else {
@@ -613,7 +621,8 @@
                                 $(".kindofdensity select").html(hair_density_options);
                             }
                         } else {
-                            sku_id = data.data.sku_id;
+                            sku_id = data.data.sku.id;
+                            sku_stock = data.data.sku.stock;
                         }
                     }
                     if (data.code == 401) {
@@ -626,23 +635,14 @@
             });
         }
         $(".kindofsize select").on("change", function () {
-            /*var data = {
-                base_size: $(".kindofsize select").val(),
-            };*/
             query_data.base_size = $(".kindofsize select").val();
             getSkuParameters(query_data, "change", true);
         });
         $(".kindofcolor select").on("change", function () {
-            /*var data = {
-                hair_colour: $(".kindofcolor select").val(),
-            };*/
             query_data.hair_colour = $(".kindofcolor select").val();
             getSkuParameters(query_data, "change", true);
         });
         $(".kindofdensity select").on("change", function () {
-            /*var data = {
-                hair_density: $(".kindofdensity select").val(),
-            };*/
             query_data.hair_density = $(".kindofdensity select").val();
             getSkuParameters(query_data, "change", true);
         });

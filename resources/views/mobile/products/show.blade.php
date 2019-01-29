@@ -195,7 +195,7 @@
             stopOnLastSlide: true,
         });
         var which_click = 0; // 通过判断which_click的值来确定是什么功能,0:选择规格,1:添加收藏，2：加入购物车，3：立即购买
-        var clickDom, sku_id;
+        var clickDom, sku_id,sku_stock;
         // 点击透明阴影关闭弹窗
         $(".mask").on("click", function () {
             $(this).parents(".skuBox").css("display", "none");
@@ -223,7 +223,15 @@
 //                  });
 //              } else {
                     var count = parseInt($(this).prev().html());
-                    if (parseInt(count) < parseInt($(".skuListMain").find("li.active").attr('code_num'))) {
+                    var data = {
+	                    base_size: $(".kindofsize select").val(),
+	                    hair_colour: $(".kindofcolor select").val(),
+	                    hair_density: $(".kindofdensity select").val()
+	                };
+	                if(parseInt(count) == 1) {
+	                	getSkuParameters(data, "getSkuId", false);	
+	                }
+                    if (parseInt(count) < sku_stock) {
                         count += 1;
                         $(this).prev().html(count);
                     } else {
@@ -579,7 +587,8 @@
                                 $(".kindofdensity select").html(hair_density_options);
                             }
                         } else {
-                            sku_id = data.data.sku_id;
+                            sku_id = data.data.sku.id;
+                            sku_stock = data.data.sku.stock;
                         }
                     }
                     if (data.code == 401) {
