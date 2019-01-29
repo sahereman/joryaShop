@@ -299,7 +299,10 @@ class ProductsController extends Controller
                     'code' => 200,
                     'message' => 'success',
                     'data' => [
-                        'sku_id' => $skus->first()->id,
+                        'sku' => [
+                            'id' => $skus->first()->id,
+                            'stock' => $skus->first()->stock,
+                        ],
                     ],
                 ]);
             } else {
