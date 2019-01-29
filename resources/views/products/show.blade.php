@@ -300,9 +300,9 @@
         });
         // 控制商品下单的数量显示
         $(".add").on("click", function () {
-            if ($(".kindOfPro").find("li").hasClass('active') != true) {
-                layer.msg("@lang('product.product_details.Please select specifications')");
-            } else {
+//          if ($(".kindOfPro").find("li").hasClass('active') != true) {
+//              layer.msg("@lang('product.product_details.Please select specifications')");
+//          } else {
                 $(".reduce").removeClass('no_allow');
                 if (parseInt($("#pro_num").val()) < parseInt($(".kindOfPro").find("li.active").attr('code_num'))) {
                     var num = parseInt($("#pro_num").val()) + 1;
@@ -310,7 +310,7 @@
                 } else {
                     layer.msg("@lang('order.Cannot add more quantities')");
                 }
-            }
+//          }
         });
         $(".reduce").on("click", function () {
             if ($(this).hasClass('no_allow') != true && $("#pro_num").val() > 1) {
