@@ -299,9 +299,20 @@ class ProductsController extends Controller
                     'code' => 200,
                     'message' => 'success',
                     'data' => [
+                        'product' => [
+                            'price_in_usd' => $product->price_in_usd,
+                            'original_price_in_usd' => bcmul($product->price_in_usd, 1.2, 2),
+                        ],
                         'sku' => [
                             'id' => $skus->first()->id,
                             'stock' => $skus->first()->stock,
+                            'price_in_usd' => $skus->first()->price_in_usd,
+                            'original_price_in_usd' => bcmul($skus->first()->price_in_usd, 1.2, 2),
+                        ],
+                        'parameters' => [
+                            'base_sizes' => [],
+                            'hair_colours' => [],
+                            'hair_densities' => [],
                         ],
                     ],
                 ]);
@@ -309,6 +320,23 @@ class ProductsController extends Controller
                 return response()->json([
                     'code' => 401,
                     'message' => trans('basic.orders.Sku_does_not_exist'),
+                    'data' => [
+                        'product' => [
+                            'price_in_usd' => $product->price_in_usd,
+                            'original_price_in_usd' => bcmul($product->price_in_usd, 1.2, 2),
+                        ],
+                        'sku' => [
+                            'id' => '',
+                            'stock' => '',
+                            'price_in_usd' => '',
+                            'original_price_in_usd' => '',
+                        ],
+                        'parameters' => [
+                            'base_sizes' => [],
+                            'hair_colours' => [],
+                            'hair_densities' => [],
+                        ],
+                    ],
                 ]);
             }
         }
@@ -339,6 +367,16 @@ class ProductsController extends Controller
             'code' => 200,
             'message' => 'success',
             'data' => [
+                'product' => [
+                    'price_in_usd' => $product->price_in_usd,
+                    'original_price_in_usd' => bcmul($product->price_in_usd, 1.2, 2),
+                ],
+                'sku' => [
+                    'id' => '',
+                    'stock' => '',
+                    'price_in_usd' => '',
+                    'original_price_in_usd' => '',
+                ],
                 'parameters' => $parameters,
             ],
         ]);

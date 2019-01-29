@@ -66,11 +66,11 @@
                     <div class="price_service">
                         <p class="original_price">
                             <span>@lang('product.product_details.the original price')</span>
-                            <span><i>@lang('basic.currency.symbol') </i>{{ App::isLocale('en') ? bcmul($product->price_in_usd, 1.2, 2) : bcmul($product->price, 1.2, 2) }}</span>
+                            <span id="sku_original_price_in_usd"><i>@lang('basic.currency.symbol') </i>{{ App::isLocale('en') ? bcmul($product->price_in_usd, 1.2, 2) : bcmul($product->price, 1.2, 2) }}</span>
                         </p>
                         <p class="present_price">
                             <span>@lang('product.product_details.the current price')</span>
-                            <span class="changePrice_num"><i>@lang('basic.currency.symbol') </i>{{ App::isLocale('en') ? $product->price_in_usd : $product->price }}</span>
+                            <span id="sku_price_in_usd" class="changePrice_num"><i>@lang('basic.currency.symbol') </i>{{ App::isLocale('en') ? $product->price_in_usd : $product->price }}</span>
                         </p>
                         <p class="service">
                             <span>@lang('product.product_details.service')</span>
@@ -266,7 +266,7 @@
         var next_page;   // 下一页的页码
         var pre_page;   // 上一页的页码
         var country = $("#dLabel").find("span").html();
-        var sku_id,sku_stock;
+        var sku_id, sku_stock, sku_price_in_usd, sku_original_price_in_usd;
         $('#img_x li').eq(0).css('border', '2px solid #bc8c61');
         $('#zhezhao').mousemove(function (e) {
             $('#img_u').show();
@@ -300,9 +300,9 @@
         });
         // 控制商品下单的数量显示
         $(".add").on("click", function () {
-//          if ($(".kindOfPro").find("li").hasClass('active') != true) {
-//              layer.msg("@lang('product.product_details.Please select specifications')");
-//          } else {
+            // if ($(".kindOfPro").find("li").hasClass('active') != true) {
+                // layer.msg("@lang('product.product_details.Please select specifications')");
+            // } else {
                 $(".reduce").removeClass('no_allow');
                  var data = {
                     base_size: $(".kindofsize select").val(),
@@ -310,7 +310,7 @@
                     hair_density: $(".kindofdensity select").val()
                 };
                 if(parseInt($("#pro_num").val()) == 1) {
-                	getSkuParameters(data, "getSkuId", false);	
+                    getSkuParameters(data, "getSkuId", false);
                 }
                 if (parseInt($("#pro_num").val()) < sku_stock) {
                     var num = parseInt($("#pro_num").val()) + 1;
@@ -318,7 +318,7 @@
                 } else {
                     layer.msg("@lang('order.Cannot add more quantities')");
                 }
-//          }
+            // }
         });
         $(".reduce").on("click", function () {
             if ($(this).hasClass('no_allow') != true && $("#pro_num").val() > 1) {
@@ -333,13 +333,13 @@
         });
         // 点击添加收藏
         $(".add_favourites").on("click", function () {
-            var clickDom = $(this);
+            var clickDom = $(this), data, url;
             if (clickDom.hasClass('active') != true && clickDom.attr('data-url_2') == '') {
-                var data = {
+                data = {
                     _token: "{{ csrf_token() }}",
                     product_id: clickDom.attr("code"),
                 };
-                var url = clickDom.attr('data-url');
+                url = clickDom.attr('data-url');
                 $.ajax({
                     type: "post",
                     url: url,
@@ -356,11 +356,11 @@
                     },
                 });
             } else {
-                var data = {
+                data = {
                     _method: "DELETE",
                     _token: "{{ csrf_token() }}",
                 };
-                var url = clickDom.attr('data-url_2');
+                url = clickDom.attr('data-url_2');
                 $.ajax({
                     type: "post",
                     url: url,
@@ -384,7 +384,7 @@
             $(tabId + " .tabcon").hide();
             $(tabId + " .tabcon").eq(tabNum).show();
             if (tabNum == 1) {
-                getEva(1);
+                getComments(1);
             }
         }
         //切换
@@ -396,12 +396,12 @@
         });
         //加入购物车
         $(".add_carts").on("click", function () {
-            var data = {
+            var query_data = {
                 base_size: $(".kindofsize select").val(),
                 hair_colour: $(".kindofcolor select").val(),
                 hair_density: $(".kindofdensity select").val(),
             };
-            getSkuParameters(data, "getSkuId", false);
+            getSkuParameters(query_data, "getSkuId", false);
             var clickDom = $(this);
             /*if ($(".kindOfPro").find("li").hasClass('active') != true) {
              layer.msg("@lang('product.product_details.Please select specifications')");
@@ -451,7 +451,7 @@
             // }
         });
         // 获取评价内容
-        function getEva(page) {
+        function getComments(page) {
             var data = {
                 page: page,
             };
@@ -542,11 +542,11 @@
         // 点击分页
         // 上一页
         $(".pre_page").on("click", function () {
-            getEva($(this).attr("code"));
+            getComments($(this).attr("code"));
         });
         // 下一页
         $(".next_page").on("click", function () {
-            getEva($(this).attr("code"));
+            getComments($(this).attr("code"));
         });
         // 图片预览小图移动效果,页面加载时触发
         $(function () {
@@ -623,9 +623,17 @@
                         } else {
                             sku_id = data.data.sku.id;
                             sku_stock = data.data.sku.stock;
+                            sku_price_in_usd = data.data.sku.price_in_usd;
+                            $('span#sku_price_in_usd').html('<i>&#36;<i>' + sku_price_in_usd);
+                            sku_original_price_in_usd = data.data.sku.original_price_in_usd;
+                            $('span#sku_original_price_in_usd').html('<i>&#36;<i> ' + sku_original_price_in_usd);
                         }
                     }
                     if (data.code == 401) {
+                        sku_price_in_usd = data.data.product.price_in_usd;
+                        $('span#sku_price_in_usd').html('<i>&#36; <i>' + sku_price_in_usd);
+                        sku_original_price_in_usd = data.data.product.original_price_in_usd;
+                        $('span#sku_original_price_in_usd').html('<i>&#36; <i> ' + sku_original_price_in_usd);
                         layer.msg(data.message);
                     }
                 },
@@ -636,15 +644,24 @@
         }
         $(".kindofsize select").on("change", function () {
             query_data.base_size = $(".kindofsize select").val();
-            getSkuParameters(query_data, "change", true);
+            getSkuParameters(query_data, "change", false);
+            query_data.hair_colour = $(".kindofcolor select").val();
+            query_data.hair_density = $(".kindofdensity select").val();
+            getSkuParameters(query_data, "getSkuId", false);
         });
         $(".kindofcolor select").on("change", function () {
             query_data.hair_colour = $(".kindofcolor select").val();
-            getSkuParameters(query_data, "change", true);
+            getSkuParameters(query_data, "change", false);
+            query_data.base_size = $(".kindofsize select").val();
+            query_data.hair_density = $(".kindofdensity select").val();
+            getSkuParameters(query_data, "getSkuId", false);
         });
         $(".kindofdensity select").on("change", function () {
             query_data.hair_density = $(".kindofdensity select").val();
-            getSkuParameters(query_data, "change", true);
+            getSkuParameters(query_data, "change", false);
+            query_data.base_size = $(".kindofsize select").val();
+            query_data.hair_colour = $(".kindofcolor select").val();
+            getSkuParameters(query_data, "getSkuId", false);
         });
     </script>
 @endsection

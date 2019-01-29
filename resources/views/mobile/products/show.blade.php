@@ -122,16 +122,16 @@
                     <div>
                         <label>
                             @lang('basic.currency.symbol')
-                            <span class="pro_price">{{ App::isLocale('en') ? $skus[0]->price_in_usd : $skus[0]->price }}</span>
+                            <span id="sku_price_in_usd" class="pro_price">{{ App::isLocale('en') ? $skus[0]->price_in_usd : $skus[0]->price }}</span>
                         </label>
                         <p>
                             @lang('product.product_details.stock'):
-                            <span>{{ $skus[0]->stock }}</span>
+                            <span id="sku_stock">{{ $skus[0]->stock }}</span>
                         </p>
-                        <span class="pro_name">
+                        {{--<span class="pro_name">
                             @lang('product.product_details.Choose')
                             :{{ App::isLocale('en') ? $skus[0]->name_en : $skus[0]->name_zh }}
-                        </span>
+                        </span>--}}
                     </div>
                 </div>
                 <div class="skuListBox" data-url="{{ route('products.get_sku_parameters', ['product' => $product->id]) }}">
@@ -195,15 +195,16 @@
             stopOnLastSlide: true,
         });
         var which_click = 0; // 通过判断which_click的值来确定是什么功能,0:选择规格,1:添加收藏，2：加入购物车，3：立即购买
-        var clickDom, sku_id,sku_stock;
+        var clickDom, sku_id, sku_stock, sku_price_in_usd;
         // 点击透明阴影关闭弹窗
         $(".mask").on("click", function () {
             $(this).parents(".skuBox").css("display", "none");
         });
         // 为减少和添加商品数量的按钮绑定事件回调
         $('.buyNum .Operation_btn').on('click', function (evt) {
+            var count = 1;
             if ($(this).text() == '-') {
-                var count = parseInt($(this).next().html());
+                count = parseInt($(this).next().html());
                 if (count > 1) {
                     count -= 1;
                     $(this).next().html(count);
@@ -215,22 +216,22 @@
                     });
                 }
             } else {
-//              if ($(".skuListMain").find("li").hasClass('active') != true) {
-//                  layer.open({
-//                      content: "@lang('product.product_details.Please select specifications')",
-//                      skin: 'msg',
-//                      time: 2, // 2秒后自动关闭
-//                  });
-//              } else {
-                    var count = parseInt($(this).prev().html());
+                // if ($(".skuListMain").find("li").hasClass('active') != true) {
+                    // layer.open({
+                        // content: "@lang('product.product_details.Please select specifications')",
+                        // skin: 'msg',
+                        // time: 2, // 2秒后自动关闭
+                    // });
+                // } else {
+                    count = parseInt($(this).prev().html());
                     var data = {
-	                    base_size: $(".kindofsize select").val(),
-	                    hair_colour: $(".kindofcolor select").val(),
-	                    hair_density: $(".kindofdensity select").val()
-	                };
-	                if(parseInt(count) == 1) {
-	                	getSkuParameters(data, "getSkuId", false);	
-	                }
+                        base_size: $(".kindofsize select").val(),
+                        hair_colour: $(".kindofcolor select").val(),
+                        hair_density: $(".kindofdensity select").val()
+                    };
+                    if(parseInt(count) == 1) {
+                        getSkuParameters(data, "getSkuId", false);
+                    }
                     if (parseInt(count) < sku_stock) {
                         count += 1;
                         $(this).prev().html(count);
@@ -241,7 +242,7 @@
                             time: 2, // 2秒后自动关闭
                         });
                     }
-//              }
+                // }
             }
         });
         // $(function () {
@@ -589,9 +590,14 @@
                         } else {
                             sku_id = data.data.sku.id;
                             sku_stock = data.data.sku.stock;
+                            $('span#sku_stock').html(sku_stock);
+                            sku_price_in_usd = data.data.sku.price_in_usd;
+                            $('span#sku_price_in_usd').html(sku_price_in_usd);
                         }
                     }
                     if (data.code == 401) {
+                        sku_price_in_usd = data.data.product.price_in_usd;
+                        $('span#sku_price_in_usd').html(sku_price_in_usd);
                         layer.open({
                             content: data.message,
                             skin: 'msg',
@@ -606,15 +612,24 @@
         }
         $(".kindofsize select").on("change", function () {
             query_data.base_size = $(".kindofsize select").val();
-            getSkuParameters(query_data, "change", true);
+            getSkuParameters(query_data, "change", false);
+            query_data.hair_colour = $(".kindofcolor select").val();
+            query_data.hair_density = $(".kindofdensity select").val();
+            getSkuParameters(query_data, "getSkuId", false);
         });
         $(".kindofcolor select").on("change", function () {
             query_data.hair_colour = $(".kindofcolor select").val();
-            getSkuParameters(query_data, "change", true);
+            getSkuParameters(query_data, "change", false);
+            query_data.base_size = $(".kindofsize select").val();
+            query_data.hair_density = $(".kindofdensity select").val();
+            getSkuParameters(query_data, "getSkuId", false);
         });
         $(".kindofdensity select").on("change", function () {
             query_data.hair_density = $(".kindofdensity select").val();
-            getSkuParameters(query_data, "change", true);
+            getSkuParameters(query_data, "change", false);
+            query_data.base_size = $(".kindofsize select").val();
+            query_data.hair_colour = $(".kindofcolor select").val();
+            getSkuParameters(query_data, "getSkuId", false);
         });
     </script>
 @endsection

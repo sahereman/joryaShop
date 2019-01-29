@@ -99,7 +99,7 @@
                 <div class="pre_payment_footer">
                     <p class="main_title">@lang('order.Currency options')</p>
                     <p class="currency_selection">
-                        <a href="javascript:void(0);" class="active" code="RMB" country="CNY">@lang('order.RMB')</a>
+                        {{--<a href="javascript:void(0);" class="active" code="RMB" country="CNY">@lang('order.RMB')</a>--}}
                         <a href="javascript:void(0);" code="dollar" country="USD">@lang('order.Dollars')</a>
                     </p>
                     <ul>
