@@ -136,16 +136,34 @@
                 </div>
                 <div class="skuListBox" data-url="{{ route('products.get_sku_parameters', $product->id) }}">
                     <div class="skuListHead kindofsize">
-                    	<span>@lang('product.product_details.base_size')</span>
-                        <select></select>
+                        <span>@lang('product.product_details.base_size')</span>
+                        <select name="base_size" title="base_sizes">
+                            @if(count($parameters['base_sizes']) > 0)
+                                @foreach($parameters['base_sizes'] as $base_size)
+                                    <option value="{{ $base_size }}">{{ $base_size }}</option>
+                                @endforeach
+                            @endif
+                        </select>
                     </div>
                      <div class="skuListHead kindofcolor">
-                    	<span>@lang('product.product_details.hair_colour')</span>
-                        <select></select>
+                        <span>@lang('product.product_details.hair_colour')</span>
+                        <select name="hair_colour" title="hair_colours">
+                            @if(count($parameters['hair_colours']) > 0)
+                                @foreach($parameters['hair_colours'] as $hair_colour)
+                                    <option value="{{ $hair_colour }}">{{ $hair_colour }}</option>
+                                @endforeach
+                            @endif
+                        </select>
                     </div>
                      <div class="skuListHead kindofdensity">
-                    	<span>@lang('product.product_details.hair_density')</span>
-                        <select></select>
+                        <span>@lang('product.product_details.hair_density')</span>
+                        <select name="hair_density" title="hair_densities">
+                            @if(count($parameters['hair_densities']) > 0)
+                                @foreach($parameters['hair_densities'] as $hair_density)
+                                    <option value="{{ $hair_density }}">{{ $hair_density }}</option>
+                                @endforeach
+                            @endif
+                        </select>
                     </div>
                 </div>
                 <div class="buyNum">
@@ -219,7 +237,7 @@
             }
         });
         // $(function () {
-            // getEva();
+            // getComments();
         // });
         // 商品详情与商品评价切换
         $(".gIntroHead>span").on("click", function () {
@@ -229,11 +247,10 @@
             if (_index == 1) {
                 $(".dropload-down").remove();
                 $(".lists").children().remove();
-                getEva($('.gIntroConEvaluate'));
+                getComments($('.gIntroConEvaluate'));
             }
             // 让内容框的第 _index 个显示出来，其他的被隐藏
             $(".gIntroCon>div").eq(_index).show().siblings().hide();
-
         });
         // 全部和有图进行切换
         $(".gEvaHead span").on("click", function () {
@@ -368,10 +385,10 @@
         }
         // 加入购物车
         function add_carts(clickDom) {
-        	var query_data = {
+            var query_data = {
                 base_size: $(".kindofsize select").val(),
                 hair_colour: $(".kindofcolor select").val(),
-                hair_density: $(".kindofdensity select").val()
+                hair_density: $(".kindofdensity select").val(),
             };
             getSkuParameters(query_data, "getSkuId", false);
             var data = {
@@ -400,26 +417,26 @@
         }
         // 立即购买
         function buy_now(clickDom) {
-//          if ($(".skuListMain").find("li").hasClass('active') != true) {
-//              layer.open({
-//                  content: "@lang('product.product_details.Please select specifications')",
-//                  skin: 'msg',
-//                  time: 2, // 2秒后自动关闭
-//              });
-//          } else {
-                if (clickDom.hasClass('for_show_login') == true) {
-                    window.location.href = clickDom.attr("data-url");
-                } else {
-                	var query_data = {
-		                base_size: $(".kindofsize select").val(),
-		                hair_colour: $(".kindofcolor select").val(),
-		                hair_density: $(".kindofdensity select").val()
-		            };
-		            getSkuParameters(query_data, "getSkuId", false);
-                    var url = clickDom.attr('data-url');
-                    window.location.href = url + "?sku_id=" + sku_id + "&number=" + parseInt($(".gNum").html()) + "&sendWay=1";
-                }
-//          }
+            // if ($(".skuListMain").find("li").hasClass('active') != true) {
+                // layer.open({
+                    // content: "@lang('product.product_details.Please select specifications')",
+                    // skin: 'msg',
+                    // time: 2, // 2秒后自动关闭
+                // });
+            // } else {
+            if (clickDom.hasClass('for_show_login') == true) {
+                window.location.href = clickDom.attr("data-url");
+            } else {
+                var query_data = {
+                    base_size: $(".kindofsize select").val(),
+                    hair_colour: $(".kindofcolor select").val(),
+                    hair_density: $(".kindofdensity select").val(),
+                };
+                getSkuParameters(query_data, "getSkuId", false);
+                var url = clickDom.attr('data-url');
+                window.location.href = url + "?sku_id=" + sku_id + "&number=" + parseInt($(".gNum").html()) + "&sendWay=1";
+            }
+            // }
         }
         // 分享复制到剪切板
         var clipboard = new ClipboardJS('.gShare');
@@ -442,7 +459,7 @@
             });
         });
         // 下拉加载获取评价内容
-        function getEva(dom) {
+        function getComments(dom) {
             // 页数
             var page = 1;
             var Dom = dom || window;
@@ -513,7 +530,7 @@
                             }
                             // 为了测试，延迟1秒加载
                             $(".gIntroConEvaluate .lists").append(html);
-                            page++;
+                            page ++;
                             // 每次数据插入，必须重置
                             me.resetload();
                         },
@@ -525,18 +542,16 @@
                 }
             });
         }
-        
         // 获取sku参数列表
         var query_data = {};
         function getSkuParameters(data, requestType, asyncType) {
             var url = $(".skuListBox").attr('data-url');
             $.ajax({
-                type: "get",
+                type: "GET",
                 url: url,
                 data: data,
                 async: asyncType,
                 success: function (data) {
-                	console.log(data)
                     var base_size_options = "";
                     var hair_colour_options = "";
                     var hair_density_options = "";

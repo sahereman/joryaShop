@@ -84,15 +84,33 @@
                     </div>
                     <div class="priceOfpro kindOfPro kindofsize" data-url="{{ route('products.get_sku_parameters', $product->id) }}">
                         <span>@lang('product.product_details.base_size')</span>
-                        <select></select>
+                        <select name="base_size" title="base_sizes">
+                            @if(count($parameters['base_sizes']) > 0)
+                                @foreach($parameters['base_sizes'] as $base_size)
+                                    <option value="{{ $base_size }}">{{ $base_size }}</option>
+                                @endforeach
+                            @endif
+                        </select>
                     </div>
                     <div class="priceOfpro kindOfPro kindofcolor">
                         <span>@lang('product.product_details.hair_colour')</span>
-                        <select></select>
+                        <select name="hair_colour" title="hair_colours">
+                            @if(count($parameters['hair_colours']) > 0)
+                                @foreach($parameters['hair_colours'] as $hair_colour)
+                                    <option value="{{ $hair_colour }}">{{ $hair_colour }}</option>
+                                @endforeach
+                            @endif
+                        </select>
                     </div>
                     <div class="priceOfpro kindOfPro kindofdensity">
                         <span>@lang('product.product_details.hair_density')</span>
-                        <select></select>
+                        <select name="hair_density" title="hair_densities">
+                            @if(count($parameters['hair_densities']) > 0)
+                                @foreach($parameters['hair_densities'] as $hair_density)
+                                    <option value="{{ $hair_density }}">{{ $hair_density }}</option>
+                                @endforeach
+                            @endif
+                        </select>
                     </div>
                     <div class="priceOfpro">
                         <span class="buy_numbers">@lang('product.product_details.Quantity')</span>
@@ -427,11 +445,11 @@
         // 获取评价内容
         function getEva(page) {
             var data = {
-                page: page
+                page: page,
             };
             var url = $(".shopping_eva").attr("data-url");
             $.ajax({
-                type: "get",
+                type: "GET",
                 url: url,
                 beforeSend: function () {
                     loading_animation = layer.msg("@lang('app.Please wait')", {
@@ -441,7 +459,6 @@
                     });
                 },
                 success: function (json) {
-                    console.log(json);
                     var dataObj = json.data.comments.data;
                     var dataObj_photo;
                     if (dataObj.length <= 0) {
@@ -533,7 +550,6 @@
             var scrollItems = $(".spec-scroll .img_items ul li"); // 移动容器里的集合
             var moveLength = scrollItems.eq(0).width() * moveNum; // 计算每次移动的长度
             var countLength = (scrollItems.length - viewNum) * scrollItems.eq(0).width(); // 计算总长度,总个数*单个长度
-
             // 下一张
             $(".spec-scroll .next").on("click", function () {
                 if (tempLength < countLength) {
@@ -561,11 +577,11 @@
         });
         // 获取sku参数列表
         var query_data = {};
-        getSkuParameters(query_data, "change", true);
+        // getSkuParameters(query_data, "change", true);
         function getSkuParameters(data, requestType, asyncType) {
             var url = $(".kindofsize").attr('data-url');
             $.ajax({
-                type: "get",
+                type: "GET",
                 url: url,
                 data: data,
                 async: asyncType,
