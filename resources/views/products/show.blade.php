@@ -82,7 +82,7 @@
                         <span>@lang('product.product_details.freight')</span>
                         <span><i>@lang('basic.currency.symbol') </i>{{ App::isLocale('en') ? $product->shipping_fee_in_usd : $product->shipping_fee }}</span>
                     </div>
-                    <div class="priceOfpro kindOfPro kindofsize" data-url="{{ route('products.get_sku_parameters', $product->id) }}">
+                    <div class="priceOfpro kindOfPro kindofsize" data-url="{{ route('products.get_sku_parameters', ['product' => $product->id]) }}">
                         <span>@lang('product.product_details.base_size')</span>
                         <select name="base_size" title="base_sizes">
                             @if(count($parameters['base_sizes']) > 0)

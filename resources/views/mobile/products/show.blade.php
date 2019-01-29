@@ -134,7 +134,7 @@
                         </span>
                     </div>
                 </div>
-                <div class="skuListBox" data-url="{{ route('products.get_sku_parameters', $product->id) }}">
+                <div class="skuListBox" data-url="{{ route('products.get_sku_parameters', ['product' => $product->id]) }}">
                     <div class="skuListHead kindofsize">
                         <span>@lang('product.product_details.base_size')</span>
                         <select name="base_size" title="base_sizes">
@@ -145,7 +145,7 @@
                             @endif
                         </select>
                     </div>
-                     <div class="skuListHead kindofcolor">
+                    <div class="skuListHead kindofcolor">
                         <span>@lang('product.product_details.hair_colour')</span>
                         <select name="hair_colour" title="hair_colours">
                             @if(count($parameters['hair_colours']) > 0)
@@ -155,7 +155,7 @@
                             @endif
                         </select>
                     </div>
-                     <div class="skuListHead kindofdensity">
+                    <div class="skuListHead kindofdensity">
                         <span>@lang('product.product_details.hair_density')</span>
                         <select name="hair_density" title="hair_densities">
                             @if(count($parameters['hair_densities']) > 0)
@@ -195,7 +195,7 @@
             stopOnLastSlide: true,
         });
         var which_click = 0; // 通过判断which_click的值来确定是什么功能,0:选择规格,1:添加收藏，2：加入购物车，3：立即购买
-        var clickDom,sku_id;
+        var clickDom, sku_id;
         // 点击透明阴影关闭弹窗
         $(".mask").on("click", function () {
             $(this).parents(".skuBox").css("display", "none");
@@ -237,7 +237,7 @@
             }
         });
         // $(function () {
-            // getComments();
+        // getComments();
         // });
         // 商品详情与商品评价切换
         $(".gIntroHead>span").on("click", function () {
@@ -306,7 +306,7 @@
         function which_el_toDo(which_click, clickDom) {
             switch (which_click) {
                 case 0:
-                    var classificationText = $(".kindofsize select").find("option:checked").text()+"-"+$(".kindofcolor select").find("option:checked").text()+"-"+$(".kindofdensity select").find("option:checked").text();
+                    var classificationText = $(".kindofsize select").find("option:checked").text() + "-" + $(".kindofcolor select").find("option:checked").text() + "-" + $(".kindofdensity select").find("option:checked").text();
                     $(".gChooseBox").html("@lang('product.product_details.classification')：" + classificationText);
                     $(".skuBox").css("display", "none");
                     break;
@@ -418,11 +418,11 @@
         // 立即购买
         function buy_now(clickDom) {
             // if ($(".skuListMain").find("li").hasClass('active') != true) {
-                // layer.open({
-                    // content: "@lang('product.product_details.Please select specifications')",
-                    // skin: 'msg',
-                    // time: 2, // 2秒后自动关闭
-                // });
+            // layer.open({
+            // content: "@lang('product.product_details.Please select specifications')",
+            // skin: 'msg',
+            // time: 2, // 2秒后自动关闭
+            // });
             // } else {
             if (clickDom.hasClass('for_show_login') == true) {
                 window.location.href = clickDom.attr("data-url");
@@ -530,7 +530,7 @@
                             }
                             // 为了测试，延迟1秒加载
                             $(".gIntroConEvaluate .lists").append(html);
-                            page ++;
+                            page++;
                             // 每次数据插入，必须重置
                             me.resetload();
                         },
