@@ -584,7 +584,7 @@
             });
         });
         // 获取sku参数列表
-        var query_data = {};
+        var query_data = {}, result = false;
         // getSkuParameters(query_data, "change", true);
         function getSkuParameters(data, requestType, asyncType) {
             var url = $(".kindofsize").attr('data-url');
@@ -600,8 +600,8 @@
                     if (data.code == 200) {
                         if (requestType == "change") {
                             var base_sizes = data.data.parameters.base_sizes,
-                                    hair_colours = data.data.parameters.hair_colours,
-                                    hair_densities = data.data.parameters.hair_densities;
+                                hair_colours = data.data.parameters.hair_colours,
+                                hair_densities = data.data.parameters.hair_densities;
                             if (base_sizes.length != 0) {
                                 $.each(base_sizes, function (i, n) {
                                     base_size_options += "<option value='" + n + "'>" + n + "</option>"
@@ -620,6 +620,10 @@
                                 });
                                 $(".kindofdensity select").html(hair_density_options);
                             }
+                            sku_price_in_usd = data.data.product.price_in_usd;
+                            $('span#sku_price_in_usd').html('<i>&#36; <i>' + sku_price_in_usd);
+                            sku_original_price_in_usd = data.data.product.original_price_in_usd;
+                            $('span#sku_original_price_in_usd').html('<i>&#36; <i> ' + sku_original_price_in_usd);
                         } else {
                             sku_id = data.data.sku.id;
                             sku_stock = data.data.sku.stock;
@@ -628,40 +632,57 @@
                             sku_original_price_in_usd = data.data.sku.original_price_in_usd;
                             $('span#sku_original_price_in_usd').html('<i>&#36;<i> ' + sku_original_price_in_usd);
                         }
-                    }
-                    if (data.code == 401) {
-                        sku_price_in_usd = data.data.product.price_in_usd;
+                        result = true;
+                    } else if (data.code == 401) {
+                        /*sku_price_in_usd = data.data.product.price_in_usd;
                         $('span#sku_price_in_usd').html('<i>&#36; <i>' + sku_price_in_usd);
                         sku_original_price_in_usd = data.data.product.original_price_in_usd;
-                        $('span#sku_original_price_in_usd').html('<i>&#36; <i> ' + sku_original_price_in_usd);
+                        $('span#sku_original_price_in_usd').html('<i>&#36; <i> ' + sku_original_price_in_usd);*/
                         layer.msg(data.message);
+                        result = false;
                     }
                 },
                 error: function (err) {
                     console.log(err);
+                    result = false;
                 },
             });
         }
         $(".kindofsize select").on("change", function () {
             query_data.base_size = $(".kindofsize select").val();
             getSkuParameters(query_data, "change", false);
-            query_data.hair_colour = $(".kindofcolor select").val();
-            query_data.hair_density = $(".kindofdensity select").val();
-            getSkuParameters(query_data, "getSkuId", false);
+            if (result) {
+                query_data.hair_colour = $(".kindofcolor select").val();
+                query_data.hair_density = $(".kindofdensity select").val();
+                getSkuParameters(query_data, "getSkuId", false);
+            } else {
+                query_data = {};
+                getSkuParameters(query_data, "change", false);
+            }
         });
         $(".kindofcolor select").on("change", function () {
             query_data.hair_colour = $(".kindofcolor select").val();
             getSkuParameters(query_data, "change", false);
-            query_data.base_size = $(".kindofsize select").val();
-            query_data.hair_density = $(".kindofdensity select").val();
-            getSkuParameters(query_data, "getSkuId", false);
+            if (result) {
+                query_data.base_size = $(".kindofsize select").val();
+                query_data.hair_density = $(".kindofdensity select").val();
+                getSkuParameters(query_data, "getSkuId", false);
+            } else {
+                query_data = {};
+                getSkuParameters(query_data, "change", false);
+            }
         });
         $(".kindofdensity select").on("change", function () {
             query_data.hair_density = $(".kindofdensity select").val();
             getSkuParameters(query_data, "change", false);
-            query_data.base_size = $(".kindofsize select").val();
-            query_data.hair_colour = $(".kindofcolor select").val();
-            getSkuParameters(query_data, "getSkuId", false);
+            if (result) {
+                query_data.base_size = $(".kindofsize select").val();
+                query_data.hair_colour = $(".kindofcolor select").val();
+                getSkuParameters(query_data, "getSkuId", false);
+            } else {
+                query_data = {};
+                getSkuParameters(query_data, "change", false);
+            }
         });
     </script>
 @endsection
