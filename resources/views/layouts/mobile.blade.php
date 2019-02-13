@@ -36,5 +36,20 @@
 <script src="{{ asset('static_m/js/raty/jquery.raty.js') }}"></script>
 <script src="{{ asset('static_m/js/jquery.countdown-2.2.0/jquery.countdown.js') }}"></script>
 @yield('scriptsAfterJs')
+<!--美洽客服系统-->
+<script type='text/javascript'>
+    (function(m, ei, q, i, a, j, s) {
+        m[i] = m[i] || function() {
+            (m[i].a = m[i].a || []).push(arguments)
+        };
+        j = ei.createElement(q),
+            s = ei.getElementsByTagName(q)[0];
+        j.async = true;
+        j.charset = 'UTF-8';
+        j.src = 'https://static.meiqia.com/dist/meiqia.js?_=t';
+        s.parentNode.insertBefore(j, s);
+    })(window, document, 'script', '_MEIQIA');
+    _MEIQIA('entId', 140212);
+</script>
 </body>
 </html>
