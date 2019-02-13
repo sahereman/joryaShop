@@ -30,6 +30,7 @@ Route::group([
     $router->get('orders', 'OrdersController@index')->name('admin.orders.index');/*列表*/
     $router->get('orders/{order}', 'OrdersController@show')->name('admin.orders.show');/*详情*/
     $router->delete('orders/{order}/delete', 'OrdersController@delete')->name('admin.orders.delete');/*删除*/
+    $router->post('orders/{order}/modify', 'OrdersController@modify')->name('admin.orders.modify');/*修改订单运费*/
     $router->post('orders/{order}/ship', 'OrdersController@ship')->name('admin.orders.ship');/*发货*/
 
     /*售后订单*/

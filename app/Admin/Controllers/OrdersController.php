@@ -62,6 +62,36 @@ class OrdersController extends Controller
             ->body($this->form()->edit($id));
     }
 
+    //修改订单运费
+    public function modify(Order $order, Request $request)
+    {
+        // 判断当前订单是否已支付
+        if ($order->paid_at)
+        {
+            throw new InvalidRequestException('该订单已付款');
+        }
+        // 判断当前订单发货状态是否为待发货
+        if ($order->status !== Order::ORDER_STATUS_PAYING)
+        {
+            throw new InvalidRequestException('该订单已付款');
+        }
+
+        // 验证
+        $data = $this->validate($request, [
+            'total_shipping_fee' => 'required|numeric|min:0',
+        ], [], [
+            'total_shipping_fee' => '运费',
+        ]);
+
+        // 将订单发货状态改为已发货，并存入物流信息
+        $order->update([
+            'total_shipping_fee' => $data['total_shipping_fee'],
+        ]);
+
+        // 返回上一页
+        return redirect()->back();
+    }
+
     //发货
     public function ship(Order $order, Request $request)
     {
