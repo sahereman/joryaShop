@@ -82,6 +82,7 @@ return [
         'Pull up load more' => 'Pull up load more',
         'Loading in' => 'Loading in',
         'over the end' => 'over the end',
+        'customer' => 'Online'
     ],
     'Categories' => 'Categories',
     'All' => 'All',

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="{{App::getLocale()}}">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -50,6 +50,22 @@
         s.parentNode.insertBefore(j, s);
     })(window, document, 'script', '_MEIQIA');
     _MEIQIA('entId', 140212);
+    
+    // 在这里开启手动模式（必须紧跟美洽的嵌入代码）
+    _MEIQIA('manualInit');
+</script>
+<script>
+	//如果需要英文版，可用如下配置
+	if(document.getElementsByTagName("html")[0].getAttribute("lang") == "en"){
+		_MEIQIA('language','en')	
+	}
+    // 在这里开启无按钮模式（常规情况下，需要紧跟在美洽嵌入代码之后）
+    _MEIQIA('withoutBtn');
+    _MEIQIA('init');
+    //点击客服
+    $(".gShare").click("click",function(){
+    	_MEIQIA('showPanel');
+    })
 </script>
 </body>
 </html>

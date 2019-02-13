@@ -76,7 +76,7 @@
                 <input type="text" value="{{config('app.url')}}" class="dis_n" id="forShare">
                 <div class="gShare" data-clipboard-action="copy" data-clipboard-target="#forShare">
                     <img src="{{ asset('static_m/img/icon_share4.png') }}" alt=""/>
-                    <span>@lang('product.product_details.Share')</span>
+                    <span>@lang('product.product_details.customer')</span>
                 </div>
                 <div class="backCart">
                     <img src="{{ asset('static_m/img/icon_ShoppingCart5.png') }}" alt=""/>
@@ -448,25 +448,25 @@
             // }
         }
         // 分享复制到剪切板
-        var clipboard = new ClipboardJS('.gShare');
-
-        clipboard.on('success', function (e) {
-            console.log(e);
-            layer.open({
-                content: "@lang('product.Content has been copied to the clipboard')",
-                skin: 'msg',
-                time: 2, // 2秒后自动关闭
-            });
-        });
-
-        clipboard.on('error', function (e) {
-            console.log(e);
-            layer.open({
-                content: "@lang('product.Copy to clipboard failed')",
-                skin: 'msg',
-                time: 2, // 2秒后自动关闭
-            });
-        });
+//      var clipboard = new ClipboardJS('.gShare');
+//
+//      clipboard.on('success', function (e) {
+//          console.log(e);
+//          layer.open({
+//              content: "@lang('product.Content has been copied to the clipboard')",
+//              skin: 'msg',
+//              time: 2, // 2秒后自动关闭
+//          });
+//      });
+//
+//      clipboard.on('error', function (e) {
+//          console.log(e);
+//          layer.open({
+//              content: "@lang('product.Copy to clipboard failed')",
+//              skin: 'msg',
+//              time: 2, // 2秒后自动关闭
+//          });
+//      });
         // 下拉加载获取评价内容
         function getComments(dom) {
             // 页数

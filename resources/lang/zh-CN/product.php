@@ -82,6 +82,7 @@ return [
         'Pull up load more' => '上拉加载更多',
         'Loading in' => '加载中',
         'over the end' => '已经到底了',
+        'customer' => '客服'
     ],
     'Categories' => '商品分类',
     'All' => '全部',

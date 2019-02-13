@@ -140,7 +140,7 @@
             </a>
             <div class="customer_info">
                 <p>@lang('app.please login first')</p>
-                <a>@lang('app.Contact Customer Service')</a>
+                <a class="CustomerClickBtn">@lang('app.Contact Customer Service')</a>
                 <p>@lang('app.Customer Service Phone')：{{ \App\Models\Config::config('service_phone') }}</p>
                 <p>早9:00-晚21:00</p>
             </div>
