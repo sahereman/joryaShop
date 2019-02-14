@@ -73,7 +73,7 @@
     </div>
     <div class="footer-bottom">
         <div class="m-wrapper">
-            <ul class="web_info">
+            <!--<ul class="web_info">
                 <li>
                     <p>
                         营业执照注册号：{{ \App\Models\Config::config('registration_no') }}
@@ -89,7 +89,7 @@
                         鲁公网备案 {{ \App\Models\Config::config('icp_no') }} 号
                     </p>
                 </li>
-            </ul>
+            </ul>-->
             <ul class="friendship_link">
                 <li>
                     <p>@lang('app.Friendship link')：</p>
@@ -138,7 +138,7 @@
                 <p>@lang('app.please login first')</p>
                 <a class="CustomerClickBtn">@lang('app.Contact Customer Service')</a>
                 <p>@lang('app.Customer Service Phone')：{{ \App\Models\Config::config('service_phone') }}</p>
-                <p>早9:00-晚21:00</p>
+                <p>9:00-21:00</p>
             </div>
         </li>
         <li class="show_qr">
