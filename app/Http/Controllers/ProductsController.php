@@ -31,23 +31,27 @@ class ProductsController extends Controller
     // GET 搜素结果 [下拉加载更多] [for Ajax request]
     public function searchMore(ProductRequest $request)
     {
+        $query_data = [];
         $query = $request->query('query');
         // Ajax request for the 1st time: route('products.search') . '?query=***&sort=***&min_price=***&max_price=***&page=1'
         $current_page = $request->has('page') ? $request->input('page') : 1;
         // on_sale: 是否在售 + index: 综合指数
-        $products = Product::where('on_sale', 1)
-            ->where('name_en', 'like', '%' . $query . '%')
-            ->orWhere('name_zh', 'like', '%' . $query . '%')
-            ->orWhere('description_en', 'like', '%' . $query . '%')
-            ->orWhere('description_zh', 'like', '%' . $query . '%')
-            ->orWhere('content_en', 'like', '%' . $query . '%')
-            ->orWhere('content_zh', 'like', '%' . $query . '%');
+        if (is_null($query)) {
+            $products = Product::where('on_sale', 1);
+        } else {
+            $query_data['query'] = $query;
+            $products = Product::where('on_sale', 1)
+                ->where('name_en', 'like', '%' . $query . '%')
+                ->orWhere('name_zh', 'like', '%' . $query . '%')
+                ->orWhere('description_en', 'like', '%' . $query . '%')
+                ->orWhere('description_zh', 'like', '%' . $query . '%')
+                ->orWhere('content_en', 'like', '%' . $query . '%')
+                ->orWhere('content_zh', 'like', '%' . $query . '%');
+        }
         $product_count = $products->count();
         $page_count = ceil($product_count / 5);
         $next_page = ($current_page < $page_count) ? ($current_page + 1) : false;
 
-        $query_data = [];
-        $query_data['query'] = $query;
         if ($request->has('min_price') && $request->input('min_price')) {
             $min_price = App::isLocale('en') ? ExchangeRate::exchangePrice($request->input('min_price'), 'CNY', 'USD') : $request->input('min_price');
             $query_data['min_price'] = $request->input('min_price');

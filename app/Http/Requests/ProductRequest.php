@@ -29,7 +29,7 @@ class ProductRequest extends Request
             ];
         } elseif ($this->routeIs('products.search_more') || $this->routeIs('products.search') || $this->routeIs('mobile.products.search')) {
             return [
-                'query' => 'bail|required|string|min:1',
+                'query' => 'bail|string|nullable',
                 'sort' => [
                     'bail',
                     'sometimes',
