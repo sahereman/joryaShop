@@ -1110,28 +1110,13 @@ footer {
         ul {
             width: 100%;
             overflow: hidden;
+            display: flex;
+            flex-direction: row;
             li {
-                float: left;
                 height: 100%;
-                width: 290px;
                 margin-top: 30px;
                 margin-right: 13px;
-                &:last-of-type {
-                    margin-right: 0;
-                    img {
-                        margin-left: 90px;
-                    }
-                }
-                &:nth-of-type(3) {
-                    img {
-                        margin-left: 60px;
-                    }
-                }
-                &:nth-of-type(2) {
-                    img {
-                        margin-left: 30px;
-                    }
-                }
+                width: 25%;
                 img {
                     float: left;
                     margin-right: 15px;
@@ -1142,10 +1127,12 @@ footer {
                     &:first-of-type {
                         font-size: 18px;
                         font-weight: 500;
+                        display: table;
+                        margin-top: 15px;
                     }
-                    &:last-of-type {
-                        font-size: 13px;
-                    }
+                }
+                &:nth-of-type(2) {
+                    width: 30%;
                 }
             }
         }

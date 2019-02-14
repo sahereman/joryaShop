@@ -5,22 +5,18 @@
             <ul>
                 <li>
                     <img src="{{ asset('img/thumb.png') }}">
-                    <p>365正品承诺</p>
                     <p>Genuine purchasing</p>
                 </li>
                 <li>
                     <img src="{{ asset('img/refund.png') }}">
-                    <p>7天无理由退款</p>
                     <p>7 days no reason to refund</p>
                 </li>
                 <li>
                     <img src="{{ asset('img/postage.png') }}">
-                    <p>满88元免邮费</p>
                     <p>Free postage </p>
                 </li>
                 <li>
                     <img src="{{ asset('img/great_service.png') }}">
-                    <p>金牌服务</p>
                     <p>Great service</p>
                 </li>
             </ul>
