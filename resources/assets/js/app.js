@@ -633,6 +633,12 @@ $(function () {
             }
         }, 300);
     });
+    
+    //判断搜索框焦点
+    $(".selectInput_header").bind("input focus",function(event){
+    	enter_event = "header_search";
+    })
+    
     //点击页面部分关闭搜索结果弹窗
     $(document).on("click", function () {
         $(".selectList").addClass("dis_n");
