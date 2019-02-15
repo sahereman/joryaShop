@@ -75,7 +75,7 @@
 		            </div>
 		            <div class="navbar-bottom-top-left-right">
 		            	<p>@lang('app.Stock Custom  Hair Systems')</p>
-		            	<p><span>@lang('app.30 Day Money Back')</span>@lang('app.Guarantee')</p>
+		            	<p><span>@lang('app.30 Day Money Back')</span> @lang('app.Guarantee')</p>
 		            </div>
             	</div>
             	<div class="navbar-bottom-top-right">
