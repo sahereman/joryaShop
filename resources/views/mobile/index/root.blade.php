@@ -3,7 +3,7 @@
 @section('content')
     <div class="main">
         <div class="searchBox">
-            <a href="{{route('mobile.search')}}" class="searchCon">
+            <a href="{{ route('mobile.search') }}" class="searchCon">
                 <img src="{{ asset('static_m/img/Unchecked_search.png') }}"/>
                 <input type="text" style="text-align: center;" value="" placeholder="@lang('app.Search for goods for good goods')" readonly="readonly"/>
             </a>
@@ -43,7 +43,7 @@
                     <div class="swiper-wrapper">
                         @foreach($latest as $product)
                             <div class="swiper-slide swiper-slides"
-                                 data-url="{{route('mobile.products.show', ['product' => $product->id])}}">
+                                 data-url="{{ route('mobile.products.show', ['product' => $product->id]) }}">
                                 <img class="lazy" data-src="{{ $product->thumb_url }}"/>
                                 <div class="new_pro_name">{{ App::isLocale('en') ? $product->name_en : $product->name_zh }}</div>
                                 <span class="new_pro_price">

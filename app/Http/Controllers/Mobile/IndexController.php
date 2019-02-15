@@ -19,7 +19,7 @@ class IndexController extends Controller
         $latest = Product::where('is_index', 1)->latest('updated_at')->limit(8)->get();
 
         $products = [];
-        $categories = ProductCategory::where(['parent_id' => 0, 'is_index' => 1])->get()->reject(function ($item, $key) {
+        $categories = ProductCategory::where(['parent_id' => 0, 'is_index' => 1])->orderBy('sort')->get()->reject(function ($item, $key) {
             return $item->children->isEmpty();
         });
         $categories = $categories->values(); // reset the indices.
