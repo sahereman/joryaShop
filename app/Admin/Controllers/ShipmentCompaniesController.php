@@ -84,7 +84,7 @@ class ShipmentCompaniesController extends Controller
 
         $grid->code('快递代码');
         $grid->name('快递名称');
-        $grid->sort('排序')->sortable();
+        $grid->sort('排序值')->sortable();
 
         return $grid;
     }
@@ -102,7 +102,7 @@ class ShipmentCompaniesController extends Controller
         $show->id('ID');
         $show->code('快递代码');
         $show->name('快递名称');
-        $show->sort('排序');
+        $show->sort('排序值');
 
         return $show;
     }
@@ -118,7 +118,7 @@ class ShipmentCompaniesController extends Controller
 
         $form->text('code', '快递代码');
         $form->text('name', '快递名称');
-        $form->number('sort', '排序');
+        $form->number('sort', '排序值');
 
         return $form;
     }

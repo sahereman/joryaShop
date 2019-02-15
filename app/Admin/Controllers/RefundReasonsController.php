@@ -84,7 +84,7 @@ class RefundReasonsController extends Controller
         $grid->id('Id');
         $grid->reason_en('退款原因英文');
         $grid->reason_zh('退款原因中文');
-        $grid->sort('排序')->sortable();
+        $grid->sort('排序值')->sortable();
 
         return $grid;
     }
@@ -102,7 +102,7 @@ class RefundReasonsController extends Controller
         $show->id('Id');
         $show->reason_en('退款原因英文');
         $show->reason_zh('退款原因中文');
-        $show->sort('排序');
+        $show->sort('排序值');
 
         return $show;
     }
@@ -118,7 +118,7 @@ class RefundReasonsController extends Controller
 
         $form->text('reason_en', '退款原因英文');
         $form->text('reason_zh', '退款原因中文');
-        $form->number('sort', '排序');
+        $form->number('sort', '排序值');
 
         return $form;
     }

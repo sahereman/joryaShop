@@ -143,8 +143,11 @@ class PostersController extends Controller
 
         $form->text('name', '名称')->rules('required')->help('名称可随意更改');
 
-        $form->select('slug', '标示')->options($slugs)->rules(function ($form) {
-            return ['required', Rule::unique('posters', 'slug')->ignore($form->model()->id),];
+        $form->select('slug', '标示位')->options($slugs)->rules(function ($form) {
+            return [
+                'required',
+                Rule::unique('posters', 'slug')->ignore($form->model()->id),
+            ];
         });
         /*->help('可使用的标示 : pc_index_new_1 | pc_index_new_2 | pc_index_new_3 | ' .
             'pc_index_2f_1');*/

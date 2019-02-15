@@ -182,7 +182,7 @@ class ProductCategoriesController extends Controller
         $form->text('description_zh', '描述(中文)')->rules('required');
         $form->text('description_en', '描述(中文)')->rules('required');
         $form->switch('is_index', '首页显示');
-        $form->number('sort', '排序');
+        $form->number('sort', '排序值');
 
 
 
