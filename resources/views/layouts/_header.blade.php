@@ -87,9 +87,9 @@
             </div>
             <div class="navbar-bottom-bottom">
                 <ul class="navbar-bottom-bottom-left">
-                    <li class="first_menu">
+                    {{--<li class="first_menu">
                         <a href="{{ route('root') }}"><span>@lang('basic.home')</span></a>
-                    </li>
+                    </li>--}}
                     @foreach(\App\Models\Menu::pcMenus() as $menu)
                         @if(isset($menu['parent']))
                             <li class="first_menu">
