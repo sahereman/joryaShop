@@ -91,12 +91,12 @@ return [
     'Sent successfully' => '发送成功',
     'System error' => '系统错误',
     'SMS Reset' => '短信重置',
-    'The Best For You' => '最适合你的',
+    'The Best For You' => '最 适 合 你 的',
     'Repair' => '修复',
-    '30 Day Money Back' => '30天退款',
-    'Guarantee' => '保证',
+    '30 Day Money Back' => '30 天 退 款',
+    'Guarantee' => '保 证',
     'Custom Order' => '定制订单',
     'Duplicate' => '复刻',
-    'Stock Custom  Hair Systems' => '现货&定制产品销售',
+    'Stock Custom  Hair Systems' => '现 货 & 定 制 产 品 销 售',
     'Stock Order' => '现货订单'
 ];
