@@ -8,7 +8,7 @@
             <div class="swiper-wrapper">
                 <div class="swiper-slide">
                     <p>{{ App::isLocale('en') ? $category->name_en : $category->name_zh }}</p>
-                    <img class="lazy" data-src="{{ asset('defaults/defaults_pc_category_banner.jpg') }}">
+                    <img class="lazy" data-src="{{ asset('defaults/defaults_pc_category_banner.png') }}">
                 </div>
             </div>
         </div>

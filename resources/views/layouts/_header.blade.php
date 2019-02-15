@@ -70,19 +70,19 @@
             		<div class="header_logo">
 		                <a href="{{ route('root') }}">
 		                    <img src="{{ asset('img/logo2.png') }}">
-		                    <p>The Best For You </p>
+		                    <p>@lang('app.The Best For You')</p>
 		                </a>
 		            </div>
 		            <div class="navbar-bottom-top-left-right">
-		            	<p>Stock &#38;Custom  Hair Systems</p>
-		            	<p><span>30 Day Money Back</span> Guarantee</p>
+		            	<p>@lang('app.Stock Custom  Hair Systems')</p>
+		            	<p><span>@lang('app.30 Day Money Back')</span>@lang('app.Guarantee')</p>
 		            </div>
             	</div>
             	<div class="navbar-bottom-top-right">
-            		<a href="#">Stock Order</a>
-            		<a href="#">Custom Order</a>
-            		<a href="#">Duplicate</a>
-            		<a href="#">Repair</a>
+            		<a href="#">@lang('app.Stock Order')</a>
+            		<a href="#">@lang('app.Custom Order')</a>
+            		<a href="#">@lang('app.Duplicate')</a>
+            		<a href="#">@lang('app.Repair')</a>
             	</div>
             </div>
             <div class="navbar-bottom-bottom">
