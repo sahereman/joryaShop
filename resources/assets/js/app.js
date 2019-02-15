@@ -674,5 +674,11 @@ $(function () {
             }
         }
     });
-
+    
+    //header hover效果
+	$(".navbar-bottom-bottom-left .first_menu").mouseenter(function(event){
+	  $(this).find(".nav-panel-dropdown").fadeIn();
+	}).mouseleave(function(event){
+		$(this).find(".nav-panel-dropdown").fadeOut();
+	})
 })

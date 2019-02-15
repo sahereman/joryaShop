@@ -65,60 +65,221 @@
     </div>
     <div class="navbar-bottom">
         <div class="m-wrapper">
-            <div class="pull-left header-menu dropdown">
-                <button id="menu" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <p>
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                    </p>
-                    <p>MENU</p>
-                </button>
-                <div class="dropdown-menu" aria-labelledby="menu">
-                    <ul>
-                        <li>
-                            <a href="{{ route('root') }}">@lang('basic.home')</a>
-                        </li>
-                        @foreach(\App\Models\Menu::pcMenus() as $menu)
-                            <li>
-                                <a href="{{ $menu->link }}">{{ App::isLocale('en') ? $menu->name_en : $menu->name_zh }}</a>
-                            </li>
-                        @endforeach
-                    </ul>
-                </div>
+            <div class="navbar-bottom-top">
+            	<div class="navbar-bottom-top-left">
+            		<div class="header_logo">
+		                <a href="{{ route('root') }}">
+		                    <img src="{{ asset('img/logo2.png') }}">
+		                    <p>The Best For You </p>
+		                </a>
+		            </div>
+		            <div class="navbar-bottom-top-left-right">
+		            	<p>Stock &#38;Custom  Hair Systems</p>
+		            	<p><span>30 Day Money Back</span> Guarantee</p>
+		            </div>
+            	</div>
+            	<div class="navbar-bottom-top-right">
+            		<a href="#">STOCK ORDER</a>
+            		<a href="#">CUSTOM ORDER</a>
+            		<a href="#">DUPLICATE</a>
+            		<a href="#">REPAIR</a>
+            	</div>
             </div>
-            <div class="header_logo">
-                <a href="{{ route('root') }}">
-                    <img src="{{ asset('img/logo.png') }}">
-                </a>
-            </div>
-            <div class="pull-right header-search">
-                <ul>
-                    <li>
-                        <input type="search" data-url="{{ route('products.search_hint') }}" class="selectInput_header"
-                               placeholder="@lang('app.Please enter the item you are searching for')">
-                        <a class="search_btn" href="javascript:void(0);">
-                            <img src="{{ asset('img/search_magnifier.png') }}">
-                        </a>
-                        <div class="selectList dis_n" data-url="{{ route('products.search') }}">
-                            <ul></ul>
-                        </div>
-                    </li>
-                    <li class="shppingCart">
-                        <a href="{{ route('carts.index') }}" class="shop_cart">
-                            <img src="{{ asset('img/header/shop_car.png') }}">
-                            @if(isset($cart_count))
-                                <div class="for_cart_num">
-                                    <span class="shop_cart_num">{{ $cart_count }}</span>
-                                </div>
-                            @else
-                                <div class="for_cart_num">
-                                    <span class="shop_cart_num">0</span>
-                                </div>
-                            @endif
-                        </a>
-                    </li>
-                </ul>
+            <div class="navbar-bottom-bottom">
+        		<ul class="navbar-bottom-bottom-left">
+        			<li class="first_menu">
+        				<a href="{{ route('root') }}"><span>HOME</span></a>
+        			</li>
+        			<li class="first_menu">
+        				<a href="{{ route('root') }}"><span>HAIR SYSTEMS</span></a>
+        				<!--二级菜单内容-->
+        				<div class="nav-panel-dropdown">
+        					<ul>
+        						<li>
+        							<a href="#"><span>All Lace</span></a>
+        						</li>
+        						<li>
+        							<a href="#"><span>Lace Front</span></a>
+        						</li>
+        						<li>
+        							<a href="#"><span>Monofilament</span></a>
+        						</li>
+        						<li>
+        							<a href="#"><span>Skin</span></a>
+        						</li>
+        						<li>
+        							<a href="#"><span>High Definitionals</span></a>
+        						</li>
+        					</ul>
+        				</div>
+        			</li>
+        			<li class="first_menu">
+        				<a href="{{ route('root') }}"><span>ACCESSORIES</span></a>
+        				<!--二级菜单内容-->
+        				<div class="nav-panel-dropdown">
+        					<ul>
+        						<li>
+        							<a href="#"><span>All Lace1</span></a>
+        						</li>
+        						<li>
+        							<a href="#"><span>Lace Front1</span></a>
+        						</li>
+        						<li>
+        							<a href="#"><span>Monofilament1</span></a>
+        						</li>
+        						<li>
+        							<a href="#"><span>Skin1</span></a>
+        						</li>
+        						<li>
+        							<a href="#"><span>High Definitionals1</span></a>
+        						</li>
+        					</ul>
+        				</div>
+        			</li>
+        			<li class="first_menu">
+        				<a href="{{ route('root') }}"><span>VIDEO</span></a>
+        				<!--二级菜单内容-->
+        				<div class="nav-panel-dropdown">
+        					<ul>
+        						<li>
+        							<a href="#"><span>All Lace2</span></a>
+        						</li>
+        						<li>
+        							<a href="#"><span>Lace Front2</span></a>
+        						</li>
+        						<li>
+        							<a href="#"><span>Monofilament2</span></a>
+        						</li>
+        						<li>
+        							<a href="#"><span>Skin2</span></a>
+        						</li>
+        						<li>
+        							<a href="#"><span>High Definitionals2</span></a>
+        						</li>
+        					</ul>
+        				</div>
+        			</li>
+        			<li class="first_menu">
+        				<a href="{{ route('root') }}"><span>PHOTOS</span></a>
+        				<!--二级菜单内容-->
+        				<div class="nav-panel-dropdown">
+        					<ul>
+        						<li>
+        							<a href="#"><span>All Lace3</span></a>
+        						</li>
+        						<li>
+        							<a href="#"><span>Lace Front3</span></a>
+        						</li>
+        						<li>
+        							<a href="#"><span>Monofilament3</span></a>
+        						</li>
+        						<li>
+        							<a href="#"><span>Skin3</span></a>
+        						</li>
+        						<li>
+        							<a href="#"><span>High Definitionals3</span></a>
+        						</li>
+        					</ul>
+        				</div>
+        			</li>
+        			<li class="first_menu">
+        				<a href="{{ route('root') }}"><span>HOW TO</span></a>
+        				<!--二级菜单内容-->
+        				<div class="nav-panel-dropdown">
+        					<ul>
+        						<li>
+        							<a href="#"><span>All Lace4</span></a>
+        						</li>
+        						<li>
+        							<a href="#"><span>Lace Front4</span></a>
+        						</li>
+        						<li>
+        							<a href="#"><span>Monofilament4</span></a>
+        						</li>
+        						<li>
+        							<a href="#"><span>Skin4</span></a>
+        						</li>
+        						<li>
+        							<a href="#"><span>High Definitionals4</span></a>
+        						</li>
+        					</ul>
+        				</div>
+        			</li>
+        			<li class="first_menu">
+        				<a href="{{ route('root') }}"><span>BLOG</span></a>
+        				<!--二级菜单内容-->
+        				<div class="nav-panel-dropdown">
+        					<ul>
+        						<li>
+        							<a href="#"><span>All Lace</span></a>
+        						</li>
+        						<li>
+        							<a href="#"><span>Lace Front</span></a>
+        						</li>
+        						<li>
+        							<a href="#"><span>Monofilament</span></a>
+        						</li>
+        						<li>
+        							<a href="#"><span>Skin</span></a>
+        						</li>
+        						<li>
+        							<a href="#"><span>High Definitionals</span></a>
+        						</li>
+        					</ul>
+        				</div>
+        			</li>
+        			<li class="first_menu">
+        				<a href="{{ route('root') }}"><span>STARTING A BUSINESS</span></a>
+        				<!--二级菜单内容-->
+        				<div class="nav-panel-dropdown">
+        					<ul>
+        						<li>
+        							<a href="#"><span>All Lace</span></a>
+        						</li>
+        						<li>
+        							<a href="#"><span>Lace Front</span></a>
+        						</li>
+        						<li>
+        							<a href="#"><span>Monofilament</span></a>
+        						</li>
+        						<li>
+        							<a href="#"><span>Skin</span></a>
+        						</li>
+        						<li>
+        							<a href="#"><span>High Definitionals</span></a>
+        						</li>
+        					</ul>
+        				</div>
+        			</li>
+        		</ul>
+            	<div class="pull-right header-search">
+	                <ul>
+	                    <li>
+	                        <input type="search" data-url="{{ route('products.search_hint') }}" class="selectInput_header"
+	                               placeholder="@lang('app.Please enter the item you are searching for')">
+	                        <a class="search_btn" href="javascript:void(0);">
+	                            <img src="{{ asset('img/search_magnifier.png') }}">
+	                        </a>
+	                        <div class="selectList dis_n" data-url="{{ route('products.search') }}">
+	                            <ul></ul>
+	                        </div>
+	                    </li>
+	                    <li class="shppingCart">
+	                        <a href="{{ route('carts.index') }}" class="shop_cart">
+	                            <img src="{{ asset('img/header/shop_car.png') }}">
+	                            @if(isset($cart_count))
+	                                <div class="for_cart_num">
+	                                    <span class="shop_cart_num">{{ $cart_count }}</span>
+	                                </div>
+	                            @else
+	                                <div class="for_cart_num">
+	                                    <span class="shop_cart_num">0</span>
+	                                </div>
+	                            @endif
+	                        </a>
+	                    </li>
+	                </ul>
+	            </div>
             </div>
         </div>
     </div>
