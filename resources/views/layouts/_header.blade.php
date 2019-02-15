@@ -79,178 +79,42 @@
 		            </div>
             	</div>
             	<div class="navbar-bottom-top-right">
-            		<a href="#">STOCK ORDER</a>
-            		<a href="#">CUSTOM ORDER</a>
-            		<a href="#">DUPLICATE</a>
-            		<a href="#">REPAIR</a>
+            		<a href="#">Stock Order</a>
+            		<a href="#">Custom Order</a>
+            		<a href="#">Duplicate</a>
+            		<a href="#">Repair</a>
             	</div>
             </div>
             <div class="navbar-bottom-bottom">
         		<ul class="navbar-bottom-bottom-left">
         			<li class="first_menu">
-        				<a href="{{ route('root') }}"><span>HOME</span></a>
+        				<a href="{{ route('root') }}"><span>@lang('basic.home')</span></a>
         			</li>
-        			<li class="first_menu">
-        				<a href="{{ route('root') }}"><span>HAIR SYSTEMS</span></a>
-        				<!--二级菜单内容-->
-        				<div class="nav-panel-dropdown">
-        					<ul>
-        						<li>
-        							<a href="#"><span>All Lace</span></a>
-        						</li>
-        						<li>
-        							<a href="#"><span>Lace Front</span></a>
-        						</li>
-        						<li>
-        							<a href="#"><span>Monofilament</span></a>
-        						</li>
-        						<li>
-        							<a href="#"><span>Skin</span></a>
-        						</li>
-        						<li>
-        							<a href="#"><span>High Definitionals</span></a>
-        						</li>
-        					</ul>
-        				</div>
-        			</li>
-        			<li class="first_menu">
-        				<a href="{{ route('root') }}"><span>ACCESSORIES</span></a>
-        				<!--二级菜单内容-->
-        				<div class="nav-panel-dropdown">
-        					<ul>
-        						<li>
-        							<a href="#"><span>All Lace1</span></a>
-        						</li>
-        						<li>
-        							<a href="#"><span>Lace Front1</span></a>
-        						</li>
-        						<li>
-        							<a href="#"><span>Monofilament1</span></a>
-        						</li>
-        						<li>
-        							<a href="#"><span>Skin1</span></a>
-        						</li>
-        						<li>
-        							<a href="#"><span>High Definitionals1</span></a>
-        						</li>
-        					</ul>
-        				</div>
-        			</li>
-        			<li class="first_menu">
-        				<a href="{{ route('root') }}"><span>VIDEO</span></a>
-        				<!--二级菜单内容-->
-        				<div class="nav-panel-dropdown">
-        					<ul>
-        						<li>
-        							<a href="#"><span>All Lace2</span></a>
-        						</li>
-        						<li>
-        							<a href="#"><span>Lace Front2</span></a>
-        						</li>
-        						<li>
-        							<a href="#"><span>Monofilament2</span></a>
-        						</li>
-        						<li>
-        							<a href="#"><span>Skin2</span></a>
-        						</li>
-        						<li>
-        							<a href="#"><span>High Definitionals2</span></a>
-        						</li>
-        					</ul>
-        				</div>
-        			</li>
-        			<li class="first_menu">
-        				<a href="{{ route('root') }}"><span>PHOTOS</span></a>
-        				<!--二级菜单内容-->
-        				<div class="nav-panel-dropdown">
-        					<ul>
-        						<li>
-        							<a href="#"><span>All Lace3</span></a>
-        						</li>
-        						<li>
-        							<a href="#"><span>Lace Front3</span></a>
-        						</li>
-        						<li>
-        							<a href="#"><span>Monofilament3</span></a>
-        						</li>
-        						<li>
-        							<a href="#"><span>Skin3</span></a>
-        						</li>
-        						<li>
-        							<a href="#"><span>High Definitionals3</span></a>
-        						</li>
-        					</ul>
-        				</div>
-        			</li>
-        			<li class="first_menu">
-        				<a href="{{ route('root') }}"><span>HOW TO</span></a>
-        				<!--二级菜单内容-->
-        				<div class="nav-panel-dropdown">
-        					<ul>
-        						<li>
-        							<a href="#"><span>All Lace4</span></a>
-        						</li>
-        						<li>
-        							<a href="#"><span>Lace Front4</span></a>
-        						</li>
-        						<li>
-        							<a href="#"><span>Monofilament4</span></a>
-        						</li>
-        						<li>
-        							<a href="#"><span>Skin4</span></a>
-        						</li>
-        						<li>
-        							<a href="#"><span>High Definitionals4</span></a>
-        						</li>
-        					</ul>
-        				</div>
-        			</li>
-        			<li class="first_menu">
-        				<a href="{{ route('root') }}"><span>BLOG</span></a>
-        				<!--二级菜单内容-->
-        				<div class="nav-panel-dropdown">
-        					<ul>
-        						<li>
-        							<a href="#"><span>All Lace</span></a>
-        						</li>
-        						<li>
-        							<a href="#"><span>Lace Front</span></a>
-        						</li>
-        						<li>
-        							<a href="#"><span>Monofilament</span></a>
-        						</li>
-        						<li>
-        							<a href="#"><span>Skin</span></a>
-        						</li>
-        						<li>
-        							<a href="#"><span>High Definitionals</span></a>
-        						</li>
-        					</ul>
-        				</div>
-        			</li>
-        			<li class="first_menu">
-        				<a href="{{ route('root') }}"><span>STARTING A BUSINESS</span></a>
-        				<!--二级菜单内容-->
-        				<div class="nav-panel-dropdown">
-        					<ul>
-        						<li>
-        							<a href="#"><span>All Lace</span></a>
-        						</li>
-        						<li>
-        							<a href="#"><span>Lace Front</span></a>
-        						</li>
-        						<li>
-        							<a href="#"><span>Monofilament</span></a>
-        						</li>
-        						<li>
-        							<a href="#"><span>Skin</span></a>
-        						</li>
-        						<li>
-        							<a href="#"><span>High Definitionals</span></a>
-        						</li>
-        					</ul>
-        				</div>
-        			</li>
+        			@foreach(\App\Models\Menu::pcMenus() as $menu)
+                        <li class="first_menu">
+                            <a href="{{ $menu->link }}">{{ App::isLocale('en') ? $menu->name_en : $menu->name_zh }}</a>
+                            <!--二级菜单内容-->
+	        				<div class="nav-panel-dropdown">
+	        					<ul>
+	        						<li>
+	        							<a href="#"><span>All Lace</span></a>
+	        						</li>
+	        						<li>
+	        							<a href="#"><span>Lace Front</span></a>
+	        						</li>
+	        						<li>
+	        							<a href="#"><span>Monofilament</span></a>
+	        						</li>
+	        						<li>
+	        							<a href="#"><span>Skin</span></a>
+	        						</li>
+	        						<li>
+	        							<a href="#"><span>High Definitionals</span></a>
+	        						</li>
+	        					</ul>
+	        				</div>
+                        </li>
+                    @endforeach
         		</ul>
             	<div class="pull-right header-search">
 	                <ul>

@@ -386,6 +386,7 @@ img {
                 }
             }
             .navbar-bottom-bottom {
+                min-height: 50px;
                 display: flex;
                 flex-direction: row;
                 justify-content: space-between;
@@ -402,6 +403,7 @@ img {
                         height: 100%;
                         margin: auto;
                         margin-left: 0;
+//                      margin-right: 25px;
                         text-align: center;
                         padding: 0 10px;
                         transition: all .5s;
@@ -451,7 +453,7 @@ img {
                 }
                 .header-search {
                     margin: auto;
-                    ul {
+                    >ul {
                         display: flex;
                         flex-direction: row;
                         li {
@@ -483,6 +485,8 @@ img {
                             .selectList {
                                 width: 196px;
                                 min-height: 100px;
+                                max-height: 300px;
+                                overflow: auto;
                                 position: absolute;
                                 background: #fff;
                                 top: 30px;
@@ -499,8 +503,11 @@ img {
                                         border-bottom: none;
                                         height: 25px;
                                         line-height: 25px;
-                                        padding-left: 15px;
+                                        padding: 0 15px;
                                         font-size: 12px;
+                                        overflow: hidden;
+                                        white-space: nowrap;
+                                        text-overflow: ellipsis;
                                         cursor: pointer;
                                         &:hover {
                                             color: #fff;
