@@ -36,23 +36,20 @@ class Config extends Model
         // 尝试从缓存中取出 cache_key 对应的数据。如果能取到，便直接返回数据。
         // 否则运行匿名函数中的代码来取出 configs 表中所有的数据，返回的同时做了缓存。
         return Cache::remember(self::$cache_key, self::$cache_expire_in_minutes, function () {
-            return Config::all();
+            return self::all();
         });
     }
 
     public static function config($code = null)
     {
 
-        if (empty($code) || !$config = self::configs()->where('code', $code)->first())
-        {
+        if (empty($code) || !$config = self::configs()->where('code', $code)->first()) {
             return '';
         }
 
 
-        if ($config->type == 'image')
-        {
-            if (!Str::startsWith($config->value, ['http://', 'https://']))
-            {
+        if ($config->type == 'image') {
+            if (!Str::startsWith($config->value, ['http://', 'https://'])) {
                 return \Storage::disk('public')->url($config->value);
             }
         }

@@ -73,7 +73,7 @@
     </div>
     <div class="footer-bottom">
         <div class="m-wrapper">
-            <!--<ul class="web_info">
+            {{--<ul class="web_info">
                 <li>
                     <p>
                         营业执照注册号：{{ \App\Models\Config::config('registration_no') }}
@@ -89,7 +89,7 @@
                         鲁公网备案 {{ \App\Models\Config::config('icp_no') }} 号
                     </p>
                 </li>
-            </ul>-->
+            </ul>--}}
             <ul class="friendship_link">
                 <li>
                     <p>@lang('app.Friendship link')：</p>

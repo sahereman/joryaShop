@@ -15,7 +15,7 @@ class IndexController extends Controller
 {
     public function root(Request $request)
     {
-        $banners = Banner::where('type', 'index')->orderByDesc('sort')->get();
+        $banners = Banner::where('type', 'index')->orderBy('sort')->get();
 
         $products = [];
         $categories = ProductCategory::where(['parent_id' => 0, 'is_index' => 1])->orderBy('sort')->get()->reject(function ($item, $key) {

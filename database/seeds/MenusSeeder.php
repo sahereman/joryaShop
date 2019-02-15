@@ -15,7 +15,7 @@ class MenusSeeder extends Seeder
     {
         $categories = ProductCategory::where('parent_id', 0)
             ->where('is_index', 1)
-            ->orderByDesc('sort')
+            ->orderBy('sort')
             ->get();
         $categories->each(function (ProductCategory $category) {
             factory(Menu::class)->create([

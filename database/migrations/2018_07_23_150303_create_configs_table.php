@@ -27,7 +27,7 @@ class CreateConfigsTable extends Migration
 
             $table->string('value')->default('')->comment('配置的值');
             $table->string('help')->default('')->comment('帮助提示');
-            $table->smallInteger('sort')->default(0)->comment('排序');
+            $table->smallInteger('sort')->nullable(false)->default(0)->comment('排序值');
         });
     }
 
