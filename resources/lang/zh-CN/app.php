@@ -92,11 +92,11 @@ return [
     'System error' => '系统错误',
     'SMS Reset' => '短信重置',
     'The Best For You' => '最适合你的',
-    'Repair' => '维修',
+    'Repair' => '修复',
     '30 Day Money Back' => '30天退款',
     'Guarantee' => '保证',
     'Custom Order' => '定制订单',
-    'Duplicate' => '复制品',
-    'Stock Custom  Hair Systems' => '采购&发型定制体系',
-    'Stock Order' => '采购订单'
+    'Duplicate' => '复刻',
+    'Stock Custom  Hair Systems' => '现货&定制产品销售',
+    'Stock Order' => '现货订单'
 ];
