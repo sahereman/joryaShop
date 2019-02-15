@@ -27,7 +27,8 @@ class AlterContentColumnOfArticlesTable extends Migration
     public function down()
     {
         Schema::table('articles', function (Blueprint $table) {
-            //
+            $table->string('content_en')->change();
+            $table->string('content_zh')->change();
         });
     }
 }

@@ -18,7 +18,7 @@ class IndexController extends Controller
         $banners = Banner::where('type', 'index')->orderByDesc('sort')->get();
 
         $products = [];
-        $categories = ProductCategory::where(['parent_id' => 0, 'is_index' => 1])->get()->reject(function ($item, $key) {
+        $categories = ProductCategory::where(['parent_id' => 0, 'is_index' => 1])->orderBy('sort')->get()->reject(function ($item, $key) {
             return $item->children->isEmpty();
         });
         $categories = $categories->values(); // reset the indices.

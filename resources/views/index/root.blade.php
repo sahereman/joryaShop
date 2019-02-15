@@ -76,7 +76,7 @@
                                         @break
                                     @endif
                                     <li>
-                                        <a href="{{ route('product_categories.index', ['category' => $child->id]) }}">{{App::isLocale('en') ? $child->name_en : $child->name_zh }}</a>
+                                        <a href="{{ route('product_categories.index', ['category' => $child->id]) }}">{{ App::isLocale('en') ? $child->name_en : $child->name_zh }}</a>
                                         @if($k != 0)
                                             <span>/</span>
                                         @endif
@@ -99,7 +99,7 @@
                                     <li>
                                         <a href="{{ route('products.show', ['product' => $product->id]) }}">
                                             <img class="lazy" data-src="{{ $product->thumb_url }}">
-                                            <h5 title="{{ App::isLocale('en') ? $product->name_en : $product->name_zh }}">{{App::isLocale('en') ? $product->name_en : $product->name_zh }}</h5>
+                                            <h5 title="{{ App::isLocale('en') ? $product->name_en : $product->name_zh }}">{{ App::isLocale('en') ? $product->name_en : $product->name_zh }}</h5>
                                             <span title="{{ App::isLocale('en') ? strip_tags($product->description_en) : strip_tags($product->description_zh) }}">
                                                 {!! App::isLocale('en') ? $product->description_en : $product->description_zh !!}
                                             </span>
