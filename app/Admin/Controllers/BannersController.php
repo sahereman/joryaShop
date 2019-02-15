@@ -118,6 +118,7 @@ class BannersController extends Controller
             'index' => 'PC站首页',
             'mobile' => 'Mobile站首页'
         ])->rules('required');
+
         $form->image('image', 'Banner图')->rules('required|image')->help('PC首页尺寸:1920 * 780 , Mobile首页尺寸:960 * 390');
 
         $form->number('sort', '排序');
@@ -125,8 +126,7 @@ class BannersController extends Controller
         //保存前回调
         $form->saving(function (Form $form) {
 
-            switch ($form->input('type'))
-            {
+            switch ($form->input('type')) {
                 case 'index' :
                     $form->builder()->field('image')->resize(1920, 780)->uniqueName()->move('banner');
                     break;
