@@ -82,55 +82,50 @@ class ProductCategoriesController extends Controller
     }
 
 
-    //    /**
-    //     * Make a grid builder.
-    //     * @return Grid
-    //     */
-    //    protected function grid($request)
-    //    {
-    //
-    //        $parent_category = ProductCategory::find($request->input('pid'));
-    //
-    //        $grid = new Grid(new ProductCategory);
-    //
-    //        /*筛选*/
-    //        $grid->filter(function ($filter) {
-    //            $filter->disableIdFilter(); // 去掉默认的id过滤器
-    //            $filter->like('name_zh', '名称(中文)');
-    //        });
-    //
-    //        if ($parent_category)
-    //        {
-    //            $grid->model()->where('parent_id', $parent_category->id);
-    //        } else
-    //        {
-    //            $grid->model()->where('parent_id', 0);
-    //        }
-    //
-    //        $grid->id('ID');
-    //        $grid->name_zh('名称(中文)');
-    //        $grid->name_en('名称(英文)');
-    //
-    //        if ($parent_category)
-    //        {
-    //            $grid->parent_category()->name_zh('上级分类');
-    //        } else
-    //        {
-    //            // 是否首页显示
-    //            $states = [
-    //                'on' => ['value' => true, 'text' => '已开启', 'color' => 'primary'],
-    //                'off' => ['value' => false, 'text' => '已关闭', 'color' => 'default'],
-    //            ];
-    //            $grid->is_index('首页显示')->switch($states);
-    //
-    //            // 选项
-    //            $grid->column('option', '选项')->display(function () {
-    //                return '<a href="' . route('admin.product_categories.index', ['pid' => $this->id]) . '" class="btn btn-xs btn-primary" style="margin-right: 10px">查看下级分类 <span class="badge">' . count($this->child_categories) . '</span></a>';
-    //            });
-    //        }
-    //
-    //        return $grid;
-    //    }
+    /**
+     * Make a grid builder.
+     * @return Grid
+     */
+//    protected function grid(Request $request)
+//    {
+//        $parent_category = ProductCategory::find($request->input('pid'));
+//
+//        $grid = new Grid(new ProductCategory);
+//
+//        /*筛选*/
+//        $grid->filter(function ($filter) {
+//            $filter->disableIdFilter(); // 去掉默认的id过滤器
+//            $filter->like('name_zh', '名称(中文)');
+//        });
+//
+//        if ($parent_category) {
+//            $grid->model()->where('parent_id', $parent_category->id);
+//        } else {
+//            $grid->model()->where('parent_id', 0);
+//        }
+//
+//        $grid->id('ID');
+//        $grid->name_zh('名称(中文)');
+//        $grid->name_en('名称(英文)');
+//
+//        if ($parent_category) {
+//            $grid->parent_category()->name_zh('上级分类');
+//        } else {
+//            // 是否首页显示
+//            $states = [
+//                'on' => ['value' => true, 'text' => '已开启', 'color' => 'primary'],
+//                'off' => ['value' => false, 'text' => '已关闭', 'color' => 'default'],
+//            ];
+//            $grid->is_index('首页显示')->switch($states);
+//
+//            // 选项
+//            $grid->column('option', '选项')->display(function () {
+//                return '<a href="' . route('admin.product_categories.index', ['pid' => $this->id]) . '" class="btn btn-xs btn-primary" style="margin-right: 10px">查看下级分类 <span class="badge">' . count($this->child_categories) . '</span></a>';
+//            });
+//        }
+//
+//        return $grid;
+//    }
 
         /**
          * Make a show builder.
@@ -151,7 +146,6 @@ class ProductCategoriesController extends Controller
             });
             $show->created_at('创建时间');
             $show->updated_at('更新时间');
-
 
             $show->parent('上级栏目', function ($parent_category) {
                 $parent_category->id('ID');
@@ -175,16 +169,13 @@ class ProductCategoriesController extends Controller
         });
         $parent_categories->prepend('顶级分类', 0);
 
-
         $form->select('parent_id', '上级分类')->options($parent_categories)->rules('required');
         $form->text('name_zh', '名称(中文)')->rules('required');
         $form->text('name_en', '名称(英文)')->rules('required');
         $form->text('description_zh', '描述(中文)')->rules('required');
-        $form->text('description_en', '描述(中文)')->rules('required');
+        $form->text('description_en', '描述(英文)')->rules('required');
         $form->switch('is_index', '首页显示');
         $form->number('sort', '排序值');
-
-
 
         return $form;
     }
