@@ -304,14 +304,14 @@ class ProductsController extends Controller
                     'message' => 'success',
                     'data' => [
                         'product' => [
-                            'price_in_usd' => $product->price_in_usd,
-                            'original_price_in_usd' => bcmul($product->price_in_usd, 1.2, 2),
+                            'price' => $product->price,
+                            'original_price' => bcmul($product->price, 1.2, 2),
                         ],
                         'sku' => [
                             'id' => $skus->first()->id,
                             'stock' => $skus->first()->stock,
-                            'price_in_usd' => $skus->first()->price_in_usd,
-                            'original_price_in_usd' => bcmul($skus->first()->price_in_usd, 1.2, 2),
+                            'price' => $skus->first()->price,
+                            'original_price' => bcmul($skus->first()->price, 1.2, 2),
                         ],
                         'parameters' => [
                             'base_sizes' => [],
@@ -326,14 +326,14 @@ class ProductsController extends Controller
                     'message' => trans('basic.orders.Sku_does_not_exist'),
                     'data' => [
                         'product' => [
-                            'price_in_usd' => $product->price_in_usd,
-                            'original_price_in_usd' => bcmul($product->price_in_usd, 1.2, 2),
+                            'price' => $product->price,
+                            'original_price' => bcmul($product->price, 1.2, 2),
                         ],
                         'sku' => [
                             'id' => '',
                             'stock' => '',
-                            'price_in_usd' => '',
-                            'original_price_in_usd' => '',
+                            'price' => '',
+                            'original_price' => '',
                         ],
                         'parameters' => [
                             'base_sizes' => [],
@@ -372,14 +372,14 @@ class ProductsController extends Controller
             'message' => 'success',
             'data' => [
                 'product' => [
-                    'price_in_usd' => $product->price_in_usd,
-                    'original_price_in_usd' => bcmul($product->price_in_usd, 1.2, 2),
+                    'price' => $product->price,
+                    'original_price' => bcmul($product->price, 1.2, 2),
                 ],
                 'sku' => [
                     'id' => '',
                     'stock' => '',
-                    'price_in_usd' => '',
-                    'original_price_in_usd' => '',
+                    'price' => '',
+                    'original_price' => '',
                 ],
                 'parameters' => $parameters,
             ],

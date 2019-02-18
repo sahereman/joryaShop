@@ -306,12 +306,14 @@ class ProductsController extends Controller
             $form->display('price', '价格')->setWidth(2);
             $form->display('stock', '库存')->setWidth(2);
             $form->display('sales', '销量')->setWidth(2);
-            $form->currency('shipping_fee', '运费')->symbol('￥')->rules('required');
+            // $form->currency('shipping_fee', '运费')->symbol('￥')->rules('required');
+            $form->currency('shipping_fee', '运费')->symbol('$')->rules('required');
 
             $form->hasMany('skus', 'SKU 列表', function (Form\NestedForm $form) {
                 $form->text('name_zh', 'SKU 名称(中文)')->rules('required');
                 // $form->text('name_en', 'SKU 名称(英文)')->rules('required')->default('');
-                $form->currency('price', '单价')->symbol('￥')->rules('required|numeric|min:0.01');
+                // $form->currency('price', '单价')->symbol('￥')->rules('required|numeric|min:0.01');
+                $form->currency('price', '单价')->symbol('$')->rules('required|numeric|min:0.01');
                 $form->number('stock', '剩余库存')->min(0)->rules('required|integer|min:0');
                 $form->display('sales', '销量')->setWidth(2);
 
