@@ -43,15 +43,20 @@ class ExchangeRate extends Model
         });
     }
 
-    public static function exchangePrice($price, $to_currency = 'USD', $from_currency = 'CNY')
+    public static function exchangePrice($price, $to_currency = 'CNY', $from_currency = 'USD')
     {
-        $currencies = self::exchangeRates()->pluck('currency')->toArray();
-        $rates = self::exchangeRates()->keyBy('currency')->toArray();
-        if(in_array($from_currency, $currencies)){
-            $price = bcdiv($price, $rates[$from_currency]['rate'], 2);
+        if ($price == 0.00) {
+            return 0.00;
         }
-        if(in_array($to_currency, $currencies)){
-            $price = bcmul($price, $rates[$to_currency]['rate'], 2);
+        $currencies = self::exchangeRates()->pluck('currency')->toArray();
+        $exchange_rates = self::exchangeRates()->keyBy('currency')->toArray();
+        if ($to_currency != 'USD' && in_array($to_currency, $currencies)) {
+            $price = bcmul($price, $exchange_rates[$to_currency]['rate'], 2);
+            $price = ($price == 0.00) ? 0.01 : $price;
+        }
+        if ($from_currency != 'USD' && in_array($from_currency, $currencies)) {
+            $price = bcdiv($price, $exchange_rates[$from_currency]['rate'], 2);
+            $price = ($price == 0.00) ? 0.01 : $price;
         }
         return $price;
     }

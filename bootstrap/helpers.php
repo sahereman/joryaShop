@@ -1,10 +1,12 @@
 <?php
 
+use App\Models\ExchangeRate;
 use GuzzleHttp\Client as GuzzleHttpClient;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Psr7;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use Overtrue\EasySms\EasySms;
 use Overtrue\EasySms\PhoneNumber;
@@ -411,4 +413,32 @@ function array_unshift_assoc(array &$array_assoc, string $key, $value)
     $array_assoc = array_reverse($array_assoc, true);
     $array_assoc[$key] = $value;
     return array_reverse($array_assoc, true);
+}
+
+/*
+ * Set global currency.
+ * @param string $currency eg. 'USD', 'CNY', etc ...
+ * @return string
+ */
+function set_global_currency(string $currency = 'USD')
+{
+    // $currencies = ExchangeRate::exchangeRates()->pluck('currency')->all();
+    $currencies = ExchangeRate::exchangeRates()->pluck('currency')->toArray();
+    $currency = in_array($currency, $currencies) ? $currency : 'USD';
+    Session::put('GlobalCurrency', $currency);
+}
+
+/*
+ * Get global currency.
+ * @return string
+ */
+function get_global_currency()
+{
+    return Session::get('GlobalCurrency', 'USD');
+}
+
+function get_current_price($price_in_usd)
+{
+    $global_currency = get_global_currency();
+    return ExchangeRate::exchangePrice($price_in_usd, $global_currency, 'USD');
 }

@@ -14,9 +14,9 @@ class ExchangeRatesSeeder extends Seeder
         ExchangeRate::truncate();
 
         ExchangeRate::create([
-            'name' => '人民币兑换美元汇率',
-            'currency' => 'USD',
-            'rate' => 0.15
+            'name' => 'USD to CNY',
+            'currency' => 'CNY',
+            'rate' => 6.7
         ]);
     }
 }

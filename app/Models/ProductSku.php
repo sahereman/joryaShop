@@ -62,19 +62,19 @@ class ProductSku extends Model
      * @var array
      */
     protected $appends = [
-        'price_in_usd',
+        // 'price_in_usd',
         'parameters_zh',
         'parameters_en',
     ];
 
-    public function getPriceInUsdAttribute()
+    /*public function getPriceInUsdAttribute()
     {
         $price_in_usd = ExchangeRate::exchangePrice($this->attributes['price'], 'USD');
         if ($price_in_usd == 0.00) {
             return 0.01;
         }
         return $price_in_usd;
-    }
+    }*/
 
     public function getParametersZhAttribute()
     {
