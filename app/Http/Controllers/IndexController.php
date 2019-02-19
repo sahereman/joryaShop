@@ -116,10 +116,11 @@ class IndexController extends Controller
      */
     public function currencyUpdate(Request $request, string $currency = 'USD')
     {
-        // $currencies = ExchangeRate::exchangeRates()->pluck('currency')->all();
+        /*// $currencies = ExchangeRate::exchangeRates()->pluck('currency')->all();
         $currencies = ExchangeRate::exchangeRates()->pluck('currency')->toArray();
         $currency = in_array($currency, $currencies) ? $currency : 'USD';
-        $request->session()->put('GlobalCurrency', $currency);
+        $request->session()->put('GlobalCurrency', $currency);*/
+        set_global_currency($currency);
         return back();
     }
 }

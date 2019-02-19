@@ -288,7 +288,7 @@ class OrdersController extends Controller
     public function store(PostOrderRequest $request)
     {
         $user = $request->user();
-        $currency = $request->has('currency') ? $request->input('currency') : 'CNY';
+        $currency = $request->has('currency') ? $request->input('currency') : 'USD';
 
         // 开启事务
         $order = DB::transaction(function () use ($request, $user, $currency) {
@@ -305,12 +305,12 @@ class OrdersController extends Controller
                 $sku = ProductSku::find($sku_id);
                 $product = $sku->product;
                 // $price = ($currency == 'CNY') ? $sku->price : $sku->price_in_usd;
-                $price = ExchangeRate::exchangePrice($sku->price, $currency);
+                $price = exchange_price($sku->price, $currency);
                 $snapshot[0]['sku_id'] = $sku_id;
                 $snapshot[0]['price'] = $price;
                 $snapshot[0]['number'] = $number;
                 // $total_shipping_fee = ($currency == 'CNY') ? bcmul($product->shipping_fee, $number, 2) : bcmul($product->shipping_fee_in_usd, $number, 2);
-                $total_shipping_fee = bcmul(ExchangeRate::exchangePrice($product->shipping_fee, $currency), $number, 2);
+                $total_shipping_fee = bcmul(exchange_price($product->shipping_fee, $currency), $number, 2);
                 $total_amount = bcmul($price, $number, 2);
                 $is_nil = false;
             } elseif ($request->has('cart_ids')) {
@@ -329,12 +329,12 @@ class OrdersController extends Controller
                     }
                     $product = $sku->product;
                     // $price = ($currency == 'CNY') ? $sku->price : $sku->price_in_usd;
-                    $price = ExchangeRate::exchangePrice($sku->price, $currency);
+                    $price = exchange_price($sku->price, $currency);
                     $snapshot[$key]['sku_id'] = $sku->id;
                     $snapshot[$key]['price'] = $price;
                     $snapshot[$key]['number'] = $cart->number;
                     // $total_shipping_fee += ($currency == 'CNY') ? bcmul($product->shipping_fee, $number, 2) : bcmul($product->shipping_fee_in_usd, $number, 2);
-                    $total_shipping_fee = bcmul(ExchangeRate::exchangePrice($product->shipping_fee, $currency), $number, 2);
+                    $total_shipping_fee = bcmul(exchange_price($product->shipping_fee, $currency), $number, 2);
                     $total_amount += bcmul($price, $number, 2);
                     $is_nil = false;
                 }
@@ -398,7 +398,7 @@ class OrdersController extends Controller
     public function storeBySkuParameters(PostOrderRequest $request)
     {
         $user = $request->user();
-        $currency = $request->has('currency') ? $request->input('currency') : 'CNY';
+        $currency = $request->has('currency') ? $request->input('currency') : 'USD';
 
         // 开启事务
         $order = DB::transaction(function () use ($request, $user, $currency) {
@@ -428,12 +428,12 @@ class OrdersController extends Controller
             $sku = ProductSku::find($sku_id);
             $product = $sku->product;
             // $price = ($currency == 'CNY') ? $sku->price : $sku->price_in_usd;
-            $price = ExchangeRate::exchangePrice($sku->price, $currency);
+            $price = exchange_price($sku->price, $currency);
             $snapshot[0]['sku_id'] = $sku_id;
             $snapshot[0]['price'] = $price;
             $snapshot[0]['number'] = $number;
             // $total_shipping_fee = ($currency == 'CNY') ? bcmul($product->shipping_fee, $number, 2) : bcmul($product->shipping_fee_in_usd, $number, 2);
-            $total_shipping_fee = bcmul(ExchangeRate::exchangePrice($product->shipping_fee, $currency), $number, 2);
+            $total_shipping_fee = bcmul(exchange_price($product->shipping_fee, $currency), $number, 2);
             $total_amount = bcmul($price, $number, 2);
 
             // 创建一条订单记录
