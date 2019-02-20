@@ -646,7 +646,7 @@
                             // sku_original_price_in_usd = data.data.sku.original_price_in_usd;
                             // $('span#sku_original_price_in_usd').html('<i>&#36; </i> ' + sku_original_price_in_usd);
                             sku_price = get_current_price(data.data.sku.price);
-                            $('span#sku_price').html('<i>' + global_symbol + ' </i>' + sku_price);
+                            $('span#sku_price_in_usd').html('<i>' + global_symbol + ' </i>' + sku_price);
                             sku_original_price = get_current_price(data.data.sku.original_price);
                             $('span#sku_original_price_in_usd').html('<i>' + global_symbol + ' </i> ' + sku_original_price);
                         }
