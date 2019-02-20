@@ -13,12 +13,12 @@
                             <img src="{{ asset('img/header/down_arrow.png') }}">
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="dLabel">
-                            <li>
-                                <a href="{{ route('locale.update', ['locale' => 'zh-CN']) }}">
-                                    <img src="{{ asset('img/header/cn_flag.png') }}">
-                                    <span>中文</span>
-                                </a>
-                            </li>
+                            {{--<li>--}}
+                                {{--<a href="{{ route('locale.update', ['locale' => 'zh-CN']) }}">--}}
+                                    {{--<img src="{{ asset('img/header/cn_flag.png') }}">--}}
+                                    {{--<span>中文</span>--}}
+                                {{--</a>--}}
+                            {{--</li>--}}
                             <li>
                                 <a href="{{ route('locale.update', ['locale' => 'en']) }}">
                                     <img src="{{ asset('img/header/en_flag.png') }}">

@@ -8,16 +8,16 @@
         @endif
     </div>
     <div class="langBox">
-        <div class="langItem">
-            <div class="langLeft">
-                <img src="{{ asset('static_m/img/chinese.png') }}"/>
-                <span>中文</span>
-            </div>
-            <div class="langRight">
-                <input type="radio" name="lang" data-url="{{route('locale.update','zh-CN')}}" id="" value="1"/>
-                <span></span>
-            </div>
-        </div>
+        {{--<div class="langItem">--}}
+            {{--<div class="langLeft">--}}
+                {{--<img src="{{ asset('static_m/img/chinese.png') }}"/>--}}
+                {{--<span>中文</span>--}}
+            {{--</div>--}}
+            {{--<div class="langRight">--}}
+                {{--<input type="radio" name="lang" data-url="{{route('locale.update','zh-CN')}}" id="" value="1"/>--}}
+                {{--<span></span>--}}
+            {{--</div>--}}
+        {{--</div>--}}
         <div class="langItem">
             <div class="langLeft">
                 <img src="{{ asset('static_m/img/English.png') }}"/>
