@@ -107,6 +107,11 @@ class IndexController extends Controller
     public function localeUpdate(Request $request, string $locale = 'en')
     {
         $request->session()->put('GlobalLocale', $locale);
+        if ($locale === 'zh-CN') {
+            set_global_currency('CNY');
+        } else {
+            set_global_currency('USD');
+        }
         return back();
     }
 
