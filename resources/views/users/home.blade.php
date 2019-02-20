@@ -151,14 +151,16 @@
                                             </td>
                                             <td class="col-price">
                                                 <p class="p-price">
-                                                    <em>{{ $order->currency == 'USD' ? '&#36;' : '&#165;' }}</em>
+                                                    {{--<em>{{ $order->currency == 'USD' ? '&#36;' : '&#165;' }}</em>--}}
+                                                    <em>{{ get_symbol_by_currency($order->currency) }} </em>
                                                     <span>{{ $item->price }}</span>
                                                 </p>
                                             </td>
                                             <td class="col-quty">{{ $item->number }}</td>
                                             <td rowspan="{{ $order->items->count() }}" class="col-pay">
                                                 <p>
-                                                    <em>{{ $order->currency == 'USD' ? '&#36;' : '&#165;' }}</em>
+                                                    {{--<em>{{ $order->currency == 'USD' ? '&#36;' : '&#165;' }}</em>--}}
+                                                    <em>{{ get_symbol_by_currency($order->currency) }} </em>
                                                     <span>{{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}</span>
                                                     <br>
                                                     <span>(@lang('order.Postage included'))</span>
@@ -263,7 +265,8 @@
                                             </td>
                                             <td class="col-price">
                                                 <p class="p-price">
-                                                    <em>{{ $order->currency == 'USD' ? '&#36;' : '&#165;' }}</em>
+                                                    {{--<em>{{ $order->currency == 'USD' ? '&#36;' : '&#165;' }}</em>--}}
+                                                    <em>{{ get_symbol_by_currency($order->currency) }} </em>
                                                     <span>{{ $item->price }}</span>
                                                 </p>
                                             </td>
@@ -299,8 +302,10 @@
                                     <p class="commodity_title"
                                        title="{{ App::isLocale('en') ? $guess->name_en : $guess->name_zh }}">{{ App::isLocale('en') ? $guess->name_en : $guess->name_zh }}</p>
                                     <p class="collection_price">
-                                        <span class="new_price">{{ App::isLocale('en') ? '&#36;' : '&#165;' }} {{ App::isLocale('en') ? $guess->price_in_usd : $guess->price }}</span>
-                                        <span class="old_price">{{ App::isLocale('en') ? '&#36;' : '&#165;' }} {{  App::isLocale('en') ? bcmul($guess->price_in_usd, 1.2, 2) : bcmul($guess->price, 1.2, 2) }}</span>
+                                        {{--<span class="new_price">{{ App::isLocale('en') ? '&#36;' : '&#165;' }} {{ App::isLocale('en') ? $guess->price_in_usd : $guess->price }}</span>--}}
+                                        {{--<span class="old_price">{{ App::isLocale('en') ? '&#36;' : '&#165;' }} {{  App::isLocale('en') ? bcmul($guess->price_in_usd, 1.2, 2) : bcmul($guess->price, 1.2, 2) }}</span>--}}
+                                        <span class="new_price">{{ get_global_symbol() }} {{ get_current_price($guess->price) }}</span>
+                                        <span class="old_price">{{ get_global_symbol() }} {{ bcmul(get_current_price($guess->price), 1.2, 2) }}</span>
                                     </p>
                                     <a class="add_to_cart"
                                        href="{{ route('products.show', ['product' => $guess->id]) }}">@lang('app.see details')</a>

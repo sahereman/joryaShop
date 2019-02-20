@@ -271,7 +271,8 @@
                                     </td>
                                     <td class="col-price">
                                         <p class="p-price">
-                                            <span>{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }}</span>
+                                            {{--<span>{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }}</span>--}}
+                                            <span>{{ get_symbol_by_currency($order->currency) }}</span>
                                             <span>{{ $order_item['price'] }}</span>
                                         </p>
                                     </td>
@@ -280,7 +281,8 @@
                                     </td>
                                     <td rowspan="{{ count($order->snapshot) }}" class="col-pay">
                                         <p>
-                                            <span>{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }}</span>
+                                            {{--<span>{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }}</span>--}}
+                                            <span>{{ get_symbol_by_currency($order->currency) }}</span>
                                             <span>{{ $order->total_amount }}</span>
                                         </p>
                                     </td>
@@ -325,7 +327,8 @@
                                     </td>
                                     <td class="col-price">
                                         <p class="p-price">
-                                            <span>{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }}</span>
+                                            {{--<span>{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }}</span>--}}
+                                            <span>{{ get_symbol_by_currency($order->currency) }}</span>
                                             <span>{{ $order_item['price'] }}</span>
                                         </p>
                                     </td>
@@ -340,15 +343,18 @@
                     <div class="order_settlement">
                         <p class="commodity_cost">
                             <span class="title">@lang('order.Total product')：</span>
-                            <span>{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ $order->total_amount }}</span>
+                            {{--<span>{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ $order->total_amount }}</span>--}}
+                            <span>{{ get_symbol_by_currency($order->currency) }} {{ $order->total_amount }}</span>
                         </p>
                         <p class="freight">
                             <span class="title">@lang('order.Shipping fee')：</span>
-                            <span>{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ $order->total_shipping_fee }}</span>
+                            {{--<span>{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ $order->total_shipping_fee }}</span>--}}
+                            <span>{{ get_symbol_by_currency($order->currency) }} {{ $order->total_shipping_fee }}</span>
                         </p>
                         <p class="total_cost">
                             <span class="title">@lang('order.Total amount payable')：</span>
-                            <span class="cost_of_total">{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}</span>
+                            {{--<span class="cost_of_total">{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}</span>--}}
+                            <span class="cost_of_total">{{ get_symbol_by_currency($order->currency) }} {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}</span>
                         </p>
                     </div>
                 </div>

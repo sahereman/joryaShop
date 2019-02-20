@@ -47,8 +47,10 @@
                                         </div>
                                         <p class="commodity_title">{{ App::isLocale('en') ? $history->product->name_en : $history->product->name_zh }}</p>
                                         <p class="collection_price">
-                                            <span class="new_price">@lang('basic.currency.symbol') {{ App::isLocale('en') ? $history->product->price_in_usd : $history->product->price }}</span>
-                                            <span class="old_price">@lang('basic.currency.symbol') {{ App::isLocale('en') ? bcmul($history->product->price_in_usd, 1.2, 2) : bcmul($history->product->price, 1.2, 2) }}</span>
+                                            {{--<span class="new_price">@lang('basic.currency.symbol') {{ App::isLocale('en') ? $history->product->price_in_usd : $history->product->price }}</span>--}}
+                                            {{--<span class="old_price">@lang('basic.currency.symbol') {{ App::isLocale('en') ? bcmul($history->product->price_in_usd, 1.2, 2) : bcmul($history->product->price, 1.2, 2) }}</span>--}}
+                                            <span class="new_price">{{ get_global_symbol() }} {{ get_current_price($history->product->price) }}</span>
+                                            <span class="old_price">{{ get_global_symbol() }} {{ bcmul(get_current_price($history->product->price), 1.2, 2) }}</span>
                                         </p>
                                         <a class="add_to_cart"
                                            href="{{ route('products.show', ['product' => $history->product->id]) }}">@lang('app.see details')</a>

@@ -26,7 +26,7 @@ class PostOrderRequest extends Request
                     'required',
                     'string',
                     function ($attribute, $value, $fail) {
-                        if ($value != 'CNY' && ExchangeRate::where('currency', $value)->doesntExist()) {
+                        if ($value != 'USD' && ExchangeRate::where('currency', $value)->doesntExist()) {
                             $fail(trans('basic.orders.Currency_not_supported'));
                         }
                     },
@@ -90,7 +90,7 @@ class PostOrderRequest extends Request
                     'required',
                     'string',
                     function ($attribute, $value, $fail) {
-                        if ($value != 'CNY' && ExchangeRate::where('currency', $value)->doesntExist()) {
+                        if ($value != 'USD' && ExchangeRate::where('currency', $value)->doesntExist()) {
                             $fail(trans('basic.orders.Currency_not_supported'));
                         }
                     },

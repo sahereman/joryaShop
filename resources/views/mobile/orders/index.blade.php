@@ -124,7 +124,8 @@
                                 $(".orderMain .lists").removeClass("dis_n");
                                 $.each(orders, function (n, order) {
                                     sum = ($(".orderMain").attr("code") == "en") ? "Sum" : "实付款";
-                                    symbol = (order.currency == "USD") ? '&#36;' : '&#165;';
+                                    // symbol = (order.currency == "USD") ? '&#36;' : '&#165;';
+                                    symbol = get_symbol_by_currency(order.currency);
                                     html += "<div class='orderItem'>";
                                     html += "<div class='orderItemH'>";
                                     html += "<span class='order_info' code='" + order.id + "'>@lang('basic.users.Order_number')： " + order.order_sn + "</span>";
@@ -160,7 +161,8 @@
                                             name = ($(".orderMain").attr("code") == "en") ? order_item.sku.product.name_en : order_item.sku.product.name_zh;
                                             // sku_name = ($(".orderMain").attr("code") == "en") ? order_item.sku.name_en : order_item.sku.name_zh;
                                             sku_parameters = ($(".orderMain").attr("code") == "en") ? order_item.sku.parameters_en : order_item.sku.parameters_zh;
-                                            price = (order.currency == "CNY") ? order_item.sku.product.price : order_item.sku.product.price_in_usd;
+                                            // price = (order.currency == "CNY") ? order_item.sku.product.price : order_item.sku.product.price_in_usd;
+                                            price = exchange_price(order_item.sku.product.price, order.currency);
                                             total_price1 = float_multiply_by_100(order.total_amount) + float_multiply_by_100(order.total_shipping_fee);
                                             total_price = js_number_format(total_price1 / 100);
                                             html += "<div class='orderItemDetail_item'>";

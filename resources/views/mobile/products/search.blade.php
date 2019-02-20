@@ -124,8 +124,10 @@
                             if (dataobj.length > 0) {
                                 $.each(dataobj, function (i, n) {
                                     name = ($(".goodsListMain").attr("code") == "en") ? n.name_en : n.name_zh;
-                                    symbol = ($(".goodsListMain").attr("code") == "en") ? "&#36;" : "&#165;";
-                                    price = ($(".goodsListMain").attr("code") == "en") ? n.price_in_usd : n.price;
+                                    // symbol = ($(".goodsListMain").attr("code") == "en") ? "&#36;" : "&#165;";
+                                    // price = ($(".goodsListMain").attr("code") == "en") ? n.price_in_usd : n.price;
+                                    symbol = global_symbol;
+                                    price = get_current_price(n.price);
                                     html += "<div class='goodsListItem' code='" + n.id + "'>";
                                     html += "<img class='lazy' src='" + n.thumb_url + "' >";
                                     html += "<div class='goodsItemBlock'>";

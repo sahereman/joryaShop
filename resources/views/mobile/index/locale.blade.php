@@ -33,7 +33,7 @@
 
 @section('scriptsAfterJs')
     <script type="text/javascript">
-        //页面单独JS写这里
+        // 页面单独JS写这里
         $(function () {
             $("input").on("click", function () {
                 $.ajax({

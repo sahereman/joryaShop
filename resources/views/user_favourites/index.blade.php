@@ -39,10 +39,12 @@
                                     </p>
                                     <p class="collection_price">
                                         <span class="new_price">
-                                            @lang('basic.currency.symbol') {{ App::isLocale('en') ? $favourite->product->price_in_usd : $favourite->product->price }}
+                                            {{--@lang('basic.currency.symbol') {{ App::isLocale('en') ? $favourite->product->price_in_usd : $favourite->product->price }}--}}
+                                            {{ get_global_symbol() }} {{ get_current_price($favourite->product->price) }}
                                         </span>
                                         <span class="old_price">
-                                            @lang('basic.currency.symbol') {{ App::isLocale('en') ? bcmul($favourite->product->price_in_usd, 1.2, 2) : bcmul($favourite->product->price, 1.2, 2) }}
+                                            {{--@lang('basic.currency.symbol') {{ App::isLocale('en') ? bcmul($favourite->product->price_in_usd, 1.2, 2) : bcmul($favourite->product->price, 1.2, 2) }}--}}
+                                            {{ get_global_symbol() }} {{ bcmul(get_current_price($favourite->product->price), 1.2, 2) }}
                                         </span>
                                     </p>
                                     <a class="add_to_cart"

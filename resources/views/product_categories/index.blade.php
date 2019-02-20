@@ -54,8 +54,10 @@
                                         <div class="list-info">
                                             <p title="{{ App::isLocale('en') ? $product->name_en : $product->name_zh }}" class="list-info-title">{{ App::isLocale('en') ? $product->name_en : $product->name_zh }}</p>
                                             <p>
-                                                <span class="old-price"><i>@lang('basic.currency.symbol') </i>{{ App::isLocale('en') ? bcmul($product->price_in_usd, 1.2, 2) : bcmul($product->price, 1.2, 2) }}</span>
-                                                <span class="new-price"><i>@lang('basic.currency.symbol') </i>{{ App::isLocale('en') ? $product->price_in_usd : $product->price }}</span>
+                                                {{--<span class="old-price"><i>@lang('basic.currency.symbol') </i>{{ App::isLocale('en') ? bcmul($product->price_in_usd, 1.2, 2) : bcmul($product->price, 1.2, 2) }}</span>--}}
+                                                {{--<span class="new-price"><i>@lang('basic.currency.symbol') </i>{{ App::isLocale('en') ? $product->price_in_usd : $product->price }}</span>--}}
+                                                <span class="old-price"><i>{{ get_global_symbol() }} </i>{{ bcmul(get_current_price($product->price), 1.2, 2) }}</span>
+                                                <span class="new-price"><i>{{ get_global_symbol() }} </i>{{ get_current_price($product->price) }}</span>
                                             </p>
                                         </div>
                                     </a>

@@ -36,8 +36,10 @@
                             </div>
                             <div class="goodsPri">
                                 <div>
-                                    <span class="price">{{ App::isLocale('en') ? '&#36;' : '&#165;' }}</span>
-                                    <span class="realPri">{{ App::isLocale('en') ? $cart->sku->price_in_usd : $cart->sku->price }}</span>
+                                    {{--<span class="price">{{ App::isLocale('en') ? '&#36;' : '&#165;' }}</span>--}}
+                                    {{--<span class="realPri">{{ App::isLocale('en') ? $cart->sku->price_in_usd : $cart->sku->price }}</span>--}}
+                                    <span class="price">{{ get_global_symbol() }}</span>
+                                    <span class="realPri">{{ get_current_price($cart->sku->price) }}</span>
                                 </div>
                                 <div class="goodsNum">
                                     <span class="Operation_btn">-</span>
@@ -60,16 +62,18 @@
             <div class="Settlement_btns">
                 <a class="cancelBtn">@lang('product.Deletes the selected')</a>
                 @guest
-                <a class="total_num for_show_login" data-url="{{ route('mobile.orders.pre_payment') }}">
-                    @lang('product.shopping_cart.Total')：{{ App::isLocale('en') ? '&#36;' : '&#165;' }}
-                    <span>0.00</span>
-                </a>
-                @else
-                    <a class="total_num" data-url="{{ route('mobile.orders.pre_payment') }}">
-                        @lang('product.shopping_cart.Total')：{{ App::isLocale('en') ? '&#36;' : '&#165;' }}
+                    <a class="total_num for_show_login" data-url="{{ route('mobile.orders.pre_payment') }}">
+                        {{--@lang('product.shopping_cart.Total')：{{ App::isLocale('en') ? '&#36;' : '&#165;' }}--}}
+                        @lang('product.shopping_cart.Total')：{{ get_global_symbol() }}
                         <span>0.00</span>
                     </a>
-                    @endguest
+                @else
+                    <a class="total_num" data-url="{{ route('mobile.orders.pre_payment') }}">
+                        {{--@lang('product.shopping_cart.Total')：{{ App::isLocale('en') ? '&#36;' : '&#165;' }}--}}
+                        @lang('product.shopping_cart.Total')：{{ get_global_symbol() }}
+                        <span>0.00</span>
+                    </a>
+                @endguest
             </div>
         </div>
     </div>
@@ -147,7 +151,8 @@
                 }
             }
             var price = parseFloat($(this).parent().prev().find('span').text());
-            $(this).parent().next().html("{{ App::isLocale('en') ? '&#36;' : '&#165;' }}" + (price * count).toFixed(2));
+            // $(this).parent().next().html("{{--{{ App::isLocale('en') ? '&#36;' : '&#165;' }}--}}" + (price * count).toFixed(2));
+            $(this).parent().next().html(global_symbol + js_number_format(Math.imul(float_multiply_by_100(price), count) / 100));
             calcTotal();
         });
         // 计算总计
@@ -225,7 +230,8 @@
                     count = --count;
                     dom.val(count);
                     var price = parseFloat(dom.parent().prev().find('span.price').text());
-                    dom.parent().next().html("{{ App::isLocale('en') ? '&#36;' : '&#165;' }}" + (price * count).toFixed(2));
+                    // dom.parent().next().html("{{--{{ App::isLocale('en') ? '&#36;' : '&#165;' }}--}}" + (price * count).toFixed(2));
+                    dom.parent().next().html(global_symbol + js_number_format(Math.imul(float_multiply_by_100(price), count) / 100));
                     calcTotal();
                     var obj = err.responseJSON.errors;
                     layer.open({

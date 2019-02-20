@@ -66,11 +66,14 @@
                     <div class="price_service">
                         <p class="original_price">
                             <span>@lang('product.product_details.the original price')</span>
-                            <span id="sku_original_price_in_usd"><i>@lang('basic.currency.symbol') </i>{{ App::isLocale('en') ? bcmul($product->price_in_usd, 1.2, 2) : bcmul($product->price, 1.2, 2) }}</span>
+                            {{--<span id="sku_original_price_in_usd"><i>@lang('basic.currency.symbol') </i>{{ App::isLocale('en') ? bcmul($product->price_in_usd, 1.2, 2) : bcmul($product->price, 1.2, 2) }}</span>--}}
+                            <span id="sku_original_price_in_usd"><i>{{ get_global_symbol() }} </i>{{ bcmul(get_current_price($product->price), 1.2, 2) }}</span>
                         </p>
                         <p class="present_price">
                             <span>@lang('product.product_details.the current price')</span>
-                            <span id="sku_price_in_usd" class="changePrice_num"><i>@lang('basic.currency.symbol') </i>{{ App::isLocale('en') ? $product->price_in_usd : $product->price }}</span>
+                            {{--<span id="sku_price_in_usd" class="changePrice_num"><i>@lang('basic.currency.symbol') </i>{{ App::isLocale('en') ? $product->price_in_usd : $product->price }}</span>--}}
+                            <span id="sku_price_in_usd"
+                                  class="changePrice_num"><i>{{ get_global_symbol() }} </i>{{ get_current_price($product->price) }}</span>
                         </p>
                         <p class="service">
                             <span>@lang('product.product_details.service')</span>
@@ -80,9 +83,11 @@
                     </div>
                     <div class="priceOfpro">
                         <span>@lang('product.product_details.freight')</span>
-                        <span><i>@lang('basic.currency.symbol') </i>{{ App::isLocale('en') ? $product->shipping_fee_in_usd : $product->shipping_fee }}</span>
+                        {{--<span><i>@lang('basic.currency.symbol') </i>{{ App::isLocale('en') ? $product->shipping_fee_in_usd : $product->shipping_fee }}</span>--}}
+                        <span><i>{{ get_global_symbol() }} </i>{{ get_current_price($product->shipping_fee) }}</span>
                     </div>
-                    <div class="priceOfpro kindOfPro kindofsize" data-url="{{ route('products.get_sku_parameters', ['product' => $product->id]) }}">
+                    <div class="priceOfpro kindOfPro kindofsize"
+                         data-url="{{ route('products.get_sku_parameters', ['product' => $product->id]) }}">
                         <span>@lang('product.product_details.base_size')</span>
                         <select name="base_size" title="base_sizes">
                             @if(count($parameters['base_sizes']) > 0)
@@ -130,19 +135,19 @@
                             @lang('app.Add to Shopping Cart')
                         </a>
                         @else
-                        <a class="buy_now" data-url="{{ route('orders.pre_payment') }}">
-                            @lang('product.product_details.Buy now')
-                        </a>
-                        <a class="add_carts" data-url="{{ route('carts.store') }}">
-                            @lang('app.Add to Shopping Cart')
-                        </a>
-                        @endguest
-                        <a class="add_favourites {{ $favourite ? 'active' : '' }}" code="{{ $product->id }}"
-                           data-url="{{ route('user_favourites.store') }}"
-                           data-url_2="{{ $favourite ? route('user_favourites.destroy', ['favourite' => $favourite->id]) : '' }}">
-                            <span class="favourites_img"></span>
-                            <span>@lang('product.product_details.Collection')</span>
-                        </a>
+                            <a class="buy_now" data-url="{{ route('orders.pre_payment') }}">
+                                @lang('product.product_details.Buy now')
+                            </a>
+                            <a class="add_carts" data-url="{{ route('carts.store') }}">
+                                @lang('app.Add to Shopping Cart')
+                            </a>
+                            @endguest
+                            <a class="add_favourites {{ $favourite ? 'active' : '' }}" code="{{ $product->id }}"
+                               data-url="{{ route('user_favourites.store') }}"
+                               data-url_2="{{ $favourite ? route('user_favourites.destroy', ['favourite' => $favourite->id]) : '' }}">
+                                <span class="favourites_img"></span>
+                                <span>@lang('product.product_details.Collection')</span>
+                            </a>
                     </div>
                 </div>
                 <!--猜你喜欢-->
@@ -162,8 +167,10 @@
                                         <img class="lazy" data-src="{{ $guess->thumb_url }}">
                                     </div>
                                     <p>
-                                        <span class="present_price"><i>@lang('basic.currency.symbol')</i>{{ App::isLocale('en') ? $guess->price_in_usd : $guess->price }}</span>
-                                        <span class="original_price"><i>@lang('basic.currency.symbol')</i>{{ App::isLocale('en') ? bcmul($guess->price_in_usd, 1.2, 2) : bcmul($guess->price, 1.2, 2) }}</span>
+                                        {{--<span class="present_price"><i>@lang('basic.currency.symbol')</i>{{ App::isLocale('en') ? $guess->price_in_usd : $guess->price }}</span>--}}
+                                        <span class="present_price"><i>{{ get_global_symbol() }} </i>{{ get_current_price($guess->price) }}</span>
+                                        {{--<span class="original_price"><i>@lang('basic.currency.symbol')</i>{{ App::isLocale('en') ? bcmul($guess->price_in_usd, 1.2, 2) : bcmul($guess->price, 1.2, 2) }}</span>--}}
+                                        <span class="original_price"><i>{{ get_global_symbol() }} </i>{{ bcmul(get_current_price($guess->price), 1.2, 2) }}</span>
                                     </p>
                                 </a>
                             </li>
@@ -187,7 +194,8 @@
                                             <img class="lazy" data-src="{{ $hot_sale->thumb_url }}">
                                         </div>
                                         <p>
-                                            <span class="present_price"><i>@lang('basic.currency.symbol') </i>{{ App::isLocale('en') ? $hot_sale->price_in_usd : $hot_sale->price }}</span>
+                                            {{--<span class="present_price"><i>@lang('basic.currency.symbol') </i>{{ App::isLocale('en') ? $hot_sale->price_in_usd : $hot_sale->price }}</span>--}}
+                                            <span class="present_price"><i>{{ get_global_symbol() }} </i>{{ get_current_price($hot_sale->price) }}</span>
                                         </p>
                                     </a>
                                 </li>
@@ -203,7 +211,8 @@
                                             <img class="lazy" data-src="{{ $best_seller->thumb_url }}">
                                         </div>
                                         <p>
-                                            <span class="present_price"><i>@lang('basic.currency.symbol') </i>{{ App::isLocale('en') ? $best_seller->price_in_usd : $best_seller->price }}</span>
+                                            {{--<span class="present_price"><i>@lang('basic.currency.symbol') </i>{{ App::isLocale('en') ? $best_seller->price_in_usd : $best_seller->price }}</span>--}}
+                                            <span class="present_price"><i>{{ get_global_symbol() }} </i>{{ get_current_price($best_seller->price) }}</span>
                                         </p>
                                     </a>
                                 </li>
@@ -266,7 +275,8 @@
         var next_page;   // 下一页的页码
         var pre_page;   // 上一页的页码
         var country = $("#dLabel").find("span").html();
-        var sku_id, sku_stock, sku_price_in_usd, sku_original_price_in_usd;
+        // var sku_id, sku_stock, sku_price_in_usd, sku_original_price_in_usd;
+        var sku_id, sku_stock, sku_price, sku_original_price;
         $('#img_x li').eq(0).css('border', '2px solid #bc8c61');
         $('#zhezhao').mousemove(function (e) {
             $('#img_u').show();
@@ -301,23 +311,23 @@
         // 控制商品下单的数量显示
         $(".add").on("click", function () {
             // if ($(".kindOfPro").find("li").hasClass('active') != true) {
-                // layer.msg("@lang('product.product_details.Please select specifications')");
+            // layer.msg("@lang('product.product_details.Please select specifications')");
             // } else {
-                $(".reduce").removeClass('no_allow');
-                 var data = {
-                    base_size: $(".kindofsize select").val(),
-                    hair_colour: $(".kindofcolor select").val(),
-                    hair_density: $(".kindofdensity select").val()
-                };
-                if(parseInt($("#pro_num").val()) == 1) {
-                    getSkuParameters(data, "getSkuId", false);
-                }
-                if (parseInt($("#pro_num").val()) < sku_stock) {
-                    var num = parseInt($("#pro_num").val()) + 1;
-                    $("#pro_num").val(num);
-                } else {
-                    layer.msg("@lang('order.Cannot add more quantities')");
-                }
+            $(".reduce").removeClass('no_allow');
+            var data = {
+                base_size: $(".kindofsize select").val(),
+                hair_colour: $(".kindofcolor select").val(),
+                hair_density: $(".kindofdensity select").val()
+            };
+            if (parseInt($("#pro_num").val()) == 1) {
+                getSkuParameters(data, "getSkuId", false);
+            }
+            if (parseInt($("#pro_num").val()) < sku_stock) {
+                var num = parseInt($("#pro_num").val()) + 1;
+                $("#pro_num").val(num);
+            } else {
+                layer.msg("@lang('order.Cannot add more quantities')");
+            }
             // }
         });
         $(".reduce").on("click", function () {
@@ -391,7 +401,7 @@
         $(".kindOfPro").on("click", "li", function () {
             $(".kindOfPro").find('li').removeClass("active");
             $(this).addClass('active');
-            $(".changePrice_num").html("@lang('basic.currency.symbol')" + $(this).attr('code_price'));
+            $(".changePrice_num").html("{{ get_global_symbol() }}" + $(this).attr('code_price'));
             $("#pro_num").val("1");
         });
         //加入购物车
@@ -620,24 +630,28 @@
                                 });
                                 $(".kindofdensity select").html(hair_density_options);
                             }
-                            sku_price_in_usd = data.data.product.price_in_usd;
-                            $('span#sku_price_in_usd').html('<i>&#36; <i>' + sku_price_in_usd);
-                            sku_original_price_in_usd = data.data.product.original_price_in_usd;
-                            $('span#sku_original_price_in_usd').html('<i>&#36; <i> ' + sku_original_price_in_usd);
+                            // sku_price_in_usd = data.data.product.price_in_usd;
+                            // $('span#sku_price_in_usd').html('<i>&#36; </i>' + sku_price_in_usd);
+                            // sku_original_price_in_usd = data.data.product.original_price_in_usd;
+                            // $('span#sku_original_price_in_usd').html('<i>&#36; </i> ' + sku_original_price_in_usd);
+                            sku_price = get_current_price(data.data.product.price);
+                            $('span#sku_price_in_usd').html('<i>' + global_symbol + ' </i>' + sku_price);
+                            sku_original_price = get_current_price(data.data.product.original_price);
+                            $('span#sku_original_price_in_usd').html('<i>' + global_symbol + ' </i> ' + sku_original_price);
                         } else {
                             sku_id = data.data.sku.id;
                             sku_stock = data.data.sku.stock;
-                            sku_price_in_usd = data.data.sku.price_in_usd;
-                            $('span#sku_price_in_usd').html('<i>&#36;<i>' + sku_price_in_usd);
-                            sku_original_price_in_usd = data.data.sku.original_price_in_usd;
-                            $('span#sku_original_price_in_usd').html('<i>&#36;<i> ' + sku_original_price_in_usd);
+                            // sku_price_in_usd = data.data.sku.price_in_usd;
+                            // $('span#sku_price_in_usd').html('<i>&#36; </i>' + sku_price_in_usd);
+                            // sku_original_price_in_usd = data.data.sku.original_price_in_usd;
+                            // $('span#sku_original_price_in_usd').html('<i>&#36; </i> ' + sku_original_price_in_usd);
+                            sku_price = get_current_price(data.data.sku.price);
+                            $('span#sku_price').html('<i>' + global_symbol + ' </i>' + sku_price);
+                            sku_original_price = get_current_price(data.data.sku.original_price);
+                            $('span#sku_original_price_in_usd').html('<i>' + global_symbol + ' </i> ' + sku_original_price);
                         }
                         result = true;
                     } else if (data.code == 401) {
-                        /*sku_price_in_usd = data.data.product.price_in_usd;
-                        $('span#sku_price_in_usd').html('<i>&#36; <i>' + sku_price_in_usd);
-                        sku_original_price_in_usd = data.data.product.original_price_in_usd;
-                        $('span#sku_original_price_in_usd').html('<i>&#36; <i> ' + sku_original_price_in_usd);*/
                         layer.msg(data.message);
                         result = false;
                     }

@@ -75,13 +75,13 @@
             <div class="pre_amount">
                 <p>
                     <span>@lang('order.Sum')</span>
-                    <span class="RMB_num">&#165; {{ $total_amount }}</span>
-                    <span class="dis_ni dollar_num">&#36; {{ $total_amount_en }}</span>
+                    <span class="RMB_num">&#165; {{ exchange_price($total_amount, 'CNY') }}</span>
+                    <span class="dis_ni dollar_num">&#36; {{ $total_amount }}</span>
                 </p>
                 <p>
                     <span>@lang('order.freight')</span>
-                    <span class="RMB_num amount_of_money">&#165; <span>{{ $total_shipping_fee }}</span></span>
-                    <span class="dis_ni dollar_num amount_of_money">&#36; <span>{{ $total_shipping_fee_en }}</span></span>
+                    <span class="RMB_num amount_of_money">&#165; <span>{{ exchange_price($total_shipping_fee, 'CNY') }}</span></span>
+                    <span class="dis_ni dollar_num amount_of_money">&#36; <span>{{ $total_shipping_fee }}</span></span>
                 </p>
             </div>
             <div class="pre_currency">
@@ -98,8 +98,8 @@
             </div>
         </div>
         <div class="pre_paymentTotal">
-            <span class="RMB_num amount_of_money">&#165; <span>{{ $total_fee }}</span></span>
-            <span class="dis_ni dollar_num amount_of_money">&#36; <span>{{ $total_fee_en }}</span></span>
+            <span class="RMB_num amount_of_money">&#165; <span>{{ exchange_price($total_fee, 'CNY') }}</span></span>
+            <span class="dis_ni dollar_num amount_of_money">&#36; <span>{{ $total_fee }}</span></span>
             <a href="javascript:void(0);" class="payment_btn"
                data-url="{{ route('orders.store') }}">@lang('basic.orders.Submit an Order')</a>
         </div>
@@ -173,8 +173,10 @@
                             </div>
                             <div class="goodsPri">
                                 <div>
-                                    <span class="realPri RMB_num">&#165; {{ $item['sku']->price }}</span>
-                                    <span class="realPri dis_n dollar_num">&#36; {{ $item['sku']->price_in_usd }}</span>
+                                    {{--<span class="realPri RMB_num">&#165; {{ $item['sku']->price }}</span>
+                                    <span class="realPri dis_n dollar_num">&#36; {{ $item['sku']->price_in_usd }}</span>--}}
+                                    <span class="realPri RMB_num">&#165; {{ exchange_price($item['sku']->price, 'CNY') }}</span>
+                                    <span class="realPri dis_n dollar_num">&#36; {{ $item['sku']->price }}</span>
                                 </div>
                                 <div class="goodsNum">
                                     <span class="gNum">&#215; {{ $item['number'] }}</span>

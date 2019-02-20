@@ -55,11 +55,13 @@
             <div class="pre_amount">
                 <p>
                     <span>@lang('order.Sum')</span>
-                    <span>{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ $order->total_amount }}</span>
+                    {{--<span>{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ $order->total_amount }}</span>--}}
+                    <span>{{ get_symbol_by_currency($order->currency) }} {{ $order->total_amount }}</span>
                 </p>
                 <p>
                     <span>@lang('order.freight')</span>
-                    <span>{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ $order->total_shipping_fee }}</span>
+                    {{--<span>{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ $order->total_shipping_fee }}</span>--}}
+                    <span>{{ get_symbol_by_currency($order->currency) }} {{ $order->total_shipping_fee }}</span>
                 </p>
             </div>
             <div class="pre_currency">
@@ -79,7 +81,8 @@
             </div>
         </div>
         <div class="pre_paymentTotal">
-            <span class="amount_of_money cost_of_total">{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}</span>
+            {{--<span class="amount_of_money cost_of_total">{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}</span>--}}
+            <span class="amount_of_money cost_of_total">{{ get_symbol_by_currency($order->currency) }} {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}</span>
             <a href="javascript:void(0);" class="Topayment_btn">@lang('basic.orders.To pay')</a>
         </div>
     </div>
@@ -140,7 +143,8 @@
             </ul>
             <p class="need_to_pay">
                 <span>@lang('basic.orders.Pay')</span>
-                <span class="total_num_toPay">{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}</span>
+                {{--<span class="total_num_toPay">{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}</span>--}}
+                <span class="total_num_toPay">{{ get_symbol_by_currency($order->currency) }} {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}</span>
             </p>
             <p class="rel_topayment">
                 <a href="javascript:void(0);">@lang('basic.orders.Pay')</a>

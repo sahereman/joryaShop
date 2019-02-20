@@ -39,9 +39,11 @@
                     </li>
                 </ul>
                 <div>
-                    <input type="text" class="min_price" placeholder="{{ App::isLocale('en') ? '&#36;' : '&#165;' }}"/>
+                    {{--<input type="text" class="min_price" placeholder="{{ App::isLocale('en') ? '&#36;' : '&#165;' }}"/>--}}
+                    <input type="text" class="min_price" placeholder="{{ get_global_symbol() }}"/>
                     <span></span>
-                    <input type="text" class="max_price" placeholder="{{ App::isLocale('en') ? '&#36;' : '&#165;' }}"/>
+                    {{--<input type="text" class="max_price" placeholder="{{ App::isLocale('en') ? '&#36;' : '&#165;' }}"/>--}}
+                    <input type="text" class="max_price" placeholder="{{ get_global_symbol() }}"/>
                     <button class="searchByPrice">@lang('app.determine')</button>
                 </div>
             </div>
@@ -57,14 +59,14 @@
 @section('scriptsAfterJs')
     <script type="text/javascript">
         $(function () {
-            var loading_animation;  //loading动画的全局name
-            var sort = "index";   //排序传参用的参数默认为综合排序
-            var dataoption_1;  //页面加载时用来请求ajax的data
-            var dataoption_2;  //通过价格区间方式获取数据ajax
-            var dataoption_3;  //滚动条使用
-            var loading = false;    //阻止同时进行多次ajax异步请求
-            var requestType = 0;   //用来判断滚动条加载数据时应该传递那种参数 0：页面加载时的默认排序，点击人气综合等排序 。1：根据价格区间来获取排序
-            var page_num = 2;    //请求页面
+            var loading_animation; // loading动画的全局name
+            var sort = "index"; // 排序传参用的参数默认为综合排序
+            var dataoption_1; // 页面加载时用来请求ajax的data
+            var dataoption_2; // 通过价格区间方式获取数据ajax
+            var dataoption_3; // 滚动条使用
+            var loading = false; // 阻止同时进行多次ajax异步请求
+            var requestType = 0; // 用来判断滚动条加载数据时应该传递那种参数 0：页面加载时的默认排序，点击人气综合等排序 。1：根据价格区间来获取排序
+            var page_num = 2; // 请求页面
             window.onload = function () {
                 dataoption_1 = {
                     // query: getQueryString("query"),
@@ -97,8 +99,10 @@
                         if (dataobj.length > 0) {
                             $.each(dataobj, function (i, n) {
                                 name = (country == "中文") ? n.name_zh : n.name_en;
-                                symbol = (country == "中文") ? "&#165;" : "&#36;";
-                                price = (country == "中文") ? n.price : n.price_in_usd;
+                                // symbol = (country == "中文") ? "&#165;" : "&#36;";
+                                // price = (country == "中文") ? n.price : n.price_in_usd;
+                                symbol = global_symbol;
+                                price = get_current_price(n.price);
                                 html += "<li>" +
                                         "<a href='/products/" + n.id + "'>" +
                                         "<div class='list-img'>" +
@@ -194,19 +198,19 @@
             }
 
             $(window).scroll(function () {
-                //通过判断滚动条的top位置与可视网页之和与整个网页的高度是否相等来决定是否加载内容；
+                // 通过判断滚动条的top位置与可视网页之和与整个网页的高度是否相等来决定是否加载内容；
                 if ((($(window).scrollTop() + $(window).height()) + 300) >= $(document).height()) {
                     if (loading == false) {
                         loading = true;
                         if (requestType == 0) {
                             dataoption_3 = {
-//                                query: getQueryString("query"),
+                                // query: getQueryString("query"),
                                 page: page_num,
                                 sort: sort,
                             }
                         } else {
                             dataoption_3 = {
-//                                query: getQueryString("query"),
+                                // query: getQueryString("query"),
                                 page: page_num,
                                 min_price: $(".min_price").val(),
                                 max_price: $(".max_price").val(),
@@ -218,7 +222,7 @@
                     }
                 }
             });
-            //点击商品分类获取不同的信息
+            // 点击商品分类获取不同的信息
             $(".search-level ul").on('click', 'li', function () {
                 requestType = 0;
                 page_num = 2;
@@ -242,7 +246,7 @@
                     sort = $(this).find('a').attr('code');
                 }
                 dataoption_1 = {
-//                    query: getQueryString("query"),
+                    // query: getQueryString("query"),
                     page: 1,
                     sort: sort,
                 };
@@ -250,7 +254,7 @@
                 var url = $(".more_load").attr("data-url");
                 getResults(dataoption_1, true, url);
             });
-            //根据价格区间来获取排序
+            // 根据价格区间来获取排序
             $(".searchByPrice").on("click", function () {
                 requestType = 1;
                 page_num = 2;
@@ -261,7 +265,7 @@
                 } else {
                     if ($(".min_price").val() != "" && $(".max_price").val() != "") {
                         dataoption_2 = {
-//                            query: getQueryString("query"),
+                            // query: getQueryString("query"),
                             page: 1,
                             min_price: $(".min_price").val(),
                             max_price: $(".max_price").val(),

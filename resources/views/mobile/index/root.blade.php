@@ -47,7 +47,8 @@
                                 <img class="lazy" data-src="{{ $product->thumb_url }}"/>
                                 <div class="new_pro_name">{{ App::isLocale('en') ? $product->name_en : $product->name_zh }}</div>
                                 <span class="new_pro_price">
-                                    @lang('basic.currency.symbol') {{ App::isLocale('en') ? $product->price_in_usd : $product->price }}
+                                    {{--@lang('basic.currency.symbol') {{ App::isLocale('en') ? $product->price_in_usd : $product->price }}--}}
+                                    {{ get_global_symbol() }} {{ get_current_price($product->price) }}
                                 </span>
                             </div>
                         @endforeach
@@ -84,7 +85,8 @@
                                         <img class="lazy" data-src="{{ $product->thumb_url }}"/>
                                         <div class="block_name">{{ App::isLocale('en') ? $product->name_en : $product->name_zh }}</div>
                                         <span class="block_price">
-                                            @lang('basic.currency.symbol') {{ App::isLocale('en') ? $product->price_in_usd : $product->price }}
+                                            {{--@lang('basic.currency.symbol') {{ App::isLocale('en') ? $product->price_in_usd : $product->price }}--}}
+                                            {{ get_global_symbol() }} {{ get_current_price($product->price) }}
                                         </span>
                                     </a>
                                 </div>
@@ -120,7 +122,8 @@
                                         <img class="lazy" data-src="{{ $product->thumb_url }}"/>
                                         <div class="block_name">{{ App::isLocale('en') ? $product->name_en : $product->name_zh }}</div>
                                         <span class="block_price">
-                                            @lang('basic.currency.symbol') {{ App::isLocale('en') ? $product->price_in_usd : $product->price }}
+                                            {{--@lang('basic.currency.symbol') {{ App::isLocale('en') ? $product->price_in_usd : $product->price }}--}}
+                                            {{ get_global_symbol() }} {{ get_current_price($product->price) }}
                                         </span>
                                     </a>
                                 </div>
@@ -134,7 +137,6 @@
                     <span class="new_name">@lang('app.Featured Products')</span>
                 </div>
                 <div class="recBox">
-                	
                     {{--@foreach($guesses as $k => $guess)
                         <div class="recItem">
                             <a href="{{ route('mobile.products.show', ['product' => $guess->id]) }}">
@@ -188,11 +190,11 @@
                 clickable: true,
             },
         });
-        //点击第二个轮播中商品进行跳转
+        // 点击第二个轮播中商品进行跳转
         $(".swiper-containers").on("click", '.swiper-slides', function () {
             window.location.href = $(this).attr("data-url");
         });
-        //点击切换语言跳转
+        // 点击切换语言跳转
         $(".LanguageSwitch").on("click", function () {
             window.location.href = $(this).attr("data-href") + "?language_type=" + $(this).attr("code");
         });
@@ -205,7 +207,7 @@
                     domClass: 'dropload-down',
                     domRefresh: "<div class='dropload-refresh'>↑@lang('product.product_details.Pull up load more')</div>",
                     domLoad: "<div class='dropload-load'><span class='loading'></span>@lang('product.product_details.Loading in')...</div>",
-                    domNoData: "<div class='dropload-noData'>@lang('product.product_details.over the end')</div>"
+                    domNoData: "<div class='dropload-noData'>@lang('product.product_details.over the end')</div>",
                 },
                 loadDownFn: function (me) {
                     // 拼接HTML
@@ -225,8 +227,10 @@
                             if (dataobj.length > 0) {
                                 $.each(dataobj, function (i, n) {
                                     name = ($(".pro_rec").attr("code") == "en") ? n.name_en : n.name_zh;
-                                    symbol = ($(".pro_rec").attr("code") == "en") ? "&#36;" : "&#165;";
-                                    price = ($(".pro_rec").attr("code") == "en") ? n.price_in_usd : n.price;
+                                    // symbol = ($(".pro_rec").attr("code") == "en") ? "&#36;" : "&#165;";
+                                    // price = ($(".pro_rec").attr("code") == "en") ? n.price_in_usd : n.price;
+                                    symbol = global_symbol;
+                                    price = get_current_price(n.price);
                                     html += "<div class='recItem' code='" + n.id + "'>";
                                     html += "<img class='lazy' src='" + n.thumb_url + "' >";
                                     html += "<div class='block_name'>"+ name +"</div>";
@@ -252,7 +256,7 @@
                     });
                 }
             });
-        //查看商品详情product_info
+        // 查看商品详情product_info
         $(".pro_rec .recBox").on("click", ".recItem", function () {
             window.location.href = "{{ config('app.url') }}" + "/mobile/products/" + $(this).attr("code");
         });

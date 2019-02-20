@@ -26,7 +26,8 @@
                         </span>
                     </div>
                     <div class="ordDetailPri">
-                        <span>{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }}</span>
+                        {{--<span>{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }}</span>--}}
+                        <span>{{ get_symbol_by_currency($order->currency) }}</span>
                         <span>{{ $order_item['price'] }}</span>
                     </div>
                 </div>

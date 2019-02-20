@@ -33,7 +33,8 @@
                             <span class="status_title">@lang('order.Request for refund terminated')</span>
                             <span>
                                 @lang('order.Refund successfully'),
-                                {{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}
+                                {{--{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}--}}
+                                {{ get_symbol_by_currency($order->currency) }} {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}
                                 @lang('order.has been refunded by the previous payment method').
                             </span>
                         </p>
@@ -60,7 +61,8 @@
                         <p>
                             <span>@lang('order.Refund amount')</span>
                             <input name="amount" type="text" class="refund_price" readonly
-                                   value="{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}">
+                                   {{--value="{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}">--}}
+                                   value="{{ get_symbol_by_currency($order->currency) }} {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}">
                         </p>
                         <div class="refund_info_item">
                             <span>@lang('order.Application description')</span>
@@ -93,7 +95,8 @@
                         <p>
                             <span>@lang('order.Refund amount')</span>
                             <input name="amount" type="text" class="refund_price" readonly
-                                   value="{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}">
+                                   {{--value="{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}">--}}
+                                   value="{{ get_symbol_by_currency($order->currency) }} {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}">
                         </p>
                         <div class="refund_info_item">
                             <span>@lang('order.Application description')</span>
@@ -123,7 +126,8 @@
                     <p>
                         <span>@lang('order.Refund amount')</span>
                         <input name="amount" type="text" class="refund_price" readonly
-                               value="{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}">
+                               {{--value="{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}">--}}
+                               value="{{ get_symbol_by_currency($order->currency) }} {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}">
                     </p>
                     <div class="refund_info_item">
                         <span>@lang('order.Application description')</span>
@@ -157,7 +161,8 @@
                                     </span>
                                 </div>
                                 <div class="ordDetailPri">
-                                    <span>{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }}</span>
+                                    {{--<span>{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }}</span>--}}
+                                    <span>{{ get_symbol_by_currency($order->currency) }}</span>
                                     <span>{{ $order_item['price'] }}</span>
                                 </div>
                             </div>

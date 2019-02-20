@@ -25,10 +25,12 @@
                         <div class="goodsPri">
                             <div>
                                 <span class="realPri">
-                                    @lang('basic.currency.symbol') {{ App::isLocale('en') ? $favourite->product->price_in_usd : $favourite->product->price }}
+                                    {{--@lang('basic.currency.symbol') {{ App::isLocale('en') ? $favourite->product->price_in_usd : $favourite->product->price }}--}}
+                                    {{ get_global_symbol() }} {{ get_current_price($favourite->product->price) }}
                                 </span>
                                 <s>
-                                    @lang('basic.currency.symbol') {{ App::isLocale('en') ? bcmul($favourite->product->price_in_usd, 1.2, 2) : bcmul($favourite->product->price, 1.2, 2) }}
+                                    {{--@lang('basic.currency.symbol') {{ App::isLocale('en') ? bcmul($favourite->product->price_in_usd, 1.2, 2) : bcmul($favourite->product->price, 1.2, 2) }}--}}
+                                    {{ get_global_symbol() }} {{ bcmul(get_current_price($favourite->product->price), 1.2, 2) }}
                                 </s>
                             </div>
                             <img class="addTo_cart"
@@ -56,10 +58,12 @@
                         <div class="goodsPri">
                             <div>
                                 <span class="realPri">
-                                    @lang('basic.currency.symbol') {{ App::isLocale('en') ? $favourite->product->price_in_usd : $favourite->product->price }}
+                                    {{--@lang('basic.currency.symbol') {{ App::isLocale('en') ? $favourite->product->price_in_usd : $favourite->product->price }}--}}
+                                    {{ get_global_symbol() }} {{ get_current_price($favourite->product->price) }}
                                 </span>
                                 <s>
-                                    @lang('basic.currency.symbol') {{ App::isLocale('en') ? bcmul($favourite->product->price_in_usd, 1.2, 2) : bcmul($favourite->product->price, 1.2, 2) }}
+                                    {{--@lang('basic.currency.symbol') {{ App::isLocale('en') ? bcmul($favourite->product->price_in_usd, 1.2, 2) : bcmul($favourite->product->price, 1.2, 2) }}--}}
+                                    {{ get_global_symbol() }} {{ bcmul(get_current_price($favourite->product->price), 1.2, 2) }}
                                 </s>
                             </div>
                         </div>

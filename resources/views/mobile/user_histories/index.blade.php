@@ -167,8 +167,10 @@
                                     html += "</div>";
                                     $.each(n, function (a, b) {
                                         name = ($(".headerBar").attr("code") == "en") ? b.product.name_en : b.product.name_zh;
-                                        price = ($(".headerBar").attr("code") == "en") ? b.product.price_in_usd : b.product.price;
-                                        symbol = ($(".headerBar").attr("code") == "en") ? '&#36;' : '&#165;';
+                                        // symbol = ($(".headerBar").attr("code") == "en") ? '&#36;' : '&#165;';
+                                        // price = ($(".headerBar").attr("code") == "en") ? b.product.price_in_usd : b.product.price;
+                                        symbol = global_symbol;
+                                        price = get_current_price(b.product.price);
                                         html += "<div class='favItem'>";
                                         html += "<label class='favItemLab dis_ni'>";
                                         html += "<input type='checkbox' name='checkitem' value='" + b.id + "'/>";
