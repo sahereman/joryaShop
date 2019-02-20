@@ -21,10 +21,10 @@ class UserHistoriesController extends Controller
 
         $current_page = $request->has('page') ? $request->input('page') : 1;
         if (preg_match('/^\d+$/', $current_page) != 1) {
-            if (App::isLocale('en')) {
-                throw new InvalidRequestException('The parameter page must be an integer.');
-            } else {
+            if (App::isLocale('zh-CN')) {
                 throw new InvalidRequestException('页码参数必须为数字！');
+            } else {
+                throw new InvalidRequestException('The parameter page must be an integer.');
             }
         }
         $histories = $request->user()->histories()->with('product')->orderByDesc('browsed_at')->get()->groupBy(function ($item, $key) {

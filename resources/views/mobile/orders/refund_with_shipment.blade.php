@@ -1,5 +1,5 @@
 @extends('layouts.mobile')
-@section('title', (App::isLocale('en') ? 'Request A Refund' : '申请退款') . ' - ' . \App\Models\Config::config('title'))
+@section('title', (App::isLocale('zh-CN') ? '申请退款' : 'Request A Refund') . ' - ' . \App\Models\Config::config('title'))
 @section('content')
     <div class="headerBar fixHeader">
         @if(!is_wechat_browser())
@@ -119,8 +119,8 @@
                                 </option>
                                 @if($refund_reasons = \App\Models\RefundReason::refundReasons())
                                     @foreach($refund_reasons as $refund_reason)
-                                        <option value="{{ \Illuminate\Support\Facades\App::isLocale('en') ? $refund_reason->reason_en : $refund_reason->reason_zh }}">
-                                            {{ \Illuminate\Support\Facades\App::isLocale('en') ? $refund_reason->reason_en : $refund_reason->reason_zh }}
+                                        <option value="{{ \Illuminate\Support\Facades\App::isLocale('zh-CN') ? $refund_reason->reason_zh : $refund_reason->reason_en }}">
+                                            {{ \Illuminate\Support\Facades\App::isLocale('zh-CN') ? $refund_reason->reason_zh : $refund_reason->reason_en }}
                                         </option>
                                     @endforeach
                                 @endif
@@ -162,8 +162,8 @@
                                 </option>
                                 @if($refund_reasons = \App\Models\RefundReason::refundReasons())
                                     @foreach($refund_reasons as $refund_reason)
-                                        <option value="{{ \Illuminate\Support\Facades\App::isLocale('en') ? $refund_reason->reason_en : $refund_reason->reason_zh }}">
-                                            {{ \Illuminate\Support\Facades\App::isLocale('en') ? $refund_reason->reason_en : $refund_reason->reason_zh }}
+                                        <option value="{{ \Illuminate\Support\Facades\App::isLocale('zh-CN') ? $refund_reason->reason_zh : $refund_reason->reason_en }}">
+                                            {{ \Illuminate\Support\Facades\App::isLocale('zh-CN') ? $refund_reason->reason_zh : $refund_reason->reason_en }}
                                         </option>
                                     @endforeach
                                 @endif
@@ -285,7 +285,7 @@
                             <div>
                                 <div class="ordDetailName">
                                     <a href="{{ route('mobile.products.show', ['product' => $order_item['sku']['product']['id']]) }}">
-                                        {{ App::isLocale('en') ? $order_item['sku']['product']['name_en'] : $order_item['sku']['product']['name_zh'] }}
+                                        {{ App::isLocale('zh-CN') ? $order_item['sku']['product']['name_zh'] : $order_item['sku']['product']['name_en'] }}
                                     </a>
                                 </div>
                                 <div>
@@ -296,7 +296,7 @@
                                     <span>
                                         <a href="{{ route('mobile.products.show', ['product' => $order_item['sku']['product']['id']]) }}">
                                             {{--{{ App::isLocale('en') ? $order_item['sku']['name_en'] : $order_item['sku']['name_zh'] }}--}}
-                                            {{ App::isLocale('en') ? $order_item['sku']['parameters_en'] : $order_item['sku']['parameters_zh'] }}
+                                            {{ App::isLocale('zh-CN') ? $order_item['sku']['parameters_zh'] : $order_item['sku']['parameters_en'] }}
                                         </a>
                                     </span>
                                 </div>

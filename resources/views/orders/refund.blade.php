@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', (App::isLocale('en') ? 'Personal Center - My Orders' : '个人中心 - 我的订单') . ' - ' . \App\Models\Config::config('title'))
+@section('title', (App::isLocale('zh-CN') ? '个人中心 - 我的订单' : 'Personal Center - My Orders') . ' - ' . \App\Models\Config::config('title'))
 @section('content')
     <div class="User_center my_orders">
         <div class="m-wrapper">
@@ -99,8 +99,8 @@
                                             </option>
                                             @if($refund_reasons = \App\Models\RefundReason::refundReasons())
                                                 @foreach($refund_reasons as $refund_reason)
-                                                    <option value="{{ \Illuminate\Support\Facades\App::isLocale('en') ? $refund_reason->reason_en : $refund_reason->reason_zh }}">
-                                                        {{ \Illuminate\Support\Facades\App::isLocale('en') ? $refund_reason->reason_en : $refund_reason->reason_zh }}
+                                                    <option value="{{ \Illuminate\Support\Facades\App::isLocale('zh-CN') ? $refund_reason->reason_zh : $refund_reason->reason_en }}">
+                                                        {{ \Illuminate\Support\Facades\App::isLocale('zh-CN') ? $refund_reason->reason_zh : $refund_reason->reason_en }}
                                                     </option>
                                                 @endforeach
                                             @endif
@@ -139,8 +139,8 @@
                                             </option>
                                             @if($refund_reasons = \App\Models\RefundReason::refundReasons())
                                                 @foreach($refund_reasons as $refund_reason)
-                                                    <option value="{{ \Illuminate\Support\Facades\App::isLocale('en') ? $refund_reason->reason_en : $refund_reason->reason_zh }}">
-                                                        {{ \Illuminate\Support\Facades\App::isLocale('en') ? $refund_reason->reason_en : $refund_reason->reason_zh }}
+                                                    <option value="{{ \Illuminate\Support\Facades\App::isLocale('zh-CN') ? $refund_reason->reason_zh : $refund_reason->reason_en }}">
+                                                        {{ \Illuminate\Support\Facades\App::isLocale('zh-CN') ? $refund_reason->reason_zh : $refund_reason->reason_en }}
                                                     </option>
                                                 @endforeach
                                             @endif
@@ -239,11 +239,11 @@
                                         </div>
                                         <div class="order_lists_info">
                                             <p>
-                                                <span>{{ App::isLocale('en') ? $order_item['sku']['product']['name_en'] : $order_item['sku']['product']['name_zh'] }}</span>
+                                                <span>{{ App::isLocale('zh-CN') ? $order_item['sku']['product']['name_zh'] : $order_item['sku']['product']['name_en'] }}</span>
                                             </p>
                                             <p>
                                                 {{--{{ App::isLocale('en') ? $order_item['sku']['name_en'] : $order_item['sku']['name_zh'] }}--}}
-                                                {{ App::isLocale('en') ? $order_item['sku']['parameters_en'] : $order_item['sku']['parameters_zh'] }}
+                                                {{ App::isLocale('zh-CN') ? $order_item['sku']['parameters_zh'] : $order_item['sku']['parameters_en'] }}
                                             </p>
                                             <p>
                                                 @lang('order.Unit Price')

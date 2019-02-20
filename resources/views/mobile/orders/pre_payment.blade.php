@@ -1,5 +1,5 @@
 @extends('layouts.mobile')
-@section('title', (App::isLocale('en') ? 'Confirm The Order' : '确认订单') . ' - ' . \App\Models\Config::config('title'))
+@section('title', (App::isLocale('zh-CN') ? '确认订单' : 'Confirm The Order') . ' - ' . \App\Models\Config::config('title'))
 @section('content')
     <div class="headerBar fixHeader {{ is_wechat_browser() ? 'height_no' : '' }}">
         <img src="{{ asset('static_m/img/icon_backtop.png') }}" class="backImg" onclick="javascript:history.back(-1);"/>
@@ -166,10 +166,10 @@
                         <img src="{{ $item['product']->thumb_url }}"/>
                         <div class="pro_listsDetail">
                             <div class="goodsName">
-                                {{ App::isLocale('en') ? $item['product']->name_en : $item['product']->name_zh }}
+                                {{ App::isLocale('zh-CN') ? $item['product']->name_zh : $item['product']->name_en }}
                             </div>
                             <div class="goodsSpec">
-                                <span>{{ App::isLocale('en') ? $item['sku']->name_en : $item['sku']->name_zh }}</span>
+                                <span>{{ App::isLocale('zh-CN') ? $item['sku']->name_zh : $item['sku']->name_en }}</span>
                             </div>
                             <div class="goodsPri">
                                 <div>

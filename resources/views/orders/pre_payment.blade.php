@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', (App::isLocale('en') ? 'Confirm The Order' : '确认订单') . ' - ' . \App\Models\Config::config('title'))
+@section('title', (App::isLocale('zh-CN') ? '确认订单' : 'Confirm The Order') . ' - ' . \App\Models\Config::config('title'))
 @section('content')
     <div class="pre_payment">
         <div class="m-wrapper">
@@ -71,10 +71,10 @@
                                         </a>
                                     </div>
                                     <div class="left w250 pro-info">
-                                        <span>{{ App::isLocale('en') ? $item['product']->name_en : $item['product']->name_zh }}</span>
+                                        <span>{{ App::isLocale('zh-CN') ? $item['product']->name_zh : $item['product']->name_en }}</span>
                                     </div>
                                     <div class="left w150 center">
-                                        <span>{{ App::isLocale('en') ? $item['sku']->name_en : $item['sku']->name_zh }}</span>
+                                        <span>{{ App::isLocale('zh-CN') ? $item['sku']->name_zh : $item['sku']->name_en }}</span>
                                     </div>
                                     <div class="left w150 center RMB_num">
                                         &#165; <span>{{ exchange_price($item['sku']->price, 'CNY') }}</span>

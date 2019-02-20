@@ -238,14 +238,14 @@ class OrdersController extends Controller
         $hair_density = $request->query('hair_density');
         $product = Product::find($request->query('product_id'));
         $skus = $product->skus();
-        if (App::isLocale('en')) {
-            $skus = $product->is_base_size_optional ? $skus->where('base_size_en', $base_size) : $skus;
-            $skus = $product->is_hair_colour_optional ? $skus->where('hair_colour_en', $hair_colour) : $skus;
-            $skus = $product->is_hair_density_optional ? $skus->where('hair_density_en', $hair_density) : $skus;
-        } else {
+        if (App::isLocale('zh-CN')) {
             $skus = $product->is_base_size_optional ? $skus->where('base_size_zh', $base_size) : $skus;
             $skus = $product->is_hair_colour_optional ? $skus->where('hair_colour_zh', $hair_colour) : $skus;
             $skus = $product->is_hair_density_optional ? $skus->where('hair_density_zh', $hair_density) : $skus;
+        } else {
+            $skus = $product->is_base_size_optional ? $skus->where('base_size_en', $base_size) : $skus;
+            $skus = $product->is_hair_colour_optional ? $skus->where('hair_colour_en', $hair_colour) : $skus;
+            $skus = $product->is_hair_density_optional ? $skus->where('hair_density_en', $hair_density) : $skus;
         }
         $sku = $skus->first();
 

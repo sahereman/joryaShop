@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', (App::isLocale('en') ? 'Cart' : '购物车') . ' - ' . \App\Models\Config::config('title'))
+@section('title', (App::isLocale('zh-CN') ? '购物车' : 'Cart') . ' - ' . \App\Models\Config::config('title'))
 @section('content')
     <div class="shopping_cart">
         <div class="m-wrapper">
@@ -44,13 +44,13 @@
                                 </div>
                                 <div class="left w250 pro-info">
                                     <a class="cur_p" href="{{ route('products.show', $cart->sku->product_id) }}">
-                                        <span>{{ App::isLocale('en') ? $cart->sku->product->name_en : $cart->sku->product->name_zh }}</span>
+                                        <span>{{ App::isLocale('zh-CN') ? $cart->sku->product->name_zh : $cart->sku->product->name_en }}</span>
                                     </a>
                                 </div>
                                 <div class="left w120 center kindofpro">
-                                    <span>{{ App::isLocale('en') ? $cart->sku->base_size_en : $cart->sku->base_size_zh }}</span>
-                                    <span>{{ App::isLocale('en') ? $cart->sku->hair_colour_en : $cart->sku->hair_colour_zh }}</span>
-                                    <span>{{ App::isLocale('en') ? $cart->sku->hair_density_en : $cart->sku->hair_density_zh }}</span>
+                                    <span>{{ App::isLocale('zh-CN') ? $cart->sku->base_size_zh : $cart->sku->base_size_en }}</span>
+                                    <span>{{ App::isLocale('zh-CN') ? $cart->sku->hair_colour_zh : $cart->sku->hair_colour_en }}</span>
+                                    <span>{{ App::isLocale('zh-CN') ? $cart->sku->hair_density_zh : $cart->sku->hair_density_en }}</span>
                                 </div>
                                 <div class="left w100 center">
                                     {{--<span>{{ App::isLocale('en') ? '&#36;' : '&#165;' }}</span>--}}

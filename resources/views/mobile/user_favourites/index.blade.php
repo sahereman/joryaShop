@@ -1,5 +1,5 @@
 @extends('layouts.mobile')
-@section('title', (App::isLocale('en') ? 'My Favourites' : '我的收藏') . ' - ' . \App\Models\Config::config('title'))
+@section('title', (App::isLocale('zh-CN') ? '我的收藏' : 'My Favourites') . ' - ' . \App\Models\Config::config('title'))
 @section('content')
     <div class="headerBar fixHeader {{ is_wechat_browser() ? 'height_no' : '' }}">
         <img src="{{ asset('static_m/img/icon_backtop.png') }}" class="backImg" onclick="javascript:history.back(-1);"/>
@@ -20,7 +20,7 @@
                     <img src="{{ $favourite->product->thumb_url }}"/>
                     <div class="favDetail">
                         <div class="goodsName">
-                            {{ App::isLocale('en') ? $favourite->product->name_en : $favourite->product->name_zh }}
+                            {{ App::isLocale('zh-CN') ? $favourite->product->name_zh : $favourite->product->name_en }}
                         </div>
                         <div class="goodsPri">
                             <div>
@@ -53,7 +53,7 @@
                     <div class="favDetail"
                          data-url="{{ route('mobile.products.show', ['product' => $favourite->product->id]) }}">
                         <div class="goodsName">
-                            {{ App::isLocale('en') ? $favourite->product->name_en : $favourite->product->name_zh }}
+                            {{ App::isLocale('zh-CN') ? $favourite->product->name_zh : $favourite->product->name_en }}
                         </div>
                         <div class="goodsPri">
                             <div>

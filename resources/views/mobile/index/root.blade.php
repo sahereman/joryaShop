@@ -1,5 +1,5 @@
 @extends('layouts.mobile')
-@section('title', App::isLocale('en') ? 'Lyricalhair' : '莱瑞美业')
+@section('title', App::isLocale('zh-CN') ? '莱瑞美业' : 'Lyricalhair')
 @section('content')
     <div class="main">
         <div class="searchBox">
@@ -8,8 +8,8 @@
                 <input type="text" style="text-align: center;" value="" placeholder="@lang('app.Search for goods for good goods')" readonly="readonly"/>
             </a>
             <a href="javascript:void(0);" data-href="{{ route('mobile.locale.show') }}"
-               code="{{ App::isLocale('en') ? '0' : '1' }}" class="LanguageSwitch">
-                <img src="{{ App::isLocale('en') ? asset('static_m/img/English.png') : asset('static_m/img/chinese.png') }}"
+               code="{{ App::isLocale('zh-CN') ? '1' : '0' }}" class="LanguageSwitch">
+                <img src="{{ App::isLocale('zh-CN') ? asset('static_m/img/chinese.png') : asset('static_m/img/English.png') }}"
                      alt="" class="langImg"/>
                 <span></span>
             </a>
@@ -45,7 +45,7 @@
                             <div class="swiper-slide swiper-slides"
                                  data-url="{{ route('mobile.products.show', ['product' => $product->id]) }}">
                                 <img class="lazy" data-src="{{ $product->thumb_url }}"/>
-                                <div class="new_pro_name">{{ App::isLocale('en') ? $product->name_en : $product->name_zh }}</div>
+                                <div class="new_pro_name">{{ App::isLocale('zh-CN') ? $product->name_zh : $product->name_en }}</div>
                                 <span class="new_pro_price">
                                     {{--@lang('basic.currency.symbol') {{ App::isLocale('en') ? $product->price_in_usd : $product->price }}--}}
                                     {{ get_global_symbol() }} {{ get_current_price($product->price) }}
@@ -59,7 +59,7 @@
                 @if(($key+1) % 2 == 1)
                     <div class="block_trend">
                         <div class="block_title">
-                            <span>{{ App::isLocale('en') ? $category_products['category']->name_en : $category_products['category']->name_zh }}</span>
+                            <span>{{ App::isLocale('zh-CN') ? $category_products['category']->name_zh : $category_products['category']->name_en }}</span>
                             <a href="{{ route('mobile.product_categories.index') . '?category=' . $category_products['category']->id }}">@lang('app.More')></a>
                         </div>
                         @if($poster = \App\Models\Poster::getPosterBySlug('mobile_index_floor_' . ($key+1)))
@@ -83,7 +83,7 @@
                                 <div class="blockItem">
                                     <a href="{{ route('mobile.products.show', ['product' => $product->id]) }}">
                                         <img class="lazy" data-src="{{ $product->thumb_url }}"/>
-                                        <div class="block_name">{{ App::isLocale('en') ? $product->name_en : $product->name_zh }}</div>
+                                        <div class="block_name">{{ App::isLocale('zh-CN') ? $product->name_zh : $product->name_en }}</div>
                                         <span class="block_price">
                                             {{--@lang('basic.currency.symbol') {{ App::isLocale('en') ? $product->price_in_usd : $product->price }}--}}
                                             {{ get_global_symbol() }} {{ get_current_price($product->price) }}
@@ -96,7 +96,7 @@
                 @else
                     <div class="block_trend">
                         <div class="block_title">
-                            <span>{{ App::isLocale('en') ? $category_products['category']->name_en : $category_products['category']->name_zh }}</span>
+                            <span>{{ App::isLocale('zh-CN') ? $category_products['category']->name_zh : $category_products['category']->name_en }}</span>
                             <a href="{{ route('mobile.product_categories.index') . '?category=' . $category_products['category']->id }}">@lang('app.More')></a>
                         </div>
                         @if($poster = \App\Models\Poster::getPosterBySlug('mobile_index_floor_' . ($key+1)))
@@ -120,7 +120,7 @@
                                 <div class="blockItem blockItemCus">
                                     <a href="{{ route('mobile.products.show', ['product' => $product->id]) }}">
                                         <img class="lazy" data-src="{{ $product->thumb_url }}"/>
-                                        <div class="block_name">{{ App::isLocale('en') ? $product->name_en : $product->name_zh }}</div>
+                                        <div class="block_name">{{ App::isLocale('zh-CN') ? $product->name_zh : $product->name_en }}</div>
                                         <span class="block_price">
                                             {{--@lang('basic.currency.symbol') {{ App::isLocale('en') ? $product->price_in_usd : $product->price }}--}}
                                             {{ get_global_symbol() }} {{ get_current_price($product->price) }}
@@ -132,7 +132,7 @@
                     </div>
                 @endif
             @endforeach
-            <div class="pro_rec" data-url="{{ route('mobile.guess_more') }}" code="{{ App::isLocale('en') ? 'en' : 'zh' }}">
+            <div class="pro_rec" data-url="{{ route('mobile.guess_more') }}" code="{{ App::isLocale('zh-CN') ? 'zh' : 'en' }}">
                 <div class="new_title">
                     <span class="new_name">@lang('app.Featured Products')</span>
                 </div>
@@ -198,7 +198,7 @@
         $(".LanguageSwitch").on("click", function () {
             window.location.href = $(this).attr("data-href") + "?language_type=" + $(this).attr("code");
         });
-        //获取最新商品推荐
+        // 获取最新商品推荐
             // 页数
             var page = 1;
             $('.pro_rec').dropload({
@@ -252,7 +252,7 @@
                         error: function (xhr, type) {
                             // 即使加载出错，也得重置
                             me.resetload();
-                        }
+                        },
                     });
                 }
             });

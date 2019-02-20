@@ -34,17 +34,7 @@ class ProductsController extends Controller
             $favourite = UserFavourite::where('user_id', $user->id)->where('product_id', $product->id)->first();
         }
 
-        if (App::isLocale('en')) {
-            $parameters['base_sizes'] = $product->is_base_size_optional ? $skus->unique('base_size_en')->map(function ($item, $key) {
-                return $item->base_size_en;
-            }) : [];
-            $parameters['hair_colours'] = $product->is_hair_colour_optional ? $skus->unique('hair_colour_en')->map(function ($item, $key) {
-                return $item->hair_colour_en;
-            }) : [];
-            $parameters['hair_densities'] = $product->is_hair_density_optional ? $skus->unique('hair_density_en')->map(function ($item, $key) {
-                return $item->hair_density_en;
-            }) : [];
-        } else {
+        if (App::isLocale('zh-CN')) {
             $parameters['base_sizes'] = $product->is_base_size_optional ? $skus->unique('base_size_zh')->map(function ($item, $key) {
                 return $item->base_size_zh;
             }) : [];
@@ -53,6 +43,16 @@ class ProductsController extends Controller
             }) : [];
             $parameters['hair_densities'] = $product->is_hair_density_optional ? $skus->unique('hair_density_zh')->map(function ($item, $key) {
                 return $item->hair_density_zh;
+            }) : [];
+        } else {
+            $parameters['base_sizes'] = $product->is_base_size_optional ? $skus->unique('base_size_en')->map(function ($item, $key) {
+                return $item->base_size_en;
+            }) : [];
+            $parameters['hair_colours'] = $product->is_hair_colour_optional ? $skus->unique('hair_colour_en')->map(function ($item, $key) {
+                return $item->hair_colour_en;
+            }) : [];
+            $parameters['hair_densities'] = $product->is_hair_density_optional ? $skus->unique('hair_density_en')->map(function ($item, $key) {
+                return $item->hair_density_en;
             }) : [];
         }
 

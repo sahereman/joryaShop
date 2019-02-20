@@ -22,10 +22,10 @@ class UpdatePasswordRequest extends Request
                 function ($attribute, $value, $fail) {
                     $userData = $this->user()->makeVisible('password')->toArray();
                     if (!Hash::check($value, $userData['password'])) {
-                        if (App::isLocale('en')) {
-                            $fail('The original password is wrong.');
-                        } else {
+                        if (App::isLocale('zh-CN')) {
                             $fail('原密码不正确');
+                        } else {
+                            $fail('The original password is wrong.');
                         }
                     }
                 },
@@ -40,7 +40,7 @@ class UpdatePasswordRequest extends Request
      */
     public function attributes()
     {
-        if (App::isLocale('en')) {
+        if (!App::isLocale('zh-CN')) {
             return [
                 'password_original' => 'original password',
                 'password' => 'new password',

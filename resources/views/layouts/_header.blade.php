@@ -93,14 +93,14 @@
                     @foreach(\App\Models\Menu::pcMenus() as $menu)
                         @if(isset($menu['parent']))
                             <li class="first_menu">
-                                <a href="{{ $menu['parent']->link }}">{{ App::isLocale('en') ? $menu['parent']->name_en : $menu['parent']->name_zh }}</a>
+                                <a href="{{ $menu['parent']->link }}">{{ App::isLocale('zh-CN') ? $menu['parent']->name_zh : $menu['parent']->name_en }}</a>
                                 <!--二级菜单内容-->
                                 @if(isset($menu['children']))
                                     <div class="nav-panel-dropdown">
                                         <ul>
                                             @foreach($menu['children'] as $child)
                                                 <li>
-                                                    <a href="{{ $child['link'] }}"><span>{{ App::isLocale('en') ? $child['name_en'] : $child['name_zh'] }}</span></a>
+                                                    <a href="{{ $child['link'] }}"><span>{{ App::isLocale('zh-CN') ? $child['name_zh'] : $child['name_en'] }}</span></a>
                                                 </li>
                                             @endforeach
                                         </ul>
@@ -109,7 +109,7 @@
                             </li>
                         @else
                             <li class="first_menu">
-                                <a href="{{ $menu->link }}">{{ App::isLocale('en') ? $menu->name_en : $menu->name_zh }}</a>
+                                <a href="{{ $menu->link }}">{{ App::isLocale('zh-CN') ? $menu->name_zh : $menu->name_en }}</a>
                             </li>
                         @endif
                     @endforeach

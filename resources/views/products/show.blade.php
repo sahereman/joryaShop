@@ -1,6 +1,6 @@
 @extends('layouts.app')
-@section('title', (App::isLocale('en') ? $product->name_en : $product->name_zh) . ' - ' . \App\Models\Config::config('title'))
-@section('description', App::isLocale('en') ? $product->description_en : $product->description_zh)
+@section('title', (App::isLocale('zh-CN') ? $product->name_zh : $product->name_en) . ' - ' . \App\Models\Config::config('title'))
+@section('description', App::isLocale('zh-CN') ? $product->description_zh : $product->description_en)
 @section('content')
     <div class="commodity-details">
         <div class="m-wrapper">
@@ -10,12 +10,12 @@
                     <a href="{{ route('root') }}">@lang('basic.home')</a>
                     @if($category->parent)
                         <span>></span>
-                        <a href="{{ route('product_categories.index', ['category' => $category->parent->id]) }}">{{ App::isLocale('en') ? $category->parent->name_en : $category->parent->name_zh }}</a>
+                        <a href="{{ route('product_categories.index', ['category' => $category->parent->id]) }}">{{ App::isLocale('zh-CN') ? $category->parent->name_zh : $category->parent->name_en }}</a>
                     @endif
                     <span>></span>
-                    <a href="{{ route('product_categories.index', ['category' => $category->id]) }}">{{ App::isLocale('en') ? $category->name_en : $category->name_zh }}</a>
+                    <a href="{{ route('product_categories.index', ['category' => $category->id]) }}">{{ App::isLocale('zh-CN') ? $category->name_zh : $category->name_en }}</a>
                     <span>></span>
-                    <a href="javascript:void(0);">{{ App::isLocale('en') ? $product->name_en : $product->name_zh }}</a>
+                    <a href="javascript:void(0);">{{ App::isLocale('zh-CN') ? $product->name_zh : $product->name_en }}</a>
                 </p>
             </div>
             <!--详情上半部分-->
@@ -61,8 +61,8 @@
                 </div>
                 <!--商品参数-->
                 <div class="parameters_content">
-                    <h4>{{ App::isLocale('en') ? $product->name_en : $product->name_zh }}</h4>
-                    <p class="small_title">{!! App::isLocale('en') ? $product->description_en : $product->description_zh !!}</p>
+                    <h4>{{ App::isLocale('zh-CN') ? $product->name_zh : $product->name_en }}</h4>
+                    <p class="small_title">{!! App::isLocale('zh-CN') ? $product->description_zh : $product->description_en !!}</p>
                     <div class="price_service">
                         <p class="original_price">
                             <span>@lang('product.product_details.the original price')</span>
@@ -229,7 +229,7 @@
                             <strong>({{ $comment_count }})</strong></li>
                     </ul>
                     <div class="mc tabcon product_info">
-                        {!! App::isLocale('en') ? $product->content_en : $product->content_zh !!}
+                        {!! App::isLocale('zh-CN') ? $product->content_zh : $product->content_en !!}
                     </div>
                     <div class="mc tabcon dis_n">
                         <ul class="comment-score">

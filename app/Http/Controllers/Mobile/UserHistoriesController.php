@@ -28,10 +28,10 @@ class UserHistoriesController extends Controller
     {
         $current_page = $request->has('page') ? $request->input('page') : 1;
         if (preg_match('/^\d+$/', $current_page) != 1) {
-            if (App::isLocale('en')) {
-                throw new InvalidRequestException('The parameter page must be an integer.');
-            } else {
+            if (App::isLocale('zh-CN')) {
                 throw new InvalidRequestException('页码参数必须为数字！');
+            } else {
+                throw new InvalidRequestException('The parameter page must be an integer.');
             }
         }
         $user = $request->user();
@@ -58,9 +58,9 @@ class UserHistoriesController extends Controller
             $first_history = array_shift_assoc($histories_for_page);
             foreach ($first_history as $key => $value) {
                 if ($key == date('y.m.d')) {
-                    $histories_for_page = App::isLocale('en') ?
-                        array_unshift_assoc($histories_for_page, 'Today', $value) :
-                        array_unshift_assoc($histories_for_page, '今天', $value);
+                    $histories_for_page = App::isLocale('zh-CN') ?
+                        array_unshift_assoc($histories_for_page, '今天', $value) :
+                        array_unshift_assoc($histories_for_page, 'Today', $value);
                 } else {
                     $histories_for_page = array_unshift_assoc($histories_for_page, Carbon::createFromFormat('y.m.d', $key)->diffForHumans(), $value);
                 }

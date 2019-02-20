@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', (App::isLocale('en') ? 'Personal Center' : '个人中心') . ' - ' . \App\Models\Config::config('title'))
+@section('title', (App::isLocale('zh-CN') ? '个人中心' : 'Personal Center') . ' - ' . \App\Models\Config::config('title'))
 @section('content')
     <div class="User_center">
         <div class="m-wrapper">
@@ -146,7 +146,7 @@
                                             <td class="col-pro-info">
                                                 <p class="p-info">
                                                     <a code="{{ $item->sku->id }}"
-                                                       href="{{ route('products.show', ['product' => $item->sku->product->id]) }}">{{ App::isLocale('en') ? $item->sku->product->name_en : $item->sku->product->name_zh }}</a>
+                                                       href="{{ route('products.show', ['product' => $item->sku->product->id]) }}">{{ App::isLocale('zh-CN') ? $item->sku->product->name_zh : $item->sku->product->name_en }}</a>
                                                 </p>
                                             </td>
                                             <td class="col-price">
@@ -260,7 +260,7 @@
                                             <td class="col-pro-info">
                                                 <p class="p-info">
                                                     <a code="{{ $item->sku->id }}"
-                                                       href="{{ route('products.show', ['product' => $item->sku->product->id]) }}">{{ App::isLocale('en') ? $item->sku->product->name_en : $item->sku->product->name_zh }}</a>
+                                                       href="{{ route('products.show', ['product' => $item->sku->product->id]) }}">{{ App::isLocale('zh-CN') ? $item->sku->product->name_zh : $item->sku->product->name_en }}</a>
                                                 </p>
                                             </td>
                                             <td class="col-price">
@@ -299,8 +299,9 @@
                                     <div class="collection_shop_img">
                                         <img class="lazy" data-src="{{ $guess->thumb_url }}">
                                     </div>
-                                    <p class="commodity_title"
-                                       title="{{ App::isLocale('en') ? $guess->name_en : $guess->name_zh }}">{{ App::isLocale('en') ? $guess->name_en : $guess->name_zh }}</p>
+                                    <p class="commodity_title" title="{{ App::isLocale('zh-CN') ? $guess->name_zh : $guess->name_en }}">
+                                        {{ App::isLocale('zh-CN') ? $guess->name_zh : $guess->name_en }}
+                                    </p>
                                     <p class="collection_price">
                                         {{--<span class="new_price">{{ App::isLocale('en') ? '&#36;' : '&#165;' }} {{ App::isLocale('en') ? $guess->price_in_usd : $guess->price }}</span>--}}
                                         {{--<span class="old_price">{{ App::isLocale('en') ? '&#36;' : '&#165;' }} {{  App::isLocale('en') ? bcmul($guess->price_in_usd, 1.2, 2) : bcmul($guess->price, 1.2, 2) }}</span>--}}

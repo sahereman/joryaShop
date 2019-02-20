@@ -47,7 +47,6 @@ class Config extends Model
             return '';
         }
 
-
         if ($config->type == 'image') {
             if (!Str::startsWith($config->value, ['http://', 'https://'])) {
                 return \Storage::disk('public')->url($config->value);

@@ -1,5 +1,5 @@
 @extends('layouts.mobile')
-@section('title', (App::isLocale('en') ? 'Choosing A Payment Method' : '选择支付方式') . ' - ' . \App\Models\Config::config('title'))
+@section('title', (App::isLocale('zh-CN') ? '选择支付方式' : 'Choosing A Payment Method') . ' - ' . \App\Models\Config::config('title'))
 @section('content')
     <div class="headerBar fixHeader {{ is_wechat_browser() ? 'height_no' : '' }}">
         <img src="{{ asset('static_m/img/icon_backtop.png') }}" class="backImg" onclick="javascript:history.back(-1);"/>
@@ -42,13 +42,13 @@
                     @endforeach
                 </ul>
                 <!--显示商品总数量-->
-                @if(\Illuminate\Support\Facades\App::isLocale('en'))
+                @if(\Illuminate\Support\Facades\App::isLocale('zh-CN'))
                     <span class="pre_products_num">
-                        {{ count($order->snapshot) .' '. (count($order->snapshot) > 1 ? \Illuminate\Support\Str::plural(__('order.Commodity')) : __('order.Commodity')) .' '. __('order.in total') }}
+                        {{ __('order.in total') .' '. count($order->snapshot) .' '. __('order.Commodity') }}
                     </span>
                 @else
                     <span class="pre_products_num">
-                        {{ __('order.in total') .' '. count($order->snapshot) .' '. __('order.Commodity') }}
+                        {{ count($order->snapshot) .' '. (count($order->snapshot) > 1 ? \Illuminate\Support\Str::plural(__('order.Commodity')) : __('order.Commodity')) .' '. __('order.in total') }}
                     </span>
                 @endif
             </div>

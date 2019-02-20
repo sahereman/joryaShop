@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', (App::isLocale('en') ? 'WeChat payment' : '微信支付') . ' - ' . \App\Models\Config::config('title'))
+@section('title', (App::isLocale('zh-CN') ? '微信支付' : 'WeChat payment') . ' - ' . \App\Models\Config::config('title'))
 @section('content')
     <div class="payment_method">
         <div class="m-wrapper">

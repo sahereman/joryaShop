@@ -40,10 +40,10 @@ class UserAddressesController extends Controller
         $user = $request->user();
         $addressCount = $user->addresses->count();
         if ($addressCount >= Config::config('max_user_address_count')) {
-            if (App::isLocale('en')) {
-                throw new InvalidRequestException('Your address amount is up to the maximum already.');
-            } else {
+            if (App::isLocale('zh-CN')) {
                 throw new InvalidRequestException('用户保存收货地址数量已达上限');
+            } else {
+                throw new InvalidRequestException('Your address amount is up to the maximum already.');
             }
         }
         $address = new UserAddress();
@@ -70,10 +70,10 @@ class UserAddressesController extends Controller
         $user = $request->user();
         $addressCount = $user->addresses->count();
         if ($addressCount >= Config::config('max_user_address_count')) {
-            if (App::isLocale('en')) {
-                throw new InvalidRequestException('Your address amount is up to the maximum already.');
-            } else {
+            if (App::isLocale('zh-CN')) {
                 throw new InvalidRequestException('用户保存收货地址数量已达上限');
+            } else {
+                throw new InvalidRequestException('Your address amount is up to the maximum already.');
             }
         }
         $address = new UserAddress();

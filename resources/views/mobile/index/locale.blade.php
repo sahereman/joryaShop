@@ -1,5 +1,5 @@
 @extends('layouts.mobile')
-@section('title', App::isLocale('en') ? 'switch language' : '切换语言')
+@section('title', App::isLocale('zh-CN') ? '切换语言' : 'switch language')
 @section('content')
     <div class="headerBar">
         @if(!is_wechat_browser())

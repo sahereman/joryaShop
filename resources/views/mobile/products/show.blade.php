@@ -1,6 +1,6 @@
 @extends('layouts.mobile')
-@section('title', (App::isLocale('en') ? $product->name_en : $product->name_zh) . ' - ' . \App\Models\Config::config('title'))
-@section('description', App::isLocale('en') ? $product->description_en : $product->description_zh)
+@section('title', (App::isLocale('zh-CN') ? $product->name_zh : $product->name_en) . ' - ' . \App\Models\Config::config('title'))
+@section('description', App::isLocale('zh-CN') ? $product->description_zh : $product->description_en)
 @section('content')
     <div class="goodsDetailBox">
         <img src="{{ asset('static_m/img/icon_back.png') }}" class="gBack" onclick="javascript:history.back(-1);"/>
@@ -17,7 +17,7 @@
         </div>
         <div class="goodsPresent">
             <div class="gName">
-                {{ App::isLocale('en') ? $product->name_en : $product->name_zh }}
+                {{ App::isLocale('zh-CN') ? $product->name_zh : $product->name_en }}
             </div>
             <div class="gPrice">
                 {{--<span>@lang('basic.currency.symbol') {{ App::isLocale('en') ? $product->price_in_usd : $product->price }}</span>
@@ -32,7 +32,7 @@
                 <span>@lang('product.product_details.sales'): {{ $product->sales }}</span>
                 <span>@lang('product.product_details.stock'): {{ $product->stock }}</span>
             </div>
-            @if(!App::isLocale('en'))
+            @if(App::isLocale('zh-CN'))
                 <div class="gExplain">
                     <div>
                         <img src="{{ asset('static_m/img/icon_Certified.png') }}" alt=""/>
@@ -59,9 +59,9 @@
             </div>
             <div class="gIntroCon">
                 <div class="gIntroConDetail">
-                    {!! App::isLocale('en') ? $product->content_en : $product->content_zh !!}
+                    {!! App::isLocale('zh-CN') ? $product->content_zh : $product->content_en !!}
                 </div>
-                <div class="gIntroConEvaluate" code="App::isLocale('en') ? en : zh" data-url="{{ config('app.url') }}">
+                <div class="gIntroConEvaluate" code="{{ App::isLocale('zh-CN') ? 'zh' : 'en' }}" data-url="{{ config('app.url') }}">
                     {{--<div class="gEvaHead">
                         <span class="gEvaHeadActive">全部({{ $comment_count }})</span>
                         <span>有图({{ $photo_comment_count }})</span>
@@ -509,7 +509,8 @@
                                 $(".shipment_index").text((data.data.shipment_index).toFixed(1));
                                 $.each(dataObj, function (i, n) {
                                     // name = ($(".gIntroConEvaluate").attr("code") == "en") ? n.order_item.sku.name_en : n.order_item.sku.name_zh;
-                                    parameters = ($(".gIntroConEvaluate").attr("code") == "en") ? n.order_item.sku.parameters_en : n.order_item.sku.parameters_zh;
+                                    // parameters = ($(".gIntroConEvaluate").attr("code") == "en") ? n.order_item.sku.parameters_en : n.order_item.sku.parameters_zh;
+                                    parameters = ($(".gIntroConEvaluate").attr("code") == "zh") ? n.order_item.sku.parameters_zh : n.order_item.sku.parameters_en;
                                     dataObj_photo = n.photo_urls;
                                     html += "<div class='commentDetail'>";
                                     html += "<div class='comUser'>";

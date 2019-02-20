@@ -1,5 +1,5 @@
 @extends('layouts.mobile')
-@section('title', App::isLocale('en') ? 'Sign in' : '登录')
+@section('title', App::isLocale('zh-CN') ? '登录' : 'Sign in')
 @section('content')
     <div class="logMain">
         <div class="logoImgBox">

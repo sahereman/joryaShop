@@ -1,5 +1,5 @@
 @extends('layouts.mobile')
-@section('title', (App::isLocale('en') ? 'Settings' : '设置') . ' - ' . \App\Models\Config::config('title'))
+@section('title', (App::isLocale('zh-CN') ? '设置' : 'Settings') . ' - ' . \App\Models\Config::config('title'))
 @section('content')
     <div class="headerBar {{ is_wechat_browser() ? 'height_no' : '' }}">
         @if(!is_wechat_browser())

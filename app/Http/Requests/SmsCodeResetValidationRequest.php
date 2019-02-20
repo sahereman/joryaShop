@@ -48,7 +48,7 @@ class SmsCodeResetValidationRequest extends Request
      */
     public function attributes()
     {
-        if (App::isLocale('en')) {
+        if (!App::isLocale('zh-CN')) {
             return [];
         }
         return [

@@ -1,5 +1,5 @@
 @extends('layouts.mobile')
-@section('title', App::isLocale('en') ? 'Product Search' : '商品搜索')
+@section('title', App::isLocale('zh-CN') ? '商品搜索' : 'Product Search')
 @section('content')
     <div class="seaBox">
             <div class="headerBar {{ is_wechat_browser() ? 'height_no' : '' }}">
@@ -10,7 +10,7 @@
             @endif
         </div>
         <div class="searchHead">
-            <div class="searchHeadMain" code="{{ App::isLocale('en') ? 'en' : 'zh' }}">
+            <div class="searchHeadMain" code="{{ App::isLocale('zh-CN') ? 'zh' : 'en' }}">
                 <img src="{{ asset('static_m/img/icon_search3.png') }}" class="seaImg"/>
                 <input type="text" name="" id="ipt" value="" data-url="{{ route('products.search_hint') }}"
                        placeholder="@lang('product.you want to search')"/>
@@ -31,8 +31,8 @@
                 <div class="searchNowBox search_by_heart">
                     @if($categories)
                         @foreach($categories as $category)
-                            <a href="{{ route('mobile.products.search') . '?query=' . (\Illuminate\Support\Facades\App::isLocale('en')? $category->name_en : $category->name_zh) }}">
-                                <span>{{ \Illuminate\Support\Facades\App::isLocale('en')? $category->name_en : $category->name_zh }}</span>
+                            <a href="{{ route('mobile.products.search') . '?query=' . (\Illuminate\Support\Facades\App::isLocale('zh-CN') ? $category->name_zh : $category->name_en) }}">
+                                <span>{{ \Illuminate\Support\Facades\App::isLocale('zh-CN') ? $category->name_zh : $category->name_en }}</span>
                             </a>
                         @endforeach
                     @else

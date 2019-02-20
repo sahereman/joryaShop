@@ -1,6 +1,6 @@
 @extends('layouts.app')
-@section('title', (App::isLocale('en') ? $category->name_en : $category->name_zh) . ' - ' . \App\Models\Config::config('title'))
-@section('description', App::isLocale('en') ? $category->description_en : $category->description_zh)
+@section('title', (App::isLocale('zh-CN') ? $category->name_zh : $category->name_en) . ' - ' . \App\Models\Config::config('title'))
+@section('description', App::isLocale('zh-CN') ? $category->description_zh : $category->description_en)
 @section('content')
     <div class="products-search-level">
         <div class="m-wrapper">
@@ -9,7 +9,7 @@
                 <p class="Crumbs">
                     <a href="{{ route('root') }}">@lang('product.All results')</a>
                     <span>></span>
-                    <a href="javascript:void(0);">{{ App::isLocale('en') ? $category->name_en : $category->name_zh }}</a>
+                    <a href="javascript:void(0);">{{ App::isLocale('zh-CN') ? $category->name_zh : $category->name_en }}</a>
                 </p>
             </div>
             <div class="search-level">

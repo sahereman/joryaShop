@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', App::isLocale('en') ? 'Retrieve password' : '找回密码')
+@section('title', App::isLocale('zh-CN') ? '找回密码' : 'Retrieve password')
 @section('content')
     <div class="reset_psw">
         <div class="m-wrapper">

@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', (App::isLocale('en') ? 'Personal Center - My Favourites' : '个人中心 - 我的收藏') . ' - ' . \App\Models\Config::config('title'))
+@section('title', (App::isLocale('zh-CN') ? '个人中心 - 我的收藏' : 'Personal Center - My Favourites') . ' - ' . \App\Models\Config::config('title'))
 @section('content')
     <div class="User_collection">
         <div class="m-wrapper">
@@ -35,7 +35,7 @@
                                         <img class="lazy" data-src="{{ $favourite->product->thumb_url }}">
                                     </div>
                                     <p class="commodity_title">
-                                        {{ App::isLocale('en') ? $favourite->product->name_en : $favourite->product->name_zh }}
+                                        {{ App::isLocale('zh-CN') ? $favourite->product->name_zh : $favourite->product->name_en }}
                                     </p>
                                     <p class="collection_price">
                                         <span class="new_price">

@@ -1,5 +1,5 @@
 @extends('layouts.mobile')
-@section('title', (App::isLocale('en') ? 'Categories' : '商品分类') . ' - ' . \App\Models\Config::config('title'))
+@section('title', (App::isLocale('zh-CN') ? '商品分类' : 'Categories') . ' - ' . \App\Models\Config::config('title'))
 @section('content')
     <div class="cgeBox">
         <div class="cgeHead">
@@ -15,17 +15,17 @@
                     @if($category->id == $category_id)
                         <div class="cgeActive" code="{{ $category->id }}"
                              data-url="{{ route('mobile.product_categories.more', ['category' => $category->id]) }}">
-                            {{ App::isLocale('en') ? $category->name_en : $category->name_zh }}
+                            {{ App::isLocale('zh-CN') ? $category->name_zh : $category->name_en }}
                         </div>
                     @else
                         <div code="{{ $category->id }}"
                              data-url="{{ route('mobile.product_categories.more', ['category' => $category->id]) }}">
-                            {{ App::isLocale('en') ? $category->name_en : $category->name_zh }}
+                            {{ App::isLocale('zh-CN') ? $category->name_zh : $category->name_en }}
                         </div>
                     @endif
                 @endforeach
             </div>
-            <div class="cgeMainRight" code="{{ App::isLocale('en') ? 'en' : 'zh' }}">
+            <div class="cgeMainRight" code="{{ App::isLocale('zh-CN') ? 'zh' : 'en' }}">
             </div>
         </div>
     </div>
@@ -35,7 +35,7 @@
 
 @section('scriptsAfterJs')
     <script type="text/javascript">
-        //页面单独JS写这里
+        // 页面单独JS写这里
         $(".itemsF").removeClass("itemsActive");
         $(".itemsL").addClass("itemsActive");
         $(".itemsS img").attr("src", "{{ asset('static_m/img/Unchecked_home.png') }}");
@@ -52,7 +52,7 @@
             var url = $(".cgeMainLeft").find(".cgeActive").attr("data-url");
             getResults(url);
         };
-        //获取商品分类列表
+        // 获取商品分类列表
         function getResults(url) {
             $.ajax({
                 type: "get",
@@ -94,7 +94,7 @@
                     console.log(e);
                 },
                 complete: function () {
-                }
+                },
             });
         }
     </script>

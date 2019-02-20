@@ -217,10 +217,10 @@ class PaymentsController extends Controller
     {
         $order = Order::find($request->input('order_id'));
         if (!$order) {
-            if (App::isLocale('en')) {
-                throw new InvalidRequestException('This order does not exist.');
-            } else {
+            if (App::isLocale('zh-CN')) {
                 throw new InvalidRequestException('该订单不存在');
+            } else {
+                throw new InvalidRequestException('This order does not exist.');
             }
         }
 
@@ -444,10 +444,10 @@ class PaymentsController extends Controller
     {
         $order = Order::find($request->input('order_id'));
         if (!$order) {
-            if (App::isLocale('en')) {
-                throw new InvalidRequestException('This order does not exist.');
-            } else {
+            if (App::isLocale('zh-CN')) {
                 throw new InvalidRequestException('该订单不存在');
+            } else {
+                throw new InvalidRequestException('This order does not exist.');
             }
         }
 
@@ -925,10 +925,10 @@ class PaymentsController extends Controller
     {
         $order = Order::find($request->input('order_id'));
         if (!$order) {
-            if (App::isLocale('en')) {
-                throw new InvalidRequestException('This order does not exist.');
-            } else {
+            if (App::isLocale('zh-CN')) {
                 throw new InvalidRequestException('该订单不存在');
+            } else {
+                throw new InvalidRequestException('This order does not exist.');
             }
         }
 
@@ -1074,10 +1074,10 @@ class PaymentsController extends Controller
     {
         $order = Order::find($request->input('order_id'));
         if (!$order) {
-            if (App::isLocale('en')) {
-                throw new InvalidRequestException('This order does not exist.');
-            } else {
+            if (App::isLocale('zh-CN')) {
                 throw new InvalidRequestException('该订单不存在');
+            } else {
+                throw new InvalidRequestException('This order does not exist.');
             }
         }
 

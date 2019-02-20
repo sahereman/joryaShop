@@ -1,5 +1,5 @@
 @extends('layouts.mobile')
-@section('title', (App::isLocale('en') ? 'Cart' : '购物车') . ' - ' . \App\Models\Config::config('title'))
+@section('title', (App::isLocale('zh-CN') ? '购物车' : 'Cart') . ' - ' . \App\Models\Config::config('title'))
 @section('content')
     <div class="headerBar fixHeader {{ is_wechat_browser() ? 'height_no' : '' }}">
         <img src="{{ asset('static_m/img/icon_backtop.png') }}" class="backImg" onclick="javascript:history.back(-1);"/>
@@ -27,12 +27,12 @@
                         </a>
                         <div class="cartDetail">
                             <div class="goodsName">
-                                {{ App::isLocale('en') ? $cart->sku->product->name_en : $cart->sku->product->name_zh }}
+                                {{ App::isLocale('zh-CN') ? $cart->sku->product->name_zh : $cart->sku->product->name_en }}
                             </div>
                             <div class="goodsSpec">
-                                <span>{{ App::isLocale('en') ? $cart->sku->base_size_en : $cart->sku->base_size_zh }}</span>
-                                <span>{{ App::isLocale('en') ? $cart->sku->hair_colour_en : $cart->sku->hair_colour_zh }}</span>
-                                <span>{{ App::isLocale('en') ? $cart->sku->hair_density_en : $cart->sku->hair_density_zh }}</span>
+                                <span>{{ App::isLocale('zh-CN') ? $cart->sku->base_size_zh : $cart->sku->base_size_en }}</span>
+                                <span>{{ App::isLocale('zh-CN') ? $cart->sku->hair_colour_zh : $cart->sku->hair_colour_en }}</span>
+                                <span>{{ App::isLocale('zh-CN') ? $cart->sku->hair_density_zh : $cart->sku->hair_density_en }}</span>
                             </div>
                             <div class="goodsPri">
                                 <div>
