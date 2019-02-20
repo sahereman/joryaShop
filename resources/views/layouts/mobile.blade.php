@@ -26,7 +26,12 @@
     <link href="{{ asset('static_m/js/animate/animate.css') }}" rel="stylesheet">
 </head>
 <body>
-<div id="app" class="{{ route_class() }}-page">
+<div id="app" class="{{ route_class() }}-page"
+     data-global-locale="{{ \Illuminate\Support\Facades\App::getLocale() }}"
+     data-global-currency="{{ get_global_currency() }}" data-global-symbol="{{ get_global_symbol() }}"
+     {{--data-currencies="{{ collect(\App\Models\ExchangeRate::$currencyMap)->toJson() }}"--}}
+     data-symbols="{{ collect(\App\Models\ExchangeRate::$symbolMap)->toJson() }}"
+     data-exchange-rates="{{ \App\Models\ExchangeRate::exchangeRates()->keyBy('currency')->toJson() }}">
     @yield('content')
 </div>
 <!-- JS 脚本 -->

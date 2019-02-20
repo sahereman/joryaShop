@@ -31,31 +31,31 @@ $(function () {
     /*货币汇率转换相关*/
     var app_node = $('div#app');
 
-    if ((global_locale === undefined) || (typeof global_locale !== 'string')) {
+    if ((typeof global_locale === 'undefined') || (typeof global_locale !== 'string')) {
         var global_locale = String(app_node.attr('data-global-locale'));
     }
 
-    if ((global_currency === undefined) || (typeof global_currency !== 'string')) {
+    if ((typeof global_currency === 'undefined') || (typeof global_currency !== 'string')) {
         var global_currency = String(app_node.attr('data-global-currency'));
     }
 
-    if ((global_symbol === undefined) || (typeof global_symbol !== 'string')) {
+    if ((typeof global_symbol === 'undefined') || (typeof global_symbol !== 'string')) {
         var global_symbol = String(app_node.attr('data-global-symbol'));
     }
 
-    /*if ((currencies === undefined) || (typeof currencies !== 'object')) {
+    /*if ((typeof currencies === 'undefined') || (typeof currencies !== 'object')) {
      var currencies = JSON.parse(app_node.attr('data-currencies'));
      }*/
 
-    if ((symbols === undefined) || (typeof symbols !== 'object')) {
+    if ((typeof symbols === 'undefined') || (typeof symbols !== 'object')) {
         var symbols = JSON.parse(app_node.attr('data-symbols'));
     }
 
-    if ((exchange_rates === undefined) || (typeof exchange_rates !== 'object')) {
+    if ((typeof exchange_rates === 'undefined') || (typeof exchange_rates !== 'object')) {
         var exchange_rates = JSON.parse(app_node.attr('data-exchange-rates'));
     }
 
-    if ((float_multiply_by_100 === undefined) || (typeof float_multiply_by_100 !== 'function')) {
+    if ((typeof float_multiply_by_100 === 'undefined') || (typeof float_multiply_by_100 !== 'function')) {
         function float_multiply_by_100(float) {
             float = String(float);
             // float = float.toString();
@@ -76,7 +76,7 @@ $(function () {
         }
     }
 
-    if ((js_number_format === undefined) || (typeof js_number_format !== 'function')) {
+    if ((typeof js_number_format === 'undefined') || (typeof js_number_format !== 'function')) {
         function js_number_format(number) {
             number = String(number);
             // number = number.toString();
@@ -97,7 +97,7 @@ $(function () {
         }
     }
 
-    if ((exchange_price === undefined) || (typeof exchange_price !== 'function')) {
+    if ((typeof exchange_price === 'undefined') || (typeof exchange_price !== 'function')) {
         function exchange_price(price, to_currency, from_currency) {
             if (to_currency && to_currency !== 'USD' && exchange_rates[to_currency]) {
                 var to_rate = exchange_rates[to_currency].rate;
@@ -118,13 +118,13 @@ $(function () {
         }
     }
 
-    if ((get_current_price === undefined) || (typeof get_current_price !== 'function')) {
+    if ((typeof get_current_price === 'undefined') || (typeof get_current_price !== 'function')) {
         function get_current_price(price_in_usd) {
             return exchange_price(price_in_usd, global_currency);
         }
     }
 
-    if ((get_symbol_by_currency === undefined) || (typeof get_symbol_by_currency !== 'function')) {
+    if ((typeof get_symbol_by_currency === 'undefined') || (typeof get_symbol_by_currency !== 'function')) {
         function get_symbol_by_currency(currency) {
             if (currency && currency !== 'USD' && symbols[currency]) {
                 return symbols[currency];
