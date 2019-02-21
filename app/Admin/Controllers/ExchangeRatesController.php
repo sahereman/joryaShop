@@ -37,7 +37,7 @@ class ExchangeRatesController extends Controller
     {
         return $content
             ->header('汇率管理')
-            ->description('详情 - 基于美元作为基础货币')
+            ->description('详情 - 基于美元(USD)作为基础货币')
             ->body($this->detail($id));
     }
 
@@ -51,7 +51,7 @@ class ExchangeRatesController extends Controller
     {
         return $content
             ->header('汇率管理')
-            ->description('编辑 - 基于美元作为基础货币')
+            ->description('编辑 - 基于美元(USD)作为基础货币')
             ->body($this->form()->edit($id));
     }
 

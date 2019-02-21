@@ -15,12 +15,10 @@ class ProductCommentsController extends Controller
 {
     use HasResourceActions;
 
-
     //删除评论
     public function delete(ProductComment $comment)
     {
-        if($comment->deleted_at != null)
-        {
+        if ($comment->deleted_at != null) {
             throw new InvalidRequestException('评论已被删除,无需重复操作');
         }
 

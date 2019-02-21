@@ -78,7 +78,7 @@ class MenusController extends Controller
         $grid->model()->orderBy('slug', 'desc'); // 设置初始排序条件
 
 
-        $grid->name_zh('名称(中文)');
+        // $grid->name_zh('名称(中文)');
         $grid->name_en('名称(英文)');
         $grid->slug('标示')->sortable();
         $grid->link('链接');
@@ -97,7 +97,7 @@ class MenusController extends Controller
         $show = new Show(Menu::findOrFail($id));
 
         $show->id('ID');
-        $show->name_zh('名称(中文)');
+        // $show->name_zh('名称(中文)');
         $show->name_en('名称(英文)');
         $show->slug('标示');
         $show->link('链接');
@@ -114,7 +114,8 @@ class MenusController extends Controller
     {
         $form = new Form(new Menu);
 
-        $form->text('name_zh', '名称(中文)')->rules('required');
+        // $form->text('name_zh', '名称(中文)')->rules('required');
+        $form->hidden('name_zh', '名称(中文)')->default('lyrical');
         $form->text('name_en', '名称(英文)')->rules('required');
 
         $form->select('slug', '标示位')->options([

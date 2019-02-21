@@ -4,7 +4,7 @@
         var ctx = document.getElementById("orderChart").getContext('2d');
         var labels = [];
         var paying_counts = [];
-        var shiping_counts = [];
+        var shipping_counts = [];
         var receiving_counts = [];
         var refunding_counts = [];
 
@@ -13,8 +13,8 @@
         paying_counts.unshift("{{$count}}");
         @endforeach
 
-        @foreach($shiping_counts as $count)
-        shiping_counts.unshift("{{$count}}");
+        @foreach($shipping_counts as $count)
+        shipping_counts.unshift("{{$count}}");
         @endforeach
 
         @foreach($receiving_counts as $count)
@@ -40,7 +40,7 @@
                     label: '待发货订单',
                     backgroundColor: 'rgba(54, 162, 235, 0.3)',
                     borderColor: 'rgba(54, 162, 235, 1)',
-                    data: shiping_counts,
+                    data: shipping_counts,
                     fill: false,
                 }, {
                     label: '待收货订单',

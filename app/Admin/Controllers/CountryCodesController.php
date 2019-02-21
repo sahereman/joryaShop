@@ -16,7 +16,6 @@ class CountryCodesController extends Controller
 
     /**
      * Index interface.
-     *
      * @param Content $content
      * @return Content
      */
@@ -30,8 +29,7 @@ class CountryCodesController extends Controller
 
     /**
      * Show interface.
-     *
-     * @param mixed   $id
+     * @param mixed $id
      * @param Content $content
      * @return Content
      */
@@ -45,8 +43,7 @@ class CountryCodesController extends Controller
 
     /**
      * Edit interface.
-     *
-     * @param mixed   $id
+     * @param mixed $id
      * @param Content $content
      * @return Content
      */
@@ -60,7 +57,6 @@ class CountryCodesController extends Controller
 
     /**
      * Create interface.
-     *
      * @param Content $content
      * @return Content
      */
@@ -74,7 +70,6 @@ class CountryCodesController extends Controller
 
     /**
      * Make a grid builder.
-     *
      * @return Grid
      */
     protected function grid()
@@ -83,7 +78,7 @@ class CountryCodesController extends Controller
         $grid->model()->orderBy('sort', 'desc'); // 设置初始排序条件
 
         $grid->country_name('国家名称');
-//        $grid->country_iso('国家iso标示');
+        // $grid->country_iso('国家iso标示');
         $grid->country_code('国际电话区号');
         $grid->sort('排序值')->sortable();
 
@@ -92,8 +87,7 @@ class CountryCodesController extends Controller
 
     /**
      * Make a show builder.
-     *
-     * @param mixed   $id
+     * @param mixed $id
      * @return Show
      */
     protected function detail($id)
@@ -102,7 +96,7 @@ class CountryCodesController extends Controller
 
         $show->id('ID');
         $show->country_name('国家名称');
-//        $show->country_iso('国家iso标示');
+        // $show->country_iso('国家iso标示');
         $show->country_code('国际电话区号');
         $show->sort('排序值');
 
@@ -111,7 +105,6 @@ class CountryCodesController extends Controller
 
     /**
      * Make a form builder.
-     *
      * @return Form
      */
     protected function form()
@@ -119,7 +112,7 @@ class CountryCodesController extends Controller
         $form = new Form(new CountryCode);
 
         $form->text('country_name', '国家名称');
-//        $form->text('country_iso', '国家iso标示');
+        // $form->text('country_iso', '国家iso标示');
         $form->text('country_code', '国际电话区号');
         $form->number('sort', '排序值');
 

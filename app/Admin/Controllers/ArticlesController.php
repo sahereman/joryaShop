@@ -78,7 +78,6 @@ class ArticlesController extends Controller
         $grid = new Grid(new Article);
         $grid->disableFilter();
 
-
         $grid->id('ID');
         $grid->name('名称');
         $grid->slug('标示位');
@@ -100,7 +99,7 @@ class ArticlesController extends Controller
         $show->id('ID');
         $show->name('名称');
         $show->slug('标示位');
-        $show->content_zh('内容(中文)');
+        // $show->content_zh('内容(中文)');
         $show->divider();
         $show->content_en('内容(英文)');
         $show->created_at('创建时间');
@@ -158,7 +157,8 @@ class ArticlesController extends Controller
             'about | company_introduction | products_features | contact_us | helper | guide | problem | user_protocol | refunding_service | refunding_consultancy | refunding_policy | refunding_procedure | stock_order | custom_order | duplicate | repair'
         );*/
 
-        $form->editor('content_zh', '内容(中文)');
+        // $form->editor('content_zh', '内容(中文)');
+        $form->hidden('content_zh', '内容(中文)')->default('lyrical');
         $form->editor('content_en', '内容(英文)');
 
         return $form;

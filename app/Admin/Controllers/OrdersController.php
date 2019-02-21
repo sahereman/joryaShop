@@ -195,7 +195,6 @@ class OrdersController extends Controller
             $actions->disableView();
             $actions->disableEdit();
             $actions->disableDelete();
-
             $actions->append('<a class="btn btn-xs btn-primary" style="margin-right:8px" href="' . route('admin.orders.show', [$actions->getKey()]) . '">查看</a>');
 
             if ($actions->row->refund) {

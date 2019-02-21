@@ -26,7 +26,6 @@ class PostersController extends Controller
             ->header('广告位管理 ')
             ->description('列表')
             ->body($this->grid());
-
     }
 
     /**

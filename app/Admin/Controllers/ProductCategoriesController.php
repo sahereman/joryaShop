@@ -70,17 +70,16 @@ class ProductCategoriesController extends Controller
             ->body($this->form());
     }
 
-
     protected function tree()
     {
         return ProductCategory::tree(function (Tree $tree) {
             $tree->branch(function ($branch) {
                 $text = $branch['is_index'] && !$branch['parent_id'] ? '<span class="label label-success">首页显示</span>' : '';
-                return "ID:{$branch['id']} - {$branch['name_zh']} " . $text;
+                // return "ID:{$branch['id']} - {$branch['name_zh']} " . $text;
+                return "ID:{$branch['id']} - {$branch['name_en']} " . $text;
             });
         });
     }
-
 
     /**
      * Make a grid builder.
@@ -127,34 +126,34 @@ class ProductCategoriesController extends Controller
 //        return $grid;
 //    }
 
-        /**
-         * Make a show builder.
-         * @param mixed $id
-         * @return Show
-         */
-        protected function detail($id)
-        {
-            $show = new Show(ProductCategory::findOrFail($id));
+    /**
+     * Make a show builder.
+     * @param mixed $id
+     * @return Show
+     */
+    protected function detail($id)
+    {
+        $show = new Show(ProductCategory::findOrFail($id));
 
-            $show->id('ID');
-            $show->name_zh('名称(中文)');
-            $show->name_en('名称(英文)');
-            $show->description_zh('描述(中文)');
-            $show->description_en('描述(英文)');
-            $show->is_index('首页显示')->as(function ($item) {
-                return $item ? '<span class="label label-primary">ON</span>' : '<span class="label label-default">OFF</span>';
-            });
-            $show->created_at('创建时间');
-            $show->updated_at('更新时间');
+        $show->id('ID');
+        // $show->name_zh('名称(中文)');
+        $show->name_en('名称(英文)');
+        // $show->description_zh('描述(中文)');
+        $show->description_en('描述(英文)');
+        $show->is_index('首页显示')->as(function ($item) {
+            return $item ? '<span class="label label-primary">ON</span>' : '<span class="label label-default">OFF</span>';
+        });
+        $show->created_at('创建时间');
+        $show->updated_at('更新时间');
 
-            $show->parent('上级栏目', function ($parent_category) {
-                $parent_category->id('ID');
-                $parent_category->name_zh('名称(中文)');
-                $parent_category->name_en('名称(英文)');
-            });
+        $show->parent('上级栏目', function ($parent_category) {
+            $parent_category->id('ID');
+            // $parent_category->name_zh('名称(中文)');
+            $parent_category->name_en('名称(英文)');
+        });
 
-            return $show;
-        }
+        return $show;
+    }
 
     /**
      * Make a form builder.
@@ -165,14 +164,17 @@ class ProductCategoriesController extends Controller
         $form = new Form(new ProductCategory);
 
         $parent_categories = ProductCategory::where('parent_id', 0)->get()->mapWithKeys(function ($item) {
-            return [$item['id'] => $item['name_zh']];
+            // return [$item['id'] => $item['name_zh']];
+            return [$item['id'] => $item['name_en']];
         });
         $parent_categories->prepend('顶级分类', 0);
 
         $form->select('parent_id', '上级分类')->options($parent_categories)->rules('required');
-        $form->text('name_zh', '名称(中文)')->rules('required');
+        // $form->text('name_zh', '名称(中文)')->rules('required');
+        $form->hidden('name_zh', '名称(中文)')->default('lyrical');
         $form->text('name_en', '名称(英文)')->rules('required');
-        $form->text('description_zh', '描述(中文)')->rules('required');
+        // $form->text('description_zh', '描述(中文)')->rules('required');
+        $form->hidden('description_zh', '描述(中文)')->default('lyrical');
         $form->text('description_en', '描述(英文)')->rules('required');
         $form->switch('is_index', '首页显示');
         $form->number('sort', '排序值');

@@ -16,7 +16,6 @@ class ShipmentCompaniesController extends Controller
 
     /**
      * Index interface.
-     *
      * @param Content $content
      * @return Content
      */
@@ -30,8 +29,7 @@ class ShipmentCompaniesController extends Controller
 
     /**
      * Show interface.
-     *
-     * @param mixed   $id
+     * @param mixed $id
      * @param Content $content
      * @return Content
      */
@@ -45,8 +43,7 @@ class ShipmentCompaniesController extends Controller
 
     /**
      * Edit interface.
-     *
-     * @param mixed   $id
+     * @param mixed $id
      * @param Content $content
      * @return Content
      */
@@ -60,7 +57,6 @@ class ShipmentCompaniesController extends Controller
 
     /**
      * Create interface.
-     *
      * @param Content $content
      * @return Content
      */
@@ -74,7 +70,6 @@ class ShipmentCompaniesController extends Controller
 
     /**
      * Make a grid builder.
-     *
      * @return Grid
      */
     protected function grid()
@@ -91,8 +86,7 @@ class ShipmentCompaniesController extends Controller
 
     /**
      * Make a show builder.
-     *
-     * @param mixed   $id
+     * @param mixed $id
      * @return Show
      */
     protected function detail($id)
@@ -109,7 +103,6 @@ class ShipmentCompaniesController extends Controller
 
     /**
      * Make a form builder.
-     *
      * @return Form
      */
     protected function form()

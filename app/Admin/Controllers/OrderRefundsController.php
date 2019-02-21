@@ -50,7 +50,6 @@ class OrderRefundsController extends Controller
      */
     public function show(OrderRefund $refund, Content $content)
     {
-
         return $content
             ->header('订单管理')
             ->description('售后订单 - 详情')
@@ -68,60 +67,40 @@ class OrderRefundsController extends Controller
      */
     public function check(OrderRefund $refund, Request $request)
     {
-        if ($refund->status == OrderRefund::ORDER_REFUND_STATUS_REFUNDED)
-        {
+        if ($refund->status == OrderRefund::ORDER_REFUND_STATUS_REFUNDED) {
             throw new InvalidRequestException('订单已退款,不可重复退款');
-        } else if ($refund->status == OrderRefund::ORDER_REFUND_STATUS_DECLINED)
-        {
+        } else if ($refund->status == OrderRefund::ORDER_REFUND_STATUS_DECLINED) {
             throw new InvalidRequestException('订单退款已被拒绝');
         }
-
         if ($refund->type == OrderRefund::ORDER_REFUND_TYPE_REFUND) // 仅退款
         {
-
-            try
-            {
+            try {
                 $response = DB::transaction(function () use ($refund) {
-
                     $order = Order::where('id', $refund->order_id)->lockForUpdate()->first();
-
                     if ($order == null) throw new \Exception('lockForUpdate');
-
-                    if ($this->refundMoney($order) === true)
-                    {
+                    if ($this->refundMoney($order) === true) {
                         return response()->json([
                             'messages' => '退款成功'
                         ], 200);
-                    } else
-                    {
+                    } else {
                         return response()->json([
                             'messages' => '系统错误'
                         ], 500);
                     }
                 });
-
                 return $response;
-            } catch (\Exception $e)
-            {
+            } catch (\Exception $e) {
                 return response()->json([
                     'messages' => '网络繁忙'
                 ], 429);
             }
-
-
-        } elseif ($refund->type == OrderRefund::ORDER_REFUND_TYPE_REFUND_WITH_SHIPMENT) // 退货并退款
-        {
-            try
-            {
+        } elseif ($refund->type == OrderRefund::ORDER_REFUND_TYPE_REFUND_WITH_SHIPMENT) { // 退货并退款
+            try {
                 $response = DB::transaction(function () use ($refund, $request) {
-
                     $order = Order::where('id', $refund->order_id)->lockForUpdate()->first();
-
-                    if ($order == null)
-                    {
+                    if ($order == null) {
                         throw new \Exception('lockForUpdate');
                     }
-
                     // 将退款订单的状态标记为shipping(待发货)并保存审核时间
                     $order->refund->update([
                         'status' => OrderRefund::ORDER_REFUND_STATUS_SHIPPING,
@@ -135,22 +114,16 @@ class OrderRefundsController extends Controller
                     return response()->json([
                         'messages' => '审核通过并提醒买家发货'
                     ], 200);
-
                 });
-
                 return $response;
-            } catch (\Exception $e)
-            {
+            } catch (\Exception $e) {
                 return response()->json([
                     'messages' => '网络繁忙'
                 ], 429);
             }
-
-        } else
-        {
+        } else {
             throw new InvalidRequestException('退款状态不符合');
         }
-
     }
 
     /**
@@ -160,50 +133,35 @@ class OrderRefundsController extends Controller
      */
     public function receive(OrderRefund $refund)
     {
-        if ($refund->type == OrderRefund::ORDER_REFUND_TYPE_REFUND_WITH_SHIPMENT && $refund->status == OrderRefund::ORDER_REFUND_STATUS_RECEIVING)
-        {
-
-            try
-            {
+        if ($refund->type == OrderRefund::ORDER_REFUND_TYPE_REFUND_WITH_SHIPMENT && $refund->status == OrderRefund::ORDER_REFUND_STATUS_RECEIVING) {
+            try {
                 $response = DB::transaction(function () use ($refund) {
-
                     $order = Order::where('id', $refund->order_id)->lockForUpdate()->first();
-
                     if ($order == null) throw new \Exception('lockForUpdate');
-
-                    if ($this->refundMoney($order) === true)
-                    {
+                    if ($this->refundMoney($order) === true) {
                         return response()->json([
                             'messages' => '退款成功'
                         ], 200);
-                    } else
-                    {
+                    } else {
                         return response()->json([
                             'messages' => '系统错误'
                         ], 500);
                     }
                 });
-
                 return $response;
-            } catch (\Exception $e)
-            {
+            } catch (\Exception $e) {
                 return response()->json([
                     'messages' => '网络繁忙'
                 ], 429);
             }
-
-        } else
-        {
+        } else {
             throw new InvalidRequestException('退款状态不符合');
         }
-
     }
-
 
     public function refundMoney($order)
     {
-        switch ($order->payment_method)
-        {
+        switch ($order->payment_method) {
             case Order::PAYMENT_METHOD_ALIPAY:
                 return $this->alipayRefund($order);
                 break;
@@ -221,7 +179,6 @@ class OrderRefundsController extends Controller
 
     public function refundSuccessHandle($order)
     {
-
         // 将退款订单的状态标记为退款成功并保存退款時間
         $order->refund->update([
             'status' => OrderRefund::ORDER_REFUND_STATUS_REFUNDED,
@@ -242,8 +199,7 @@ class OrderRefundsController extends Controller
 
         Log::info('A New Alipay Refund Begins: order refund id - ' . $order->refund->id);
 
-        try
-        {
+        try {
             // 调用支付宝支付实例的 refund 方法
             $response = Pay::alipay(PaymentsController::getAlipayConfig($order))->refund([
                 'out_trade_no' => $order->order_sn, // 之前的订单流水号
@@ -253,21 +209,16 @@ class OrderRefundsController extends Controller
             Log::info('A New Alipay Refund Responded: ' . $response->toJson());
 
             // 根据支付宝的文档，如果返回值里有 sub_code 字段说明退款失败
-            if ($response->sub_code || $response->code != 10000 || $response->msg != 'Success')
-            {
+            if ($response->sub_code || $response->code != 10000 || $response->msg != 'Success') {
                 Log::error('A New Alipay Refund Failed: ' . json_encode($response));
             }
 
             $this->refundSuccessHandle($order);
 
-
             Log::info('A New Alipay Refund Completed: order refund id - ' . $order->refund->id);
-
             return true;
-        } catch (\Exception $e)
-        {
+        } catch (\Exception $e) {
             Log::error('A New Alipay Refund Completed: order refund id - ' . $order->refund->id . '; With Error Message: ' . $e->getMessage());
-
             return false;
         }
     }
@@ -277,8 +228,7 @@ class OrderRefundsController extends Controller
     {
         Log::info('A New Wechat Refund Begins: order refund id - ' . $order->refund->id);
 
-        try
-        {
+        try {
             // 调用Wechat支付实例的 refund 方法
             $response = Pay::wechat(PaymentsController::getWechatConfig($order))->refund([
                 'out_trade_no' => $order->order_sn, // 之前的订单流水号
@@ -288,25 +238,19 @@ class OrderRefundsController extends Controller
                 'refund_desc' => '这是来自 Lyrical Hair 的退款订单' . $order->refund->refund_sn,
             ]);
 
-
             Log::info('A New Wechat Refund Responded: ' . $response->toJson());
 
             // 根据Wechat的文档，如果返回值里有 sub_code 字段说明退款失败
-            if ($response->return_code != 'SUCCESS' || $response->result_code != 'SUCCESS')
-            {
+            if ($response->return_code != 'SUCCESS' || $response->result_code != 'SUCCESS') {
                 Log::error('A New Wechat Refund Failed: ' . json_encode($response));
             }
 
             $this->refundSuccessHandle($order);
 
             Log::info('A New Wechat Refund Completed: order refund id - ' . $order->refund->id);
-
             return true;
-
-        } catch (\Exception $e)
-        {
+        } catch (\Exception $e) {
             Log::error('A New Wechat Refund Completed: order refund id - ' . $order->refund->id . '; With Error Message: ' . $e->getMessage());
-
             return false;
         }
     }
@@ -329,15 +273,14 @@ class OrderRefundsController extends Controller
         $amount = $transactions[0]->getAmount();
         $relatedResources = $transactions[0]->getRelatedResources();
         $sale = $relatedResources[0]->getSale();
-        // $saleId = $sale->getId();
 
+        // $saleId = $sale->getId();
         /*$payer = $payment->getPayer();
         $payerInfo = $payer->getPayerInfo();
         $payerId = $payerInfo->getPayerId();*/
 
         $refundRequest = new RefundRequest();
-        try
-        {
+        try {
             $detailedRefund = $sale->refundSale($refundRequest, $apiContext, $restCall);
             Log::info("A New Paypal Payment Refund Created: " . $detailedRefund->toJSON());
 
@@ -345,20 +288,14 @@ class OrderRefundsController extends Controller
             $refundId = $detailedRefund->getId();
             $refundToPayer = $detailedRefund->getRefundToPayer();*/
 
-            if ($detailedRefund->getState() != 'completed')
-            {
+            if ($detailedRefund->getState() != 'completed') {
                 Log::error('A New Paypal Refund Failed: order refund id - ' . $order->refund->id);
             }
-
             $this->refundSuccessHandle($order);
-
             Log::info('A New Paypal Refund Completed: order refund id - ' . $order->refund->id);
-
             return true;
-        } catch (\Exception $e)
-        {
+        } catch (\Exception $e) {
             Log::error("A New Paypal Pc Payment Refund Failed: order refund id - " . $order->refund->id . '; With Error Message: ' . $e->getMessage());
-
             return false;
         }
     }
@@ -381,7 +318,6 @@ class OrderRefundsController extends Controller
         /*筛选*/
         $grid->filter(function ($filter) {
             $filter->disableIdFilter(); // 去掉默认的id过滤器
-
             $filter->equal('status', '售后状态')->select(OrderRefund::$orderRefundStatusMap);
         });
 
@@ -407,11 +343,9 @@ class OrderRefundsController extends Controller
             $actions->disableView();
             $actions->disableEdit();
             $actions->disableDelete();
-
             $actions->append('<a class="btn btn-xs btn-warning" style="margin-right:8px" href="' . route('admin.order_refunds.show', [$actions->getKey()]) . '">查看</a>');
         });
 
         return $grid;
     }
-
 }

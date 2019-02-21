@@ -104,7 +104,7 @@ class UsersController extends Controller
         $form = new Form(new User);
 
         $form->tools(function (Form\Tools $tools) {
-            //            $tools->disableDelete();
+            // $tools->disableDelete();
         });
 
         $form->display('id', 'ID');
@@ -139,11 +139,9 @@ class UsersController extends Controller
             $tools->disableDelete();
         });;
 
-
         $show->id('ID');
         $show->divider();
         $show->avatar('头像')->image('', 120);
-
 
         $show->name('用户名');
         $show->email('邮箱');

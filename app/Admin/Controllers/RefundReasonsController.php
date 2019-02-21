@@ -31,7 +31,7 @@ class RefundReasonsController extends Controller
     /**
      * Show interface.
      *
-     * @param mixed   $id
+     * @param mixed $id
      * @param Content $content
      * @return Content
      */
@@ -46,7 +46,7 @@ class RefundReasonsController extends Controller
     /**
      * Edit interface.
      *
-     * @param mixed   $id
+     * @param mixed $id
      * @param Content $content
      * @return Content
      */
@@ -74,7 +74,6 @@ class RefundReasonsController extends Controller
 
     /**
      * Make a grid builder.
-     *
      * @return Grid
      */
     protected function grid()
@@ -83,7 +82,7 @@ class RefundReasonsController extends Controller
 
         $grid->id('Id');
         $grid->reason_en('退款原因英文');
-        $grid->reason_zh('退款原因中文');
+        // $grid->reason_zh('退款原因中文');
         $grid->sort('排序值')->sortable();
 
         return $grid;
@@ -91,8 +90,7 @@ class RefundReasonsController extends Controller
 
     /**
      * Make a show builder.
-     *
-     * @param mixed   $id
+     * @param mixed $id
      * @return Show
      */
     protected function detail($id)
@@ -101,7 +99,7 @@ class RefundReasonsController extends Controller
 
         $show->id('Id');
         $show->reason_en('退款原因英文');
-        $show->reason_zh('退款原因中文');
+        // $show->reason_zh('退款原因中文');
         $show->sort('排序值');
 
         return $show;
@@ -109,7 +107,6 @@ class RefundReasonsController extends Controller
 
     /**
      * Make a form builder.
-     *
      * @return Form
      */
     protected function form()
@@ -117,7 +114,8 @@ class RefundReasonsController extends Controller
         $form = new Form(new RefundReason);
 
         $form->text('reason_en', '退款原因英文');
-        $form->text('reason_zh', '退款原因中文');
+        // $form->text('reason_zh', '退款原因中文');
+        $form->hidden('reason_zh', '退款原因中文')->default('lyrical');
         $form->number('sort', '排序值');
 
         return $form;

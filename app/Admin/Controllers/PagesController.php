@@ -18,13 +18,10 @@ class PagesController extends Controller
 
     public function index(Content $content)
     {
-
-
         return $content
             ->header($title = '首页')
             ->description('数据统计')
             ->row(function (Row $row) {
-
                 $week = collect([
                     Carbon::today()->toDateString() => 0,
                     Carbon::today()->subDays(1)->toDateString() => 0,
@@ -60,7 +57,7 @@ class PagesController extends Controller
                         return $item->count();
                     });
 
-                    $shiping_counts = $orders->where('status', Order::ORDER_STATUS_SHIPPING)->groupBy(function ($item, $key) {
+                    $shipping_counts = $orders->where('status', Order::ORDER_STATUS_SHIPPING)->groupBy(function ($item, $key) {
                         return $item->created_at->toDateString();
                     })->transform(function ($item) {
                         return $item->count();
@@ -79,14 +76,14 @@ class PagesController extends Controller
                     });
 
                     $paying_counts = $week->merge($paying_counts);
-                    $shiping_counts = $week->merge($shiping_counts);
+                    $shipping_counts = $week->merge($shipping_counts);
                     $receiving_counts = $week->merge($receiving_counts);
                     $refunding_counts = $week->merge($refunding_counts);
 
 
                     $column->append(new Box('近7天订单统计【 商城订单共 ' . Order::count() . ' 单】', view('admin.pages.index.order', [
                         'paying_counts' => $paying_counts,
-                        'shiping_counts' => $shiping_counts,
+                        'shipping_counts' => $shipping_counts,
                         'receiving_counts' => $receiving_counts,
                         'refunding_counts' => $refunding_counts,
                     ])));
@@ -101,7 +98,6 @@ class PagesController extends Controller
             ->header('系统信息')
             ->description('信息')
             ->row(function (Row $row) {
-
                 $row->column(4, function (Column $column) {
                     $column->append(Dashboard::environment());
                 });

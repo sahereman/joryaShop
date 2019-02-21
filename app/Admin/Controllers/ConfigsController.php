@@ -24,46 +24,35 @@ class ConfigsController extends Controller
         $config_groups = Config::configs()->where('parent_id', 0)->sortBy('sort')->values()->toArray();
 
         $tab = new Tab();
-        foreach ($config_groups as $group)
-        {
+        foreach ($config_groups as $group) {
             $form = new Form();
             $form->action('configs/submit');
 
-            foreach ($configs as $config)
-            {
-                if ($config['parent_id'] == $group['id'])
-                {
-                    switch ($config['type'])
-                    {
+            foreach ($configs as $config) {
+                if ($config['parent_id'] == $group['id']) {
+                    switch ($config['type']) {
                         case 'text':
-                            if (!empty($config['help']))
-                            {
+                            if (!empty($config['help'])) {
                                 $form->text("$config[code]", $config['name'])->default($config['value'])->help($config['help']);
-                            } else
-                            {
+                            } else {
                                 $form->text("$config[code]", $config['name'])->default($config['value']);
                             }
                             break;
                         case 'radio':
                             $option_arr = array_pluck($config['select_range'], 'name', 'value');
-                            if (!empty($config['help']))
-                            {
+                            if (!empty($config['help'])) {
                                 $form->radio("$config[code]", $config['name'])->options($option_arr)->default($config['value'])->help($config['help']);
-                            } else
-                            {
+                            } else {
                                 $form->radio("$config[code]", $config['name'])->options($option_arr)->default($config['value']);
                             }
                             break;
                         case 'image':
-                            if (!empty($config['help']))
-                            {
+                            if (!empty($config['help'])) {
                                 $form->image("$config[code]", $config['name'])->setWidth(4)->help($config['help']);
-                            } else
-                            {
+                            } else {
                                 $form->image("$config[code]", $config['name'])->setWidth(4);
                             }
-                            if (!empty($config['value']))
-                            {
+                            if (!empty($config['value'])) {
                                 $image_url = Config::config($config['code']);
                                 $form->display("")->setWidth(1)->default("<img width='100%' src='$image_url' />");
                             }
@@ -85,12 +74,9 @@ class ConfigsController extends Controller
         $data = $request->except(['_token']);
         $configs = Config::configs();
 
-        foreach ($data as $key => $value)
-        {
-            if ($request->has($key) && $configs->where('code', $key)->first()->value != $value)
-            {
-                if ($request->hasFile($key))
-                {
+        foreach ($data as $key => $value) {
+            if ($request->has($key) && $configs->where('code', $key)->first()->value != $value) {
+                if ($request->hasFile($key)) {
                     $value = $imageUploadHandler->uploadOriginal($request->file($key));
                 }
                 $config = Config::where('code', $key)->first();

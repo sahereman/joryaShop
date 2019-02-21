@@ -18,8 +18,7 @@ class WangEditorController extends Controller
         ]);
 
         $paths = array();
-        foreach ($data['images'] as $item)
-        {
+        foreach ($data['images'] as $item) {
             $paths[] = \Storage::url($uploader->uploadOriginal($item));
         }
 
@@ -28,5 +27,4 @@ class WangEditorController extends Controller
             'data' => $paths
         ]);
     }
-
 }

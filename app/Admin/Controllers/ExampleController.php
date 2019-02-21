@@ -76,24 +76,24 @@ class ExampleController extends Controller
         $grid = new Grid(new YourModel);
 
         /*禁用*/
-//        $grid->disableActions();
-//        $grid->disableRowSelector();
-//        $grid->disableExport();
-//        $grid->disableFilter();
-//        $grid->disableCreateButton();
-//        $grid->disablePagination();
+        // $grid->disableActions();
+        // $grid->disableRowSelector();
+        // $grid->disableExport();
+        // $grid->disableFilter();
+        // $grid->disableCreateButton();
+        // $grid->disablePagination();
 
         $grid->actions(function ($actions) {
-//                $actions->disableView();
-//                $actions->disableEdit();
-//                $actions->disableDelete();
+            // $actions->disableView();
+            // $actions->disableEdit();
+            // $actions->disableDelete();
         });
 
-//        $grid->tools(function ($tools) {
-//            $tools->batch(function ($batch) {
-//                $batch->disableDelete();
-//            });
-//        });
+        /*$grid->tools(function ($tools) {
+            $tools->batch(function ($batch) {
+                $batch->disableDelete();
+            });
+        });*/
 
 
         $grid->id('ID')->sortable();
@@ -113,9 +113,9 @@ class ExampleController extends Controller
         $show = new Show(YourModel::findOrFail($id));
 
         $show->panel()->tools(function ($tools) {
-//                $tools->disableEdit();
-//                $tools->disableList();
-//                $tools->disableDelete();
+            // $tools->disableEdit();
+            // $tools->disableList();
+            // $tools->disableDelete();
         });
 
         $show->id('ID');
@@ -134,9 +134,9 @@ class ExampleController extends Controller
         $form = new Form(new YourModel);
 
         $form->tools(function (Form\Tools $tools) {
-//                $tools->disableDelete();
-//                $tools->disableList();
-//                $tools->disableView();
+            // $tools->disableDelete();
+            // $tools->disableList();
+            // $tools->disableView();
         });
 
         $form->display('id', 'ID');
