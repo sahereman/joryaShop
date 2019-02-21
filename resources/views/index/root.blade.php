@@ -214,7 +214,7 @@
 			    var swiper = new Swiper('.swiper-container', {
 	                centeredSlides: true,
 	                loop: true,
-	                speed: 4000,
+	                speed: 1500,
 	                fadeEffect: {
 	                    crossFade: true,
 	                },
