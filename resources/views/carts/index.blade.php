@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', (App::isLocale('en') ? 'Cart' : '购物车') . ' - ' . \App\Models\Config::config('title'))
+@section('title', (App::isLocale('zh-CN') ? '购物车' : 'Cart') . ' - ' . \App\Models\Config::config('title'))
 @section('content')
     <div class="shopping_cart">
         <div class="m-wrapper">
@@ -44,15 +44,19 @@
                                 </div>
                                 <div class="left w250 pro-info">
                                     <a class="cur_p" href="{{ route('products.show', $cart->sku->product_id) }}">
-                                        <span>{{ App::isLocale('en') ? $cart->sku->product->name_en : $cart->sku->product->name_zh }}</span>
+                                        <span>{{ App::isLocale('zh-CN') ? $cart->sku->product->name_zh : $cart->sku->product->name_en }}</span>
                                     </a>
                                 </div>
-                                <div class="left w120 center">
-                                    <span>{{ App::isLocale('en') ? $cart->sku->name_en : $cart->sku->name_zh }}</span>
+                                <div class="left w120 center kindofpro">
+                                    <span>{{ App::isLocale('zh-CN') ? $cart->sku->base_size_zh : $cart->sku->base_size_en }}</span>
+                                    <span>{{ App::isLocale('zh-CN') ? $cart->sku->hair_colour_zh : $cart->sku->hair_colour_en }}</span>
+                                    <span>{{ App::isLocale('zh-CN') ? $cart->sku->hair_density_zh : $cart->sku->hair_density_en }}</span>
                                 </div>
                                 <div class="left w100 center">
-                                    <span>{{ App::isLocale('en') ? '&#36;' : '&#165;' }}</span>
-                                    <span class="price">{{ App::isLocale('en') ? $cart->sku->price_in_usd : $cart->sku->price }}</span>
+                                    {{--<span>{{ App::isLocale('en') ? '&#36;' : '&#165;' }}</span>--}}
+                                    {{--<span class="price">{{ App::isLocale('en') ? $cart->sku->price_in_usd : $cart->sku->price }}</span>--}}
+                                    <span>{{ get_global_symbol() }}</span>
+                                    <span class="price">{{ get_current_price($cart->sku->price) }}</span>
                                 </div>
                                 <div class="left w150 center counter">
                                     <button class="left small-button">-</button>
@@ -61,8 +65,10 @@
                                     <button class="left small-button">+</button>
                                 </div>
                                 <div class="left w100 s_total center">
-                                    <span>{{ App::isLocale('en') ? '&#36;' : '&#165;' }}</span>
-                                    <span>{{ App::isLocale('en') ? bcmul($cart->sku->price_in_usd, $cart->number, 2) : bcmul($cart->sku->price, $cart->number, 2) }}</span>
+                                    {{--<span>{{ App::isLocale('en') ? '&#36;' : '&#165;' }}</span>--}}
+                                    {{--<span>{{ App::isLocale('en') ? bcmul($cart->sku->price_in_usd, $cart->number, 2) : bcmul($cart->sku->price, $cart->number, 2) }}</span>--}}
+                                    <span>{{ get_global_symbol() }}</span>
+                                    <span>{{ bcmul(get_current_price($cart->sku->price), $cart->number, 2) }}</span>
                                 </div>
                                 <div class="left w120 center">
                                     <p>
@@ -77,8 +83,7 @@
                                                 @lang('product.shopping_cart.Move_to_favourites')
                                             </a>
                                         @endif
-                                        <a class="cur_p single_delete"
-                                           data-url="{{ route('carts.destroy', $cart->id) }}">
+                                        <a class="cur_p single_delete" data-url="{{ route('carts.destroy', $cart->id) }}">
                                             @lang('basic.delete')
                                         </a>
                                     </p>
@@ -103,23 +108,23 @@
                             <span>
                                 @lang('order.Sum'):
                                 <span id="totalPrice">
-                                    {{ App::isLocale('en') ? '&#36;' : '&#165;' }} 0.00
+                                    {{--{{ App::isLocale('en') ? '&#36;' : '&#165;' }} 0.00--}}
+                                    {{ get_global_symbol() }} 0.00
                                 </span>
                             </span>
                             @guest
-                            <button class="big-button for_show_login">
-                                @lang('product.shopping_cart.Settlement')
-                            </button>
+                                <button class="big-button for_show_login">
+                                    @lang('product.shopping_cart.Settlement')
+                                </button>
                             @else
                                 <button class="big-button" data-url="{{ route('orders.pre_payment') }}">
                                     @lang('product.shopping_cart.Settlement')
                                 </button>
-                                @endguest
+                            @endguest
                         </div>
                     </div>
                 @endif
             </div>
-
         </div>
     </div>
 @endsection
@@ -140,7 +145,7 @@
                 calcTotal();
             }
             // });
-            //全选
+            // 全选
             $('.selectAll').on('change', function (evt) {
                 if ($(this).prop('checked')) {
                     $('.single-item input[type="checkbox"]').prop('checked', true);
@@ -151,7 +156,8 @@
                     $('.single-item input[type="checkbox"]').prop('checked', false);
                     $('.selectAll').prop('checked', false);
                     $('#totalCount').text('0');
-                    $('#totalPrice').html("{{ App::isLocale('en') ? '&#36;' : '&#165;' }}" + '0.00');
+                    // $('#totalPrice').html("{{--{{ App::isLocale('en') ? '&#36;' : '&#165;' }}--}}" + '0.00');
+                    $('#totalPrice').html(global_symbol + '0.00');
                     $(".big-button").removeClass('active');
                 }
             });
@@ -174,7 +180,7 @@
                  });
                  var data = {
                  _method: "DELETE",
-                 _token: "{{ csrf_token() }}",
+                 _token: "{{--{{ csrf_token() }}--}}",
                  };
                  var url = clickDom.attr('data-url');
                  $.ajax({
@@ -220,7 +226,7 @@
                     },
                     btn2: function () {
                         layer.close(index);
-                    }
+                    },
                 });
             });
             // 为减少和添加商品数量的按钮绑定事件回调
@@ -237,7 +243,7 @@
                     }
                 } else {
                     var count = parseInt($(this).prev().val());
-                    if (count<=10000) {
+                    if (count <= 10000) {
                         count += 1;
                         $(this).prev().val(count);
                         update_pro_num($(this).prev());
@@ -246,7 +252,8 @@
                     }
                 }
                 var price = parseFloat($(this).parent().prev().find('span.price').text());
-                $(this).parent().next().html("{{ App::isLocale('en') ? '&#36;' : '&#165;' }}" + (price * count).toFixed(2));
+                // $(this).parent().next().html("{{--{{ App::isLocale('en') ? '&#36;' : '&#165;' }}--}}" + (price * count).toFixed(2));
+                $(this).parent().next().html(global_symbol + js_number_format(Math.imul(float_multiply_by_100(price), count) / 100));
                 calcTotal();
             });
             // 为单个商品项删除超链接绑定事件回调
@@ -256,7 +263,7 @@
                 /*layer.alert((COUNTRY == "中文") ? '确定要删除该商品吗' : 'Are you sure you want to delete the product?', function (index) {
                     var data = {
                         _method: "DELETE",
-                        _token: "{{ csrf_token() }}",
+                        _token: "{{--{{ csrf_token() }}--}}",
                     };
                     var url = clickDom.attr('data-url');
                     $.ajax({
@@ -294,7 +301,7 @@
                             },
                             error: function (err) {
                                 console.log(err);
-                            }
+                            },
                         });
                     },
                     btn2: function () {
@@ -302,7 +309,7 @@
                     }
                 });
             });
-            //加入收藏夹
+            // 加入收藏夹
             $('.single-item').on('click', ".add_favourites", function () {
                 var clickDom = $(this);
                 var data = {
@@ -319,7 +326,7 @@
                         layer.open({
                             title: "@lang('app.Prompt')",
                             content: "@lang('product.shopping_cart.Add_favourites_successfully')",
-                            btn: "@lang('app.determine')"
+                            btn: "@lang('app.determine')",
                         });
                     },
                     error: function (e) {
@@ -327,7 +334,7 @@
                         if (e.status == 422) {
                             layer.msg($.parseJSON(e.responseText).errors.product_id[0]);
                         }
-                    }
+                    },
                 });
             });
             // 为商品数量文本框绑定改变事件回调
@@ -341,7 +348,8 @@
                 }
                 update_pro_num($(this));
                 var price = parseFloat($(this).parent().prev().find('span.price').text());
-                $(this).parent().next().html("{{ App::isLocale('en') ? '&#36;' : '&#165;' }}" + (price * count).toFixed(2));
+                // $(this).parent().next().html("{{--{{ App::isLocale('en') ? '&#36;' : '&#165;' }}--}}" + (price * count).toFixed(2));
+                $(this).parent().next().html(global_symbol + js_number_format(Math.imul(float_multiply_by_100(price), count) / 100));
                 calcTotal();
             });
 
@@ -359,7 +367,8 @@
                         var price = parseFloat($(priceSpans[i]).text());
                         var count = parseInt($(countInputs[i]).val());
                         totalCount += count;
-                        totalPrice += price * count;
+                        // totalPrice += price * count;
+                        totalPrice += parseFloat(js_number_format(Math.imul(float_multiply_by_100(price), count) / 100));
                     }
                 }
                 if (totalPrice > 0) {
@@ -368,7 +377,8 @@
                     $(".big-button").removeClass('active');
                 }
                 $('#totalCount').text(totalCount);
-                $('#totalPrice').html("{{ App::isLocale('en') ? '&#36;' : '&#165;' }}" + totalPrice.toFixed(2));
+                // $('#totalPrice').html("{{--{{ App::isLocale('en') ? '&#36;' : '&#165;' }}--}}" + totalPrice.toFixed(2));
+                $('#totalPrice').html(global_symbol + js_number_format(totalPrice));
             }
 
             //更新购物车记录（增减数量）
@@ -392,7 +402,8 @@
                         count = --count;
                         dom.val(count);
                         var price = parseFloat(dom.parent().prev().find('span.price').text());
-                        dom.parent().next().html("{{ App::isLocale('en') ? '&#36;' : '&#165;' }}" + (price * count).toFixed(2));
+                        // dom.parent().next().html("{{--{{ App::isLocale('en') ? '&#36;' : '&#165;' }}--}}" + (price * count).toFixed(2));
+                        dom.parent().next().html(global_symbol + js_number_format(Math.imul(float_multiply_by_100(price), count) / 100));
                         calcTotal();
                         var obj = err.responseJSON.errors;
                         layer.msg(Object.values(obj)[0][0]);
@@ -400,7 +411,7 @@
                 });
             }
 
-            //点击结算
+            // 点击结算
             $(".big-button").on("click", function () {
                 var clickDom = $(this);
                 if (clickDom.hasClass('for_show_login') == true) {
@@ -426,14 +437,14 @@
                             layer.open({
                                 title: "@lang('app.Prompt')",
                                 content: "@lang('product.choose_settlement')",
-                                btn: "@lang('app.determine')"
+                                btn: "@lang('app.determine')",
                             });
                         }
                     }
                 }
             });
-            //再次购买的特殊处理，如果从再次购买进入购物车则url中存在参数sku_id_lists用来判断哪些商品是通过再次购买添加至购物车中
-            //同时对这些对应的商品进行选择进行状态选中
+            // 再次购买的特殊处理，如果从再次购买进入购物车则url中存在参数sku_id_lists用来判断哪些商品是通过再次购买添加至购物车中
+            // 同时对这些对应的商品进行选择进行状态选中
             function getUrlVars() {
                 var vars = [], hash;
                 var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');

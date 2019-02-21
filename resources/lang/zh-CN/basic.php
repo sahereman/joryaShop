@@ -174,6 +174,11 @@ return [
         'Insufficient_sku_stock' => '该商品库存不足，请重新调整商品购买数量',
         'Product_sku_does_not_exist' => '该商品不存在',
         'Cart_ids_with_bad_format' => '购物车IDs格式不正确',
+        'Plz_select_a_base_size' => '请选择一个 Base Size',
+        'Plz_select_a_hair_colour' => '请选择一个 Hair Colour',
+        'Plz_select_a_hair_density' => '请选择一个 Hair Density',
+        'Sku_does_not_exist' => '该商品SKU不存在',
+        'User_address_does_not_exist' => '该用户地址不存在',
     ],
     'comments' => [
         'Plz_mark_every_composite_index' => '请确保评价每个商品的综合评分',

@@ -82,7 +82,7 @@ class MenusController extends Controller
         $grid->name_en('名称(英文)');
         $grid->slug('标示')->sortable();
         $grid->link('链接');
-        $grid->sort('排序')->sortable();
+        $grid->sort('排序值')->sortable();
 
         return $grid;
     }
@@ -101,7 +101,7 @@ class MenusController extends Controller
         $show->name_en('名称(英文)');
         $show->slug('标示');
         $show->link('链接');
-        $show->sort('排序');
+        $show->sort('排序值');
 
         return $show;
     }
@@ -117,13 +117,13 @@ class MenusController extends Controller
         $form->text('name_zh', '名称(中文)')->rules('required');
         $form->text('name_en', '名称(英文)')->rules('required');
 
-        $form->select('slug', '标示')->options([
+        $form->select('slug', '标示位')->options([
             'pc' => 'PC站',
             'mobile' => 'Mobile站'
         ])->rules('required');
 
         $form->url('link', '链接');
-        $form->number('sort', '排序');
+        $form->number('sort', '排序值');
 
         return $form;
     }

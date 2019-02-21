@@ -1,5 +1,5 @@
 @extends('layouts.mobile')
-@section('title', (App::isLocale('en') ? 'Payment Success' : '支付成功') . ' - ' . \App\Models\Config::config('title'))
+@section('title', (App::isLocale('zh-CN') ? '支付成功' : 'Payment Success') . ' - ' . \App\Models\Config::config('title'))
 @section('content')
 @endsection
 @section('scriptsAfterJs')

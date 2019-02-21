@@ -13,12 +13,12 @@
                             <img src="{{ asset('img/header/down_arrow.png') }}">
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="dLabel">
-                            <li>
-                                <a href="{{ route('locale.update', ['locale' => 'zh-CN']) }}">
-                                    <img src="{{ asset('img/header/cn_flag.png') }}">
-                                    <span>中文</span>
-                                </a>
-                            </li>
+                            {{--<li>--}}
+                                {{--<a href="{{ route('locale.update', ['locale' => 'zh-CN']) }}">--}}
+                                    {{--<img src="{{ asset('img/header/cn_flag.png') }}">--}}
+                                    {{--<span>中文</span>--}}
+                                {{--</a>--}}
+                            {{--</li>--}}
                             <li>
                                 <a href="{{ route('locale.update', ['locale' => 'en']) }}">
                                     <img src="{{ asset('img/header/en_flag.png') }}">
@@ -65,60 +65,82 @@
     </div>
     <div class="navbar-bottom">
         <div class="m-wrapper">
-            <div class="pull-left header-menu dropdown">
-                <button id="menu" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <p>
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                    </p>
-                    <p>MENU</p>
-                </button>
-                <div class="dropdown-menu" aria-labelledby="menu">
-                    <ul>
-                        <li>
-                            <a href="{{ route('root') }}">@lang('basic.home')</a>
-                        </li>
-                        @foreach(\App\Models\Menu::pcMenus() as $menu)
-                            <li>
-                                <a href="{{ $menu->link }}">{{ App::isLocale('en') ? $menu->name_en : $menu->name_zh }}</a>
-                            </li>
-                        @endforeach
-                    </ul>
+            <div class="navbar-bottom-top">
+                <div class="navbar-bottom-top-left">
+                    <div class="header_logo">
+                        <a href="{{ route('root') }}">
+                            <img src="{{ asset('img/logo2.png') }}">
+                            <p>@lang('app.The Best For You')</p>
+                        </a>
+                    </div>
+                    <div class="navbar-bottom-top-left-right">
+                        <p>@lang('app.Stock Custom  Hair Systems')</p>
+                        <p><span>@lang('app.30 Day Money Back')</span> @lang('app.Guarantee')</p>
+                    </div>
+                </div>
+                <div class="navbar-bottom-top-right">
+                    <a href="{{ route('articles.show', ['slug' => 'stock_order']) }}">@lang('app.Stock Order')</a>
+                    <a href="{{ route('articles.show', ['slug' => 'custom_order']) }}">@lang('app.Custom Order')</a>
+                    <a href="{{ route('articles.show', ['slug' => 'duplicate']) }}">@lang('app.Duplicate')</a>
+                    <a href="{{ route('articles.show', ['slug' => 'repair']) }}">@lang('app.Repair')</a>
                 </div>
             </div>
-            <div class="header_logo">
-                <a href="{{ route('root') }}">
-                    <img src="{{ asset('img/logo.png') }}">
-                </a>
-            </div>
-            <div class="pull-right header-search">
-                <ul>
-                    <li>
-                        <input type="search" data-url="{{ route('products.search_hint') }}" class="selectInput_header"
-                               placeholder="@lang('app.Please enter the item you are searching for')">
-                        <a class="search_btn" href="javascript:void(0);">
-                            <img src="{{ asset('img/search_magnifier.png') }}">
-                        </a>
-                        <div class="selectList dis_n" data-url="{{ route('products.search') }}">
-                            <ul></ul>
-                        </div>
-                    </li>
-                    <li class="shppingCart">
-                        <a href="{{ route('carts.index') }}" class="shop_cart">
-                            <img src="{{ asset('img/header/shop_car.png') }}">
-                            @if(isset($cart_count))
-                                <div class="for_cart_num">
-                                    <span class="shop_cart_num">{{ $cart_count }}</span>
-                                </div>
-                            @else
-                                <div class="for_cart_num">
-                                    <span class="shop_cart_num">0</span>
-                                </div>
-                            @endif
-                        </a>
-                    </li>
+            <div class="navbar-bottom-bottom">
+                <ul class="navbar-bottom-bottom-left">
+                    {{--<li class="first_menu">
+                        <a href="{{ route('root') }}"><span>@lang('basic.home')</span></a>
+                    </li>--}}
+                    @foreach(\App\Models\Menu::pcMenus() as $menu)
+                        @if(isset($menu['parent']))
+                            <li class="first_menu">
+                                <a href="{{ $menu['parent']->link }}">{{ App::isLocale('zh-CN') ? $menu['parent']->name_zh : $menu['parent']->name_en }}</a>
+                                <!--二级菜单内容-->
+                                @if(isset($menu['children']))
+                                    <div class="nav-panel-dropdown">
+                                        <ul>
+                                            @foreach($menu['children'] as $child)
+                                                <li>
+                                                    <a href="{{ $child['link'] }}"><span>{{ App::isLocale('zh-CN') ? $child['name_zh'] : $child['name_en'] }}</span></a>
+                                                </li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                @endif
+                            </li>
+                        @else
+                            <li class="first_menu">
+                                <a href="{{ $menu->link }}">{{ App::isLocale('zh-CN') ? $menu->name_zh : $menu->name_en }}</a>
+                            </li>
+                        @endif
+                    @endforeach
                 </ul>
+                <div class="pull-right header-search">
+                    <ul>
+                        <li>
+                            <input type="search" data-url="{{ route('products.search_hint') }}" class="selectInput_header" placeholder="@lang('app.Please enter the item you are searching for')">
+                            <a class="search_btn" href="javascript:void(0);">
+                                <img src="{{ asset('img/search_magnifier.png') }}">
+                            </a>
+                            <div class="selectList dis_n" data-url="{{ route('products.search') }}">
+                                <ul></ul>
+                            </div>
+                        </li>
+                        <li class="shppingCart">
+                            <a href="{{ route('carts.index') }}" class="shop_cart">
+                                <img src="{{ asset('img/header/shop_car.png') }}">
+                                @if(isset($cart_count))
+                                    <div class="for_cart_num">
+                                        <span class="shop_cart_num">{{ $cart_count }}</span>
+                                    </div>
+                                @else
+                                    <div class="for_cart_num">
+                                        <span class="shop_cart_num">0</span>
+                                    </div>
+                                @endif
+                            </a>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>

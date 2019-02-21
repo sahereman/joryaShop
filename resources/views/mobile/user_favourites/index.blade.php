@@ -1,5 +1,5 @@
 @extends('layouts.mobile')
-@section('title', (App::isLocale('en') ? 'My Favourites' : '我的收藏') . ' - ' . \App\Models\Config::config('title'))
+@section('title', (App::isLocale('zh-CN') ? '我的收藏' : 'My Favourites') . ' - ' . \App\Models\Config::config('title'))
 @section('content')
     <div class="headerBar fixHeader {{ is_wechat_browser() ? 'height_no' : '' }}">
         <img src="{{ asset('static_m/img/icon_backtop.png') }}" class="backImg" onclick="javascript:history.back(-1);"/>
@@ -20,15 +20,17 @@
                     <img src="{{ $favourite->product->thumb_url }}"/>
                     <div class="favDetail">
                         <div class="goodsName">
-                            {{ App::isLocale('en') ? $favourite->product->name_en : $favourite->product->name_zh }}
+                            {{ App::isLocale('zh-CN') ? $favourite->product->name_zh : $favourite->product->name_en }}
                         </div>
                         <div class="goodsPri">
                             <div>
                                 <span class="realPri">
-                                    @lang('basic.currency.symbol') {{ App::isLocale('en') ? $favourite->product->price_in_usd : $favourite->product->price }}
+                                    {{--@lang('basic.currency.symbol') {{ App::isLocale('en') ? $favourite->product->price_in_usd : $favourite->product->price }}--}}
+                                    {{ get_global_symbol() }} {{ get_current_price($favourite->product->price) }}
                                 </span>
                                 <s>
-                                    @lang('basic.currency.symbol') {{ App::isLocale('en') ? bcmul($favourite->product->price_in_usd, 1.2, 2) : bcmul($favourite->product->price, 1.2, 2) }}
+                                    {{--@lang('basic.currency.symbol') {{ App::isLocale('en') ? bcmul($favourite->product->price_in_usd, 1.2, 2) : bcmul($favourite->product->price, 1.2, 2) }}--}}
+                                    {{ get_global_symbol() }} {{ bcmul(get_current_price($favourite->product->price), 1.2, 2) }}
                                 </s>
                             </div>
                             <img class="addTo_cart"
@@ -51,15 +53,17 @@
                     <div class="favDetail"
                          data-url="{{ route('mobile.products.show', ['product' => $favourite->product->id]) }}">
                         <div class="goodsName">
-                            {{ App::isLocale('en') ? $favourite->product->name_en : $favourite->product->name_zh }}
+                            {{ App::isLocale('zh-CN') ? $favourite->product->name_zh : $favourite->product->name_en }}
                         </div>
                         <div class="goodsPri">
                             <div>
                                 <span class="realPri">
-                                    @lang('basic.currency.symbol') {{ App::isLocale('en') ? $favourite->product->price_in_usd : $favourite->product->price }}
+                                    {{--@lang('basic.currency.symbol') {{ App::isLocale('en') ? $favourite->product->price_in_usd : $favourite->product->price }}--}}
+                                    {{ get_global_symbol() }} {{ get_current_price($favourite->product->price) }}
                                 </span>
                                 <s>
-                                    @lang('basic.currency.symbol') {{ App::isLocale('en') ? bcmul($favourite->product->price_in_usd, 1.2, 2) : bcmul($favourite->product->price, 1.2, 2) }}
+                                    {{--@lang('basic.currency.symbol') {{ App::isLocale('en') ? bcmul($favourite->product->price_in_usd, 1.2, 2) : bcmul($favourite->product->price, 1.2, 2) }}--}}
+                                    {{ get_global_symbol() }} {{ bcmul(get_current_price($favourite->product->price), 1.2, 2) }}
                                 </s>
                             </div>
                         </div>

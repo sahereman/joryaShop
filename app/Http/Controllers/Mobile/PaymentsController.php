@@ -56,7 +56,7 @@ class PaymentsController extends Controller
         return Pay::alipay($this->getAlipayConfig($order))->wap([
             'out_trade_no' => $order->order_sn, // 订单编号，需保证在商户端不重复
             'total_amount' => bcadd($order->total_amount, $order->total_shipping_fee, 2), // 订单金额，单位元，支持小数点后两位
-            'subject' => '请支付来自 Jorya Hair 的订单：' . $order->order_sn, // 订单标题
+            'subject' => '请支付来自 Lyrical Hair 的订单：' . $order->order_sn, // 订单标题
         ]);
     }
 
@@ -151,7 +151,7 @@ class PaymentsController extends Controller
             // 调用Wechat的公众号支付(微信浏览器内支付)
             $response = Pay::wechat($this->getWechatConfig($order))->mp([
                 'out_trade_no' => $order->order_sn, // 订单编号，需保证在商户端不重复
-                'body' => '请支付来自 Jorya Hair 的订单：' . $order->order_sn, // 订单标题
+                'body' => '请支付来自 Lyrical Hair 的订单：' . $order->order_sn, // 订单标题
                 'total_fee' => bcmul(bcadd($order->total_amount, $order->total_shipping_fee, 2), 100, 0), // 订单金额，单位分，参数值不能带小数点
                 'openid' => $basic_user_info['openid'],
             ]);
@@ -226,7 +226,7 @@ class PaymentsController extends Controller
             // 调用Wechat的手机网站支付
             return Pay::wechat($this->getWechatConfig($order))->wap([
                 'out_trade_no' => $order->order_sn, // 订单编号，需保证在商户端不重复
-                'body' => '请支付来自 Jorya Hair 的订单：' . $order->order_sn, // 订单标题
+                'body' => '请支付来自 Lyrical Hair 的订单：' . $order->order_sn, // 订单标题
                 'total_fee' => bcmul(bcadd($order->total_amount, $order->total_shipping_fee, 2), 100, 0), // 订单金额，单位分，参数值不能带小数点
             ]);
         } catch (\Exception $e) {
@@ -271,12 +271,12 @@ class PaymentsController extends Controller
                     "currency": "USD"
                 },
                 "related_resources": [],
-                "notify_url": "https://test.joryahair.com/payments/7/paypal/notify"
+                "notify_url": "https://lyrical.joryahair.com/payments/7/paypal/notify"
             }
         ],
         "redirect_urls": {
-            "return_url": "https://test.joryahair.com/payments/7/paypal/execute",
-            "cancel_url": "https://test.joryahair.com/payments/7/paypal/execute"
+            "return_url": "https://lyrical.joryahair.com/payments/7/paypal/execute",
+            "cancel_url": "https://lyrical.joryahair.com/payments/7/paypal/execute"
         },
         "id": "PAYID-LP3G6EQ7KL05583F3463784B",
         "state": "created",
@@ -609,7 +609,7 @@ class PaymentsController extends Controller
      * Reference:
      * https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421140842
      */
-    // joryashop.test/payments/get_wechat_open_id
+    // lyrical.joryahair.com/payments/get_wechat_open_id
     public function getWechatOpenId(Request $request)
     {
         header('Content-type: text/html; charset=utf-8');

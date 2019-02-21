@@ -8,19 +8,21 @@
         width: 100%;
         min-width: 1200px;
         overflow: hidden;
-        p {
-            position: absolute;
-            top: 35%;
-            left: 19%;
-            color: #fff;
-            font-size: 30px;
-            font-weight: bold;
-            width: 450px;
-            height: 95px;
-            overflow: hidden;
-        }
-        img {
-            width: 100%;
+        .swiper-slide {
+            display: flex;
+            p {
+                position: absolute;
+                color: #d1c1b1;
+                font-size: 40px;
+                width: 100%;
+                text-align: center;
+                overflow: hidden;
+                align-self: center;
+                word-spacing: 10px;
+            }
+            img {
+                width: 100%;
+            }
         }
     }
     .m-wrapper {

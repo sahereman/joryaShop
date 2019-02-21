@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', (App::isLocale('en') ? 'Choosing A Payment Method' : '选择支付方式') . ' - ' . \App\Models\Config::config('title'))
+@section('title', (App::isLocale('zh-CN') ? '选择支付方式' : 'Choosing A Payment Method') . ' - ' . \App\Models\Config::config('title'))
 @section('content')
     <div class="payment_method">
         <div class="m-wrapper">
@@ -9,7 +9,7 @@
                     <p>@lang('order.payment method')</p>
                     <ul>
                         @if($order->currency == 'CNY')
-                            <li>
+                            {{--<li>
                                 <label class="cur_p clear">
                                     <input type="radio" name="payMethod" value="1" id="alipay"
                                            data-href="{{ route('payments.alipay', ['order' => $order->id]) }}" checked>
@@ -22,7 +22,7 @@
                                            data-href="{{ route('payments.wechat', ['order' => $order->id]) }}">
                                     <img src="{{ asset('img/wxpay.png') }}">
                                 </label>
-                            </li>
+                            </li>--}}
                         @else
                             <li>
                                 <label class="cur_p clear">
@@ -38,7 +38,8 @@
                     <div class="left">
                         <p>
                             @lang('order.Actually paid')：
-                            <span id="needToPay">{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}</span>
+                            {{--<span id="needToPay">{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}</span>--}}
+                            <span id="needToPay">{{ get_symbol_by_currency($order->currency) }} {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}</span>
                         </p>
                     </div>
                     <div class="right">
@@ -60,23 +61,23 @@
 @section('scriptsAfterJs')
     <script type="text/javascript">
         $(function () {
-            //付款倒计时
+            // 付款倒计时
             var start_time = $("#time_to_pay").attr("created_at") * 1000;
             var ending_time = $("#time_to_pay").attr('time_to_close_order');
             var seconds_to_close_order = $("#time_to_pay").attr('seconds_to_close_order');
             timeCount("time_to_pay", seconds_to_close_order, 1);
-            //点击付款
+            // 点击付款
             $(".pay_btn").on("click", function () {
                 var way_choosed = $(".methods_choose").find("input[name='payMethod']:checked").val();
                 var location_href = $(".methods_choose").find("input[name='payMethod']:checked").attr("data-href");
                 switch (way_choosed) {
-                    case "1":          //支付宝
+                    case "1": // 支付宝
                         window.location.href = location_href;
                         break;
-                    case "2":          //微信
+                    case "2": // 微信
                         window.location.href = location_href;
                         break;
-                    case "3":          //paypal
+                    case "3": // paypal
                         var url = location_href;
                         $.ajax({
                             type: "get",
@@ -95,15 +96,15 @@
                         break;
                 }
             });
-            //倒计时方法封装
+            // 倒计时方法封装
             function timeCount(remain_id, totalS, type) {
                 function _fresh() {
-//                  var nowDate = new Date(); //当前时间
-                    var id = $('#' + remain_id).attr("order_id"); //当前订单的id
-//                  var addTime = new Date(parseInt(start_time));               //返回的时间戳转换成时间格式
-//                  var auto_totalS = ending_time; //订单支付有效时长
-//                  var ad_totalS = parseInt((addTime.getTime() / 1000) + auto_totalS); ///下单总秒数
-//                  var totalS = parseInt(ad_totalS - (nowDate.getTime() / 1000)); ///支付时长
+                    // var nowDate = new Date(); // 当前时间
+                    var id = $('#' + remain_id).attr("order_id"); // 当前订单的id
+                    // var addTime = new Date(parseInt(start_time)); // 返回的时间戳转换成时间格式
+                    // var auto_totalS = ending_time; // 订单支付有效时长
+                    // var ad_totalS = parseInt((addTime.getTime() / 1000) + auto_totalS); // 下单总秒数
+                    // var totalS = parseInt(ad_totalS - (nowDate.getTime() / 1000)); // 支付时长
                     totalS--;
                     if (totalS > 0) {
                         var _day = parseInt((totalS / 3600) % 24 / 24);

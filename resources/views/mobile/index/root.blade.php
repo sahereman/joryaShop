@@ -1,15 +1,15 @@
 @extends('layouts.mobile')
-@section('title', App::isLocale('en') ? 'Joryahair' : '卓雅美业')
+@section('title', App::isLocale('zh-CN') ? '莱瑞美业' : 'Lyricalhair')
 @section('content')
     <div class="main">
         <div class="searchBox">
-            <a href="{{route('mobile.search')}}" class="searchCon">
+            <a href="{{ route('mobile.search') }}" class="searchCon">
                 <img src="{{ asset('static_m/img/Unchecked_search.png') }}"/>
                 <input type="text" style="text-align: center;" value="" placeholder="@lang('app.Search for goods for good goods')" readonly="readonly"/>
             </a>
             <a href="javascript:void(0);" data-href="{{ route('mobile.locale.show') }}"
-               code="{{ App::isLocale('en') ? '0' : '1' }}" class="LanguageSwitch">
-                <img src="{{ App::isLocale('en') ? asset('static_m/img/English.png') : asset('static_m/img/chinese.png') }}"
+               code="{{ App::isLocale('zh-CN') ? '1' : '0' }}" class="LanguageSwitch">
+                <img src="{{ App::isLocale('zh-CN') ? asset('static_m/img/chinese.png') : asset('static_m/img/English.png') }}"
                      alt="" class="langImg"/>
                 <span></span>
             </a>
@@ -27,9 +27,6 @@
                     <div class="swiper-slide swiper-slideL">
                         <img src="{{ asset('defaults/default_mobile_banner.png') }}" class="main-img">
                     </div>
-                    <div class="swiper-slide swiper-slideL">
-                        <img src="{{ asset('defaults/default_mobile_banner.png') }}" class="main-img">
-                    </div>
                 @endif
             </div>
             <div class="swiper-pagination" id="pagination"></div>
@@ -43,11 +40,12 @@
                     <div class="swiper-wrapper">
                         @foreach($latest as $product)
                             <div class="swiper-slide swiper-slides"
-                                 data-url="{{route('mobile.products.show', ['product' => $product->id])}}">
+                                 data-url="{{ route('mobile.products.show', ['product' => $product->id]) }}">
                                 <img class="lazy" data-src="{{ $product->thumb_url }}"/>
-                                <div class="new_pro_name">{{ App::isLocale('en') ? $product->name_en : $product->name_zh }}</div>
+                                <div class="new_pro_name">{{ App::isLocale('zh-CN') ? $product->name_zh : $product->name_en }}</div>
                                 <span class="new_pro_price">
-                                    @lang('basic.currency.symbol') {{ App::isLocale('en') ? $product->price_in_usd : $product->price }}
+                                    {{--@lang('basic.currency.symbol') {{ App::isLocale('en') ? $product->price_in_usd : $product->price }}--}}
+                                    {{ get_global_symbol() }} {{ get_current_price($product->price) }}
                                 </span>
                             </div>
                         @endforeach
@@ -58,7 +56,7 @@
                 @if(($key+1) % 2 == 1)
                     <div class="block_trend">
                         <div class="block_title">
-                            <span>{{ App::isLocale('en') ? $category_products['category']->name_en : $category_products['category']->name_zh }}</span>
+                            <span>{{ App::isLocale('zh-CN') ? $category_products['category']->name_zh : $category_products['category']->name_en }}</span>
                             <a href="{{ route('mobile.product_categories.index') . '?category=' . $category_products['category']->id }}">@lang('app.More')></a>
                         </div>
                         @if($poster = \App\Models\Poster::getPosterBySlug('mobile_index_floor_' . ($key+1)))
@@ -82,9 +80,10 @@
                                 <div class="blockItem">
                                     <a href="{{ route('mobile.products.show', ['product' => $product->id]) }}">
                                         <img class="lazy" data-src="{{ $product->thumb_url }}"/>
-                                        <div class="block_name">{{ App::isLocale('en') ? $product->name_en : $product->name_zh }}</div>
+                                        <div class="block_name">{{ App::isLocale('zh-CN') ? $product->name_zh : $product->name_en }}</div>
                                         <span class="block_price">
-                                            @lang('basic.currency.symbol') {{ App::isLocale('en') ? $product->price_in_usd : $product->price }}
+                                            {{--@lang('basic.currency.symbol') {{ App::isLocale('en') ? $product->price_in_usd : $product->price }}--}}
+                                            {{ get_global_symbol() }} {{ get_current_price($product->price) }}
                                         </span>
                                     </a>
                                 </div>
@@ -94,7 +93,7 @@
                 @else
                     <div class="block_trend">
                         <div class="block_title">
-                            <span>{{ App::isLocale('en') ? $category_products['category']->name_en : $category_products['category']->name_zh }}</span>
+                            <span>{{ App::isLocale('zh-CN') ? $category_products['category']->name_zh : $category_products['category']->name_en }}</span>
                             <a href="{{ route('mobile.product_categories.index') . '?category=' . $category_products['category']->id }}">@lang('app.More')></a>
                         </div>
                         @if($poster = \App\Models\Poster::getPosterBySlug('mobile_index_floor_' . ($key+1)))
@@ -118,9 +117,10 @@
                                 <div class="blockItem blockItemCus">
                                     <a href="{{ route('mobile.products.show', ['product' => $product->id]) }}">
                                         <img class="lazy" data-src="{{ $product->thumb_url }}"/>
-                                        <div class="block_name">{{ App::isLocale('en') ? $product->name_en : $product->name_zh }}</div>
+                                        <div class="block_name">{{ App::isLocale('zh-CN') ? $product->name_zh : $product->name_en }}</div>
                                         <span class="block_price">
-                                            @lang('basic.currency.symbol') {{ App::isLocale('en') ? $product->price_in_usd : $product->price }}
+                                            {{--@lang('basic.currency.symbol') {{ App::isLocale('en') ? $product->price_in_usd : $product->price }}--}}
+                                            {{ get_global_symbol() }} {{ get_current_price($product->price) }}
                                         </span>
                                     </a>
                                 </div>
@@ -129,12 +129,11 @@
                     </div>
                 @endif
             @endforeach
-            <div class="pro_rec" data-url="{{ route('mobile.guess_more') }}" code="{{ App::isLocale('en') ? 'en' : 'zh' }}">
+            <div class="pro_rec" data-url="{{ route('mobile.guess_more') }}" code="{{ App::isLocale('zh-CN') ? 'zh' : 'en' }}">
                 <div class="new_title">
                     <span class="new_name">@lang('app.Featured Products')</span>
                 </div>
                 <div class="recBox">
-                	
                     {{--@foreach($guesses as $k => $guess)
                         <div class="recItem">
                             <a href="{{ route('mobile.products.show', ['product' => $guess->id]) }}">
@@ -188,15 +187,15 @@
                 clickable: true,
             },
         });
-        //点击第二个轮播中商品进行跳转
+        // 点击第二个轮播中商品进行跳转
         $(".swiper-containers").on("click", '.swiper-slides', function () {
             window.location.href = $(this).attr("data-url");
         });
-        //点击切换语言跳转
+        // 点击切换语言跳转
         $(".LanguageSwitch").on("click", function () {
             window.location.href = $(this).attr("data-href") + "?language_type=" + $(this).attr("code");
         });
-        //获取最新商品推荐
+        // 获取最新商品推荐
             // 页数
             var page = 1;
             $('.pro_rec').dropload({
@@ -205,7 +204,7 @@
                     domClass: 'dropload-down',
                     domRefresh: "<div class='dropload-refresh'>↑@lang('product.product_details.Pull up load more')</div>",
                     domLoad: "<div class='dropload-load'><span class='loading'></span>@lang('product.product_details.Loading in')...</div>",
-                    domNoData: "<div class='dropload-noData'>@lang('product.product_details.over the end')</div>"
+                    domNoData: "<div class='dropload-noData'>@lang('product.product_details.over the end')</div>",
                 },
                 loadDownFn: function (me) {
                     // 拼接HTML
@@ -225,8 +224,10 @@
                             if (dataobj.length > 0) {
                                 $.each(dataobj, function (i, n) {
                                     name = ($(".pro_rec").attr("code") == "en") ? n.name_en : n.name_zh;
-                                    symbol = ($(".pro_rec").attr("code") == "en") ? "&#36;" : "&#165;";
-                                    price = ($(".pro_rec").attr("code") == "en") ? n.price_in_usd : n.price;
+                                    // symbol = ($(".pro_rec").attr("code") == "en") ? "&#36;" : "&#165;";
+                                    // price = ($(".pro_rec").attr("code") == "en") ? n.price_in_usd : n.price;
+                                    symbol = global_symbol;
+                                    price = get_current_price(n.price);
                                     html += "<div class='recItem' code='" + n.id + "'>";
                                     html += "<img class='lazy' src='" + n.thumb_url + "' >";
                                     html += "<div class='block_name'>"+ name +"</div>";
@@ -248,11 +249,11 @@
                         error: function (xhr, type) {
                             // 即使加载出错，也得重置
                             me.resetload();
-                        }
+                        },
                     });
                 }
             });
-        //查看商品详情product_info
+        // 查看商品详情product_info
         $(".pro_rec .recBox").on("click", ".recItem", function () {
             window.location.href = "{{ config('app.url') }}" + "/mobile/products/" + $(this).attr("code");
         });

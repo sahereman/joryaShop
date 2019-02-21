@@ -1,5 +1,5 @@
 @extends('layouts.mobile')
-@section('title', (App::isLocale('en') ? 'Search Results' : '搜索结果') . ' - ' . \App\Models\Config::config('title'))
+@section('title', (App::isLocale('zh-CN') ? '搜索结果' : 'Search Results') . ' - ' . \App\Models\Config::config('title'))
 @section('content')
     <div class="goodsListBox">
         <div class="goodsListHead">
@@ -42,7 +42,7 @@
                 </div>
             </div>
         </div>
-        <div class="goodsListMain" code="{{ App::isLocale('en') ? 'en' : 'zh' }}">
+        <div class="goodsListMain" code="{{ App::isLocale('zh-CN') ? 'zh' : 'en' }}">
             <p class="no_results dis_n">@lang('product.not found')@lang('product.related products')</p>
             <div class="lists"></div>
         </div>
@@ -52,7 +52,7 @@
 @section('scriptsAfterJs')
     <script type="text/javascript" src="{{ asset('static_m/js/dropload/dropload.min.js') }}"></script>
     <script type="text/javascript">
-        //页面单独JS写这里
+        // 页面单独JS写这里
         $(".goodsListFillter .fillterItem").on("click", function () {
             $(".goodsListFillter div").removeClass("goodsFillterActive");
             $(this).addClass("goodsFillterActive");
@@ -91,7 +91,7 @@
                 return decodeURI(r[2]);
             return null;
         }
-        //获取商品列表
+        // 获取商品列表
         function getResults() {
             // 页数
             var page = 1;
@@ -124,8 +124,10 @@
                             if (dataobj.length > 0) {
                                 $.each(dataobj, function (i, n) {
                                     name = ($(".goodsListMain").attr("code") == "en") ? n.name_en : n.name_zh;
-                                    symbol = ($(".goodsListMain").attr("code") == "en") ? "&#36;" : "&#165;";
-                                    price = ($(".goodsListMain").attr("code") == "en") ? n.price_in_usd : n.price;
+                                    // symbol = ($(".goodsListMain").attr("code") == "en") ? "&#36;" : "&#165;";
+                                    // price = ($(".goodsListMain").attr("code") == "en") ? n.price_in_usd : n.price;
+                                    symbol = global_symbol;
+                                    price = get_current_price(n.price);
                                     html += "<div class='goodsListItem' code='" + n.id + "'>";
                                     html += "<img class='lazy' src='" + n.thumb_url + "' >";
                                     html += "<div class='goodsItemBlock'>";

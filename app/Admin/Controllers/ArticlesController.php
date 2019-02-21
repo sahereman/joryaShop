@@ -115,17 +115,49 @@ class ArticlesController extends Controller
      */
     protected function form()
     {
+        $slugs = [
+            'about' => '关于我们',
+            'company_introduction' => '公司简介',
+            'products_features' => '产品特色',
+            'contact_us' => '联系我们',
+            'helper' => '使用帮助',
+            'guide' => '新手指南',
+            'problem' => '常见问题',
+            'user_protocol' => '用户协议',
+            'refunding_service' => '售后服务',
+            'refunding_consultancy' => '售后咨询',
+            'refunding_policy' => '退货政策',
+            'refunding_procedure' => '退货办理',
+            'stock_order' => 'Stock Order',
+            'custom_order' => 'Custom Order',
+            'duplicate' => 'Duplicate',
+            'repair' => 'Repair',
+        ];
+
+        /*$articles = Article::all();
+        $articles->map(function ($article, $key) use (&$slugs) {
+            $slug = $article->slug;
+            if (isset($slugs[$slug])) {
+                unset($slugs[$slug]);
+            }
+        });
+        reset($slugs);*/
+
         $form = new Form(new Article);
 
         $form->text('name', '名称');
-        $form->text('slug', '标示')->rules(function ($form) {
-            return ['required', Rule::unique('articles', 'slug')->ignore($form->model()->id),];
-        })->help(
+
+        $form->select('slug', '标示位')->options($slugs)->rules(function ($form) {
+            return [
+                'required',
+                Rule::unique('articles', 'slug')->ignore($form->model()->id),
+            ];
+        });
+        /*->help(
             '可使用的标示 : ' .
-            'about | company_introduction | products_features | contact_us | helper | guide | problem | user_protocol | refunding_service | refunding_consultancy | refunding_policy | refunding_procedure'
-        );
-        // })->help('可使用的标示 : about | guide | problem | user_protocol | service');
-        $form->text('slug', '标示位');
+            'about | company_introduction | products_features | contact_us | helper | guide | problem | user_protocol | refunding_service | refunding_consultancy | refunding_policy | refunding_procedure | stock_order | custom_order | duplicate | repair'
+        );*/
+
         $form->editor('content_zh', '内容(中文)');
         $form->editor('content_en', '内容(英文)');
 

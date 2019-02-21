@@ -5,17 +5,17 @@ return [
     /*
      * Laravel-admin name.
      */
-    'name' => 'Jorya shop',
+    'name' => 'Lyrical shop',
 
     /*
      * Logo in admin panel header.
      */
-    'logo' => '<b>Jorya</b> shop',
+    'logo' => '<b>Lyrical</b> shop',
 
     /*
      * Mini-logo in admin panel header.
      */
-    'logo-mini' => '<b>Jorya</b>',
+    'logo-mini' => '<b>Lyrical</b>',
 
     /*
      * Route configuration.

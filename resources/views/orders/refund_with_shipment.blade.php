@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', (App::isLocale('en') ? 'Personal Center - My Orders' : '个人中心 - 我的订单') . ' - ' . \App\Models\Config::config('title'))
+@section('title', (App::isLocale('zh-CN') ? '个人中心 - 我的订单' : 'Personal Center - My Orders') . ' - ' . \App\Models\Config::config('title'))
 @section('content')
     <div class="User_center my_orders">
         <div class="m-wrapper">
@@ -121,7 +121,8 @@
                                     <li>
                                         <span><i class="red">*</i>@lang('order.Refund amount')：</span>
                                         <input name="amount" type="text" class="refund_amount" readonly
-                                               value="{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}">
+                                               {{--value="{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}">--}}
+                                               value="{{ get_symbol_by_currency($order->currency) }} {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}">
                                     </li>
                                     <li>
                                         <span><i class="red">*</i>@lang('order.Application description')：</span>
@@ -131,8 +132,8 @@
                                             </option>
                                             @if($refund_reasons = \App\Models\RefundReason::refundReasons())
                                                 @foreach($refund_reasons as $refund_reason)
-                                                    <option value="{{ \Illuminate\Support\Facades\App::isLocale('en') ? $refund_reason->reason_en : $refund_reason->reason_zh }}">
-                                                        {{ \Illuminate\Support\Facades\App::isLocale('en') ? $refund_reason->reason_en : $refund_reason->reason_zh }}
+                                                    <option value="{{ \Illuminate\Support\Facades\App::isLocale('zh-CN') ? $refund_reason->reason_zh : $refund_reason->reason_en }}">
+                                                        {{ \Illuminate\Support\Facades\App::isLocale('zh-CN') ? $refund_reason->reason_zh : $refund_reason->reason_en }}
                                                     </option>
                                                 @endforeach
                                             @endif
@@ -171,7 +172,8 @@
                                     <li>
                                         <span><i class="red">*</i>@lang('order.Refund amount')：</span>
                                         <input name="amount" type="text" class="refund_amount no_border" readonly
-                                               value="{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}">
+                                               {{--value="{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}">--}}
+                                               value="{{ get_symbol_by_currency($order->currency) }} {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}">
                                     </li>
                                     <li>
                                         <span><i class="red">*</i>@lang('order.Application description')：</span>
@@ -181,8 +183,8 @@
                                             </option>
                                             @if($refund_reasons = \App\Models\RefundReason::refundReasons())
                                                 @foreach($refund_reasons as $refund_reason)
-                                                    <option value="{{ \Illuminate\Support\Facades\App::isLocale('en') ? $refund_reason->reason_en : $refund_reason->reason_zh }}">
-                                                        {{ \Illuminate\Support\Facades\App::isLocale('en') ? $refund_reason->reason_en : $refund_reason->reason_zh }}
+                                                    <option value="{{ \Illuminate\Support\Facades\App::isLocale('zh-CN') ? $refund_reason->reason_zh : $refund_reason->reason_en }}">
+                                                        {{ \Illuminate\Support\Facades\App::isLocale('zh-CN') ? $refund_reason->reason_zh : $refund_reason->reason_en }}
                                                     </option>
                                                 @endforeach
                                             @endif
@@ -251,7 +253,8 @@
                                     <li>
                                         <span>@lang('order.Refund amount')：</span>
                                         <span class="amount_num">
-                                            {{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}
+                                            {{--{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}--}}
+                                            {{ get_symbol_by_currency($order->currency) }} {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}
                                         </span>
                                     </li>
                                     <li>
@@ -350,7 +353,8 @@
                                     @lang('order.Request granted, and refund successfully')
                                     <span>
                                         @lang('order.Refund successfully'),
-                                        {{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}
+                                        {{--{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}--}}
+                                        {{ get_symbol_by_currency($order->currency) }} {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}
                                         @lang('order.has been refunded by the previous payment method').
                                     </span>
                                 </p>
@@ -367,7 +371,8 @@
                                     <li>
                                         <span>@lang('order.Refund amount')：</span>
                                         <span class="amount_num">
-                                            {{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}
+                                            {{--{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}--}}
+                                            {{ get_symbol_by_currency($order->currency) }} {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}
                                         </span>
                                     </li>
                                     <li>
@@ -425,7 +430,8 @@
                                     <li>
                                         <span>@lang('order.Refund amount')：</span>
                                         <span class="amount_num">
-                                            {{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}
+                                            {{--{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}--}}
+                                            {{ get_symbol_by_currency($order->currency) }} {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}
                                         </span>
                                     </li>
                                     <li>
@@ -468,13 +474,18 @@
                                         </div>
                                         <div class="order_lists_info">
                                             <p>
-                                                <span>{{ App::isLocale('en') ? $order_item['sku']['product']['name_en'] : $order_item['sku']['product']['name_zh'] }}</span>
+                                                <span>{{ App::isLocale('zh-CN') ? $order_item['sku']['product']['name_zh'] : $order_item['sku']['product']['name_en'] }}</span>
                                             </p>
-                                            <p>{{ App::isLocale('en') ? $order_item['sku']['name_en'] : $order_item['sku']['name_zh'] }}</p>
+                                            <p>
+                                                {{--{{ App::isLocale('en') ? $order_item['sku']['name_en'] : $order_item['sku']['name_zh'] }}--}}
+                                                {{ App::isLocale('zh-CN') ? $order_item['sku']['parameters_zh'] : $order_item['sku']['parameters_en'] }}
+                                            </p>
                                             <p>
                                                 @lang('order.Unit Price')
-                                                ：{{ $order->currency == "USD" ? '&#36;' : '&#165;' }} {{ $order_item['price'] }}
-                                                &#215; {{ $order_item['number'] }}</p>
+                                                {{--：{{ $order->currency == "USD" ? '&#36;' : '&#165;' }} {{ $order_item['price'] }}--}}
+                                                ：{{ get_symbol_by_currency($order->currency) }} {{ $order_item['price'] }}
+                                                &#215; {{ $order_item['number'] }}
+                                            </p>
                                         </div>
                                     </a>
                                 </li>
@@ -491,14 +502,16 @@
                                 <p>
                                     <span>@lang('order.Postage')：</span>
                                     <span>
-                                        <i>{{ $order->currency == "USD" ? '&#36;' : '&#165;' }} </i>
+                                        {{--<i>{{ $order->currency == "USD" ? '&#36;' : '&#165;' }} </i>--}}
+                                        <i>{{ get_symbol_by_currency($order->currency) }} </i>
                                         {{ $order->total_shipping_fee }}
                                     </span>
                                 </p>
                                 <p>
                                     <span>@lang('order.Sum')：</span>
                                     <span>
-                                        <i>{{ $order->currency == "USD" ? '&#36;' : '&#165;' }}</i>
+                                        {{--<i>{{ $order->currency == "USD" ? '&#36;' : '&#165;' }}</i>--}}
+                                        <i>{{ get_symbol_by_currency($order->currency) }}</i>
                                         {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}
                                         （@lang('order.Postage included')）
                                     </span>
@@ -522,10 +535,10 @@
                 $(".myorder_classification li").removeClass('active');
                 $(this).addClass("active");
             });
-            //页面加载时判断右侧订单信息的高度
+            // 页面加载时判断右侧订单信息的高度
             var h = $(".left_content").height();
             $(".order_lists ul").css("height", parseInt(h - 65));
-            //上传图片
+            // 上传图片
             $(".refunds_photos").on("click", function () {
                 var img_num = $(this).parents('li').find(".refund-path");
                 if (img_num.length < 3) {
@@ -550,11 +563,11 @@
                     layer.msg("@lang('order.Upload up to 3 images')");
                 }
             });
-            //图片删除
+            // 图片删除
             $(".del_btn").on('click', function () {
                 $(this).parents('.refund-path').remove();
             });
-            //第一步提交退款申请
+            // 第一步提交退款申请
             $(".step-1-submit").on("click", function () {
                 set_path("#step-1-form", 'photos_for_refund');
                 if ($("#step-1-form").find("textarea").val() == null || $("#step-1-form").find("textarea").val() == "") {
@@ -568,7 +581,7 @@
                         layer.open({
                             content: "@lang('product.The content of the evaluation should not exceed 200 words')！",
                             skin: 'msg',
-                            time: 2, //2秒后自动关闭
+                            time: 2, // 2秒后自动关闭
                         });
                         layer.msg("@lang('product.The content of the evaluation should not exceed 200 words')！");
                         return false;
@@ -578,12 +591,12 @@
                     $("#step-1-form").submit();
                 }
             });
-            //判断文本域的字数
+            // 判断文本域的字数
             $(".reasons_for_refunds").keyup(function () {
                 var text = $(this).val();
-                //中文字数统计
+                // 中文字数统计
                 str = (text.replace(/\w/g, "")).length;
-                //非汉字的个数
+                // 非汉字的个数
                 abcnum = text.length - str;
                 total = str + abcnum;
                 if (total > 200) {
@@ -597,9 +610,9 @@
             });
             $(".reasons_for_refunds").change(function () {
                 var text = $(this).val();
-                //中文字数统计
+                // 中文字数统计
                 str = (text.replace(/\w/g, "")).length;
-                //非汉字的个数
+                // 非汉字的个数
                 abcnum = text.length - str;
                 total = str + abcnum;
                 // console.log(total);
@@ -612,7 +625,7 @@
                     $(".remainder").html(num);
                 }
             });
-            //修改申请
+            // 修改申请
             $(".step-2-submit-1").on("click", function () {
                 $(".step-2 input").removeClass("no_border");
                 $(".step-2 textarea").removeClass("no_border");
@@ -625,7 +638,7 @@
                 $(this).addClass("dis_ni");
                 $(".step-2-submit-2").removeClass("dis_ni");
             });
-            //提交保存修改
+            // 提交保存修改
             $(".step-2-submit-2").on("click", function () {
                 set_path("#step-2-form", 'photos_for_refund');
                 if ($("#step-2-form").find("textarea").val() == null || $("#step-2-form").find("textarea").val() == "") {
@@ -644,7 +657,7 @@
                     $("#step-2-form").submit();
                 }
             });
-            //撤销退款申请
+            // 撤销退款申请
             $(".step-2-submit-3").on("click", function () {
                 var data = {
                     _method: "PATCH",
@@ -667,10 +680,10 @@
                                 btn: ["@lang('app.determine')", "@lang('app.cancel')"],
                             });
                         }
-                    }
+                    },
                 });
             });
-            //提交物流单据
+            // 提交物流单据
             $(".step-3-submit").on("click", function () {
                 set_path("#step-3-form", 'photos_for_shipment');
                 if (set_finish == true) {
@@ -700,10 +713,10 @@
                                 btn: ["@lang('app.determine')", "@lang('app.cancel')"],
                             });
                         }
-                    }
+                    },
                 });
-            })
-            //退款理由下拉菜单切换
+            });
+            // 退款理由下拉菜单切换
             $(".choose_remark").on("change", function () {
                 if ($(this).val() == "etc") {
                     $(".reasons_for_refunds").removeClass("dis_n");
@@ -730,7 +743,7 @@
                     btn: "@lang('app.determine')",
                 });
                 upLoadBtnSwitch = 0;
-                return false
+                return false;
             }
         }
 
@@ -744,8 +757,8 @@
                 data: formData,
                 dataType: 'json',
                 cache: false,
-                contentType: false,//必须false才会避开jQuery对 formdata 的默认处理 XMLHttpRequest会对 formdata 进行正确的处理
-                processData: false,//必须false才会自动加上正确的Content-Type
+                contentType: false, // 必须false才会避开jQuery对 formdata 的默认处理 XMLHttpRequest会对 formdata 进行正确的处理
+                processData: false, // 必须false才会自动加上正确的Content-Type
                 type: 'post',
                 success: function (data) {
                     var html = "<div class='refund-path' data-path='" + data.path + "'>" +

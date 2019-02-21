@@ -1,8 +1,8 @@
 @extends('layouts.mobile')
-@section('title', (App::isLocale('en') ? 'Browsing History' : '浏览记录') . ' - ' . \App\Models\Config::config('title'))
+@section('title', (App::isLocale('zh-CN') ? '浏览记录' : 'Browsing History') . ' - ' . \App\Models\Config::config('title'))
 @section('content')
     <div class="headerBar fixHeader {{ is_wechat_browser() ? 'height_no' : '' }}"
-         data-url="{{ route('mobile.user_histories.more') }}" code="{{ App::isLocale('en') ? 'en' : 'zh' }}">
+         data-url="{{ route('mobile.user_histories.more') }}" code="{{ App::isLocale('zh-CN') ? 'zh' : 'en' }}">
         <img src="{{ asset('static_m/img/icon_backtop.png') }}" class="backImg" onclick="javascript:history.back(-1);"/>
         <span>@lang('basic.users.Browse_history')</span>
     </div>
@@ -166,9 +166,12 @@
                                     html += "<div></div>";
                                     html += "</div>";
                                     $.each(n, function (a, b) {
-                                        name = ($(".headerBar").attr("code") == "en") ? b.product.name_en : b.product.name_zh;
-                                        price = ($(".headerBar").attr("code") == "en") ? b.product.price_in_usd : b.product.price;
-                                        symbol = ($(".headerBar").attr("code") == "en") ? '&#36;' : '&#165;';
+                                        // name = ($(".headerBar").attr("code") == "en") ? b.product.name_en : b.product.name_zh;
+                                        // symbol = ($(".headerBar").attr("code") == "en") ? '&#36;' : '&#165;';
+                                        // price = ($(".headerBar").attr("code") == "en") ? b.product.price_in_usd : b.product.price;
+                                        name = ($(".headerBar").attr("code") == "zh") ? b.product.name_zh : b.product.name_en;
+                                        symbol = global_symbol;
+                                        price = get_current_price(b.product.price);
                                         html += "<div class='favItem'>";
                                         html += "<label class='favItemLab dis_ni'>";
                                         html += "<input type='checkbox' name='checkitem' value='" + b.id + "'/>";

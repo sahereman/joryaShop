@@ -19,8 +19,18 @@ class CreateProductSkusTable extends Migration
             $table->unsignedInteger('product_id')->nullable(false)->comment('product-id');
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
 
-            $table->string('name_en')->nullable(false)->comment('英文名称');
+            $table->string('name_en')->nullable()->default('')->comment('英文名称'); // 备用字段
             $table->string('name_zh')->nullable(false)->comment('中文名称');
+
+            // 2019-01-22
+            $table->string('base_size_en')->nullable()->default('Common')->comment('Base Size 英文名称');
+            $table->string('base_size_zh')->nullable()->default('普通')->comment('Base Size 中文名称');
+            $table->string('hair_colour_en')->nullable()->default('Common')->comment('Hair Colour 英文名称');
+            $table->string('hair_colour_zh')->nullable()->default('普通')->comment('Hair Colour 中文名称');
+            $table->string('hair_density_en')->nullable()->default('Common')->comment('Hair Density 英文名称');
+            $table->string('hair_density_zh')->nullable()->default('普通')->comment('Hair Density 中文名称');
+            // 2019-01-22
+
             $table->string('photo')->nullable()->comment('单一图片'); // 备用字段
 
             $table->unsignedDecimal('price', 8, 2)->nullable(false)->comment('价格');

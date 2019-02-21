@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', (App::isLocale('en') ? 'Confirm The Order' : '确认订单') . ' - ' . \App\Models\Config::config('title'))
+@section('title', (App::isLocale('zh-CN') ? '确认订单' : 'Confirm The Order') . ' - ' . \App\Models\Config::config('title'))
 @section('content')
     <div class="pre_payment">
         <div class="m-wrapper">
@@ -71,25 +71,25 @@
                                         </a>
                                     </div>
                                     <div class="left w250 pro-info">
-                                        <span>{{ App::isLocale('en') ? $item['product']->name_en : $item['product']->name_zh }}</span>
+                                        <span>{{ App::isLocale('zh-CN') ? $item['product']->name_zh : $item['product']->name_en }}</span>
                                     </div>
                                     <div class="left w150 center">
-                                        <span>{{ App::isLocale('en') ? $item['sku']->name_en : $item['sku']->name_zh }}</span>
+                                        <span>{{ App::isLocale('zh-CN') ? $item['sku']->name_zh : $item['sku']->name_en }}</span>
                                     </div>
                                     <div class="left w150 center RMB_num">
-                                        &#165; <span>{{ $item['sku']->price }}</span>
+                                        &#165; <span>{{ exchange_price($item['sku']->price, 'CNY') }}</span>
                                     </div>
                                     <div class="left w150 dis_n center dollar_num">
-                                        &#36; <span>{{ $item['sku']->price_in_usd }}</span>
+                                        &#36; <span>{{ $item['sku']->price }}</span>
                                     </div>
                                     <div class="left w150 center counter">
                                         <span>{{ $item['number'] }}</span>
                                     </div>
                                     <div class="left w150 s_total red center RMB_num">
-                                        &#165; <span>{{ $item['amount'] }}</span>
+                                        &#165; <span>{{ exchange_price($item['amount'], 'CNY') }}</span>
                                     </div>
                                     <div class="left w150 s_total dis_n red dollar_num center">
-                                        &#36; <span>{{ $item['amount_en'] }}</span>
+                                        &#36; <span>{{ $item['amount'] }}</span>
                                     </div>
                                 </div>
                             @endforeach
@@ -99,7 +99,7 @@
                 <div class="pre_payment_footer">
                     <p class="main_title">@lang('order.Currency options')</p>
                     <p class="currency_selection">
-                        <a href="javascript:void(0);" class="active" code="RMB" country="CNY">@lang('order.RMB')</a>
+                        {{--<a href="javascript:void(0);" class="active" code="RMB" country="CNY">@lang('order.RMB')</a>--}}
                         <a href="javascript:void(0);" code="dollar" country="USD">@lang('order.Dollars')</a>
                     </p>
                     <ul>
@@ -111,20 +111,20 @@
                         <li>
                             <p>
                                 <span>@lang('order.Sum')：</span>
-                                <span class="RMB_num amount_of_money">&#165; <span>{{ $total_amount }}</span></span>
-                                <span class="dis_ni dollar_num amount_of_money">&#36; <span>{{ $total_amount_en }}</span></span>
+                                <span class="RMB_num amount_of_money">&#165; <span>{{ exchange_price($total_amount, 'CNY') }}</span></span>
+                                <span class="dis_ni dollar_num amount_of_money">&#36; <span>{{ $total_amount }}</span></span>
                             </p>
                             <p>
                                 <span>@lang('order.freight')：</span>
-                                <span class="RMB_num amount_of_money">&#165; <span>{{ $total_shipping_fee }}</span></span>
-                                <span class="dis_ni dollar_num amount_of_money">&#36; <span>{{ $total_shipping_fee_en }}</span></span>
+                                <span class="RMB_num amount_of_money">&#165; <span>{{ exchange_price($total_shipping_fee, 'CNY') }}</span></span>
+                                <span class="dis_ni dollar_num amount_of_money">&#36; <span>{{ $total_shipping_fee }}</span></span>
                             </p>
                         </li>
                         <li>
                             <p>
                                 <span>@lang('order.Amount payable')：</span>
-                                <span class="red RMB_num amount_of_money">&#165; <span>{{ $total_fee }}</span></span>
-                                <span class="red dis_ni dollar_num amount_of_money">&#36; <span>{{ $total_fee_en }}</span></span>
+                                <span class="red RMB_num amount_of_money">&#165; <span>{{ exchange_price($total_fee, 'CNY') }}</span></span>
+                                <span class="red dis_ni dollar_num amount_of_money">&#36; <span>{{ $total_fee }}</span></span>
                             </p>
                             <p>
                                 <a href="javascript:void(0);" class="payment_btn"
@@ -197,7 +197,7 @@
 @section('scriptsAfterJs')
     <script type="text/javascript">
         $(function () {
-            //货币种类切换
+            // 货币种类切换
             $(".currency_selection a").on("click", function () {
                 $(".currency_selection a").removeClass("active");
                 $(this).addClass('active');
@@ -218,7 +218,7 @@
                         break;
                 }
             });
-            //新建收货地址
+            // 新建收货地址
             $(".add_new_address").on("click", function () {
                 $(".new_receipt_address").show();
             });
@@ -253,7 +253,7 @@
                     },
                 });
             });
-            //切换地址
+            // 切换地址
             $(".change_address").on("click", function () {
                 var url = $(this).attr("data-url");
                 var changeAdd;
@@ -286,7 +286,7 @@
                                     btnAlign: 'c',
                                     success: function () {
                                     },
-                                    yes: function () {   //确定
+                                    yes: function () { // 确定
                                         if ($(".changeAddress").find("li.active").length <= 0) {
                                             layer.msg("@lang('order.Please choose the harvest address')");
                                         } else {
@@ -297,7 +297,7 @@
                                             layer.close(changeAdd);
                                         }
                                     },
-                                    btn2: function () {     //取消
+                                    btn2: function () { // 取消
                                         layer.close(changeAdd);
                                     },
                                     end: function () {
@@ -316,12 +316,12 @@
                     },
                 });
             });
-            //点击选择收货地址
+            // 点击选择收货地址
             $(".changeAddress ul").on("click", "li", function () {
                 $(".changeAddress ul").find("li").removeClass("active");
                 $(this).addClass("active");
             });
-            //获取url,通过判断url中参数sendWay的值来确定从哪个页面进入，1、立即购买，2、购物车
+            // 获取url,通过判断url中参数sendWay的值来确定从哪个页面进入，1、立即购买，2、购物车
             var loading_animation;
 
             function getUrlVars(url_name) {
@@ -359,7 +359,7 @@
                     }
                 }
             });
-            //第一类创建订单（直接下单）
+            // 第一类创建订单（直接下单）
             function payment_one(sku_id, number, url) {
                 var data = {
                     _token: "{{ csrf_token() }}",
@@ -377,7 +377,7 @@
                         loading_animation = layer.msg("@lang('app.Please wait')", {
                             icon: 16,
                             shade: 0.4,
-                            time: false //取消自动关闭
+                            time: false // 取消自动关闭
                         });
                     },
                     success: function (json) {
@@ -392,7 +392,7 @@
                 });
             }
 
-            //第二类创建订单（购物车下单）
+            // 第二类创建订单（购物车下单）
             function payment_two(cart_ids, url) {
                 var data = {
                     _token: "{{ csrf_token() }}",
@@ -409,7 +409,7 @@
                         loading_animation = layer.msg("@lang('app.Please wait')", {
                             icon: 16,
                             shade: 0.4,
-                            time: false, //取消自动关闭
+                            time: false, // 取消自动关闭
                         });
                     },
                     success: function (json) {

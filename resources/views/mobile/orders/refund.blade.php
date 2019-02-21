@@ -1,5 +1,5 @@
 @extends('layouts.mobile')
-@section('title', (App::isLocale('en') ? 'Request A Refund' : '申请退款') . ' - ' . \App\Models\Config::config('title'))
+@section('title', (App::isLocale('zh-CN') ? '申请退款' : 'Request A Refund') . ' - ' . \App\Models\Config::config('title'))
 @section('content')
     <div class="headerBar fixHeader">
         @if(!is_wechat_browser())
@@ -33,7 +33,8 @@
                             <span class="status_title">@lang('order.Request for refund terminated')</span>
                             <span>
                                 @lang('order.Refund successfully'),
-                                {{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}
+                                {{--{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}--}}
+                                {{ get_symbol_by_currency($order->currency) }} {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}
                                 @lang('order.has been refunded by the previous payment method').
                             </span>
                         </p>
@@ -60,7 +61,8 @@
                         <p>
                             <span>@lang('order.Refund amount')</span>
                             <input name="amount" type="text" class="refund_price" readonly
-                                   value="{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}">
+                                   {{--value="{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}">--}}
+                                   value="{{ get_symbol_by_currency($order->currency) }} {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}">
                         </p>
                         <div class="refund_info_item">
                             <span>@lang('order.Application description')</span>
@@ -70,8 +72,8 @@
                                 </option>
                                 @if($refund_reasons = \App\Models\RefundReason::refundReasons())
                                     @foreach($refund_reasons as $refund_reason)
-                                        <option value="{{ \Illuminate\Support\Facades\App::isLocale('en') ? $refund_reason->reason_en : $refund_reason->reason_zh }}">
-                                            {{ \Illuminate\Support\Facades\App::isLocale('en') ? $refund_reason->reason_en : $refund_reason->reason_zh }}
+                                        <option value="{{ \Illuminate\Support\Facades\App::isLocale('zh-CN') ? $refund_reason->reason_zh : $refund_reason->reason_en }}">
+                                            {{ \Illuminate\Support\Facades\App::isLocale('zh-CN') ? $refund_reason->reason_zh : $refund_reason->reason_en }}
                                         </option>
                                     @endforeach
                                 @endif
@@ -93,7 +95,8 @@
                         <p>
                             <span>@lang('order.Refund amount')</span>
                             <input name="amount" type="text" class="refund_price" readonly
-                                   value="{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}">
+                                   {{--value="{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}">--}}
+                                   value="{{ get_symbol_by_currency($order->currency) }} {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}">
                         </p>
                         <div class="refund_info_item">
                             <span>@lang('order.Application description')</span>
@@ -104,8 +107,8 @@
                                 </option>
                                 @if($refund_reasons = \App\Models\RefundReason::refundReasons())
                                     @foreach($refund_reasons as $refund_reason)
-                                        <option value="{{ \Illuminate\Support\Facades\App::isLocale('en') ? $refund_reason->reason_en : $refund_reason->reason_zh }}">
-                                            {{ \Illuminate\Support\Facades\App::isLocale('en') ? $refund_reason->reason_en : $refund_reason->reason_zh }}
+                                        <option value="{{ \Illuminate\Support\Facades\App::isLocale('zh-CN') ? $refund_reason->reason_zh : $refund_reason->reason_en }}">
+                                            {{ \Illuminate\Support\Facades\App::isLocale('zh-CN') ? $refund_reason->reason_zh : $refund_reason->reason_en }}
                                         </option>
                                     @endforeach
                                 @endif
@@ -123,7 +126,8 @@
                     <p>
                         <span>@lang('order.Refund amount')</span>
                         <input name="amount" type="text" class="refund_price" readonly
-                               value="{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}">
+                               {{--value="{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}">--}}
+                               value="{{ get_symbol_by_currency($order->currency) }} {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}">
                     </p>
                     <div class="refund_info_item">
                         <span>@lang('order.Application description')</span>
@@ -141,7 +145,7 @@
                             <div>
                                 <div class="ordDetailName">
                                     <a href="{{ route('mobile.products.show', ['product' => $order_item['sku']['product']['id']]) }}">
-                                        {{ App::isLocale('en') ? $order_item['sku']['product']['name_en'] : $order_item['sku']['product']['name_zh'] }}
+                                        {{ App::isLocale('zh-CN') ? $order_item['sku']['product']['name_zh'] : $order_item['sku']['product']['name_en'] }}
                                     </a>
                                 </div>
                                 <div>
@@ -151,12 +155,14 @@
                                     </span>
                                     <span>
                                         <a href="{{ route('mobile.products.show', ['product' => $order_item['sku']['product']['id']]) }}">
-                                            {{ App::isLocale('en') ? $order_item['sku']['name_en'] : $order_item['sku']['name_zh'] }}
+                                            {{--{{ App::isLocale('en') ? $order_item['sku']['name_en'] : $order_item['sku']['name_zh'] }}--}}
+                                            {{ App::isLocale('zh-CN') ? $order_item['sku']['parameters_zh'] : $order_item['sku']['parameters_en'] }}
                                         </a>
                                     </span>
                                 </div>
                                 <div class="ordDetailPri">
-                                    <span>{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }}</span>
+                                    {{--<span>{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }}</span>--}}
+                                    <span>{{ get_symbol_by_currency($order->currency) }}</span>
                                     <span>{{ $order_item['price'] }}</span>
                                 </div>
                             </div>

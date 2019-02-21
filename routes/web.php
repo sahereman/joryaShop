@@ -5,6 +5,7 @@ Route::get('test', function () {
 });
 
 Route::get('locale/{locale}', 'IndexController@localeUpdate')->name('locale.update'); // 修改网站语言
+Route::get('currency/{currency}', 'IndexController@currencyUpdate')->name('currency.update'); // 修改币种
 
 /*通过邮箱验证码登录*/
 // Route::post('login/send_email_code', 'Auth\LoginController@sendEmailCode')->name('login.send_email_code'); // 发送邮箱验证码 [for Ajax request]
@@ -114,6 +115,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     /*购物车*/
     Route::get('carts', 'CartsController@index')->name('carts.index'); // 购物车
+    Route::post('carts/store_by_sku_parameters', 'CartsController@storeBySkuParameters')->name('carts.store_by_sku_parameters'); // 加入购物车
     Route::post('carts', 'CartsController@store')->name('carts.store'); // 加入购物车
     Route::patch('carts/{cart}', 'CartsController@update')->name('carts.update'); // 更新 (增减数量)
     Route::delete('carts/{cart}', 'CartsController@destroy')->name('carts.destroy'); // 删除
@@ -122,7 +124,9 @@ Route::group(['middleware' => 'auth'], function () {
     /*订单*/
     Route::get('orders', 'OrdersController@index')->name('orders.index'); // 订单列表
     Route::get('orders/pre_payment', 'OrdersController@prePayment')->name('orders.pre_payment'); // 订单预支付页面：选择地址+币种页面
+    Route::get('orders/pre_payment_by_sku_parameters', 'OrdersController@prePaymentBySkuParameters')->name('orders.pre_payment_by_sku_parameters'); // 订单预支付页面：选择地址+币种页面
     Route::get('orders/{order}', 'OrdersController@show')->name('orders.show'); // 订单详情
+    Route::post('orders/store_by_sku_parameters', 'OrdersController@storeBySkuParameters')->name('orders.store_by_sku_parameters'); // 提交订单
     Route::post('orders', 'OrdersController@store')->name('orders.store'); // 提交订单
     Route::get('orders/{order}/payment_method', 'OrdersController@paymentMethod')->name('orders.payment_method'); // 选择支付方式页面
     Route::patch('orders/{order}/close', 'OrdersController@close')->name('orders.close'); // [主动]取消订单，交易关闭 [订单进入交易关闭状态:status->closed]
@@ -195,6 +199,7 @@ Route::get('products/search_more', 'ProductsController@searchMore')->name('produ
 Route::get('products/search_hint', 'ProductsController@searchHint')->name('products.search_hint'); // 模糊搜素提示结果 [10 records] [for Ajax request]
 Route::get('products/{product}', 'ProductsController@show')->name('products.show'); // 商品详情页
 Route::get('products/{product}/comment', 'ProductsController@comment')->name('products.comment'); // 获取商品评价 [for Ajax request]
+Route::get('products/{product}/get_sku_parameters', 'ProductsController@getSkuParameters')->name('products.get_sku_parameters'); // 获取SKU参数列表[三级联动] [for Ajax request]
 
 /*支付通知 [notify_url]*/
 Route::post('payments/{order}/alipay/notify', 'PaymentsController@alipayNotify')->name('payments.alipay.notify'); // Alipay 支付成功通知 [notify_url]

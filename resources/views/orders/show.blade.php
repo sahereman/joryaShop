@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', (App::isLocale('en') ? 'Personal Center - My Orders' : '个人中心 - 我的订单') . ' - ' . \App\Models\Config::config('title'))
+@section('title', (App::isLocale('zh-CN') ? '个人中心 - 我的订单' : 'Personal Center - My Orders') . ' - ' . \App\Models\Config::config('title'))
 @section('content')
     <div class="orders_details">
         <div class="m-wrapper">
@@ -251,7 +251,7 @@
                             @if($key == 0)
                                 <tr>
                                     <td class="col-pro-img">
-                                        <a href="">
+                                        <a href="{{ route('products.show', ['product' => $order_item['sku']['product']['id']]) }}">
                                             <img src="{{ $order_item['sku']['product']['thumb_url'] }}">
                                         </a>
                                     </td>
@@ -259,18 +259,20 @@
                                         <p class="p-info">
                                             <a class="commodity_description"
                                                href="{{ route('products.show', ['product' => $order_item['sku']['product']['id']]) }}">
-                                                {{ App::isLocale('en') ? $order_item['sku']['product']['name_en'] : $order_item['sku']['product']['name_zh'] }}
+                                                {{ App::isLocale('zh-CN') ? $order_item['sku']['product']['name_zh'] : $order_item['sku']['product']['name_en'] }}
                                             </a>
                                             <br><br>
                                             <a class="commodity_description"
                                                href="{{ route('products.show', ['product' => $order_item['sku']['product']['id']]) }}">
-                                                {{ App::isLocale('en') ? $order_item['sku']['name_en'] : $order_item['sku']['name_zh'] }}
+                                                {{--{{ App::isLocale('en') ? $order_item['sku']['name_en'] : $order_item['sku']['name_zh'] }}--}}
+                                                {{ App::isLocale('zh-CN') ? $order_item['sku']['parameters_zh'] : $order_item['sku']['parameters_en'] }}
                                             </a>
                                         </p>
                                     </td>
                                     <td class="col-price">
                                         <p class="p-price">
-                                            <span>{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }}</span>
+                                            {{--<span>{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }}</span>--}}
+                                            <span>{{ get_symbol_by_currency($order->currency) }}</span>
                                             <span>{{ $order_item['price'] }}</span>
                                         </p>
                                     </td>
@@ -279,7 +281,8 @@
                                     </td>
                                     <td rowspan="{{ count($order->snapshot) }}" class="col-pay">
                                         <p>
-                                            <span>{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }}</span>
+                                            {{--<span>{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }}</span>--}}
+                                            <span>{{ get_symbol_by_currency($order->currency) }}</span>
                                             <span>{{ $order->total_amount }}</span>
                                         </p>
                                     </td>
@@ -304,22 +307,28 @@
                             @else
                                 <tr>
                                     <td class="col-pro-img">
-                                        <a href="">
+                                        <a href="{{ route('products.show', ['product' => $order_item['sku']['product']['id']]) }}">
                                             <img src="{{ $order_item['sku']['product']['thumb_url'] }}">
                                         </a>
                                     </td>
                                     <td class="col-pro-info">
                                         <p class="p-info">
                                             <a class="commodity_description"
-                                               href="{{ route('products.show', ['product' => $order_item['sku']['product']['id']]) }}">{{ App::isLocale('en') ? $order_item['sku']['product']['name_en'] : $order_item['sku']['product']['name_zh'] }}</a>
+                                               href="{{ route('products.show', ['product' => $order_item['sku']['product']['id']]) }}">
+                                                {{ App::isLocale('zh-CN') ? $order_item['sku']['product']['name_zh'] : $order_item['sku']['product']['name_en'] }}
+                                            </a>
                                             <br><br>
                                             <a class="commodity_description"
-                                               href="{{ route('products.show', ['product' => $order_item['sku']['product']['id']]) }}">{{ App::isLocale('en') ? $order_item['sku']['name_en'] : $order_item['sku']['name_zh'] }}</a>
+                                               href="{{ route('products.show', ['product' => $order_item['sku']['product']['id']]) }}">
+                                                {{--{{ App::isLocale('en') ? $order_item['sku']['name_en'] : $order_item['sku']['name_zh'] }}--}}
+                                                {{ App::isLocale('zh-CN') ? $order_item['sku']['parameters_zh'] : $order_item['sku']['parameters_en'] }}
+                                            </a>
                                         </p>
                                     </td>
                                     <td class="col-price">
                                         <p class="p-price">
-                                            <span>{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }}</span>
+                                            {{--<span>{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }}</span>--}}
+                                            <span>{{ get_symbol_by_currency($order->currency) }}</span>
                                             <span>{{ $order_item['price'] }}</span>
                                         </p>
                                     </td>
@@ -334,15 +343,18 @@
                     <div class="order_settlement">
                         <p class="commodity_cost">
                             <span class="title">@lang('order.Total product')：</span>
-                            <span>{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ $order->total_amount }}</span>
+                            {{--<span>{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ $order->total_amount }}</span>--}}
+                            <span>{{ get_symbol_by_currency($order->currency) }} {{ $order->total_amount }}</span>
                         </p>
                         <p class="freight">
                             <span class="title">@lang('order.Shipping fee')：</span>
-                            <span>{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ $order->total_shipping_fee }}</span>
+                            {{--<span>{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ $order->total_shipping_fee }}</span>--}}
+                            <span>{{ get_symbol_by_currency($order->currency) }} {{ $order->total_shipping_fee }}</span>
                         </p>
                         <p class="total_cost">
                             <span class="title">@lang('order.Total amount payable')：</span>
-                            <span class="cost_of_total">{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}</span>
+                            {{--<span class="cost_of_total">{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}</span>--}}
+                            <span class="cost_of_total">{{ get_symbol_by_currency($order->currency) }} {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}</span>
                         </p>
                     </div>
                 </div>

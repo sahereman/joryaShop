@@ -29,7 +29,7 @@ class ProductRequest extends Request
             ];
         } elseif ($this->routeIs('products.search_more') || $this->routeIs('products.search') || $this->routeIs('mobile.products.search')) {
             return [
-                'query' => 'bail|required|string|min:1',
+                'query' => 'bail|string|nullable',
                 'sort' => [
                     'bail',
                     'sometimes',
@@ -48,7 +48,7 @@ class ProductRequest extends Request
 
     public function attributes()
     {
-        if (App::isLocale('en')) {
+        if (!App::isLocale('zh-CN')) {
             return [];
         }
         return [

@@ -59,6 +59,9 @@ return [
         'sales' => 'Sales',
         'stock' => 'Stock',
         'classification' => 'Standard',
+        'base_size' => 'Size',
+        'hair_colour' => 'Color',
+        'hair_density' => 'Density',
         'Quantity' => 'Quantity',
         'Buy now' => 'Buy now',
         'Collection' => 'Collection',
@@ -79,6 +82,7 @@ return [
         'Pull up load more' => 'Pull up load more',
         'Loading in' => 'Loading in',
         'over the end' => 'over the end',
+        'customer' => 'Online'
     ],
     'Categories' => 'Categories',
     'All' => 'All',

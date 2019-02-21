@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', (App::isLocale('en') ? 'Personal Center - My Favourites' : '个人中心 - 我的收藏') . ' - ' . \App\Models\Config::config('title'))
+@section('title', (App::isLocale('zh-CN') ? '个人中心 - 我的收藏' : 'Personal Center - My Favourites') . ' - ' . \App\Models\Config::config('title'))
 @section('content')
     <div class="User_collection">
         <div class="m-wrapper">
@@ -35,14 +35,16 @@
                                         <img class="lazy" data-src="{{ $favourite->product->thumb_url }}">
                                     </div>
                                     <p class="commodity_title">
-                                        {{ App::isLocale('en') ? $favourite->product->name_en : $favourite->product->name_zh }}
+                                        {{ App::isLocale('zh-CN') ? $favourite->product->name_zh : $favourite->product->name_en }}
                                     </p>
                                     <p class="collection_price">
                                         <span class="new_price">
-                                            @lang('basic.currency.symbol') {{ App::isLocale('en') ? $favourite->product->price_in_usd : $favourite->product->price }}
+                                            {{--@lang('basic.currency.symbol') {{ App::isLocale('en') ? $favourite->product->price_in_usd : $favourite->product->price }}--}}
+                                            {{ get_global_symbol() }} {{ get_current_price($favourite->product->price) }}
                                         </span>
                                         <span class="old_price">
-                                            @lang('basic.currency.symbol') {{ App::isLocale('en') ? bcmul($favourite->product->price_in_usd, 1.2, 2) : bcmul($favourite->product->price, 1.2, 2) }}
+                                            {{--@lang('basic.currency.symbol') {{ App::isLocale('en') ? bcmul($favourite->product->price_in_usd, 1.2, 2) : bcmul($favourite->product->price, 1.2, 2) }}--}}
+                                            {{ get_global_symbol() }} {{ bcmul(get_current_price($favourite->product->price), 1.2, 2) }}
                                         </span>
                                     </p>
                                     <a class="add_to_cart"

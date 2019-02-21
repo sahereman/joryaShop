@@ -62,17 +62,43 @@ class OrdersController extends Controller
             ->body($this->form()->edit($id));
     }
 
+    //修改订单运费
+    public function modify(Order $order, Request $request)
+    {
+        // 判断当前订单是否已支付
+        if ($order->paid_at) {
+            throw new InvalidRequestException('该订单已付款');
+        }
+        // 判断当前订单发货状态是否为待发货
+        if ($order->status !== Order::ORDER_STATUS_PAYING) {
+            throw new InvalidRequestException('该订单已付款');
+        }
+
+        // 验证
+        $data = $this->validate($request, [
+            'total_shipping_fee' => 'required|numeric|min:0',
+        ], [], [
+            'total_shipping_fee' => '运费',
+        ]);
+
+        // 将订单发货状态改为已发货，并存入物流信息
+        $order->update([
+            'total_shipping_fee' => $data['total_shipping_fee'],
+        ]);
+
+        // 返回上一页
+        return redirect()->back();
+    }
+
     //发货
     public function ship(Order $order, Request $request)
     {
         // 判断当前订单是否已支付
-        if (!$order->paid_at)
-        {
+        if (!$order->paid_at) {
             throw new InvalidRequestException('该订单未付款');
         }
         // 判断当前订单发货状态是否为待发货
-        if ($order->status !== Order::ORDER_STATUS_SHIPPING)
-        {
+        if ($order->status !== Order::ORDER_STATUS_SHIPPING) {
             throw new InvalidRequestException('该订单已发货');
         }
 
@@ -108,8 +134,7 @@ class OrdersController extends Controller
     public function delete(Order $order, Request $request)
     {
         // 判断当前订单状态 必须是 交易关闭 或 已完成
-        if (!in_array($order->status, [Order::ORDER_STATUS_CLOSED, Order::ORDER_STATUS_COMPLETED]))
-        {
+        if (!in_array($order->status, [Order::ORDER_STATUS_CLOSED, Order::ORDER_STATUS_COMPLETED])) {
             throw new InvalidRequestException('该订单当前状态不允许删除');
         }
 
@@ -142,8 +167,8 @@ class OrdersController extends Controller
 
             $filter->equal('status', '订单状态')->select(Order::$orderStatusMap);
             $filter->equal('currency', '支付币种')->select([
+                'USD' => '美元',
                 'CNY' => '人民币',
-                'USD' => '美元'
             ]);
             $filter->like('order_sn', '订单号');
             $filter->where(function ($query) {
@@ -173,8 +198,7 @@ class OrdersController extends Controller
 
             $actions->append('<a class="btn btn-xs btn-primary" style="margin-right:8px" href="' . route('admin.orders.show', [$actions->getKey()]) . '">查看</a>');
 
-            if ($actions->row->refund)
-            {
+            if ($actions->row->refund) {
                 $actions->append('<a class="btn btn-xs btn-warning" style="margin-right:8px" href="' . route('admin.order_refunds.show', [$actions->row->refund['id']]) . '">售后</a>');
             }
 
@@ -186,5 +210,4 @@ class OrdersController extends Controller
 
         return $grid;
     }
-
 }

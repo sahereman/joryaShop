@@ -5,7 +5,7 @@
 
     <div class="common_articles products-search-level">
         <div class="m-wrapper">
-            {!! App::isLocale('en') ? $article->content_en : $article->content_zh !!}
+            {!! App::isLocale('zh-CN') ? $article->content_zh : $article->content_en !!}
         </div>
     </div>
 

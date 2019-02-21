@@ -1,6 +1,6 @@
 @extends('layouts.app')
-@section('title', (App::isLocale('en') ? $product->name_en : $product->name_zh) . ' - ' . \App\Models\Config::config('title'))
-@section('description', App::isLocale('en') ? $product->description_en : $product->description_zh)
+@section('title', (App::isLocale('zh-CN') ? $product->name_zh : $product->name_en) . ' - ' . \App\Models\Config::config('title'))
+@section('description', App::isLocale('zh-CN') ? $product->description_zh : $product->description_en)
 @section('content')
     <div class="commodity-details">
         <div class="m-wrapper">
@@ -10,12 +10,12 @@
                     <a href="{{ route('root') }}">@lang('basic.home')</a>
                     @if($category->parent)
                         <span>></span>
-                        <a href="{{ route('product_categories.index', ['category' => $category->parent->id]) }}">{{ App::isLocale('en') ? $category->parent->name_en : $category->parent->name_zh }}</a>
+                        <a href="{{ route('product_categories.index', ['category' => $category->parent->id]) }}">{{ App::isLocale('zh-CN') ? $category->parent->name_zh : $category->parent->name_en }}</a>
                     @endif
                     <span>></span>
-                    <a href="{{ route('product_categories.index', ['category' => $category->id]) }}">{{ App::isLocale('en') ? $category->name_en : $category->name_zh }}</a>
+                    <a href="{{ route('product_categories.index', ['category' => $category->id]) }}">{{ App::isLocale('zh-CN') ? $category->name_zh : $category->name_en }}</a>
                     <span>></span>
-                    <a href="javascript:void(0);">{{ App::isLocale('en') ? $product->name_en : $product->name_zh }}</a>
+                    <a href="javascript:void(0);">{{ App::isLocale('zh-CN') ? $product->name_zh : $product->name_en }}</a>
                 </p>
             </div>
             <!--详情上半部分-->
@@ -61,16 +61,19 @@
                 </div>
                 <!--商品参数-->
                 <div class="parameters_content">
-                    <h4>{{ App::isLocale('en') ? $product->name_en : $product->name_zh }}</h4>
-                    <p class="small_title">{!! App::isLocale('en') ? $product->description_en : $product->description_zh !!}</p>
+                    <h4>{{ App::isLocale('zh-CN') ? $product->name_zh : $product->name_en }}</h4>
+                    <p class="small_title">{!! App::isLocale('zh-CN') ? $product->description_zh : $product->description_en !!}</p>
                     <div class="price_service">
                         <p class="original_price">
                             <span>@lang('product.product_details.the original price')</span>
-                            <span><i>@lang('basic.currency.symbol') </i>{{ App::isLocale('en') ? bcmul($product->price_in_usd, 1.2, 2) : bcmul($product->price, 1.2, 2) }}</span>
+                            {{--<span id="sku_original_price_in_usd"><i>@lang('basic.currency.symbol') </i>{{ App::isLocale('en') ? bcmul($product->price_in_usd, 1.2, 2) : bcmul($product->price, 1.2, 2) }}</span>--}}
+                            <span id="sku_original_price_in_usd"><i>{{ get_global_symbol() }} </i>{{ bcmul(get_current_price($product->price), 1.2, 2) }}</span>
                         </p>
                         <p class="present_price">
                             <span>@lang('product.product_details.the current price')</span>
-                            <span class="changePrice_num"><i>@lang('basic.currency.symbol') </i>{{ App::isLocale('en') ? $product->price_in_usd : $product->price }}</span>
+                            {{--<span id="sku_price_in_usd" class="changePrice_num"><i>@lang('basic.currency.symbol') </i>{{ App::isLocale('en') ? $product->price_in_usd : $product->price }}</span>--}}
+                            <span id="sku_price_in_usd"
+                                  class="changePrice_num"><i>{{ get_global_symbol() }} </i>{{ get_current_price($product->price) }}</span>
                         </p>
                         <p class="service">
                             <span>@lang('product.product_details.service')</span>
@@ -80,18 +83,39 @@
                     </div>
                     <div class="priceOfpro">
                         <span>@lang('product.product_details.freight')</span>
-                        <span><i>@lang('basic.currency.symbol') </i>{{ App::isLocale('en') ? $product->shipping_fee_in_usd : $product->shipping_fee }}</span>
+                        {{--<span><i>@lang('basic.currency.symbol') </i>{{ App::isLocale('en') ? $product->shipping_fee_in_usd : $product->shipping_fee }}</span>--}}
+                        <span><i>{{ get_global_symbol() }} </i>{{ get_current_price($product->shipping_fee) }}</span>
                     </div>
-                    <div class="priceOfpro kindOfPro">
-                        <span>@lang('product.product_details.classification')</span>
-                        <ul>
-                            @foreach($skus as $sku)
-                                <li code_num="{{ $sku->stock }}" code_price='{{ App::isLocale('en') ? $sku->price_in_usd : $sku->price }}'>
-                                    <span>{{ App::isLocale('en') ? $sku->name_en : $sku->name_zh }}</span>
-                                    <input type="hidden" name="sku_id" value="{{ $sku->id }}">
-                                </li>
-                            @endforeach
-                        </ul>
+                    <div class="priceOfpro kindOfPro kindofsize"
+                         data-url="{{ route('products.get_sku_parameters', ['product' => $product->id]) }}">
+                        <span>@lang('product.product_details.base_size')</span>
+                        <select name="base_size" title="base_sizes">
+                            @if(count($parameters['base_sizes']) > 0)
+                                @foreach($parameters['base_sizes'] as $base_size)
+                                    <option value="{{ $base_size }}">{{ $base_size }}</option>
+                                @endforeach
+                            @endif
+                        </select>
+                    </div>
+                    <div class="priceOfpro kindOfPro kindofcolor">
+                        <span>@lang('product.product_details.hair_colour')</span>
+                        <select name="hair_colour" title="hair_colours">
+                            @if(count($parameters['hair_colours']) > 0)
+                                @foreach($parameters['hair_colours'] as $hair_colour)
+                                    <option value="{{ $hair_colour }}">{{ $hair_colour }}</option>
+                                @endforeach
+                            @endif
+                        </select>
+                    </div>
+                    <div class="priceOfpro kindOfPro kindofdensity">
+                        <span>@lang('product.product_details.hair_density')</span>
+                        <select name="hair_density" title="hair_densities">
+                            @if(count($parameters['hair_densities']) > 0)
+                                @foreach($parameters['hair_densities'] as $hair_density)
+                                    <option value="{{ $hair_density }}">{{ $hair_density }}</option>
+                                @endforeach
+                            @endif
+                        </select>
                     </div>
                     <div class="priceOfpro">
                         <span class="buy_numbers">@lang('product.product_details.Quantity')</span>
@@ -111,19 +135,19 @@
                             @lang('app.Add to Shopping Cart')
                         </a>
                         @else
-                        <a class="buy_now" data-url="{{ route('orders.pre_payment') }}">
-                            @lang('product.product_details.Buy now')
-                        </a>
-                        <a class="add_carts" data-url="{{ route('carts.store') }}">
-                            @lang('app.Add to Shopping Cart')
-                        </a>
-                        @endguest
-                        <a class="add_favourites {{ $favourite ? 'active' : '' }}" code="{{ $product->id }}"
-                           data-url="{{ route('user_favourites.store') }}"
-                           data-url_2="{{ $favourite ? route('user_favourites.destroy', ['favourite' => $favourite->id]) : '' }}">
-                            <span class="favourites_img"></span>
-                            <span>@lang('product.product_details.Collection')</span>
-                        </a>
+                            <a class="buy_now" data-url="{{ route('orders.pre_payment') }}">
+                                @lang('product.product_details.Buy now')
+                            </a>
+                            <a class="add_carts" data-url="{{ route('carts.store') }}">
+                                @lang('app.Add to Shopping Cart')
+                            </a>
+                            @endguest
+                            <a class="add_favourites {{ $favourite ? 'active' : '' }}" code="{{ $product->id }}"
+                               data-url="{{ route('user_favourites.store') }}"
+                               data-url_2="{{ $favourite ? route('user_favourites.destroy', ['favourite' => $favourite->id]) : '' }}">
+                                <span class="favourites_img"></span>
+                                <span>@lang('product.product_details.Collection')</span>
+                            </a>
                     </div>
                 </div>
                 <!--猜你喜欢-->
@@ -143,8 +167,10 @@
                                         <img class="lazy" data-src="{{ $guess->thumb_url }}">
                                     </div>
                                     <p>
-                                        <span class="present_price"><i>@lang('basic.currency.symbol')</i>{{ App::isLocale('en') ? $guess->price_in_usd : $guess->price }}</span>
-                                        <span class="original_price"><i>@lang('basic.currency.symbol')</i>{{ App::isLocale('en') ? bcmul($guess->price_in_usd, 1.2, 2) : bcmul($guess->price, 1.2, 2) }}</span>
+                                        {{--<span class="present_price"><i>@lang('basic.currency.symbol')</i>{{ App::isLocale('en') ? $guess->price_in_usd : $guess->price }}</span>--}}
+                                        <span class="present_price"><i>{{ get_global_symbol() }} </i>{{ get_current_price($guess->price) }}</span>
+                                        {{--<span class="original_price"><i>@lang('basic.currency.symbol')</i>{{ App::isLocale('en') ? bcmul($guess->price_in_usd, 1.2, 2) : bcmul($guess->price, 1.2, 2) }}</span>--}}
+                                        <span class="original_price"><i>{{ get_global_symbol() }} </i>{{ bcmul(get_current_price($guess->price), 1.2, 2) }}</span>
                                     </p>
                                 </a>
                             </li>
@@ -168,7 +194,8 @@
                                             <img class="lazy" data-src="{{ $hot_sale->thumb_url }}">
                                         </div>
                                         <p>
-                                            <span class="present_price"><i>@lang('basic.currency.symbol') </i>{{ App::isLocale('en') ? $hot_sale->price_in_usd : $hot_sale->price }}</span>
+                                            {{--<span class="present_price"><i>@lang('basic.currency.symbol') </i>{{ App::isLocale('en') ? $hot_sale->price_in_usd : $hot_sale->price }}</span>--}}
+                                            <span class="present_price"><i>{{ get_global_symbol() }} </i>{{ get_current_price($hot_sale->price) }}</span>
                                         </p>
                                     </a>
                                 </li>
@@ -184,7 +211,8 @@
                                             <img class="lazy" data-src="{{ $best_seller->thumb_url }}">
                                         </div>
                                         <p>
-                                            <span class="present_price"><i>@lang('basic.currency.symbol') </i>{{ App::isLocale('en') ? $best_seller->price_in_usd : $best_seller->price }}</span>
+                                            {{--<span class="present_price"><i>@lang('basic.currency.symbol') </i>{{ App::isLocale('en') ? $best_seller->price_in_usd : $best_seller->price }}</span>--}}
+                                            <span class="present_price"><i>{{ get_global_symbol() }} </i>{{ get_current_price($best_seller->price) }}</span>
                                         </p>
                                     </a>
                                 </li>
@@ -201,7 +229,7 @@
                             <strong>({{ $comment_count }})</strong></li>
                     </ul>
                     <div class="mc tabcon product_info">
-                        {!! App::isLocale('en') ? $product->content_en : $product->content_zh !!}
+                        {!! App::isLocale('zh-CN') ? $product->content_zh : $product->content_en !!}
                     </div>
                     <div class="mc tabcon dis_n">
                         <ul class="comment-score">
@@ -242,11 +270,13 @@
 @endsection
 @section('scriptsAfterJs')
     <script type="text/javascript">
-        var loading_animation;  //loading动画的全局name
-        var current_page;  //评价的当前页
-        var next_page;   //下一页的页码
-        var pre_page;   //上一页的页码
+        var loading_animation;  // loading动画的全局name
+        var current_page;  // 评价的当前页
+        var next_page;   // 下一页的页码
+        var pre_page;   // 上一页的页码
         var country = $("#dLabel").find("span").html();
+        // var sku_id, sku_stock, sku_price_in_usd, sku_original_price_in_usd;
+        var sku_id, sku_stock, sku_price, sku_original_price;
         $('#img_x li').eq(0).css('border', '2px solid #bc8c61');
         $('#zhezhao').mousemove(function (e) {
             $('#img_u').show();
@@ -278,19 +308,27 @@
             $('#mediumContainer img').eq(0).attr('src', $(this).attr('code'));
             $('#img_u img').eq(0).attr('src', $(this).attr('code'));
         });
-        //控制商品下单的数量显示
+        // 控制商品下单的数量显示
         $(".add").on("click", function () {
-        	if ($(".kindOfPro").find("li").hasClass('active') != true) {
-                layer.msg("@lang('product.product_details.Please select specifications')");
-            } else {
-	            $(".reduce").removeClass('no_allow');
-	            if(parseInt($("#pro_num").val())<parseInt($(".kindOfPro").find("li.active").attr('code_num'))){
-	            	var num = parseInt($("#pro_num").val()) + 1;
-	                $("#pro_num").val(num);	
-	            }else{
-	            	layer.msg("@lang('order.Cannot add more quantities')");
-	            }
+            // if ($(".kindOfPro").find("li").hasClass('active') != true) {
+            // layer.msg("@lang('product.product_details.Please select specifications')");
+            // } else {
+            $(".reduce").removeClass('no_allow');
+            var data = {
+                base_size: $(".kindofsize select").val(),
+                hair_colour: $(".kindofcolor select").val(),
+                hair_density: $(".kindofdensity select").val()
+            };
+            if (parseInt($("#pro_num").val()) == 1) {
+                getSkuParameters(data, "getSkuId", false);
             }
+            if (parseInt($("#pro_num").val()) < sku_stock) {
+                var num = parseInt($("#pro_num").val()) + 1;
+                $("#pro_num").val(num);
+            } else {
+                layer.msg("@lang('order.Cannot add more quantities')");
+            }
+            // }
         });
         $(".reduce").on("click", function () {
             if ($(this).hasClass('no_allow') != true && $("#pro_num").val() > 1) {
@@ -303,15 +341,15 @@
                 }
             }
         });
-        //点击添加收藏
+        // 点击添加收藏
         $(".add_favourites").on("click", function () {
-            var clickDom = $(this);
+            var clickDom = $(this), data, url;
             if (clickDom.hasClass('active') != true && clickDom.attr('data-url_2') == '') {
-                var data = {
+                data = {
                     _token: "{{ csrf_token() }}",
-                    product_id: clickDom.attr("code")
+                    product_id: clickDom.attr("code"),
                 };
-                var url = clickDom.attr('data-url');
+                url = clickDom.attr('data-url');
                 $.ajax({
                     type: "post",
                     url: url,
@@ -325,14 +363,14 @@
                         if (err.status == 422) {
                             layer.msg($.parseJSON(err.responseText).errors.product_id[0]);
                         }
-                    }
+                    },
                 });
             } else {
-                var data = {
+                data = {
                     _method: "DELETE",
                     _token: "{{ csrf_token() }}",
                 };
-                var url = clickDom.attr('data-url_2');
+                url = clickDom.attr('data-url_2');
                 $.ajax({
                     type: "post",
                     url: url,
@@ -343,7 +381,7 @@
                     },
                     error: function (err) {
                         console.log(err);
-                    }
+                    },
                 });
             }
         });
@@ -356,78 +394,89 @@
             $(tabId + " .tabcon").hide();
             $(tabId + " .tabcon").eq(tabNum).show();
             if (tabNum == 1) {
-                getEva(1);
+                getComments(1);
             }
         }
         //切换
         $(".kindOfPro").on("click", "li", function () {
             $(".kindOfPro").find('li').removeClass("active");
             $(this).addClass('active');
-            $(".changePrice_num").html("@lang('basic.currency.symbol')" + $(this).attr('code_price'));
+            $(".changePrice_num").html("{{ get_global_symbol() }}" + $(this).attr('code_price'));
             $("#pro_num").val("1");
         });
         //加入购物车
         $(".add_carts").on("click", function () {
+            var query_data = {
+                base_size: $(".kindofsize select").val(),
+                hair_colour: $(".kindofcolor select").val(),
+                hair_density: $(".kindofdensity select").val(),
+            };
+            getSkuParameters(query_data, "getSkuId", false);
             var clickDom = $(this);
-            if ($(".kindOfPro").find("li").hasClass('active') != true) {
-                layer.msg("@lang('product.product_details.Please select specifications')");
+            /*if ($(".kindOfPro").find("li").hasClass('active') != true) {
+             layer.msg("@lang('product.product_details.Please select specifications')");
+             } else {*/
+            if ($(this).hasClass('for_show_login') == true) {
+                $(".login").click();
             } else {
-                if ($(this).hasClass('for_show_login') == true) {
-                    $(".login").click();
-                } else {
-                    var data = {
-                        _token: "{{ csrf_token() }}",
-                        sku_id: $(".kindOfPro ul").find("li.active").find("input").val(),
-                        number: $("#pro_num").val()
-                    };
-                    var url = clickDom.attr('data-url');
-                    $.ajax({
-                        type: "post",
-                        url: url,
-                        data: data,
-                        success: function (data) {
-                            layer.alert("@lang('product.product_details.Shopping cart added successfully')");
-                            $(".for_cart_num").load(location.href + " .shop_cart_num");
-                        },
-                        error: function (err) {
-                            console.log(err);
-                        }
-                    });
-                }
+                var data = {
+                    _token: "{{ csrf_token() }}",
+                    sku_id: sku_id,
+                    number: $("#pro_num").val(),
+                };
+                var url = clickDom.attr('data-url');
+                $.ajax({
+                    type: "post",
+                    url: url,
+                    data: data,
+                    success: function (data) {
+                        layer.alert("@lang('product.product_details.Shopping cart added successfully')");
+                        $(".for_cart_num").load(location.href + " .shop_cart_num");
+                    },
+                    error: function (err) {
+                        console.log(err);
+                    }
+                });
             }
+            // }
         });
         //立即购买
         $(".buy_now").on("click", function () {
             var clickDom = $(this);
-            if ($(".kindOfPro").find("li").hasClass('active') != true) {
-                layer.msg("@lang('product.product_details.Please select specifications')");
+            /*if ($(".kindOfPro").find("li").hasClass('active') != true) {
+             layer.msg("@lang('product.product_details.Please select specifications')");
+             } else {*/
+            if ($(this).hasClass('for_show_login') == true) {
+                $(".login").click();
             } else {
-                if ($(this).hasClass('for_show_login') == true) {
-                    $(".login").click();
-                } else {
-                    var url = clickDom.attr('data-url');
-                    window.location.href = url + "?sku_id=" + $(".kindOfPro ul").find("li.active").find("input").val() + "&number=" + $("#pro_num").val() + "&sendWay=1";
-                }
+                var url = clickDom.attr('data-url');
+                var data = {
+                    base_size: $(".kindofsize select").val(),
+                    hair_colour: $(".kindofcolor select").val(),
+                    hair_density: $(".kindofdensity select").val()
+                };
+                getSkuParameters(data, "getSkuId", false);
+                window.location.href = url + "?sku_id=" + sku_id + "&number=" + $("#pro_num").val() + "&sendWay=1";
             }
+            // }
         });
-        //获取评价内容
-        function getEva(page) {
+        // 获取评价内容
+        function getComments(page) {
             var data = {
-                page: page
+                page: page,
             };
             var url = $(".shopping_eva").attr("data-url");
             $.ajax({
-                type: "get",
+                type: "GET",
                 url: url,
                 beforeSend: function () {
                     loading_animation = layer.msg("@lang('app.Please wait')", {
                         icon: 16,
                         shade: 0.4,
-                        time: false //取消自动关闭
+                        time: false, // 取消自动关闭
                     });
                 },
                 success: function (json) {
-                    console.log(json);
                     var dataObj = json.data.comments.data;
                     var dataObj_photo;
                     if (dataObj.length <= 0) {
@@ -439,12 +488,14 @@
                         $(".next_page").attr("disabled", true);
                     } else {
                         var html = "";
-                        var name;
+                        // var name;
+                        var parameters;
                         $(".composite_index").text((json.data.composite_index).toFixed(1));
                         $(".description_index").text((json.data.description_index).toFixed(1));
                         $(".shipment_index").text((json.data.shipment_index).toFixed(1));
                         $.each(dataObj, function (i, n) {
-                            name = (country == "中文") ? n.order_item.sku.name_zh : n.order_item.sku.name_en;
+                            // name = (country == "中文") ? n.order_item.sku.name_zh : n.order_item.sku.name_en;
+                            parameters = (country == "中文") ? n.order_item.sku.parameters_zh : n.order_item.sku.parameters_en;
                             dataObj_photo = n.photo_urls;
                             html += "<div class='item'>";
                             html += "<div class='evaluation_results_left'>";
@@ -458,7 +509,8 @@
                             html += "<img src='" + "{{ config('app.url') }}" + "/img/star-" + n.composite_index + ".png' />";
                             html += "</div>";
                             html += "<p class='product_parameters'>";
-                            html += "<span>" + name + "</span>";
+                            // html += "<span>" + name + "</span>";
+                            html += "<span>" + parameters + "</span>";
                             html += "</p>";
                             html += "<p class='eva_text'>" + n.content + "</p>";
                             html += "<ul class='evaluation_img'>";
@@ -495,29 +547,28 @@
                     layer.close(loading_animation);
                 }
             });
-            //放大镜的缩略图的上一页与下一页
+            // 放大镜的缩略图的上一页与下一页
         }
-        //点击分页
-        //上一页
+        // 点击分页
+        // 上一页
         $(".pre_page").on("click", function () {
-            getEva($(this).attr("code"));
+            getComments($(this).attr("code"));
         });
-        //下一页
+        // 下一页
         $(".next_page").on("click", function () {
-            getEva($(this).attr("code"));
+            getComments($(this).attr("code"));
         });
-        //图片预览小图移动效果,页面加载时触发
+        // 图片预览小图移动效果,页面加载时触发
         $(function () {
-            var tempLength = 0; //临时变量,当前移动的长度
-            var viewNum = 5; //设置每次显示图片的个数量
-            var moveNum = 2; //每次移动的数量
-            var moveTime = 300; //移动速度,毫秒
-            var scrollDiv = $(".spec-scroll .img_items ul"); //进行移动动画的容器
-            var scrollItems = $(".spec-scroll .img_items ul li"); //移动容器里的集合
-            var moveLength = scrollItems.eq(0).width() * moveNum; //计算每次移动的长度
-            var countLength = (scrollItems.length - viewNum) * scrollItems.eq(0).width(); //计算总长度,总个数*单个长度
-
-            //下一张
+            var tempLength = 0; // 临时变量,当前移动的长度
+            var viewNum = 5; // 设置每次显示图片的个数量
+            var moveNum = 2; // 每次移动的数量
+            var moveTime = 300; // 移动速度,毫秒
+            var scrollDiv = $(".spec-scroll .img_items ul"); // 进行移动动画的容器
+            var scrollItems = $(".spec-scroll .img_items ul li"); // 移动容器里的集合
+            var moveLength = scrollItems.eq(0).width() * moveNum; // 计算每次移动的长度
+            var countLength = (scrollItems.length - viewNum) * scrollItems.eq(0).width(); // 计算总长度,总个数*单个长度
+            // 下一张
             $(".spec-scroll .next").on("click", function () {
                 if (tempLength < countLength) {
                     if ((countLength - tempLength) > moveLength) {
@@ -529,7 +580,7 @@
                     }
                 }
             });
-            //上一张
+            // 上一张
             $(".spec-scroll .prev").on("click", function () {
                 if (tempLength > 0) {
                     if (tempLength > moveLength) {
@@ -541,6 +592,111 @@
                     }
                 }
             });
+        });
+        // 获取sku参数列表
+        var query_data = {}, result = false;
+        // getSkuParameters(query_data, "change", true);
+        function getSkuParameters(data, requestType, asyncType) {
+            var url = $(".kindofsize").attr('data-url');
+            $.ajax({
+                type: "GET",
+                url: url,
+                data: data,
+                async: asyncType,
+                success: function (data) {
+                    var base_size_options = "";
+                    var hair_colour_options = "";
+                    var hair_density_options = "";
+                    if (data.code == 200) {
+                        if (requestType == "change") {
+                            var base_sizes = data.data.parameters.base_sizes,
+                                hair_colours = data.data.parameters.hair_colours,
+                                hair_densities = data.data.parameters.hair_densities;
+                            if (base_sizes.length != 0) {
+                                $.each(base_sizes, function (i, n) {
+                                    base_size_options += "<option value='" + n + "'>" + n + "</option>"
+                                });
+                                $(".kindofsize select").html(base_size_options);
+                            }
+                            if (hair_colours.length != 0) {
+                                $.each(hair_colours, function (i, n) {
+                                    hair_colour_options += "<option value='" + n + "'>" + n + "</option>"
+                                });
+                                $(".kindofcolor select").html(hair_colour_options);
+                            }
+                            if (hair_densities.length != 0) {
+                                $.each(hair_densities, function (i, n) {
+                                    hair_density_options += "<option value='" + n + "'>" + n + "</option>"
+                                });
+                                $(".kindofdensity select").html(hair_density_options);
+                            }
+                            // sku_price_in_usd = data.data.product.price_in_usd;
+                            // $('span#sku_price_in_usd').html('<i>&#36; </i>' + sku_price_in_usd);
+                            // sku_original_price_in_usd = data.data.product.original_price_in_usd;
+                            // $('span#sku_original_price_in_usd').html('<i>&#36; </i> ' + sku_original_price_in_usd);
+                            sku_price = get_current_price(data.data.product.price);
+                            $('span#sku_price_in_usd').html('<i>' + global_symbol + ' </i>' + sku_price);
+                            sku_original_price = get_current_price(data.data.product.original_price);
+                            $('span#sku_original_price_in_usd').html('<i>' + global_symbol + ' </i> ' + sku_original_price);
+                        } else {
+                            sku_id = data.data.sku.id;
+                            sku_stock = data.data.sku.stock;
+                            // sku_price_in_usd = data.data.sku.price_in_usd;
+                            // $('span#sku_price_in_usd').html('<i>&#36; </i>' + sku_price_in_usd);
+                            // sku_original_price_in_usd = data.data.sku.original_price_in_usd;
+                            // $('span#sku_original_price_in_usd').html('<i>&#36; </i> ' + sku_original_price_in_usd);
+                            sku_price = get_current_price(data.data.sku.price);
+                            $('span#sku_price_in_usd').html('<i>' + global_symbol + ' </i>' + sku_price);
+                            sku_original_price = get_current_price(data.data.sku.original_price);
+                            $('span#sku_original_price_in_usd').html('<i>' + global_symbol + ' </i> ' + sku_original_price);
+                        }
+                        result = true;
+                    } else if (data.code == 401) {
+                        layer.msg(data.message);
+                        result = false;
+                    }
+                },
+                error: function (err) {
+                    console.log(err);
+                    result = false;
+                },
+            });
+        }
+        $(".kindofsize select").on("change", function () {
+            query_data.base_size = $(".kindofsize select").val();
+            getSkuParameters(query_data, "change", false);
+            if (result) {
+                query_data.hair_colour = $(".kindofcolor select").val();
+                query_data.hair_density = $(".kindofdensity select").val();
+                getSkuParameters(query_data, "getSkuId", false);
+            } else {
+                query_data = {};
+                getSkuParameters(query_data, "change", false);
+            }
+        });
+        $(".kindofcolor select").on("change", function () {
+            query_data.hair_colour = $(".kindofcolor select").val();
+            getSkuParameters(query_data, "change", false);
+            if (result) {
+                query_data.base_size = $(".kindofsize select").val();
+                query_data.hair_density = $(".kindofdensity select").val();
+                getSkuParameters(query_data, "getSkuId", false);
+            } else {
+                query_data = {};
+                getSkuParameters(query_data, "change", false);
+            }
+        });
+        $(".kindofdensity select").on("change", function () {
+            query_data.hair_density = $(".kindofdensity select").val();
+            getSkuParameters(query_data, "change", false);
+            if (result) {
+                query_data.base_size = $(".kindofsize select").val();
+                query_data.hair_colour = $(".kindofcolor select").val();
+                getSkuParameters(query_data, "getSkuId", false);
+            } else {
+                query_data = {};
+                getSkuParameters(query_data, "change", false);
+            }
         });
     </script>
 @endsection

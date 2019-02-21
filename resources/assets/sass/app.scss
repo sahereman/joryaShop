@@ -172,7 +172,7 @@ img {
 .navbar {
     width: 100%;
     min-width: 1200px;
-    height: 150px;
+    min-height: 150px;
     margin-bottom: 0;
     border: 0;
     z-index: 100;
@@ -313,149 +313,230 @@ img {
     }
     .navbar-bottom {
         width: 100%;
-        height: 110px;
+        min-height: 110px;
         background-color: #fff;
+        display: flex;
         .m-wrapper {
-            height: 100%;
-        }
-        .header-menu {
-            margin-top: 40px;
-            button {
-                overflow: hidden;
-                background: transparent;
-                color: #333;
-                p {
-                    float: left;
-                    margin: 0 5px;
-                    line-height: 25px;
-                    margin-right: 0px;
-                   span {
-                       display: block;
-                       width: 20px;
-                       height: 2px;
-                       content: '';
-                       background: #333;
-                       margin: 5px 0;
-                   }
-                }   
-            }
-            .dropdown-menu {
-//              width: 170px;
-                top: 183%;
-                border: 0;
-                border-radius: inherit;
-                text-align: center;
-                background-color: #fff;
-                opacity: 0.8;
-                ul {
-                    position: relative;
-                    z-index: 10;
-                    height: 100%;
-                    li {
-                        line-height: 30px;
-                        color: #333;
-                        margin: 10px 0;
-                        &:hover {
-                            color: $theme-color;
-                        }
+            min-height: 110px;
+            margin: 0 auto;
+            clear: both;
+            .navbar-bottom-top {
+                width: 100%;
+                display: flex;
+                margin-top: 20px;
+                flex-direction: row;
+                justify-content: space-between;
+                .navbar-bottom-top-left {
+                    margin: auto;
+                    margin-left: 0;
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: space-between;
+                    .header_logo {
+                        margin: auto;
+                        margin-left: 15px;
+                        text-align: center;
                         a {
-                            white-space: nowrap;
-                            padding: 0 10px;
-                            display: block;
-                            height: 100%;
+                            img {
+                                width: 100%;
+                            }
+                            p {
+                                position: relative;
+                                top: -20px;
+                            }
+                        }
+                    }
+                    .navbar-bottom-top-left-right {
+                        margin: auto;
+                        margin-left: 30px;
+                        p {
+                            color: #bc8c61;
+                            font-size: 14px;
+                            margin: 10px auto;
+                            span {
+                                color: #000;
+                            }
+                            &:first-of-type {
+                                margin-top: 0;
+                            }
+                        }
+                    }
+                }
+                .navbar-bottom-top-right {
+                    margin: auto;
+                    margin-right: 0;
+                    display: flex;
+                    flex-direction: row;
+                    a {
+                        display: block;
+                        height: 35px;
+                        line-height: 35px;
+                        text-align: center;
+                        font-size: 14px;
+                        padding: 0 10px;
+                        border: 2px solid #bc8c61;
+                        margin-left: 15px;
+                        transition: all .3s;
+                        &.actvie,
+                        &:hover {
+                            background-color: #bc8c61;
+                            color: #fff;
                         }
                     }
                 }
             }
-        }
-        .header_logo {
-            float: left;
-            margin-top: 20px;
-            margin-left: 335px;
-            width: 216px;
-            height: 48px;
-            img {
-                width: 100%;
-            }
-        }
-        .header-search {
-            ul {
-                margin-top: 17%;
-                li {
-                    float: left;
-                    margin: 0 15px;
+            .navbar-bottom-bottom {
+                min-height: 50px;
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                .navbar-bottom-bottom-left {
+                    width: 78%;
+                    margin: auto;
                     position: relative;
-                    input {
-                        text-indent: 15px;
-                        color: #333;
-                        &::-webkit-input-placeholder {
-                            color: #c0c0c0;
-                            font-size: 12px;
-                        }
-                        &:-moz-placeholder {
-                            color: #c0c0c0;
-                            font-size: 12px;
-                        }
-                        &::-moz-placeholder {
-                            color: #c0c0c0;
-                            font-size: 12px;
-                        }
-                        &:-ms-input-placeholde {
-                            color: #c0c0c0;
-                            font-size: 12px;
-                        }
-                    }
-                    &:first-of-type {
-                       border-bottom: 1px solid #333;
-                    }
-                    .selectList {
-                        width: 196px;
-                        min-height: 100px;
-                        position: absolute;
-                        background: #fff;
-                        top: 30px;
-                        box-shadow: 0 0 9px 0 rgba(0, 0, 0, 0.1);
-                        opacity: 0.9;
-                        border-radius: 2px;
-                        ul {
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: flex-start;
+                    flex-wrap: wrap;
+                    >li {
+                        height: 50px;
+                        height: 100%;
+                        margin: auto;
+                        margin-left: 0;
+//                      margin-right: 25px;
+                        text-align: center;
+                        padding: 0 10px;
+                        transition: all .5s;
+                        line-height: 50px;
+                        a {
+                            display: block;
                             width: 100%;
                             height: 100%;
-                            margin-top: 0;
-                            li {
+                            span {
+                                display: block;
                                 width: 100%;
-                                margin: auto;
-                                border-bottom: none;
-                                height: 25px;
-                                line-height: 25px;
-                                padding-left: 15px;
-                                font-size: 12px;
-                                cursor: pointer;
-                                &:hover {
-                                    color: #fff;
-                                    background: $hover-color;
+                                height: 100%;
+                            }
+                        }
+                        &.active,
+                        &:hover {
+                            box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.15);
+                            color: #bc8c61;
+                        }
+                        .nav-panel-dropdown {
+                            display: none;
+                            margin: 0;
+                            left: 0;
+                            top: 100%;
+                            padding: 10px 20px;
+                            width: 1200px;
+                            opacity: 0.9;
+                            background-color: #ffffff;
+                            color: #333333;
+                            box-shadow: 0 3px 10px rgba(0,0,0, 0.15);
+                            position: absolute;
+                            z-index: 2000;
+                            ul {
+                                display: flex;
+                                flex-direction: row;
+                                justify-content: flex-start;
+                                li {
+                                    margin: auto;
+                                    margin-left: 0;
+                                    &:hover {
+                                        color: #bc8c61;
+                                    }
                                 }
                             }
                         }
                     }
-                    &.shppingCart {
-                        .for_cart_num {
+                }
+                .header-search {
+                    margin: auto;
+                    >ul {
+                        display: flex;
+                        flex-direction: row;
+                        li {
+                            margin: 0 10px;
                             position: relative;
-                        }
-                        .shop_cart {
-                            position: relative;
-                            .shop_cart_num {
-                                display: block;
-                                width: 20px;
-                                height: 20px;
+                            input {
+                                text-indent: 15px;
+                                color: #333;
+                                &::-webkit-input-placeholder {
+                                    color: #c0c0c0;
+                                    font-size: 12px;
+                                }
+                                &:-moz-placeholder {
+                                    color: #c0c0c0;
+                                    font-size: 12px;
+                                }
+                                &::-moz-placeholder {
+                                    color: #c0c0c0;
+                                    font-size: 12px;
+                                }
+                                &:-ms-input-placeholde {
+                                    color: #c0c0c0;
+                                    font-size: 12px;
+                                }
+                            }
+                            &:first-of-type {
+                               border-bottom: 1px solid #333;
+                            }
+                            .selectList {
+                                width: 196px;
+                                min-height: 100px;
+                                max-height: 300px;
+                                overflow: auto;
                                 position: absolute;
-                                font-size: 12px;
-                                background: $hover-color;
-                                color: #fff;
-                                border-radius: 100%;
-                                text-align: center;
-                                line-height: 20px;
-                                top: -35px;
-                                right: -10px;
+                                background: #fff;
+                                top: 30px;
+                                box-shadow: 0 0 9px 0 rgba(0, 0, 0, 0.1);
+                                opacity: 0.9;
+                                border-radius: 2px;
+                                ul {
+                                    width: 100%;
+                                    height: 100%;
+                                    margin-top: 0;
+                                    li {
+                                        width: 100%;
+                                        margin: auto;
+                                        border-bottom: none;
+                                        height: 25px;
+                                        line-height: 25px;
+                                        padding: 0 15px;
+                                        font-size: 12px;
+                                        overflow: hidden;
+                                        white-space: nowrap;
+                                        text-overflow: ellipsis;
+                                        cursor: pointer;
+                                        &:hover {
+                                            color: #fff;
+                                            background: $hover-color;
+                                        }
+                                    }
+                                }
+                            }
+                            &.shppingCart {
+                                .for_cart_num {
+                                    position: relative;
+                                }
+                                .shop_cart {
+                                    position: relative;
+                                    .shop_cart_num {
+                                        display: block;
+                                        width: 20px;
+                                        height: 20px;
+                                        position: absolute;
+                                        font-size: 12px;
+                                        background: $hover-color;
+                                        color: #fff;
+                                        border-radius: 100%;
+                                        text-align: center;
+                                        line-height: 20px;
+                                        top: -35px;
+                                        right: -10px;
+                                    }
+                                }
                             }
                         }
                     }
@@ -1081,6 +1162,7 @@ footer {
         text-align: center;
         color: #999;
         font-size: 12px;
+        display: flex;
         .web_info {
             overflow: hidden;
             margin-top: 15px;
@@ -1091,7 +1173,7 @@ footer {
         }
         .friendship_link {
             overflow: hidden;
-            margin-top: 35px;
+//          margin-top: 35px;
             margin-bottom: 10px;
             li {
                 display: inline-block;
@@ -1110,28 +1192,13 @@ footer {
         ul {
             width: 100%;
             overflow: hidden;
+            display: flex;
+            flex-direction: row;
             li {
-                float: left;
                 height: 100%;
-                width: 290px;
                 margin-top: 30px;
                 margin-right: 13px;
-                &:last-of-type {
-                    margin-right: 0;
-                    img {
-                        margin-left: 90px;
-                    }
-                }
-                &:nth-of-type(3) {
-                    img {
-                        margin-left: 60px;
-                    }
-                }
-                &:nth-of-type(2) {
-                    img {
-                        margin-left: 30px;
-                    }
-                }
+                width: 25%;
                 img {
                     float: left;
                     margin-right: 15px;
@@ -1142,10 +1209,12 @@ footer {
                     &:first-of-type {
                         font-size: 18px;
                         font-weight: 500;
+                        display: table;
+                        margin-top: 15px;
                     }
-                    &:last-of-type {
-                        font-size: 13px;
-                    }
+                }
+                &:nth-of-type(2) {
+                    width: 30%;
                 }
             }
         }
@@ -1902,6 +1971,13 @@ footer {
     }
 }
 
+
+//美洽客服
+#MEIQIA-BTN-ICON {
+    background-image: url(../img/customer_mei.png) !important;
+    background-size: cover !important;
+    background-position: 0 0 !important;
+}
 
 @import "reset";
 @import "userCenter";

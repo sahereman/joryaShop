@@ -85,7 +85,7 @@ class CountryCodesController extends Controller
         $grid->country_name('国家名称');
 //        $grid->country_iso('国家iso标示');
         $grid->country_code('国际电话区号');
-        $grid->sort('排序')->sortable();
+        $grid->sort('排序值')->sortable();
 
         return $grid;
     }
@@ -104,7 +104,7 @@ class CountryCodesController extends Controller
         $show->country_name('国家名称');
 //        $show->country_iso('国家iso标示');
         $show->country_code('国际电话区号');
-        $show->sort('排序');
+        $show->sort('排序值');
 
         return $show;
     }
@@ -121,7 +121,7 @@ class CountryCodesController extends Controller
         $form->text('country_name', '国家名称');
 //        $form->text('country_iso', '国家iso标示');
         $form->text('country_code', '国际电话区号');
-        $form->number('sort', '排序');
+        $form->number('sort', '排序值');
 
         return $form;
     }

@@ -81,7 +81,7 @@ class BannersController extends Controller
         $grid->id('ID');
         $grid->image('Banner图')->image('', 120);
         $grid->type('类型')->sortable();
-        $grid->sort('排序')->sortable();
+        $grid->sort('排序值')->sortable();
         $grid->created_at('创建时间');
 
         return $grid;
@@ -99,7 +99,7 @@ class BannersController extends Controller
         $show->id('ID');
         $show->image('Banner图')->image('', 300);
         $show->type('类型');
-        $show->sort('排序');
+        $show->sort('排序值');
         $show->created_at('创建时间');
         $show->updated_at('更新时间');
 
@@ -118,15 +118,15 @@ class BannersController extends Controller
             'index' => 'PC站首页',
             'mobile' => 'Mobile站首页'
         ])->rules('required');
+
         $form->image('image', 'Banner图')->rules('required|image')->help('PC首页尺寸:1920 * 780 , Mobile首页尺寸:960 * 390');
 
-        $form->number('sort', '排序');
+        $form->number('sort', '排序值');
 
         //保存前回调
         $form->saving(function (Form $form) {
 
-            switch ($form->input('type'))
-            {
+            switch ($form->input('type')) {
                 case 'index' :
                     $form->builder()->field('image')->resize(1920, 780)->uniqueName()->move('banner');
                     break;

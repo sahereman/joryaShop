@@ -1,5 +1,5 @@
 @extends('layouts.mobile')
-@section('title', App::isLocale('en') ? 'switch language' : '切换语言')
+@section('title', App::isLocale('zh-CN') ? '切换语言' : 'switch language')
 @section('content')
     <div class="headerBar">
         @if(!is_wechat_browser())
@@ -8,16 +8,16 @@
         @endif
     </div>
     <div class="langBox">
-        <div class="langItem">
-            <div class="langLeft">
-                <img src="{{ asset('static_m/img/chinese.png') }}"/>
-                <span>中文</span>
-            </div>
-            <div class="langRight">
-                <input type="radio" name="lang" data-url="{{route('locale.update','zh-CN')}}" id="" value="1"/>
-                <span></span>
-            </div>
-        </div>
+        {{--<div class="langItem">--}}
+            {{--<div class="langLeft">--}}
+                {{--<img src="{{ asset('static_m/img/chinese.png') }}"/>--}}
+                {{--<span>中文</span>--}}
+            {{--</div>--}}
+            {{--<div class="langRight">--}}
+                {{--<input type="radio" name="lang" data-url="{{route('locale.update','zh-CN')}}" id="" value="1"/>--}}
+                {{--<span></span>--}}
+            {{--</div>--}}
+        {{--</div>--}}
         <div class="langItem">
             <div class="langLeft">
                 <img src="{{ asset('static_m/img/English.png') }}"/>
@@ -33,7 +33,7 @@
 
 @section('scriptsAfterJs')
     <script type="text/javascript">
-        //页面单独JS写这里
+        // 页面单独JS写这里
         $(function () {
             $("input").on("click", function () {
                 $.ajax({

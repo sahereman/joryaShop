@@ -15,7 +15,8 @@ class SetGlobalLocale
      */
     public function handle($request, Closure $next)
     {
-        $defaultLocale = 'zh-CN';
+        // $defaultLocale = 'zh-CN';
+        $defaultLocale = 'en';
 
         if (!$request->session()->has('GlobalLocale'))
         {

@@ -1,10 +1,12 @@
 <?php
 
+use App\Models\ExchangeRate;
 use GuzzleHttp\Client as GuzzleHttpClient;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Psr7;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use Overtrue\EasySms\EasySms;
 use Overtrue\EasySms\PhoneNumber;
@@ -311,6 +313,7 @@ function get_order_traces_by_json()
     $ebusiness_id = '';
     $api_key = '';
     $request_url = '';
+    // 测试数据
     $request_data = "{'OrderCode':'','ShipperCode':'YTO','LogisticCode':'12345678'}";
 
     $data = array(
@@ -328,7 +331,7 @@ function get_order_traces_by_json()
 }
 
 /**
- *  post提交数据
+ * post提交数据
  * @param  string $request_url 请求Url
  * @param  array $request_data 提交的数据
  * @return string url响应返回的html
@@ -411,4 +414,69 @@ function array_unshift_assoc(array &$array_assoc, string $key, $value)
     $array_assoc = array_reverse($array_assoc, true);
     $array_assoc[$key] = $value;
     return array_reverse($array_assoc, true);
+}
+
+/**
+ * Set global currency.
+ * @param string $currency eg. 'USD', 'CNY', etc ...
+ * @return string
+ */
+function set_global_currency(string $currency = 'USD')
+{
+    // $currencies = ExchangeRate::exchangeRates()->pluck('currency')->all();
+    $currencies = ExchangeRate::exchangeRates()->pluck('currency')->toArray();
+    $currency = in_array($currency, $currencies) ? $currency : 'USD';
+    Session::put('GlobalCurrency', $currency);
+}
+
+/**
+ * Get global currency.
+ * @return string
+ */
+function get_global_currency()
+{
+    return Session::get('GlobalCurrency', 'USD');
+}
+
+/**
+ * Get global symbol.
+ * @return string
+ */
+function get_global_symbol()
+{
+    $global_currency = get_global_currency();
+    return key_exists($global_currency, ExchangeRate::$symbolMap) ? ExchangeRate::$symbolMap[$global_currency] : '&#36;';
+}
+
+/**
+ * Exchange price from one currency to another.
+ * @param string $price_in_usd
+ * @param string $to_currency
+ * @param string $from_currency
+ * @return string
+ */
+function exchange_price($price_in_usd, string $to_currency = 'CNY', string $from_currency = 'USD')
+{
+    return ExchangeRate::exchangePrice($price_in_usd, $to_currency, $from_currency);
+}
+
+/**
+ * Get current price.
+ * @param string $price_in_usd
+ * @return string
+ */
+function get_current_price($price_in_usd)
+{
+    $global_currency = get_global_currency();
+    return exchange_price($price_in_usd, $global_currency);
+}
+
+/**
+ * Get symbol by currency.
+ * @param string $currency
+ * @return string
+ */
+function get_symbol_by_currency(string $currency = 'USD')
+{
+    return key_exists($currency, ExchangeRate::$symbolMap) ? ExchangeRate::$symbolMap[$currency] : '&#36;';
 }

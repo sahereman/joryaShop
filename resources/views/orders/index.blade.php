@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', (App::isLocale('en') ? 'Personal Center - My Orders' : '个人中心 - 我的订单') . ' - ' . \App\Models\Config::config('title'))
+@section('title', (App::isLocale('zh-CN') ? '个人中心 - 我的订单' : 'Personal Center - My Orders') . ' - ' . \App\Models\Config::config('title'))
 @section('content')
     <div class="User_center my_orders">
         <div class="m-wrapper">
@@ -109,24 +109,27 @@
                                             </td>
                                             <td class="col-pro-info">
                                                 <p class="p-info">
-                                                    <a code="{{ $order_item['sku']['id'] }}"
-                                                       href="{{ route('products.show', $order_item['sku']['product']['id']) }}">{{ App::isLocale('en') ? $order_item['sku']['product']['name_en'] : $order_item['sku']['product']['name_zh'] }}</a>
+                                                    <a code="{{ $order_item['sku']['id'] }}" href="{{ route('products.show', $order_item['sku']['product']['id']) }}">
+                                                        {{ App::isLocale('zh-CN') ? $order_item['sku']['product']['name_zh'] : $order_item['sku']['product']['name_en'] }}
+                                                    </a>
                                                 </p>
                                             </td>
                                             <td class="col-price">
                                                 <p class="p-price">
-                                                    @if($order->currency === 'CNY')
+                                                    {{--@if($order->currency === 'CNY')
                                                         <em>&#165; </em>
                                                     @else
                                                         <em>&#36; </em>
-                                                    @endif
+                                                    @endif--}}
+                                                    <em>{{  get_symbol_by_currency($order->currency) }} </em>
                                                     <span>{{ $order_item['price'] }}</span>
                                                 </p>
                                             </td>
                                             <td class="col-quty">{{ $order_item['number'] }}</td>
                                             <td rowspan="{{ count($order->snapshot) }}" class="col-pay">
                                                 <p>
-                                                    <em>{{ $order->currency == 'USD' ? '&#36;' : '&#165;' }}</em>
+                                                    {{--<em>{{ $order->currency == 'USD' ? '&#36;' : '&#165;' }}</em>--}}
+                                                    <em>{{ get_symbol_by_currency($order->currency) }} </em>
                                                     <span>{{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}</span>
                                                     <br>
                                                     <span>(@lang('order.Postage included'))</span>
@@ -227,17 +230,18 @@
                                                 <p class="p-info">
                                                     <a code="{{ $order_item['sku']['id'] }}"
                                                        href="{{ route('products.show', $order_item['sku']['product']['id']) }}">
-                                                        {{ App::isLocale('en') ? $order_item['sku']['product']['name_en'] : $order_item['sku']['product']['name_zh'] }}
+                                                        {{ App::isLocale('zh-CN') ? $order_item['sku']['product']['name_zh'] : $order_item['sku']['product']['name_en'] }}
                                                     </a>
                                                 </p>
                                             </td>
                                             <td class="col-price">
                                                 <p class="p-price">
-                                                    @if($order->currency === 'CNY')
+                                                    {{--@if($order->currency === 'CNY')
                                                         <em>&#165; </em>
                                                     @else
                                                         <em>&#36; </em>
-                                                    @endif
+                                                    @endif--}}
+                                                    <em>{{  get_symbol_by_currency($order->currency) }} </em>
                                                     <span>{{ $order_item['price'] }}</span>
                                                 </p>
                                             </td>
@@ -271,11 +275,14 @@
                                     <div class="collection_shop_img">
                                         <img class="lazy" data-src="{{ $guess->thumb_url }}">
                                     </div>
-                                    <p class="commodity_title"
-                                       title="{{ App::isLocale('en') ? $guess->name_en : $guess->name_zh }}">{{ App::isLocale('en') ? $guess->name_en : $guess->name_zh }}</p>
+                                    <p class="commodity_title" title="{{ App::isLocale('zh-CN') ? $guess->name_zh : $guess->name_en }}">
+                                        {{ App::isLocale('zh-CN') ? $guess->name_zh : $guess->name_en }}
+                                    </p>
                                     <p class="collection_price">
-                                        <span class="new_price">{{ App::isLocale('en') ? '&#36;' : '&#165;' }} {{ App::isLocale('en') ? $guess->price_in_usd : $guess->price }}</span>
-                                        <span class="old_price">{{ App::isLocale('en') ? '&#36;' : '&#165;' }} {{ App::isLocale('en') ? bcmul($guess->price_in_usd, 1.2, 2) : bcmul($guess->price, 1.2, 2) }}</span>
+                                        {{--<span class="new_price">{{ App::isLocale('en') ? '&#36;' : '&#165;' }} {{ App::isLocale('en') ? $guess->price_in_usd : $guess->price }}</span>--}}
+                                        {{--<span class="old_price">{{ App::isLocale('en') ? '&#36;' : '&#165;' }} {{ App::isLocale('en') ? bcmul($guess->price_in_usd, 1.2, 2) : bcmul($guess->price, 1.2, 2) }}</span>--}}
+                                        <span class="new_price">{{ get_global_symbol() }} {{ get_current_price($guess->price) }}</span>
+                                        <span class="old_price">{{ get_global_symbol() }} {{ bcmul(get_current_price($guess->price), 1.2, 2) }}</span>
                                     </p>
                                     <a class="add_to_cart"
                                        href="{{ route('products.show', $guess->id) }}">@lang('app.see details')</a>

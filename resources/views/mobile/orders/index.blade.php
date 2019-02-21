@@ -1,5 +1,5 @@
 @extends('layouts.mobile')
-@section('title', (App::isLocale('en') ? 'My Orders' : '我的订单') . ' - ' . \App\Models\Config::config('title'))
+@section('title', (App::isLocale('zh-CN') ? '我的订单' : 'My Orders') . ' - ' . \App\Models\Config::config('title'))
 @section('content')
     <div class="orderBox">
         <div class="orderHeadTop">
@@ -23,7 +23,7 @@
                      data-url="{{ route('mobile.orders.more') . '?status=' . \App\Models\Order::ORDER_STATUS_REFUNDING }}">@lang('basic.orders.After-sale order')</div>
             </div>
         </div>
-        <div class="orderMain" code="{{ App::isLocale('en') ? 'en' : 'zh' }}">
+        <div class="orderMain" code="{{ App::isLocale('zh-CN') ? 'zh' : 'en' }}">
             <!--暂无订单部分-->
             <div class="no_order dis_n">
                 <img src="{{ asset('static_m/img/no_order.png') }}">
@@ -39,7 +39,7 @@
 @section('scriptsAfterJs')
     <script type="text/javascript" src="{{ asset('static_m/js/dropload/dropload.min.js') }}"></script>
     <script type="text/javascript">
-        //页面单独JS写这里
+        // 页面单独JS写这里
         $(".orderHead div").on("click", function (e) {
             $(".orderHead div").removeClass("orderActive");
             $(this).addClass("orderActive");
@@ -52,7 +52,7 @@
         /*$(".orderItemDetail").on("click", function () {
          window.location.href = $(this).attr('data-url');
          });*/
-        //获取url参数
+        // 获取url参数
         var action = "";
         function getUrlVars() {
             var vars = [], hash;
@@ -69,25 +69,25 @@
                 action = getUrlVars();
             }
             switch (action) {
-                case "paying":   //待付款
+                case "paying": // 待付款
                     $(".orderHead .pending_payment").trigger("click");
                     break;
-                case "receiving":   //待收货
+                case "receiving": // 待收货
                     $(".orderHead .pending_reception").trigger("click");
                     break;
-                case "uncommented":   //待评价
+                case "uncommented": // 待评价
                     $(".orderHead .Pending_comment").trigger("click");
                     break;
-                case "refunding":   //售后订单
+                case "refunding": // 售后订单
                     $(".orderHead .After_sale_order").trigger("click");
                     break;
-                default :   //所有订单
+                default : // 所有订单
                     $(".orderHead .index").trigger("click");
                     // getResults();
                     break;
             }
         };
-        //获取订单列表列表
+        // 获取订单列表列表
         function getResults() {
             // 页数
             var page = 1;
@@ -117,13 +117,15 @@
                         success: function (data) {
                             var orders = data.data.orders.data;
                             var html = "";
-                            var name, sum, symbol, price, sku_name, total_price, total_price1, total_price2;
+                            // var name, sum, symbol, price, sku_name, total_price, total_price1, total_price2;
+                            var name, sum, symbol, price, sku_parameters, total_price, total_price1, total_price2;
                             if (orders.length > 0) {
                                 $(".no_order").addClass("dis_n");
                                 $(".orderMain .lists").removeClass("dis_n");
                                 $.each(orders, function (n, order) {
                                     sum = ($(".orderMain").attr("code") == "en") ? "Sum" : "实付款";
-                                    symbol = (order.currency == "USD") ? '&#36;' : '&#165;';
+                                    // symbol = (order.currency == "USD") ? '&#36;' : '&#165;';
+                                    symbol = get_symbol_by_currency(order.currency);
                                     html += "<div class='orderItem'>";
                                     html += "<div class='orderItemH'>";
                                     html += "<span class='order_info' code='" + order.id + "'>@lang('basic.users.Order_number')： " + order.order_sn + "</span>";
@@ -157,8 +159,10 @@
                                     if (order.snapshot.length > 0) {
                                         $.each(order.snapshot, function (i, order_item) {
                                             name = ($(".orderMain").attr("code") == "en") ? order_item.sku.product.name_en : order_item.sku.product.name_zh;
-                                            sku_name = ($(".orderMain").attr("code") == "en") ? order_item.sku.name_en : order_item.sku.name_zh;
-                                            price = (order.currency == "CNY") ? order_item.sku.product.price : order_item.sku.product.price_in_usd;
+                                            // sku_name = ($(".orderMain").attr("code") == "en") ? order_item.sku.name_en : order_item.sku.name_zh;
+                                            sku_parameters = ($(".orderMain").attr("code") == "en") ? order_item.sku.parameters_en : order_item.sku.parameters_zh;
+                                            // price = (order.currency == "CNY") ? order_item.sku.product.price : order_item.sku.product.price_in_usd;
+                                            price = order_item.sku.price;
                                             total_price1 = float_multiply_by_100(order.total_amount) + float_multiply_by_100(order.total_shipping_fee);
                                             total_price = js_number_format(total_price1 / 100);
                                             html += "<div class='orderItemDetail_item'>";
@@ -168,7 +172,8 @@
                                             html += "<div class='orderDal' code='" + order.id + "'>";
                                             html += "<div class='orderIntroduce'>";
                                             html += "<div class='goodsName'>" + name + "</div>";
-                                            html += "<div class='goodsSku'>" + sku_name + "</div>";
+                                            // html += "<div class='goodsSku'>" + sku_name + "</div>";
+                                            html += "<div class='goodsSku'>" + sku_parameters + "</div>";
                                             html += "</div>";
                                             html += "<div class='orderPrice'>";
                                             html += "<div>" + price + "</div>";
@@ -185,9 +190,9 @@
                                      html += "<span>共" + order.snapshot.length + "件商品</span>";
                                      } else {
                                      if (order.snapshot.length == 1) {
-                                     html += "<span>" + order.snapshot.length + " commodity @lang('basic.orders.in total')</span>";
+                                     html += "<span>" + order.snapshot.length + " commodity {{--@lang('basic.orders.in total')--}}</span>";
                                      } else {
-                                     html += "<span>" + order.snapshot.length + " commodities @lang('basic.orders.in total')</span>";
+                                     html += "<span>" + order.snapshot.length + " commodities {{--@lang('basic.orders.in total')--}}</span>";
                                      }
                                      }*/
 
@@ -265,23 +270,23 @@
                 }
             });
         }
-        //点击查看订单详情
+        // 点击查看订单详情
         $(".orderMain .lists").on("click", ".order_info", function () {
             window.location.href = "{{ config('app.url') }}" + "/mobile/orders/" + $(this).attr("code");
         });
-        //点击查看订单详情
+        // 点击查看订单详情
         $(".orderMain .lists").on("click", ".product_info", function () {
             window.location.href = "{{ config('app.url') }}" + "/mobile/orders/" + $(this).attr("code");
         });
-        //点击查看订单详情
+        // 点击查看订单详情
         $(".orderMain .lists").on("click", ".orderDal", function () {
             window.location.href = "{{ config('app.url') }}" + "/mobile/orders/" + $(this).attr("code");
         });
-        //付款按钮
+        // 付款按钮
         $(".orderMain .lists").on("click", ".payment", function () {
             window.location.href = "{{ config('app.url') }}" + "/mobile/orders/" + $(this).attr("code") + "/payment_method";
         });
-        //取消订单
+        // 取消订单
         $(".orderMain .lists").on("click", ".cancel", function () {
             var clickDom = $(this);
             layer.open({
@@ -303,7 +308,7 @@
                             layer.open({
                                 content: "@lang('order.Order cancelled successfully')",
                                 skin: 'msg',
-                                time: 2, //2秒后自动关闭
+                                time: 2, // 2秒后自动关闭
                             });
                         },
                         error: function (err) {
@@ -312,7 +317,7 @@
                                 layer.open({
                                     content: "@lang('app.Unable to complete operation')",
                                     skin: 'msg',
-                                    time: 2, //2秒后自动关闭
+                                    time: 2, // 2秒后自动关闭
                                 });
                             }
                         },
@@ -321,7 +326,7 @@
                 }
             });
         });
-        //删除按钮
+        // 删除按钮
         $(".orderMain .lists").on("click", ".Delete", function () {
             var clickDom = $(this);
             layer.open({
@@ -342,7 +347,7 @@
                             layer.open({
                                 content: "@lang('order.Order deleted successfully')",
                                 skin: 'msg',
-                                time: 2, //2秒后自动关闭
+                                time: 2, // 2秒后自动关闭
                             });
                             window.location.reload();
                         },
@@ -352,7 +357,7 @@
                                 layer.open({
                                     content: "@lang('app.Unable to complete operation')",
                                     skin: 'msg',
-                                    time: 2, //2秒后自动关闭
+                                    time: 2, // 2秒后自动关闭
                                 });
                             }
                         },
@@ -361,23 +366,23 @@
                 }
             });
         });
-        //提醒发货  Remind_shipments
+        // 提醒发货  Remind_shipments
         $(".orderMain .lists").on("click", ".Remind_shipments", function () {
             layer.open({
                 content: "@lang('basic.orders.The seller has been reminded to ship the goods, please wait for good news')",
                 skin: 'msg',
-                time: 2, //2秒后自动关闭
+                time: 2, // 2秒后自动关闭
             });
         });
-        //申请退款
+        // 申请退款
         $(".orderMain .lists").on("click", ".refund", function () {
             window.location.href = "{{ config('app.url') }}" + "/mobile/orders/" + $(this).attr("code") + "/refund";
         });
-        //申请退款并退货
+        // 申请退款并退货
         $(".orderMain .lists").on("click", ".refund_with_ship", function () {
             window.location.href = "{{ config('app.url') }}" + "/mobile/orders/" + $(this).attr("code") + "/refund_with_shipment";
         });
-        //确认收货
+        // 确认收货
         $(".orderMain .lists").on("click", ".Confirm_reception", function () {
             var clickDom = $(this);
             layer.open({
@@ -398,7 +403,7 @@
                             layer.open({
                                 content: "@lang('order.Confirm receipt success')",
                                 skin: 'msg',
-                                time: 2, //2秒后自动关闭
+                                time: 2, // 2秒后自动关闭
                             });
                         },
                         error: function (err) {
@@ -406,7 +411,7 @@
                                 layer.open({
                                     content: "@lang('app.Unable to complete operation')",
                                     skin: 'msg',
-                                    time: 2, //2秒后自动关闭
+                                    time: 2, // 2秒后自动关闭
                                 });
                             }
                         }
@@ -415,30 +420,30 @@
                 }
             });
         });
-        //查看物流信息 shipment_details
+        // 查看物流信息 shipment_details
         $(".orderMain .lists").on("click", ".shipment_details", function () {
             window.location.href = "{{ config('app.url') }}" + "/mobile/orders/" + $(this).attr("code") + "/show_shipment";
         });
-        //去评价   To_comment
+        // 去评价   To_comment
         $(".orderMain .lists").on("click", ".To_comment", function () {
             window.location.href = "{{ config('app.url') }}" + "/mobile/orders/" + $(this).attr("code") + "/create_comment";
         });
-        //查看评价 View_comments
+        // 查看评价 View_comments
         $(".orderMain .lists").on("click", ".View_comments", function () {
             window.location.href = "{{ config('app.url') }}" + "/mobile/orders/" + $(this).attr("code") + "/show_comment";
         });
-        //查看仅退款售后状态 after_sales_status
+        // 查看仅退款售后状态 after_sales_status
         $(".orderMain .lists").on("click", ".after_sales_status", function () {
             window.location.href = "{{ config('app.url') }}" + "/mobile/orders/" + $(this).attr("code") + "/refund";
         });
-        //查看退款并退货售后状态 after_sales_status
+        // 查看退款并退货售后状态 after_sales_status
         $(".orderMain .lists").on("click", ".after_sales_status_ship", function () {
             window.location.href = "{{ config('app.url') }}" + "/mobile/orders/" + $(this).attr("code") + "/refund_with_shipment";
         });
-        //撤销售后申请
+        // 撤销售后申请
         $(".orderMain .lists").on("click", ".Revoke_refund", function () {
             var clickDom = $(this);
-            // window.location.href = "{{ config('app.url') }}" + "/mobile/orders/" + $(this).attr("code") + "/revoke_refund";
+            // window.location.href = "{{--{{ config('app.url') }}--}}" + "/mobile/orders/" + $(this).attr("code") + "/revoke_refund";
             layer.open({
                 content: "@lang('order.Make sure to apply after withdrawing sales')",
                 btn: ["@lang('app.determine')", "@lang('app.cancel')"],
@@ -457,7 +462,7 @@
                             layer.open({
                                 content: "@lang('order.Cancel the application successfully')",
                                 skin: 'msg',
-                                time: 2, //2秒后自动关闭
+                                time: 2, // 2秒后自动关闭
                             });
                         },
                         error: function (err) {
@@ -466,7 +471,7 @@
                                 layer.open({
                                     content: "@lang('app.Unable to complete operation')",
                                     skin: 'msg',
-                                    time: 2, //2秒后自动关闭
+                                    time: 2, // 2秒后自动关闭
                                 });
                             }
                         },
@@ -476,7 +481,7 @@
             });
         });
 
-        //数字转换
+        // 数字转换
         function float_multiply_by_100(float) {
             float = String(float);
             // float = float.toString();

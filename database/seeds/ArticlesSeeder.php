@@ -27,6 +27,11 @@ class ArticlesSeeder extends Seeder
             ['售后咨询', 'refunding_consultancy'],
             ['退货政策', 'refunding_policy'],
             ['退货办理', 'refunding_procedure'],
+            // PC: Right-Top 4 tabs
+            ['Stock Order', 'stock_order'],
+            ['Custom Order', 'custom_order'],
+            ['Duplicate', 'duplicate'],
+            ['Repair', 'repair'],
         ];
 
         foreach ($slug_arr as $item)

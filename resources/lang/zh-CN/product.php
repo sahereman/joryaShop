@@ -59,6 +59,9 @@ return [
         'sales' => '销量',
         'stock' => '库存',
         'classification' => '分类',
+        'base_size' => '尺寸',
+        'hair_colour' => '颜色',
+        'hair_density' => '密度',
         'Quantity' => '数量',
         'Buy now' => '立即购买',
         'Collection' => '收藏',
@@ -79,6 +82,7 @@ return [
         'Pull up load more' => '上拉加载更多',
         'Loading in' => '加载中',
         'over the end' => '已经到底了',
+        'customer' => '客服'
     ],
     'Categories' => '商品分类',
     'All' => '全部',

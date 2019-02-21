@@ -1,5 +1,5 @@
 @extends('layouts.mobile')
-@section('title', App::isLocale('en') ? 'Sign in' : '登录')
+@section('title', App::isLocale('zh-CN') ? '登录' : 'Sign in')
 @section('content')
     <div class="logMain">
         <div class="logoImgBox">
@@ -35,7 +35,7 @@
             <a href="{{ route('mobile.reset.sms.show') }}">@lang('app.forget password')></a>
         </div>
         <!--<div class="downBox">
-            ——— @lang('app.Jorya Limited') ———
+            ——— @lang('app.Lyrical Limited') ———
         </div>-->
     </div>
 @endsection

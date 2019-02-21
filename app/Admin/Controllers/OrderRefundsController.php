@@ -285,7 +285,7 @@ class OrderRefundsController extends Controller
                 'out_refund_no' => $order->refund->refund_sn, // 退款订单流水号
                 'total_fee' => bcmul(bcadd($order->total_amount, $order->total_shipping_fee, 2), 100, 0), // 订单金额，单位分，只能为整数
                 'refund_fee' => bcmul(bcadd($order->total_amount, $order->total_shipping_fee, 2), 100, 0), // 退款金额，单位分，只能为整数
-                'refund_desc' => '这是来自 Jorya Hair 的退款订单' . $order->refund->refund_sn,
+                'refund_desc' => '这是来自 Lyrical Hair 的退款订单' . $order->refund->refund_sn,
             ]);
 
 

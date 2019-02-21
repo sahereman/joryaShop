@@ -5,22 +5,18 @@
             <ul>
                 <li>
                     <img src="{{ asset('img/thumb.png') }}">
-                    <p>365正品承诺</p>
                     <p>Genuine purchasing</p>
                 </li>
                 <li>
                     <img src="{{ asset('img/refund.png') }}">
-                    <p>7天无理由退款</p>
                     <p>7 days no reason to refund</p>
                 </li>
                 <li>
                     <img src="{{ asset('img/postage.png') }}">
-                    <p>满88元免邮费</p>
                     <p>Free postage </p>
                 </li>
                 <li>
                     <img src="{{ asset('img/great_service.png') }}">
-                    <p>金牌服务</p>
                     <p>Great service</p>
                 </li>
             </ul>
@@ -77,7 +73,7 @@
     </div>
     <div class="footer-bottom">
         <div class="m-wrapper">
-            <ul class="web_info">
+            {{--<ul class="web_info">
                 <li>
                     <p>
                         营业执照注册号：{{ \App\Models\Config::config('registration_no') }}
@@ -93,7 +89,7 @@
                         鲁公网备案 {{ \App\Models\Config::config('icp_no') }} 号
                     </p>
                 </li>
-            </ul>
+            </ul>--}}
             <ul class="friendship_link">
                 <li>
                     <p>@lang('app.Friendship link')：</p>
@@ -104,7 +100,7 @@
                     </li>
                 @endfor
             </ul>
-            <p>Copyright 2018 @lang('app.Joryashop All rights reserved')</p>
+            <p>Copyright 2018 @lang('app.Lyricalshop All rights reserved')</p>
         </div>
     </div>
 </footer>
@@ -120,7 +116,7 @@
                     <li class="row">
                         <!--<div class="share-component " data-disabled="qzone, tencent, douban, diandian, google, linkedin"></div>-->
                         <div class="social-share" data-initialized="true" data-url="{{ config('app.url') }}"
-                             data-title="Jorya卓雅美业">
+                             data-title="Lyrical莱瑞美业">
                             <a href="javascript:void(0);" class="social-share-icon icon-weibo"></a>
                             <a href="javascript:void(0);" class="social-share-icon icon-wechat"></a>
                             <a href="javascript:void(0);" class="social-share-icon icon-qq"></a>
@@ -140,9 +136,9 @@
             </a>
             <div class="customer_info">
                 <p>@lang('app.please login first')</p>
-                <a>@lang('app.Contact Customer Service')</a>
+                <a class="CustomerClickBtn">@lang('app.Contact Customer Service')</a>
                 <p>@lang('app.Customer Service Phone')：{{ \App\Models\Config::config('service_phone') }}</p>
-                <p>早9:00-晚21:00</p>
+                <p>9:00-21:00</p>
             </div>
         </li>
         <li class="show_qr">

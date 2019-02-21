@@ -26,6 +26,7 @@ use App\Models\User;
 use App\Models\UserAddress;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\URL;
@@ -133,9 +134,9 @@ class OrdersController extends Controller
     {
         $user = $request->user();
         $total_amount = 0;
-        $total_amount_en = 0;
+        // $total_amount_en = 0;
         $total_shipping_fee = 0;
-        $total_shipping_fee_en = 0;
+        // $total_shipping_fee_en = 0;
         $items = [];
         $is_nil = true;
         if ($request->has('sku_id') && $request->has('number')) {
@@ -146,13 +147,13 @@ class OrdersController extends Controller
             $items[0]['product'] = $product;
             $items[0]['number'] = $number;
             $items[0]['amount'] = bcmul($sku->price, $number, 2);
-            $items[0]['amount_en'] = bcmul($sku->price_in_usd, $number, 2);
+            // $items[0]['amount_en'] = bcmul($sku->price_in_usd, $number, 2);
             $items[0]['shipping_fee'] = bcmul($product->shipping_fee, $number, 2);
-            $items[0]['shipping_fee_en'] = bcmul($product->shipping_fee_in_usd, $number, 2);
+            // $items[0]['shipping_fee_en'] = bcmul($product->shipping_fee_in_usd, $number, 2);
             $total_amount = bcmul($sku->price, $number, 2);
-            $total_amount_en = bcmul($sku->price_in_usd, $number, 2);
+            // $total_amount_en = bcmul($sku->price_in_usd, $number, 2);
             $total_shipping_fee = bcmul($product->shipping_fee, $number, 2);
-            $total_shipping_fee_en = bcmul($product->shipping_fee_in_usd, $number, 2);
+            // $total_shipping_fee_en = bcmul($product->shipping_fee_in_usd, $number, 2);
             $is_nil = false;
         } elseif ($request->has('cart_ids')) {
             $cart_ids = explode(',', $request->query('cart_ids', ''));
@@ -167,25 +168,25 @@ class OrdersController extends Controller
                 if ($number > $sku->stock) {
                     throw new InvalidRequestException(trans('basic.orders.Insufficient_sku_stock'));
                 }
-                $sku->price_in_usd = ExchangeRate::exchangePrice($sku->price, 'USD');
+                // $sku->price_in_usd = ExchangeRate::exchangePrice($sku->price, 'USD');
                 $product = $sku->product;
-                $product->shipping_fee_in_usd = ExchangeRate::exchangePrice($product->shipping_fee, 'USD');
+                // $product->shipping_fee_in_usd = ExchangeRate::exchangePrice($product->shipping_fee, 'USD');
                 $items[$key]['sku'] = $sku;
                 $items[$key]['product'] = $product;
                 $items[$key]['number'] = $number;
                 $items[$key]['amount'] = bcmul($sku->price, $number, 2);
-                $items[$key]['amount_en'] = bcmul($sku->price_in_usd, $number, 2);
+                // $items[$key]['amount_en'] = bcmul($sku->price_in_usd, $number, 2);
                 $items[$key]['shipping_fee'] = bcmul($product->shipping_fee, $number, 2);
-                $items[$key]['shipping_fee_en'] = bcmul($product->shipping_fee_in_usd, $number, 2);
+                // $items[$key]['shipping_fee_en'] = bcmul($product->shipping_fee_in_usd, $number, 2);
                 $total_amount += bcmul($sku->price, $number, 2);
-                $total_amount_en += bcmul($sku->price_in_usd, $number, 2);
+                // $total_amount_en += bcmul($sku->price_in_usd, $number, 2);
                 $total_shipping_fee += bcmul($product->shipping_fee, $number, 2);
-                $total_shipping_fee_en += bcmul($product->shipping_fee_in_usd, $number, 2);
+                // $total_shipping_fee_en += bcmul($product->shipping_fee_in_usd, $number, 2);
                 $is_nil = false;
             }
         }
         $total_fee = bcadd($total_amount, $total_shipping_fee, 2);
-        $total_fee_en = bcadd($total_amount_en, $total_shipping_fee_en, 2);
+        // $total_fee_en = bcadd($total_amount_en, $total_shipping_fee_en, 2);
 
         if ($is_nil) {
             return redirect()->back();
@@ -210,11 +211,76 @@ class OrdersController extends Controller
             'items' => $items,
             'address' => $address,
             'total_amount' => $total_amount,
-            'total_amount_en' => $total_amount_en,
+            // 'total_amount_en' => $total_amount_en,
             'total_shipping_fee' => $total_shipping_fee,
-            'total_shipping_fee_en' => $total_shipping_fee_en,
+            // 'total_shipping_fee_en' => $total_shipping_fee_en,
             'total_fee' => $total_fee,
-            'total_fee_en' => $total_fee_en,
+            // 'total_fee_en' => $total_fee_en,
+        ]);
+    }
+
+    // GET 选择地址+币种页面
+    public function prePaymentBySkuParameters(PostOrderRequest $request)
+    {
+        // $user = $request->user();
+        $items = [];
+
+        $base_size = $request->query('base_size');
+        $hair_colour = $request->query('hair_colour');
+        $hair_density = $request->query('hair_density');
+        $product = Product::find($request->query('product_id'));
+        $skus = $product->skus();
+        if (App::isLocale('zh-CN')) {
+            $skus = $product->is_base_size_optional ? $skus->where('base_size_zh', $base_size) : $skus;
+            $skus = $product->is_hair_colour_optional ? $skus->where('hair_colour_zh', $hair_colour) : $skus;
+            $skus = $product->is_hair_density_optional ? $skus->where('hair_density_zh', $hair_density) : $skus;
+        } else {
+            $skus = $product->is_base_size_optional ? $skus->where('base_size_en', $base_size) : $skus;
+            $skus = $product->is_hair_colour_optional ? $skus->where('hair_colour_en', $hair_colour) : $skus;
+            $skus = $product->is_hair_density_optional ? $skus->where('hair_density_en', $hair_density) : $skus;
+        }
+        $sku = $skus->first();
+
+        $number = $request->query('number');
+        $items[0]['sku'] = $sku;
+        $items[0]['product'] = $product;
+        $items[0]['number'] = $number;
+        $items[0]['amount'] = bcmul($sku->price, $number, 2);
+        // $items[0]['amount_en'] = bcmul($sku->price_in_usd, $number, 2);
+        $items[0]['shipping_fee'] = bcmul($product->shipping_fee, $number, 2);
+        // $items[0]['shipping_fee_en'] = bcmul($product->shipping_fee_in_usd, $number, 2);
+        $total_amount = bcmul($sku->price, $number, 2);
+        // $total_amount_en = bcmul($sku->price_in_usd, $number, 2);
+        $total_shipping_fee = bcmul($product->shipping_fee, $number, 2);
+        // $total_shipping_fee_en = bcmul($product->shipping_fee_in_usd, $number, 2);
+
+        $total_fee = bcadd($total_amount, $total_shipping_fee, 2);
+        // $total_fee_en = bcadd($total_amount_en, $total_shipping_fee_en, 2);
+
+        $address = false;
+        $userAddress = UserAddress::where('user_id', $request->user()->id);
+        // $userAddress = $request->user()->addresses();
+        if ($userAddress->where('is_default', 1)->exists()) {
+            // 默认地址
+            $address = $userAddress->where('is_default', 1)
+                ->first();
+        } elseif ($userAddress->exists()) {
+            // 上次使用地址
+            $address = $userAddress->latest('last_used_at')
+                ->latest('updated_at')
+                ->latest()
+                ->first();
+        }
+
+        return view('orders.pre_payment', [
+            'items' => $items,
+            'address' => $address,
+            'total_amount' => $total_amount,
+            // 'total_amount_en' => $total_amount_en,
+            'total_shipping_fee' => $total_shipping_fee,
+            // 'total_shipping_fee_en' => $total_shipping_fee_en,
+            'total_fee' => $total_fee,
+            // 'total_fee_en' => $total_fee_en,
         ]);
     }
 
@@ -222,7 +288,7 @@ class OrdersController extends Controller
     public function store(PostOrderRequest $request)
     {
         $user = $request->user();
-        $currency = $request->has('currency') ? $request->input('currency') : 'CNY';
+        $currency = $request->has('currency') ? $request->input('currency') : 'USD';
 
         // 开启事务
         $order = DB::transaction(function () use ($request, $user, $currency) {
@@ -238,11 +304,13 @@ class OrdersController extends Controller
                 $number = $request->input('number');
                 $sku = ProductSku::find($sku_id);
                 $product = $sku->product;
-                $price = ($currency == 'CNY') ? $sku->price : $sku->price_in_usd;
+                // $price = ($currency == 'CNY') ? $sku->price : $sku->price_in_usd;
+                $price = exchange_price($sku->price, $currency);
                 $snapshot[0]['sku_id'] = $sku_id;
                 $snapshot[0]['price'] = $price;
                 $snapshot[0]['number'] = $number;
-                $total_shipping_fee = ($currency == 'CNY') ? bcmul($product->shipping_fee, $number, 2) : bcmul($product->shipping_fee_in_usd, $number, 2);
+                // $total_shipping_fee = ($currency == 'CNY') ? bcmul($product->shipping_fee, $number, 2) : bcmul($product->shipping_fee_in_usd, $number, 2);
+                $total_shipping_fee = bcmul(exchange_price($product->shipping_fee, $currency), $number, 2);
                 $total_amount = bcmul($price, $number, 2);
                 $is_nil = false;
             } elseif ($request->has('cart_ids')) {
@@ -260,11 +328,13 @@ class OrdersController extends Controller
                         throw new InvalidRequestException(trans('basic.orders.Insufficient_sku_stock'));
                     }
                     $product = $sku->product;
-                    $price = ($currency == 'CNY') ? $sku->price : $sku->price_in_usd;
+                    // $price = ($currency == 'CNY') ? $sku->price : $sku->price_in_usd;
+                    $price = exchange_price($sku->price, $currency);
                     $snapshot[$key]['sku_id'] = $sku->id;
                     $snapshot[$key]['price'] = $price;
                     $snapshot[$key]['number'] = $cart->number;
-                    $total_shipping_fee += ($currency == 'CNY') ? bcmul($product->shipping_fee, $number, 2) : bcmul($product->shipping_fee_in_usd, $number, 2);
+                    // $total_shipping_fee += ($currency == 'CNY') ? bcmul($product->shipping_fee, $number, 2) : bcmul($product->shipping_fee_in_usd, $number, 2);
+                    $total_shipping_fee = bcmul(exchange_price($product->shipping_fee, $currency), $number, 2);
                     $total_amount += bcmul($price, $number, 2);
                     $is_nil = false;
                 }
@@ -285,6 +355,86 @@ class OrdersController extends Controller
                     ],
                 ]);
             }
+
+            // 创建一条订单记录
+            $order = new Order([
+                'user_id' => $user->id,
+                'user_info' => UserAddress::select(['name', 'phone', 'address',])->find($request->input('address_id'))->toArray(),
+                'status' => Order::ORDER_STATUS_PAYING,
+                'currency' => $currency,
+                'snapshot' => collect($snapshot)->toArray(),
+                'total_shipping_fee' => $total_shipping_fee,
+                'total_amount' => $total_amount,
+                'remark' => $request->has('remark') ? $request->input('remark') : '',
+                'to_be_closed_at' => Carbon::now()->addSeconds(Order::getSecondsToCloseOrder())->toDateTimeString(),
+            ]);
+
+            // $order->user()->associate($user);
+
+            $order->save();
+
+            return $order;
+        });
+
+        // 分派定时自动关闭订单任务
+        $this->dispatch(new AutoCloseOrderJob($order, Order::getSecondsToCloseOrder())); // 系统自动关闭订单时间（单位：分钟）
+
+        return response()->json([
+            'code' => 200,
+            'message' => 'success',
+            'data' => [
+                'order' => $order,
+                'request_url' => route('orders.payment_method', [
+                    'order' => $order->id,
+                ]),
+                'mobile_request_url' => route('mobile.orders.payment_method', [
+                    'order' => $order->id,
+                ]),
+            ],
+        ]);
+    }
+
+    // POST 提交创建订单
+    public function storeBySkuParameters(PostOrderRequest $request)
+    {
+        $user = $request->user();
+        $currency = $request->has('currency') ? $request->input('currency') : 'USD';
+
+        // 开启事务
+        $order = DB::transaction(function () use ($request, $user, $currency) {
+
+            // 生成子订单信息快照 snapshot
+            $snapshot = [];
+
+            // 来自SKU的订单
+            $base_size = $request->input('base_size');
+            $hair_colour = $request->input('hair_colour');
+            $hair_density = $request->input('hair_density');
+            $product = Product::find($request->input('product_id'));
+            $skus = $product->skus();
+            if (App::isLocale('zh-CN')) {
+                $skus = $product->is_base_size_optional ? $skus->where('base_size_zh', $base_size) : $skus;
+                $skus = $product->is_hair_colour_optional ? $skus->where('hair_colour_zh', $hair_colour) : $skus;
+                $skus = $product->is_hair_density_optional ? $skus->where('hair_density_zh', $hair_density) : $skus;
+            } else {
+                $skus = $product->is_base_size_optional ? $skus->where('base_size_en', $base_size) : $skus;
+                $skus = $product->is_hair_colour_optional ? $skus->where('hair_colour_en', $hair_colour) : $skus;
+                $skus = $product->is_hair_density_optional ? $skus->where('hair_density_en', $hair_density) : $skus;
+            }
+            $sku = $skus->first();
+
+            $sku_id = $sku->id;
+            $number = $request->input('number');
+            $sku = ProductSku::find($sku_id);
+            $product = $sku->product;
+            // $price = ($currency == 'CNY') ? $sku->price : $sku->price_in_usd;
+            $price = exchange_price($sku->price, $currency);
+            $snapshot[0]['sku_id'] = $sku_id;
+            $snapshot[0]['price'] = $price;
+            $snapshot[0]['number'] = $number;
+            // $total_shipping_fee = ($currency == 'CNY') ? bcmul($product->shipping_fee, $number, 2) : bcmul($product->shipping_fee_in_usd, $number, 2);
+            $total_shipping_fee = bcmul(exchange_price($product->shipping_fee, $currency), $number, 2);
+            $total_amount = bcmul($price, $number, 2);
 
             // 创建一条订单记录
             $order = new Order([

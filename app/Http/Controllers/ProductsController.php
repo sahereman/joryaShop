@@ -31,30 +31,36 @@ class ProductsController extends Controller
     // GET 搜素结果 [下拉加载更多] [for Ajax request]
     public function searchMore(ProductRequest $request)
     {
+        $query_data = [];
         $query = $request->query('query');
         // Ajax request for the 1st time: route('products.search') . '?query=***&sort=***&min_price=***&max_price=***&page=1'
         $current_page = $request->has('page') ? $request->input('page') : 1;
         // on_sale: 是否在售 + index: 综合指数
-        $products = Product::where('on_sale', 1)
-            ->where('name_en', 'like', '%' . $query . '%')
-            ->orWhere('name_zh', 'like', '%' . $query . '%')
-            ->orWhere('description_en', 'like', '%' . $query . '%')
-            ->orWhere('description_zh', 'like', '%' . $query . '%')
-            ->orWhere('content_en', 'like', '%' . $query . '%')
-            ->orWhere('content_zh', 'like', '%' . $query . '%');
+        if (is_null($query)) {
+            $products = Product::where('on_sale', 1);
+        } else {
+            $query_data['query'] = $query;
+            $products = Product::where('on_sale', 1)
+                ->where('name_en', 'like', '%' . $query . '%')
+                ->orWhere('name_zh', 'like', '%' . $query . '%')
+                ->orWhere('description_en', 'like', '%' . $query . '%')
+                ->orWhere('description_zh', 'like', '%' . $query . '%')
+                ->orWhere('content_en', 'like', '%' . $query . '%')
+                ->orWhere('content_zh', 'like', '%' . $query . '%');
+        }
         $product_count = $products->count();
         $page_count = ceil($product_count / 5);
         $next_page = ($current_page < $page_count) ? ($current_page + 1) : false;
 
-        $query_data = [];
-        $query_data['query'] = $query;
         if ($request->has('min_price') && $request->input('min_price')) {
-            $min_price = App::isLocale('en') ? ExchangeRate::exchangePrice($request->input('min_price'), 'CNY', 'USD') : $request->input('min_price');
+            // $min_price = App::isLocale('en') ? ExchangeRate::exchangePrice($request->input('min_price'), 'CNY', 'USD') : $request->input('min_price');
+            $min_price = exchange_price($request->input('min_price'), 'USD', get_global_currency());
             $query_data['min_price'] = $request->input('min_price');
             $products = $products->where('price', '>', $min_price);
         }
         if ($request->has('max_price') && $request->input('max_price')) {
-            $max_price = App::isLocale('en') ? ExchangeRate::exchangePrice($request->input('max_price'), 'CNY', 'USD') : $request->input('max_price');
+            // $max_price = App::isLocale('en') ? ExchangeRate::exchangePrice($request->input('max_price'), 'CNY', 'USD') : $request->input('max_price');
+            $max_price = exchange_price($request->input('max_price'), 'USD', get_global_currency());
             $query_data['max_price'] = $request->input('max_price');
             $products = $products->where('price', '<', $max_price);
         }
@@ -110,10 +116,10 @@ class ProductsController extends Controller
     {
         $query = $request->has('query') ? $request->query('query') : '';
         if (!$query) {
-            if (App::isLocale('en')) {
-                throw new InvalidRequestException('Query content must not be empty.');
-            } else {
+            if (App::isLocale('zh-CN')) {
                 throw new InvalidRequestException('搜索内容不可为空！');
+            } else {
+                throw new InvalidRequestException('Query content must not be empty.');
             }
         }
         // on_sale: 是否在售 + index: 综合指数
@@ -155,10 +161,33 @@ class ProductsController extends Controller
         // user browsing history - appending (maybe firing an event)
         $this->appendUserBrowsingHistoryCacheByProduct($product);
 
+        if (App::isLocale('zh-CN')) {
+            $parameters['base_sizes'] = $product->is_base_size_optional ? $skus->unique('base_size_zh')->map(function ($item, $key) {
+                return $item->base_size_zh;
+            }) : [];
+            $parameters['hair_colours'] = $product->is_hair_colour_optional ? $skus->unique('hair_colour_zh')->map(function ($item, $key) {
+                return $item->hair_colour_zh;
+            }) : [];
+            $parameters['hair_densities'] = $product->is_hair_density_optional ? $skus->unique('hair_density_zh')->map(function ($item, $key) {
+                return $item->hair_density_zh;
+            }) : [];
+        } else {
+            $parameters['base_sizes'] = $product->is_base_size_optional ? $skus->unique('base_size_en')->map(function ($item, $key) {
+                return $item->base_size_en;
+            }) : [];
+            $parameters['hair_colours'] = $product->is_hair_colour_optional ? $skus->unique('hair_colour_en')->map(function ($item, $key) {
+                return $item->hair_colour_en;
+            }) : [];
+            $parameters['hair_densities'] = $product->is_hair_density_optional ? $skus->unique('hair_density_en')->map(function ($item, $key) {
+                return $item->hair_density_en;
+            }) : [];
+        }
+
         return view('products.show', [
             'category' => $category,
             'product' => $product->makeVisible(['content_en', 'content_zh']),
             'skus' => $skus,
+            'parameters' => $parameters,
             'comment_count' => $comment_count,
             'guesses' => $guesses,
             'hot_sales' => $hot_sales,
@@ -176,10 +205,10 @@ class ProductsController extends Controller
 
         $current_page = $request->has('page') ? $request->input('page') : 1;
         if (preg_match('/^\d+$/', $current_page) != 1) {
-            if (App::isLocale('en')) {
-                throw new InvalidRequestException('The parameter page must be an integer.');
-            } else {
+            if (App::isLocale('zh-CN')) {
                 throw new InvalidRequestException('页码参数必须为数字！');
+            } else {
+                throw new InvalidRequestException('The parameter page must be an integer.');
             }
         }
         $comments = ProductComment::where('product_id', $product->id)->get();
@@ -207,6 +236,154 @@ class ProductsController extends Controller
                 'description_index' => $description_index,
                 'shipment_index' => $shipment_index,
                 'request_url' => $request_url,
+            ],
+        ]);
+    }
+
+    // GET: 获取SKU参数列表[三级联动]
+    public function getSkuParameters(Request $request, Product $product)
+    {
+        $base_size = $request->query('base_size', false);
+        $hair_colour = $request->query('hair_colour', false);
+        $hair_density = $request->query('hair_density', false);
+
+        $is_locale_zh = App::isLocale('zh-CN');
+
+        $skus = $product->skus();
+        $parameter_allow = 0;
+        $parameter_count = 0;
+        if ($is_locale_zh) {
+            if ($product->is_base_size_optional) {
+                $parameter_allow += 1;
+                if ($base_size) {
+                    $parameter_count += 1;
+                    $skus = $skus->where('base_size_zh', $base_size);
+                }
+            }
+            if ($product->is_hair_colour_optional) {
+                $parameter_allow += 1;
+                if ($hair_colour) {
+                    $parameter_count += 1;
+                    $skus = $skus->where('hair_colour_zh', $hair_colour);
+                }
+            }
+            if ($product->is_hair_density_optional) {
+                $parameter_allow += 1;
+                if ($hair_density) {
+                    $parameter_count += 1;
+                    $skus = $skus->where('hair_density_zh', $hair_density);
+                }
+            }
+        } else {
+            if ($product->is_base_size_optional) {
+                $parameter_allow += 1;
+                if ($base_size) {
+                    $parameter_count += 1;
+                    $skus = $skus->where('base_size_en', $base_size);
+                }
+            }
+            if ($product->is_hair_colour_optional) {
+                $parameter_allow += 1;
+                if ($hair_colour) {
+                    $parameter_count += 1;
+                    $skus = $skus->where('hair_colour_en', $hair_colour);
+                }
+            }
+            if ($product->is_hair_density_optional) {
+                $parameter_allow += 1;
+                if ($hair_density) {
+                    $parameter_count += 1;
+                    $skus = $skus->where('hair_density_en', $hair_density);
+                }
+            }
+        }
+        $skus = $skus->get();
+        $sku_count = $skus->count();
+        if ($parameter_allow == $parameter_count) {
+            if ($sku_count == 1) {
+                return response()->json([
+                    'code' => 200,
+                    'message' => 'success',
+                    'data' => [
+                        'product' => [
+                            'price' => $product->price,
+                            'original_price' => bcmul($product->price, 1.2, 2),
+                        ],
+                        'sku' => [
+                            'id' => $skus->first()->id,
+                            'stock' => $skus->first()->stock,
+                            'price' => $skus->first()->price,
+                            'original_price' => bcmul($skus->first()->price, 1.2, 2),
+                        ],
+                        'parameters' => [
+                            'base_sizes' => [],
+                            'hair_colours' => [],
+                            'hair_densities' => [],
+                        ],
+                    ],
+                ]);
+            } else {
+                return response()->json([
+                    'code' => 401,
+                    'message' => trans('basic.orders.Sku_does_not_exist'),
+                    'data' => [
+                        'product' => [
+                            'price' => $product->price,
+                            'original_price' => bcmul($product->price, 1.2, 2),
+                        ],
+                        'sku' => [
+                            'id' => '',
+                            'stock' => '',
+                            'price' => '',
+                            'original_price' => '',
+                        ],
+                        'parameters' => [
+                            'base_sizes' => [],
+                            'hair_colours' => [],
+                            'hair_densities' => [],
+                        ],
+                    ],
+                ]);
+            }
+        }
+
+        if ($is_locale_zh) {
+            $parameters['base_sizes'] = ($product->is_base_size_optional && !$base_size) ? $skus->unique('base_size_zh')->map(function ($item, $key) {
+                return $item->base_size_zh;
+            }) : [];
+            $parameters['hair_colours'] = ($product->is_hair_colour_optional && !$hair_colour) ? $skus->unique('hair_colour_zh')->map(function ($item, $key) {
+                return $item->hair_colour_zh;
+            }) : [];
+            $parameters['hair_densities'] = ($product->is_hair_density_optional && !$hair_density) ? $skus->unique('hair_density_zh')->map(function ($item, $key) {
+                return $item->hair_density_zh;
+            }) : [];
+        } else {
+            $parameters['base_sizes'] = ($product->is_base_size_optional && !$base_size) ? $skus->unique('base_size_en')->map(function ($item, $key) {
+                return $item->base_size_en;
+            }) : [];
+            $parameters['hair_colours'] = ($product->is_hair_colour_optional && !$hair_colour) ? $skus->unique('hair_colour_en')->map(function ($item, $key) {
+                return $item->hair_colour_en;
+            }) : [];
+            $parameters['hair_densities'] = ($product->is_hair_density_optional && !$hair_density) ? $skus->unique('hair_density_en')->map(function ($item, $key) {
+                return $item->hair_density_en;
+            }) : [];
+        }
+
+        return response()->json([
+            'code' => 200,
+            'message' => 'success',
+            'data' => [
+                'product' => [
+                    'price' => $product->price,
+                    'original_price' => bcmul($product->price, 1.2, 2),
+                ],
+                'sku' => [
+                    'id' => '',
+                    'stock' => '',
+                    'price' => '',
+                    'original_price' => '',
+                ],
+                'parameters' => $parameters,
             ],
         ]);
     }

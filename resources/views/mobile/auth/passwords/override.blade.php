@@ -1,5 +1,5 @@
 @extends('layouts.mobile')
-@section('title', App::isLocale('en') ? 'Reset Password' : '重置密码')
+@section('title', App::isLocale('zh-CN') ? '重置密码' : 'Reset Password')
 @section('content')
     <div class="regMain">
         <div class="logoImgBox">
@@ -33,7 +33,7 @@
             </button>
         </form>
         <!--<div class="downBox">
-            ——— @lang('app.Jorya Limited') ———
+            ——— @lang('app.Lyrical Limited') ———
         </div>-->
     </div>
 @endsection

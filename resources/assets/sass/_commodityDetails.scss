@@ -434,6 +434,22 @@
                     }
                 }
             }
+            select {
+                width: 160px;
+                height: 30px;
+                border: 1px solid #d9d9d9;
+                outline: none;
+                appearance:none;
+                -moz-appearance:none;
+                -webkit-appearance:none;
+                padding-right: 14px;
+                padding-left: 5px;
+                background: url("../img/arrow-down.png") no-repeat scroll right center transparent;
+                background-position-x: 145px;
+                &::-ms-expand { 
+                    display: none; 
+                }
+            }
             .quantity_control {
                 display: inline-block;
                 overflow: hidden;

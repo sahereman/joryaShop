@@ -22,6 +22,13 @@ class Product extends Model
         'content_zh',
         'thumb',
         'photos',
+
+        // 2019-01-22
+        'is_base_size_optional',
+        'is_hair_colour_optional',
+        'is_hair_density_optional',
+        // 2019-01-22
+
         'shipping_fee',
         'stock',
         'sales',
@@ -49,6 +56,12 @@ class Product extends Model
         'is_index' => 'boolean',
         'on_sale' => 'boolean',
         'photos' => 'json',
+
+        // 2019-01-22
+        'is_base_size_optional' => 'boolean',
+        'is_hair_colour_optional' => 'boolean',
+        'is_hair_density_optional' => 'boolean',
+        // 2019-01-22
     ];
 
     /**
@@ -66,8 +79,8 @@ class Product extends Model
     protected $appends = [
         'thumb_url',
         'photo_urls',
-        'price_in_usd',
-        'shipping_fee_in_usd',
+        // 'price_in_usd',
+        // 'shipping_fee_in_usd',
     ];
 
     public function getThumbUrlAttribute()
@@ -100,16 +113,16 @@ class Product extends Model
         return $photo_urls;
     }
 
-    public function getPriceInUsdAttribute()
+    /*public function getPriceInUsdAttribute()
     {
         $price_in_usd = ExchangeRate::exchangePrice($this->attributes['price'], 'USD');
         if ($price_in_usd == 0.00) {
             return 0.01;
         }
         return $price_in_usd;
-    }
+    }*/
 
-    public function getShippingFeeInUsdAttribute()
+    /*public function getShippingFeeInUsdAttribute()
     {
         // 运费可以为0.00
         if ($this->attributes['shipping_fee'] == 0.00) {
@@ -120,7 +133,7 @@ class Product extends Model
             return 0.01;
         }
         return $shipping_fee_in_usd;
-    }
+    }*/
 
     public function category()
     {

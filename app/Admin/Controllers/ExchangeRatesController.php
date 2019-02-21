@@ -23,7 +23,7 @@ class ExchangeRatesController extends Controller
     {
         return $content
             ->header('汇率管理')
-            ->description('列表 - 基于人民币(CNY)作为基础货币')
+            ->description('列表 - 基于美元(USD)作为基础货币')
             ->body($this->grid());
     }
 
@@ -37,7 +37,7 @@ class ExchangeRatesController extends Controller
     {
         return $content
             ->header('汇率管理')
-            ->description('详情 - 基于人民币作为基础货币')
+            ->description('详情 - 基于美元作为基础货币')
             ->body($this->detail($id));
     }
 
@@ -51,7 +51,7 @@ class ExchangeRatesController extends Controller
     {
         return $content
             ->header('汇率管理')
-            ->description('编辑 - 基于人民币作为基础货币')
+            ->description('编辑 - 基于美元作为基础货币')
             ->body($this->form()->edit($id));
     }
 
@@ -115,7 +115,7 @@ class ExchangeRatesController extends Controller
         $form->text('name', '名称');
         $form->display('currency', '币种');
         $form->decimal('rate', '汇率')
-            ->help('1.00 (CNY) 兑换等值 (币种)');
+            ->help('1.00 (USD) 兑换等值 (币种)');
 
         return $form;
     }
