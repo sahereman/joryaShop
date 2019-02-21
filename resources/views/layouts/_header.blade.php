@@ -31,9 +31,9 @@
             </div>
             <div class="navbar-top-right pull-right">
                 @guest
-                    <a class="login">@lang('app.Sign_in')</a>
+                    <a class="login">@lang('app.Log_In')</a>
                     <a class="register">@lang('app.Register')</a>
-                    <a class="about-us" href="{{ route('articles.show', ['slug' => 'about']) }}">@lang('app.About_us')</a>
+                    <a class="about-us" href="{{ route('articles.show', ['slug' => 'about']) }}">@lang('app.Contact_Us')</a>
                 @else
                     <a id="user_info_btn" role="button" data-toggle="dropdown" aria-haspopup="true"
                        aria-expanded="false" class="user_name">
@@ -55,7 +55,7 @@
                         </li>
                     </ul>
                     <img src="{{ asset('img/header/down_arrow.png') }}">
-                    <a class="about-us" href="{{ route('articles.show', ['slug' => 'about']) }}">@lang('app.About_us')</a>
+                    <a class="about-us" href="{{ route('articles.show', ['slug' => 'about']) }}">@lang('app.Contact_Us')</a>
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                         {{ csrf_field() }}
                     </form>

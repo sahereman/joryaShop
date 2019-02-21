@@ -52,7 +52,7 @@
                         <a href="{{ route('articles.show', ['slug' => 'refunding_procedure']) }}">@lang('app.Refunding Procedure')</a>
                     </li>
                     <li>
-                        <p>@lang('app.About Us')</p>
+                        <p>@lang('app.Contact_Us')</p>
                         <a href="{{ route('articles.show', ['slug' => 'company_introduction']) }}">@lang('app.Company Introduction')</a>
                         <a href="{{ route('articles.show', ['slug' => 'products_features']) }}">@lang('app.Products Features')</a>
                         <a href="{{ route('articles.show', ['slug' => 'contact_us']) }}">@lang('app.Contact Us')</a>
@@ -234,7 +234,7 @@
                 <div class="switch-back">
                     <p class="change_title">
                         <span>@lang('app.Existing account')</span>
-                        <a code="0" class="login_btn rotary_btn">@lang('app.Sign_in')>></a>
+                        <a code="0" class="login_btn rotary_btn">@lang('app.Log_In')>></a>
                     </p>
                 </div>
             </div>
@@ -315,9 +315,8 @@
                     <a class="forget_psw pull-right"
                        href="{{ route('password.request') }}">@lang('app.forget password')</a>
                 </div>
-                <a class="btn_dialog commo_btn active" data-url="{{ route('login') }}">@lang('app.Sign_in')</a>
-                <a class="btn_dialog mailbox_btn"
-                   data-url="{{ route('login.verify_sms_code') }}">@lang('app.Sign_in')</a>
+                <a class="btn_dialog commo_btn active" data-url="{{ route('login') }}">@lang('app.Log_In')</a>
+                <a class="btn_dialog mailbox_btn" data-url="{{ route('login.verify_sms_code') }}">@lang('app.Log_In')</a>
             </div>
         </div>
         <div class="close">

@@ -9,7 +9,7 @@
             <img src="{{ asset('static_m/img/icon_Success.png') }}"/>
             <div>@lang('app.The new password has been set successfully')</div>
             <button type="submit" class="subBtn">
-                <a href="{{route('mobile.login.show')}}">@lang('app.Sign_in')</a>
+                <a href="{{route('mobile.login.show')}}">@lang('app.Log_In')</a>
             </button>
         </div>
     </div>

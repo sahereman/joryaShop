@@ -1,5 +1,5 @@
 @extends('layouts.mobile')
-@section('title', App::isLocale('zh-CN') ? '登录' : 'Sign in')
+@section('title', App::isLocale('zh-CN') ? '登录' : 'Log In')
 @section('content')
     <div class="logMain">
         <div class="logoImgBox">
@@ -27,7 +27,7 @@
                     @endif
                 </div>
             </div>
-            <button type="submit" class="subBtn">@lang('app.Sign_in')</button>
+            <button type="submit" class="subBtn">@lang('app.Log_In')</button>
         </form>
         <div class="logJump">
             <a href="{{ route('mobile.register.show') }}">@lang('app.New User Registration')></a>
