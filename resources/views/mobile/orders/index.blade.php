@@ -162,7 +162,7 @@
                                             // sku_name = ($(".orderMain").attr("code") == "en") ? order_item.sku.name_en : order_item.sku.name_zh;
                                             sku_parameters = ($(".orderMain").attr("code") == "en") ? order_item.sku.parameters_en : order_item.sku.parameters_zh;
                                             // price = (order.currency == "CNY") ? order_item.sku.product.price : order_item.sku.product.price_in_usd;
-                                            price = exchange_price(order_item.sku.product.price, order.currency);
+                                            price = order_item.sku.price;
                                             total_price1 = float_multiply_by_100(order.total_amount) + float_multiply_by_100(order.total_shipping_fee);
                                             total_price = js_number_format(total_price1 / 100);
                                             html += "<div class='orderItemDetail_item'>";
