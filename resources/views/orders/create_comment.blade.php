@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', (App::isLocale('en') ? 'Personal Center - My Orders' : '个人中心 - 我的订单') . ' - ' . \App\Models\Config::config('title'))
+@section('title', (App::isLocale('zh-CN') ? '个人中心 - 我的订单' : 'Personal Center - My Orders') . ' - ' . \App\Models\Config::config('title'))
 @section('content')
     <div class="evaluate_commont">
         <div class="m-wrapper">
@@ -46,7 +46,7 @@
                                         <p class="p-info">
                                             <a class="commodity_description"
                                                href="{{ route('products.show', ['product' => $order_item['sku']['product']['id']]) }}">
-                                                {{ App::isLocale('en') ? $order_item['sku']['product']['name_en'] : $order_item['sku']['product']['name_zh'] }}
+                                                {{ App::isLocale('zh-CN') ? $order_item['sku']['product']['name_zh'] : $order_item['sku']['product']['name_en'] }}
                                             </a>
                                         </p>
                                     </td>
@@ -55,13 +55,14 @@
                                             <a class="specifications"
                                                href="{{ route('products.show', ['product' => $order_item['sku']['product']['id']]) }}">
                                                 {{--{{ App::isLocale('en') ? $order_item['sku']['name_en'] : $order_item['sku']['name_zh'] }}--}}
-                                                {{ App::isLocale('en') ? $order_item['sku']['parameters_en'] : $order_item['sku']['parameters_zh'] }}
+                                                {{ App::isLocale('zh-CN') ? $order_item['sku']['parameters_zh'] : $order_item['sku']['parameters_en'] }}
                                             </a>
                                         </p>
                                     </td>
                                     <td class="col-price">
                                         <p class="p-price">
-                                            <span>{{ $order->currency == "USD" ? '&#36;' : '&#165;' }}</span>
+                                            {{--<span>{{ $order->currency == "USD" ? '&#36;' : '&#165;' }}</span>--}}
+                                            <span>{{ get_symbol_by_currency($order->currency) }}</span>
                                             <span>{{ $order_item['price'] }}</span>
                                         </p>
                                     </td>
@@ -70,7 +71,8 @@
                                     </td>
                                     <td class="col-pay">
                                         <p>
-                                            <span>{{ $order->currency == "USD" ? '&#36;' : '&#165;' }}</span>
+                                            {{--<span>{{ $order->currency == "USD" ? '&#36;' : '&#165;' }}</span>--}}
+                                            <span>{{ get_symbol_by_currency($order->currency) }}</span>
                                             <span>{{ bcmul($order_item['price'], $order_item['number'], 2) }}</span>
                                         </p>
                                     </td>

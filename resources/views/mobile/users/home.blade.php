@@ -1,5 +1,5 @@
 @extends('layouts.mobile')
-@section('title', (App::isLocale('en') ? 'Personal Center' : '个人中心') . ' - ' . \App\Models\Config::config('title'))
+@section('title', (App::isLocale('zh-CN') ? '个人中心' : 'Personal Center') . ' - ' . \App\Models\Config::config('title'))
 @section('content')
     <div class="userBox">
         <div class="userH">

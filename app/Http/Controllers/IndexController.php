@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Handlers\ImageUploadHandler;
 use App\Http\Requests\ImageUploadRequest;
 use App\Models\Banner;
+use App\Models\ExchangeRate;
 use App\Models\Product;
 use App\Models\ProductCategory;
 use Illuminate\Http\Request;
@@ -103,9 +104,28 @@ class IndexController extends Controller
     /**
      * Locale options: en | zh-CN
      */
-    public function localeUpdate(Request $request, $locale)
+    public function localeUpdate(Request $request, string $locale = 'en')
     {
         $request->session()->put('GlobalLocale', $locale);
+        if ($locale === 'zh-CN') {
+            set_global_currency('CNY');
+        } else {
+            set_global_currency('USD');
+        }
+        return back();
+    }
+
+    // GET 修改币种
+    /**
+     * Currency options: USD | CNY
+     */
+    public function currencyUpdate(Request $request, string $currency = 'USD')
+    {
+        /*// $currencies = ExchangeRate::exchangeRates()->pluck('currency')->all();
+        $currencies = ExchangeRate::exchangeRates()->pluck('currency')->toArray();
+        $currency = in_array($currency, $currencies) ? $currency : 'USD';
+        $request->session()->put('GlobalCurrency', $currency);*/
+        set_global_currency($currency);
         return back();
     }
 }

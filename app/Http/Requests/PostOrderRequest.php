@@ -26,7 +26,7 @@ class PostOrderRequest extends Request
                     'required',
                     'string',
                     function ($attribute, $value, $fail) {
-                        if ($value != 'CNY' && ExchangeRate::where('currency', $value)->doesntExist()) {
+                        if ($value != 'USD' && ExchangeRate::where('currency', $value)->doesntExist()) {
                             $fail(trans('basic.orders.Currency_not_supported'));
                         }
                     },
@@ -90,7 +90,7 @@ class PostOrderRequest extends Request
                     'required',
                     'string',
                     function ($attribute, $value, $fail) {
-                        if ($value != 'CNY' && ExchangeRate::where('currency', $value)->doesntExist()) {
+                        if ($value != 'USD' && ExchangeRate::where('currency', $value)->doesntExist()) {
                             $fail(trans('basic.orders.Currency_not_supported'));
                         }
                     },
@@ -139,14 +139,14 @@ class PostOrderRequest extends Request
                             $fail(trans('basic.orders.Plz_select_a_hair_density'));
                         }
                         $skus = $product->skus;
-                        if (App::isLocale('en')) {
-                            $skus = $product->is_base_size_optional ? $skus->where('base_size_en', $base_size) : $skus;
-                            $skus = $product->is_hair_colour_optional ? $skus->where('hair_colour_en', $hair_colour) : $skus;
-                            $skus = $product->is_hair_density_optional ? $skus->where('hair_density_en', $hair_density) : $skus;
-                        } else {
+                        if (App::isLocale('zh-CN')) {
                             $skus = $product->is_base_size_optional ? $skus->where('base_size_zh', $base_size) : $skus;
                             $skus = $product->is_hair_colour_optional ? $skus->where('hair_colour_zh', $hair_colour) : $skus;
                             $skus = $product->is_hair_density_optional ? $skus->where('hair_density_zh', $hair_density) : $skus;
+                        } else {
+                            $skus = $product->is_base_size_optional ? $skus->where('base_size_en', $base_size) : $skus;
+                            $skus = $product->is_hair_colour_optional ? $skus->where('hair_colour_en', $hair_colour) : $skus;
+                            $skus = $product->is_hair_density_optional ? $skus->where('hair_density_en', $hair_density) : $skus;
                         }
                         if ($skus->isEmpty()) {
                             $fail(trans('basic.orders.Sku_does_not_exist'));
@@ -269,14 +269,14 @@ class PostOrderRequest extends Request
                             $fail(trans('basic.orders.Plz_select_a_hair_density'));
                         }
                         $skus = $product->skus;
-                        if (App::isLocale('en')) {
-                            $skus = $product->is_base_size_optional ? $skus->where('base_size_en', $base_size) : $skus;
-                            $skus = $product->is_hair_colour_optional ? $skus->where('hair_colour_en', $hair_colour) : $skus;
-                            $skus = $product->is_hair_density_optional ? $skus->where('hair_density_en', $hair_density) : $skus;
-                        } else {
+                        if (App::isLocale('zh-CN')) {
                             $skus = $product->is_base_size_optional ? $skus->where('base_size_zh', $base_size) : $skus;
                             $skus = $product->is_hair_colour_optional ? $skus->where('hair_colour_zh', $hair_colour) : $skus;
                             $skus = $product->is_hair_density_optional ? $skus->where('hair_density_zh', $hair_density) : $skus;
+                        } else {
+                            $skus = $product->is_base_size_optional ? $skus->where('base_size_en', $base_size) : $skus;
+                            $skus = $product->is_hair_colour_optional ? $skus->where('hair_colour_en', $hair_colour) : $skus;
+                            $skus = $product->is_hair_density_optional ? $skus->where('hair_density_en', $hair_density) : $skus;
                         }
                         if ($skus->isEmpty()) {
                             $fail(trans('basic.orders.Sku_does_not_exist'));
@@ -311,7 +311,7 @@ class PostOrderRequest extends Request
      */
     public function attributes()
     {
-        if (App::isLocale('en')) {
+        if (!App::isLocale('zh-CN')) {
             return [];
         }
         return [

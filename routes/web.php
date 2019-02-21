@@ -5,6 +5,7 @@ Route::get('test', function () {
 });
 
 Route::get('locale/{locale}', 'IndexController@localeUpdate')->name('locale.update'); // 修改网站语言
+Route::get('currency/{currency}', 'IndexController@currencyUpdate')->name('currency.update'); // 修改币种
 
 /*通过邮箱验证码登录*/
 // Route::post('login/send_email_code', 'Auth\LoginController@sendEmailCode')->name('login.send_email_code'); // 发送邮箱验证码 [for Ajax request]

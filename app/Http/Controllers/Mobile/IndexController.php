@@ -45,10 +45,10 @@ class IndexController extends Controller
     {
         $current_page = $request->has('page') ? $request->input('page') : 1;
         if (preg_match('/^\d+$/', $current_page) != 1) {
-            if (App::isLocale('en')) {
-                throw new InvalidRequestException('The parameter page must be an integer.');
-            } else {
+            if (App::isLocale('zh-CN')) {
                 throw new InvalidRequestException('页码参数必须为数字！');
+            } else {
+                throw new InvalidRequestException('The parameter page must be an integer.');
             }
         }
         $guesses = Product::where(['is_index' => 1, 'on_sale' => 1])->orderByDesc('heat')->simplePaginate(8);

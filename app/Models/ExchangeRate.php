@@ -7,6 +7,48 @@ use Illuminate\Support\Facades\Cache;
 
 class ExchangeRate extends Model
 {
+    /*汇率基准: 美元(USD) $1.00*/
+    const USD = 'USD';
+    const AUD = 'AUD';
+    const CAD = 'CAD';
+    const CNY = 'CNY';
+    const EUR = 'EUR';
+    const GBP = 'GBP';
+    const HKD = 'HKD';
+    const JPY = 'JPY';
+    const KRW = 'KRW';
+    const TWD = 'TWD';
+
+    /*public static $currencyMap = [
+        self::USD => '美元 US Dollar . USD',
+        self::AUD => '澳元 Australian Dollar . AUD',
+        self::CAD => '加元 Canadian Dollar . CAD',
+        self::CNY => '人民币 Chinese Yuan Renminbi . CNY',
+        self::EUR => '欧元 Euro . EUR',
+        self::GBP => '英镑 British Pound . GBP',
+        self::HKD => '港元 Hong Kong Dollar . HKD',
+        self::JPY => '日元 Japanese Yen . JPY',
+        self::KRW => '韩元 South-Korean Won . KRW',
+        self::TWD => '台币 Taiwan Dollar . TWD',
+    ];*/
+
+    /**
+     * Reference: https://www.toptal.com/designers/htmlarrows/currency/
+     * Reference: http://www.runoob.com/charsets/ref-utf-currency.html
+     */
+    public static $symbolMap = [
+        self::USD => '&#36;', // '&dollar;'
+        self::AUD => '&#36;', // '&dollar;'
+        self::CAD => '&#36;', // '&dollar;'
+        self::CNY => '&#165;', // '&yen;'
+        self::EUR => '&#8364;', // '&euro;'
+        self::GBP => '&#163;', // '&pound;'
+        self::HKD => '&#36;', // '&dollar;'
+        self::JPY => '&#20870;', // '&#165;' or '&yen;'
+        self::KRW => '&#8361;', // '&#50896;'
+        self::TWD => '&#36;', // '&dollar;'
+    ];
+
     /**
      * The attributes that are mass assignable.
      * @var array
@@ -43,15 +85,20 @@ class ExchangeRate extends Model
         });
     }
 
-    public static function exchangePrice($price, $to_currency = 'USD', $from_currency = 'CNY')
+    public static function exchangePrice($price, string $to_currency = 'CNY', string $from_currency = 'USD')
     {
-        $currencies = self::exchangeRates()->pluck('currency')->toArray();
-        $rates = self::exchangeRates()->keyBy('currency')->toArray();
-        if(in_array($from_currency, $currencies)){
-            $price = bcdiv($price, $rates[$from_currency]['rate'], 2);
+        if ($price == 0.00) {
+            return 0.00;
         }
-        if(in_array($to_currency, $currencies)){
-            $price = bcmul($price, $rates[$to_currency]['rate'], 2);
+        $currencies = self::exchangeRates()->pluck('currency')->toArray();
+        $exchange_rates = self::exchangeRates()->keyBy('currency')->toArray();
+        if ($to_currency !== 'USD' && in_array($to_currency, $currencies)) {
+            $price = bcmul($price, $exchange_rates[$to_currency]['rate'], 2);
+            $price = ($price == 0.00) ? 0.01 : $price;
+        }
+        if ($from_currency !== 'USD' && in_array($from_currency, $currencies)) {
+            $price = bcdiv($price, $exchange_rates[$from_currency]['rate'], 2);
+            $price = ($price == 0.00) ? 0.01 : $price;
         }
         return $price;
     }

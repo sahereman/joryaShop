@@ -1,5 +1,5 @@
 @extends('layouts.mobile')
-@section('title', (App::isLocale('en') ? 'Cart' : '购物车') . ' - ' . \App\Models\Config::config('title'))
+@section('title', (App::isLocale('zh-CN') ? '购物车' : 'Cart') . ' - ' . \App\Models\Config::config('title'))
 @section('content')
     <div class="headerBar fixHeader {{ is_wechat_browser() ? 'height_no' : '' }}">
         <img src="{{ asset('static_m/img/icon_backtop.png') }}" class="backImg" onclick="javascript:history.back(-1);"/>
@@ -27,17 +27,19 @@
                         </a>
                         <div class="cartDetail">
                             <div class="goodsName">
-                                {{ App::isLocale('en') ? $cart->sku->product->name_en : $cart->sku->product->name_zh }}
+                                {{ App::isLocale('zh-CN') ? $cart->sku->product->name_zh : $cart->sku->product->name_en }}
                             </div>
                             <div class="goodsSpec">
-                                <span>{{ App::isLocale('en') ? $cart->sku->base_size_en : $cart->sku->base_size_zh }}</span>
-                                <span>{{ App::isLocale('en') ? $cart->sku->hair_colour_en : $cart->sku->hair_colour_zh }}</span>
-                                <span>{{ App::isLocale('en') ? $cart->sku->hair_density_en : $cart->sku->hair_density_zh }}</span>
+                                <span>{{ App::isLocale('zh-CN') ? $cart->sku->base_size_zh : $cart->sku->base_size_en }}</span>
+                                <span>{{ App::isLocale('zh-CN') ? $cart->sku->hair_colour_zh : $cart->sku->hair_colour_en }}</span>
+                                <span>{{ App::isLocale('zh-CN') ? $cart->sku->hair_density_zh : $cart->sku->hair_density_en }}</span>
                             </div>
                             <div class="goodsPri">
                                 <div>
-                                    <span class="price">{{ App::isLocale('en') ? '&#36;' : '&#165;' }}</span>
-                                    <span class="realPri">{{ App::isLocale('en') ? $cart->sku->price_in_usd : $cart->sku->price }}</span>
+                                    {{--<span class="price">{{ App::isLocale('en') ? '&#36;' : '&#165;' }}</span>--}}
+                                    {{--<span class="realPri">{{ App::isLocale('en') ? $cart->sku->price_in_usd : $cart->sku->price }}</span>--}}
+                                    <span class="price">{{ get_global_symbol() }}</span>
+                                    <span class="realPri">{{ get_current_price($cart->sku->price) }}</span>
                                 </div>
                                 <div class="goodsNum">
                                     <span class="Operation_btn">-</span>
@@ -60,16 +62,18 @@
             <div class="Settlement_btns">
                 <a class="cancelBtn">@lang('product.Deletes the selected')</a>
                 @guest
-                <a class="total_num for_show_login" data-url="{{ route('mobile.orders.pre_payment') }}">
-                    @lang('product.shopping_cart.Total')：{{ App::isLocale('en') ? '&#36;' : '&#165;' }}
-                    <span>0.00</span>
-                </a>
-                @else
-                    <a class="total_num" data-url="{{ route('mobile.orders.pre_payment') }}">
-                        @lang('product.shopping_cart.Total')：{{ App::isLocale('en') ? '&#36;' : '&#165;' }}
+                    <a class="total_num for_show_login" data-url="{{ route('mobile.orders.pre_payment') }}">
+                        {{--@lang('product.shopping_cart.Total')：{{ App::isLocale('en') ? '&#36;' : '&#165;' }}--}}
+                        @lang('product.shopping_cart.Total')：{{ get_global_symbol() }}
                         <span>0.00</span>
                     </a>
-                    @endguest
+                @else
+                    <a class="total_num" data-url="{{ route('mobile.orders.pre_payment') }}">
+                        {{--@lang('product.shopping_cart.Total')：{{ App::isLocale('en') ? '&#36;' : '&#165;' }}--}}
+                        @lang('product.shopping_cart.Total')：{{ get_global_symbol() }}
+                        <span>0.00</span>
+                    </a>
+                @endguest
             </div>
         </div>
     </div>
@@ -147,7 +151,8 @@
                 }
             }
             var price = parseFloat($(this).parent().prev().find('span').text());
-            $(this).parent().next().html("{{ App::isLocale('en') ? '&#36;' : '&#165;' }}" + (price * count).toFixed(2));
+            // $(this).parent().next().html("{{--{{ App::isLocale('en') ? '&#36;' : '&#165;' }}--}}" + (price * count).toFixed(2));
+            $(this).parent().next().html(global_symbol + js_number_format(Math.imul(float_multiply_by_100(price), count) / 100));
             calcTotal();
         });
         // 计算总计
@@ -225,7 +230,8 @@
                     count = --count;
                     dom.val(count);
                     var price = parseFloat(dom.parent().prev().find('span.price').text());
-                    dom.parent().next().html("{{ App::isLocale('en') ? '&#36;' : '&#165;' }}" + (price * count).toFixed(2));
+                    // dom.parent().next().html("{{--{{ App::isLocale('en') ? '&#36;' : '&#165;' }}--}}" + (price * count).toFixed(2));
+                    dom.parent().next().html(global_symbol + js_number_format(Math.imul(float_multiply_by_100(price), count) / 100));
                     calcTotal();
                     var obj = err.responseJSON.errors;
                     layer.open({

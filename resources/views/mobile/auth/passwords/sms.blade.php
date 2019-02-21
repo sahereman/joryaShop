@@ -1,5 +1,5 @@
 @extends('layouts.mobile')
-@section('title', App::isLocale('en') ? 'SMS Reset' : '短信重置')
+@section('title', App::isLocale('zh-CN') ? '短信重置' : 'SMS Reset')
 @section('content')
     <div class="regMain">
         <div class="logoImgBox">
@@ -39,40 +39,40 @@
                 @lang('app.Next')
             </button>
         </form>
-        <!--<div class="downBox">
+        {{--<div class="downBox">
             ——— @lang('app.Lyrical Limited') ———
-        </div>-->
+        </div>--}}
     </div>
 @endsection
 @section('scriptsAfterJs')
     <script type="text/javascript">
-        //页面单独JS写这里
+        // 页面单独JS写这里
         $(".logoImgBox").on("click",function(){
-        	window.location.href = "{{ route('mobile.root') }}"
-        })
+            window.location.href = "{{ route('mobile.root') }}"
+        });
         $(".getY").on("click", function () {
             var phoneVal = $(".phoneIpt").val();
             var countryCode = $(".valSpan").html();
             if (phoneVal == "") {
-                //未填手机号
+                // 未填手机号
                 layer.open({
                     content: "@lang('app.Please fill in your mobile phone number')",
                     time: 2,
                     skin: 'msg',
                 });
             } else {
-                //调取获取动态验证码接口(TODO)
+                // 调取获取动态验证码接口(TODO)
                 $.ajax({
-                    url: "{{route('reset.resend_sms_code')}}",    //请求的url地址
-                    type: "POST",   //请求方式
-                    dataType: "json",   //返回格式为json
+                    url: "{{route('reset.resend_sms_code')}}", // 请求的url地址
+                    type: "POST", // 请求方式
+                    dataType: "json", // 返回格式为json
                     data: {
                         "_token": "{{ csrf_token() }}",
                         "country_code": countryCode,
                         "phone": phoneVal,
                     },
                     success: function (response, status, xhr) {
-                        //请求成功时处理
+                        // 请求成功时处理
                         // console.log(response);
                         layer.open({
                             content: "@lang('app.Sent successfully')",
@@ -81,13 +81,13 @@
                         });
                         $(this).css("display", "none");
                         $(".cutTime").css("display", "inline-block");
-                        //触发倒计时
+                        // 触发倒计时
                         settime();
                     },
                     error: function (xhr, errorText, errorStatus) {
-                        //请求出错处理
+                        // 请求出错处理
                         if (xhr.status === 422) {
-                            // http 状态码为 422 代表用户输入校验失败
+                            //  http 状态码为 422 代表用户输入校验失败
                             layer.open({
                                 content: xhr.responseJSON.errors.phone[0],
                                 time: 2,
@@ -100,11 +100,11 @@
                                 skin: 'msg',
                             });
                         }
-                    }
+                    },
                 });
             }
         });
-        //短信发送倒计时器
+        // 短信发送倒计时器
         var countdown = 10;
         var settime = function () {
             if (countdown < 0) {
@@ -119,7 +119,7 @@
                 countdown--;
             }
             setTimeout(function () {
-                settime()
+                settime();
             }, 1000);
         };
         $("#myselect").change(function () {

@@ -1,6 +1,6 @@
 @extends('layouts.mobile')
-@section('title', (App::isLocale('en') ? $product->name_en : $product->name_zh) . ' - ' . \App\Models\Config::config('title'))
-@section('description', App::isLocale('en') ? $product->description_en : $product->description_zh)
+@section('title', (App::isLocale('zh-CN') ? $product->name_zh : $product->name_en) . ' - ' . \App\Models\Config::config('title'))
+@section('description', App::isLocale('zh-CN') ? $product->description_zh : $product->description_en)
 @section('content')
     <div class="goodsDetailBox">
         <img src="{{ asset('static_m/img/icon_back.png') }}" class="gBack" onclick="javascript:history.back(-1);"/>
@@ -17,19 +17,22 @@
         </div>
         <div class="goodsPresent">
             <div class="gName">
-                {{ App::isLocale('en') ? $product->name_en : $product->name_zh }}
+                {{ App::isLocale('zh-CN') ? $product->name_zh : $product->name_en }}
             </div>
             <div class="gPrice">
-                <span>@lang('basic.currency.symbol') {{ App::isLocale('en') ? $product->price_in_usd : $product->price }}</span>
-                <s>@lang('basic.currency.symbol') {{ App::isLocale('en') ? bcmul($product->price_in_usd, 1.2, 2) : bcmul($product->price, 1.2, 2) }}</s>
+                {{--<span>@lang('basic.currency.symbol') {{ App::isLocale('en') ? $product->price_in_usd : $product->price }}</span>
+                <s>@lang('basic.currency.symbol') {{ App::isLocale('en') ? bcmul($product->price_in_usd, 1.2, 2) : bcmul($product->price, 1.2, 2) }}</s>--}}
+                <span>{{ get_global_symbol() }} {{ get_current_price($product->price) }}</span>
+                <s>{{ get_global_symbol() }} {{ bcmul(get_current_price($product->price), 1.2, 2) }}</s>
             </div>
             <div class="gStock">
                 <span>@lang('product.product_details.freight')
-                    : @lang('basic.currency.symbol') {{ App::isLocale('en') ? $product->shipping_fee_in_usd : $product->shipping_fee }}</span>
+                    {{--: @lang('basic.currency.symbol') {{ App::isLocale('en') ? $product->shipping_fee_in_usd : $product->shipping_fee }}</span>--}}
+                    : {{ get_global_symbol() }} {{ get_current_price($product->shipping_fee) }}</span>
                 <span>@lang('product.product_details.sales'): {{ $product->sales }}</span>
                 <span>@lang('product.product_details.stock'): {{ $product->stock }}</span>
             </div>
-            @if(!App::isLocale('en'))
+            @if(App::isLocale('zh-CN'))
                 <div class="gExplain">
                     <div>
                         <img src="{{ asset('static_m/img/icon_Certified.png') }}" alt=""/>
@@ -56,9 +59,9 @@
             </div>
             <div class="gIntroCon">
                 <div class="gIntroConDetail">
-                    {!! App::isLocale('en') ? $product->content_en : $product->content_zh !!}
+                    {!! App::isLocale('zh-CN') ? $product->content_zh : $product->content_en !!}
                 </div>
-                <div class="gIntroConEvaluate" code="App::isLocale('en') ? en : zh" data-url="{{ config('app.url') }}">
+                <div class="gIntroConEvaluate" code="{{ App::isLocale('zh-CN') ? 'zh' : 'en' }}" data-url="{{ config('app.url') }}">
                     {{--<div class="gEvaHead">
                         <span class="gEvaHeadActive">全部({{ $comment_count }})</span>
                         <span>有图({{ $photo_comment_count }})</span>
@@ -121,8 +124,10 @@
                     <img src="{{ $product->thumb_url }}"/>
                     <div>
                         <label>
-                            @lang('basic.currency.symbol')
-                            <span id="sku_price_in_usd" class="pro_price">{{ App::isLocale('en') ? $skus[0]->price_in_usd : $skus[0]->price }}</span>
+                            {{--@lang('basic.currency.symbol')
+                            <span id="sku_price_in_usd" class="pro_price">{{ App::isLocale('en') ? $skus[0]->price_in_usd : $skus[0]->price }}</span>--}}
+                            {{ get_global_symbol() }}
+                            <span id="sku_price_in_usd" class="pro_price">{{ get_current_price($skus[0]->price) }}</span>
                         </label>
                         <p>
                             @lang('product.product_details.stock'):
@@ -195,7 +200,8 @@
             stopOnLastSlide: true,
         });
         var which_click = 0; // 通过判断which_click的值来确定是什么功能,0:选择规格,1:添加收藏，2：加入购物车，3：立即购买
-        var clickDom, sku_id, sku_stock, sku_price_in_usd;
+        // var clickDom, sku_id, sku_stock, sku_price_in_usd;
+        var clickDom, sku_id, sku_stock, sku_price;
         // 点击透明阴影关闭弹窗
         $(".mask").on("click", function () {
             $(this).parents(".skuBox").css("display", "none");
@@ -503,7 +509,8 @@
                                 $(".shipment_index").text((data.data.shipment_index).toFixed(1));
                                 $.each(dataObj, function (i, n) {
                                     // name = ($(".gIntroConEvaluate").attr("code") == "en") ? n.order_item.sku.name_en : n.order_item.sku.name_zh;
-                                    parameters = ($(".gIntroConEvaluate").attr("code") == "en") ? n.order_item.sku.parameters_en : n.order_item.sku.parameters_zh;
+                                    // parameters = ($(".gIntroConEvaluate").attr("code") == "en") ? n.order_item.sku.parameters_en : n.order_item.sku.parameters_zh;
+                                    parameters = ($(".gIntroConEvaluate").attr("code") == "zh") ? n.order_item.sku.parameters_zh : n.order_item.sku.parameters_en;
                                     dataObj_photo = n.photo_urls;
                                     html += "<div class='commentDetail'>";
                                     html += "<div class='comUser'>";
@@ -587,19 +594,21 @@
                                 });
                                 $(".kindofdensity select").html(hair_density_options);
                             }
-                            sku_price_in_usd = data.data.product.price_in_usd;
-                            $('span#sku_price_in_usd').html(sku_price_in_usd);
+                            // sku_price_in_usd = data.data.product.price_in_usd;
+                            // $('span#sku_price_in_usd').html(sku_price_in_usd);
+                            sku_price = get_current_price(data.data.product.price);
+                            $('span#sku_price_in_usd').html(sku_price);
                         } else {
                             sku_id = data.data.sku.id;
                             sku_stock = data.data.sku.stock;
                             $('span#sku_stock').html(sku_stock);
-                            sku_price_in_usd = data.data.sku.price_in_usd;
-                            $('span#sku_price_in_usd').html(sku_price_in_usd);
+                            // sku_price_in_usd = data.data.sku.price_in_usd;
+                            // $('span#sku_price_in_usd').html(sku_price_in_usd);
+                            sku_price = get_current_price(data.data.sku.price);
+                            $('span#sku_price_in_usd').html(sku_price);
                         }
                         result = true;
                     } else if (data.code == 401) {
-                        /*sku_price_in_usd = data.data.product.price_in_usd;
-                        $('span#sku_price_in_usd').html(sku_price_in_usd);*/
                         layer.open({
                             content: data.message,
                             skin: 'msg',

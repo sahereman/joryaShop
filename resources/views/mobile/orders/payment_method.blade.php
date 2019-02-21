@@ -1,5 +1,5 @@
 @extends('layouts.mobile')
-@section('title', (App::isLocale('en') ? 'Choosing A Payment Method' : '选择支付方式') . ' - ' . \App\Models\Config::config('title'))
+@section('title', (App::isLocale('zh-CN') ? '选择支付方式' : 'Choosing A Payment Method') . ' - ' . \App\Models\Config::config('title'))
 @section('content')
     <div class="headerBar fixHeader {{ is_wechat_browser() ? 'height_no' : '' }}">
         <img src="{{ asset('static_m/img/icon_backtop.png') }}" class="backImg" onclick="javascript:history.back(-1);"/>
@@ -42,24 +42,26 @@
                     @endforeach
                 </ul>
                 <!--显示商品总数量-->
-                @if(\Illuminate\Support\Facades\App::isLocale('en'))
+                @if(\Illuminate\Support\Facades\App::isLocale('zh-CN'))
                     <span class="pre_products_num">
-                        {{ count($order->snapshot) .' '. (count($order->snapshot) > 1 ? \Illuminate\Support\Str::plural(__('order.Commodity')) : __('order.Commodity')) .' '. __('order.in total') }}
+                        {{ __('order.in total') .' '. count($order->snapshot) .' '. __('order.Commodity') }}
                     </span>
                 @else
                     <span class="pre_products_num">
-                        {{ __('order.in total') .' '. count($order->snapshot) .' '. __('order.Commodity') }}
+                        {{ count($order->snapshot) .' '. (count($order->snapshot) > 1 ? \Illuminate\Support\Str::plural(__('order.Commodity')) : __('order.Commodity')) .' '. __('order.in total') }}
                     </span>
                 @endif
             </div>
             <div class="pre_amount">
                 <p>
                     <span>@lang('order.Sum')</span>
-                    <span>{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ $order->total_amount }}</span>
+                    {{--<span>{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ $order->total_amount }}</span>--}}
+                    <span>{{ get_symbol_by_currency($order->currency) }} {{ $order->total_amount }}</span>
                 </p>
                 <p>
                     <span>@lang('order.freight')</span>
-                    <span>{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ $order->total_shipping_fee }}</span>
+                    {{--<span>{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ $order->total_shipping_fee }}</span>--}}
+                    <span>{{ get_symbol_by_currency($order->currency) }} {{ $order->total_shipping_fee }}</span>
                 </p>
             </div>
             <div class="pre_currency">
@@ -79,7 +81,8 @@
             </div>
         </div>
         <div class="pre_paymentTotal">
-            <span class="amount_of_money cost_of_total">{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}</span>
+            {{--<span class="amount_of_money cost_of_total">{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}</span>--}}
+            <span class="amount_of_money cost_of_total">{{ get_symbol_by_currency($order->currency) }} {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}</span>
             <a href="javascript:void(0);" class="Topayment_btn">@lang('basic.orders.To pay')</a>
         </div>
     </div>
@@ -140,7 +143,8 @@
             </ul>
             <p class="need_to_pay">
                 <span>@lang('basic.orders.Pay')</span>
-                <span class="total_num_toPay">{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}</span>
+                {{--<span class="total_num_toPay">{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}</span>--}}
+                <span class="total_num_toPay">{{ get_symbol_by_currency($order->currency) }} {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}</span>
             </p>
             <p class="rel_topayment">
                 <a href="javascript:void(0);">@lang('basic.orders.Pay')</a>

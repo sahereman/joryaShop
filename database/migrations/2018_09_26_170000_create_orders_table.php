@@ -36,7 +36,7 @@ class CreateOrdersTable extends Migration
              */
             $table->string('status')->nullable(false)->default('paying')->comment('order-status:paying[待支付];closed[交易关闭:主动|自动取消订单];shipping[待发货];receiving[待收货];refunding[售后状态:售后中];completed[交易结束:已确认]')->index(); // 最终状态只有三种：closed, refunding, completed
 
-            $table->string('currency')->nullable(false)->default('CNY')->comment('payment-currency[支付币种]:CNY|USD|etc');
+            $table->string('currency')->nullable(false)->default('USD')->comment('payment-currency[支付币种]:USD|CNY|etc');
             $table->string('payment_method')->nullable()->comment('payment-method:alipay|wechat|paypal');
             $table->string('payment_sn')->nullable()->comment('payment-sn');
             $table->timestamp('paid_at')->nullable()->comment('支付订单时间');

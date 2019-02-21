@@ -79,8 +79,8 @@ class Product extends Model
     protected $appends = [
         'thumb_url',
         'photo_urls',
-        'price_in_usd',
-        'shipping_fee_in_usd',
+        // 'price_in_usd',
+        // 'shipping_fee_in_usd',
     ];
 
     public function getThumbUrlAttribute()
@@ -113,16 +113,16 @@ class Product extends Model
         return $photo_urls;
     }
 
-    public function getPriceInUsdAttribute()
+    /*public function getPriceInUsdAttribute()
     {
         $price_in_usd = ExchangeRate::exchangePrice($this->attributes['price'], 'USD');
         if ($price_in_usd == 0.00) {
             return 0.01;
         }
         return $price_in_usd;
-    }
+    }*/
 
-    public function getShippingFeeInUsdAttribute()
+    /*public function getShippingFeeInUsdAttribute()
     {
         // 运费可以为0.00
         if ($this->attributes['shipping_fee'] == 0.00) {
@@ -133,7 +133,7 @@ class Product extends Model
             return 0.01;
         }
         return $shipping_fee_in_usd;
-    }
+    }*/
 
     public function category()
     {

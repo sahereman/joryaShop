@@ -26,7 +26,12 @@
     <link href="{{ asset('static_m/js/animate/animate.css') }}" rel="stylesheet">
 </head>
 <body>
-<div id="app" class="{{ route_class() }}-page">
+<div id="app" class="{{ route_class() }}-page"
+     data-global-locale="{{ \Illuminate\Support\Facades\App::getLocale() }}"
+     data-global-currency="{{ get_global_currency() }}" data-global-symbol="{{ get_global_symbol() }}"
+     {{--data-currencies="{{ collect(\App\Models\ExchangeRate::$currencyMap)->toJson() }}"--}}
+     data-symbols="{{ collect(\App\Models\ExchangeRate::$symbolMap)->toJson() }}"
+     data-exchange-rates="{{ \App\Models\ExchangeRate::exchangeRates()->keyBy('currency')->toJson() }}">
     @yield('content')
 </div>
 <!-- JS 脚本 -->
@@ -36,6 +41,86 @@
 <script src="{{ asset('static_m/js/raty/jquery.raty.js') }}"></script>
 <script src="{{ asset('static_m/js/jquery.countdown-2.2.0/jquery.countdown.js') }}"></script>
 @yield('scriptsAfterJs')
+
+<script type='text/javascript'>
+    /*货币汇率转换相关*/
+    var app_node = $('div#app');
+    var global_locale = String(app_node.attr('data-global-locale'));
+    var global_currency = String(app_node.attr('data-global-currency'));
+    var global_symbol = String(app_node.attr('data-global-symbol'));
+    // var currencies = JSON.parse(app_node.attr('data-currencies'));
+    var symbols = JSON.parse(app_node.attr('data-symbols'));
+    var exchange_rates = JSON.parse(app_node.attr('data-exchange-rates'));
+
+    function float_multiply_by_100(float) {
+        float = String(float);
+        // float = float.toString();
+        var index_of_dec_point = float.indexOf('.');
+        if (index_of_dec_point == -1) {
+            float += '00';
+        } else {
+            var float_splitted = float.split('.');
+            var dec_length = float_splitted[1].length;
+            if (dec_length == 1) {
+                float_splitted[1] += '0';
+            } else if (dec_length > 2) {
+                float_splitted[1] = float_splitted[1].substring(0, 1);
+            }
+            float = float_splitted.join('');
+        }
+        return Number(float);
+    }
+
+    function js_number_format(number) {
+        number = String(number);
+        // number = number.toString();
+        var index_of_dec_point = number.indexOf('.');
+        if (index_of_dec_point == -1) {
+            number += '.00';
+        } else {
+            var number_splitted = number.split('.');
+            var dec_length = number_splitted[1].length;
+            if (dec_length == 1) {
+                number += '0';
+            } else if (dec_length > 2) {
+                number_splitted[1] = number_splitted[1].substring(0, 2);
+                number = number_splitted.join('.');
+            }
+        }
+        return number;
+    }
+
+    function exchange_price(price, to_currency, from_currency) {
+        if (to_currency && to_currency !== 'USD' && exchange_rates[to_currency]) {
+            var to_rate = exchange_rates[to_currency].rate;
+            price = float_multiply_by_100(price);
+            to_rate = float_multiply_by_100(to_rate);
+            price = js_number_format(Math.imul(price, to_rate) / 10000);
+        }
+        if (from_currency && from_currency !== 'USD' && exchange_rates[from_currency]) {
+            var from_rate = exchange_rates[from_currency].rate;
+            price = float_multiply_by_100(price);
+            from_rate = float_multiply_by_100(from_rate);
+            price = js_number_format(price / from_rate);
+        }
+        return price;
+        // 以下方法实现js的number_format功能虽然简单，但是存在数字四舍五入不准确的问题，结果不可预知：
+        // (Math.ceil(number) / 100).toFixed(2)
+        // js_number_format(Math.ceil(number) / 100)
+    }
+
+    function get_current_price(price_in_usd) {
+        return exchange_price(price_in_usd, global_currency);
+    }
+
+    function get_symbol_by_currency(currency) {
+        if (currency && currency !== 'USD' && symbols[currency]) {
+            return symbols[currency];
+        }
+        return '&#36;';
+    }
+</script>
+
 <!--美洽客服系统-->
 <script type='text/javascript'>
     (function(m, ei, q, i, a, j, s) {
@@ -55,16 +140,16 @@
     _MEIQIA('manualInit');
 </script>
 <script>
-	//如果需要英文版，可用如下配置
-	if(document.getElementsByTagName("html")[0].getAttribute("lang") == "en"){
-		_MEIQIA('language','en')	
-	}
+    //如果需要英文版，可用如下配置
+    if(document.getElementsByTagName("html")[0].getAttribute("lang") == "en"){
+     _MEIQIA('language','en');
+    }
     // 在这里开启无按钮模式（常规情况下，需要紧跟在美洽嵌入代码之后）
     _MEIQIA('withoutBtn');
     _MEIQIA('init');
     //点击客服
     $(".gShare").click("click",function(){
-    	_MEIQIA('showPanel');
+        _MEIQIA('showPanel');
     })
 </script>
 </body>

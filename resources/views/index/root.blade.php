@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', App::isLocale('en') ? 'Lyricalhair' : '莱瑞美业')
+@section('title', App::isLocale('zh-CN') ? '莱瑞美业' : 'Lyricalhair')
 @section('content')
     <div class="home-page">
         <div class="swiper-container banner" id="banner">
@@ -68,7 +68,7 @@
                     <div class="m-wrapper">
                         <div class="part_title">
                             <a href="{{ route('product_categories.index', ['category' => $category_products['category']->id]) }}">
-                                <h3>{{ App::isLocale('en') ? $category_products['category']->name_en : $category_products['category']->name_zh }}</h3>
+                                <h3>{{ App::isLocale('zh-CN') ? $category_products['category']->name_zh : $category_products['category']->name_en }}</h3>
                             </a>
                             <ul class="pull-right">
                                 @foreach($category_products['children'] as $k => $child)
@@ -76,7 +76,7 @@
                                         @break
                                     @endif
                                     <li>
-                                        <a href="{{ route('product_categories.index', ['category' => $child->id]) }}">{{ App::isLocale('en') ? $child->name_en : $child->name_zh }}</a>
+                                        <a href="{{ route('product_categories.index', ['category' => $child->id]) }}">{{ App::isLocale('zh-CN') ? $child->name_zh : $child->name_en }}</a>
                                         @if($k != 0)
                                             <span>/</span>
                                         @endif
@@ -99,11 +99,14 @@
                                     <li>
                                         <a href="{{ route('products.show', ['product' => $product->id]) }}">
                                             <img class="lazy" data-src="{{ $product->thumb_url }}">
-                                            <h5 title="{{ App::isLocale('en') ? $product->name_en : $product->name_zh }}">{{ App::isLocale('en') ? $product->name_en : $product->name_zh }}</h5>
-                                            <span title="{{ App::isLocale('en') ? strip_tags($product->description_en) : strip_tags($product->description_zh) }}">
-                                                {!! App::isLocale('en') ? $product->description_en : $product->description_zh !!}
+                                            <h5 title="{{ App::isLocale('zh-CN') ? $product->name_zh : $product->name_en }}">
+                                                {{ App::isLocale('zh-CN') ? $product->name_zh : $product->name_en }}
+                                            </h5>
+                                            <span title="{{ App::isLocale('zh-CN') ? strip_tags($product->description_zh) : strip_tags($product->description_en) }}">
+                                                {!! App::isLocale('zh-CN') ? $product->description_zh : $product->description_en !!}
                                             </span>
-                                            <p class="product_price">@lang('basic.currency.symbol') {{ App::isLocale('en') ? $product->price_in_usd : $product->price }}</p>
+                                            {{--<p class="product_price">@lang('basic.currency.symbol') {{ App::isLocale('en') ? $product->price_in_usd : $product->price }}</p>--}}
+                                            <p class="product_price">{{ get_global_symbol() }} {{ get_current_price($product->price) }}</p>
                                         </a>
                                     </li>
                                 @endforeach
@@ -116,7 +119,7 @@
                     <div class="m-wrapper">
                         <div class="part_title">
                             <a href="{{ route('product_categories.index', ['category' => $category_products['category']->id]) }}">
-                                <h3>{{ App::isLocale('en') ? $category_products['category']->name_en : $category_products['category']->name_zh }}</h3>
+                                <h3>{{ App::isLocale('zh-CN') ? $category_products['category']->name_zh : $category_products['category']->name_en }}</h3>
                             </a>
                             <ul class="pull-right">
                                 @foreach($category_products['children'] as $k => $child)
@@ -124,7 +127,7 @@
                                         @break
                                     @endif
                                     <li>
-                                        <a href="{{ route('product_categories.index', ['category' => $child->id]) }}">{{ App::isLocale('en') ? $child->name_en : $child->name_zh }}</a>
+                                        <a href="{{ route('product_categories.index', ['category' => $child->id]) }}">{{ App::isLocale('zh-CN') ? $child->name_zh : $child->name_en }}</a>
                                         @if($k != 0)
                                             <span>/</span>
                                         @endif
@@ -158,11 +161,14 @@
                                                 <img src="{{ asset('img/mask_search.png') }}">
                                             </a>
                                         </div>
-                                        <h5 title="{{ App::isLocale('en') ? $product->name_en : $product->name_zh }}">{{ App::isLocale('en') ? $product->name_en : $product->name_zh }}</h5>
-                                        <span title="{{ App::isLocale('en') ? strip_tags($product->description_en) : strip_tags($product->description_zh) }}">
-                                            {!! App::isLocale('en') ? $product->description_en : $product->description_zh !!}
+                                        <h5 title="{{ App::isLocale('zh-CN') ? $product->name_zh : $product->name_en }}">
+                                            {{ App::isLocale('zh-CN') ? $product->name_zh : $product->name_en }}
+                                        </h5>
+                                        <span title="{{ App::isLocale('zh-CN') ? strip_tags($product->description_zh) : strip_tags($product->description_en) }}">
+                                            {!! App::isLocale('zh-CN') ? $product->description_zh : $product->description_en !!}
                                         </span>
-                                        <p class="product_price">@lang('basic.currency.symbol') {{ App::isLocale('en') ? $product->price_in_usd : $product->price }}</p>
+                                        {{--<p class="product_price">@lang('basic.currency.symbol') {{ App::isLocale('en') ? $product->price_in_usd : $product->price }}</p>--}}
+                                        <p class="product_price">{{ get_global_symbol() }} {{ get_current_price($product->price) }}</p>
                                     </li>
                                 @endforeach
                             </ul>
@@ -186,10 +192,14 @@
                                 </div>--}}
                                 <img class="lazy" data-src="{{ $guess->thumb_url }}">
                             </div>
-                            <h5 title="{{ App::isLocale('en') ? $guess->name_en : $guess->name_zh }}">{{ App::isLocale('en') ? $guess->name_en : $guess->name_zh }}</h5>
+                            <h5 title="{{ App::isLocale('zh-CN') ? $guess->name_zh : $guess->name_en }}">
+                                {{ App::isLocale('zh-CN') ? $guess->name_zh : $guess->name_en }}
+                            </h5>
                             <p class="guess_price">
-                                <span class="new_price">@lang('basic.currency.symbol') {{ App::isLocale('en') ? $guess->price_in_usd : $guess->price }}</span>
-                                <span class="old_price">@lang('basic.currency.symbol') {{  App::isLocale('en') ? bcmul($guess->price_in_usd, 1.2, 2) : bcmul($guess->price, 1.2, 2) }}</span>
+                                {{--<span class="new_price">@lang('basic.currency.symbol') {{ App::isLocale('en') ? $guess->price_in_usd : $guess->price }}</span>--}}
+                                {{--<span class="old_price">@lang('basic.currency.symbol') {{ App::isLocale('en') ? bcmul($guess->price_in_usd, 1.2, 2) : bcmul($guess->price, 1.2, 2) }}</span>--}}
+                                <span class="new_price">{{ get_global_symbol() }} {{ get_current_price($guess->price) }}</span>
+                                <span class="old_price">{{ get_global_symbol() }} {{ bcmul(get_current_price($guess->price), 1.2, 2) }}</span>
                             </p>
                             <a class="buy_now_guess" href="{{ route('products.show', ['product' => $guess->id]) }}">
                                 @lang('product.buy_now')
