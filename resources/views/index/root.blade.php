@@ -18,11 +18,6 @@
                             <img src="{{ asset('defaults/defaults_pc_banner.png') }}">
                         </a>
                     </div>
-                    <div class="swiper-slide">
-                        <a>
-                            <img src="{{ asset('defaults/defaults_pc_banner.png') }}">
-                        </a>
-                    </div>
                 @endif
             </div>
             <div class="swiper-button-prev"></div>
@@ -215,22 +210,23 @@
     <script src="{{ asset('js/swiper/js/swiper.js') }}"></script>
     <script type="text/javascript">
         $(function () {
-            var swiper = new Swiper('.swiper-container', {
-                centeredSlides: true,
-                loop: true,
-                speed: 1500,
-                // effect : 'cube',
-                fadeEffect: {
-                    crossFade: true,
-                },
-                autoplay: {
-                    delay: 3000,
-                },
-                navigation: {
-                    nextEl: '.swiper-button-next',
-                    prevEl: '.swiper-button-prev',
-                },
-            });
+        	if($(".swiper-container .swiper-slide").length != 1){
+			    var swiper = new Swiper('.swiper-container', {
+	                centeredSlides: true,
+	                loop: true,
+	                speed: 4000,
+	                fadeEffect: {
+	                    crossFade: true,
+	                },
+		            autoplay: {
+		                delay: 4000,
+		            },
+	                navigation: {
+	                    nextEl: '.swiper-button-next',
+	                    prevEl: '.swiper-button-prev',
+	                },
+	           });
+			}
         });
     </script>
 @endsection
