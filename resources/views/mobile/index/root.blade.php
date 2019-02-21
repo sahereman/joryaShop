@@ -27,9 +27,6 @@
                     <div class="swiper-slide swiper-slideL">
                         <img src="{{ asset('defaults/default_mobile_banner.png') }}" class="main-img">
                     </div>
-                    <div class="swiper-slide swiper-slideL">
-                        <img src="{{ asset('defaults/default_mobile_banner.png') }}" class="main-img">
-                    </div>
                 @endif
             </div>
             <div class="swiper-pagination" id="pagination"></div>
