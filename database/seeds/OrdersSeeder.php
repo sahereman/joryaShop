@@ -9,6 +9,9 @@ use Illuminate\Database\Seeder;
 
 class OrdersSeeder extends Seeder
 {
+    protected $totalShippingFee = 0;
+    protected $totalAmount = 0;
+
     /**
      * Run the database seeds.
      * @return void
@@ -48,15 +51,21 @@ class OrdersSeeder extends Seeder
         $earlier = $faker->dateTimeThisMonth($former);
         factory(Order::class, 10)->create([
             'snapshot' => $this->makeRandomSnapshot(),
+            'total_shipping_fee' => $this->totalShippingFee,
+            'total_amount' => $this->totalAmount,
         ]);
         factory(Order::class, 10)->create([
             'status' => Order::ORDER_STATUS_CLOSED,
             'snapshot' => $this->makeRandomSnapshot(),
+            'total_shipping_fee' => $this->totalShippingFee,
+            'total_amount' => $this->totalAmount,
             'closed_at' => $earlier,
         ]);
         factory(Order::class, 10)->create([
             'status' => Order::ORDER_STATUS_SHIPPING,
             'snapshot' => $this->makeRandomSnapshot(),
+            'total_shipping_fee' => $this->totalShippingFee,
+            'total_amount' => $this->totalAmount,
             'payment_sn' => 'PAYMENT_SN_ALIPAY_88888888',
             'payment_method' => Order::PAYMENT_METHOD_ALIPAY,
             'paid_at' => $earlier,
@@ -64,6 +73,8 @@ class OrdersSeeder extends Seeder
         factory(Order::class, 10)->create([
             'status' => Order::ORDER_STATUS_RECEIVING,
             'snapshot' => $this->makeRandomSnapshot(),
+            'total_shipping_fee' => $this->totalShippingFee,
+            'total_amount' => $this->totalAmount,
             'payment_sn' => 'PAYMENT_SN_ALIPAY_88888888',
             'payment_method' => Order::PAYMENT_METHOD_ALIPAY,
             'paid_at' => $earlier,
@@ -74,6 +85,8 @@ class OrdersSeeder extends Seeder
         factory(Order::class, 10)->create([
             'status' => Order::ORDER_STATUS_COMPLETED,
             'snapshot' => $this->makeRandomSnapshot(),
+            'total_shipping_fee' => $this->totalShippingFee,
+            'total_amount' => $this->totalAmount,
             'payment_sn' => 'PAYMENT_SN_ALIPAY_88888888',
             'payment_method' => Order::PAYMENT_METHOD_ALIPAY,
             'paid_at' => $earlier,
@@ -85,6 +98,8 @@ class OrdersSeeder extends Seeder
         factory(Order::class, 10)->create([
             'status' => Order::ORDER_STATUS_COMPLETED,
             'snapshot' => $this->makeRandomSnapshot(),
+            'total_shipping_fee' => $this->totalShippingFee,
+            'total_amount' => $this->totalAmount,
             'payment_sn' => 'PAYMENT_SN_ALIPAY_88888888',
             'payment_method' => Order::PAYMENT_METHOD_ALIPAY,
             'paid_at' => $earlier,
@@ -107,6 +122,9 @@ class OrdersSeeder extends Seeder
             $random_snapshot[$i]['sku_id'] = $random_sku_id;
             $random_snapshot[$i]['price'] = $random_sku->price;
             $random_snapshot[$i]['number'] = random_int(1, 5);
+            $random_product = $random_sku->product;
+            $this->totalShippingFee += floatval($random_product->shipping_fee);
+            $this->totalAmount += floatval(bcmul($random_snapshot[$i]['price'], $random_snapshot[$i]['number'], 2));
         }
         return $random_snapshot;
     }
