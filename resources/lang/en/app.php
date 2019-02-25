@@ -93,11 +93,11 @@ return [
     'SMS Reset' => 'SMS Reset',
     'The Best For You' => 'The Best For You',
     'Repair' => 'Repair',
-    '30 Day Money Back' => '30 Day Money Back',
+    '30-Day Money Back' => '30-Day Money Back',
     'Guarantee' => 'Guarantee',
     'Custom Order' => 'Custom Order',
     'Duplicate' => 'Duplicate',
-    'Stock Custom  Hair Systems' => 'Stock & Custom  Hair Systems',
+    'Custom & Stock Hair Systems' => 'Custom & Stock Hair Systems',
     'Stock Order' => 'Stock Order'
     
 ];
