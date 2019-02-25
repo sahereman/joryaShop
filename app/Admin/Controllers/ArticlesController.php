@@ -114,7 +114,8 @@ class ArticlesController extends Controller
      */
     protected function form()
     {
-        $slugs = [
+        /*for select-options*/
+        /*$slugs = [
             'about' => '关于我们',
             'company_introduction' => '公司简介',
             'products_features' => '产品特色',
@@ -131,7 +132,7 @@ class ArticlesController extends Controller
             'custom_order' => 'Custom Order',
             'duplicate' => 'Duplicate',
             'repair' => 'Repair',
-        ];
+        ];*/
 
         /*$articles = Article::all();
         $articles->map(function ($article, $key) use (&$slugs) {
@@ -146,12 +147,20 @@ class ArticlesController extends Controller
 
         $form->text('name', '名称');
 
-        $form->select('slug', '标示位')->options($slugs)->rules(function ($form) {
+        $form->text('slug', '标示位')->rules(function ($form) {
             return [
                 'required',
                 Rule::unique('articles', 'slug')->ignore($form->model()->id),
             ];
         });
+
+        /*for select-options*/
+        /*$form->select('slug', '标示位')->options($slugs)->rules(function ($form) {
+            return [
+                'required',
+                Rule::unique('articles', 'slug')->ignore($form->model()->id),
+            ];
+        });*/
         /*->help(
             '可使用的标示 : ' .
             'about | company_introduction | products_features | contact_us | helper | guide | problem | user_protocol | refunding_service | refunding_consultancy | refunding_policy | refunding_procedure | stock_order | custom_order | duplicate | repair'
