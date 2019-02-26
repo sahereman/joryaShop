@@ -15,7 +15,8 @@ class ProductCategory extends Model
         parent::__construct($attributes);
 
         /*初始化Tree属性*/
-        $this->setTitleColumn('name_zh');
+        // $this->setTitleColumn('name_zh');
+        $this->setTitleColumn('name_en');
         $this->setOrderColumn('sort');
     }
 
