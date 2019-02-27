@@ -1,7 +1,7 @@
 <nav class="navbar navbar-default">
     <div class="navbar-top">
         <div class="m-wrapper">
-            <div class="navbar-top-left pull-left">
+            {{--<div class="navbar-top-left pull-left">
                 <ul>
                     <li>
                         <span>@lang('app.switch language')：</span>
@@ -13,12 +13,12 @@
                             <img src="{{ asset('img/header/down_arrow.png') }}">
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="dLabel">
-                            {{--<li>--}}
-                                {{--<a href="{{ route('locale.update', ['locale' => 'zh-CN']) }}">--}}
-                                    {{--<img src="{{ asset('img/header/cn_flag.png') }}">--}}
-                                    {{--<span>中文</span>--}}
-                                {{--</a>--}}
-                            {{--</li>--}}
+                            <li>
+                                <a href="{{ route('locale.update', ['locale' => 'zh-CN']) }}">
+                                    <img src="{{ asset('img/header/cn_flag.png') }}">
+                                    <span>中文</span>
+                                </a>
+                            </li>
                             <li>
                                 <a href="{{ route('locale.update', ['locale' => 'en']) }}">
                                     <img src="{{ asset('img/header/en_flag.png') }}">
@@ -28,7 +28,7 @@
                         </ul>
                     </li>
                 </ul>
-            </div>
+            </div>--}}
             <div class="navbar-top-right pull-right">
                 @guest
                     <a class="login">@lang('app.Log_In')</a>
@@ -90,10 +90,15 @@
                     {{--<li class="first_menu">
                         <a href="{{ route('root') }}"><span>@lang('basic.home')</span></a>
                     </li>--}}
-                    @foreach(\App\Models\Menu::pcMenus() as $menu)
+                    @foreach(\App\Models\Menu::pcMenus() as $key => $menu)
                         @if(isset($menu['parent']))
                             <li class="first_menu">
-                                <a href="{{ $menu['parent']->link }}">{{ App::isLocale('zh-CN') ? $menu['parent']->name_zh : $menu['parent']->name_en }}</a>
+                                <a href="{{ $menu['parent']->link }}">
+                                	@if($key == 0)
+                                	<img src="{{ asset('img/home2.png') }}">
+                                	@endif
+                                	{{ App::isLocale('zh-CN') ? $menu['parent']->name_zh : $menu['parent']->name_en }}
+                                </a>
                                 <!--二级菜单内容-->
                                 @if(isset($menu['children']))
                                     <div class="nav-panel-dropdown">
@@ -116,7 +121,12 @@
                 </ul>
                 <div class="pull-right header-search">
                     <ul>
-                        <li>
+                    	<li class="for_show_search">
+                    		<a class="show_btn" href="javascript:void(0);">
+                                <img src="{{ asset('img/search_magnifier.png') }}">
+                            </a>
+                    	</li>
+                        <li class="show_search">
                             <input type="search" data-url="{{ route('products.search_hint') }}" class="selectInput_header" placeholder="@lang('app.Please enter the item you are searching for')">
                             <a class="search_btn" href="javascript:void(0);">
                                 <img src="{{ asset('img/search_magnifier.png') }}">

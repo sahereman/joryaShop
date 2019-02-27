@@ -236,7 +236,8 @@ img {
             a {
                 padding: 0 8px; 
                 cursor: pointer;
-                &.about-us {
+                &.about-us,
+                &.register {
                   &:before {
                       content: "|";
                       padding-right: 16px;
@@ -479,8 +480,20 @@ img {
                                     font-size: 12px;
                                 }
                             }
-                            &:first-of-type {
+                            
+                            &.show_search {
                                border-bottom: 1px solid #333;
+                               transition: all .5s;
+                               display: none;
+                               &.active {
+                                   display: block;
+                               }
+                            }
+                            &.for_show_search {
+                                display: block;
+                                &.active {
+                                    display: none;
+                                }
                             }
                             .selectList {
                                 width: 196px;

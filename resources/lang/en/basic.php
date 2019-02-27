@@ -24,7 +24,7 @@ return [
     'delete' => 'Delete',
 
     'users' => [
-        'Personal_Center' => 'Personal Center',
+        'Personal_Center' => 'My Account',
         'Account_information' => 'Account information',
         'Change_Password' => 'Change Password',
         'Receiving_address' => 'Shipping address',

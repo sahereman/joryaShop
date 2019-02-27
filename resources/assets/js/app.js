@@ -787,4 +787,10 @@ $(function () {
     }).mouseleave(function (event) {
         $(this).find(".nav-panel-dropdown").fadeOut();
     });
+    //header search change
+    $(".for_show_search").on("click",function(){
+    	$(this).addClass("active");
+    	$(".show_search").addClass("active");
+    })
+    
 });
