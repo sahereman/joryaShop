@@ -33,6 +33,7 @@
                 @guest
                     <a class="login">@lang('app.Log_In')</a>
                     <a class="register">@lang('app.Register')</a>
+                    <a class="register">@lang('basic.users.Personal_Center')</a>
                     <a class="about-us" href="{{ route('articles.show', ['slug' => 'about']) }}">@lang('app.Contact_Us')</a>
                 @else
                     <a id="user_info_btn" role="button" data-toggle="dropdown" aria-haspopup="true"

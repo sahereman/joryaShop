@@ -7,12 +7,12 @@
                 <img src="{{ asset('static_m/img/Unchecked_search.png') }}"/>
                 <input type="text" style="text-align: center;" value="" placeholder="@lang('app.Search for goods for good goods')" readonly="readonly"/>
             </a>
-            <a href="javascript:void(0);" data-href="{{ route('mobile.locale.show') }}"
+            {{--<a href="javascript:void(0);" data-href="{{ route('mobile.locale.show') }}"
                code="{{ App::isLocale('zh-CN') ? '1' : '0' }}" class="LanguageSwitch">
                 <img src="{{ App::isLocale('zh-CN') ? asset('static_m/img/chinese.png') : asset('static_m/img/English.png') }}"
                      alt="" class="langImg"/>
                 <span></span>
-            </a>
+            </a>--}}
         </div>
         <!-- Swiper -->
         <div class="swiper-container swiper-containerL">

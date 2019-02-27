@@ -25,7 +25,7 @@ return [
 
     'users' => [
         'Personal_Center' => 'My Account',
-        'Account_information' => 'Account information',
+        'Account_information' => 'My Account',
         'Change_Password' => 'Change Password',
         'Receiving_address' => 'Shipping address',
         'My_collection' => 'My Favourites',

@@ -392,7 +392,7 @@ img {
                 flex-direction: row;
                 justify-content: space-between;
                 .navbar-bottom-bottom-left {
-                    width: 78%;
+                    width: 75%;
                     margin: auto;
                     position: relative;
                     display: flex;
@@ -453,10 +453,13 @@ img {
                     }
                 }
                 .header-search {
+                    width: 25%;
                     margin: auto;
                     >ul {
                         display: flex;
                         flex-direction: row;
+                        justify-content: flex-end;
+                        height: 25px;
                         li {
                             margin: 0 10px;
                             position: relative;
@@ -484,9 +487,18 @@ img {
                             &.show_search {
                                border-bottom: 1px solid #333;
                                transition: all .5s;
-                               display: none;
+                               width: 0;
+                               opacity: 0;
+                               a {
+                                   opacity: 0;
+                                   transition-delay: .5s;
+                               }
                                &.active {
-                                   display: block;
+                                   width: 196px;
+                                   opacity: 1;
+                                   a {
+                                       opacity: 1;
+                                   }
                                }
                             }
                             &.for_show_search {
