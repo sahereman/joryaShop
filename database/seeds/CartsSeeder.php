@@ -1,9 +1,9 @@
 <?php
 
-use Illuminate\Database\Seeder;
-use App\Models\User;
 use App\Models\Cart;
 use App\Models\ProductSku;
+use App\Models\User;
+use Illuminate\Database\Seeder;
 
 class CartsSeeder extends Seeder
 {

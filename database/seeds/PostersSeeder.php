@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Seeder;
 use App\Models\Poster;
+use Illuminate\Database\Seeder;
 
 class PostersSeeder extends Seeder
 {
@@ -32,7 +32,7 @@ class PostersSeeder extends Seeder
         foreach ($slug_arr as $item) {
             factory(Poster::class)->create([
                 'name' => $item[0],
-                'slug' => $item[1]
+                'slug' => $item[1],
             ]);
         }
     }

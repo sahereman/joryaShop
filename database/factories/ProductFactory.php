@@ -1,7 +1,7 @@
 <?php
 
-use Faker\Generator as Faker;
 use App\Admin\Models\Product;
+use Faker\Generator as Faker;
 
 $factory->define(Product::class, function (Faker $faker) {
     // 现在时间
@@ -10,7 +10,6 @@ $factory->define(Product::class, function (Faker $faker) {
     $updated_at = $faker->dateTimeThisMonth($now);
     // 传参为生成最大时间不超过，创建时间永远比更改时间要早
     $created_at = $faker->dateTimeThisMonth($updated_at);
-
     return [
         'name_en' => 'Test Product - ' . $faker->company . '-en',
         'name_zh' => '测试商品 - ' . $faker->company . '-zh',

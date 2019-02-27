@@ -1,8 +1,7 @@
 <?php
 
-use Illuminate\Database\Seeder;
-
 use App\Models\Config;
+use Illuminate\Database\Seeder;
 
 class ConfigsSeeder extends Seeder
 {

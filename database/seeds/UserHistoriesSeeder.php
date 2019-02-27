@@ -1,9 +1,9 @@
 <?php
 
-use Illuminate\Database\Seeder;
+use App\Models\Product;
 use App\Models\UserHistory;
 use App\Models\User;
-use App\Models\Product;
+use Illuminate\Database\Seeder;
 
 class UserHistoriesSeeder extends Seeder
 {

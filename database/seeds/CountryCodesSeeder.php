@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Seeder;
 use App\Models\CountryCode;
+use Illuminate\Database\Seeder;
 
 class CountryCodesSeeder extends Seeder
 {

@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Seeder;
 use App\Models\User;
+use Illuminate\Database\Seeder;
 
 class UsersSeeder extends Seeder
 {
@@ -13,7 +13,6 @@ class UsersSeeder extends Seeder
     {
         // 通过 factory 方法生成 x 个数据并保存到数据库中
         factory(User::class, 5)->create();
-
 
         //测试账号
         $user = User::find(1);

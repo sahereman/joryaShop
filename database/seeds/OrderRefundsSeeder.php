@@ -1,9 +1,9 @@
 <?php
 
-use Illuminate\Database\Seeder;
 use App\Models\User;
 use App\Models\Order;
 use App\Models\OrderRefund;
+use Illuminate\Database\Seeder;
 
 class OrderRefundsSeeder extends Seeder
 {

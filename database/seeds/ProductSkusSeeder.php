@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Database\Seeder;
 use App\Models\Product;
 use App\Models\ProductSku;
+use Illuminate\Database\Seeder;
 
 class ProductSkusSeeder extends Seeder
 {

@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Seeder;
 use App\Models\ExchangeRate;
+use Illuminate\Database\Seeder;
 
 class ExchangeRatesSeeder extends Seeder
 {

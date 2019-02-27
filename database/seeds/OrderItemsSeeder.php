@@ -1,9 +1,6 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\Models\Order;
-use App\Models\OrderItem;
-use App\Models\ProductSku;
 
 class OrderItemsSeeder extends Seeder
 {

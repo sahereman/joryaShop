@@ -1,9 +1,9 @@
 <?php
 
-use App\Models\User;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\ProductSku;
+use App\Models\User;
 use Faker\Generator as Faker;
 use Illuminate\Database\Seeder;
 

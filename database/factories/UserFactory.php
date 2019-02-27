@@ -33,5 +33,4 @@ $factory->define(App\Models\User::class, function (Faker $faker) {
         'created_at' => $created_at,
         'updated_at' => $updated_at,
     ];
-
 });

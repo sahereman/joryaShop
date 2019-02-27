@@ -1,9 +1,8 @@
 <?php
 
-use Illuminate\Database\Seeder;
 use App\Models\Banner;
 use Faker\Generator as Faker;
-
+use Illuminate\Database\Seeder;
 
 class BannersSeeder extends Seeder
 {
@@ -14,7 +13,6 @@ class BannersSeeder extends Seeder
     public function run(Faker $faker)
     {
         $prefix_path = Storage::disk('public')->getAdapter()->getPathPrefix();
-
 
         factory(Banner::class, 1)->create([
             'type' => 'index',

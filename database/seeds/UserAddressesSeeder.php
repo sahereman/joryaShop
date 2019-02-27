@@ -1,9 +1,9 @@
 <?php
 
-use Illuminate\Database\Seeder;
+use App\Models\Product;
 use App\Models\User;
 use App\Models\UserAddress;
-use App\Models\Product;
+use Illuminate\Database\Seeder;
 
 class UserAddressesSeeder extends Seeder
 {
