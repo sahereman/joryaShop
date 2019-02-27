@@ -5,6 +5,8 @@ namespace App\Models;
 use Encore\Admin\Traits\AdminBuilder;
 use Encore\Admin\Traits\ModelTree;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class ProductCategory extends Model
 {
@@ -25,11 +27,14 @@ class ProductCategory extends Model
      * @var array
      */
     protected $fillable = [
+        'parent_id',
+        // 'banner', // 备用字段
         'name_zh',
         'name_en',
         'description_en',
         'description_zh',
-        'banner', // 备用字段
+        'content_en',
+        'content_zh',
         'is_index',
         'sort',
     ];
@@ -63,8 +68,20 @@ class ProductCategory extends Model
      * @var array
      */
     protected $appends = [
-        //
+        // 'banner_url', // 备用字段
     ];
+
+    /*public function getBannerUrlAttribute()
+    {
+        if ($this->attributes['banner']) {
+            // 如果 banner 字段本身就已经是完整的 url 就直接返回
+            if (Str::startsWith($this->attributes['banner'], ['http://', 'https://'])) {
+                return $this->attributes['banner'];
+            }
+            return Storage::disk('public')->url($this->attributes['banner']);
+        }
+        return '';
+    }*/
 
     public function children()
     {

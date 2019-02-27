@@ -140,6 +140,8 @@ class ProductCategoriesController extends Controller
         $show->name_en('名称(英文)');
         // $show->description_zh('描述(中文)');
         $show->description_en('描述(英文)');
+        // $show->content_zh('内容(中文)');
+        $show->content_en('内容(英文)');
         $show->is_index('首页显示')->as(function ($item) {
             return $item ? '<span class="label label-primary">ON</span>' : '<span class="label label-default">OFF</span>';
         });
@@ -176,6 +178,8 @@ class ProductCategoriesController extends Controller
         // $form->text('description_zh', '描述(中文)')->rules('required');
         $form->hidden('description_zh', '描述(中文)')->default('lyrical');
         $form->text('description_en', '描述(英文)')->rules('required');
+        $form->hidden('content_zh', '内容(中文)')->default('lyrical');
+        $form->editor('content_en', '内容(英文)')->rules('required');
         $form->switch('is_index', '首页显示');
         $form->number('sort', '排序值');
 
