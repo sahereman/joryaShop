@@ -172,7 +172,7 @@ img {
 .navbar {
     width: 100%;
     min-width: 1200px;
-    min-height: 207px;
+    min-height: 195px;
     margin-bottom: 0;
     border: 0;
     z-index: 100;
@@ -317,6 +317,7 @@ img {
         min-height: 110px;
         background-color: #fff;
         display: flex;
+        margin-top: 20px;
         .m-wrapper {
             min-height: 110px;
             margin: 0 auto;

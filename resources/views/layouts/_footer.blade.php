@@ -167,7 +167,7 @@
                     <ul>
                     	<li>
                     		<span><i>*</i>username:</span>
-                    		<input type="text" name="name" id="register_user" placeholder="@lang('app.please enter user name')"required>
+                    		<input type="text" name="name" id="register_user" required>
                     		@if ($errors->has('name'))
 		                        <p class="login_error error_content">
 		                            <i></i>
@@ -177,7 +177,7 @@
                     	</li>
                     	<li>
                     		<span><i>*</i>password:</span>
-                    		<input type="password" name="password" id="register_psw" placeholder="@lang('app.Please enter your password')" required>
+                    		<input type="password" name="password" id="register_psw" required>
                     		@if ($errors->has('password'))
 		                        <p class="login_error error_content">
 		                            <i></i>
@@ -186,8 +186,8 @@
 		                    @endif
                     	</li>
                     	<li>
-                    		<span>E-mail:</span>
-                    		<input type="email" name="email" id="register_mail" placeholder="@lang('app.Please enter your password')">
+                    		<span><i>*</i>E-mail:</span>
+                    		<input type="email" name="email" id="register_mail">
                     	</li>
                     	<li>
                     		<span><i>*</i>country:</span>
@@ -203,8 +203,7 @@
                     	</li>
                     	<li>
                     		<span><i>*</i>phone:</span>
-                    		<input type="text" name="phone" id="register_email"
-                               placeholder="@lang('app.Please select a country first')" required>
+                    		<input type="text" name="phone" id="register_email" required>
                             @if ($errors->has('phone'))
 		                        <p class="login_error error_content">
 		                            <i></i>
@@ -214,8 +213,7 @@
                     	</li>
                     	<li>
                     	    <span><i>*</i>code:</span>
-                    	    <input type="text" id="register_code" class="code" name="code"
-                               placeholder="@lang('app.please enter verification code')">
+                    	    <input type="text" id="register_code" class="code" name="code">
                             <input type="button" class="generate_code" data-url="{{ route('register.send_sms_code') }}"
                                id="getRegister_code" value=" @lang('app.get verification code')">
                             @if ($errors->has('code'))
@@ -262,8 +260,7 @@
                     <ul>
                         <li>
                             <span><i>*</i>username:</span>
-                            <input type="text" name="username"
-                                placeholder="@lang('app.Please enter your username or phone number')" required>
+                            <input type="text" name="username" required>
                             @if ($errors->has('username'))
                                 <p class="login_error error_content">
                                     <i></i>
@@ -273,8 +270,7 @@
                         </li>
                         <li>
                             <span><i>*</i>password:</span>
-                            <input type="password" name="password" placeholder="@lang('app.Please enter your password')"
-                                   required>
+                            <input type="password" name="password" required>
                             @if ($errors->has('password'))
                                 <p class="login_error error_content">
                                     <i></i>
@@ -301,8 +297,7 @@
                         </li>
                         <li>
                             <span><i>*</i>phone:</span>
-                            <input type="text" name="phone" id="login_email"
-                               placeholder="@lang('app.Please select a country first')" required>
+                            <input type="text" name="phone" id="login_email" required>
                             @if ($errors->has('phone'))
                                 <p class="login_error error_content">
                                     <i></i>
@@ -312,8 +307,7 @@
                         </li>
                         <li>
                             <span><i>*</i>code:</span>
-                            <input type="text" class="code" name="code" id="login_code"
-                               placeholder="@lang('app.please enter verification code')">
+                            <input type="text" class="code" name="code" id="login_code">
                             <input type="button" class="generate_code" data-url="{{ route('login.send_sms_code') }}"
                                id="getLogin_code" value=" @lang('app.get verification code')">
                              @if ($errors->has('code'))
