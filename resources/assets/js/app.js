@@ -366,6 +366,7 @@ $(function () {
         var data = {
             phone: $("#register_email").val(),
             country_code: $("#register_countryCode").val(),
+            email: $("#register_mail").val(),
             // name: $("#register_user").val(),
             // password: $("#register_psw").val(),
             _token: $("#register_token_code").find("input").val()
