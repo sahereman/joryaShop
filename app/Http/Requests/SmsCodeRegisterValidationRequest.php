@@ -17,7 +17,8 @@ class SmsCodeRegisterValidationRequest extends Request
     {
         return [
             'name' => 'bail|required|string|max:255|unique:users',
-            'password' => 'required|string|min:6',
+            'password' => 'bail|required|string|min:6',
+            'email' => 'bail|required|string|email|unique:users',
             'country_code' => 'bail|required|string|regex:/^\d+$/',
             'phone' => [
                 'bail',

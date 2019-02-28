@@ -59,6 +59,7 @@ class RegisterController extends Controller
         return Validator::make($data, [
             'name' => 'bail|required|string|max:255|unique:users',
             'password' => 'bail|required|string|min:6',
+            'email' => 'bail|required|string|email|unique:users',
             'country_code' => 'bail|required|string|regex:/^\d+$/',
             'phone' => [
                 'bail',
@@ -72,7 +73,7 @@ class RegisterController extends Controller
                             'phone' => $value,
                         ])->exists()
                         ) {
-                            $fail('对不起，该手机号码已经注册过用户');
+                            $fail(trans('basic.users.Phone_has_been_registered_as_user'));
                         }
                     }
                 }

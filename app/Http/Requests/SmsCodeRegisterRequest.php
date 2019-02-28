@@ -16,6 +16,7 @@ class SmsCodeRegisterRequest extends Request
     public function rules()
     {
         return [
+            'email' => 'bail|required|string|email|unique:users',
             'country_code' => 'bail|required|string|regex:/^\d+$/',
             'phone' => [
                 'bail',
