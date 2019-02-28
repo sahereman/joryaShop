@@ -347,6 +347,11 @@ $(function () {
     });
     $("#getRegister_code").on("click", function () {
         var clickDome = $(this);
+        if($(this).hasClass("hadclicked")){
+            layer.msg("Please wait a moment");
+            return;
+        }
+        $(this).addClass("hadclicked");
         var disabled = $("#getRegister_code").attr("disabled");
         _generate_code = $("#getRegister_code");
         countdown = 60;
@@ -358,7 +363,6 @@ $(function () {
             $(".register_error ").show();
             return false;
         }
-        settime();
         var data = {
             phone: $("#register_email").val(),
             country_code: $("#register_countryCode").val(),
@@ -372,6 +376,8 @@ $(function () {
             url: url,
             data: data,
             success: function (data) {
+                settime();
+                clickDome.removeClass("hadclicked");
             },
             error: function (err) {
                 console.log(err);
@@ -380,7 +386,7 @@ $(function () {
                 }
                 if (err.status == 500) {
                     $("#getRegister_code").prop("disabled", false);
-                    $("#getRegister_code").click();
+                    layer.alert("System error, please click again")
                 }
             },
             complete: function (data) {
@@ -396,13 +402,18 @@ $(function () {
     });
     $("#getLogin_code").on("click", function () {
         var clickDome = $(this);
+        if($(this).hasClass("hadclicked")){
+            layer.msg("Please wait a moment");
+            return;
+        }
+        $(this).addClass("hadclicked");
         var disabled = $("#getLogin_code").attr("disabled");
         _generate_code = $("#getLogin_code");
         countdown = 60;
         if (disabled) {
             return false;
         }
-        settime();
+        console.log("点击了")
         var data = {
             phone: $("#login_email").val(),
             country_code: $("#login_countryCode").val(),
@@ -414,6 +425,8 @@ $(function () {
             url: url,
             data: data,
             success: function (data) {
+                settime();
+                clickDome.removeClass("hadclicked")
             },
             error: function (err) {
                 console.log(err);
@@ -422,7 +435,7 @@ $(function () {
                 }
                 if (err.status == 500) {
                     $("#getLogin_code").prop("disabled", false);
-                    $("#getLogin_code").click();
+                    layer.alert("System error, please click again")
                 }
             },
         });
