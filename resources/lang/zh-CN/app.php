@@ -97,5 +97,6 @@ return [
     'Custom Order' => '定制订单',
     'Duplicate' => '复刻',
     'Custom & Stock Hair Systems' => '现 货 & 定 制 产 品 销 售',
-    'Stock Order' => '现货订单'
+    'Stock Order' => '现货订单',
+    'Please choose the country' => '请选择国家'
 ];

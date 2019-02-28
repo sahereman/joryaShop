@@ -11,7 +11,7 @@ return [
     'determine' => 'Confirm',
     'picture_type_error' => 'You have not selected an image, or the format of your uploaded file is incorrect! (currently supported image formats: jpg, png, jpeg, gif, bmp)',
     'Contact_Us' => 'Contact Us',
-    'Account_information' => 'Account information',
+    'Account_information' => 'My Account',
     'Sign_out' => 'Sign out',
     'Log_In' => 'Log In',
     'Register' => 'Register',
@@ -98,6 +98,7 @@ return [
     'Custom Order' => 'Custom Order',
     'Duplicate' => 'Duplicate',
     'Custom & Stock Hair Systems' => 'Custom & Stock Hair Systems',
-    'Stock Order' => 'Stock Order'
+    'Stock Order' => 'Stock Order',
+    'Please choose the country' => 'Please choose the country'
     
 ];

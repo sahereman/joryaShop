@@ -1,5 +1,5 @@
 <!--服务承诺-->
-<div class="commitment">
+<!--<div class="commitment">
     <div class="m-wrapper">
         <div class="service_commitment">
             <ul>
@@ -22,7 +22,7 @@
             </ul>
         </div>
     </div>
-</div>
+</div>-->
 <footer class="footer">
     <div class="footer-top">
         <div class="m-wrapper">
@@ -60,10 +60,10 @@
                 </ul>
             </div>
             <div class="pay_attention">
-                <div>
+                {{--<div>
                     <img src="{{ \App\Models\Config::config('wechat_mp_qr_code') ? : config('app.url') . '/defaults/wechat_mp_qr_code.png' }}">
                     <p>@lang('app.Our WeChat public number')</p>
-                </div>
+                </div>--}}
                 <div>
                     <img src="{{ \App\Models\Config::config('mobile_website_qr_code') ? : config('app.url') . '/defaults/mobile_website_qr_code.png' }}">
                     <p>@lang('app.Our mobile shopping mall')</p>
@@ -92,13 +92,8 @@
             </ul>--}}
             <ul class="friendship_link">
                 <li>
-                    <p>@lang('app.Friendship link')：</p>
+                    <img src="{{ asset('img/footer-payment2.png') }}">
                 </li>
-                @for ($i = 0; $i < 8; $i++)
-                    <li>
-                        <a href="http://sahereman.com/" target="view_window">@lang('basic.sahereman')</a>
-                    </li>
-                @endfor
             </ul>
             <p>Copyright 2018 @lang('app.Lyricalshop All rights reserved')</p>
         </div>
@@ -117,12 +112,12 @@
                         <!--<div class="share-component " data-disabled="qzone, tencent, douban, diandian, google, linkedin"></div>-->
                         <div class="social-share" data-initialized="true" data-url="{{ config('app.url') }}"
                              data-title="Lyrical莱瑞美业">
-                            <a href="javascript:void(0);" class="social-share-icon icon-weibo"></a>
+                            <!--<a href="javascript:void(0);" class="social-share-icon icon-weibo"></a>
                             <a href="javascript:void(0);" class="social-share-icon icon-wechat"></a>
                             <a href="javascript:void(0);" class="social-share-icon icon-qq"></a>
-                            <a href="javascript:void(0);" class="social-share-icon icon-qzone"></a>
-                            <a href="javascript:void(0);" class="social-share-icon icon-linkedin"></a>
+                            <a href="javascript:void(0);" class="social-share-icon icon-qzone"></a>-->
                             <a href="javascript:void(0);" class="social-share-icon icon-facebook"></a>
+                            <a href="javascript:void(0);" class="social-share-icon icon-linkedin"></a>
                             <a href="javascript:void(0);" class="social-share-icon icon-twitter"></a>
                             <a href="javascript:void(0);" class="social-share-icon icon-google"></a>
                         </div>
@@ -146,8 +141,8 @@
                 <img src="{{ asset('img/qr_tip.png') }}">
             </a>
             <div class="qr_info">
-                <img src="{{ \App\Models\Config::config('wechat_mp_qr_code') ? : config('app.url') . '/defaults/wechat_mp_qr_code.png' }}">
-                <p>@lang('app.Our WeChat public number')</p>
+                <img src="{{ \App\Models\Config::config('mobile_website_qr_code') ? : config('app.url') . '/defaults/mobile_website_qr_code.png' }}">
+                <p>@lang('app.Our mobile shopping mall')</p>
             </div>
         </li>
         <li class="backtop" title="@lang('app.Click to return to the top')">
@@ -169,58 +164,68 @@
                 <div class="with-line">@lang('app.New User Registration')</div>
                 <form id="register-form" action="{{ route('register') }}" method="POST">
                     <p id="register_token_code" class="dis_n">{{ csrf_field() }}</p>
-                    <input type="text" name="name" id="register_user" placeholder="@lang('app.please enter user name')"
-                           required>
-                    @if ($errors->has('name'))
-                        <p class="login_error error_content">
-                            <i></i>
-                            <span>{{ $errors->first('name') }}</span>
-                        </p>
-                    @endif
-                    <input type="password" name="password" id="register_psw"
-                           placeholder="@lang('app.Please enter your password')" required>
-                    @if ($errors->has('password'))
-                        <p class="login_error error_content">
-                            <i></i>
-                            <span>{{ $errors->first('password') }}</span>
-                        </p>
-                    @endif
-                    <div class="register_phone">
-                        <select class="choose_tel_area" name="country_code" id="register_countryCode">
-                            @foreach(\App\Models\CountryCode::countryCodes() as $country_code)
-                                <option value="{{ $country_code->country_code }}">{{ $country_code->country_name }}</option>
-                            @endforeach
-                        </select>
-                        <div class="click_areaCode">
-                            <img src="{{ asset('img/tel_phone.png') }}">
-                            <img src="{{ asset('img/sanjiao.png') }}">
-                        </div>
-                        <span class="areaCode_val"></span>
-                        <input type="text" name="phone" id="register_email"
+                    <ul>
+                    	<li>
+                    		<span><i>*</i>username:</span>
+                    		<input type="text" name="name" id="register_user" placeholder="@lang('app.please enter user name')"required>
+                    		@if ($errors->has('name'))
+		                        <p class="login_error error_content">
+		                            <i></i>
+		                            <span>{{ $errors->first('name') }}</span>
+		                        </p>
+		                    @endif
+                    	</li>
+                    	<li>
+                    		<span><i>*</i>password:</span>
+                    		<input type="password" name="password" id="register_psw" placeholder="@lang('app.Please enter your password')" required>
+                    		@if ($errors->has('password'))
+		                        <p class="login_error error_content">
+		                            <i></i>
+		                            <span>{{ $errors->first('password') }}</span>
+		                        </p>
+		                    @endif
+                    	</li>
+                    	<li>
+                    		<span>E-mail:</span>
+                    		<input type="email" name="email" id="register_mail" placeholder="@lang('app.Please enter your password')">
+                    	</li>
+                    	<li>
+                    		<span><i>*</i>country:</span>
+                    		<select class="choose_tel_area" name="country_code" id="register_countryCode">
+                    		    <option value="null">@lang('app.Please choose the country')</option>
+	                            @foreach(\App\Models\CountryCode::countryCodes() as $country_code)
+	                                <option value="{{ $country_code->country_code }}">{{ $country_code->country_name }}</option>
+	                            @endforeach
+	                        </select>
+	                        <div class="click_areaCode">
+	                            <img src="{{ asset('img/sanjiao.png') }}">
+	                        </div>
+                    	</li>
+                    	<li>
+                    		<span><i>*</i>phone:</span>
+                    		<input type="text" name="phone" id="register_email"
                                placeholder="@lang('app.Please select a country first')" required>
-                    </div>
-                    @if ($errors->has('phone'))
-                        <p class="login_error error_content">
-                            <i></i>
-                            <span>{{ $errors->first('phone') }}</span>
-                        </p>
-                    @endif
-                    <div class="verification_code">
-                        <input type="text" id="register_code" class="code" name="code"
+                            @if ($errors->has('phone'))
+		                        <p class="login_error error_content">
+		                            <i></i>
+		                            <span>{{ $errors->first('phone') }}</span>
+		                        </p>
+		                    @endif
+                    	</li>
+                    	<li>
+                    	    <span><i>*</i>code:</span>
+                    	    <input type="text" id="register_code" class="code" name="code"
                                placeholder="@lang('app.please enter verification code')">
-                        <input type="button" class="generate_code" data-url="{{ route('register.send_sms_code') }}"
+                            <input type="button" class="generate_code" data-url="{{ route('register.send_sms_code') }}"
                                id="getRegister_code" value=" @lang('app.get verification code')">
-                    </div>
-                    <p class="register_error error_content">
-                        <i></i>
-                        <span>@lang('app.Please enter a valid verification code')</span>
-                    </p>
-                    @if ($errors->has('code'))
-                        <p class="login_error error_content">
-                            <i></i>
-                            <span>{{ $errors->first('code') }}</span>
-                        </p>
-                    @endif
+                            @if ($errors->has('code'))
+                                <p class="login_error error_content">
+                                    <i></i>
+                                    <span>{{ $errors->first('code') }}</span>
+                                </p>
+                            @endif
+                    	</li>
+                    </ul>   
                 </form>
                 <div class="switch-back">
                     <p class="agreement_content">
@@ -254,61 +259,71 @@
                 </div>
                 <form id="login-form" class="active" action="{{ route('login.post') }}" method="POST">
                     <p id="commn_login_token_code" class="dis_n">{{ csrf_field() }}</p>
-                    <input type="text" name="username"
-                           placeholder="@lang('app.Please enter your username or phone number')" required>
-                    @if ($errors->has('username'))
-                        <p class="login_error error_content">
-                            <i></i>
-                            <span>{{ $errors->first('username') }}</span>
-                        </p>
-                    @endif
-                    <input type="password" name="password" placeholder="@lang('app.Please enter your password')"
-                           required>
-                    @if ($errors->has('password'))
-                        <p class="login_error error_content">
-                            <i></i>
-                            <span>{{ $errors->first('password') }}</span>
-                        </p>
-                    @endif
+                    <ul>
+                        <li>
+                            <span><i>*</i>username:</span>
+                            <input type="text" name="username"
+                                placeholder="@lang('app.Please enter your username or phone number')" required>
+                            @if ($errors->has('username'))
+                                <p class="login_error error_content">
+                                    <i></i>
+                                    <span>{{ $errors->first('username') }}</span>
+                                </p>
+                            @endif
+                        </li>
+                        <li>
+                            <span><i>*</i>password:</span>
+                            <input type="password" name="password" placeholder="@lang('app.Please enter your password')"
+                                   required>
+                            @if ($errors->has('password'))
+                                <p class="login_error error_content">
+                                    <i></i>
+                                    <span>{{ $errors->first('password') }}</span>
+                                </p>
+                            @endif
+                        </li>
+                    </ul>  
                 </form>
                 <form id="mailbox_login" action="{{ route('login.verify_sms_code') }}" method="POST">
                     <p id="login_token_code" class="dis_n">{{ csrf_field() }}</p>
-                    <div class="register_phone">
-                        <select class="choose_tel_area" name="country_code" id="login_countryCode">
-                            @foreach(\App\Models\CountryCode::countryCodes() as $country_code)
-                                <option value="{{ $country_code->country_code }}">{{ $country_code->country_name }}</option>
-                            @endforeach
-                        </select>
-                        <div class="click_areaCode">
-                            <img src="{{ asset('img/tel_phone.png') }}">
-                            <img src="{{ asset('img/sanjiao.png') }}">
-                        </div>
-                        <span class="areaCode_val login_code"></span>
-                        <input type="text" name="phone" id="login_email"
+                    <ul>
+                        <li>
+                            <span><i>*</i>country:</span>
+                            <select class="choose_tel_area" name="country_code" id="login_countryCode">
+                                <option value="null">@lang('app.Please choose the country')</option>
+                                @foreach(\App\Models\CountryCode::countryCodes() as $country_code)
+                                    <option value="{{ $country_code->country_code }}">{{ $country_code->country_name }}</option>
+                                @endforeach
+                            </select>
+                            <div class="click_areaCode">
+                                <img src="{{ asset('img/sanjiao.png') }}">
+                            </div>
+                        </li>
+                        <li>
+                            <span><i>*</i>phone:</span>
+                            <input type="text" name="phone" id="login_email"
                                placeholder="@lang('app.Please select a country first')" required>
-                    </div>
-                    @if ($errors->has('phone'))
-                        <p class="login_error error_content">
-                            <i></i>
-                            <span>{{ $errors->first('phone') }}</span>
-                        </p>
-                    @endif
-                    <div class="verification_code">
-                        <input type="text" class="code" name="code" id="login_code"
+                            @if ($errors->has('phone'))
+                                <p class="login_error error_content">
+                                    <i></i>
+                                    <span>{{ $errors->first('phone') }}</span>
+                                </p>
+                            @endif
+                        </li>
+                        <li>
+                            <span><i>*</i>code:</span>
+                            <input type="text" class="code" name="code" id="login_code"
                                placeholder="@lang('app.please enter verification code')">
-                        <input type="button" class="generate_code" data-url="{{ route('login.send_sms_code') }}"
+                            <input type="button" class="generate_code" data-url="{{ route('login.send_sms_code') }}"
                                id="getLogin_code" value=" @lang('app.get verification code')">
-                    </div>
-                    <p class="mailbox_error error_content">
-                        <i></i>
-                        <span>@lang('app.Please enter a valid verification code')</span>
-                    </p>
-                    @if ($errors->has('code'))
-                        <p class="login_error error_content">
-                            <i></i>
-                            <span>{{ $errors->first('code') }}</span>
-                        </p>
-                    @endif
+                             @if ($errors->has('code'))
+                                <p class="login_error error_content">
+                                    <i></i>
+                                    <span>{{ $errors->first('code') }}</span>
+                                </p>
+                            @endif
+                        </li>
+                    </ul>
                 </form>
                 <div class="switch-back">
                     <a code="1" class="rotary_btn register_btn pull-left">@lang('app.New User Registration')</a>

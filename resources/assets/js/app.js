@@ -340,7 +340,7 @@ $(function () {
     var myReg = /^\d+$/;
     // 注册获取验证码
     $("#register_email").focus(function () {
-        if ($(this).parents('.register_phone').find(".areaCode_val").html() == "" || $(this).parents('.register_phone').find(".areaCode_val").html() == null) {
+        if ($("#register_countryCode").val() == "null") {
             layer.msg((COUNTRY == "中文") ? '请先选择国家' : 'Please select a country first');
             $(this).blur();
         }
@@ -389,7 +389,7 @@ $(function () {
     });
     // 登录获取验证码
     $("#login_email").focus(function () {
-        if ($(this).parents('.register_phone').find(".areaCode_val").html() == "" || $(this).parents('.register_phone').find(".areaCode_val").html() == null) {
+        if ($("#login_countryCode").val()=="null") {
             layer.msg((COUNTRY == "中文") ? '请先选择国家' : 'Please select a country first');
             $(this).blur();
         }
@@ -627,7 +627,8 @@ $(function () {
                     phone: $("#register_email").val(),
                     country_code: $("#register_countryCode").val(),
                     _token: $("#register_token_code").find("input").val(),
-                    code: $("#register_code").val()
+                    code: $("#register_code").val(),
+                    email: $("#register_mail").val()
                 };
                 var url = clickDome.attr('data-url');
                 $.ajax({
@@ -652,7 +653,7 @@ $(function () {
                     }
                 });
             } else {
-                $(".register_error").css("display", "block");
+                layer.msg("Please complete the information");
             }
         }
     });

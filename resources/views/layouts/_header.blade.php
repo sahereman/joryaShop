@@ -1,9 +1,12 @@
 <nav class="navbar navbar-default">
     <div class="navbar-top">
         <div class="m-wrapper">
-            {{--<div class="navbar-top-left pull-left">
+           <div class="navbar-top-left pull-left">
                 <ul>
-                    <li>
+                	<li>
+                		<span>Tel: 400-100-5678</span>
+                	</li>
+                     {{--<li>
                         <span>@lang('app.switch language')：</span>
                     </li>
                     <li class="dropdown">
@@ -26,9 +29,9 @@
                                 </a>
                             </li>
                         </ul>
-                    </li>
+                    </li>--}}
                 </ul>
-            </div>--}}
+            </div>
             <div class="navbar-top-right pull-right">
                 @guest
                     <a class="login">@lang('app.Log_In')</a>
@@ -88,16 +91,15 @@
             </div>
             <div class="navbar-bottom-bottom">
                 <ul class="navbar-bottom-bottom-left">
-                    {{--<li class="first_menu">
-                        <a href="{{ route('root') }}"><span>@lang('basic.home')</span></a>
-                    </li>--}}
+                    <li class="">
+                        <a href="{{ route('root') }}">
+                        	<img src="{{ asset('img/home2.png') }}">
+                        </a>
+                    </li>
                     @foreach(\App\Models\Menu::pcMenus() as $key => $menu)
                         @if(isset($menu['parent']))
                             <li class="first_menu">
                                 <a href="{{ $menu['parent']->link }}">
-                                	@if($key == 0)
-                                	<img src="{{ asset('img/home2.png') }}">
-                                	@endif
                                 	{{ App::isLocale('zh-CN') ? $menu['parent']->name_zh : $menu['parent']->name_en }}
                                 </a>
                                 <!--二级菜单内容-->

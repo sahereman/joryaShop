@@ -343,7 +343,6 @@ img {
                             }
                             p {
                                 position: relative;
-                                top: -20px;
                             }
                         }
                     }
@@ -419,10 +418,12 @@ img {
                                 height: 100%;
                             }
                         }
-                        &.active,
-                        &:hover {
-                            box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.15);
-                            color: #bc8c61;
+                        &.first_menu {
+                            &.active,
+                            &:hover {
+                                box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.15);
+                                color: #bc8c61;
+                            }   
                         }
                         .nav-panel-dropdown {
                             display: none;
@@ -643,12 +644,13 @@ img {
             }
         }
         .holder {
-            width: 286px;
+            width: 100%;
             margin: 0 auto;
             position: relative;
-            margin-top: 50px;
+            margin-top: 30px;
         }
         .with-line {
+            width: 55%;
             font-size: 16px;
             color: #444;
             margin: 0 auto;
@@ -704,8 +706,10 @@ img {
         border-radius: 2px;
         font-size: 12px;
         overflow: hidden;
-        margin: 5px auto;
         display: none;
+        margin: 0;
+        width: 287px;
+        float: right;
         i {
             width: 12px;
             height: 12px;
@@ -721,7 +725,7 @@ img {
     }
     .btn_dialog {
         display: block;
-        width: 287px;
+        width: 363px;
         height: 36px;
         color: #fff;
         background-color: #7ca442;
@@ -729,6 +733,8 @@ img {
         font-size: 16px;
         line-height: 36px;
         cursor: pointer;
+        margin: auto;
+        margin-bottom: 5px;
     }
     input {
         width: 287px;
@@ -743,77 +749,67 @@ img {
         }
     }
     #register-form {
-        >input {
-            &:first-of-type,
-            &:nth-of-type(2) {
-                background: url(../img/user_name.png) left no-repeat;
-                background-position-x: 10px;
-                text-indent: 35px;
-            }
-            &:nth-of-type(3),
-            &:nth-of-type(5) {
-                background: url(../img/psw.png) left no-repeat;
-                background-position-x: 10px;
-                text-indent: 35px;
-            }
-            &:nth-of-type(4) {
-                background: url(../img/tel_phone.png) left no-repeat;
-                background-position-x: 10px;
-                text-indent: 35px;
-            }
-        }
-        .register_phone {
-//          height: 36px;
-            width: 100%;
-            margin: 5px auto;
-            display: flex;
-            position: relative;
-            select {
-                width: 50px;
-                border: 1px solid #eaeaea;
-                outline: none;
-                border-right: 0px;
-                position: absolute;
-                z-index: 5;
-                opacity: 0;
-                height: 36px;
-                margin: 5px auto;
-            }
-            input {
-                margin: 0;
-                padding-left: 50px;
-                &.active {
-                    padding-left: 90px;
-                }
-            }
-            .click_areaCode {
-                position: absolute;
-                width: 50px;
-                height: 25px;
-                top: 5px;
-                border-right: 1px solid #e0e0e0;
-                z-index: 10;
-                cursor: pointer;
-                pointer-events: none;
-                img {
-                    &:first-of-type {
-                        margin: 0 4px;
+        ul {
+            width: 80%;
+            margin: 0 auto;
+            li {
+                text-align: right;
+                padding: 0 20px;
+                position: relative;
+                overflow: hidden;
+                span {
+                    font-size: 14px;
+                    display: inline-block;
+                    line-height: 40px;
+                    i {
+                        font-size: 25px;
+                        color: #b71e56;
+                        font-style: normal;
+                        float: left;
+                        margin-top: 5px;
+                        margin-right: 5px;
                     }
                 }
-            }
-            .areaCode_val {
-                display: block;
-                position: absolute;
-                width: 50px;
-                height: 36px;
-                left: 50px;
-                line-height: 36px;
-            }
-            label {
-                &.error {
-                    margin-top: 40px;
-                    margin-left: -288px;
-                    width: 100%;
+                #register_countryCode {
+                    width: 287px;
+                    height: 36px;
+                    border: 1px solid #eaeaea;
+                    border-radius: 2px;
+                    text-indent: 15px;
+                    color: #444;
+                    margin: 5px auto;
+                    outline: none;
+                }
+                .click_areaCode {
+                    position: absolute;
+                    width: 25px;
+                    height: 25px;
+                    top: 10px;
+                    border-left: 1px solid #e0e0e0;
+                    z-index: 10;
+                    cursor: pointer;
+                    pointer-events: none;
+                    right: 27px;
+                    background-color: #fff;
+                    img {
+                        margin-right: 5px;
+                    }
+                }
+                #register_code {
+                    width: 165px;
+                    margin-right: 0px;
+                    border-right: none;
+                }
+                #getRegister_code {
+                    float: right;
+                    width: 125px;
+                    height: 36px;
+                    background-color: #7ca442;
+                    color: #fff;
+                    border-radius: 2px;
+                    margin: 5px 0;
+                    text-indent: 0;
+                    border-left: none;
                 }
             }
         }
@@ -843,10 +839,12 @@ img {
     .switch-back {
             font-size: 12px;
             color: #999;
+            display: flex;
         .agreement_content {
             overflow: hidden;
             line-height: 23px;
-            margin-bottom: 35px;
+            margin: auto;
+            margin-bottom: 15px;
             position: relative;
             #agreement {
                 outline: none;
@@ -892,6 +890,7 @@ img {
         .change_title {
             text-align: center;
             margin-top: 10px;
+            margin: auto;
             .login_btn {
                 color: #7ca442;
                 cursor: pointer;
@@ -905,6 +904,7 @@ img {
             margin-bottom: 25px;
             a {
                 cursor: pointer;
+                margin: auto;
                 &:last-of-type {
                     color: #86b147;
                 }
@@ -920,95 +920,147 @@ img {
             &.active {
                 display: block;
             }
-            select {
-                width: 50px;
-                border: 1px solid #eaeaea;
-                outline: none;
-                border-right: 0px;
-                position: absolute;
-                z-index: 5;
-                opacity: 0;
-                height: 36px;
-                margin: 5px auto;
-            }
-            >input {
-                &:first-of-type,
-                &:nth-of-type(2) {
-                    background: url(../img/user_name.png) left no-repeat;
-                    background-position-x: 10px;
-                    text-indent: 35px;
-                }
-                &:nth-of-type(3){
-                    background: url(../img/psw.png) left no-repeat;
-                    background-position-x: 10px;
-                    text-indent: 35px;
-                }
-            }
-            &:last-of-type {
-                position: relative;
-                >input {
-                    &:first-of-type,
-                    &:nth-of-type(2) {
-                        background: none;
-                        background-position-x: 10px;
-                        text-indent: 35px;
-                    }
-                }
-                .register_phone {
-                    width: 100%;
-                    margin: 5px auto;
-                    display: flex;
+            ul {
+                width: 80%;
+                margin: 0 auto;
+                margin-bottom: 25px;
+                li {
+                    text-align: right;
+                    padding: 0 20px;
                     position: relative;
-                    select {
-                        width: 50px;
-                        border: 1px solid #eaeaea;
-                        outline: none;
-                        border-right: 0px;
-                        position: absolute;
-                        z-index: 5;
-                        opacity: 0;
-                        height: 36px;
-                        margin: 5px auto;
-                    }
-                    input {
-                        margin: 0;
-                        padding-left: 50px;
-                        &.active {
-                            padding-left: 90px;
+                    overflow: hidden;
+                    span {
+                        font-size: 14px;
+                        display: inline-block;
+                        line-height: 40px;
+                        i {
+                            font-size: 25px;
+                            color: #b71e56;
+                            font-style: normal;
+                            float: left;
+                            margin-top: 5px;
+                            margin-right: 5px;
                         }
+                    }
+                    #login_countryCode {
+                        width: 287px;
+                        height: 36px;
+                        border: 1px solid #eaeaea;
+                        border-radius: 2px;
+                        text-indent: 15px;
+                        color: #444;
+                        margin: 5px auto;
+                        outline: none;
                     }
                     .click_areaCode {
                         position: absolute;
-                        width: 50px;
+                        width: 25px;
                         height: 25px;
-                        top: 5px;
-                        border-right: 1px solid #e0e0e0;
+                        top: 10px;
+                        border-left: 1px solid #e0e0e0;
                         z-index: 10;
                         cursor: pointer;
                         pointer-events: none;
+                        right: 27px;
+                        background-color: #fff;
                         img {
-                            &:first-of-type {
-                                margin: 0 4px;
-                            }
+                            margin-right: 5px;
                         }
                     }
-                    .areaCode_val {
-                        display: block;
-                        position: absolute;
-                        width: 50px;
+                    #login_code {
+                        width: 165px;
+                        margin-right: 0px;
+                        border-right: none;
+                    }
+                    #getLogin_code {
+                        float: right;
+                        width: 125px;
                         height: 36px;
-                        left: 50px;
-                        line-height: 36px;
-                    }
-                    label {
-                        &.error {
-                            margin-top: 40px;
-                            margin-left: -288px;
-                            width: 100%;
-                        }
+                        background-color: #7ca442;
+                        color: #fff;
+                        border-radius: 2px;
+                        margin: 5px 0;
+                        text-indent: 0;
+                        border-left: none;
                     }
                 }
             }
+//          select {
+//              width: 50px;
+//              border: 1px solid #eaeaea;
+//              outline: none;
+//              border-right: 0px;
+//              position: absolute;
+//              z-index: 5;
+//              opacity: 0;
+//              height: 36px;
+//              margin: 5px auto;
+//          }
+//          &:last-of-type {
+//              position: relative;
+//              >input {
+//                  &:first-of-type,
+//                  &:nth-of-type(2) {
+//                      background: none;
+//                      background-position-x: 10px;
+//                      text-indent: 35px;
+//                  }
+//              }
+//              .register_phone {
+//                  width: 100%;
+//                  margin: 5px auto;
+//                  display: flex;
+//                  position: relative;
+//                  select {
+//                      width: 50px;
+//                      border: 1px solid #eaeaea;
+//                      outline: none;
+//                      border-right: 0px;
+//                      position: absolute;
+//                      z-index: 5;
+//                      opacity: 0;
+//                      height: 36px;
+//                      margin: 5px auto;
+//                  }
+//                  input {
+//                      margin: 0;
+//                      padding-left: 50px;
+//                      &.active {
+//                          padding-left: 90px;
+//                      }
+//                  }
+//                  .click_areaCode {
+//                      position: absolute;
+//                      width: 50px;
+//                      height: 25px;
+//                      top: 5px;
+//                      border-right: 1px solid #e0e0e0;
+//                      z-index: 10;
+//                      cursor: pointer;
+//                      pointer-events: none;
+//                      img {
+//                          &:first-of-type {
+//                              margin: 0 4px;
+//                          }
+//                      }
+//                  }
+//                  .areaCode_val {
+//                      display: block;
+//                      position: absolute;
+//                      width: 50px;
+//                      height: 36px;
+//                      left: 50px;
+//                      line-height: 36px;
+//                  }
+//                  label {
+//                      &.error {
+//                          margin-top: 40px;
+//                          margin-left: -288px;
+//                          width: 100%;
+//                      }
+//                  }
+//              }
+//          }
         }
         .btn_dialog {
             display: none;
@@ -1019,13 +1071,17 @@ img {
         }
     }
     .login_type {
-        margin-bottom: 7px;
+        width: 80%;
+        margin: auto;
+        margin-bottom: 30px;
         ul {
             font-size: 16px;
             border-bottom: 2px solid #eaeaea;
             color: #bec0ba;
             position: relative;
             height: 40px;
+            display: flex;
+            justify-content: space-between;
             li {
                 float: left;
                 line-height: 40px;
@@ -1042,7 +1098,7 @@ img {
                     width: 105px;
                 }
                 &:last-of-type {
-                    width: 181px;
+                    width: 160px;
                 }
                 &.active {
                     color: #444;
@@ -1088,6 +1144,8 @@ img {
             background-color: #fdf4ec;
             background-position: left center;
             background-position-x: 15px;
+            width: 287px;
+            float: right;
         }
     }
     
