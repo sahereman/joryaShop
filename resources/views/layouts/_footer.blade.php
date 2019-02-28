@@ -187,7 +187,13 @@
                     	</li>
                     	<li>
                     		<span><i>*</i>E-mail:</span>
-                    		<input type="email" name="email" id="register_mail">
+                    		<input type="email" name="email" id="register_mail" required>
+                    		@if ($errors->has('email'))
+                                <p class="login_error error_content">
+                                    <i></i>
+                                    <span>{{ $errors->first('email') }}</span>
+                                </p>
+                            @endif
                     	</li>
                     	<li>
                     		<span><i>*</i>country:</span>

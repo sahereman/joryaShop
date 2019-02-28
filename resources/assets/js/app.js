@@ -413,7 +413,6 @@ $(function () {
         if (disabled) {
             return false;
         }
-        console.log("点击了")
         var data = {
             phone: $("#login_email").val(),
             country_code: $("#login_countryCode").val(),
