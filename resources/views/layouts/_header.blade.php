@@ -91,7 +91,7 @@
             </div>
             <div class="navbar-bottom-bottom">
                 <ul class="navbar-bottom-bottom-left">
-                    <li class="">
+                    <li class="img_menu">
                         <a href="{{ route('root') }}">
                         	<img src="{{ asset('img/home2.png') }}">
                         </a>

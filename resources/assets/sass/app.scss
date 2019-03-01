@@ -419,6 +419,9 @@ img {
                                 height: 100%;
                             }
                         }
+                        &.img_menu {
+                            margin-right: 0;
+                        }
                         &.first_menu {
                             &.active,
                             &:hover {
@@ -495,11 +498,19 @@ img {
                                    opacity: 0;
                                    transition-delay: .5s;
                                }
+                               input {
+                                   opacity: 0;
+                                   width: 0;
+                               }
                                &.active {
                                    width: 196px;
                                    opacity: 1;
                                    a {
                                        opacity: 1;
+                                   }
+                                   input {
+                                       opacity: 1;
+                                       width: 170px;
                                    }
                                }
                             }
