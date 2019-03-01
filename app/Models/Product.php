@@ -149,4 +149,13 @@ class Product extends Model
     {
         return $this->hasMany(ProductComment::class);
     }
+
+    /*商品属性 2019-03-01*/
+    // Many-to-many Relationship.
+    /*public function attrs()
+    {
+        // return $this->belongsToMany(Attr::class);
+        return $this->belongsToMany(Attr::class, 'attr_products', 'product_id', 'attr_id');
+    }*/
+    /*商品属性 2019-03-01*/
 }

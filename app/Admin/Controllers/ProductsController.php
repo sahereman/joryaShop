@@ -3,9 +3,12 @@
 namespace App\Admin\Controllers;
 
 use App\Admin\Extensions\Ajax\Ajax_Delete;
-use App\Http\Requests\Request;
 use App\Admin\Models\Product;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Request;
+/*商品属性 2019-03-01*/
+// use App\Models\Attr;
+/*商品属性 2019-03-01*/
 use App\Models\ProductCategory;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
@@ -188,6 +191,13 @@ class ProductsController extends Controller
         // $show->content_zh('详情介绍(中文)');
         $show->content_en('详情介绍(英文)');
 
+        /*商品属性 2019-03-01*/
+        /*$show->divider();
+                $show->attrs('商品属性列表')->as(function ($attrs) {
+                    return $attrs->pluck('name_en');
+                })->label();*/
+        /*商品属性 2019-03-01*/
+
         $show->category('商品分类', function ($category) {
             /*禁用*/
             $category->panel()->tools(function ($tools) {
@@ -342,6 +352,17 @@ class ProductsController extends Controller
             $form->hidden('content_zh', '详情介绍(中文)')->default('lyrical');
             $form->editor('content_en', '详情介绍(英文)');
 
+            /*商品属性 2019-03-01*/
+            /*$form->divider();
+            $attr_options = [];
+            Attr::where('parent_id', 0)->orderBy('sort')->each(function ($parent) use (&$attr_options) {
+                $attr_options = array_add($attr_options, $parent->id, '---&nbsp;&nbsp;&nbsp;&nbsp;' . $parent->name_en . '&nbsp;&nbsp;&nbsp;&nbsp;---');
+                $parent->children->each(function ($child) use (&$attr_options) {
+                    $attr_options = array_add($attr_options, $child->id, $child->name_en);
+                });
+            });
+            $form->multipleSelect('attrs', '商品属性列表')->options($attr_options);*/
+            /*商品属性 2019-03-01*/
 
             $form->hidden('_from_')->default('edit');
             $form->ignore(['_from_']);
@@ -435,6 +456,35 @@ class ProductsController extends Controller
                         }*/
                     }
                 }
+
+                /*商品属性 2019-03-01*/
+                /*$attrs = collect($form->input('attrs'))->reject(function ($attr) {
+                    return is_null($attr);
+                });
+                if ($attrs->isNotEmpty()) {
+                    $parent_attr_ids = [];
+                    $attrs->each(function ($attr, $key) use (&$parent_attr_ids, &$form) {
+                        $attr_model = Attr::find($attr);
+                        if ($attr_model->parent_id == 0) {
+                            $attrs = $form->input('attrs');
+                            array_forget($attrs, $key);
+                            $form->input('attrs', $attrs);
+                            // $error = new MessageBag([
+                            // 'title' => '不可选择父级商品属性',
+                            // ]);
+                            // return back()->with(compact('error')); // The method withInput() is buggy with unwanted results.
+                        }
+                        if (in_array($attr_model->parent_id, $parent_attr_ids)) {
+                            $error = new MessageBag([
+                                'title' => '同一父级商品属性下，只可选择一个子级商品属性',
+                            ]);
+                            return back()->with(compact('error')); // The method withInput() is buggy with unwanted results.
+                        }
+                        $parent_attr_ids[] = $attr_model->parent_id;
+                    });
+                }*/
+                /*商品属性 2019-03-01*/
+
                 $form->ignore(['_from_']);
 
                 $form->model()->price = collect($form->input('skus'))->where(Form::REMOVE_FLAG_NAME, 0)->min('price'); // 生成商品价格 - 最低SKU价格
