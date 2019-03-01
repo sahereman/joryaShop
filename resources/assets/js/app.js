@@ -383,11 +383,18 @@ $(function () {
             error: function (err) {
                 console.log(err);
                 if (err.status == 422) {
-                    layer.msg($.parseJSON(err.responseText).errors.phone[0]);
+                    var arr = []
+                    var dataobj = err.responseJSON.errors;
+                    for (let i in dataobj) {
+                        arr.push(dataobj[i]); //属性
+                    }
+                    layer.msg(arr[0][0]);
+                    clickDome.removeClass("hadclicked");
                 }
                 if (err.status == 500) {
                     $("#getRegister_code").prop("disabled", false);
-                    layer.alert("System error, please click again")
+                    clickDome.removeClass("hadclicked");
+                    layer.alert("System error, please click again");
                 }
             },
             complete: function (data) {
@@ -432,10 +439,12 @@ $(function () {
                 console.log(err);
                 if (err.status == 422) {
                     layer.msg($.parseJSON(err.responseText).errors.phone[0]);
+                    clickDome.removeClass("hadclicked");
                 }
                 if (err.status == 500) {
                     $("#getLogin_code").prop("disabled", false);
-                    layer.alert("System error, please click again")
+                    clickDome.removeClass("hadclicked");
+                    layer.alert("System error, please click again");
                 }
             },
         });
