@@ -10,7 +10,6 @@ return [
     'cancel' => 'Cancel',
     'determine' => 'Confirm',
     'picture_type_error' => 'You have not selected an image, or the format of your uploaded file is incorrect! (currently supported image formats: jpg, png, jpeg, gif, bmp)',
-    'Contact_Us' => 'Contact Us',
     'Account_information' => 'My Account',
     'Sign_out' => 'Sign out',
     'Log_In' => 'Log In',
@@ -99,6 +98,43 @@ return [
     'Duplicate' => 'Duplicate',
     'Custom & Stock Hair Systems' => 'Custom & Stock Hair Systems',
     'Stock Order' => 'Stock Order',
-    'Please choose the country' => 'Please choose the country'
-    
+    'Please choose the country' => 'Please choose the country',
+    // COMPANY INFO
+    'Company_Info' => 'COMPANY INFO',
+    'About_Us' => 'About Us',
+    'Contact_Us' => 'Contact Us',
+    'Privacy_Policy' => 'Privacy Policy',
+    'Terms_and_Conditions' => 'Terms and Conditions',
+    'Sitemap' => 'Sitemap',
+    // HELP & SUPPORT
+    'Help_&_Support' => 'HELP & SUPPORT',
+    'Newbie_Guide' => 'Newbie Guide',
+    'FAQs' => 'FAQs',
+    'Payment_Methods' => 'Payment Methods',
+    'Shipping_&_Handling' => 'Shipping & Handling',
+    'Warranty_and_Return' => 'Warranty and Return',
+    'Track_My_Order' => 'Track My Order',
+    // BE OUR PARTNER
+    'Be_Our_Partner' => 'BE OUR PARTNER',
+    'Wholesale' => 'Wholesale',
+    'Drop_Shipment' => 'Drop Shipment',
+    'News' => 'News',
+    'Videos' => 'Videos',
+    // CUSTOM OPTIONS
+    'Custom_Options' => 'CUSTOM OPTIONS',
+    'Base_Design_Guide' => 'Base Design Guide',
+    'Base_Size' => 'Base Size',
+    'Hair_Style' => 'Hair Style',
+    'Hair_Texture' => 'Hair Texture',
+    'Hair_Density' => 'Hair Density',
+    'Hair_Type' => 'Hair Type',
+    'Front_Contour' => 'Front Contour',
+    'Scallop_Front' => 'Scallop Front',
+    // PRODUCT HELP
+    'Product_Help' => 'PRODUCT HELP',
+    'Currency_Rates' => 'Currency Rates',
+    'How_to_Make_Template' => 'How to Make Template',
+    'How_to_Clean_Toupee' => 'How to Clean Toupee',
+    'How_to_Comb_the_Hair' => 'How to Comb the Hair',
+    'How_to_Match_Length' => 'How to Match Length',
 ];

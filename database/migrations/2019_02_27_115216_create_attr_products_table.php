@@ -1,18 +1,18 @@
 <?php
 
 /*商品属性 2019-03-01*/
-//use Illuminate\Database\Migrations\Migration;
-//use Illuminate\Database\Schema\Blueprint;
-//use Illuminate\Support\Facades\Schema;
-//
-//class CreateAttrProductsTable extends Migration
-//{
-//    /**
-//     * Run the migrations.
-//     * @return void
-//     */
-//    public function up()
-//    {
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+class CreateAttrProductsTable extends Migration
+{
+    /**
+     * Run the migrations.
+     * @return void
+     */
+    public function up()
+    {
 //        Schema::create('attr_products', function (Blueprint $table) {
 //            $table->increments('id');
 //
@@ -24,15 +24,15 @@
 //
 //            $table->timestamps();
 //        });
-//    }
-//
-//    /**
-//     * Reverse the migrations.
-//     * @return void
-//     */
-//    public function down()
-//    {
+    }
+
+    /**
+     * Reverse the migrations.
+     * @return void
+     */
+    public function down()
+    {
 //        Schema::dropIfExists('attr_products');
-//    }
-//}
+    }
+}
 /*商品属性 2019-03-01*/

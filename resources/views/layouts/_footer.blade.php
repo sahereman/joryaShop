@@ -34,28 +34,47 @@
             <div class="footer-top-center">
                 <ul>
                     <li>
-                        <p>@lang('app.Help')</p>
-                        <a href="{{ route('articles.show', ['slug' => 'guide']) }}">@lang('app.Newbie Guide')</a>
-                        <a href="{{ route('articles.show', ['slug' => 'problem']) }}">@lang('app.Common Problems')</a>
-                        <a href="{{ route('articles.show', ['slug' => 'user_protocol']) }}">@lang('app.User Agreement')</a>
+                        <p>@lang('app.Company_Info')</p>
+                        <a href="{{ route('articles.show', ['slug' => 'about_us']) }}">@lang('app.About_Us')</a>
+                        <a href="{{ route('articles.show', ['slug' => 'contact_us']) }}">@lang('app.Contact_Us')</a>
+                        <a href="{{ route('articles.show', ['slug' => 'privacy_policy']) }}">@lang('app.Privacy_Policy')</a>
+                        <a href="{{ route('articles.show', ['slug' => 'terms_and_conditions']) }}">@lang('app.Terms_and_Conditions')</a>
+                        <a href="{{ route('articles.show', ['slug' => 'sitemap']) }}">@lang('app.Sitemap')</a>
                     </li>
                     <li>
-                        <p>@lang('app.Method of Payment')</p>
-                        <a href="javascript:void(0);">@lang('app.ALIPAY')</a>
-                        <a href="javascript:void(0);">@lang('app.WeChat Pay')</a>
-                        <a href="javascript:void(0);">Paypal</a>
+                        <p>@lang('app.Help_&_Support')</p>
+                        <a href="{{ route('articles.show', ['slug' => 'newbie_guide']) }}">@lang('app.Newbie_Guide')</a>
+                        <a href="{{ route('articles.show', ['slug' => 'FAQs']) }}">@lang('app.FAQs')</a>
+                        <a href="{{ route('articles.show', ['slug' => 'payment_methods']) }}">@lang('app.Payment_Methods')</a>
+                        <a href="{{ route('articles.show', ['slug' => 'shipping_&_handling']) }}">@lang('app.Shipping_&_Handling')</a>
+                        <a href="{{ route('articles.show', ['slug' => 'warranty_and_return']) }}">@lang('app.Warranty_and_Return')</a>
+                        <a href="{{ route('articles.show', ['slug' => 'track_my_order']) }}">@lang('app.Track_My_Order')</a>
                     </li>
                     <li>
-                        <p>@lang('app.After-Sale Service')</p>
-                        <a href="{{ route('articles.show', ['slug' => 'refunding_consultancy']) }}">@lang('app.After Consulting')</a>
-                        <a href="{{ route('articles.show', ['slug' => 'refunding_policy']) }}">@lang('app.Return Policy')</a>
-                        <a href="{{ route('articles.show', ['slug' => 'refunding_procedure']) }}">@lang('app.Refunding Procedure')</a>
+                        <p>@lang('app.Be_Our_Partner')</p>
+                        <a href="{{ route('articles.show', ['slug' => 'wholesale']) }}">@lang('app.Wholesale')</a>
+                        <a href="{{ route('articles.show', ['slug' => 'drop_shipment']) }}">@lang('app.Drop_Shipment')</a>
+                        <a href="{{ route('articles.show', ['slug' => 'news']) }}">@lang('app.News')</a>
+                        <a href="{{ route('articles.show', ['slug' => 'videos']) }}">@lang('app.Videos')</a>
                     </li>
                     <li>
-                        <p>@lang('app.Contact_Us')</p>
-                        <a href="{{ route('articles.show', ['slug' => 'company_introduction']) }}">@lang('app.Company Introduction')</a>
-                        <a href="{{ route('articles.show', ['slug' => 'products_features']) }}">@lang('app.Products Features')</a>
-                        <a href="{{ route('articles.show', ['slug' => 'contact_us']) }}">@lang('app.Contact Us')</a>
+                        <p>@lang('app.Custom_Options')</p>
+                        <a href="{{ route('articles.show', ['slug' => 'base_design_guide']) }}">@lang('app.Base_Design_Guide')</a>
+                        <a href="{{ route('articles.show', ['slug' => 'base_size']) }}">@lang('app.Base_Size')</a>
+                        <a href="{{ route('articles.show', ['slug' => 'hair_style']) }}">@lang('app.Hair_Style')</a>
+                        <a href="{{ route('articles.show', ['slug' => 'hair_texture']) }}">@lang('app.Hair_Texture')</a>
+                        <a href="{{ route('articles.show', ['slug' => 'hair_density']) }}">@lang('app.Hair_Density')</a>
+                        <a href="{{ route('articles.show', ['slug' => 'hair_type']) }}">@lang('app.Hair_Type')</a>
+                        <a href="{{ route('articles.show', ['slug' => 'front_contour']) }}">@lang('app.Front_Contour')</a>
+                        <a href="{{ route('articles.show', ['slug' => 'scallop_front']) }}">@lang('app.Scallop_Front')</a>
+                    </li>
+                    <li>
+                        <p>@lang('app.Product_Help')</p>
+                        <a href="{{ route('articles.show', ['slug' => 'currency_rates']) }}">@lang('app.Currency_Rates')</a>
+                        <a href="{{ route('articles.show', ['slug' => 'how_to_make_template']) }}">@lang('app.How_to_Make_Template')</a>
+                        <a href="{{ route('articles.show', ['slug' => 'how_to_clean_toupee']) }}">@lang('app.How_to_Clean_Toupee')</a>
+                        <a href="{{ route('articles.show', ['slug' => 'how_to_comb_the_hair']) }}">@lang('app.How_to_Comb_the_Hair')</a>
+                        <a href="{{ route('articles.show', ['slug' => 'how_to_match_length']) }}">@lang('app.How_to_Match_Length')</a>
                     </li>
                 </ul>
             </div>
@@ -165,61 +184,61 @@
                 <form id="register-form" action="{{ route('register') }}" method="POST">
                     <p id="register_token_code" class="dis_n">{{ csrf_field() }}</p>
                     <ul>
-                    	<li>
-                    		<span><i>*</i>username:</span>
-                    		<input type="text" name="name" id="register_user" required>
-                    		@if ($errors->has('name'))
-		                        <p class="login_error error_content">
-		                            <i></i>
-		                            <span>{{ $errors->first('name') }}</span>
-		                        </p>
-		                    @endif
-                    	</li>
-                    	<li>
-                    		<span><i>*</i>password:</span>
-                    		<input type="password" name="password" id="register_psw" required>
-                    		@if ($errors->has('password'))
-		                        <p class="login_error error_content">
-		                            <i></i>
-		                            <span>{{ $errors->first('password') }}</span>
-		                        </p>
-		                    @endif
-                    	</li>
-                    	<li>
-                    		<span><i>*</i>E-mail:</span>
-                    		<input type="email" name="email" id="register_mail" required>
-                    		@if ($errors->has('email'))
+                        <li>
+                            <span><i>*</i>username:</span>
+                            <input type="text" name="name" id="register_user" required>
+                            @if ($errors->has('name'))
+                                <p class="login_error error_content">
+                                    <i></i>
+                                    <span>{{ $errors->first('name') }}</span>
+                                </p>
+                            @endif
+                        </li>
+                        <li>
+                            <span><i>*</i>password:</span>
+                            <input type="password" name="password" id="register_psw" required>
+                            @if ($errors->has('password'))
+                                <p class="login_error error_content">
+                                    <i></i>
+                                    <span>{{ $errors->first('password') }}</span>
+                                </p>
+                            @endif
+                        </li>
+                        <li>
+                            <span><i>*</i>E-mail:</span>
+                            <input type="email" name="email" id="register_mail" required>
+                            @if ($errors->has('email'))
                                 <p class="login_error error_content">
                                     <i></i>
                                     <span>{{ $errors->first('email') }}</span>
                                 </p>
                             @endif
-                    	</li>
-                    	<li>
-                    		<span><i>*</i>country:</span>
-                    		<select class="choose_tel_area" name="country_code" id="register_countryCode">
-                    		    <option value="null">@lang('app.Please choose the country')</option>
-	                            @foreach(\App\Models\CountryCode::countryCodes() as $country_code)
-	                                <option value="{{ $country_code->country_code }}">{{ $country_code->country_name }}</option>
-	                            @endforeach
-	                        </select>
-	                        <div class="click_areaCode">
-	                            <img src="{{ asset('img/sanjiao.png') }}">
-	                        </div>
-                    	</li>
-                    	<li>
-                    		<span><i>*</i>phone:</span>
-                    		<input type="text" name="phone" id="register_email" required>
+                        </li>
+                        <li>
+                            <span><i>*</i>country:</span>
+                            <select class="choose_tel_area" name="country_code" id="register_countryCode">
+                                <option value="null">@lang('app.Please choose the country')</option>
+                                @foreach(\App\Models\CountryCode::countryCodes() as $country_code)
+                                    <option value="{{ $country_code->country_code }}">{{ $country_code->country_name }}</option>
+                                @endforeach
+                            </select>
+                            <div class="click_areaCode">
+                                <img src="{{ asset('img/sanjiao.png') }}">
+                            </div>
+                        </li>
+                        <li>
+                            <span><i>*</i>phone:</span>
+                            <input type="text" name="phone" id="register_email" required>
                             @if ($errors->has('phone'))
-		                        <p class="login_error error_content">
-		                            <i></i>
-		                            <span>{{ $errors->first('phone') }}</span>
-		                        </p>
-		                    @endif
-                    	</li>
-                    	<li>
-                    	    <span><i>*</i>code:</span>
-                    	    <input type="text" id="register_code" class="code" name="code">
+                                <p class="login_error error_content">
+                                    <i></i>
+                                    <span>{{ $errors->first('phone') }}</span>
+                                </p>
+                            @endif
+                        </li>
+                        <li>
+                            <span><i>*</i>code:</span>
+                            <input type="text" id="register_code" class="code" name="code">
                             <input type="button" class="generate_code" data-url="{{ route('register.send_sms_code') }}"
                                id="getRegister_code" value=" @lang('app.get verification code')">
                             @if ($errors->has('code'))
@@ -228,7 +247,7 @@
                                     <span>{{ $errors->first('code') }}</span>
                                 </p>
                             @endif
-                    	</li>
+                        </li>
                     </ul>   
                 </form>
                 <div class="switch-back">

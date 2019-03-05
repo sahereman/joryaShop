@@ -3,9 +3,9 @@
         <div class="m-wrapper">
            <div class="navbar-top-left pull-left">
                 <ul>
-                	<li>
-                		<span>Tel: 400-100-5678</span>
-                	</li>
+                    <li>
+                        <span>Tel: 400-100-5678</span>
+                    </li>
                      {{--<li>
                         <span>@lang('app.switch language')：</span>
                     </li>
@@ -37,7 +37,7 @@
                     <a class="login">@lang('app.Log_In')</a>
                     <a class="register">@lang('app.Register')</a>
                     <a class="register">@lang('basic.users.Personal_Center')</a>
-                    <a class="about-us" href="{{ route('articles.show', ['slug' => 'about']) }}">@lang('app.Contact_Us')</a>
+                    <a class="about-us" href="{{ route('articles.show', ['slug' => 'contact_us']) }}">@lang('app.Contact_Us')</a>
                 @else
                     <a id="user_info_btn" role="button" data-toggle="dropdown" aria-haspopup="true"
                        aria-expanded="false" class="user_name">
@@ -59,7 +59,7 @@
                         </li>
                     </ul>
                     <img src="{{ asset('img/header/down_arrow.png') }}">
-                    <a class="about-us" href="{{ route('articles.show', ['slug' => 'about']) }}">@lang('app.Contact_Us')</a>
+                    <a class="about-us" href="{{ route('articles.show', ['slug' => 'contact_us']) }}">@lang('app.Contact_Us')</a>
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                         {{ csrf_field() }}
                     </form>
@@ -93,14 +93,14 @@
                 <ul class="navbar-bottom-bottom-left">
                     <li class="img_menu">
                         <a href="{{ route('root') }}">
-                        	<img src="{{ asset('img/home2.png') }}">
+                            <img src="{{ asset('img/home2.png') }}">
                         </a>
                     </li>
                     @foreach(\App\Models\Menu::pcMenus() as $key => $menu)
                         @if(isset($menu['parent']))
                             <li class="first_menu">
                                 <a href="{{ $menu['parent']->link }}">
-                                	{{ App::isLocale('zh-CN') ? $menu['parent']->name_zh : $menu['parent']->name_en }}
+                                    {{ App::isLocale('zh-CN') ? $menu['parent']->name_zh : $menu['parent']->name_en }}
                                 </a>
                                 <!--二级菜单内容-->
                                 @if(isset($menu['children']))
@@ -124,11 +124,11 @@
                 </ul>
                 <div class="pull-right header-search">
                     <ul>
-                    	<li class="for_show_search">
-                    		<a class="show_btn" href="javascript:void(0);">
+                        <li class="for_show_search">
+                            <a class="show_btn" href="javascript:void(0);">
                                 <img src="{{ asset('img/search_magnifier.png') }}">
                             </a>
-                    	</li>
+                        </li>
                         <li class="show_search">
                             <input type="search" data-url="{{ route('products.search_hint') }}" class="selectInput_header" placeholder="@lang('app.Please enter the item you are searching for')">
                             <a class="search_btn" href="javascript:void(0);">

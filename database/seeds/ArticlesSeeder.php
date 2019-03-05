@@ -12,33 +12,53 @@ class ArticlesSeeder extends Seeder
     public function run()
     {
         $slug_arr = [
-            // 关于我们
-            ['关于我们', 'about'],
-            ['公司简介', 'company_introduction'],
-            ['产品特色', 'products_features'],
-            ['联系我们', 'contact_us'],
-            // 使用帮助
-            ['使用帮助', 'helper'],
-            ['新手指南', 'guide'],
-            ['常见问题', 'problem'],
-            ['用户协议', 'user_protocol'],
-            // 售后服务
-            ['售后服务', 'refunding_service'],
-            ['售后咨询', 'refunding_consultancy'],
-            ['退货政策', 'refunding_policy'],
-            ['退货办理', 'refunding_procedure'],
+            // COMPANY INFO
+            ['About Us', 'about_us'],
+            ['Contact Us', 'contact_us'],
+            ['Privacy Policy', 'privacy_policy'],
+            ['Terms and Conditions', 'terms_and_conditions'],
+            ['Sitemap', 'sitemap'],
+            // HELP & SUPPORT
+            ['Newbie Guide', 'newbie_guide'],
+            ['FAQs', 'FAQs'],
+            ['Payment Methods', 'payment_methods'],
+            ['Shipping & Handling', 'shipping_&_handling'],
+            ['Warranty and Return', 'warranty_and_return'],
+            ['Track My Order', 'track_my_order'],
+            // BE OUR PARTNER
+            ['Wholesale', 'wholesale'],
+            ['Drop Shipment', 'drop_shipment'],
+            ['News', 'news'],
+            ['Videos', 'videos'],
+            // CUSTOM OPTIONS
+            ['Base Design Guide', 'base_design_guide'],
+            ['Base Size', 'base_size'],
+            ['Hair Style', 'hair_style'],
+            ['Hair Texture', 'hair_texture'],
+            ['Hair Density', 'hair_density'],
+            ['Hair Type', 'hair_type'],
+            ['Front Contour', 'front_contour'],
+            ['Scallop Front', 'scallop_front'],
+            // PRODUCT HELP
+            ['Currency Rates', 'currency_rates'],
+            ['How to Make Template', 'how_to_make_template'],
+            ['How to Clean Toupee', 'how_to_clean_toupee'],
+            ['How to Comb the Hair', 'how_to_comb_the_hair'],
+            ['How to Match Length', 'how_to_match_length'],
             // PC: Right-Top 4 tabs
             ['Stock Order', 'stock_order'],
             ['Custom Order', 'custom_order'],
             ['Duplicate', 'duplicate'],
             ['Repair', 'repair'],
+            // Home > My Account > Service Center
+            ['After Sales Service', 'refunding_service'],
         ];
 
         foreach ($slug_arr as $item)
         {
             factory(Article::class)->create([
                 'name' => $item[0],
-                'slug' => $item[1]
+                'slug' => $item[1],
             ]);
         }
     }
