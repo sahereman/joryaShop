@@ -1169,9 +1169,14 @@ footer {
     height: 355px;
     min-width: 1250px;
     .footer-top {
-        height: 235px;
+        .m-wrapper {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+        }
+        min-height: 235px;
         .contact_us {
-            width: 200px;
+            width: 160px;
             float: left;
             h4 {
                 margin-top: 60px;
@@ -1202,7 +1207,6 @@ footer {
         .footer-top-center {
             float: left;
             margin-top: 60px;
-            margin-left: 20px;
             ul {
                 overflow: hidden;
                 li {
@@ -1228,7 +1232,7 @@ footer {
         }
         .pay_attention {
             float: right;
-            min-width: 225px;
+            min-width: 140px;
             overflow: hidden;
             margin-top: 60px;
             div {
