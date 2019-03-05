@@ -73,22 +73,22 @@
                                     <div class="left w250 pro-info">
                                         <span>{{ App::isLocale('zh-CN') ? $item['product']->name_zh : $item['product']->name_en }}</span>
                                     </div>
-                                    <div class="left w150 center">
+                                    <div class="left w150 Specifications_info center">
                                         <span>{{ App::isLocale('zh-CN') ? $item['sku']->name_zh : $item['sku']->name_en }}</span>
                                     </div>
-                                    <div class="left w150 center RMB_num">
+                                    <div class="left w150 dis_n center RMB_num">
                                         &#165; <span>{{ exchange_price($item['sku']->price, 'CNY') }}</span>
                                     </div>
-                                    <div class="left w150 dis_n center dollar_num">
+                                    <div class="left w150  center dollar_num">
                                         &#36; <span>{{ $item['sku']->price }}</span>
                                     </div>
                                     <div class="left w150 center counter">
                                         <span>{{ $item['number'] }}</span>
                                     </div>
-                                    <div class="left w150 s_total red center RMB_num">
+                                    <div class="left w150 s_total dis_n red center RMB_num">
                                         &#165; <span>{{ exchange_price($item['amount'], 'CNY') }}</span>
                                     </div>
-                                    <div class="left w150 s_total dis_n red dollar_num center">
+                                    <div class="left w150 s_total red dollar_num center">
                                         &#36; <span>{{ $item['amount'] }}</span>
                                     </div>
                                 </div>
@@ -100,7 +100,7 @@
                     <p class="main_title">@lang('order.Currency options')</p>
                     <p class="currency_selection">
                         {{--<a href="javascript:void(0);" class="active" code="RMB" country="CNY">@lang('order.RMB')</a>--}}
-                        <a href="javascript:void(0);" code="dollar" country="USD">@lang('order.Dollars')</a>
+                        <a href="javascript:void(0);" class="active" code="dollar" country="USD">@lang('order.Dollars')</a>
                     </p>
                     <ul>
                         <li class="clear">
@@ -111,20 +111,20 @@
                         <li>
                             <p>
                                 <span>@lang('order.Sum')：</span>
-                                <span class="RMB_num amount_of_money">&#165; <span>{{ exchange_price($total_amount, 'CNY') }}</span></span>
-                                <span class="dis_ni dollar_num amount_of_money">&#36; <span>{{ $total_amount }}</span></span>
+                                <span class="dis_ni RMB_num amount_of_money">&#165; <span>{{ exchange_price($total_amount, 'CNY') }}</span></span>
+                                <span class="dollar_num amount_of_money">&#36; <span>{{ $total_amount }}</span></span>
                             </p>
                             <p>
                                 <span>@lang('order.freight')：</span>
-                                <span class="RMB_num amount_of_money">&#165; <span>{{ exchange_price($total_shipping_fee, 'CNY') }}</span></span>
-                                <span class="dis_ni dollar_num amount_of_money">&#36; <span>{{ $total_shipping_fee }}</span></span>
+                                <span class="dis_ni RMB_num amount_of_money">&#165; <span>{{ exchange_price($total_shipping_fee, 'CNY') }}</span></span>
+                                <span class="dollar_num amount_of_money">&#36; <span>{{ $total_shipping_fee }}</span></span>
                             </p>
                         </li>
                         <li>
                             <p>
                                 <span>@lang('order.Amount payable')：</span>
-                                <span class="red RMB_num amount_of_money">&#165; <span>{{ exchange_price($total_fee, 'CNY') }}</span></span>
-                                <span class="red dis_ni dollar_num amount_of_money">&#36; <span>{{ $total_fee }}</span></span>
+                                <span class="red  RMB_num amount_of_money">&#165; <span>{{ exchange_price($total_fee, 'CNY') }}</span></span>
+                                <span class="red dollar_num amount_of_money">&#36; <span>{{ $total_fee }}</span></span>
                             </p>
                             <p>
                                 <a href="javascript:void(0);" class="payment_btn"
