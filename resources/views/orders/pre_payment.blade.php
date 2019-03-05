@@ -77,19 +77,19 @@
                                         <span>{{ App::isLocale('zh-CN') ? $item['sku']->name_zh : $item['sku']->name_en }}</span>
                                     </div>
                                     <div class="left w150 dis_n center RMB_num">
-                                        &#165; <span>{{ exchange_price($item['sku']->price, 'CNY') }}</span>
+                                        <span>&#165; {{ exchange_price($item['sku']->price, 'CNY') }}</span>
                                     </div>
                                     <div class="left w150  center dollar_num">
-                                        &#36; <span>{{ $item['sku']->price }}</span>
+                                        <span>&#36; {{ $item['sku']->price }}</span>
                                     </div>
                                     <div class="left w150 center counter">
                                         <span>{{ $item['number'] }}</span>
                                     </div>
                                     <div class="left w150 s_total dis_n red center RMB_num">
-                                        &#165; <span>{{ exchange_price($item['amount'], 'CNY') }}</span>
+                                        <span>&#165; {{ exchange_price($item['amount'], 'CNY') }}</span>
                                     </div>
                                     <div class="left w150 s_total red dollar_num center">
-                                        &#36; <span>{{ $item['amount'] }}</span>
+                                        <span>&#36; {{ $item['amount'] }}</span>
                                     </div>
                                 </div>
                             @endforeach
@@ -123,7 +123,7 @@
                         <li>
                             <p>
                                 <span>@lang('order.Amount payable')：</span>
-                                <span class="red  RMB_num amount_of_money">&#165; <span>{{ exchange_price($total_fee, 'CNY') }}</span></span>
+                                <span class="red dis_ni  RMB_num amount_of_money">&#165; <span>{{ exchange_price($total_fee, 'CNY') }}</span></span>
                                 <span class="red dollar_num amount_of_money">&#36; <span>{{ $total_fee }}</span></span>
                             </p>
                             <p>
