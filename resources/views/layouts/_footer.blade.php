@@ -205,7 +205,7 @@
                             @endif
                         </li>
                         <li>
-                            <span><i>*</i>E-mail:</span>
+                            <span><i>*</i>Email:</span>
                             <input type="email" name="email" id="register_mail" required>
                             @if ($errors->has('email'))
                                 <p class="login_error error_content">
@@ -284,7 +284,7 @@
                     <p id="commn_login_token_code" class="dis_n">{{ csrf_field() }}</p>
                     <ul>
                         <li>
-                            <span><i>*</i>Email Address:</span>
+                            <span><i>*</i>Email:</span>
                             <input type="text" name="username" required>
                             @if ($errors->has('username'))
                                 <p class="login_error error_content">
