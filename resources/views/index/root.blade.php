@@ -172,38 +172,38 @@
                 </div>
             @endif
         @endforeach
-        <div class="guess_like product-part">
-            <div class="m-wrapper">
-                <h3>@lang('app.you may also like')</h3>
-                <ul class="guess_lists">
-                    @foreach($guesses as $k => $guess)
-                        @if($k > 7)
-                            @break
-                        @endif
-                        <li>
-                            <div class="guess_list_img">
-                                {{--<div class="guess_list_tips">
-                                    <img class="lazy" data-src="{{ asset('img/guess_tips.png') }}">
-                                </div>--}}
-                                <img class="lazy" data-src="{{ $guess->thumb_url }}">
-                            </div>
-                            <h5 title="{{ App::isLocale('zh-CN') ? $guess->name_zh : $guess->name_en }}">
-                                {{ App::isLocale('zh-CN') ? $guess->name_zh : $guess->name_en }}
-                            </h5>
-                            <p class="guess_price">
+        {{--<div class="guess_like product-part">--}}
+            {{--<div class="m-wrapper">--}}
+                {{--<h3>@lang('app.you may also like')</h3>--}}
+                {{--<ul class="guess_lists">--}}
+                    {{--@foreach($guesses as $k => $guess)--}}
+                        {{--@if($k > 7)--}}
+                            {{--@break--}}
+                        {{--@endif--}}
+                        {{--<li>--}}
+                            {{--<div class="guess_list_img">--}}
+                                {{--<div class="guess_list_tips">--}}
+                                    {{--<img class="lazy" data-src="{{ asset('img/guess_tips.png') }}">--}}
+                                {{--</div>--}}
+                                {{--<img class="lazy" data-src="{{ $guess->thumb_url }}">--}}
+                            {{--</div>--}}
+                            {{--<h5 title="{{ App::isLocale('zh-CN') ? $guess->name_zh : $guess->name_en }}">--}}
+                                {{--{{ App::isLocale('zh-CN') ? $guess->name_zh : $guess->name_en }}--}}
+                            {{--</h5>--}}
+                            {{--<p class="guess_price">--}}
                                 {{--<span class="new_price">@lang('basic.currency.symbol') {{ App::isLocale('en') ? $guess->price_in_usd : $guess->price }}</span>--}}
                                 {{--<span class="old_price">@lang('basic.currency.symbol') {{ App::isLocale('en') ? bcmul($guess->price_in_usd, 1.2, 2) : bcmul($guess->price, 1.2, 2) }}</span>--}}
-                                <span class="new_price">{{ get_global_symbol() }} {{ get_current_price($guess->price) }}</span>
-                                <span class="old_price">{{ get_global_symbol() }} {{ bcmul(get_current_price($guess->price), 1.2, 2) }}</span>
-                            </p>
-                            <a class="buy_now_guess" href="{{ route('products.show', ['product' => $guess->id]) }}">
-                                @lang('product.buy_now')
-                            </a>
-                        </li>
-                    @endforeach
-                </ul>
-            </div>
-        </div>
+                                {{--<span class="new_price">{{ get_global_symbol() }} {{ get_current_price($guess->price) }}</span>--}}
+                                {{--<span class="old_price">{{ get_global_symbol() }} {{ bcmul(get_current_price($guess->price), 1.2, 2) }}</span>--}}
+                            {{--</p>--}}
+                            {{--<a class="buy_now_guess" href="{{ route('products.show', ['product' => $guess->id]) }}">--}}
+                                {{--@lang('product.buy_now')--}}
+                            {{--</a>--}}
+                        {{--</li>--}}
+                    {{--@endforeach--}}
+                {{--</ul>--}}
+            {{--</div>--}}
+        {{--</div>--}}
     </div>
 @endsection
 @section('scriptsAfterJs')

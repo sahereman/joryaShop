@@ -185,7 +185,7 @@
                     <p id="register_token_code" class="dis_n">{{ csrf_field() }}</p>
                     <ul>
                         <li>
-                            <span><i>*</i>username:</span>
+                            <span><i>*</i>Username:</span>
                             <input type="text" name="name" id="register_user" required>
                             @if ($errors->has('name'))
                                 <p class="login_error error_content">
@@ -195,7 +195,7 @@
                             @endif
                         </li>
                         <li>
-                            <span><i>*</i>password:</span>
+                            <span><i>*</i>Password:</span>
                             <input type="password" name="password" id="register_psw" required>
                             @if ($errors->has('password'))
                                 <p class="login_error error_content">
@@ -215,7 +215,7 @@
                             @endif
                         </li>
                         <li>
-                            <span><i>*</i>country:</span>
+                            <span><i>*</i>Country:</span>
                             <select class="choose_tel_area" name="country_code" id="register_countryCode">
                                 <option value="null">@lang('app.Please choose the country')</option>
                                 @foreach(\App\Models\CountryCode::countryCodes() as $country_code)
@@ -227,7 +227,7 @@
                             </div>
                         </li>
                         <li>
-                            <span><i>*</i>phone:</span>
+                            <span><i>*</i>Phone:</span>
                             <input type="text" name="phone" id="register_email" required>
                             @if ($errors->has('phone'))
                                 <p class="login_error error_content">
@@ -237,7 +237,7 @@
                             @endif
                         </li>
                         <li>
-                            <span><i>*</i>code:</span>
+                            <span><i>*</i>Code:</span>
                             <input type="text" id="register_code" class="code" name="code">
                             <input type="button" class="generate_code" data-url="{{ route('register.send_sms_code') }}"
                                id="getRegister_code" value=" @lang('app.get verification code')">
@@ -284,7 +284,7 @@
                     <p id="commn_login_token_code" class="dis_n">{{ csrf_field() }}</p>
                     <ul>
                         <li>
-                            <span><i>*</i>username:</span>
+                            <span><i>*</i>Email Address:</span>
                             <input type="text" name="username" required>
                             @if ($errors->has('username'))
                                 <p class="login_error error_content">
@@ -294,7 +294,7 @@
                             @endif
                         </li>
                         <li>
-                            <span><i>*</i>password:</span>
+                            <span><i>*</i>Password:</span>
                             <input type="password" name="password" required>
                             @if ($errors->has('password'))
                                 <p class="login_error error_content">
@@ -309,7 +309,7 @@
                     <p id="login_token_code" class="dis_n">{{ csrf_field() }}</p>
                     <ul>
                         <li>
-                            <span><i>*</i>country:</span>
+                            <span><i>*</i>Country:</span>
                             <select class="choose_tel_area" name="country_code" id="login_countryCode">
                                 <option value="null">@lang('app.Please choose the country')</option>
                                 @foreach(\App\Models\CountryCode::countryCodes() as $country_code)
@@ -321,7 +321,7 @@
                             </div>
                         </li>
                         <li>
-                            <span><i>*</i>phone:</span>
+                            <span><i>*</i>Phone:</span>
                             <input type="text" name="phone" id="login_email" required>
                             @if ($errors->has('phone'))
                                 <p class="login_error error_content">
@@ -331,7 +331,7 @@
                             @endif
                         </li>
                         <li>
-                            <span><i>*</i>code:</span>
+                            <span><i>*</i>Code:</span>
                             <input type="text" class="code" name="code" id="login_code">
                             <input type="button" class="generate_code" data-url="{{ route('login.send_sms_code') }}"
                                id="getLogin_code" value=" @lang('app.get verification code')">
@@ -345,7 +345,7 @@
                     </ul>
                 </form>
                 <div class="switch-back">
-                    <a code="1" class="rotary_btn register_btn pull-left">@lang('app.New User Registration')</a>
+                    <a code="1" class="rotary_btn register_btn pull-left">Create an Account</a>
                     <a class="forget_psw pull-right"
                        href="{{ route('password.request') }}">@lang('app.forget password')</a>
                 </div>

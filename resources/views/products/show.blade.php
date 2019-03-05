@@ -77,8 +77,8 @@
                         </p>
                         <p class="service">
                             <span>@lang('product.product_details.service')</span>
-                            <span class="service-kind"><i>•</i>@lang('product.product_details.no reason for a refund within seven days')</span>
-                            <span class="service-kind"><i>•</i>@lang('product.product_details.Quick refund in 48 hours')</span>
+                            <span class="service-kind"><i>•</i>@lang('product.product_details.multiple quantity')</span>
+                            {{--<span class="service-kind"><i>•</i>@lang('product.product_details.Quick refund in 48 hours')</span>--}}
                         </p>
                     </div>
                     <div class="priceOfpro">
