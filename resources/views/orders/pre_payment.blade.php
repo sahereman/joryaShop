@@ -76,7 +76,7 @@
                                     <div class="left w150 Specifications_info center">
                                         <span>{{ App::isLocale('zh-CN') ? $item['sku']->name_zh : $item['sku']->name_en }}</span>
                                     </div>
-                                    <div class="left w150 dis_n center RMB_num">
+                                    <div class="left w150 dis_ni center RMB_num">
                                         <span>&#165; {{ exchange_price($item['sku']->price, 'CNY') }}</span>
                                     </div>
                                     <div class="left w150  center dollar_num">
@@ -85,7 +85,7 @@
                                     <div class="left w150 center counter">
                                         <span>{{ $item['number'] }}</span>
                                     </div>
-                                    <div class="left w150 s_total dis_n red center RMB_num">
+                                    <div class="left w150 s_total dis_ni red center RMB_num">
                                         <span>&#165; {{ exchange_price($item['amount'], 'CNY') }}</span>
                                     </div>
                                     <div class="left w150 s_total red dollar_num center">

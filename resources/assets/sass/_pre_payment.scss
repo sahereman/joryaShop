@@ -103,26 +103,30 @@
                     padding-left: 15px;
                     display: flex;
                     div {
+                        display: flex;
+                        flex-direction: row;
+                        padding: 5px;
+                        a {
+                            margin: auto;
+                        }
                         img {
                             width: 80px;
                             height: 80px;
                             margin-left: 15px;
                         }
-                        &.pro-info{
-                            display: flex;
-                            padding: 5px;
-                            span {
-                                display: inline-block;
-                                line-height: 25px;
-                                margin: auto;
-                            }
+                        span{
+                            display: inline-block;
+                            line-height: 25px;
+                            margin: auto;
                         }
-                        &.Specifications_info {
-                            span {
-                                display: inline-block;
-                                line-height: 25px;
-                            }
-                        }
+//                      &.pro-info,
+//                      &.Specifications_info{
+//                          display: flex;
+//                          
+//                          span {
+//                              margin: auto;
+//                          }
+//                      }
                     }
                 }
             }
