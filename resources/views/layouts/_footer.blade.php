@@ -24,6 +24,22 @@
     </div>
 </div>-->
 <footer class="footer">
+    <div class="inner-container">
+        <div class="m-wrapper">
+            <div class="footer-subscribe">
+                <p>Subscribe to get product information, maintenance knowledge, special offers and important notices.</p>
+                <div class="subscribe-form">
+                    <form action="{{ route('register') }}" method="POST">
+                        {{ csrf_field() }}
+                        <input type="email" id="footemail" name="email" placeholder="Your Email Address">
+                        <input id="footverCode" placeholder="Verification Code" class="form-control{{ $errors->has('captcha') ? ' is-invalid' : '' }}" name="captcha" required>
+                        <img class="thumbnail captcha mt-3 mb-2" src="{{ captcha_src('flat') }}" onclick="this.src='/captcha/flat?'+Math.random()" title="点击图片重新获取验证码">
+                        <button title="Subscribe">Subscribe Now</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="footer-top">
         <div class="m-wrapper">
             <div class="contact_us">

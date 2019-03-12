@@ -1166,8 +1166,64 @@ img {
 
 //底部样式
 footer {
-    height: 355px;
+    min-height: 355px;
     min-width: 1250px;
+    .inner-container {
+        background-color: #ececec;
+        .m-wrapper {
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            .footer-subscribe {
+                p {
+                    padding: 20px 0;
+                }
+                .subscribe-form {
+                    padding-bottom: 20px;
+                    form {
+                        display: flex;
+                        flex-direction: row;
+                        justify-content: flex-start;
+                        input{
+                            background: #fff;
+                            border: 1px solid #ddd;
+                            color: #888;
+                            padding: 8px;
+                            text-overflow: ellipsis;
+                            margin-right: 10px !important;
+                            height: 35px;
+                            &#footemail {
+                                width: 294px;
+                            }
+                            &#footverCode {
+                                width: 130px;
+                            }
+                        }
+                        .thumbnail {
+                            height: 36px;
+                            margin-right: 10px !important;
+                            margin-bottom: 0 !important;
+                        }
+                        button {
+                            height: 35px;
+                            line-height: 35px;
+                            text-align: center;
+                            font-size: 14px;
+                            padding: 0 10px;
+                            border: 2px solid #bc8c61;
+                            transition: all .3s;
+                            background-color: #fff;
+                            width: 130px;
+                            &:hover{
+                                background-color: #bc8c61;
+                                color: #fff;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
     .footer-top {
         .m-wrapper {
             display: flex;
