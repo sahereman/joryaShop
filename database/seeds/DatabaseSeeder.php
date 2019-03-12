@@ -50,5 +50,8 @@ class DatabaseSeeder extends Seeder
 
         //菜单
         $this->call(MenusSeeder::class);
+
+        // 留言板
+        $this->call(FeedbacksSeeder::class);
     }
 }

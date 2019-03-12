@@ -208,3 +208,6 @@ Route::post('payments/{order}/paypal/notify', 'PaymentsController@paypalNotify')
 
 /*手机端 - 微信浏览器内获取用户 open id*/
 Route::get('payments/get_wechat_open_id', 'PaymentsController@getWechatOpenId')->name('payments.get_wechat_open_id'); // get wechat open_id
+
+/*留言板*/
+Route::post('feedbacks', 'FeedbacksController@store')->name('feedbacks.store'); // 留言
