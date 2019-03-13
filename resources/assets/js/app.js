@@ -825,7 +825,8 @@ $(function () {
         var data = {
             _token: $("#footer_token_code").find("input").val(),
             email: $("#footemail").val(),
-            captcha: $("#footverCode").val()
+            captcha: $("#footverCode").val(),
+            type: $("#typeVal").val()
         }
         $.ajax({
             type:"post",
@@ -837,8 +838,12 @@ $(function () {
             error:function(err){
                 console.log(err);
                 if(err.status!=200){
-                    var errorTips = err.responseJSON.errors.captcha;
-                    layer.msg(errorTips[0])
+                    var errorTips = err.responseJSON.errors;
+                    var errorText = [];
+                    $.each(errorTips, function(i,n) {
+                    	errorText.push(n)
+                    });
+                    layer.msg(errorText[errorText.length-1][0]);
                 }
             }
         });
