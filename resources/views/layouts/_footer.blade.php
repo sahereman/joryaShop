@@ -34,7 +34,7 @@
                         <input type="hidden" name="type" id="typeVal" value="subscription">
                         <input type="email" id="footemail" name="email" placeholder="Your Email Address">
                         <input id="footverCode" placeholder="Verification Code" class="form-control{{ $errors->has('captcha') ? ' is-invalid' : '' }}" name="captcha" required>
-                        <img class="thumbnail captcha mt-3 mb-2" src="{{ captcha_src('subscription') }}" onclick="this.src='/captcha/flat?'+Math.random()" title="点击图片重新获取验证码">
+                        <img class="thumbnail captcha mt-3 mb-2" src="{{ captcha_src('subscription') }}" onclick="this.src='/captcha/subscription?'+Math.random()" title="点击图片重新获取验证码">
                         <button title="Subscribe" type="button" data-url="{{ route('feedbacks.store') }}" id="subFootCode">Subscribe Now</button>
                     </form>
                 </div>

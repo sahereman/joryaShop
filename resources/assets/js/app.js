@@ -834,10 +834,14 @@ $(function () {
             data: data,
             success:function(data){
                 layer.msg("Subscription success!");
+                $(".thumbnail").trigger("click");
+                $("#footemail").val("");
+                $("#footverCode").val("")
             },
             error:function(err){
                 console.log(err);
                 if(err.status!=200){
+                    $(".thumbnail").trigger("click");
                     var errorTips = err.responseJSON.errors;
                     var errorText = [];
                     $.each(errorTips, function(i,n) {
