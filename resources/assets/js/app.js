@@ -815,5 +815,32 @@ $(function () {
     	$(this).addClass("active");
     	$(".show_search").addClass("active");
     })
-    
+    //footer订阅功能
+    $("#subFootCode").on("click",function(){
+        var dataUrl = $(this).attr("data-url");
+        if($("#footemail").val() == ""){
+            layer.msg("The email field is required");
+            return;
+        }
+        var data = {
+            _token: $("#footer_token_code").find("input").val(),
+            email: $("#footemail").val(),
+            captcha: $("#footverCode").val()
+        }
+        $.ajax({
+            type:"post",
+            url:dataUrl,
+            data: data,
+            success:function(data){
+                layer.msg("Subscription success!");
+            },
+            error:function(err){
+                console.log(err);
+                if(err.status!=200){
+                    var errorTips = err.responseJSON.errors.captcha;
+                    layer.msg(errorTips[0])
+                }
+            }
+        });
+    })
 });
