@@ -798,6 +798,9 @@ $(function () {
                 case "register": // 注册
                     $("#register_btn").trigger("click");
                     break;
+                case "subscription": // 订阅
+                    $("#subFootCode").trigger("click");
+                    break;
                 default :
                     break;
             }
@@ -815,6 +818,13 @@ $(function () {
     	$(this).addClass("active");
     	$(".show_search").addClass("active");
     })
+    // 判断订阅邮箱输入框焦点
+    $("#footemail").bind("focus", function (event) {
+        enter_event = "subscription";
+    });
+    $("#footverCode").bind("focus", function (event) {
+        enter_event = "subscription";
+    });
     //footer订阅功能
     $("#subFootCode").on("click",function(){
         var dataUrl = $(this).attr("data-url");
