@@ -31,9 +31,10 @@
                 <div class="subscribe-form">
                     <form action="{{ route('feedbacks.store') }}" method="POST">
                         {{ csrf_field() }}
+                        <input type="hidden" name="type" value="subscription">
                         <input type="email" id="footemail" name="email" placeholder="Your Email Address">
                         <input id="footverCode" placeholder="Verification Code" class="form-control{{ $errors->has('captcha') ? ' is-invalid' : '' }}" name="captcha" required>
-                        <img class="thumbnail captcha mt-3 mb-2" src="{{ captcha_src('flat') }}" onclick="this.src='/captcha/flat?'+Math.random()" title="点击图片重新获取验证码">
+                        <img class="thumbnail captcha mt-3 mb-2" src="{{ captcha_src('subscription') }}" onclick="this.src='/captcha/flat?'+Math.random()" title="点击图片重新获取验证码">
                         <button title="Subscribe">Subscribe Now</button>
                     </form>
                 </div>
