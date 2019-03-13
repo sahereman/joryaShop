@@ -76,6 +76,9 @@ class FeedbacksController extends Controller
     protected function grid()
     {
         $grid = new Grid(new Feedback);
+        $grid->model()
+            ->where(['type' => 'subscription'])
+            ->orderByDesc('created_at');
 
         $grid->disableCreateButton();
 
@@ -92,9 +95,13 @@ class FeedbacksController extends Controller
         // $grid->phone('Phone');
         // $grid->content('Content');
         // $grid->type('Type');
-        // $grid->is_check('Is Check');
-        $grid->created_at('Created at');
+        $grid->created_at('Created at')->sortable();
         // $grid->updated_at('Updated at');
+
+        $grid->is_check('Is Check')->sortable()->switch([
+            'on'  => ['value' => 1, 'text' => 'YES', 'color' => 'primary'],
+            'off' => ['value' => 0, 'text' => 'NO', 'color' => 'default'],
+        ]);
 
         return $grid;
     }
@@ -116,9 +123,11 @@ class FeedbacksController extends Controller
         // $show->phone('Phone');
         // $show->content('Content');
         // $show->type('Type');
-        // $show->is_check('Is Check');
         $show->created_at('Created at');
         // $show->updated_at('Updated at');
+        $show->is_check('Is Check')->as(function ($item) {
+            return $item ? '<span class="label label-primary">YES</span>' : '<span class="label label-default">NO</span>';
+        });
 
         return $show;
     }
@@ -138,7 +147,7 @@ class FeedbacksController extends Controller
         // $form->mobile('phone', 'Phone');
         // $form->textarea('content', 'Content');
         // $form->text('type', 'Type');
-        // $form->switch('is_check', 'Is Check');
+        $form->switch('is_check', 'Is Check');
 
         return $form;
     }
