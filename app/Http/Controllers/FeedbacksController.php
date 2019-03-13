@@ -14,11 +14,26 @@ class FeedbacksController extends Controller
     {
         $data = [];
         $data['email'] = $request->input('email');
+        $data['type'] = $request->input('type');
         if (Auth::check()) {
             $user = Auth::user();
             $data['user_id'] = $user->id;
         }
-        Feedback::create($data);
-        return redirect()->back();
+        $feedback = Feedback::create($data);
+        if ($request->ajax()) {
+            if ($feedback) {
+                return response()->json([
+                    'code' => 200,
+                    'message' => 'success',
+                ], 200);
+            } else {
+                return response()->json([
+                    'code' => 422,
+                    'message' => 'Unprocessable Entity',
+                ], 422);
+            }
+        } else {
+            return redirect()->back(302);
+        }
     }
 }
