@@ -26,6 +26,7 @@ class CreateFeedbacksTable extends Migration
             $table->string('phone')->nullable()->comment('手机');
             $table->text('content')->nullable()->comment('留言内容');
             $table->string('type')->nullable()->comment('留言类型:subscription|consultancy');
+            $table->boolean('is_check')->nullable(false)->default(false)->comment('是否为已处理');
 
             $table->timestamps();
         });

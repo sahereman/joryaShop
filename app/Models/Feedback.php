@@ -25,6 +25,7 @@ class Feedback extends Model
         'phone',
         'content',
         'type',
+        'is_check',
     ];
 
     /**
@@ -36,6 +37,14 @@ class Feedback extends Model
     ];
 
     /**
+     * The attributes that should be cast to native types.
+     * @var array
+     */
+    protected $casts = [
+        'is_check' => 'boolean',
+    ];
+
+    /**
      * The accessors to append to the model's array form.
      * @var array
      */
@@ -43,4 +52,18 @@ class Feedback extends Model
         //
     ];
 
+    /**
+     * Get the user's id.
+     * @param integer|null $value
+     * @return integer|string
+     */
+    public function getUserIdAttribute($value)
+    {
+        return $value ?: 'Anonymous';
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

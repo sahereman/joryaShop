@@ -29,7 +29,7 @@
             <div class="footer-subscribe">
                 <p>Subscribe to get product information, maintenance knowledge, special offers and important notices.</p>
                 <div class="subscribe-form">
-                    <form action="{{ route('register') }}" method="POST">
+                    <form action="{{ route('feedbacks.store') }}" method="POST">
                         {{ csrf_field() }}
                         <input type="email" id="footemail" name="email" placeholder="Your Email Address">
                         <input id="footverCode" placeholder="Verification Code" class="form-control{{ $errors->has('captcha') ? ' is-invalid' : '' }}" name="captcha" required>

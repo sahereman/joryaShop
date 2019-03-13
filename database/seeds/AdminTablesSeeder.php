@@ -51,6 +51,12 @@ class AdminTablesSeeder extends Seeder
                 'http_path' => "/banners",
             ],
             [
+                'name' => '订阅管理',
+                'slug' => 'feedbacks',
+                'http_method' => '',
+                'http_path' => "/feedbacks",
+            ],
+            [
                 'name' => '汇率管理',
                 'slug' => 'exchange_rates',
                 'http_method' => '',
@@ -123,10 +129,17 @@ class AdminTablesSeeder extends Seeder
             ],
             [
                 'parent_id' => 0,
-                'order' => 9,
+                'order' => 6,
                 'title' => 'Banner管理',
                 'icon' => 'fa-image',
                 'uri' => 'banners',
+            ],
+            [
+                'parent_id' => 0,
+                'order' => 7,
+                'title' => '订阅管理',
+                'icon' => 'fa-feed',
+                'uri' => 'feedbacks',
             ],
             [
                 'parent_id' => 0,
@@ -171,41 +184,40 @@ class AdminTablesSeeder extends Seeder
 
             //其他设置
             [
-                'parent_id' => 18,
+                'parent_id' => 19,
                 'order' => 1,
                 'title' => '汇率管理',
                 'icon' => 'fa-usd',
                 'uri' => 'exchange_rates',
             ],
             [
-                'parent_id' => 18,
+                'parent_id' => 19,
                 'order' => 2,
                 'title' => '手机号国家管理',
                 'icon' => 'fa-phone',
                 'uri' => 'country_codes',
             ],
             [
-                'parent_id' => 18,
+                'parent_id' => 19,
                 'order' => 3,
                 'title' => '快递公司管理',
                 'icon' => 'fa-ambulance',
                 'uri' => 'shipment_companies',
             ],
             [
-                'parent_id' => 18,
+                'parent_id' => 19,
                 'order' => 4,
                 'title' => '导航菜单管理',
                 'icon' => 'fa-anchor',
                 'uri' => 'menus',
             ],
             [
-                'parent_id' => 18,
+                'parent_id' => 19,
                 'order' => 5,
                 'title' => '退款原因管理',
                 'icon' => 'fa-retweet',
                 'uri' => 'refund_reasons',
             ],
-
         ];
 
     /**
@@ -338,14 +350,14 @@ class AdminTablesSeeder extends Seeder
             ],
             [
                 'parent_id' => 2,
-                'order' => 7,
+                'order' => 8,
                 'title' => '系统日志',
                 'icon' => 'fa-database',
                 'uri' => 'logs',
             ],
             [
                 'parent_id' => 2,
-                'order' => 8,
+                'order' => 9,
                 'title' => '操作日志',
                 'icon' => 'fa-history',
                 'uri' => 'auth/logs',
@@ -360,6 +372,5 @@ class AdminTablesSeeder extends Seeder
         ];
         $menus = array_merge($menus, $this->custom_menus);
         Menu::insert($menus);
-
     }
 }

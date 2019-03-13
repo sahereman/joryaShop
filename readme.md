@@ -59,6 +59,7 @@ php artisan db:seed --class=ConfigsSeeder
 php artisan make:model Models/{模型名称sgl.} -mf         //模型 & 工厂
 php artisan make:seeder {模型名称pl.}Seeder             //数据填充名称一般为模型复数名
 php artisan make:controller {控制器名称pl.}Controller   //控制器名称一般为模型复数名
+php artisan admin:make {控制器名称pl.}Controller --model=App\\Models\\{模型名称sgl.} //控制器名称一般为模型复数名
 
 //创建验证器
 php artisan make:request {验证器名称}Request

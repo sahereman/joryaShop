@@ -210,4 +210,4 @@ Route::post('payments/{order}/paypal/notify', 'PaymentsController@paypalNotify')
 Route::get('payments/get_wechat_open_id', 'PaymentsController@getWechatOpenId')->name('payments.get_wechat_open_id'); // get wechat open_id
 
 /*留言板*/
-Route::post('feedbacks', 'FeedbacksController@store')->name('feedbacks.store'); // 留言
+Route::post('feedbacks', 'FeedbacksController@store')->name('feedbacks.store'); // 提交订阅|发布留言

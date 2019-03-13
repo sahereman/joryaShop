@@ -18,17 +18,7 @@ class FeedbacksController extends Controller
             $user = Auth::user();
             $data['user_id'] = $user->id;
         }
-        $feedback = Feedback::create($data);
-        if ($feedback) {
-            return response()->json([
-                'code' => 200,
-                'message' => 'success',
-            ]);
-        } else {
-            return response()->json([
-                'code' => 422,
-                'message' => 'Unprocessable Entity',
-            ], 422);
-        }
+        Feedback::create($data);
+        return redirect()->back();
     }
 }
