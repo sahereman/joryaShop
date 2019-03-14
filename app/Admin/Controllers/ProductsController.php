@@ -6,12 +6,14 @@ use App\Admin\Extensions\Ajax\Ajax_Delete;
 use App\Admin\Models\Product;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Request;
+
 /*商品属性 2019-03-01*/
 // use App\Models\Attr;
 /*商品属性 2019-03-01*/
 use App\Models\ProductCategory;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
+use Encore\Admin\Form\Builder;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
@@ -21,6 +23,9 @@ use Illuminate\Support\MessageBag;
 class ProductsController extends Controller
 {
     use HasResourceActions;
+
+    protected $mode = 'create';
+    protected $product_id;
 
     /**
      * Index interface.
@@ -43,6 +48,8 @@ class ProductsController extends Controller
      */
     public function show($id, Content $content)
     {
+        $this->mode = 'show';
+        $this->product_id = $id;
         return $content
             ->header('产品管理')
             ->description('产品 - 详情')
@@ -57,6 +64,8 @@ class ProductsController extends Controller
      */
     public function edit($id, Content $content)
     {
+        $this->mode = 'edit';
+        $this->product_id = $id;
         return $content
             ->header('产品管理')
             ->description('产品 - 编辑')
@@ -134,6 +143,7 @@ class ProductsController extends Controller
      */
     protected function detail($id)
     {
+        $this->product_id = $id;
         $show = new Show(Product::findOrFail($id));
 
         $options = [
@@ -291,6 +301,12 @@ class ProductsController extends Controller
         $form = new Form(new Product());
 
         $form->tab('基础', function (Form $form) {
+            if ($this->mode == Builder::MODE_EDIT && $this->product_id) {
+                $form->hidden('product_sort_photos_url', 'Product-Sort-Photos-Url')->default(route('admin.products.sort_photos', ['product' => $this->product_id]));
+                $product = Product::find($this->product_id);
+                // $form->hidden('product_photos', 'Product Photos')->default(json_encode($product->photos));
+                $form->hidden('product_photos', 'Product Photos')->default(collect($product->photos)->toJson());
+            }
             $form->select('product_category_id', '商品分类')->options(ProductCategory::selectOptions())->rules('required|exists:product_categories,id');
             // $form->text('name_zh', '名称(中文)')->rules('required');
             $form->hidden('name_zh', '名称(中文)')->default('lyrical');
@@ -492,5 +508,27 @@ class ProductsController extends Controller
             }
         });
         return $form;
+    }
+
+    public function sortPhotos(Request $request, Product $product)
+    {
+        $photos = $request->input('photos');
+        $product->photos = $photos;
+        $result = $product->save();
+        if ($request->ajax()) {
+            if ($result) {
+                return response()->json([
+                    'code' => 200,
+                    'message' => 'success',
+                ], 200);
+            } else {
+                return response()->json([
+                    'code' => 422,
+                    'message' => 'Unprocessable Entity',
+                ], 422);
+            }
+        } else {
+            return redirect()->back(302);
+        }
     }
 }

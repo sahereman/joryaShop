@@ -136,3 +136,36 @@ $(document).ready(function () {
         });
     }
 });
+
+var file_input_element = $('input.photos[name="photos[]"]');
+
+file_input_element.on('filesorted', function (event, params) {
+    // console.log(params);
+    // console.log(params.stack);
+    // console.log('File sorted ', params.previewId, params.oldIndex, params.newIndex, params.stack);
+    var token = $('input[name="_token"]').val(),
+        product_photos = $('input.product_photos[name="product_photos"]').val(),
+        product_sort_photos_url = $('input.product_sort_photos_url[name="product_sort_photos_url"]').val();
+    var sorted_photos = params.stack,
+        old_photos = JSON.parse(product_photos),
+        new_photos = {};
+    var photo_count = sorted_photos.length;
+    for (var i = 0; i < photo_count; i++) {
+        new_photos[i] = old_photos[sorted_photos[i].key];
+    }
+    var product_data = {
+        _token: token,
+        photos: new_photos,
+    };
+    $.ajax({
+        type: "post",
+        url: product_sort_photos_url,
+        data: product_data,
+        success: function (data) {
+            console.log("Product Photos Sorted!");
+        },
+        error: function (error) {
+            console.log(error);
+        }
+    });
+});

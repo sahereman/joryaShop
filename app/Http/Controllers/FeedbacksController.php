@@ -14,6 +14,7 @@ class FeedbacksController extends Controller
     {
         $data = [];
         $data['email'] = $request->input('email');
+        $data['content'] = $request->input('content');
         $data['type'] = $request->input('type');
         if (Auth::check()) {
             $user = Auth::user();

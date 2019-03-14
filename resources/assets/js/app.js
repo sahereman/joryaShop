@@ -251,7 +251,7 @@ $(function () {
             $(".login_form").removeClass("dis_n");
             $(".common_login").click();
         } else {
-            enter_event = "register"
+            enter_event = "register";
             $(".login_form").addClass("dis_n");
             $(".login_frame").removeClass("dialog_close_active"); // 弹窗翻转
             $(".register_form").removeClass("dialog_close_active");
@@ -347,7 +347,7 @@ $(function () {
     });
     $("#getRegister_code").on("click", function () {
         var clickDome = $(this);
-        if($(this).hasClass("hadclicked")){
+        if ($(this).hasClass("hadclicked")) {
             layer.msg("Please wait a moment");
             return;
         }
@@ -403,14 +403,14 @@ $(function () {
     });
     // 登录获取验证码
     $("#login_email").focus(function () {
-        if ($("#login_countryCode").val()=="null") {
+        if ($("#login_countryCode").val() == "null") {
             layer.msg((COUNTRY == "中文") ? '请先选择国家' : 'Please select a country first');
             $(this).blur();
         }
     });
     $("#getLogin_code").on("click", function () {
         var clickDome = $(this);
-        if($(this).hasClass("hadclicked")){
+        if ($(this).hasClass("hadclicked")) {
             layer.msg("Please wait a moment");
             return;
         }
@@ -814,10 +814,10 @@ $(function () {
         $(this).find(".nav-panel-dropdown").fadeOut();
     });
     //header search change
-    $(".for_show_search").on("click",function(){
-    	$(this).addClass("active");
-    	$(".show_search").addClass("active");
-    })
+    $(".for_show_search").on("click", function () {
+        $(this).addClass("active");
+        $(".show_search").addClass("active");
+    });
     // 判断订阅邮箱输入框焦点
     $("#footemail").bind("focus", function (event) {
         enter_event = "subscription";
@@ -825,39 +825,40 @@ $(function () {
     $("#footverCode").bind("focus", function (event) {
         enter_event = "subscription";
     });
-    //footer订阅功能
-    $("#subFootCode").on("click",function(){
+    // footer订阅功能
+    $("#subFootCode").on("click", function () {
         var dataUrl = $(this).attr("data-url");
-        if($("#footemail").val() == ""){
+        if ($("#footemail").val() == "") {
             layer.msg("The email field is required");
             return;
         }
         var data = {
             _token: $("#footer_token_code").find("input").val(),
             email: $("#footemail").val(),
+            content: $("#feedback-content").val(),
+            type: $("#feedback-type").val(),
             captcha: $("#footverCode").val(),
-            type: $("#typeVal").val()
-        }
+        };
         $.ajax({
-            type:"post",
-            url:dataUrl,
+            type: "post",
+            url: dataUrl,
             data: data,
-            success:function(data){
+            success: function (data) {
                 layer.msg("Subscription success!");
                 $(".thumbnail").trigger("click");
                 $("#footemail").val("");
                 $("#footverCode").val("")
             },
-            error:function(err){
+            error: function (err) {
                 console.log(err);
-                if(err.status!=200){
+                if (err.status != 200) {
                     $(".thumbnail").trigger("click");
                     var errorTips = err.responseJSON.errors;
                     var errorText = [];
-                    $.each(errorTips, function(i,n) {
-                    	errorText.push(n)
+                    $.each(errorTips, function (i, n) {
+                        errorText.push(n)
                     });
-                    layer.msg(errorText[errorText.length-1][0]);
+                    layer.msg(errorText[errorText.length - 1][0]);
                 }
             }
         });

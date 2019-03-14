@@ -15,7 +15,6 @@
 
 use App\Admin\Extensions\Form\WangEditor;
 
-
 app('view')->prependNamespace('admin', resource_path('views/admin'));
 
 Admin::js('vendor/laravel-admin/laravel-admin-ext-chart/Chart.bundle.min.js');

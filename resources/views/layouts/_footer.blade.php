@@ -31,11 +31,13 @@
                 <div class="subscribe-form">
                     <form>
                         <p id="footer_token_code" class="dis_n">{{ csrf_field() }}</p>
-                        <input type="hidden" name="type" id="typeVal" value="subscription">
-                        <input type="email" id="footemail" name="email" placeholder="Your Email Address">
-                        <input id="footverCode" placeholder="Verification Code" class="form-control{{ $errors->has('captcha') ? ' is-invalid' : '' }}" name="captcha" required>
+                        <input type="file fileloading" name="file">
+                        <input type="email" name="email" id="footemail" placeholder="Your Email Address" required>
+                        <input type="hidden" name="content" id="feedback-content" value="Subscribe to get product information, maintenance knowledge, special offers and important notices.">
+                        <input type="hidden" name="type" id="feedback-type" value="subscription">
+                        <input type="text" name="captcha" id="footverCode" class="form-control{{ $errors->has('captcha') ? ' is-invalid' : '' }}" placeholder="Verification Code" required>
                         <img class="thumbnail captcha mt-3 mb-2" src="{{ captcha_src('subscription') }}" onclick="this.src='/captcha/subscription?'+Math.random()" title="点击图片重新获取验证码">
-                        <button title="Subscribe" type="button" data-url="{{ route('feedbacks.store') }}" id="subFootCode">Subscribe Now</button>
+                        <button type="button" title="Subscribe" id="subFootCode" data-url="{{ route('feedbacks.store') }}">Subscribe Now</button>
                     </form>
                 </div>
             </div>

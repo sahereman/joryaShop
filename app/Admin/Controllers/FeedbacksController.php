@@ -2,8 +2,8 @@
 
 namespace App\Admin\Controllers;
 
-use App\Models\Feedback;
 use App\Http\Controllers\Controller;
+use App\Models\Feedback;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
@@ -77,7 +77,7 @@ class FeedbacksController extends Controller
     {
         $grid = new Grid(new Feedback);
         $grid->model()
-            ->where(['type' => 'subscription'])
+            ->where('type', 'subscription')
             ->orderByDesc('created_at');
 
         $grid->disableCreateButton();
@@ -99,7 +99,7 @@ class FeedbacksController extends Controller
         // $grid->updated_at('Updated at');
 
         $grid->is_check('Is Check')->sortable()->switch([
-            'on'  => ['value' => 1, 'text' => 'YES', 'color' => 'primary'],
+            'on' => ['value' => 1, 'text' => 'YES', 'color' => 'primary'],
             'off' => ['value' => 0, 'text' => 'NO', 'color' => 'default'],
         ]);
 
