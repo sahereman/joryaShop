@@ -31,7 +31,6 @@
                 <div class="subscribe-form">
                     <form>
                         <p id="footer_token_code" class="dis_n">{{ csrf_field() }}</p>
-                        <input type="file fileloading" name="file">
                         <input type="email" name="email" id="footemail" placeholder="Your Email Address" required>
                         <input type="hidden" name="content" id="feedback-content" value="Subscribe to get product information, maintenance knowledge, special offers and important notices.">
                         <input type="hidden" name="type" id="feedback-type" value="subscription">
