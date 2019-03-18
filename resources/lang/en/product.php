@@ -93,7 +93,7 @@ return [
     'New product' => 'New product',
     'Sales volume' => 'Sales volume',
     'price' => 'Price',
-    'not found ' => 'Sorry, I have not found',
+    'not found' => 'Sorry, I have not found ',
     'related products' => 'related products',
     'All content has been loaded' => 'All content has been loaded',
     'Please enter the correct price range' => 'Please enter the correct price range',
