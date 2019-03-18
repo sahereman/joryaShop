@@ -132,7 +132,7 @@
                     <img src="{{ asset('img/footer-payment2.png') }}">
                 </li>
             </ul>
-            <p>Copyright 2018 @lang('app.Lyricalshop All rights reserved')</p>
+            <p class="friendship_cop">Copyright 2018 @lang('app.Lyricalshop All rights reserved')<span> Technical Support : <a target="_blank" href="http://www.sahereman.com/">Sahereman</a></span></p>
         </div>
     </div>
 </footer>

@@ -1335,6 +1335,17 @@ footer {
                 margin: 0 5px;
             }
         }
+        .friendship_cop {
+            span{
+                color: #b7b6b6;
+                a {
+                    text-decoration: underline;
+                    &:hover{
+                        color: #999;
+                    }
+                }
+            }
+        }
     }
 }
 .commitment {
