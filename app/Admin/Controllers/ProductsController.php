@@ -300,89 +300,89 @@ class ProductsController extends Controller
     {
         $form = new Form(new Product());
 
-        $form->tab('基础', function (Form $form) {
-            if ($this->mode == Builder::MODE_EDIT && $this->product_id) {
-                $form->hidden('product_sort_photos_url', 'Product-Sort-Photos-Url')->default(route('admin.products.sort_photos', ['product' => $this->product_id]));
-                $product = Product::find($this->product_id);
-                // $form->hidden('product_photos', 'Product Photos')->default(json_encode($product->photos));
-                $form->hidden('product_photos', 'Product Photos')->default(collect($product->photos)->toJson());
-            }
-            $form->select('product_category_id', '商品分类')->options(ProductCategory::selectOptions())->rules('required|exists:product_categories,id');
-            // $form->text('name_zh', '名称(中文)')->rules('required');
-            $form->hidden('name_zh', '名称(中文)')->default('lyrical');
-            $form->text('name_en', '名称(英文)')->rules('required');
-            // $form->text('description_zh', '描述(中文)')->rules('required');
-            $form->hidden('description_zh', '描述(中文)')->default('lyrical');
-            $form->text('description_en', '描述(英文)')->rules('required');
-            $form->multipleImage('photos', '相册')->uniqueName()->removable()->resize(420, 380)
-                ->move('original/' . date('Ym', now()->timestamp))
-                ->help('相册尺寸:420 * 380')->rules('image');
+        // $form->tab('基础', function (Form $form) {
+        if ($this->mode == Builder::MODE_EDIT && $this->product_id) {
+            $form->hidden('product_sort_photos_url', 'Product-Sort-Photos-Url')->default(route('admin.products.sort_photos', ['product' => $this->product_id]));
+            $product = Product::find($this->product_id);
+            // $form->hidden('product_photos', 'Product Photos')->default(json_encode($product->photos));
+            $form->hidden('product_photos', 'Product Photos')->default(collect($product->photos)->toJson());
+        }
+        $form->select('product_category_id', '商品分类')->options(ProductCategory::selectOptions())->rules('required|exists:product_categories,id');
+        // $form->text('name_zh', '名称(中文)')->rules('required');
+        $form->hidden('name_zh', '名称(中文)')->default('lyrical');
+        $form->text('name_en', '名称(英文)')->rules('required');
+        // $form->text('description_zh', '描述(中文)')->rules('required');
+        $form->hidden('description_zh', '描述(中文)')->default('lyrical');
+        $form->text('description_en', '描述(英文)')->rules('required');
+        $form->multipleImage('photos', '相册')->uniqueName()->removable()->resize(420, 380)
+            ->move('original/' . date('Ym', now()->timestamp))
+            ->help('相册尺寸:420 * 380')->rules('image');
 
-            // 2019-01-22
-            // $form->switch('is_base_size_optional', 'SKU base_size 是否可选')->value(1);
-            $form->switch('is_base_size_optional', 'SKU base_size 是否可选')->default(1);
-            // $form->switch('is_hair_colour_optional', 'SKU hair_colour 是否可选')->value(1);
-            $form->switch('is_hair_colour_optional', 'SKU hair_colour 是否可选')->default(1);
-            // $form->switch('is_hair_density_optional', 'SKU hair_density 是否可选')->value(1);
-            $form->switch('is_hair_density_optional', 'SKU hair_density 是否可选')->default(1);
-            // 2019-01-22
+        // 2019-01-22
+        // $form->switch('is_base_size_optional', 'SKU base_size 是否可选')->value(1);
+        $form->switch('is_base_size_optional', 'SKU base_size 是否可选')->default(1);
+        // $form->switch('is_hair_colour_optional', 'SKU hair_colour 是否可选')->value(1);
+        $form->switch('is_hair_colour_optional', 'SKU hair_colour 是否可选')->default(1);
+        // $form->switch('is_hair_density_optional', 'SKU hair_density 是否可选')->value(1);
+        $form->switch('is_hair_density_optional', 'SKU hair_density 是否可选')->default(1);
+        // 2019-01-22
 
-            // $form->switch('on_sale', '售卖状态')->value(1);
-            $form->switch('on_sale', '售卖状态')->default(1);
-            $form->switch('is_index', '首页推荐');
-        })->tab('价格与库存', function (Form $form) {
-            $form->display('price', '价格')->setWidth(2);
-            $form->display('stock', '库存')->setWidth(2);
+        // $form->switch('on_sale', '售卖状态')->value(1);
+        $form->switch('on_sale', '售卖状态')->default(1);
+        $form->switch('is_index', '首页推荐');
+        // })->tab('价格与库存', function (Form $form) {
+        $form->display('price', '价格')->setWidth(2);
+        $form->display('stock', '库存')->setWidth(2);
+        $form->display('sales', '销量')->setWidth(2);
+        // $form->currency('shipping_fee', '运费')->symbol('￥')->rules('required');
+        $form->currency('shipping_fee', '运费')->symbol('$')->rules('required');
+
+        $form->hasMany('skus', 'SKU 列表', function (Form\NestedForm $form) {
+            // $form->text('name_zh', 'SKU 名称(中文)')->rules('required');
+            $form->hidden('name_zh', 'SKU 名称(中文)')->default('lyrical');
+            // $form->text('name_en', 'SKU 名称(英文)')->rules('required')->default('');
+            $form->text('name_en', 'SKU 名称(英文)')->rules('required');
+            // $form->currency('price', '单价')->symbol('￥')->rules('required|numeric|min:0.01');
+            $form->currency('price', '单价')->symbol('$')->rules('required|numeric|min:0.01');
+            $form->number('stock', '剩余库存')->min(0)->rules('required|integer|min:0');
             $form->display('sales', '销量')->setWidth(2);
-            // $form->currency('shipping_fee', '运费')->symbol('￥')->rules('required');
-            $form->currency('shipping_fee', '运费')->symbol('$')->rules('required');
 
-            $form->hasMany('skus', 'SKU 列表', function (Form\NestedForm $form) {
-                // $form->text('name_zh', 'SKU 名称(中文)')->rules('required');
-                $form->hidden('name_zh', 'SKU 名称(中文)')->default('lyrical');
-                // $form->text('name_en', 'SKU 名称(英文)')->rules('required')->default('');
-                $form->text('name_en', 'SKU 名称(英文)')->rules('required');
-                // $form->currency('price', '单价')->symbol('￥')->rules('required|numeric|min:0.01');
-                $form->currency('price', '单价')->symbol('$')->rules('required|numeric|min:0.01');
-                $form->number('stock', '剩余库存')->min(0)->rules('required|integer|min:0');
-                $form->display('sales', '销量')->setWidth(2);
-
-                // 2019-01-22
-                // $form->text('base_size_zh', 'Base Size 名称(中文)')->default('');
-                $form->hidden('base_size_zh', 'Base Size 名称(中文)')->default('lyrical');
-                $form->text('base_size_en', 'Base Size 名称(英文)')->default('');
-                // $form->text('hair_colour_zh', 'Hair Colour 名称(中文)')->default('');
-                $form->hidden('hair_colour_zh', 'Hair Colour 名称(中文)')->default('lyrical');
-                $form->text('hair_colour_en', 'Hair Colour 名称(英文)')->default('');
-                // $form->text('hair_density_zh', 'Hair Density 名称(中文)')->default('');
-                $form->hidden('hair_density_zh', 'Hair Density 名称(中文)')->default('lyrical');
-                $form->text('hair_density_en', 'Hair Density 名称(英文)')->default('');
-                // 2019-01-22
-            });
-        })->tab('商品详细', function (Form $form) {
-            $form->number('index', '综合指数')->min(0)->rules('required|integer|min:0');
-            $form->number('heat', '人气')->min(0)->rules('required|integer|min:0');
-
-            $form->divider();
-            // $form->editor('content_zh', '详情介绍(中文)');
-            $form->hidden('content_zh', '详情介绍(中文)')->default('lyrical');
-            $form->editor('content_en', '详情介绍(英文)');
-
-            /*商品属性 2019-03-01*/
-            /*$form->divider();
-            $attr_options = [];
-            Attr::where('parent_id', 0)->orderBy('sort')->each(function ($parent) use (&$attr_options) {
-                $attr_options = array_add($attr_options, $parent->id, '---&nbsp;&nbsp;&nbsp;&nbsp;' . $parent->name_en . '&nbsp;&nbsp;&nbsp;&nbsp;---');
-                $parent->children->each(function ($child) use (&$attr_options) {
-                    $attr_options = array_add($attr_options, $child->id, $child->name_en);
-                });
-            });
-            $form->multipleSelect('attrs', '商品属性列表')->options($attr_options);*/
-            /*商品属性 2019-03-01*/
-
-            $form->hidden('_from_')->default('edit');
-            $form->ignore(['_from_']);
+            // 2019-01-22
+            // $form->text('base_size_zh', 'Base Size 名称(中文)')->default('');
+            $form->hidden('base_size_zh', 'Base Size 名称(中文)')->default('lyrical');
+            $form->text('base_size_en', 'Base Size 名称(英文)')->default('');
+            // $form->text('hair_colour_zh', 'Hair Colour 名称(中文)')->default('');
+            $form->hidden('hair_colour_zh', 'Hair Colour 名称(中文)')->default('lyrical');
+            $form->text('hair_colour_en', 'Hair Colour 名称(英文)')->default('');
+            // $form->text('hair_density_zh', 'Hair Density 名称(中文)')->default('');
+            $form->hidden('hair_density_zh', 'Hair Density 名称(中文)')->default('lyrical');
+            $form->text('hair_density_en', 'Hair Density 名称(英文)')->default('');
+            // 2019-01-22
         });
+        // })->tab('商品详细', function (Form $form) {
+        $form->number('index', '综合指数')->min(0)->rules('required|integer|min:0');
+        $form->number('heat', '人气')->min(0)->rules('required|integer|min:0');
+
+        $form->divider();
+        // $form->editor('content_zh', '详情介绍(中文)');
+        $form->hidden('content_zh', '详情介绍(中文)')->default('lyrical');
+        $form->editor('content_en', '详情介绍(英文)');
+
+        /*商品属性 2019-03-01*/
+        /*$form->divider();
+        $attr_options = [];
+        Attr::where('parent_id', 0)->orderBy('sort')->each(function ($parent) use (&$attr_options) {
+            $attr_options = array_add($attr_options, $parent->id, '---&nbsp;&nbsp;&nbsp;&nbsp;' . $parent->name_en . '&nbsp;&nbsp;&nbsp;&nbsp;---');
+            $parent->children->each(function ($child) use (&$attr_options) {
+                $attr_options = array_add($attr_options, $child->id, $child->name_en);
+            });
+        });
+        $form->multipleSelect('attrs', '商品属性列表')->options($attr_options);*/
+        /*商品属性 2019-03-01*/
+
+        $form->hidden('_from_')->default('edit');
+        $form->ignore(['_from_']);
+        // });
 
         // 定义事件回调，当模型即将保存时会触发这个回调
         $form->saving(function (Form $form) {
