@@ -104,7 +104,7 @@ class ProductsController extends Controller
         $grid->filter(function ($filter) {
             $filter->disableIdFilter(); // 去掉默认的id过滤器
             // $filter->like('name_zh', '名称(中文)');
-            $filter->like('name_en', '名称(英文)');
+            $filter->like('name_en', '标题');
         });
 
         $grid->id('ID');
@@ -118,7 +118,7 @@ class ProductsController extends Controller
         /*$grid->name_zh('名称(中文)')->display(function ($data) {
             return "<span style='width: 120px;display: inline-block;overflow: hidden'>$data</span>";
         });*/
-        $grid->name_en('名称(英文)')->display(function ($data) {
+        $grid->name_en('标题')->display(function ($data) {
             return "<span style='width: 120px;display: inline-block;overflow: hidden'>$data</span>";
         });
         $grid->stock('库存')->sortable();
@@ -154,9 +154,9 @@ class ProductsController extends Controller
 
         $show->id('ID');
         // $show->name_zh('名称(中文)');
-        $show->name_en('名称(英文)');
+        $show->name_en('标题');
         // $show->description_zh('描述(中文)');
-        $show->description_en('描述(英文)');
+        $show->description_en('副标题');
         $show->thumb('缩略图')->image('', 80);
         $show->photos('相册')->as(function ($photos) {
             $text = '';
@@ -310,10 +310,10 @@ class ProductsController extends Controller
         $form->select('product_category_id', '商品分类')->options(ProductCategory::selectOptions())->rules('required|exists:product_categories,id');
         // $form->text('name_zh', '名称(中文)')->rules('required');
         $form->hidden('name_zh', '名称(中文)')->default('lyrical');
-        $form->text('name_en', '名称(英文)')->rules('required');
+        $form->text('name_en', '标题')->rules('required');
         // $form->text('description_zh', '描述(中文)')->rules('required');
         $form->hidden('description_zh', '描述(中文)')->default('lyrical');
-        $form->text('description_en', '描述(英文)')->rules('required');
+        $form->text('description_en', '副标题')->rules('required');
         $form->multipleImage('photos', '相册')->uniqueName()->removable()->resize(420, 380)
             ->move('original/' . date('Ym', now()->timestamp))
             ->help('相册尺寸:420 * 380')->rules('image');
