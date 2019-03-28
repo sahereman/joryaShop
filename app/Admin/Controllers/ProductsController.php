@@ -157,7 +157,7 @@ class ProductsController extends Controller
         $show->name_en('标题');
         // $show->description_zh('描述(中文)');
         $show->description_en('副标题');
-        $show->thumb('缩略图')->image('', 80);
+        $show->thumb('缩略图')->image();
         $show->photos('相册')->as(function ($photos) {
             $text = '';
             foreach ($photos as $photo) {
