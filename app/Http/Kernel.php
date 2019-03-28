@@ -57,5 +57,6 @@ class Kernel extends HttpKernel
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'openid' => \App\Http\Middleware\GetWechatOpenId::class,
+        'admin.locale' => \App\Http\Middleware\SetAdminLocale::class,
     ];
 }
