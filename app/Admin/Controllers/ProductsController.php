@@ -197,6 +197,8 @@ class ProductsController extends Controller
         $show->sales('销量');
         $show->index('综合指数');
         $show->heat('人气');
+        $show->location('仓库地址');
+        $show->service('服务内容');
         $show->created_at('创建时间');
         $show->updated_at('更新时间');
         $show->divider();
