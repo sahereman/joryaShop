@@ -24,7 +24,7 @@ class AdminTablesSeeder extends Seeder
                 'name' => '产品管理',
                 'slug' => 'products',
                 'http_method' => '',
-                'http_path' => "/product_categories\r\n/products",
+                'http_path' => "/product_categories\r\n/products\r\n/product_locations\r\n/product_services",
             ],
             [
                 'name' => '订单管理',
@@ -149,7 +149,6 @@ class AdminTablesSeeder extends Seeder
                 'uri' => '',
             ],
 
-
             // 产品
             [
                 'parent_id' => 13,
@@ -164,6 +163,20 @@ class AdminTablesSeeder extends Seeder
                 'title' => '产品',
                 'icon' => 'fa-cubes',
                 'uri' => 'products',
+            ],
+            [
+                'parent_id' => 13,
+                'order' => 3,
+                'title' => '仓库',
+                'icon' => 'fa-fort-awesome',
+                'uri' => 'product_locations',
+            ],
+            [
+                'parent_id' => 13,
+                'order' => 4,
+                'title' => '服务',
+                'icon' => 'fa-server',
+                'uri' => 'product_services',
             ],
 
             //订单

@@ -51,6 +51,12 @@ Route::group([
     $router->resource('products', ProductsController::class)->names('admin.products');
     $router->post('products/{product}/sort_photos', 'ProductsController@sortPhotos')->name('admin.products.sort_photos');
 
+    /*产品仓库*/
+    $router->resource('product_locations', ProductLocationsController::class)->names('admin.product_locations');
+
+    /*产品服务*/
+    $router->resource('product_services', ProductServicesController::class)->names('admin.product_services');
+
     /*评价*/
     $router->delete('products_comments/{comment}/delete', 'ProductCommentsController@delete')->name('admin.product_comments.delete');
 

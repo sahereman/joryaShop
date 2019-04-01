@@ -11,6 +11,8 @@ use App\Http\Requests\Request;
 // use App\Models\Attr;
 /*商品属性 2019-03-01*/
 use App\Models\ProductCategory;
+use App\Models\ProductLocation;
+use App\Models\ProductService;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
 use Encore\Admin\Form\Builder;
@@ -308,6 +310,8 @@ class ProductsController extends Controller
             $form->hidden('product_photos', 'Product Photos')->default(collect($product->photos)->toJson());
         }
         $form->select('product_category_id', '商品分类')->options(ProductCategory::selectOptions())->rules('required|exists:product_categories,id');
+        $form->select('location', '仓库地址')->options(ProductLocation::availableOptions())->rules('required|exists:product_locations,description');
+        $form->select('service', '服务内容')->options(ProductService::availableOptions())->rules('required|exists:product_services,description');
         // $form->text('name_zh', '名称(中文)')->rules('required');
         $form->hidden('name_zh', '名称(中文)')->default('lyrical');
         $form->text('name_en', '标题')->rules('required');
@@ -315,7 +319,7 @@ class ProductsController extends Controller
         $form->hidden('description_zh', '描述(中文)')->default('lyrical');
         $form->text('description_en', '副标题')->rules('required');
         $form->multipleImage('photos', '相册')->uniqueName()->removable()->resize(420, 380)
-            ->rules('required')
+            // ->rules('required')
             ->move('original/' . date('Ym', now()->timestamp))
             ->help('相册尺寸:420 * 380')->rules('image');
 

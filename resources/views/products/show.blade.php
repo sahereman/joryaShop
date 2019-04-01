@@ -61,10 +61,10 @@
                 </div>
                 <!--商品参数-->
                 <div class="parameters_content">
-                    <h4 class="forstorage_name" 
-                        info_url="{{ $product->thumb_url }}" 
-                        info_code="{{ $product->id }}" 
-                        info_href="{{ route('products.show', ['product' => $product->id]) }}">{{ App::isLocale('zh-CN') ? $product->name_zh : $product->name_en }}</h4>
+                    <h4 class="forstorage_name" info_url="{{ $product->thumb_url }}" info_code="{{ $product->id }}"
+                        info_href="{{ route('products.show', ['product' => $product->id]) }}">
+                        {{ App::isLocale('zh-CN') ? $product->name_zh : $product->name_en }}
+                    </h4>
                     <p class="small_title">{!! App::isLocale('zh-CN') ? $product->description_zh : $product->description_en !!}</p>
                     <div class="price_service">
                         <p class="original_price">
@@ -80,12 +80,18 @@
                         </p>
                         <p class="service">
                             <span>@lang('product.product_details.service')</span>
-                            <span class="service-kind"><i>•</i>@lang('product.product_details.multiple quantity')</span>
+                            {{--<span class="service-kind"><i>•</i>@lang('product.product_details.multiple quantity')</span>--}}
+                            <span class="service-kind">
+                                <i>•</i>{{ $product->service }}
+                            </span>
                             {{--<span class="service-kind"><i>•</i>@lang('product.product_details.Quick refund in 48 hours')</span>--}}
                         </p>
                         <p class="itemlocation">
                             <span class="itemlocation_span">Item location</span>
-                            <span class="itemlocation_local"><i>•</i>@lang('product.product_details.multiple quantity')</span>
+                            {{--<span class="itemlocation_local"><i>•</i>@lang('product.product_details.multiple quantity')</span>--}}
+                            <span class="itemlocation_local">
+                                <i>•</i>{{ $product->location }}
+                            </span>
                             {{--<span class="service-kind"><i>•</i>@lang('product.product_details.Quick refund in 48 hours')</span>--}}
                         </p>
                     </div>
@@ -133,7 +139,9 @@
                             <span class="add"><i>+</i></span>
                         </div>
                         <div class="availableSold">
-                            <span class="defalutavailableSold" data-stock='1000' data-sales='1000' >123 Available / <i>1234 Sold</i></span>
+                            <span class="defalutavailableSold" data-stock='{{ $skus->first()->stock }}' data-sales='{{ $skus->first()->sales }}'>
+                                {{ $skus->first()->stock }} Available / <i>{{ $skus->first()->sales }} Sold</i>
+                            </span>
                         </div>
                     </div>
                     <!--添加购物车与立即购买-->
@@ -146,19 +154,19 @@
                             @lang('app.Add to Shopping Cart')
                         </a>
                         @else
-                            <a class="buy_now" data-url="{{ route('orders.pre_payment') }}">
-                                @lang('product.product_details.Buy now')
-                            </a>
-                            <a class="add_carts" data-url="{{ route('carts.store') }}">
-                                @lang('app.Add to Shopping Cart')
-                            </a>
-                            @endguest
-                            <a class="add_favourites {{ $favourite ? 'active' : '' }}" code="{{ $product->id }}"
-                               data-url="{{ route('user_favourites.store') }}"
-                               data-url_2="{{ $favourite ? route('user_favourites.destroy', ['favourite' => $favourite->id]) : '' }}">
-                                <span class="favourites_img"></span>
-                                <span>@lang('product.product_details.Collection')</span>
-                            </a>
+                        <a class="buy_now" data-url="{{ route('orders.pre_payment') }}">
+                            @lang('product.product_details.Buy now')
+                        </a>
+                        <a class="add_carts" data-url="{{ route('carts.store') }}">
+                            @lang('app.Add to Shopping Cart')
+                        </a>
+                        @endguest
+                        <a class="add_favourites {{ $favourite ? 'active' : '' }}" code="{{ $product->id }}"
+                           data-url="{{ route('user_favourites.store') }}"
+                           data-url_2="{{ $favourite ? route('user_favourites.destroy', ['favourite' => $favourite->id]) : '' }}">
+                            <span class="favourites_img"></span>
+                            <span>@lang('product.product_details.Collection')</span>
+                        </a>
                     </div>
                 </div>
                 <!--猜你喜欢-->
@@ -631,9 +639,9 @@
                     if (data.code == 200) {
                         $(".availableSold").find(".changeavailableSold").remove();
                         $(".defalutavailableSold").addClass('dis_ni');
-                        var stock = data.data.sku.stock||dataStock, 
-                            sales = data.data.sku.sales||dataSales;
-                        $(".availableSold").append("<span class='changeavailableSold'>"+ stock +" Available / <i>"+ sales  +" Sold</i></span>");
+                        var stock = data.data.sku.stock || dataStock,
+                                sales = data.data.sku.sales || dataSales;
+                        $(".availableSold").append("<span class='changeavailableSold'>" + stock + " Available / <i>" + sales + " Sold</i></span>");
                         if (requestType == "change") {
                             var base_sizes = data.data.parameters.base_sizes,
                                 hair_colours = data.data.parameters.hair_colours,
@@ -726,17 +734,17 @@
                 getSkuParameters(query_data, "change", false);
             }
         });
-        
-        //页面加载时将商品信息存储到localstorage中，方便之后进行调取
-        //判断浏览器是否支持 localStorage 属性
+
+        // 页面加载时将商品信息存储到localstorage中，方便之后进行调取
+        // 判断浏览器是否支持 localStorage 属性
         var hisProductOld = [],
             hisProductNew = [];
-        //页面加载时对本地缓存数据进行处理
+        // 页面加载时对本地缓存数据进行处理
         setStorageOption();
-        function setStorageOption(){
+        function setStorageOption() {
             if (window.localStorage) {
-                //支持localstorage的浏览器便把商品信息存储到localstorage中方便调用，不超过5~10个,超出的个数按照时间顺序删除
-                //获取当前商品的相关信息并保存为一个商品对象
+                // 支持localstorage的浏览器便把商品信息存储到localstorage中方便调用，不超过5~10个,超出的个数按照时间顺序删除
+                // 获取当前商品的相关信息并保存为一个商品对象
                 var Currentcommodity = {
                     id: $(".forstorage_name").attr("info_code"),
                     name: $(".forstorage_name").text(),
@@ -744,54 +752,54 @@
                     sku_price_in_usd: $("#sku_price_in_usd").text(),
                     sku_original_price_in_usd: $("#sku_original_price_in_usd").text(),
                     product_href: $(".forstorage_name").attr("info_href")
-                }
-                if(JSON.parse(window.localStorage.getItem('historyProduct'))!=null){
-                    hisProductOld = JSON.parse(window.localStorage.getItem('historyProduct'));   
+                };
+                if (JSON.parse(window.localStorage.getItem('historyProduct')) != null) {
+                    hisProductOld = JSON.parse(window.localStorage.getItem('historyProduct'));
                 }
                 var num = 0;
-                if(hisProductOld.length-1>0){
-                    num = hisProductOld.length-1
+                if (hisProductOld.length - 1 > 0) {
+                    num = hisProductOld.length - 1
                 }
-                if(hisProductOld.length == 0){
+                if (hisProductOld.length == 0) {
                     hisProductOld.push(Currentcommodity);
-                }else{
-                    if(hisProductOld[num].id!=$(".forstorage_name").attr("info_code")){
+                } else {
+                    if (hisProductOld[num].id != $(".forstorage_name").attr("info_code")) {
                         hisProductOld.push(Currentcommodity);
-                    }      
+                    }
                 }
-                window.localStorage.setItem('historyProduct',JSON.stringify(hisProductOld));
-                if(hisProductOld.length!=0){
-                    var html= "";
-                    if(hisProductOld.length>10){
-                        hisProductNew = hisProductOld.slice(hisProductOld.length-10);   
-                    }else {
+                window.localStorage.setItem('historyProduct', JSON.stringify(hisProductOld));
+                if (hisProductOld.length != 0) {
+                    var html = "";
+                    if (hisProductOld.length > 10) {
+                        hisProductNew = hisProductOld.slice(hisProductOld.length - 10);
+                    } else {
                         hisProductNew = hisProductOld;
                     }
-                    window.localStorage.setItem('historyProduct',JSON.stringify(hisProductNew));
+                    window.localStorage.setItem('historyProduct', JSON.stringify(hisProductNew));
                     hisProductOld = hisProductOld.reverse();
-                    $.each(hisProductOld, function(i,n) {
-                    	html+="<li>"+
-                    	    "<a href='"+ n.product_href +"'>"+
-                    	    "<div>"+
-                    	    "<img class='lazy' data-src='"+ n.photo_url +"'>"+
-                    	    "</div>"+
-                    	    "<p>"+
-                    	    "<span class='present_price'>"+ n.sku_price_in_usd +"</span>"+
-                    	    "</p>"+
-                    	    "<p>"+
-                            "<span class='presenthis_name' title='"+ n.name +"'>"+ n.name +"</span>"+
-                            "</p>"+
-                    	    "</a>"+
-                    	    "</li>"                         
+                    $.each(hisProductOld, function (i, n) {
+                        html += "<li>" +
+                            "<a href='" + n.product_href + "'>" +
+                            "<div>" +
+                            "<img class='lazy' data-src='" + n.photo_url + "'>" +
+                            "</div>" +
+                            "<p>" +
+                            "<span class='present_price'>" + n.sku_price_in_usd + "</span>" +
+                            "</p>" +
+                            "<p>" +
+                            "<span class='presenthis_name' title='" + n.name + "'>" + n.name + "</span>" +
+                            "</p>" +
+                            "</a>" +
+                            "</li>";
                     });
                     $(".comments_details_left .pro-lists").html("");
                     $(".comments_details_left .pro-lists").append(html);
-                }else{
+                } else {
                     $(".browseFootprints").addClass("dis_n");
                 }
             } else {
                 $(".browseFootprints").addClass("dis_n");
-            }   
+            }
         }
     </script>
 @endsection
