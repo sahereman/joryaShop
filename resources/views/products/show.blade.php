@@ -62,7 +62,7 @@
                 <!--商品参数-->
                 <div class="parameters_content">
                     <h4 class="forstorage_name" 
-                        info_url="{{ $product->thumb }}" 
+                        info_url="{{ $product->thumb_url }}" 
                         info_code="{{ $product->id }}" 
                         info_href="{{ route('products.show', ['product' => $product->id]) }}">{{ App::isLocale('zh-CN') ? $product->name_zh : $product->name_en }}</h4>
                     <p class="small_title">{!! App::isLocale('zh-CN') ? $product->description_zh : $product->description_en !!}</p>
