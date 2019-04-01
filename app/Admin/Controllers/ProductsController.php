@@ -315,6 +315,7 @@ class ProductsController extends Controller
         $form->hidden('description_zh', '描述(中文)')->default('lyrical');
         $form->text('description_en', '副标题')->rules('required');
         $form->multipleImage('photos', '相册')->uniqueName()->removable()->resize(420, 380)
+            ->rules('required')
             ->move('original/' . date('Ym', now()->timestamp))
             ->help('相册尺寸:420 * 380')->rules('image');
 
@@ -335,7 +336,7 @@ class ProductsController extends Controller
         $form->display('stock', '库存')->setWidth(2);
         $form->display('sales', '销量')->setWidth(2);
         // $form->currency('shipping_fee', '运费')->symbol('￥')->rules('required');
-        $form->currency('shipping_fee', '运费')->symbol('$')->rules('required');
+        $form->currency('shipping_fee', '运费')->symbol('$')->default(0);
 
         $form->hasMany('skus', 'SKU 列表', function (Form\NestedForm $form) {
             // $form->text('name_zh', 'SKU 名称(中文)')->rules('required');
