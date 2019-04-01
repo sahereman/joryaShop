@@ -27,7 +27,7 @@
     <div class="inner-container">
         <div class="m-wrapper">
             <div class="footer-subscribe">
-                <p>Subscribe to get product information, maintenance knowledge, special offers and important notices.</p>
+                <p>Subscribe to get more product information, maintenance knowledge, special offers and important notices.</p>
                 <div class="subscribe-form">
                     <form>
                         <p id="footer_token_code" class="dis_n">{{ csrf_field() }}</p>

@@ -133,7 +133,7 @@
                             <span class="add"><i>+</i></span>
                         </div>
                         <div class="availableSold">
-                            <span>3 Available / <i>3 Sold</i></span>
+                            <span>1000 Available / <i>1000 Sold</i></span>
                         </div>
                     </div>
                     <!--添加购物车与立即购买-->
@@ -277,7 +277,7 @@
                     <!--浏览足迹-->
                     <div class="browseFootprints">
                         <div class="browseFootprints_title">
-                            <p>You may also like</p>
+                            <p>Browsing history</p>
                         </div>
                         <div class="browseFootprints_content">
                             <ul></ul>

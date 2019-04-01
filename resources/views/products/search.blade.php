@@ -11,7 +11,7 @@
                     <a href="javascript:void(0);">@lang('product.Categories')</a>
                 </p>
             </div>
-            <div class="search-level">
+            <div class="search-level dis_n">
                 <ul>
                     <li class="dis_n more_load" data-url="{{ route('products.search_more') }}"></li>
                     <li class="active default">
