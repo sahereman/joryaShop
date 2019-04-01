@@ -133,7 +133,7 @@
                             <span class="add"><i>+</i></span>
                         </div>
                         <div class="availableSold">
-                            <span>1000 Available / <i>1000 Sold</i></span>
+                            <span class="defalutavailableSold" data-stock='1000' data-sales='1000' >123 Available / <i>1234 Sold</i></span>
                         </div>
                     </div>
                     <!--添加购物车与立即购买-->
@@ -193,24 +193,23 @@
             <div class="comments_details">
                 <div class="comments_details_left pull-left" id="list">
                     <ul class="tab">
-                        <li onclick="tabs('#list',0)" class="curr">@lang('product.product_details.Hot sales')</li>
-                        <li onclick="tabs('#list',1)">@lang('product.product_details.Popular sales')</li>
+                        <li onclick="tabs('#list',0)" class="curr">Browsing History</li>
+                        <!--<li onclick="tabs('#list',1)">@lang('product.product_details.Popular sales')</li>-->
                     </ul>
                     <div class="mc tabcon">
                         <ul class="pro-lists">
-                            @foreach($hot_sales as $hot_sale)
+                            {{--@foreach($hot_sales as $hot_sale)
                                 <li>
                                     <a href="{{ route('products.show', ['product' => $hot_sale->id]) }}">
                                         <div>
                                             <img class="lazy" data-src="{{ $hot_sale->thumb_url }}">
                                         </div>
                                         <p>
-                                            {{--<span class="present_price"><i>@lang('basic.currency.symbol') </i>{{ App::isLocale('en') ? $hot_sale->price_in_usd : $hot_sale->price }}</span>--}}
                                             <span class="present_price"><i>{{ get_global_symbol() }} </i>{{ get_current_price($hot_sale->price) }}</span>
                                         </p>
                                     </a>
                                 </li>
-                            @endforeach
+                            @endforeach--}}
                         </ul>
                     </div>
                     <div class="mc tabcon dis_n">
@@ -275,14 +274,14 @@
                         </div>
                     </div>
                     <!--浏览足迹-->
-                    <div class="browseFootprints">
+                    <!--<div class="browseFootprints">
                         <div class="browseFootprints_title">
                             <p>Browsing history</p>
                         </div>
                         <div class="browseFootprints_content">
                             <ul></ul>
                         </div>
-                    </div>
+                    </div>-->
                 </div>
             </div>
         </div>
@@ -615,7 +614,7 @@
         });
         // 获取sku参数列表
         var query_data = {}, result = false;
-//      getSkuParameters(query_data, "change", true);
+        getSkuParameters(query_data, "change", true);
         function getSkuParameters(data, requestType, asyncType) {
             var url = $(".kindofsize").attr('data-url');
             $.ajax({
@@ -627,11 +626,14 @@
                     var base_size_options = "";
                     var hair_colour_options = "";
                     var hair_density_options = "";
+                    var dataStock = $(".availableSold .defalutavailableSold").attr("data-stock"),
+                        dataSales = $(".availableSold .defalutavailableSold").attr("data-sales");
                     if (data.code == 200) {
-                        $(".availableSold").html("");
-                        var stock = data.data.sku.stock||0, 
-                            sales = data.data.sku.sales||0;
-                        $(".availableSold").append("<span>"+ stock +" Available / <i>"+ sales  +" Sold</i></span>");
+                        $(".availableSold").find(".changeavailableSold").remove();
+                        $(".defalutavailableSold").addClass('dis_ni');
+                        var stock = data.data.sku.stock||dataStock, 
+                            sales = data.data.sku.sales||dataSales;
+                        $(".availableSold").append("<span class='changeavailableSold'>"+ stock +" Available / <i>"+ sales  +" Sold</i></span>");
                         if (requestType == "change") {
                             var base_sizes = data.data.parameters.base_sizes,
                                 hair_colours = data.data.parameters.hair_colours,
@@ -676,6 +678,8 @@
                         }
                         result = true;
                     } else if (data.code == 401) {
+                        $(".availableSold").find(".changeavailableSold").remove();
+                        $(".defalutavailableSold").removeClass('dis_ni');
                         layer.msg(data.message);
                         result = false;
                     }
@@ -758,24 +762,30 @@
                 window.localStorage.setItem('historyProduct',JSON.stringify(hisProductOld));
                 if(hisProductOld.length!=0){
                     var html= "";
-                    hisProductNew = hisProductOld.slice(hisProductOld.length-3);
+                    if(hisProductOld.length>10){
+                        hisProductNew = hisProductOld.slice(hisProductOld.length-10);   
+                    }else {
+                        hisProductNew = hisProductOld;
+                    }
                     window.localStorage.setItem('historyProduct',JSON.stringify(hisProductNew));
                     hisProductOld = hisProductOld.reverse();
                     $.each(hisProductOld, function(i,n) {
                     	html+="<li>"+
-                            "<div class='collection_shop_img'>"+
-                            "<img class='lazy' data-src='"+ n.photo_url +"' src='"+ n.photo_url +"'>"+
-                            "</div>"+
-                            "<p class='commodity_title' title='"+ n.name +"'>"+ n.name +"</p>"+
-                            "<p class='collection_price'>"+
-                            "<span class='new_price'>"+ n.sku_price_in_usd +"</span>"+
-                            "<span class='old_price'>"+ n.sku_original_price_in_usd +"</span>"+
+                    	    "<a href='"+ n.product_href +"'>"+
+                    	    "<div>"+
+                    	    "<img class='lazy' data-src='"+ n.photo_url +"'>"+
+                    	    "</div>"+
+                    	    "<p>"+
+                    	    "<span class='present_price'>"+ n.sku_price_in_usd +"</span>"+
+                    	    "</p>"+
+                    	    "<p>"+
+                            "<span class='presenthis_name' title='"+ n.name +"'>"+ n.name +"</span>"+
                             "</p>"+
-                            "<a class='add_to_cart' href='"+ n.product_href +"'>See Details</a>"+
-                            "</li>"
+                    	    "</a>"+
+                    	    "</li>"                         
                     });
-                    $(".browseFootprints_content ul").html("");
-                    $(".browseFootprints_content ul").append(html);
+                    $(".comments_details_left .pro-lists").html("");
+                    $(".comments_details_left .pro-lists").append(html);
                 }else{
                     $(".browseFootprints").addClass("dis_n");
                 }

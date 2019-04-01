@@ -636,7 +636,7 @@
                 overflow: hidden;   
                 li {
                     float: left;
-                    width: 50%;
+                    width: 100%;
                     text-align: center;
                     line-height: 38px;
                     background-color: #f0f0f0;
@@ -670,6 +670,16 @@
                             margin-top: 5px;
                             i {
                                 font-style: normal;
+                            }
+                            span {
+                                &.presenthis_name {
+                                    display: inline-block;
+                                    width: 100%;
+                                    color: #636b6f;
+                                    overflow: hidden;
+                                    text-overflow: ellipsis;
+                                    white-space: nowrap;
+                                }
                             }
                         }
                     }
