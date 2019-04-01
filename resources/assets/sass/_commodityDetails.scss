@@ -365,6 +365,12 @@
                     &.itemlocation_local {
                         position: relative;
                         top: -10px;
+                        margin-right: 8px;
+                        font-size: 12px;
+                        color: #666;
+                        i {
+                            margin-right: 5px;
+                        }
                     }
                 }
                 &.original_price {

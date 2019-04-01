@@ -738,7 +738,8 @@
         // 页面加载时将商品信息存储到localstorage中，方便之后进行调取
         // 判断浏览器是否支持 localStorage 属性
         var hisProductOld = [],
-            hisProductNew = [];
+            hisProductNew = [],
+            tirmArry = [];  //用于数组去重
         // 页面加载时对本地缓存数据进行处理
         setStorageOption();
         function setStorageOption() {
@@ -747,7 +748,7 @@
                 // 获取当前商品的相关信息并保存为一个商品对象
                 var Currentcommodity = {
                     id: $(".forstorage_name").attr("info_code"),
-                    name: $(".forstorage_name").text(),
+                    name: $(".forstorage_name").text().replace(/(^\s*)|(\s*$)/g, ""),
                     photo_url: $(".forstorage_name").attr("info_url"),
                     sku_price_in_usd: $("#sku_price_in_usd").text(),
                     sku_original_price_in_usd: $("#sku_original_price_in_usd").text(),
@@ -764,6 +765,11 @@
                     hisProductOld.push(Currentcommodity);
                 } else {
                     if (hisProductOld[num].id != $(".forstorage_name").attr("info_code")) {
+                        for(var i = 0;i<=hisProductOld.length-1;i++){
+                            if($(".forstorage_name").attr("info_code")==hisProductOld[i].id){
+                                hisProductOld.splice(jQuery.inArray(hisProductOld[i],hisProductOld),1); 
+                            }
+                        }
                         hisProductOld.push(Currentcommodity);
                     }
                 }
