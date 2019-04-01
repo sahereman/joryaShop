@@ -312,6 +312,7 @@ class ProductsController extends Controller
                         'sku' => [
                             'id' => $skus->first()->id,
                             'stock' => $skus->first()->stock,
+                            'sales' => $skus->first()->sales,
                             'price' => $skus->first()->price,
                             'original_price' => bcmul($skus->first()->price, 1.2, 2),
                         ],
@@ -334,6 +335,7 @@ class ProductsController extends Controller
                         'sku' => [
                             'id' => '',
                             'stock' => '',
+                            'sales' => '',
                             'price' => '',
                             'original_price' => '',
                         ],
@@ -380,6 +382,7 @@ class ProductsController extends Controller
                 'sku' => [
                     'id' => '',
                     'stock' => '',
+                    'sales' => '',
                     'price' => '',
                     'original_price' => '',
                 ],
