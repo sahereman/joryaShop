@@ -87,7 +87,7 @@
                             {{--<span class="service-kind"><i>•</i>@lang('product.product_details.Quick refund in 48 hours')</span>--}}
                         </p>
                         <p class="itemlocation">
-                            <span class="itemlocation_span">Item location</span>
+                            <span class="itemlocation_span">Item Location</span>
                             {{--<span class="itemlocation_local"><i>•</i>@lang('product.product_details.multiple quantity')</span>--}}
                             <span class="itemlocation_local">
                                 <i>•</i>{{ $product->location }}
@@ -95,11 +95,11 @@
                             {{--<span class="service-kind"><i>•</i>@lang('product.product_details.Quick refund in 48 hours')</span>--}}
                         </p>
                     </div>
-                    <div class="priceOfpro">
+                    {{--<div class="priceOfpro">
                         <span>@lang('product.product_details.freight')</span>
-                        {{--<span><i>@lang('basic.currency.symbol') </i>{{ App::isLocale('en') ? $product->shipping_fee_in_usd : $product->shipping_fee }}</span>--}}
+                        <span><i>@lang('basic.currency.symbol') </i>{{ App::isLocale('en') ? $product->shipping_fee_in_usd : $product->shipping_fee }}</span>
                         <span><i>{{ get_global_symbol() }} </i>{{ get_current_price($product->shipping_fee) }}</span>
-                    </div>
+                    </div>--}}
                     <div class="priceOfpro kindOfPro kindofsize"
                          data-url="{{ route('products.get_sku_parameters', ['product' => $product->id]) }}">
                         <span>@lang('product.product_details.base_size')</span>

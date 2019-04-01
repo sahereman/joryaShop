@@ -360,6 +360,7 @@
                     }   
                     &.itemlocation_span {
                         width: 50px;
+                        text-indent: 8px;
                     }
                     &.itemlocation_local {
                         position: relative;
@@ -636,7 +637,7 @@
                 overflow: hidden;   
                 li {
                     float: left;
-                    width: 50%;
+                    width: 100%;
                     text-align: center;
                     line-height: 38px;
                     background-color: #f0f0f0;
@@ -670,6 +671,16 @@
                             margin-top: 5px;
                             i {
                                 font-style: normal;
+                            }
+                            span {
+                                &.presenthis_name {
+                                    color: #636b6f;
+                                    display: inline-block;
+                                    width: 100%;
+                                    overflow: hidden;
+                                    text-overflow: ellipsis;
+                                    white-space: nowrap;
+                                }
                             }
                         }
                     }
