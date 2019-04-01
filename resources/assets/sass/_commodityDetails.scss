@@ -358,6 +358,13 @@
                     i {
                         font-style: normal;
                     }   
+                    &.itemlocation_span {
+                        width: 50px;
+                    }
+                    &.itemlocation_local {
+                        position: relative;
+                        top: -10px;
+                    }
                 }
                 &.original_price {
                     margin-bottom: 0;
@@ -395,6 +402,8 @@
         .priceOfpro {
             width: 100%;
             overflow: hidden;
+            display: flex;
+            flex-direction: row;
             span {
                 display: inline-block;
                 min-width: 50px;
@@ -483,6 +492,14 @@
                     border-bottom: 1px solid #ebebeb;
                     float: left;
                     text-align: center;
+                }
+            }
+            .availableSold {
+                margin-left: 30px;
+                span {
+                    i {
+                        color: #4d80bf;
+                    }
                 }
             }
         }
@@ -852,6 +869,86 @@
                     overflow: hidden;
                     img {
                         width: 100%;
+                    }
+                }
+            }
+            .browseFootprints {
+                width: 100%;
+                min-height: 450px;
+                background-color: transparent;
+                margin-top: 20px;
+                .browseFootprints_title {
+                    height: 35px;
+                    width: 100%;
+                    margin-bottom: 20px;
+                    margin-bottom: 15px;
+                    background-color: #f0f0f0;
+                    p {
+                        padding-left: 20px;
+                        line-height: 35px;
+                    }
+                }
+                .browseFootprints_content {
+                    background-color: #fff;
+                    ul {
+                        overflow: hidden;
+                        padding: 0 20px;
+                        margin-bottom: 20px;
+                        li {
+                            position: relative;
+                            width: 220px;
+                            margin: 25px 6px;
+                            text-align: center;
+                            float: left;
+                            .collection_shop_img {
+                                width: 230px;
+                                height: 230px;
+                                border: 1px solid #f1f1f1;
+                                position: relative;
+                                overflow: hidden;
+                                margin-bottom: 20px;
+                                img {
+                                    width: 100%;
+                                    height: 100%;
+                                }
+                            }
+                            .commodity_title {
+                                font-size: 13px;
+                                color: #333;
+                                font-weight: 600;
+                                overflow: hidden;
+                                text-overflow: ellipsis;
+                                white-space: nowrap;
+                            }
+                            .collection_price {
+                                font-size: 12px;
+                                margin: 15px 0;
+                                .new_price {
+                                    color: #bc8c61;
+                                    margin-right: 5px;
+                                }
+                                .old_price {
+                                    color: gray;
+                                    text-decoration: line-through;
+                                }
+                            }
+                            .add_to_cart {
+                                display: block;
+                                width: 175px;
+                                height: 30px;
+                                border: 1px solid #bc8c61;
+                                color: #bc8c61;
+                                line-height: 30px;
+                                font-size: 12px;
+                                border-radius: 4px;
+                                margin: auto;
+                                transition: all .2s;
+                                &:hover{
+                                    background-color: #bc8c61;
+                                    color: #fff;
+                                }
+                            }
+                        }
                     }
                 }
             }

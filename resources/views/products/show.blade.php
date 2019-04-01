@@ -61,7 +61,10 @@
                 </div>
                 <!--商品参数-->
                 <div class="parameters_content">
-                    <h4>{{ App::isLocale('zh-CN') ? $product->name_zh : $product->name_en }}</h4>
+                    <h4 class="forstorage_name" 
+                        info_url="{{ $product->thumb }}" 
+                        info_code="{{ $product->id }}" 
+                        info_href="{{ route('products.show', ['product' => $product->id]) }}">{{ App::isLocale('zh-CN') ? $product->name_zh : $product->name_en }}</h4>
                     <p class="small_title">{!! App::isLocale('zh-CN') ? $product->description_zh : $product->description_en !!}</p>
                     <div class="price_service">
                         <p class="original_price">
@@ -78,6 +81,11 @@
                         <p class="service">
                             <span>@lang('product.product_details.service')</span>
                             <span class="service-kind"><i>•</i>@lang('product.product_details.multiple quantity')</span>
+                            {{--<span class="service-kind"><i>•</i>@lang('product.product_details.Quick refund in 48 hours')</span>--}}
+                        </p>
+                        <p class="itemlocation">
+                            <span class="itemlocation_span">Item location</span>
+                            <span class="itemlocation_local"><i>•</i>@lang('product.product_details.multiple quantity')</span>
                             {{--<span class="service-kind"><i>•</i>@lang('product.product_details.Quick refund in 48 hours')</span>--}}
                         </p>
                     </div>
@@ -123,6 +131,9 @@
                             <span class="reduce no_allow"><i>-</i></span>
                             <input name="number" id="pro_num" type="number" value="1" min="1" max="99">
                             <span class="add"><i>+</i></span>
+                        </div>
+                        <div class="availableSold">
+                            <span>3 Available / <i>3 Sold</i></span>
                         </div>
                     </div>
                     <!--添加购物车与立即购买-->
@@ -261,6 +272,15 @@
                         <div class="paging_box">
                             <a class="pre_page" href="javascript:void(0);">@lang('app.Previous page')</a>
                             <a class="next_page" href="javascript:void(0);">@lang('app.Next page')</a>
+                        </div>
+                    </div>
+                    <!--浏览足迹-->
+                    <div class="browseFootprints">
+                        <div class="browseFootprints_title">
+                            <p>You may also like</p>
+                        </div>
+                        <div class="browseFootprints_content">
+                            <ul></ul>
                         </div>
                     </div>
                 </div>
@@ -595,7 +615,7 @@
         });
         // 获取sku参数列表
         var query_data = {}, result = false;
-        // getSkuParameters(query_data, "change", true);
+//      getSkuParameters(query_data, "change", true);
         function getSkuParameters(data, requestType, asyncType) {
             var url = $(".kindofsize").attr('data-url');
             $.ajax({
@@ -608,6 +628,10 @@
                     var hair_colour_options = "";
                     var hair_density_options = "";
                     if (data.code == 200) {
+                        $(".availableSold").html("");
+                        var stock = data.data.sku.stock||0, 
+                            sales = data.data.sku.sales||0;
+                        $(".availableSold").append("<span>"+ stock +" Available / <i>"+ sales  +" Sold</i></span>");
                         if (requestType == "change") {
                             var base_sizes = data.data.parameters.base_sizes,
                                 hair_colours = data.data.parameters.hair_colours,
@@ -698,5 +722,66 @@
                 getSkuParameters(query_data, "change", false);
             }
         });
+        
+        //页面加载时将商品信息存储到localstorage中，方便之后进行调取
+        //判断浏览器是否支持 localStorage 属性
+        var hisProductOld = [],
+            hisProductNew = [];
+        //页面加载时对本地缓存数据进行处理
+        setStorageOption();
+        function setStorageOption(){
+            if (window.localStorage) {
+                //支持localstorage的浏览器便把商品信息存储到localstorage中方便调用，不超过5~10个,超出的个数按照时间顺序删除
+                //获取当前商品的相关信息并保存为一个商品对象
+                var Currentcommodity = {
+                    id: $(".forstorage_name").attr("info_code"),
+                    name: $(".forstorage_name").text(),
+                    photo_url: $(".forstorage_name").attr("info_url"),
+                    sku_price_in_usd: $("#sku_price_in_usd").text(),
+                    sku_original_price_in_usd: $("#sku_original_price_in_usd").text(),
+                    product_href: $(".forstorage_name").attr("info_href")
+                }
+                if(JSON.parse(window.localStorage.getItem('historyProduct'))!=null){
+                    hisProductOld = JSON.parse(window.localStorage.getItem('historyProduct'));   
+                }
+                var num = 0;
+                if(hisProductOld.length-1>0){
+                    num = hisProductOld.length-1
+                }
+                if(hisProductOld.length == 0){
+                    hisProductOld.push(Currentcommodity);
+                }else{
+                    if(hisProductOld[num].id!=$(".forstorage_name").attr("info_code")){
+                        hisProductOld.push(Currentcommodity);
+                    }      
+                }
+                window.localStorage.setItem('historyProduct',JSON.stringify(hisProductOld));
+                if(hisProductOld.length!=0){
+                    var html= "";
+                    hisProductNew = hisProductOld.slice(hisProductOld.length-3);
+                    window.localStorage.setItem('historyProduct',JSON.stringify(hisProductNew));
+                    hisProductOld = hisProductOld.reverse();
+                    $.each(hisProductOld, function(i,n) {
+                    	html+="<li>"+
+                            "<div class='collection_shop_img'>"+
+                            "<img class='lazy' data-src='"+ n.photo_url +"' src='"+ n.photo_url +"'>"+
+                            "</div>"+
+                            "<p class='commodity_title' title='"+ n.name +"'>"+ n.name +"</p>"+
+                            "<p class='collection_price'>"+
+                            "<span class='new_price'>"+ n.sku_price_in_usd +"</span>"+
+                            "<span class='old_price'>"+ n.sku_original_price_in_usd +"</span>"+
+                            "</p>"+
+                            "<a class='add_to_cart' href='"+ n.product_href +"'>See Details</a>"+
+                            "</li>"
+                    });
+                    $(".browseFootprints_content ul").html("");
+                    $(".browseFootprints_content ul").append(html);
+                }else{
+                    $(".browseFootprints").addClass("dis_n");
+                }
+            } else {
+                $(".browseFootprints").addClass("dis_n");
+            }   
+        }
     </script>
 @endsection
