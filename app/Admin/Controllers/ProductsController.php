@@ -110,7 +110,10 @@ class ProductsController extends Controller
         });
 
         $grid->id('ID');
-        $grid->thumb('缩略图')->image('', 60);
+        // $grid->thumb('缩略图')->image('', 60);
+        $grid->thumb('缩略图')->image('', 60)->display(function ($data) {
+            return '<a target="_blank" href="' . route('products.show', ['product' => $this->id]) . '">' . $data . '</a>';
+        });
         /*$grid->category()->name_zh('分类')->display(function ($data) {
             return "<a href='" . route('admin.products.index', ['cid' => $this->product_category_id]) . "'>$data</a>";
         });*/
@@ -121,7 +124,7 @@ class ProductsController extends Controller
             return "<span style='width: 120px;display: inline-block;overflow: hidden'>$data</span>";
         });*/
         $grid->name_en('标题')->display(function ($data) {
-            return "<span style='width: 120px;display: inline-block;overflow: hidden'>$data</span>";
+            return "<a target='_blank' href='" . route('products.show', ['product' => $this->id]) . "'><span style='width: 120px;display: inline-block;overflow: hidden'>$data</span></a>";
         });
         $grid->stock('库存')->sortable();
         $grid->price('价格')->sortable();
