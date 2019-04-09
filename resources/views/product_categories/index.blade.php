@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('keywords', $category->seo_keywords ? : \App\Models\Config::config('keywords'))
-@section('description', $category->seo_description ? : (App::isLocale('zh-CN') ? $category->description_zh : $category->description_en))
+@section('description', $category->seo_description ? : \App\Models\Config::config('description'))
 @section('title', $category->seo_title ? : (App::isLocale('zh-CN') ? $category->name_zh : $category->name_en) . ' - ' . \App\Models\Config::config('title'))
 @section('content')
     <div class="productCate my_orders">
