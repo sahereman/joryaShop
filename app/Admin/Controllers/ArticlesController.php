@@ -102,6 +102,15 @@ class ArticlesController extends Controller
         // $show->content_zh('内容(中文)');
         $show->divider();
         $show->content_en('内容(英文)');
+
+        /* 2019-04-09 for SEO */
+        $show->divider();
+        $show->seo_title('SEO - 标题');
+        $show->seo_keywords('SEO - 关键字');
+        $show->seo_description('SEO - 描述');
+        $show->divider();
+        /* 2019-04-09 for SEO */
+
         $show->created_at('创建时间');
         $show->updated_at('更新时间');
 
@@ -153,6 +162,12 @@ class ArticlesController extends Controller
                 Rule::unique('articles', 'slug')->ignore($form->model()->id),
             ];
         });
+
+        /* 2019-04-09 for SEO */
+        $form->text('seo_title', 'SEO - 标题');
+        $form->text('seo_keywords', 'SEO - 关键字');
+        $form->text('seo_description', 'SEO - 描述');
+        /* 2019-04-09 for SEO */
 
         /*for select-options*/
         /*$form->select('slug', '标示位')->options($slugs)->rules(function ($form) {

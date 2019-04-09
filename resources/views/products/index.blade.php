@@ -1,6 +1,7 @@
 @extends('layouts.app')
-@section('title', (App::isLocale('zh-CN') ? $category->name_zh : $category->name_en) . ' - ' . \App\Models\Config::config('title'))
-@section('description', App::isLocale('zh-CN') ? $category->description_zh : $category->description_en)
+@section('keywords', $category->seo_keywords ? : \App\Models\Config::config('keywords'))
+@section('description', $category->seo_description ? : (App::isLocale('zh-CN') ? $category->description_zh : $category->description_en))
+@section('title', $category->seo_title ? : (App::isLocale('zh-CN') ? $category->name_zh : $category->name_en) . ' - ' . \App\Models\Config::config('title'))
 @section('content')
     <div class="products-search-level">
         <div class="m-wrapper">

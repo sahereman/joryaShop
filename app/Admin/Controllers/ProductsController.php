@@ -208,6 +208,14 @@ class ProductsController extends Controller
         // $show->content_zh('详情介绍(中文)');
         $show->content_en('详情介绍(英文)');
 
+        /* 2019-04-09 for SEO */
+        $show->divider();
+        $show->seo_title('SEO - 标题');
+        $show->seo_keywords('SEO - 关键字');
+        $show->seo_description('SEO - 描述');
+        $show->divider();
+        /* 2019-04-09 for SEO */
+
         /*商品属性 2019-03-01*/
         /*$show->divider();
                 $show->attrs('商品属性列表')->as(function ($attrs) {
@@ -320,6 +328,13 @@ class ProductsController extends Controller
         // $form->text('name_zh', '名称(中文)')->rules('required');
         $form->hidden('name_zh', '名称(中文)')->default('lyrical');
         $form->text('name_en', '标题')->rules('required');
+
+        /* 2019-04-09 for SEO */
+        $form->text('seo_title', 'SEO - 标题');
+        $form->text('seo_keywords', 'SEO - 关键字');
+        $form->text('seo_description', 'SEO - 描述');
+        /* 2019-04-09 for SEO */
+
         // $form->text('description_zh', '描述(中文)')->rules('required');
         $form->hidden('description_zh', '描述(中文)')->default('lyrical');
         $form->text('description_en', '副标题')->rules('required');

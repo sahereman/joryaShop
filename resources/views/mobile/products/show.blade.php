@@ -1,6 +1,7 @@
 @extends('layouts.mobile')
-@section('title', (App::isLocale('zh-CN') ? $product->name_zh : $product->name_en) . ' - ' . \App\Models\Config::config('title'))
-@section('description', App::isLocale('zh-CN') ? $product->description_zh : $product->description_en)
+@section('keywords', $product->seo_keywords ? : \App\Models\Config::config('keywords'))
+@section('description', $product->seo_description ? : (App::isLocale('zh-CN') ? $product->description_zh : $product->description_en))
+@section('title', $product->seo_title ? : (App::isLocale('zh-CN') ? $product->name_zh : $product->name_en) . ' - ' . \App\Models\Config::config('title'))
 @section('content')
     <div class="goodsDetailBox">
         <img src="{{ asset('static_m/img/icon_back.png') }}" class="gBack" onclick="javascript:history.back(-1);"/>

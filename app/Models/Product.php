@@ -20,6 +20,13 @@ class Product extends Model
         'description_zh',
         'content_en',
         'content_zh',
+
+        /* 2019-04-09 for SEO */
+        'seo_titles',
+        'seo_keywords',
+        'seo_description',
+        /* 2019-04-09 for SEO */
+
         'thumb',
         'photos',
 
