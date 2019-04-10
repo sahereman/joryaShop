@@ -24,8 +24,8 @@ class ProductCategoriesController extends Controller
     public function index(Content $content, Request $request)
     {
         return $content
-            ->header('产品管理')
-            ->description('分类 - 列表')
+            ->header('商品管理')
+            ->description('类别 - 列表')
             ->body($this->tree());
     }
 
@@ -38,8 +38,8 @@ class ProductCategoriesController extends Controller
     public function show($id, Content $content)
     {
         return $content
-            ->header('产品管理')
-            ->description('分类 - 详情')
+            ->header('商品管理')
+            ->description('类别 - 详情')
             ->body($this->detail($id));
     }
 
@@ -52,8 +52,8 @@ class ProductCategoriesController extends Controller
     public function edit($id, Content $content)
     {
         return $content
-            ->header('产品管理')
-            ->description('分类 - 编辑')
+            ->header('商品管理')
+            ->description('类别 - 编辑')
             ->body($this->form()->edit($id));
     }
 
@@ -65,8 +65,8 @@ class ProductCategoriesController extends Controller
     public function create(Content $content)
     {
         return $content
-            ->header('产品管理')
-            ->description('分类 - 新增')
+            ->header('商品管理')
+            ->description('类别 - 新增')
             ->body($this->form());
     }
 

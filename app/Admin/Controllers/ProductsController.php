@@ -37,8 +37,8 @@ class ProductsController extends Controller
     public function index(Content $content, Request $request)
     {
         return $content
-            ->header('产品管理')
-            ->description('产品 - 列表')
+            ->header('商品管理')
+            ->description('商品 - 列表')
             ->body($this->grid($request));
     }
 
@@ -53,8 +53,8 @@ class ProductsController extends Controller
         $this->mode = 'show';
         $this->product_id = $id;
         return $content
-            ->header('产品管理')
-            ->description('产品 - 详情')
+            ->header('商品管理')
+            ->description('商品 - 详情')
             ->body($this->detail($id));
     }
 
@@ -69,8 +69,8 @@ class ProductsController extends Controller
         $this->mode = 'edit';
         $this->product_id = $id;
         return $content
-            ->header('产品管理')
-            ->description('产品 - 编辑')
+            ->header('商品管理')
+            ->description('商品 - 编辑')
             ->body($this->form()->edit($id));
     }
 
@@ -82,8 +82,8 @@ class ProductsController extends Controller
     public function create(Content $content)
     {
         return $content
-            ->header('产品管理')
-            ->description('产品 - 新增')
+            ->header('商品管理')
+            ->description('商品 - 新增')
             ->body($this->form());
     }
 

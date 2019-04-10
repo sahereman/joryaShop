@@ -30,7 +30,7 @@ class AdminTablesSeeder extends Seeder
                 'name' => '订单管理',
                 'slug' => 'orders',
                 'http_method' => '',
-                'http_path' => "/orders\r\n/order_refunds",
+                'http_path' => "/orders\r\n/order_refunds\r\n/orders_recycle",
             ],
             [
                 'name' => '广告位管理',
@@ -193,6 +193,13 @@ class AdminTablesSeeder extends Seeder
                 'title' => '售后订单',
                 'icon' => 'fa-bookmark',
                 'uri' => 'order_refunds',
+            ],
+            [
+                'parent_id' => 14,
+                'order' => 3,
+                'title' => '订单回收站',
+                'icon' => 'fa-archive',
+                'uri' => 'orders_recycle',
             ],
 
             //其他设置

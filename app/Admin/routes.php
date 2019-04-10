@@ -39,6 +39,10 @@ Route::group([
     $router->post('order_refunds/{refund}/check', 'OrderRefundsController@check')->name('admin.order_refunds.check');/*审核通过*/
     $router->post('order_refunds/{refund}/receive', 'OrderRefundsController@receive')->name('admin.order_refunds.receive');/*收货并退款*/
 
+    /*订单回收站*/
+    $router->get('orders_recycle', 'OrderRecycleController@index')->name('admin.orders_recycle.index');/*列表*/
+    $router->delete('orders_recycle/{order}/delete', 'OrderRecycleController@delete')->name('admin.orders_recycle.delete');/*永久删除*/
+
     /*商品属性 2019-03-01*/
     /*产品属性分类*/
     // $router->resource('attrs', AttrsController::class)->names('admin.attrs');

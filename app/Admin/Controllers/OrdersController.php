@@ -39,8 +39,9 @@ class OrdersController extends Controller
      * @param Content $content
      * @return Content
      */
-    public function show(Order $order, Content $content)
+    public function show($order, Content $content)
     {
+        $order = Order::withTrashed()->find($order);
         return $content
             ->header('订单管理')
             ->description('商品订单 - 详情')
@@ -66,11 +67,13 @@ class OrdersController extends Controller
     public function modify(Order $order, Request $request)
     {
         // 判断当前订单是否已支付
-        if ($order->paid_at) {
+        if ($order->paid_at)
+        {
             throw new InvalidRequestException('该订单已付款');
         }
         // 判断当前订单发货状态是否为待发货
-        if ($order->status !== Order::ORDER_STATUS_PAYING) {
+        if ($order->status !== Order::ORDER_STATUS_PAYING)
+        {
             throw new InvalidRequestException('该订单已付款');
         }
 
@@ -94,11 +97,13 @@ class OrdersController extends Controller
     public function ship(Order $order, Request $request)
     {
         // 判断当前订单是否已支付
-        if (!$order->paid_at) {
+        if (!$order->paid_at)
+        {
             throw new InvalidRequestException('该订单未付款');
         }
         // 判断当前订单发货状态是否为待发货
-        if ($order->status !== Order::ORDER_STATUS_SHIPPING) {
+        if ($order->status !== Order::ORDER_STATUS_SHIPPING)
+        {
             throw new InvalidRequestException('该订单已发货');
         }
 
@@ -134,7 +139,8 @@ class OrdersController extends Controller
     public function delete(Order $order, Request $request)
     {
         // 判断当前订单状态 必须是 交易关闭 或 已完成
-        if (!in_array($order->status, [Order::ORDER_STATUS_CLOSED, Order::ORDER_STATUS_COMPLETED])) {
+        if (!in_array($order->status, [Order::ORDER_STATUS_CLOSED, Order::ORDER_STATUS_COMPLETED]))
+        {
             throw new InvalidRequestException('该订单当前状态不允许删除');
         }
 
@@ -173,23 +179,32 @@ class OrdersController extends Controller
             $filter->like('order_sn', '订单号');
             $filter->where(function ($query) {
                 $query->whereHas('user', function ($query) {
-                    $query->where('name', 'like', "%{$this->input}%");
+                    $query->where('email', 'like', "%{$this->input}%");
+                    $query->orWhere('phone', 'like', "%{$this->input}%");
+
                 });
-            }, '买家(用户名或手机号)');
+            }, '买家(邮箱、客户电话)');
         });
 
+        $grid->id('ID');
 
         $grid->order_sn('订单号');
-        $grid->column('user.name', '买家');
-        //        $grid->column('refund.name', '买家');
-        $grid->status('状态')->display(function ($value) {
+        $grid->column('user.email', '邮箱');
+        $grid->user_info('收货人姓名')->display(function ($value) {
+            return $value['name'];
+        });
+
+        $grid->column('', '订单总价')->display(function () {
+            return bcadd($this->total_amount, $this->total_shipping_fee, 2);
+        });
+        $grid->payment_method('支付方式')->display(function ($value) {
+            return Order::$paymentMethodMap[$value] ?? '';
+        });
+        $grid->status('订单状态')->display(function ($value) {
             return Order::$orderStatusMap[$value] ?? '未知';
         });
-        $grid->currency('支付币种');
 
-        $grid->total_shipping_fee('运费')->sortable();
-        $grid->total_amount('金额')->sortable();
-        $grid->created_at('下单时间')->sortable();
+        $grid->created_at('订单日期')->sortable();
 
         $grid->actions(function ($actions) {
             $actions->disableView();
@@ -197,7 +212,8 @@ class OrdersController extends Controller
             $actions->disableDelete();
             $actions->append('<a class="btn btn-xs btn-primary" style="margin-right:8px" href="' . route('admin.orders.show', [$actions->getKey()]) . '">查看</a>');
 
-            if ($actions->row->refund) {
+            if ($actions->row->refund)
+            {
                 $actions->append('<a class="btn btn-xs btn-warning" style="margin-right:8px" href="' . route('admin.order_refunds.show', [$actions->row->refund['id']]) . '">售后</a>');
             }
 
