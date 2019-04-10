@@ -30,7 +30,7 @@ class AdminTablesSeeder extends Seeder
                 'name' => '订单管理',
                 'slug' => 'orders',
                 'http_method' => '',
-                'http_path' => "/orders\r\n/order_refunds\r\n/orders_recycle",
+                'http_path' => "/orders\r\n/order_refunds\r\n/order_recycles",
             ],
             [
                 'name' => '广告位管理',
@@ -199,7 +199,7 @@ class AdminTablesSeeder extends Seeder
                 'order' => 3,
                 'title' => '订单回收站',
                 'icon' => 'fa-archive',
-                'uri' => 'orders_recycle',
+                'uri' => 'order_recycles',
             ],
 
             //其他设置
