@@ -57,7 +57,7 @@
                         <a href="{{ route('articles.show', ['slug' => 'contact_us']) }}">@lang('app.Contact_Us')</a>
                         <a href="{{ route('articles.show', ['slug' => 'privacy_policy']) }}">@lang('app.Privacy_Policy')</a>
                         <a href="{{ route('articles.show', ['slug' => 'terms_and_conditions']) }}">@lang('app.Terms_and_Conditions')</a>
-                        <a href="{{ route('articles.show', ['slug' => 'sitemap']) }}">@lang('app.Sitemap')</a>
+                        <a href="{{url('sitemap.html')}}">@lang('app.Sitemap')</a>
                     </li>
                     <li>
                         <p>@lang('app.Help_&_Support')</p>
