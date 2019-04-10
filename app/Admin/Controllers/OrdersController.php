@@ -186,7 +186,7 @@ class OrdersController extends Controller
             }, '买家(邮箱、客户电话)');
         });
 
-        $grid->id('ID');
+//        $grid->id('ID');
 
         $grid->order_sn('订单号');
         $grid->column('user.email', '邮箱');
