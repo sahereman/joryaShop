@@ -113,12 +113,13 @@
                 transition: all .2s;
                 overflow: hidden;
                 cursor: pointer;
+                background-color: #fff;
                 .list-img {
                     width: 100%;
                     height: 225px;
                     img {
                         width: 100%;
-                        height: 100%;
+//                      height: 100%;
                     }
                 }
                 .list-info {
@@ -599,7 +600,7 @@
                     width: 150px;
                     height: 124px;
                     img {
-                        width: 100%;
+//                      width: 100%;
                         height: 100%;
                     }
                 }
@@ -666,7 +667,7 @@
                             width: 160px;
                             height: 160px;
                             img {
-                                width: 100%;
+//                              width: 100%;
                                 height: 100%;
                             }
                         }
