@@ -29,8 +29,14 @@
                     overflow: hidden;
                     align-self: center;
                     word-spacing: 10px;
+                    &:first-of-type {
+                        margin-top: -3%;
+                    }
                     &:last-of-type {
                         font-size: 20px;
+                        word-spacing: normal;
+                        width: 50%;
+                        margin: 0 auto;
                     }
                 }
             }
