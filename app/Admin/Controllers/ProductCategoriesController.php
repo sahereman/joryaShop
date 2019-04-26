@@ -195,7 +195,7 @@ class ProductCategoriesController extends Controller
         $form->hidden('description_zh', '描述(中文)')->default('lyrical');
         $form->text('description_en', '描述(英文)')->rules('required');
         $form->hidden('content_zh', '内容(中文)')->default('lyrical');
-        $form->editor('content_en', '内容(英文)')->rules('required');
+        $form->hidden('content_en', '内容(英文)')->default('lyrical');
         $form->switch('is_index', '首页显示');
         $form->number('sort', '排序值');
 
