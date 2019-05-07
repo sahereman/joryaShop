@@ -581,7 +581,7 @@ $(function () {
             },
             password: {
                 required: true,
-                min: 6
+                minlength: 6
             },
             phone: {
                 required: true
@@ -593,7 +593,7 @@ $(function () {
             },
             password: {
                 required: (COUNTRY == "中文") ? '请输入密码' : 'Please input a password',
-                min: 'Password must not be less than 6 bits'
+                minlength: 'Password must not be less than 6 bits'
             },
             phone: {
                 required: (COUNTRY == "中文") ? '输入手机号' : 'Enter cell phone number',
