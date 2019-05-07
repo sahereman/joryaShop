@@ -436,9 +436,13 @@ $(function () {
                 clickDome.removeClass("hadclicked")
             },
             error: function (err) {
-                console.log(err);
                 if (err.status == 422) {
-                    layer.msg($.parseJSON(err.responseText).errors.phone[0]);
+                    var errorTips = err.responseJSON.errors;
+                    var errorText = [];
+                    $.each(errorTips, function (i, n) {
+                        errorText.push(n)
+                    });
+                    layer.msg(errorText[errorText.length - 1][0]);
                     clickDome.removeClass("hadclicked");
                 }
                 if (err.status == 500) {
@@ -576,7 +580,8 @@ $(function () {
                 required: true
             },
             password: {
-                required: true
+                required: true,
+                min: 6
             },
             phone: {
                 required: true
@@ -588,6 +593,7 @@ $(function () {
             },
             password: {
                 required: (COUNTRY == "中文") ? '请输入密码' : 'Please input a password',
+                min: 'Password must not be less than 6 bits'
             },
             phone: {
                 required: (COUNTRY == "中文") ? '输入手机号' : 'Enter cell phone number',
@@ -628,8 +634,13 @@ $(function () {
                         layer.alert(json.message);
                     }
                 },
-                error: function (e) {
-                    console.log(e)
+                error: function (err) {
+                    var errorTips = err.responseJSON.errors;
+                    var errorText = [];
+                    $.each(errorTips, function (i, n) {
+                        errorText.push(n)
+                    });
+                    layer.msg(errorText[errorText.length - 1][0]);
                 },
                 complete: function () {
 
@@ -641,6 +652,10 @@ $(function () {
     $("#register_btn").on("click", function () {
         var clickDome = $(this);
         if ($("#register-form").valid()) {
+            if($("#register_psw").val().length<=6) {
+                layer.msg("Password must not be less than 6 bits");
+                return;
+            }
             if ($("#register_code").val() != "" && $("#agreement").prop("checked") != false) {
                 // $('#register-form').submit();
                 var data = {
@@ -664,10 +679,14 @@ $(function () {
                             layer.alert(json.message);
                         }
                     },
-                    error: function (e) {
-                        console.log(e);
-                        if (e.status == 422) {
-                            layer.msg($.parseJSON(e.responseText).errors.code[0]);
+                    error: function (err) {
+                        if (err.status == 422) {
+                            var errorTips = err.responseJSON.errors;
+                            var errorText = [];
+                            $.each(errorTips, function (i, n) {
+                                errorText.push(n)
+                            });
+                            layer.msg(errorText[errorText.length - 1][0]);
                         }
                     },
                     complete: function () {
@@ -703,10 +722,15 @@ $(function () {
                             layer.alert(json.message);
                         }
                     },
-                    error: function (e) {
-                        console.log(e);
-                        if (e.status == 422) {
-                            layer.msg($.parseJSON(e.responseText).errors.code[0]);
+                    error: function (err) {
+                        console.log(err);
+                        if (err.status == 422) {
+                            var errorTips = err.responseJSON.errors;
+                            var errorText = [];
+                            $.each(errorTips, function (i, n) {
+                                errorText.push(n)
+                            });
+                            layer.msg(errorText[errorText.length - 1][0]);
                         }
                     },
                     complete: function () {
@@ -753,9 +777,14 @@ $(function () {
                         $(".selectList").removeClass("dis_n");
                         enter_event = "header_search";
                     },
-                    error: function (e) {
-                        console.log(e);
-                        if (e.status == 422) {
+                    error: function (err) {
+                        if (err.status == 422) {
+                            var errorTips = err.responseJSON.errors;
+                            var errorText = [];
+                            $.each(errorTips, function (i, n) {
+                                errorText.push(n)
+                            });
+                            layer.msg(errorText[errorText.length - 1][0]);
                         }
                     }
                 });
@@ -850,7 +879,6 @@ $(function () {
                 $("#footverCode").val("")
             },
             error: function (err) {
-                console.log(err);
                 if (err.status != 200) {
                     $(".thumbnail").trigger("click");
                     var errorTips = err.responseJSON.errors;
