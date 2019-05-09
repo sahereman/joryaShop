@@ -140,19 +140,18 @@
 <div class="right_navigation">
     <ul>
         <li class="show_fenxaing">
-            <a class="fenxiang">
+            <div class="social-share" data-initialized="true" data-url="{{ config('app.url') }}"
+                 data-title="Lyrical莱瑞美业">
+                <a href="javascript:void(0);" class="social-share-icon icon-facebook"></a>
+            </div>
+            <!--<a class="fenxiang">
                 <img src="{{ asset('img/fenxiang.png') }}">
             </a>
             <div class="fenxiang_info">
                 <ul>
                     <li class="row">
-                        <!--<div class="share-component " data-disabled="qzone, tencent, douban, diandian, google, linkedin"></div>-->
                         <div class="social-share" data-initialized="true" data-url="{{ config('app.url') }}"
                              data-title="Lyrical莱瑞美业">
-                            <!--<a href="javascript:void(0);" class="social-share-icon icon-weibo"></a>
-                            <a href="javascript:void(0);" class="social-share-icon icon-wechat"></a>
-                            <a href="javascript:void(0);" class="social-share-icon icon-qq"></a>
-                            <a href="javascript:void(0);" class="social-share-icon icon-qzone"></a>-->
                             <a href="javascript:void(0);" class="social-share-icon icon-facebook"></a>
                             <a href="javascript:void(0);" class="social-share-icon icon-linkedin"></a>
                             <a href="javascript:void(0);" class="social-share-icon icon-twitter"></a>
@@ -160,6 +159,24 @@
                         </div>
                     </li>
                 </ul>
+            </div>-->
+        </li>
+        <li class="show_fenxaing">
+            <div class="social-share" data-initialized="true" data-url="{{ config('app.url') }}"
+                 data-title="Lyrical莱瑞美业">
+                <a href="javascript:void(0);" class="social-share-icon icon-linkedin"></a>
+            </div>
+        </li>
+        <li class="show_fenxaing">
+            <div class="social-share" data-initialized="true" data-url="{{ config('app.url') }}"
+                 data-title="Lyrical莱瑞美业">
+                <a href="javascript:void(0);" class="social-share-icon icon-twitter"></a>
+            </div>
+        </li>
+        <li class="show_fenxaing">
+            <div class="social-share" data-initialized="true" data-url="{{ config('app.url') }}"
+                 data-title="Lyrical莱瑞美业">
+                <a href="javascript:void(0);" class="social-share-icon icon-google"></a>
             </div>
         </li>
         <li class="show_customer">
