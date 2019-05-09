@@ -837,9 +837,14 @@ $(function () {
     });
 
     // header hover效果
+    var tid;
     $(".navbar-bottom-bottom-left .first_menu").mouseenter(function (event) {
-        $(this).find(".nav-panel-dropdown").fadeIn();
+        var _this = $(this);
+        tid = setTimeout(function(){
+            _this.find(".nav-panel-dropdown").fadeIn();
+        }, 300);
     }).mouseleave(function (event) {
+        clearTimeout(tid);
         $(this).find(".nav-panel-dropdown").fadeOut();
     });
     //header search change
