@@ -5,7 +5,7 @@
                 <ul>
                     <li>
                         <!--<a href=""></a>-->
-                        <a href="skype:info_1104672?call">Call Skype</a>
+                        <a href="skype:live:info_1104672?call">Call Skype</a>
                         <!--<span>Tel: 400-100-5678</span>-->
                     </li>
                     {{--<li>
