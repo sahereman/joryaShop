@@ -42,6 +42,7 @@
 <script src="{{ asset('js/app.js') }}"></script>
 <script src="{{ asset('js/layer/layer.js') }}"></script>
 <script src="{{ asset('js/shareJS/js/social-share.min.js') }}"></script>
+<script type="text/javascript" src="http://skype.tom.com/script/skypeCheck40.js"> </script>
 @yield('scriptsAfterJs')
 
 <script type='text/javascript'>
