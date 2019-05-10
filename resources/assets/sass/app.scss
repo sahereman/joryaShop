@@ -450,8 +450,17 @@ img {
                                 flex-direction: row;
                                 justify-content: flex-start;
                                 li {
-                                    margin: auto;
                                     margin-left: 0;
+                                    width: 200px;
+                                    white-space: nowrap;
+                                    overflow: hidden;
+                                    text-align: left;
+                                    margin-right: 25px;
+                                    text-overflow: ellipsis;
+                                    a {
+                                        overflow: hidden;
+                                        text-overflow: ellipsis;
+                                    }
                                     &:hover {
                                         color: #bc8c61;
                                     }

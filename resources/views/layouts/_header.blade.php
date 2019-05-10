@@ -4,7 +4,9 @@
             <div class="navbar-top-left pull-left">
                 <ul>
                     <li>
-                        <span>Tel: 400-100-5678</span>
+                        <!--<a href=""></a>-->
+                        <a href="skype:info@lyricalhair.com?call">Call Skype</a>
+                        <!--<span>Tel: 400-100-5678</span>-->
                     </li>
                     {{--<li>
                        <span>@lang('app.switch language')：</span>
