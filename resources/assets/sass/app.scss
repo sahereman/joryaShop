@@ -461,12 +461,15 @@ img {
                                 flex-wrap: wrap;
                                 li {
                                     margin-left: 0;
-                                    width: 185px;
+                                    width: 190px;
                                     white-space: nowrap;
                                     overflow: hidden;
                                     text-align: left;
                                     margin-right: 25px;
                                     text-overflow: ellipsis;
+                                    &:nth-of-type(4n) {
+                                        margin-right: 0;
+                                    }
                                     a {
                                         overflow: hidden;
                                         text-overflow: ellipsis;
