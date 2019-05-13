@@ -5,7 +5,10 @@
                 <ul>
                     <li>
                         <!--<a href=""></a>-->
-                        <a href="skype:live:info_1104672?call">Call Skype</a>
+                        <a class="skype_btn" href="skype:live:info_1104672?call">
+                            <img src="{{ asset('img/skype.png') }}"/>
+                            <span>Call Skype</span>
+                        </a>
                         <!--<span>Tel: 400-100-5678</span>-->
                     </li>
                     {{--<li>

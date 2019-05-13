@@ -198,6 +198,16 @@ img {
                     float: left;
                     line-height: 40px;
                     font-size: 13px;
+                    .skype_btn {
+                        line-height: 20px;
+                        height: 20px;
+                        display: inline-block;
+                        img {
+                            width: 16px;
+                            height: 16px;
+                            margin-top: -3px;
+                        }
+                    } 
                     .dropdown-menu {
                         min-width: auto;
                         width: 110px;
@@ -209,7 +219,7 @@ img {
                                 span {
                                     padding: 0 5px;
                                 }
-                            }   
+                            }  
                             &:hover {
                                 a {
                                     color: $theme-color;
