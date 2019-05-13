@@ -8,7 +8,6 @@ class AddSeoColumnsToProductCategoriesTable extends Migration
 {
     /**
      * Run the migrations.
-     *
      * @return void
      */
     public function up()
@@ -24,7 +23,6 @@ class AddSeoColumnsToProductCategoriesTable extends Migration
 
     /**
      * Reverse the migrations.
-     *
      * @return void
      */
     public function down()
