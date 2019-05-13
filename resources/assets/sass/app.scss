@@ -448,11 +448,10 @@ img {
                             left: 0;
                             top: 100%;
                             padding: 10px 20px;
-                            width: 1200px;
-                            opacity: 0.9;
+                            width: 880px;
                             background-color: #ffffff;
                             color: #333333;
-                            box-shadow: 0 3px 10px rgba(0,0,0, 0.15);
+                            box-shadow: 0 10px 10px rgba(0,0,0, 0.15);
                             position: absolute;
                             z-index: 2000;
                             ul {
@@ -462,7 +461,7 @@ img {
                                 flex-wrap: wrap;
                                 li {
                                     margin-left: 0;
-                                    width: 200px;
+                                    width: 185px;
                                     white-space: nowrap;
                                     overflow: hidden;
                                     text-align: left;
@@ -471,6 +470,10 @@ img {
                                     a {
                                         overflow: hidden;
                                         text-overflow: ellipsis;
+                                        span {
+                                            overflow: hidden;
+                                            text-overflow: ellipsis;
+                                        }
                                     }
                                     &:hover {
                                         color: #bc8c61;
