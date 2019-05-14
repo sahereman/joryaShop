@@ -6,23 +6,17 @@
 
     <div class="common_articles products-search-level">
         <div class="m-wrapper">
-            <div class="aaaa" style="display: none;">
-                {!! $article->content_en !!}
+            <div class="iframe_content dis_ni">
+                {!! App::isLocale('zh-CN') ? $article->content_zh : $article->content_en !!}
             </div>
-            <iframe name="cmsCon" id="cmsCon" class="cmsCon" frameborder="0" width="100%" scrolling="no" height="auto">
-                
-            </iframe>
+            <iframe name="cmsCon" id="cmsCon" class="cmsCon" frameborder="0" width="100%" scrolling="no" height="auto"></iframe>
         </div>
     </div>
 
 @endsection
 @section('scriptsAfterJs')
     <script type="text/javascript">
-        
-
-
-        var aaa = $('.aaaa').html();
-    $('#cmsCon').contents().find('body').html(aaa);
+    $('#cmsCon').contents().find('body').html($('.iframe_content').html());
     autoHeight();  //动态调整高度
     var count = 0;
             var autoSet = window.setInterval('autoHeight()',500);
