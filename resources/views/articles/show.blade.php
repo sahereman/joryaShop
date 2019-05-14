@@ -16,7 +16,9 @@
 @endsection
 @section('scriptsAfterJs')
     <script type="text/javascript">
-    $('#cmsCon').contents().find('body').html($('.iframe_content').html());
+    var iframe_content = $('.iframe_content').html();
+    $('.iframe_content').html("");
+    $('#cmsCon').contents().find('body').html(iframe_content);
     autoHeight();  //动态调整高度
     var count = 0;
             var autoSet = window.setInterval('autoHeight()',500);
