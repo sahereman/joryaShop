@@ -21,9 +21,7 @@
         
 
 
-//      var aaa = eval("{!! App::isLocale('zh-CN') ? $article->content_zh : $article->content_en !!}");
-//      var aaa = eval("{!! $article->content_en !!}");
-        var aaa = $('.aaa').html();
+        var aaa = $('.aaaa').html();
     $('#cmsCon').contents().find('body').html(aaa);
     autoHeight();  //动态调整高度
     var count = 0;
