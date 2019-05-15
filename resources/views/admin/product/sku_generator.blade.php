@@ -1,169 +1,109 @@
-xxxx
-
-{{--<div class="box box-info">--}}
-    {{--<div class="box-header with-border">--}}
-        {{--<h3 class="box-title">订单流水号：{{ $order->order_sn }}</h3>--}}
-        {{--<div class="box-tools">--}}
-            {{--<div class="btn-group pull-right" style="margin-right: 10px">--}}
-                {{--<a href="{{ route('admin.orders.index') }}" class="btn btn-sm btn-default"><i class="fa fa-list"></i> 列表</a>--}}
-            {{--</div>--}}
-        {{--</div>--}}
-    {{--</div>--}}
-    {{--<div class="box-body">--}}
-        {{--<table class="table table-bordered">--}}
-            {{--<tbody>--}}
-            {{--<tr>--}}
-                {{--<td>买家：</td>--}}
-                {{--<td>{{ $order->user->name }}</td>--}}
-                {{--<td>订单状态：</td>--}}
-                {{--<td>{{ \App\Models\Order::$orderStatusMap[$order->status]}}</td>--}}
-            {{--</tr>--}}
-            {{--<tr>--}}
-                {{--<td>支付币种：</td>--}}
-                {{--<td>{{$order->currency}}</td>--}}
-                {{--<td>支付方式：</td>--}}
-                {{--<td>{{ \App\Models\Order::$paymentMethodMap[$order->payment_method] ?? '无'  }}</td>--}}
-            {{--</tr>--}}
-            {{--<tr>--}}
-                {{--<td>支付渠道单号：</td>--}}
-                {{--<td>{{ $order->payment_sn }}</td>--}}
-            {{--</tr>--}}
-
-            {{--<tr>--}}
-                {{--<td rowspan="7">时间信息</td>--}}
-                {{--<td>时间</td>--}}
-                {{--<td>操作</td>--}}
-            {{--</tr>--}}
-            {{--<tr>--}}
-                {{--<td>{{ $order->closed_at or '' }}</td>--}}
-                {{--<td>交易关闭</td>--}}
-            {{--</tr>--}}
-            {{--<tr>--}}
-                {{--<td>{{$order->created_at}}</td>--}}
-                {{--<td>下单</td>--}}
-            {{--</tr>--}}
-            {{--<tr>--}}
-                {{--<td>{{ $order->paid_at or '' }}</td>--}}
-                {{--<td>支付</td>--}}
-            {{--</tr>--}}
-            {{--<tr>--}}
-                {{--<td>{{ $order->shipped_at or '' }}</td>--}}
-                {{--<td>卖家发货</td>--}}
-            {{--</tr>--}}
-            {{--<tr>--}}
-                {{--<td>{{ $order->completed_at or '' }}</td>--}}
-                {{--<td>买家收货</td>--}}
-            {{--</tr>--}}
-            {{--<tr>--}}
-                {{--<td>{{ $order->commented_at or '' }}</td>--}}
-                {{--<td>买家评价</td>--}}
-            {{--</tr>--}}
-
-            {{--<tr>--}}
-                {{--<td>收货地址</td>--}}
-                {{--<td colspan="4">地址: {{ $order->user_info['address'] }} 联系人: {{ $order->user_info['name'] }} 联系方式: {{ $order->user_info['phone'] }}</td>--}}
-            {{--</tr>--}}
-            {{--<tr>--}}
-                {{--<td rowspan="{{ $order->items->count() + 1 }}">商品列表</td>--}}
-                {{--<td>商品名称</td>--}}
-                {{--<td>属性规格</td>--}}
-                {{--<td>单价</td>--}}
-                {{--<td>数量</td>--}}
-            {{--</tr>--}}
-            {{--@foreach($order->items as $item)--}}
-                {{--<tr>--}}
-                    {{--<td>{{ $item->sku->product->name_zh }}</td>--}}
-                    {{--<td>{{ $item->sku->name_zh }} </td>--}}
-                    {{--<td>{{ $item->sku->parameters_zh }} </td>--}}
-                    {{--<td>{{ $item->price }}</td>--}}
-                    {{--<td>{{ $item->number }}</td>--}}
-                {{--</tr>--}}
-            {{--@endforeach--}}
-            {{--<tr>--}}
-                {{--<td>运费：</td>--}}
-                {{--<td>{{ $order->total_shipping_fee }}</td>--}}
-                {{--<td>金额：</td>--}}
-                {{--<td colspan="2">{{ $order->total_amount }}</td>--}}
-            {{--</tr>--}}
-
-            {{--@if ($order->status === \App\Models\Order::ORDER_STATUS_PAYING)--}}
-                        {{--<tr>--}}
-                            {{--<td colspan="5">--}}
-                                {{--<form action="{{ route('admin.orders.modify', ['order' => $order->id]) }}" method="post" class="form-inline" style="padding: 18px 0">--}}
-                                    {{--<input type="hidden" name="_token" value="{{ csrf_token() }}">--}}
-                                    {{--<div class="form-group {{ $errors->has('total_shipping_fee') ? 'has-error' : '' }}" style="margin-right: 20px;">--}}
-                                        {{--<label for="total_shipping_fee" style="margin-left: 20px;">运费：</label>--}}
-                                        {{--<input type="text" name="total_shipping_fee" id="total_shipping_fee" value="{{ $order->total_shipping_fee }}">--}}
-                                        {{--<span style="margin-left: 20px;">金额：</span>--}}
-                                        {{--<span>{{ $order->total_amount }}</span>--}}
-                                        {{--@if($errors->has('total_shipping_fee'))--}}
-                                            {{--@foreach($errors->get('total_shipping_fee') as $msg)--}}
-                                                {{--<span class="help-block">{{ $msg }}</span>--}}
-                                            {{--@endforeach--}}
-                                        {{--@endif--}}
-                                    {{--</div>--}}
-                                    {{--<button type="submit" class="btn btn-success" id="ship-btn" style="margin-left: 20px;">确认修改</button>--}}
-                                {{--</form>--}}
-                            {{--</td>--}}
-                        {{--</tr>--}}
-            {{--@elseif ($order->status === \App\Models\Order::ORDER_STATUS_SHIPPING)--}}
-                {{--<!-- 订单发货开始 -->--}}
-                {{--<!-- 如果订单未发货，展示发货表单 -->--}}
-                {{--<tr>--}}
-                    {{--<td>运费：</td>--}}
-                    {{--<td>{{ $order->total_shipping_fee }}</td>--}}
-                    {{--<td>金额：</td>--}}
-                    {{--<td colspan="2">{{ $order->total_amount }}</td>--}}
-                {{--</tr>--}}
-                {{--<tr>--}}
-                    {{--<td colspan="5">--}}
-                        {{--<form action="{{ route('admin.orders.ship', ['order' => $order->id]) }}" method="post" class="form-inline" style="padding: 18px 0">--}}
-                            {{--<input type="hidden" name="_token" value="{{ csrf_token() }}">--}}
-                            {{--<div class="form-group {{ $errors->has('shipment_company') ? 'has-error' : '' }}" style="margin-right: 20px;">--}}
-                                {{--<label for="shipment_company" class="control-label">物流公司 : </label>--}}
-                                {{--<select style="width: 220px" class="form-control" name="shipment_company">--}}
-                                    {{--<option value="">输入物流公司</option>--}}
-                                    {{--@foreach(\App\Models\ShipmentCompany::shipmentCompanies() as $company)--}}
-                                        {{--<option value="{{ $company->code }}">{{ $company->name }}</option>--}}
-                                    {{--@endforeach--}}
-                                {{--</select>--}}
-                                {{--@if($errors->has('shipment_company'))--}}
-                                    {{--@foreach($errors->get('shipment_company') as $msg)--}}
-                                        {{--<span class="help-block">{{ $msg }}</span>--}}
-                                    {{--@endforeach--}}
-                                {{--@endif--}}
-                            {{--</div>--}}
-                            {{--<div class="form-group {{ $errors->has('shipment_sn') ? 'has-error' : '' }}" style="margin-right: 20px;">--}}
-                                {{--<label for="shipment_sn" class="control-label">物流单号 : </label>--}}
-                                {{--<input style="width: 220px" type="text" name="shipment_sn" value="" class="form-control" placeholder="输入物流单号">--}}
-                                {{--@if($errors->has('shipment_sn'))--}}
-                                    {{--@foreach($errors->get('shipment_sn') as $msg)--}}
-                                        {{--<span class="help-block">{{ $msg }}</span>--}}
-                                    {{--@endforeach--}}
-                                {{--@endif--}}
-                            {{--</div>--}}
-                            {{--<button type="submit" class="btn btn-success" id="ship-btn">发货</button>--}}
-                        {{--</form>--}}
-                    {{--</td>--}}
-                {{--</tr>--}}
-            {{--@elseif (!in_array($order->status, [\App\Models\Order::ORDER_STATUS_CLOSED, \App\Models\Order::ORDER_STATUS_PAYING]))--}}
-                {{--<!-- 否则展示物流公司和物流单号 -->--}}
-                {{--<tr>--}}
-                    {{--<td>运费：</td>--}}
-                    {{--<td>{{ $order->total_shipping_fee }}</td>--}}
-                    {{--<td>金额：</td>--}}
-                    {{--<td colspan="2">{{ $order->total_amount }}</td>--}}
-                {{--</tr>--}}
-                {{--<tr>--}}
-                    {{--<td>物流公司：</td>--}}
-                    {{--<td>{{ \App\Models\ShipmentCompany::codeTransformName($order->shipment_company) . " ($order->shipment_company)" }}</td>--}}
-                    {{--<td>物流单号：</td>--}}
-                    {{--<td>{{ $order->shipment_sn }}</td>--}}
-                {{--</tr>--}}
-            {{--@endif--}}
-            {{--<!-- 订单发货结束 -->--}}
-
-            {{--</tbody>--}}
-        {{--</table>--}}
-    {{--</div>--}}
-{{--</div>--}}
+<div class="box">
+	<form role="form">
+	    <div class="box-header">
+	        <button type="button" class="btn-group pull-right btn btn-primary">保存</button>
+	    </div>
+	    <div class="box-body">
+	        <table class="table">
+                <tr>
+                    <th>Base Size</th>
+                    <th>Hair Colour</th>
+                    <th>Hair Density</th>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="input-group">
+                          <input type="text" class="form-control" name="BaseSize[]">
+                          <span class="input-group-btn">
+                            <button class="btn btn-danger" type="button" onclick="delCol()">
+                                <span class="glyphicon glyphicon-remove"></span>
+                            </button>
+                          </span>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="input-group">
+                            <input type="text" name="HairColour[]" class="form-control">
+                            <span class="input-group-btn">
+                                <button class="btn btn-danger" type="button" onclick="delCol()">
+                                    <span class="glyphicon glyphicon-remove"></span>
+                                </button>
+                            </span>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="input-group">
+                            <input type="text" name="HairDensity[]" class="form-control">
+                            <span class="input-group-btn">
+                                <button class="btn btn-danger" type="button" onclick="delCol()">
+                                    <span class="glyphicon glyphicon-remove"></span>
+                                </button>
+                            </span>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <button type="button" atName="BaseSize[]" class="btn-group  btn btn-primary" onclick="addCol()">增加</button>
+                    </td>
+                    <td>
+                        <button type="button" atName="HairColour[]" class="btn-group  btn btn-primary" onclick="addCol()">增加</button>
+                    </td>
+                    <td>
+                        <button type="button" atName="HairDensity[]" class="btn-group  btn btn-primary" onclick="addCol()">增加</button>
+                    </td>
+                </tr>
+            </table>
+	    </div>
+	</form>
+</div>
+<script type="text/javascript">
+    var active_row = $(".table tr").length-2,
+        active_row_tds = $(".table tr")[active_row], //用于获取活跃行及修改行的数目
+        table_row_tds = $(".table tr")[0],  //表头用于获取th的数目
+        table_row_th = $(table_row_tds).find("th").length;    //th的数目
+        adtive_row_col = $(active_row_tds).find(".input-group").length; //新增行既修改行的列数
+    var addRowCom = "<tr>"+
+                    "<td></td>"+
+                    "<td></td>"+
+                    "<td></td>"+
+                    "</tr>"
+    var inp_name,
+        addColCom = "<div class='input-group'>"+
+                    "<input type='text' name='"+ inp_name +"' class='form-control'>"+
+                    "<span class='input-group-btn'>"+
+                    "<button class='btn btn-danger' type='button' onclick='delCol()'>"+
+                    "<span class='glyphicon glyphicon-remove'></span>"+
+                    "</button>"+
+                    "</span>"+
+                    "</div>"
+    function addCol(){
+        var _$this = $(event.target),
+            insert_num = _$this.parent("td").index();
+            console.log(adtive_row_col);
+        if(table_row_th == adtive_row_col) {
+            _$this.parents("tr").before(addRowCom);
+            active_row = $(".table tr").length-2;  //更新数值
+            active_row_tds = $(".table tr")[active_row]; //更新数值
+            adtive_row_col = $(active_row_tds).find(".input-group").length; //更新数值
+            inp_name = _$this.attr("atName");
+            var _that =$(active_row_tds).find("td")[insert_num];
+            _that.innerHTML=addColCom;
+        }else {
+            active_row = $(".table tr").length-2;  //更新数值
+            active_row_tds = $(".table tr")[active_row]; //更新数值
+            adtive_row_col = $(active_row_tds).find(".input-group").length; //更新数值
+            inp_name = _$this.attr("atName");
+            var _that =$(active_row_tds).find("td")[insert_num];
+            _that.innerHTML=addColCom;
+            if(insert_num == table_row_th-1) {
+                adtive_row_col +=1;
+            }
+        }
+        
+    }
+    function delCol(){
+        var _$this = $(event.target);
+        _$this.parents(".input-group").html("");
+    }
+</script>
