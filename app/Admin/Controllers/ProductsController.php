@@ -10,6 +10,7 @@ use App\Http\Requests\Request;
 /*商品属性 2019-03-01*/
 // use App\Models\Attr;
 /*商品属性 2019-03-01*/
+
 use App\Models\ProductCategory;
 use App\Models\ProductLocation;
 use App\Models\ProductService;
@@ -98,7 +99,8 @@ class ProductsController extends Controller
         $grid = new Grid(new Product);
         $grid->model()->with('comments')->orderBy('created_at', 'desc'); // 设置初始排序条件
 
-        if ($category) {
+        if ($category)
+        {
             $grid->model()->where('product_category_id', $category->id);
         }
 
@@ -165,7 +167,8 @@ class ProductsController extends Controller
         $show->thumb('缩略图')->image();
         $show->photos('相册')->as(function ($photos) {
             $text = '';
-            foreach ($photos as $photo) {
+            foreach ($photos as $photo)
+            {
                 $url = starts_with($photo, ['http://', 'https://']) ? $photo : Storage::disk('public')->url($photo);
                 $text .= '<img src="' . $url . '" style="margin:0 12px 12px 0;max-width:120px;max-height:200px" class="img">';
             }
@@ -194,10 +197,10 @@ class ProductsController extends Controller
         $show->on_sale('售卖状态')->as(function ($item) {
             return $item ? '<span class="label label-primary">ON</span>' : '<span class="label label-default">OFF</span>';
         });
-        $show->price('价格');
+        $show->price('展示价格');
         $show->shipping_fee('运费');
-        $show->stock('库存');
-        $show->sales('销量');
+        $show->stock('总库存');
+        $show->sales('总销量');
         $show->index('综合指数');
         $show->heat('人气');
         $show->location('仓库地址');
@@ -246,26 +249,32 @@ class ProductsController extends Controller
             $sku->disablePagination();
 
             /*属性*/
-            // $sku->name_zh('SKU 名称(中文)');
-            $sku->name_en('SKU 名称(英文)');
-            $sku->price('单价');
-            $sku->stock('剩余库存');
-            $sku->sales('销量');
 
             // 2019-01-22
-            if ($options['is_base_size_optional']) {
+            if ($options['is_base_size_optional'])
+            {
                 // $sku->base_size_zh('Base Size 名称(中文)');
                 $sku->base_size_en('Base Size 名称(英文)');
             }
-            if ($options['is_hair_colour_optional']) {
+            if ($options['is_hair_colour_optional'])
+            {
                 // $sku->hair_colour_zh('Hair Colour 名称(中文)');
                 $sku->hair_colour_en('Hair Colour 名称(英文)');
             }
-            if ($options['is_hair_density_optional']) {
+            if ($options['is_hair_density_optional'])
+            {
                 // $sku->hair_density_zh('Hair Density 名称(中文)');
                 $sku->hair_density_en('Hair Density 名称(英文)');
             }
             // 2019-01-22
+
+            // $sku->name_zh('SKU 名称(中文)');
+            //            $sku->name_en('SKU 名称(英文)');
+            $sku->price('单价');
+            $sku->stock('库存');
+            $sku->sales('销量');
+
+
         });
 
         $show->comments('评价列表', function ($comment) {
@@ -289,7 +298,8 @@ class ProductsController extends Controller
             $comment->user()->name('买家');
             $comment->photo_urls('图片')->display(function ($urls) {
                 $text = '';
-                foreach ($urls as $url) {
+                foreach ($urls as $url)
+                {
                     $text .= '<img src="' . $url . '" style="margin:0 8px 8px 0;max-width:80px;max-height:80px" class="img">';
                 }
                 return $text;
@@ -315,8 +325,16 @@ class ProductsController extends Controller
     {
         $form = new Form(new Product());
 
+
         // $form->tab('基础', function (Form $form) {
-        if ($this->mode == Builder::MODE_EDIT && $this->product_id) {
+        if ($this->mode == Builder::MODE_EDIT && $this->product_id)
+        {
+            $product_id = $this->product_id;
+            $form->tools(function (Form\Tools $tools) use ($product_id) {
+                $tools->add('<div class="btn-group pull-right" style="margin-right: 5px">
+                            <a href="' . route('admin.products.sku_generator_show', ['product' => $product_id]) . '" class="btn btn-sm btn-success"><i class="fa fa-archive"></i>&nbsp;SKU生成器</a></div>');
+            });
+
             $form->hidden('product_sort_photos_url', 'Product-Sort-Photos-Url')->default(route('admin.products.sort_photos', ['product' => $this->product_id]));
             $product = Product::find($this->product_id);
             // $form->hidden('product_photos', 'Product Photos')->default(json_encode($product->photos));
@@ -356,21 +374,19 @@ class ProductsController extends Controller
         $form->switch('on_sale', '售卖状态')->default(1);
         $form->switch('is_index', '首页推荐');
         // })->tab('价格与库存', function (Form $form) {
-        $form->display('price', '价格')->setWidth(2);
-        $form->display('stock', '库存')->setWidth(2);
-        $form->display('sales', '销量')->setWidth(2);
+        $form->display('price', '展示价格')->setWidth(2);
+        $form->display('stock', '总库存')->setWidth(2);
+        $form->display('sales', '总销量')->setWidth(2);
         // $form->currency('shipping_fee', '运费')->symbol('￥')->rules('required');
         $form->currency('shipping_fee', '运费')->symbol('$')->default(0);
+
 
         $form->hasMany('skus', 'SKU 列表', function (Form\NestedForm $form) {
             // $form->text('name_zh', 'SKU 名称(中文)')->rules('required');
             $form->hidden('name_zh', 'SKU 名称(中文)')->default('lyrical');
             // $form->text('name_en', 'SKU 名称(英文)')->rules('required')->default('');
-            $form->text('name_en', 'SKU 名称(英文)')->rules('required');
+            $form->hidden('name_en', 'SKU 名称(英文)')->default('lyrical');
             // $form->currency('price', '单价')->symbol('￥')->rules('required|numeric|min:0.01');
-            $form->currency('price', '单价')->symbol('$')->rules('required|numeric|min:0.01');
-            $form->number('stock', '剩余库存')->min(0)->rules('required|integer|min:0');
-            $form->display('sales', '销量')->setWidth(2);
 
             // 2019-01-22
             // $form->text('base_size_zh', 'Base Size 名称(中文)')->default('');
@@ -383,7 +399,15 @@ class ProductsController extends Controller
             $form->hidden('hair_density_zh', 'Hair Density 名称(中文)')->default('lyrical');
             $form->text('hair_density_en', 'Hair Density 名称(英文)')->default('');
             // 2019-01-22
+
+            $form->currency('price', '单价')->symbol('$')->rules('required|numeric|min:0.01');
+            $form->number('stock', '库存')->min(0)->rules('required|integer|min:0');
+            //            $form->display('sales', '销量')->setWidth(2);
+
+
         });
+
+
         // })->tab('商品详细', function (Form $form) {
         $form->number('index', '综合指数')->min(0)->rules('required|integer|min:0');
         $form->number('heat', '人气')->min(0)->rules('required|integer|min:0');
@@ -411,7 +435,8 @@ class ProductsController extends Controller
 
         // 定义事件回调，当模型即将保存时会触发这个回调
         $form->saving(function (Form $form) {
-            if (request()->input('photos') != '_file_del_') {
+            if (request()->input('photos') != '_file_del_')
+            {
                 $skus = collect($form->input('skus'))->where(Form::REMOVE_FLAG_NAME, 0);
                 $base_size_option = collect($form->input('is_base_size_optional'))->values();
                 $is_base_size_optional = ($base_size_option[0] == 'on');
@@ -420,7 +445,8 @@ class ProductsController extends Controller
                 $hair_density_option = collect($form->input('is_hair_density_optional'))->values();
                 $is_hair_density_optional = ($hair_density_option[0] == 'on');
 
-                if (request()->input('_from_') == 'edit' && $skus->isEmpty()) {
+                if (request()->input('_from_') == 'edit' && $skus->isEmpty())
+                {
                     $error = new MessageBag([
                         'title' => 'SKU 列表 必须填写',
                     ]);
@@ -428,7 +454,8 @@ class ProductsController extends Controller
                     return back()->with(compact('error')); // The method withInput() is buggy with unwanted results.
                 }
 
-                if ($skus->isNotEmpty()) {
+                if ($skus->isNotEmpty())
+                {
                     $count = $skus->count();
 
                     // name_zh
@@ -443,7 +470,8 @@ class ProductsController extends Controller
 
                     // name_en
                     $sku_name_ens = $skus->unique('name_en');
-                    if ($sku_name_ens->count() < $count) {
+                    if ($sku_name_ens->count() < $count)
+                    {
                         $error = new MessageBag([
                             'title' => 'SKU 列表：存在SKU-英文名称重复问题，请确保同款商品下的各个SKU-英文名称唯一',
                         ]);
@@ -452,18 +480,22 @@ class ProductsController extends Controller
                     }
 
                     // base_size  hair_colour hair_density
-                    if ($is_base_size_optional || $is_hair_colour_optional || $is_hair_density_optional) {
+                    if ($is_base_size_optional || $is_hair_colour_optional || $is_hair_density_optional)
+                    {
                         $sku_parameter = '';
                         $is_first_time = true;
-                        if ($is_base_size_optional) {
+                        if ($is_base_size_optional)
+                        {
                             $sku_parameter = $is_first_time ? 'Base Size' : ' & Base Size';
                             $is_first_time = false;
                         }
-                        if ($is_hair_colour_optional) {
+                        if ($is_hair_colour_optional)
+                        {
                             $sku_parameter .= $is_first_time ? 'Hair Colour' : ' & Hair Colour';
                             $is_first_time = false;
                         }
-                        if ($is_hair_density_optional) {
+                        if ($is_hair_density_optional)
+                        {
                             $sku_parameter .= $is_first_time ? 'Hair Density' : ' & Hair Density';
                             $is_first_time = false;
                         }
@@ -474,7 +506,8 @@ class ProductsController extends Controller
                             $parameter_en .= ' * ' . ($is_hair_density_optional ? $item['hair_density_en'] : '') . ' *';
                             return $parameter_en;
                         });
-                        if ($sku_parameter_ens->unique()->count() < $count) {
+                        if ($sku_parameter_ens->unique()->count() < $count)
+                        {
                             $error = new MessageBag([
                                 'title' => 'SKU 列表：存在SKU-英文参数组合(' . $sku_parameter . ')重复问题，请确保同款商品下的各个SKU-英文参数组合(' . $sku_parameter . ')唯一',
                             ]);
@@ -540,20 +573,38 @@ class ProductsController extends Controller
         $photos = $request->input('photos');
         $product->photos = $photos;
         $result = $product->save();
-        if ($request->ajax()) {
-            if ($result) {
+        if ($request->ajax())
+        {
+            if ($result)
+            {
                 return response()->json([
                     'code' => 200,
                     'message' => 'success',
                 ], 200);
-            } else {
+            } else
+            {
                 return response()->json([
                     'code' => 422,
                     'message' => 'Unprocessable Entity',
                 ], 422);
             }
-        } else {
+        } else
+        {
             return redirect()->back(302);
         }
+    }
+
+
+    public function skuGeneratorShow(Product $product, Content $content)
+    {
+        return $content
+            ->header('商品管理')
+            ->description('商品 - SKU生成器')
+            ->body(view('admin.product.sku_generator', ['product' => $product]));
+    }
+
+    public function skuGeneratorStore(Request $request, Product $product)
+    {
+
     }
 }

@@ -16,8 +16,11 @@ class DatabaseSeeder extends Seeder
 
         //产品
         $this->call(ProductCategoriesSeeder::class);
+        $this->call(ProductServicesSeeder::class);
+        $this->call(ProductLocationsSeeder::class);
         $this->call(ProductsSeeder::class);
         $this->call(ProductSkusSeeder::class);
+
 
         /*商品属性 2019-03-01*/
         // $this->call(AttrsSeeder::class);
