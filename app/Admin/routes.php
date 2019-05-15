@@ -57,7 +57,6 @@ Route::group([
     $router->get('products/{product}/sku_generator', 'ProductsController@skuGeneratorShow')->name('admin.products.sku_generator_show');
     $router->post('products/{product}/sku_generator', 'ProductsController@skuGeneratorStore')->name('admin.products.sku_generator_store');
 
-
     /*产品仓库*/
     $router->resource('product_locations', ProductLocationsController::class)->names('admin.product_locations');
 
@@ -94,12 +93,12 @@ Route::group([
     /*留言板*/
     $router->resource('feedbacks', FeedbacksController::class)->names('admin.feedbacks');
 
-    //    $router->resource('example', ExampleController::class)->names('admin.example');
-    //    $router->get('example', 'ExampleController@index')->name('admin.example.index');
-    //    $router->get('example/create', 'ExampleController@create')->name('admin.example.create');
-    //    $router->get('example/{id}', 'ExampleController@show')->name('admin.example.show');
-    //    $router->get('example/{id}/edit', 'ExampleController@edit')->name('admin.example.edit');
-    //    $router->post('example', 'ExampleController@store')->name('admin.example.store');
-    //    $router->put('example/{id}', 'ExampleController@update')->name('admin.example.update');
-    //    $router->delete('example/{id}', 'ExampleController@destroy')->name('admin.example.destroy');
+    // $router->resource('example', ExampleController::class)->names('admin.example');
+    // $router->get('example', 'ExampleController@index')->name('admin.example.index');
+    // $router->get('example/create', 'ExampleController@create')->name('admin.example.create');
+    // $router->get('example/{id}', 'ExampleController@show')->name('admin.example.show');
+    // $router->get('example/{id}/edit', 'ExampleController@edit')->name('admin.example.edit');
+    // $router->post('example', 'ExampleController@store')->name('admin.example.store');
+    // $router->put('example/{id}', 'ExampleController@update')->name('admin.example.update');
+    // $router->delete('example/{id}', 'ExampleController@destroy')->name('admin.example.destroy');
 });

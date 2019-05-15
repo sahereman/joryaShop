@@ -17,6 +17,10 @@ class ProductSku extends Model
         'name_en',
         'name_zh',
 
+        // 2019-05-14
+        // 'attributes',
+        // 2019-05-14
+
         // 2019-01-22
         'base_size_en',
         'base_size_zh',
@@ -46,7 +50,9 @@ class ProductSku extends Model
      * @var array
      */
     protected $casts = [
-        //
+        // 2019-05-14
+        // 'attributes' => 'json',
+        // 2019-05-14
     ];
 
     /**

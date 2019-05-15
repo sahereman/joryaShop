@@ -480,3 +480,39 @@ function get_symbol_by_currency(string $currency = 'USD')
 {
     return key_exists($currency, ExchangeRate::$symbolMap) ? ExchangeRate::$symbolMap[$currency] : '&#36;';
 }
+
+
+/**
+ * @param $attrs array
+ * Demo:
+ * $attrs = [
+ *   'basic_size' => [1, 2, 3],
+ *   'hair_colour' => ['red', 'blue', 'black'],
+ *   'hair_density' => ['10%', '20%', '30%'],
+ * ];
+ * @return array
+ */
+function get_attr_combo($attrs)
+{
+    static $flag = true;
+    static $tempo = [];
+    static $attr_combo = [];
+    foreach ($attrs as $attr => $options) {
+        if ($flag) {
+            $flag = false;
+            foreach ($options as $option) {
+                $tempo[] = [$attr => $option];
+            }
+        } else {
+            $attr_combo = [];
+            foreach ($options as $option) {
+                foreach ($tempo as $item) {
+                    $item[$attr] = $option;
+                    $attr_combo[] = $item;
+                }
+            }
+            $tempo = $attr_combo;
+        }
+    }
+    return $attr_combo;
+}

@@ -13,17 +13,17 @@ class CreateAttrsTable extends Migration
      */
     public function up()
     {
-//        Schema::create('attrs', function (Blueprint $table) {
-//            $table->increments('id');
-//            $table->unsignedInteger('parent_id')->nullable(false)->default(0)->comment('parent-attr-id:用于商品属性 名称-值 展示');
-//
-//            $table->string('name_en')->nullable(false)->comment('英文名称');
-//            $table->string('name_zh')->nullable(false)->comment('中文名称');
-//
-//            $table->unsignedSmallInteger('sort')->nullable(false)->default(0)->comment('排序值');
-//
-//            $table->timestamps();
-//        });
+        /*Schema::create('attrs', function (Blueprint $table) {
+            $table->increments('id');
+            $table->unsignedInteger('parent_id')->nullable(false)->default(0)->comment('parent-attr-id:用于商品属性 名称-值 展示');
+
+            $table->string('name_en')->nullable(false)->comment('英文名称');
+            $table->string('name_zh')->nullable(false)->comment('中文名称');
+
+            $table->unsignedSmallInteger('sort')->nullable(false)->default(0)->comment('排序值');
+
+            $table->timestamps();
+        });*/
     }
 
     /**
@@ -32,7 +32,7 @@ class CreateAttrsTable extends Migration
      */
     public function down()
     {
-//        Schema::dropIfExists('attrs');
+        // Schema::dropIfExists('attrs');
     }
 }
 /*商品属性 2019-03-01*/

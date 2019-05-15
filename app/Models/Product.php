@@ -30,6 +30,10 @@ class Product extends Model
         'thumb',
         'photos',
 
+        // 2019-05-14
+        // 'attribute_options',
+        // 2019-05-14
+
         // 2019-01-22
         'is_base_size_optional',
         'is_hair_colour_optional',
@@ -63,6 +67,10 @@ class Product extends Model
         'is_index' => 'boolean',
         'on_sale' => 'boolean',
         'photos' => 'json',
+
+        // 2019-05-14
+        // 'attribute_options' => 'json',
+        // 2019-05-14
 
         // 2019-01-22
         'is_base_size_optional' => 'boolean',
