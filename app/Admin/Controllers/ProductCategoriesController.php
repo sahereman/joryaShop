@@ -197,7 +197,7 @@ class ProductCategoriesController extends Controller
         $form->hidden('content_zh', '内容(中文)')->default('lyrical');
         $form->hidden('content_en', '内容(英文)')->default('lyrical');
 
-        $form->image('banner','分类主页图')->help('尺寸:1920 * 380');;
+        $form->image('banner','分类主页图')->removable()->help('尺寸:1920 * 380');;
 
         $form->switch('is_index', '首页显示');
         $form->number('sort', '排序值');
