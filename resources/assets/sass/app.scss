@@ -11,6 +11,24 @@
 ////swiper
 //@import "~"
 
+@font-face {
+  font-family: 'iconfont';  /* project id 867523 */
+  src: url('//at.alicdn.com/t/font_867523_a6nt4z4lnai.eot');
+  src: url('//at.alicdn.com/t/font_867523_a6nt4z4lnai.eot?#iefix') format('embedded-opentype'),
+  url('//at.alicdn.com/t/font_867523_a6nt4z4lnai.woff2') format('woff2'),
+  url('//at.alicdn.com/t/font_867523_a6nt4z4lnai.woff') format('woff'),
+  url('//at.alicdn.com/t/font_867523_a6nt4z4lnai.ttf') format('truetype'),
+  url('//at.alicdn.com/t/font_867523_a6nt4z4lnai.svg#iconfont') format('svg');
+}
+.iconfont{
+    font-family:"iconfont" !important;
+    font-size:16px;font-style:normal;
+    -webkit-font-smoothing: antialiased;
+    -webkit-text-stroke-width: 0.2px;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+
 // 通用样式
 body {
 font-family: "Microsoft YaHei",Hiragino Sans GB, "Hiragino Sans GB", Helvetica,  Arial, sans-serif;
@@ -1613,10 +1631,30 @@ footer {
             font-weight: bold;
         }
         .part_title {
+            .more_menu {
+                margin-top: 55px;
+                margin-left: 10px;
+                span {
+                    font-size: 24px;
+                }
+                .dropdown-menu {
+                    width: 160px;
+                    height: 150px;
+                    overflow: hidden;
+                    overflow-y: auto;
+                    li {
+                        a {
+                            overflow: hidden;
+                            white-space: nowrap;
+                            text-overflow: ellipsis;
+                        }
+                    }
+                }
+            }
             h3 {
                 display: inline-block
             }
-            ul {
+            >ul {
                 margin-top: 60px;
                 margin-bottom: 30px;
                 max-width: 600px;
@@ -1844,6 +1882,27 @@ footer {
         position: relative;
         .part_title {
             color: #fff;
+            .more_menu {
+                margin-top: 55px;
+                margin-left: 10px;
+                span {
+                    font-size: 24px;
+                    color: #fff;
+                }
+                .dropdown-menu {
+                    width: 160px;
+                    height: 150px;
+                    overflow: hidden;
+                    overflow-y: auto;
+                    li {
+                        a {
+                            overflow: hidden;
+                            white-space: nowrap;
+                            text-overflow: ellipsis;
+                        }
+                    }
+                }
+            }
             ul {
                 li {
                     color: #fff;
