@@ -4,6 +4,20 @@
         {{ csrf_field() }}
         <input type="hidden" name="attrs" value="">
         <div class="box-header">
+            <div class="pull-left col-lg-5">
+                <div class="col-lg-6">
+                    <div class="input-group">
+                      <span class="input-group-addon">价格</span>
+                      <input type="text" class="form-control" name="price">
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="input-group">
+                      <span class="input-group-addon">库存</span>
+                      <input type="text" class="form-control" name="stock">
+                    </div>
+                </div>
+            </div>
             <button type="button" class="btn-group pull-right btn btn-primary" id="submit_btn">保存</button>
         </div>
         <div class="box-body">
