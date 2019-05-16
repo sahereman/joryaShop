@@ -328,11 +328,11 @@ class ProductsController extends Controller
         if ($this->mode == Builder::MODE_EDIT && $this->product_id) {
             $product_id = $this->product_id;
             $form->tools(function (Form\Tools $tools) use ($product_id) {
-                $tools->append('<div class="btn-group pull-right" style="margin-right: 5px">
-                            <a href="' . route('admin.products.sku_generator_show', ['product' => $product_id]) . '" class="btn btn-sm btn-success">
-                            <i class="fa fa-archive"></i>&nbsp;SKU生成器
-                            </a>
-                            </div>');
+                $tools->append('<div class="btn-group pull-right" style="margin-right: 5px">'
+                    . '<a href="' . route('admin.products.sku_generator_show', ['product' => $product_id]) . '" class="btn btn-sm btn-success">'
+                    . '<i class="fa fa-archive"></i>&nbsp;SKU生成器'
+                    . '</a>'
+                    . '</div>');
             });
 
             $form->hidden('product_sort_photos_url', 'Product-Sort-Photos-Url')->default(route('admin.products.sort_photos', ['product' => $this->product_id]));
@@ -398,6 +398,15 @@ class ProductsController extends Controller
             $form->hidden('hair_density_zh', 'Hair Density 名称(中文)')->default('lyrical');
             $form->text('hair_density_en', 'Hair Density 名称(英文)')->default('');
             // 2019-01-22
+
+            $form->image('photo', 'Photo')
+                ->deletable(true)
+                ->uniqueName()
+                ->removable()
+                // ->rules('required')
+                ->move('original/' . date('Ym', now()->timestamp))
+                // ->help('Photo尺寸:420 * 380')
+                ->rules('image');
 
             $form->currency('price', '单价')->symbol('$')->rules('required|numeric|min:0.01');
             $form->number('stock', '库存')->min(0)->rules('required|integer|min:0');
@@ -581,9 +590,9 @@ class ProductsController extends Controller
      * @param $attrs array
      * Demo:
      * $attrs = [
-     *   'basic_size' => [1, 2, 3],
-     *   'hair_colour' => ['red', 'blue', 'black'],
-     *   'hair_density' => ['10%', '20%', '30%'],
+     *   'basic_size' => [['data' => 1], ['data' => 2], ['data' => 3]],
+     *   'hair_colour' => [['data' => 'red', 'photo' => 'url-string'], ['data' => 'black', 'photo' => 'url-string'], ['data' => 'blue', 'photo' => 'url-string']],
+     *   'hair_density' => [['data' => '10%'], ['data' => '20%'], ['data' => '30%']],
      * ];
      * @return array
      */
@@ -617,35 +626,34 @@ class ProductsController extends Controller
             ->body(view('admin.product.sku_generator', ['product' => $product]));
     }
 
+    /**
+     * Demo of attrs-json-string:
+     * {
+     *   'base_size': [{'data':1},{'data':2},{'data':3}],
+     *   'hair_colour': [{'data':'red', 'photo':'url-string'},{'data':'black', 'photo':'url-string'},{'data':'blue', 'photo':'url-string'}],
+     *   'hair_density': [{'data':'10%'},{'data':'20%'},{'data':'30%'}],
+     * }
+     */
     public function skuGeneratorStore(Request $request, Product $product)
     {
-        if ($request->ajax()) {
-            $attrs = $request->input('attrs');
-            $attr_combo = $this->getAttrCombo($attrs);
-            $product->skus()->delete();
-            $is_base_size_optional = $product->is_base_size_optional;
-            $is_hair_colour_optional = $product->is_hair_colour_optional;
-            $is_hair_density_optional = $product->is_hair_density_optional;
-            foreach ($attr_combo as $option) {
-                $sku_data = [];
-                $sku_data['product_id'] = $product->id;
-                if ($is_base_size_optional) {
-                    $sku_data['base_size_en'] = $option['base_size'];
-                }
-                if ($is_hair_colour_optional) {
-                    $sku_data['hair_colour_en'] = $option['hair_colour'];
-                }
-                if ($is_hair_density_optional) {
-                    $sku_data['hair_density_en'] = $option['hair_density'];
-                }
-                ProductSku::create($sku_data);
+        $attrs = json_decode($request->input('attrs'), true);
+        $attr_combo = $this->getAttrCombo($attrs);
+        $product->skus()->delete();
+        foreach ($attr_combo as $option) {
+            $sku_data = [];
+            $sku_data['product_id'] = $product->id;
+            if ($product->is_base_size_optional) {
+                $sku_data['base_size_en'] = $option['base_size']['data'];
             }
-            return response()->json([
-                'code' => 200,
-                'message' => 'success',
-            ]);
-        } else {
-            return redirect()->back(302);
+            if ($product->is_hair_colour_optional) {
+                $sku_data['hair_colour_en'] = $option['hair_colour']['data'];
+                $sku_data['photo'] = $option['hair_colour']['photo'];
+            }
+            if ($product->is_hair_density_optional) {
+                $sku_data['hair_density_en'] = $option['hair_density']['data'];
+            }
+            ProductSku::create($sku_data);
         }
+        return redirect()->route('admin.products.edit', ['product' => $product->id]);
     }
 }

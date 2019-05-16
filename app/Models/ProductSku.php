@@ -42,7 +42,7 @@ class ProductSku extends Model
      * @var array
      */
     protected $hidden = [
-        'photo', // 备用字段
+        // 'photo', // 备用字段
     ];
 
     /**

@@ -13,6 +13,7 @@
  * Admin::js('/packages/prettydocs/js/main.js');
  */
 
+use App\Admin\Extensions\Form\ExtraImage;
 use App\Admin\Extensions\Form\WangEditor;
 
 app('view')->prependNamespace('admin', resource_path('views/admin'));
@@ -25,7 +26,8 @@ Admin::js('vendor/laravel-admin/laravel-admin-ext-chart/Chart.bundle.min.js');
 Admin::js('js/admin/product.js');
 // 2019-01-22
 
-Encore\Admin\Form::forget(['map', 'editor']);
+Encore\Admin\Form::forget(['map', 'editor', 'image']);
 Encore\Admin\Form::extend('editor', WangEditor::class);
+Encore\Admin\Form::extend('image', ExtraImage::class);
 
 
