@@ -13,6 +13,7 @@ class Banner extends Model
         'disk',
         'image',
         'sort',
+        'link',
     ];
 
     protected $appends = [
