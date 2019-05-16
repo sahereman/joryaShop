@@ -8,11 +8,15 @@
         <div class="swiper-container Taxonomy" id="Taxonomy">
             <div class="swiper-wrapper">
                 <div class="swiper-slide">
-                    <div class="text_intru">
-                    	<p>{{ App::isLocale('zh-CN') ? $category->name_zh : $category->name_en }}</p>
-                    	<p>{{ App::isLocale('zh-CN') ? $category->description_zh : $category->description_en }}</p>
-                    </div>
-                    <img class="lazy" data-src="{{ asset('defaults/defaults_pc_category_banner.png') }}">
+                    @if(!empty($category->banner))
+                        <img style="height: 380px;" class="lazy" data-src="{{ $category->banner_url }}">
+                    @else
+                        <div class="text_intru">
+                            <p>{{ App::isLocale('zh-CN') ? $category->name_zh : $category->name_en }}</p>
+                            <p>{{ App::isLocale('zh-CN') ? $category->description_zh : $category->description_en }}</p>
+                        </div>
+                        <img class="lazy" data-src="{{ asset('defaults/defaults_pc_category_banner.png') }}">
+                    @endif
                 </div>
             </div>
         </div>

@@ -7,7 +7,7 @@
                 @if(isset($banners) && $banners->isNotEmpty())
                     @foreach($banners as $banner)
                         <div class="swiper-slide">
-                            <a>
+                            <a href="{{$banner->link}}">
                                 <img src="{{ $banner->image_url }}">
                             </a>
                         </div>

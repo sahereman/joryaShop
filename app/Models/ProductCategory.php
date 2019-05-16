@@ -51,7 +51,7 @@ class ProductCategory extends Model
      * @var array
      */
     protected $hidden = [
-        'banner', // 备用字段
+
     ];
 
     /**
@@ -75,10 +75,10 @@ class ProductCategory extends Model
      * @var array
      */
     protected $appends = [
-        // 'banner_url', // 备用字段
+         'banner_url',
     ];
 
-    /*public function getBannerUrlAttribute()
+    public function getBannerUrlAttribute()
     {
         if ($this->attributes['banner']) {
             // 如果 banner 字段本身就已经是完整的 url 就直接返回
@@ -88,7 +88,7 @@ class ProductCategory extends Model
             return Storage::disk('public')->url($this->attributes['banner']);
         }
         return '';
-    }*/
+    }
 
     public function children()
     {

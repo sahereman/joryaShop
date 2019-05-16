@@ -97,8 +97,9 @@ class BannersController extends Controller
         $show = new Show(Banner::findOrFail($id));
 
         $show->id('ID');
-        $show->image('Banner图')->image('', 300);
         $show->type('类型');
+        $show->image('Banner图')->image('', 300);
+        $show->link('链接');
         $show->sort('排序值');
         $show->created_at('创建时间');
         $show->updated_at('更新时间');
@@ -120,6 +121,8 @@ class BannersController extends Controller
         ])->rules('required');
 
         $form->image('image', 'Banner图')->rules('required|image')->help('PC首页尺寸:1920 * 780 , Mobile首页尺寸:960 * 390');
+
+        $form->url('link', '链接');
 
         $form->number('sort', '排序值');
 
