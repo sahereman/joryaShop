@@ -5,6 +5,7 @@ namespace App\Admin\Controllers;
 use App\Admin\Extensions\Ajax\Ajax_Delete;
 use App\Admin\Models\Product;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\SkuGeneratorRequest;
 use App\Http\Requests\Request;
 
 /*商品属性 2019-03-01*/
@@ -380,6 +381,9 @@ class ProductsController extends Controller
         // $form->currency('shipping_fee', '运费')->symbol('￥')->rules('required');
         $form->currency('shipping_fee', '运费')->symbol('$')->default(0);
 
+        $form->number('index', '综合指数')->min(0)->rules('required|integer|min:0');
+        $form->number('heat', '人气')->min(0)->rules('required|integer|min:0');
+
         $form->hasMany('skus', 'SKU 列表', function (Form\NestedForm $form) {
             // $form->text('name_zh', 'SKU 名称(中文)')->rules('required');
             $form->hidden('name_zh', 'SKU 名称(中文)')->default('lyrical');
@@ -414,8 +418,6 @@ class ProductsController extends Controller
         });
 
         // })->tab('商品详细', function (Form $form) {
-        $form->number('index', '综合指数')->min(0)->rules('required|integer|min:0');
-        $form->number('heat', '人气')->min(0)->rules('required|integer|min:0');
 
         $form->divider();
         // $form->editor('content_zh', '详情介绍(中文)');
@@ -471,14 +473,14 @@ class ProductsController extends Controller
                     }*/
 
                     // name_en
-                    $sku_name_ens = $skus->unique('name_en');
+                    /*$sku_name_ens = $skus->unique('name_en');
                     if ($sku_name_ens->count() < $count) {
                         $error = new MessageBag([
                             'title' => 'SKU 列表：存在SKU-英文名称重复问题，请确保同款商品下的各个SKU-英文名称唯一',
                         ]);
                         // return back()->withInput()->with(compact('error'));
                         return back()->with(compact('error')); // The method withInput() is buggy with unwanted results.
-                    }
+                    }*/
 
                     // base_size  hair_colour hair_density
                     if ($is_base_size_optional || $is_hair_colour_optional || $is_hair_density_optional) {
@@ -634,14 +636,19 @@ class ProductsController extends Controller
      *   'hair_density': [{'data':'10%'},{'data':'20%'},{'data':'30%'}],
      * }
      */
-    public function skuGeneratorStore(Request $request, Product $product)
+    public function skuGeneratorStore(SkuGeneratorRequest $request, Product $product)
     {
         $attrs = json_decode($request->input('attrs'), true);
+        $attrs = collect($attrs)->map(function ($item, $key) {
+            return collect($item)->unique('data')->toArray();
+        })->toArray();
         $attr_combo = $this->getAttrCombo($attrs);
         $product->skus()->delete();
         foreach ($attr_combo as $option) {
             $sku_data = [];
             $sku_data['product_id'] = $product->id;
+            $sku_data['price'] = $request->input('price', $product->price);
+            $sku_data['stock'] = $request->input('stock', $product->stock);
             if ($product->is_base_size_optional) {
                 $sku_data['base_size_en'] = $option['base_size']['data'];
             }

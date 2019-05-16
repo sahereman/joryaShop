@@ -3,18 +3,36 @@
           action="{{ route('admin.products.sku_generator_store', ['product' => $product->id]) }}">
         {{ csrf_field() }}
         <input type="hidden" name="attrs" value="">
+        @if ($errors->has('attrs'))
+            <p class="login_error error_content">
+                <i></i>
+                <span>{{ $errors->first('attrs') }}</span>
+            </p>
+        @endif
         <div class="box-header">
             <div class="pull-left col-lg-5">
                 <div class="col-lg-6">
                     <div class="input-group">
-                      <span class="input-group-addon">价格</span>
-                      <input type="text" class="form-control" name="price">
+                        <span class="input-group-addon">价格</span>
+                        <input type="number" step="0.01" min="0.01" class="form-control" name="price">
+                        @if ($errors->has('price'))
+                            <p class="login_error error_content">
+                                <i></i>
+                                <span>{{ $errors->first('price') }}</span>
+                            </p>
+                        @endif
                     </div>
                 </div>
                 <div class="col-lg-6">
                     <div class="input-group">
-                      <span class="input-group-addon">库存</span>
-                      <input type="text" class="form-control" name="stock">
+                        <span class="input-group-addon">库存</span>
+                        <input type="number" step="1" min="0" class="form-control" name="stock">
+                        @if ($errors->has('stock'))
+                            <p class="login_error error_content">
+                                <i></i>
+                                <span>{{ $errors->first('stock') }}</span>
+                            </p>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -24,6 +42,7 @@
             <div class="container-fluid">
                 <div class="row">
                     <!--col-md-4这个class值不是固定的。要根据不同的数目的表格来进行区分，总数为12，现在有3类每一类占4分，-->
+                    @if ($product->is_hair_colour_optional)
                     <div class="col-md-4">
                         <table class="table photo_tab" attr_name='hair_colour'>
                             <tr>
@@ -57,6 +76,8 @@
                             </tr>
                         </table>
                     </div>
+                    @endif
+                    @if ($product->is_base_size_optional)
                     <div class="col-md-4">
                         <table class="table" attr_name='base_size'>
                             <tr>
@@ -83,6 +104,8 @@
                             </tr>
                         </table>
                     </div>
+                    @endif
+                    @if ($product->is_hair_density_optional)
                     <div class="col-md-4">
                         <table class="table" attr_name='hair_density'>
                             <tr>
@@ -109,6 +132,7 @@
                             </tr>
                         </table>
                     </div>
+                    @endif
                 </div>
             </div>
         </div>
