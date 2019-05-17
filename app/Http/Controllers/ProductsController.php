@@ -311,6 +311,7 @@ class ProductsController extends Controller
                         ],
                         'sku' => [
                             'id' => $skus->first()->id,
+                            'photo' => $skus->first()->photo,
                             'stock' => $skus->first()->stock,
                             'sales' => $skus->first()->sales,
                             'price' => $skus->first()->price,
