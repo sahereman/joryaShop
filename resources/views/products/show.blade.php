@@ -646,7 +646,8 @@
                         if (requestType == "change") {
                             var base_sizes = data.data.parameters.base_sizes,
                                 hair_colours = data.data.parameters.hair_colours,
-                                hair_densities = data.data.parameters.hair_densities;
+                                hair_densities = data.data.parameters.hair_densities,
+                                sku_photo = data.data.sku.photo;
                             if (base_sizes.length != 0) {
                                 $.each(base_sizes, function (i, n) {
                                     base_size_options += "<option value='" + n + "'>" + n + "</option>"
@@ -658,6 +659,10 @@
                                     hair_colour_options += "<option value='" + n + "'>" + n + "</option>"
                                 });
                                 $(".kindofcolor select").html(hair_colour_options);
+                            }
+                            if(sku_photo!="") {
+                                $("#mediumContainer img").attr("src",sku_photo);
+                                $("#img_u img").attr("src",sku_photo);
                             }
                             if (hair_densities.length != 0) {
                                 $.each(hair_densities, function (i, n) {
@@ -711,6 +716,7 @@
                 getSkuParameters(query_data, "change", false);
             }
         });
+        //切换颜色选择项
         $(".kindofcolor select").on("change", function () {
             query_data.hair_colour = $(".kindofcolor select").val();
             getSkuParameters(query_data, "change", false);
