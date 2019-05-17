@@ -122,7 +122,7 @@ class BannersController extends Controller
 
         $form->image('image', 'Banner图')->rules('required|image')->help('PC首页尺寸:1920 * 780 , Mobile首页尺寸:960 * 390');
 
-        $form->url('link', '链接');
+        $form->text('link', '链接');
 
         $form->number('sort', '排序值');
 

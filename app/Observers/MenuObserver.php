@@ -35,5 +35,4 @@ class MenuObserver
         Cache::forget($menu::$pc_cache_key);
         Cache::forget($menu::$mobile_cache_key);
     }
-
 }

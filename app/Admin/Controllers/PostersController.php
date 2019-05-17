@@ -151,7 +151,7 @@ class PostersController extends Controller
         /*->help('可使用的标示 : pc_index_new_1 | pc_index_new_2 | pc_index_new_3 | ' .
             'pc_index_2f_1');*/
 
-        $form->url('link', '链接');
+        $form->text('link', '链接');
 
         // $form->switch('is_show', '是否显示');
 
