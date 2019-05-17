@@ -19,7 +19,7 @@ class CreatePostersTable extends Migration
             $table->string('slug')->nullable()->unique()->comment('调用使用时的标示位');
             $table->string('disk')->nullable()->comment('image-filesystem-disk:local|public|cloud');
             $table->string('image')->nullable(false)->comment('image-path');
-            $table->string('link')->nullable(false)->comment('link-url:eg.%poster-link-url%?page_id=1');
+            $table->string('link')->nullable(false)->default('')->comment('link-url:eg.%poster-link-url%?page_id=1');
 
             $table->timestamps();
         });

@@ -13,8 +13,8 @@ class SetColumnsNullableOfProductSkusTable extends Migration
     public function up()
     {
         Schema::table('product_skus', function (Blueprint $table) {
-            $table->string('name_zh')->nullable()->comment('中文名称')->change();
-            $table->unsignedDecimal('price', 8, 2)->nullable()->comment('价格')->change();
+            $table->string('name_zh')->nullable()->default('')->comment('中文名称')->change();
+            $table->unsignedDecimal('price', 8, 2)->nullable()->default(0.01)->comment('价格')->change();
             $table->unsignedInteger('stock')->nullable()->default(0)->comment('库存')->change();
             $table->unsignedInteger('sales')->nullable()->default(0)->comment('销量')->change();
         });

@@ -14,7 +14,7 @@ class AddLinkColumnToBannersTable extends Migration
     public function up()
     {
         Schema::table('banners', function (Blueprint $table) {
-            $table->string('link')->nullable(false)->comment('link-url:eg.%poster-link-url%?page_id=1');
+            $table->string('link')->nullable(false)->default('')->comment('link-url:eg.%banner-link-url%?page_id=1')->after('image');
         });
     }
 

@@ -18,6 +18,7 @@ class BannersSeeder extends Seeder
             'type' => 'index',
             'disk' => 'public',
             'image' => $faker->image($prefix_path, 1920, 780, null, false),
+            'link' => $faker->url,
             'sort' => 10,
         ]);
 
@@ -25,6 +26,7 @@ class BannersSeeder extends Seeder
             'type' => 'mobile',
             'disk' => 'public',
             'image' => $faker->image($prefix_path, 960, 390, null, false),
+            'link' => $faker->url,
             'sort' => 20,
         ]);
     }
