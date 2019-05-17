@@ -311,7 +311,7 @@ class ProductsController extends Controller
                         ],
                         'sku' => [
                             'id' => $skus->first()->id,
-                            'photo' => $skus->first()->photo,
+                            'photo' => $skus->first()->photo_url,
                             'stock' => $skus->first()->stock,
                             'sales' => $skus->first()->sales,
                             'price' => $skus->first()->price,
@@ -335,7 +335,7 @@ class ProductsController extends Controller
                         ],
                         'sku' => [
                             'id' => '',
-                            'photo' => '',
+                            'photo' => $skus->first()->photo_url,
                             'stock' => '',
                             'sales' => '',
                             'price' => '',
@@ -383,7 +383,7 @@ class ProductsController extends Controller
                 ],
                 'sku' => [
                     'id' => '',
-                    'photo' => '',
+                    'photo' => $skus->first()->photo_url,
                     'stock' => '',
                     'sales' => '',
                     'price' => '',

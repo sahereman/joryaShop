@@ -71,6 +71,7 @@ class ProductSku extends Model
         // 'price_in_usd',
         'parameters_zh',
         'parameters_en',
+        'photo_url',
     ];
 
     /*public function getPriceInUsdAttribute()
@@ -100,6 +101,18 @@ class ProductSku extends Model
         $parameters_en .= $product->is_hair_colour_optional ? ' - ' . $this->attributes['hair_colour_en'] : '';
         $parameters_en .= $product->is_hair_density_optional ? ' - ' . $this->attributes['hair_density_en'] : '';
         return $parameters_en;
+    }
+
+    public function getPhotoUrlAttribute()
+    {
+        if ($this->attributes['photo']) {
+            // 如果 photo 字段本身就已经是完整的 url 就直接返回
+            if (Str::startsWith($this->attributes['photo'], ['http://', 'https://'])) {
+                return $this->attributes['photo'];
+            }
+            return Storage::disk('public')->url($this->attributes['photo']);
+        }
+        return '';
     }
 
     public function product()
