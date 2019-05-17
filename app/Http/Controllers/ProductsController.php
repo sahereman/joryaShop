@@ -246,6 +246,7 @@ class ProductsController extends Controller
         $base_size = $request->query('base_size', false);
         $hair_colour = $request->query('hair_colour', false);
         $hair_density = $request->query('hair_density', false);
+        $photo_url = '';
 
         $is_locale_zh = App::isLocale('zh-CN');
 
@@ -265,6 +266,7 @@ class ProductsController extends Controller
                 if ($hair_colour) {
                     $parameter_count += 1;
                     $skus = $skus->where('hair_colour_zh', $hair_colour);
+                    $photo_url = $skus->first()->photo_url;
                 }
             }
             if ($product->is_hair_density_optional) {
@@ -287,6 +289,7 @@ class ProductsController extends Controller
                 if ($hair_colour) {
                     $parameter_count += 1;
                     $skus = $skus->where('hair_colour_en', $hair_colour);
+                    $photo_url = $skus->first()->photo_url;
                 }
             }
             if ($product->is_hair_density_optional) {
@@ -335,7 +338,7 @@ class ProductsController extends Controller
                         ],
                         'sku' => [
                             'id' => '',
-                            'photo' => $skus->first()->photo_url,
+                            'photo' => $photo_url,
                             'stock' => '',
                             'sales' => '',
                             'price' => '',
@@ -383,7 +386,7 @@ class ProductsController extends Controller
                 ],
                 'sku' => [
                     'id' => '',
-                    'photo' => $skus->first()->photo_url,
+                    'photo' => $photo_url,
                     'stock' => '',
                     'sales' => '',
                     'price' => '',

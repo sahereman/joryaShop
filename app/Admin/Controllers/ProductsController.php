@@ -406,7 +406,7 @@ class ProductsController extends Controller
             $form->image('photo', 'Photo')
                 ->deletable(true)
                 ->uniqueName()
-                ->removable()
+                // ->removable()
                 // ->rules('required')
                 ->move('original/' . date('Ym', now()->timestamp))
                 // ->help('Photo尺寸:420 * 380')
