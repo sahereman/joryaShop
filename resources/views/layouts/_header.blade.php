@@ -113,7 +113,68 @@
                                         <ul>
                                             @foreach($menu['children'] as $child)
                                                 <li>
-                                                    <a href="{{ $child['link'] }}"><span>{{ App::isLocale('zh-CN') ? $child['name_zh'] : $child['name_en'] }}</span></a>
+                                                    <!--循环生成子菜单内容nav-column,内容借用循环-->
+                                                    <div class="nav-column">
+                                                    	<a class="nav-panel-one" href="{{ $child['link'] }}">
+                                                            <span>{{ App::isLocale('zh-CN') ? $child['name_zh'] : $child['name_en'] }}</span>
+                                                        </a>
+                                                        <div class="nav-panel-two">
+                                                            <div class="nav-two-item">
+                                                                <a href="{{ $child['link'] }}">
+                                                                    <span>要改{{ App::isLocale('zh-CN') ? $child['name_zh'] : $child['name_en'] }}</span>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="nav-column">
+                                                        <a class="nav-panel-one" href="{{ $child['link'] }}">
+                                                            <span>{{ App::isLocale('zh-CN') ? $child['name_zh'] : $child['name_en'] }}</span>
+                                                        </a>
+                                                        <div class="nav-panel-two">
+                                                            <div class="nav-two-item">
+                                                                <a href="{{ $child['link'] }}">
+                                                                    <span>要改{{ App::isLocale('zh-CN') ? $child['name_zh'] : $child['name_en'] }}</span>
+                                                                </a>
+                                                            </div>
+                                                            <div class="nav-two-item">
+                                                                <a href="{{ $child['link'] }}">
+                                                                    <span>要改{{ App::isLocale('zh-CN') ? $child['name_zh'] : $child['name_en'] }}</span>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="nav-column">
+                                                        <a class="nav-panel-one" href="{{ $child['link'] }}">
+                                                            <span>{{ App::isLocale('zh-CN') ? $child['name_zh'] : $child['name_en'] }}</span>
+                                                        </a>
+                                                        <div class="nav-panel-two">
+                                                            <div class="nav-two-item">
+                                                                <a href="{{ $child['link'] }}">
+                                                                    <span>要改{{ App::isLocale('zh-CN') ? $child['name_zh'] : $child['name_en'] }}</span>
+                                                                </a>
+                                                            </div>
+                                                            <div class="nav-two-item">
+                                                                <a href="{{ $child['link'] }}">
+                                                                    <span>要改{{ App::isLocale('zh-CN') ? $child['name_zh'] : $child['name_en'] }}</span>
+                                                                </a>
+                                                            </div>
+                                                            <div class="nav-two-item">
+                                                                <a href="{{ $child['link'] }}">
+                                                                    <span>要改{{ App::isLocale('zh-CN') ? $child['name_zh'] : $child['name_en'] }}</span>
+                                                                </a>
+                                                            </div>
+                                                            <div class="nav-two-item">
+                                                                <a href="{{ $child['link'] }}">
+                                                                    <span>要改{{ App::isLocale('zh-CN') ? $child['name_zh'] : $child['name_en'] }}</span>
+                                                                </a>
+                                                            </div>
+                                                            <div class="nav-two-item">
+                                                                <a href="{{ $child['link'] }}">
+                                                                    <span>要改{{ App::isLocale('zh-CN') ? $child['name_zh'] : $child['name_en'] }}</span>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </li>
                                             @endforeach
                                         </ul>
