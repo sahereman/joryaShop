@@ -483,41 +483,47 @@ img {
                                 li {
                                     margin-left: 0;
                                     width: 190px;
-                                    white-space: nowrap;
                                     overflow: hidden;
                                     text-align: left;
                                     margin-right: 25px;
-                                    text-overflow: ellipsis;
                                     &:nth-of-type(4n) {
                                         margin-right: 0;
                                     }
-                                    a {
-                                        overflow: hidden;
-                                        text-overflow: ellipsis;
-                                        span {
-                                            overflow: hidden;
-                                            text-overflow: ellipsis;
+                                    .nav-column {
+                                        line-height: 25px;
+                                        margin-bottom: 5px;
+                                        >a {
+                                            span {
+                                                display: inline-block;
+                                                width: 100%;
+                                            }
+                                            &.nav-panel-one {
+                                                width: 100%;
+                                                display: inline-block;
+                                                line-height: 18px;
+                                                color: #515862;
+                                                font-size: 15px;
+                                                font-weight: bold;
+                                            }
                                         }
-                                        &.nav-panel-one {
-                                            overflow: inherit;
-                                            white-space: normal;
-                                            line-height: 25px;
-                                            color: #515862;
-                                            font-size: 15px;
-                                            font-weight: bold;
-                                        }
-                                    }
-                                    .nav-panel-two {
-                                        width: 100%;
-                                        display: flex;
-                                        flex-direction: column;
-                                        .nav-two-item {
+                                        .nav-panel-two {
                                             width: 100%;
-                                            line-height: 30px;
-                                            a {
-                                                color: #a7a6a6;
-                                                &:hover {
-                                                    color: #bc8c61;
+                                            display: flex;
+                                            flex-direction: column;
+                                            padding-left: 10px;
+                                            .nav-two-item {
+                                                width: 100%;
+                                                height: 25px;
+                                                a {
+                                                    white-space: nowrap;
+                                                    display: inline-block;
+                                                    width: 100%;
+                                                    overflow: hidden;
+                                                    text-overflow: ellipsis;
+                                                    color: #a7a6a6;
+                                                    &:hover {
+                                                        color: #bc8c61;
+                                                    }
                                                 }
                                             }
                                         }

@@ -188,6 +188,9 @@
                         @endif
                     @endforeach
 
+
+
+
                     {{--固定的导航栏目--}}
                     <li class="first_menu">
                         <a href="{{url('articles/starting_a_purchase')}}">STARTING A PURCHASE</a>
