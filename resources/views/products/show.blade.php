@@ -659,10 +659,11 @@
                                     hair_colour_options += "<option value='" + n + "'>" + n + "</option>"
                                 });
                                 $(".kindofcolor select").html(hair_colour_options);
-                            }
-                            if(sku_photo!="") {
-                                $("#mediumContainer img").attr("src",sku_photo);
-                                $("#img_u img").attr("src",sku_photo);
+                            }else {
+                                if(sku_photo!="") {
+                                    $("#mediumContainer img").attr("src",sku_photo);
+                                    $("#img_u img").attr("src",sku_photo);
+                                }   
                             }
                             if (hair_densities.length != 0) {
                                 $.each(hair_densities, function (i, n) {
