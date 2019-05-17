@@ -335,6 +335,7 @@ class ProductsController extends Controller
                         ],
                         'sku' => [
                             'id' => '',
+                            'photo' => '',
                             'stock' => '',
                             'sales' => '',
                             'price' => '',
@@ -382,6 +383,7 @@ class ProductsController extends Controller
                 ],
                 'sku' => [
                     'id' => '',
+                    'photo' => '',
                     'stock' => '',
                     'sales' => '',
                     'price' => '',
