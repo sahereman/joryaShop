@@ -23,7 +23,9 @@ use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\MessageBag;
+use Illuminate\Support\ViewErrorBag;
 
 class ProductsController extends Controller
 {
@@ -620,12 +622,20 @@ class ProductsController extends Controller
         return $this->attr_combo;
     }
 
-    public function skuGeneratorShow(Product $product, Content $content)
+    public function skuGeneratorShow(Request $request, Product $product, Content $content)
     {
+        $errors = $request->session()->get('errors');
+        $messages = [];
+        if ($errors instanceof ViewErrorBag) {
+            $messages = $errors->getMessages();
+        }
         return $content
             ->header('商品管理')
             ->description('商品 - SKU生成器')
-            ->body(view('admin.product.sku_generator', ['product' => $product]));
+            ->body(view('admin.product.sku_generator', [
+                'product' => $product,
+                'messages' => $messages,
+            ]));
     }
 
     /**

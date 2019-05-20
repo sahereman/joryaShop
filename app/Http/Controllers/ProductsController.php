@@ -266,7 +266,6 @@ class ProductsController extends Controller
                 if ($hair_colour) {
                     $parameter_count += 1;
                     $skus = $skus->where('hair_colour_zh', $hair_colour);
-                    $photo_url = $skus->first()->photo_url;
                 }
             }
             if ($product->is_hair_density_optional) {
@@ -289,7 +288,6 @@ class ProductsController extends Controller
                 if ($hair_colour) {
                     $parameter_count += 1;
                     $skus = $skus->where('hair_colour_en', $hair_colour);
-                    $photo_url = $skus->first()->photo_url;
                 }
             }
             if ($product->is_hair_density_optional) {
@@ -338,7 +336,7 @@ class ProductsController extends Controller
                         ],
                         'sku' => [
                             'id' => '',
-                            'photo' => $photo_url,
+                            'photo' => '',
                             'stock' => '',
                             'sales' => '',
                             'price' => '',
@@ -352,6 +350,10 @@ class ProductsController extends Controller
                     ],
                 ]);
             }
+        }
+
+        if ($sku_count > 0) {
+            $photo_url = $skus->first()->photo_url;
         }
 
         if ($is_locale_zh) {

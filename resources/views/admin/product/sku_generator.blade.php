@@ -1,38 +1,33 @@
+@if ($messages)
+    <div class="alert alert-danger alert-dismissable">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+        @foreach ($messages as $message)
+            <h4>
+                <i class="icon fa fa-ban"></i>
+                {{ $message[0] }}
+            </h4>
+            <p></p>
+            @break
+        @endforeach
+    </div>
+@endif
 <div class="box">
     <form role="form" method="POST" enctype="multipart/form-data"
           action="{{ route('admin.products.sku_generator_store', ['product' => $product->id]) }}">
         {{ csrf_field() }}
         <input type="hidden" name="attrs" value="">
-        @if ($errors->has('attrs'))
-            <p class="login_error error_content">
-                <i></i>
-                <span>{{ $errors->first('attrs') }}</span>
-            </p>
-        @endif
         <div class="box-header">
             <div class="pull-left col-lg-5">
                 <div class="col-lg-6">
                     <div class="input-group">
                         <span class="input-group-addon">价格</span>
                         <input type="number" step="0.01" min="0.01" class="form-control" name="price">
-                        @if ($errors->has('price'))
-                            <p class="login_error error_content">
-                                <i></i>
-                                <span>{{ $errors->first('price') }}</span>
-                            </p>
-                        @endif
                     </div>
                 </div>
                 <div class="col-lg-6">
                     <div class="input-group">
                         <span class="input-group-addon">库存</span>
                         <input type="number" step="1" min="0" class="form-control" name="stock">
-                        @if ($errors->has('stock'))
-                            <p class="login_error error_content">
-                                <i></i>
-                                <span>{{ $errors->first('stock') }}</span>
-                            </p>
-                        @endif
                     </div>
                 </div>
             </div>
@@ -43,14 +38,14 @@
                 <div class="row">
                     <!--col-md-4这个class值不是固定的。要根据不同的数目的表格来进行区分，总数为12，现在有3类每一类占4分，-->
                     @if ($product->is_hair_colour_optional)
-                    <div class="col-md-4">
-                        <table class="table photo_tab" attr_name='hair_colour'>
-                            <tr>
-                                <th>Hair Colour</th>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="input-group">
+                        <div class="col-md-4">
+                            <table class="table photo_tab" attr_name='hair_colour'>
+                                <tr>
+                                    <th>Hair Colour</th>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="input-group">
                                     <span class="input-group-btn pic_btn" style="overflow: hidden;">
                                         <img src="{{ asset('img/pic_upload.png') }}"
                                              style="height: 34px;border: 1px solid #ccc;padding: 2px;">
@@ -58,80 +53,80 @@
                                                style="opacity: 0;position: absolute;top: 0;width: 100%;height: 100%;"
                                                onchange="imgChange(this)">
                                     </span>
-                                        <input type="text" name="hair_colour" data_path='' class="form-control">
+                                            <input type="text" name="hair_colour" data_path='' class="form-control">
                                     <span class="input-group-btn">
                                         <button class="btn btn-danger" type="button" onclick="delCol()">
                                             <span class="glyphicon glyphicon-remove"></span>
                                         </button>
                                     </span>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <button type="button" attr_name="hair_colour" class="btn-group btn btn-primary"
-                                            onclick="addCol()">增加
-                                    </button>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <button type="button" attr_name="hair_colour" class="btn-group btn btn-primary"
+                                                onclick="addCol()">增加
+                                        </button>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
                     @endif
                     @if ($product->is_base_size_optional)
-                    <div class="col-md-4">
-                        <table class="table" attr_name='base_size'>
-                            <tr>
-                                <th>Hair Size</th>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="input-group">
-                                        <input type="text" name="base_size" class="form-control">
+                        <div class="col-md-4">
+                            <table class="table" attr_name='base_size'>
+                                <tr>
+                                    <th>Hair Size</th>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="input-group">
+                                            <input type="text" name="base_size" class="form-control">
                                     <span class="input-group-btn">
                                         <button class="btn btn-danger" type="button" onclick="delCol()">
                                             <span class="glyphicon glyphicon-remove"></span>
                                         </button>
                                     </span>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <button type="button" attr_name="base_size" class="btn-group btn btn-primary"
-                                            onclick="addCol()">增加
-                                    </button>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <button type="button" attr_name="base_size" class="btn-group btn btn-primary"
+                                                onclick="addCol()">增加
+                                        </button>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
                     @endif
                     @if ($product->is_hair_density_optional)
-                    <div class="col-md-4">
-                        <table class="table" attr_name='hair_density'>
-                            <tr>
-                                <th>Hair Density</th>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="input-group">
-                                        <input type="text" name="hair_density" class="form-control">
+                        <div class="col-md-4">
+                            <table class="table" attr_name='hair_density'>
+                                <tr>
+                                    <th>Hair Density</th>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="input-group">
+                                            <input type="text" name="hair_density" class="form-control">
                                     <span class="input-group-btn">
                                         <button class="btn btn-danger" type="button" onclick="delCol()">
                                             <span class="glyphicon glyphicon-remove"></span>
                                         </button>
                                     </span>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <button type="button" attr_name="hair_density" class="btn-group btn btn-primary"
-                                            onclick="addCol()">增加
-                                    </button>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <button type="button" attr_name="hair_density" class="btn-group btn btn-primary"
+                                                onclick="addCol()">增加
+                                        </button>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
                     @endif
                 </div>
             </div>
