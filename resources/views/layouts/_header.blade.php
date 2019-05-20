@@ -101,109 +101,85 @@
                             <img src="{{ asset('img/home2.png') }}">
                         </a>
                     </li>
-                    @foreach(\App\Models\Menu::pcMenus() as $menu)
-                        @if($menu->children->isNotEmpty())
+                    @foreach(\App\Models\Menu::pcMenus() as $key => $menu)
+                        @if(isset($menu['parent']))
                             <li class="first_menu">
-                                <a href="{{ $menu->link }}">
-                                    {{ App::isLocale('zh-CN') ? $menu->name_zh : $menu->name_en }}
+                                <a href="{{ $menu['parent']->link }}">
+                                    {{ App::isLocale('zh-CN') ? $menu['parent']->name_zh : $menu['parent']->name_en }}
                                 </a>
                                 <!--二级菜单内容-->
-                                <div class="nav-panel-dropdown">
-                                    <ul>
-                                        <li>
-                                            @foreach($menu['children'] as $key => $child)
-                                                @if(($key%4) == 0)
+                                @if(isset($menu['children']))
+                                    <div class="nav-panel-dropdown">
+                                        <ul>
+                                            @foreach($menu['children'] as $child)
+                                                <li>
+                                                    <!--循环生成子菜单内容nav-column,内容借用循环-->
+                                                    <div class="nav-column">
+                                                    	<a class="nav-panel-one" href="{{ $child['link'] }}">
+                                                            <span>{{ App::isLocale('zh-CN') ? $child['name_zh'] : $child['name_en'] }}</span>
+                                                        </a>
+                                                        <div class="nav-panel-two">
+                                                            <div class="nav-two-item">
+                                                                <a href="{{ $child['link'] }}">
+                                                                    <span>要改{{ App::isLocale('zh-CN') ? $child['name_zh'] : $child['name_en'] }}</span>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                     <div class="nav-column">
                                                         <a class="nav-panel-one" href="{{ $child['link'] }}">
                                                             <span>{{ App::isLocale('zh-CN') ? $child['name_zh'] : $child['name_en'] }}</span>
                                                         </a>
-                                                        @if($child->children->isNotEmpty())
-                                                            <div class="nav-panel-two">
-                                                                @foreach($child['children'] as $sub_child)
-                                                                    <div class="nav-two-item">
-                                                                        <a href="{{ $sub_child['link'] }}">
-                                                                            <span>{{ App::isLocale('zh-CN') ? $sub_child['name_zh'] : $sub_child['name_en'] }}</span>
-                                                                        </a>
-                                                                    </div>
-                                                                @endforeach
+                                                        <div class="nav-panel-two">
+                                                            <div class="nav-two-item">
+                                                                <a href="{{ $child['link'] }}">
+                                                                    <span>要改{{ App::isLocale('zh-CN') ? $child['name_zh'] : $child['name_en'] }}</span>
+                                                                </a>
                                                             </div>
-                                                        @endif
+                                                            <div class="nav-two-item">
+                                                                <a href="{{ $child['link'] }}">
+                                                                    <span>要改{{ App::isLocale('zh-CN') ? $child['name_zh'] : $child['name_en'] }}</span>
+                                                                </a>
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                @endif
-                                            @endforeach
-                                        </li>
-
-                                        <li>
-                                            @foreach($menu['children'] as $key => $child)
-                                                @if(($key%4) == 1)
                                                     <div class="nav-column">
                                                         <a class="nav-panel-one" href="{{ $child['link'] }}">
                                                             <span>{{ App::isLocale('zh-CN') ? $child['name_zh'] : $child['name_en'] }}</span>
                                                         </a>
-                                                        @if($child->children->isNotEmpty())
-                                                            <div class="nav-panel-two">
-                                                                @foreach($child['children'] as $sub_child)
-                                                                    <div class="nav-two-item">
-                                                                        <a href="{{ $sub_child['link'] }}">
-                                                                            <span>{{ App::isLocale('zh-CN') ? $sub_child['name_zh'] : $sub_child['name_en'] }}</span>
-                                                                        </a>
-                                                                    </div>
-                                                                @endforeach
+                                                        <div class="nav-panel-two">
+                                                            <div class="nav-two-item">
+                                                                <a href="{{ $child['link'] }}">
+                                                                    <span>要改{{ App::isLocale('zh-CN') ? $child['name_zh'] : $child['name_en'] }}</span>
+                                                                </a>
                                                             </div>
-                                                        @endif
-                                                    </div>
-                                                @endif
-                                            @endforeach
-                                        </li>
-
-                                        <li>
-                                            @foreach($menu['children'] as $key => $child)
-                                                @if(($key%4) == 2)
-                                                    <div class="nav-column">
-                                                        <a class="nav-panel-one" href="{{ $child['link'] }}">
-                                                            <span>{{ App::isLocale('zh-CN') ? $child['name_zh'] : $child['name_en'] }}</span>
-                                                        </a>
-                                                        @if($child->children->isNotEmpty())
-                                                            <div class="nav-panel-two">
-                                                                @foreach($child['children'] as $sub_child)
-                                                                    <div class="nav-two-item">
-                                                                        <a href="{{ $sub_child['link'] }}">
-                                                                            <span>{{ App::isLocale('zh-CN') ? $sub_child['name_zh'] : $sub_child['name_en'] }}</span>
-                                                                        </a>
-                                                                    </div>
-                                                                @endforeach
+                                                            <div class="nav-two-item">
+                                                                <a href="{{ $child['link'] }}">
+                                                                    <span>要改{{ App::isLocale('zh-CN') ? $child['name_zh'] : $child['name_en'] }}</span>
+                                                                </a>
                                                             </div>
-                                                        @endif
-                                                    </div>
-                                                @endif
-                                            @endforeach
-                                        </li>
-
-                                        <li>
-                                            @foreach($menu['children'] as $key => $child)
-                                                @if(($key%4) == 3)
-                                                    <div class="nav-column">
-                                                        <a class="nav-panel-one" href="{{ $child['link'] }}">
-                                                            <span>{{ App::isLocale('zh-CN') ? $child['name_zh'] : $child['name_en'] }}</span>
-                                                        </a>
-                                                        @if($child->children->isNotEmpty())
-                                                            <div class="nav-panel-two">
-                                                                @foreach($child['children'] as $sub_child)
-                                                                    <div class="nav-two-item">
-                                                                        <a href="{{ $sub_child['link'] }}">
-                                                                            <span>{{ App::isLocale('zh-CN') ? $sub_child['name_zh'] : $sub_child['name_en'] }}</span>
-                                                                        </a>
-                                                                    </div>
-                                                                @endforeach
+                                                            <div class="nav-two-item">
+                                                                <a href="{{ $child['link'] }}">
+                                                                    <span>要改{{ App::isLocale('zh-CN') ? $child['name_zh'] : $child['name_en'] }}</span>
+                                                                </a>
                                                             </div>
-                                                        @endif
+                                                            <div class="nav-two-item">
+                                                                <a href="{{ $child['link'] }}">
+                                                                    <span>要改{{ App::isLocale('zh-CN') ? $child['name_zh'] : $child['name_en'] }}</span>
+                                                                </a>
+                                                            </div>
+                                                            <div class="nav-two-item">
+                                                                <a href="{{ $child['link'] }}">
+                                                                    <span>要改{{ App::isLocale('zh-CN') ? $child['name_zh'] : $child['name_en'] }}</span>
+                                                                </a>
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                @endif
+                                                </li>
                                             @endforeach
-                                        </li>
-
-                                    </ul>
-                                </div>
+                                        </ul>
+                                    </div>
+                                @endif
                             </li>
                         @else
                             <li class="first_menu">
@@ -211,6 +187,83 @@
                             </li>
                         @endif
                     @endforeach
+
+
+
+
+                    {{--固定的导航栏目--}}
+                    <li class="first_menu">
+                        <a href="{{url('articles/starting_a_purchase')}}">STARTING A PURCHASE</a>
+                        <div class="nav-panel-dropdown">
+                            <ul>
+                                <li>
+                                    <a href="{{ route('articles.show', ['slug' => 'how_to_send_in_samples']) }}">
+                                        <span>How To send in samples</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('articles.show', ['slug' => 'existing_client_reorder']) }}">
+                                        <span>Existing client reorder</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('articles.show', ['slug' => 'hair_duplication']) }}">
+                                        <span>Hair duplication</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('articles.show', ['slug' => 'repair_old_system']) }}">
+                                        <span>Repair old system</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{url('storage/LYRICAL%20HAIR%20ORDER%20FORM.doc')}}">
+                                        <span>Download the Custom Order Form</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('articles.show', ['slug' => 'order_tools_reference']) }}">
+                                        <span>Order Tools Reference</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{url('storage/Download the Catalogue.docx')}}">
+                                        <span>Download Catalogue</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('articles.show', ['slug' => 'return_policy']) }}">
+                                        <span>Return Policy</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('articles.show', ['slug' => 'positive_comments']) }}">
+                                        <span>Positive comments</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('articles.show', ['slug' => 'common_order_mistakes']) }}">
+                                        <span>Common Order Mistakes</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('articles.show', ['slug' => 'hair_care']) }}">
+                                        <span>Hair care</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('articles.show', ['slug' => 'send_in_templates_&_hair']) }}">
+                                        <span>Send in templates & Hair</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('articles.show', ['slug' => 'samples']) }}">
+                                        <span>Samples</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
 
                 </ul>
                 <div class="pull-right header-search">

@@ -40,7 +40,7 @@ class Menu extends Model
      * @var array
      */
     protected $hidden = [
-        //        'icon', // 备用字段
+        'icon', // 备用字段
     ];
 
     /**
@@ -54,10 +54,17 @@ class Menu extends Model
     // Cache 生命周期: 24小时
     protected static $cache_expire_in_minutes = 1440;
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        self::$pc_cache_key = config('app.name') . '_pc_menus';
+        self::$mobile_cache_key = config('app.name') . '_mobile_menus';
+    }
+
     // PC Menu
     public static function pcMenus()
     {
-        self::$pc_cache_key = config('app.name') . '_pc_menus';
         // 尝试从缓存中取出 cache_key 对应的数据。如果能取到，便直接返回数据。
         // 否则运行匿名函数中的代码来取出 menus 表中所有的数据，返回的同时做了缓存。
         return Cache::remember(self::$pc_cache_key, self::$cache_expire_in_minutes, function () {
@@ -72,7 +79,6 @@ class Menu extends Model
     // Mobile Menu
     public static function mobileMenus()
     {
-        self::$mobile_cache_key = config('app.name') . '_mobile_menus';
         // 尝试从缓存中取出 cache_key 对应的数据。如果能取到，便直接返回数据。
         // 否则运行匿名函数中的代码来取出 menus 表中所有的数据，返回的同时做了缓存。
         return Cache::remember(self::$mobile_cache_key, self::$cache_expire_in_minutes, function () {

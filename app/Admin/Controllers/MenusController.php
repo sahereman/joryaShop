@@ -74,9 +74,8 @@ class MenusController extends Controller
     {
         return Menu::tree(function (Tree $tree) {
             $tree->branch(function ($branch) {
-                $text = $branch['parent_id'] == 0 ? '<span class="label label-success">' . $branch['slug'] . '</span>' : '';
                 // return "ID:{$branch['id']} - {$branch['name_zh']} " . $text;
-                return "ID:{$branch['id']} - {$branch['name_en']} " . $text;
+                return "ID:{$branch['id']} - {$branch['name_en']} ";
             });
         });
     }
@@ -133,9 +132,9 @@ class MenusController extends Controller
     {
         $form = new Form(new Menu);
 
-        $parent_menus = Menu::where('parent_id', 0)->orderBy('sort')->get()->mapWithKeys(function ($item) {
+        $parent_menus = Menu::where('parent_id', 0)->get()->mapWithKeys(function ($item) {
             // return [$item['id'] => $item['name_zh']];
-            return [$item['id'] => $item['name_en'] . ' (' . $item['slug'].')'];
+            return [$item['id'] => $item['name_en']];
         });
         $parent_menus->prepend('顶级分类', 0);
 

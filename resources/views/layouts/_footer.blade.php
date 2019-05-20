@@ -45,8 +45,7 @@
     <div class="footer-top">
         <div class="m-wrapper">
             <div class="contact_us">
-                {{--<h4>{{ \App\Models\Config::config('service_phone') }}</h4>--}}
-                <h4>Call Skype</h4>
+                <h4>{{ \App\Models\Config::config('service_phone') }}</h4>
                 <p>@lang('app.Monday-Sunday') 9:00-21:00</p>
                 <a href="{{ route('root') }}">@lang('app.Contact Customer Service')</a>
             </div>
@@ -284,7 +283,7 @@
                                 </p>
                             @endif
                         </li>
-                    </ul>
+                    </ul>   
                 </form>
                 <div class="switch-back">
                     <p class="agreement_content">
@@ -339,7 +338,7 @@
                                 </p>
                             @endif
                         </li>
-                    </ul>
+                    </ul>  
                 </form>
                 <form id="mailbox_login" action="{{ route('login.verify_sms_code') }}" method="POST">
                     <p id="login_token_code" class="dis_n">{{ csrf_field() }}</p>
