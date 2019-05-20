@@ -2,16 +2,31 @@
 
 namespace App\Models;
 
+use Encore\Admin\Traits\AdminBuilder;
+use Encore\Admin\Traits\ModelTree;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Cache;
 
 class Menu extends Model
 {
+    use ModelTree, AdminBuilder;
+
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+
+        /*初始化Tree属性*/
+        // $this->setTitleColumn('name_zh');
+        $this->setTitleColumn('name_en');
+        $this->setOrderColumn('sort');
+    }
+
     /**
      * The attributes that are mass assignable.
      * @var array
      */
     protected $fillable = [
+        'parent_id',
         'name_en',
         'name_zh',
         'slug',
@@ -53,31 +68,10 @@ class Menu extends Model
         // 尝试从缓存中取出 cache_key 对应的数据。如果能取到，便直接返回数据。
         // 否则运行匿名函数中的代码来取出 menus 表中所有的数据，返回的同时做了缓存。
         return Cache::remember(self::$pc_cache_key, self::$cache_expire_in_minutes, function () {
-            $pc_menus = self::where('slug', 'pc')->orderBy('sort')->get();
-            foreach ($pc_menus as $key => &$pc_menu) {
-                if (preg_match('/product_categories\/(\d+)$/', $pc_menu['link'], $matches)) {
-                    $category = ProductCategory::find($matches[1]);
-                    if ($category) {
-                        $children = $category->children;
-                        if ($children) {
-                            foreach ($children as $i => &$child) {
-                                $children[$i] = [
-                                    'name_en' => $child->name_en,
-                                    'name_zh' => $child->name_zh,
-                                    'icon' => '',
-                                    'slug' => 'pc',
-                                    'link' => route('product_categories.index', ['category' => $child->id]),
-                                    'sort' => $pc_menu->sort,
-                                ];
-                            }
-                            $pc_menus[$key] = [
-                                'parent' => $pc_menu,
-                                'children' => $children,
-                            ];
-                        }
-                    }
-                }
-            }
+            $pc_menus = self::where([
+                'slug' => 'pc',
+                'parent_id' => 0,
+            ])->orderBy('sort')->with('children.children')->get();
             return $pc_menus;
         });
     }
@@ -90,5 +84,15 @@ class Menu extends Model
         return Cache::remember(self::$mobile_cache_key, self::$cache_expire_in_minutes, function () {
             return Menu::where('slug', 'mobile')->orderBy('sort')->get();
         });
+    }
+
+    public function children()
+    {
+        return $this->hasMany(self::class, 'parent_id', 'id');
+    }
+
+    public function parent()
+    {
+        return $this->belongsTo(self::class, 'parent_id');
     }
 }

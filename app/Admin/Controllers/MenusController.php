@@ -2,6 +2,7 @@
 
 namespace App\Admin\Controllers;
 
+use App\Http\Requests\Request;
 use App\Models\Menu;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\HasResourceActions;
@@ -9,6 +10,7 @@ use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
+use Encore\Admin\Tree;
 
 class MenusController extends Controller
 {
@@ -19,12 +21,12 @@ class MenusController extends Controller
      * @param Content $content
      * @return Content
      */
-    public function index(Content $content)
+    public function index(Content $content, Request $request)
     {
         return $content
             ->header('导航菜单管理')
             ->description('列表')
-            ->body($this->grid());
+            ->body($this->tree());
     }
 
     /**
@@ -68,11 +70,21 @@ class MenusController extends Controller
             ->body($this->form());
     }
 
+    protected function tree()
+    {
+        return Menu::tree(function (Tree $tree) {
+            $tree->branch(function ($branch) {
+                // return "ID:{$branch['id']} - {$branch['name_zh']} " . $text;
+                return "ID:{$branch['id']} - {$branch['name_en']} ";
+            });
+        });
+    }
+
     /**
      * Make a grid builder.
      * @return Grid
      */
-    protected function grid()
+    /*protected function grid()
     {
         $grid = new Grid(new Menu);
         $grid->model()->orderBy('slug', 'desc'); // 设置初始排序条件
@@ -85,7 +97,7 @@ class MenusController extends Controller
         $grid->sort('排序值')->sortable();
 
         return $grid;
-    }
+    }*/
 
     /**
      * Make a show builder.
@@ -103,6 +115,12 @@ class MenusController extends Controller
         $show->link('链接');
         $show->sort('排序值');
 
+        $show->parent('上级栏目', function ($parent_menu) {
+            $parent_menu->id('ID');
+            // $parent_menu->name_zh('名称(中文)');
+            $parent_menu->name_en('名称(英文)');
+        });
+
         return $show;
     }
 
@@ -114,6 +132,13 @@ class MenusController extends Controller
     {
         $form = new Form(new Menu);
 
+        $parent_menus = Menu::where('parent_id', 0)->get()->mapWithKeys(function ($item) {
+            // return [$item['id'] => $item['name_zh']];
+            return [$item['id'] => $item['name_en']];
+        });
+        $parent_menus->prepend('顶级分类', 0);
+
+        $form->select('parent_id', '上级分类')->options($parent_menus)->rules('required');
         // $form->text('name_zh', '名称(中文)')->rules('required');
         $form->hidden('name_zh', '名称(中文)')->default('lyrical');
         $form->text('name_en', '名称(英文)')->rules('required');
@@ -123,7 +148,7 @@ class MenusController extends Controller
             'mobile' => 'Mobile站'
         ])->rules('required');
 
-        $form->url('link', '链接');
+        $form->text('link', '链接');
         $form->number('sort', '排序值');
 
         return $form;

@@ -19,12 +19,14 @@ class MenusSeeder extends Seeder
             ->get();
         $categories->each(function (ProductCategory $category) {
             factory(Menu::class)->create([
+                'parent_id' => 0,
                 'name_en' => $category->name_en,
                 'name_zh' => $category->name_zh,
                 'slug' => 'pc',
                 'link' => route('product_categories.index', ['category' => $category->id]),
             ]);
             factory(Menu::class)->create([
+                'parent_id' => 0,
                 'name_en' => $category->name_en,
                 'name_zh' => $category->name_zh,
                 'slug' => 'mobile',
