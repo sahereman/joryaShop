@@ -113,10 +113,10 @@
             <div class="buy for_show_login"
                  data-url="{{ route('mobile.login.show') }}">@lang('product.product_details.Buy now')</div>
             @else
-            <div class="addCart" data-url="{{ route('carts.store') }}">@lang('app.Add to Shopping Cart')</div>
-            <div class="buy"
-                 data-url="{{ route('mobile.orders.pre_payment') }}">@lang('product.product_details.Buy now')</div>
-            @endguest
+                <div class="addCart" data-url="{{ route('carts.store') }}">@lang('app.Add to Shopping Cart')</div>
+                <div class="buy"
+                     data-url="{{ route('mobile.orders.pre_payment') }}">@lang('product.product_details.Buy now')</div>
+                @endguest
         </div>
         <div class="skuBox">
             <div class="mask"></div>
@@ -144,8 +144,8 @@
                     <div class="skuListHead kindofsize">
                         <span>@lang('product.product_details.base_size')</span>
                         <select name="base_size" title="base_sizes">
-                            @if(count($parameters[trans('product.base_size')]) > 0)
-                                @foreach($parameters[trans('product.base_size')] as $base_size)
+                            @if(count($parameters['base_sizes']) > 0)
+                                @foreach($parameters['base_sizes'] as $base_size)
                                     <option value="{{ $base_size }}">{{ $base_size }}</option>
                                 @endforeach
                             @endif
@@ -154,8 +154,8 @@
                     <div class="skuListHead kindofcolor">
                         <span>@lang('product.product_details.hair_colour')</span>
                         <select name="hair_colour" title="hair_colours">
-                            @if(count($parameters[trans('product.hair_colour')]) > 0)
-                                @foreach($parameters[trans('product.hair_colour')] as $hair_colour)
+                            @if(count($parameters['hair_colours']) > 0)
+                                @foreach($parameters['hair_colours'] as $hair_colour)
                                     <option value="{{ $hair_colour }}">{{ $hair_colour }}</option>
                                 @endforeach
                             @endif
@@ -164,8 +164,8 @@
                     <div class="skuListHead kindofdensity">
                         <span>@lang('product.product_details.hair_density')</span>
                         <select name="hair_density" title="hair_densities">
-                            @if(count($parameters[trans('product.hair_density')]) > 0)
-                                @foreach($parameters[trans('product.hair_density')] as $hair_density)
+                            @if(count($parameters['hair_densities']) > 0)
+                                @foreach($parameters['hair_densities'] as $hair_density)
                                     <option value="{{ $hair_density }}">{{ $hair_density }}</option>
                                 @endforeach
                             @endif
