@@ -66,7 +66,7 @@
                                 <h3>{{ App::isLocale('zh-CN') ? $category_products['category']->name_zh : $category_products['category']->name_en }}</h3>
                             </a>
                             <!--查看更多需要数据修改-->
-                            @if (count($category_products['children']) > 4)
+                            @if (count($category_products['children']) > 5)
                             <div class="pull-right more_menu dropdown">
                                 <a href="javascript:void(0)" title="more" data-toggle="dropdown">
                                     <span class="iconfont">&#xe617;</span>
@@ -144,7 +144,7 @@
                                     <span class="iconfont">&#xe617;</span>
                                     <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
                                         @foreach($category_products['children'] as $k => $child)
-                                            @if($k > 5)
+                                            @if($k > 4)
                                                 <li role="presentation">
                                                     <a role="menuitem" href="{{ route('product_categories.index', ['category' => $child->id]) }}">
                                                         {{ App::isLocale('zh-CN') ? $child->name_zh : $child->name_en }}
@@ -158,7 +158,7 @@
                             @endif
                             <ul class="pull-right">
                                 @foreach($category_products['children'] as $k => $child)
-                                    @if($k > 5)
+                                    @if($k > 4)
                                         @break
                                     @endif
                                     <li>
