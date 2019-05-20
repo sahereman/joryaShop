@@ -20,19 +20,25 @@ class MenuObserver
 
     public function created(Menu $menu)
     {
-        Cache::forget($menu::$pc_cache_key);
-        Cache::forget($menu::$mobile_cache_key);
+        $pc_cache_key = config('app.name') . '_pc_menus';
+        $mobile_cache_key = config('app.name') . '_mobile_menus';
+        Cache::forget($pc_cache_key);
+        Cache::forget($mobile_cache_key);
     }
 
     public function saved(Menu $menu)
     {
-        Cache::forget($menu::$pc_cache_key);
-        Cache::forget($menu::$mobile_cache_key);
+        $pc_cache_key = config('app.name') . '_pc_menus';
+        $mobile_cache_key = config('app.name') . '_mobile_menus';
+        Cache::forget($pc_cache_key);
+        Cache::forget($mobile_cache_key);
     }
 
     public function deleted(Menu $menu)
     {
-        Cache::forget($menu::$pc_cache_key);
-        Cache::forget($menu::$mobile_cache_key);
+        $pc_cache_key = config('app.name') . '_pc_menus';
+        $mobile_cache_key = config('app.name') . '_mobile_menus';
+        Cache::forget($pc_cache_key);
+        Cache::forget($mobile_cache_key);
     }
 }
