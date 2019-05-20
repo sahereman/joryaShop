@@ -72,7 +72,7 @@
                                     <span class="iconfont">&#xe617;</span>
                                     <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
                                         @foreach($category_products['children'] as $k => $child)
-                                            @if($k > 5)
+                                            @if($k > 4)
                                             <li role="presentation">
                                                 <a role="menuitem" href="{{ route('product_categories.index', ['category' => $child->id]) }}">
                                                     {{ App::isLocale('zh-CN') ? $child->name_zh : $child->name_en }}
