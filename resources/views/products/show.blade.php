@@ -306,6 +306,7 @@
         // var sku_id, sku_stock, sku_price_in_usd, sku_original_price_in_usd;
         var sku_id, sku_stock, sku_price, sku_original_price;
         $('#img_x li').eq(0).css('border', '2px solid #bc8c61');
+        $('#img_x li').eq(0).addClass("active");
         $('#zhezhao').mousemove(function (e) {
             $('#img_u').show();
             $('#magnifier').show();
@@ -320,11 +321,11 @@
             $('#magnifier').css('top', top + 'px');
 
             var leftRate = left / parseInt($('#zhezhao').outerWidth());
-            var bigLeft = leftRate * parseInt($('#img_u img').outerWidth());
+            var bigLeft = leftRate * parseInt($('#img_u img').outerWidth()) + 20;
             $('#img_u img').css('margin-left', -bigLeft + 'px');
 
             var topRate = top / parseInt($('#zhezhao').outerHeight());
-            var bigTop = topRate * parseInt($('#img_u img').outerHeight());
+            var bigTop = topRate * parseInt($('#img_u img').outerHeight()) + 20;
             $('#img_u img').css('margin-top', -bigTop + 'px');
         });
         $('#zhezhao').mouseleave(function () {
@@ -332,6 +333,8 @@
             $('#magnifier').hide();
         });
         $('#img_x li').mouseover(function () {
+            $("#img_x li").removeClass("active");
+            $(this).addClass("active");
             $(this).css('border', '2px solid #bc8c61').siblings().css('border', '2px solid transparent');
             $('#mediumContainer img').eq(0).attr('src', $(this).attr('code'));
             $('#img_u img').eq(0).attr('src', $(this).attr('code'));
@@ -663,6 +666,10 @@
                                 if(sku_photo!="") {
                                     $("#mediumContainer img").attr("src",sku_photo);
                                     $("#img_u img").attr("src",sku_photo);
+                                }else {
+                                    var active_src = $("#img_x .active").find("img").attr("src");
+                                    $("#mediumContainer img").attr("src",active_src);
+                                    $("#img_u img").attr("src",active_src);
                                 }   
                             }
                             if (hair_densities.length != 0) {
