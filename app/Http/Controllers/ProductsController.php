@@ -162,23 +162,23 @@ class ProductsController extends Controller
         $this->appendUserBrowsingHistoryCacheByProduct($product);
 
         if (App::isLocale('zh-CN')) {
-            $parameters['base_sizes'] = $product->is_base_size_optional ? $skus->unique('base_size_zh')->map(function ($item, $key) {
+            $parameters[trans('product.product_details.base_size')] = $product->is_base_size_optional ? $skus->unique('base_size_zh')->map(function ($item, $key) {
                 return $item->base_size_zh;
             }) : [];
-            $parameters['hair_colours'] = $product->is_hair_colour_optional ? $skus->unique('hair_colour_zh')->map(function ($item, $key) {
+            $parameters[trans('product.product_details.hair_colour')] = $product->is_hair_colour_optional ? $skus->unique('hair_colour_zh')->map(function ($item, $key) {
                 return $item->hair_colour_zh;
             }) : [];
-            $parameters['hair_densities'] = $product->is_hair_density_optional ? $skus->unique('hair_density_zh')->map(function ($item, $key) {
+            $parameters[trans('product.product_details.hair_density')] = $product->is_hair_density_optional ? $skus->unique('hair_density_zh')->map(function ($item, $key) {
                 return $item->hair_density_zh;
             }) : [];
         } else {
-            $parameters['base_sizes'] = $product->is_base_size_optional ? $skus->unique('base_size_en')->map(function ($item, $key) {
+            $parameters[trans('product.product_details.base_size')] = $product->is_base_size_optional ? $skus->unique('base_size_en')->map(function ($item, $key) {
                 return $item->base_size_en;
             }) : [];
-            $parameters['hair_colours'] = $product->is_hair_colour_optional ? $skus->unique('hair_colour_en')->map(function ($item, $key) {
+            $parameters[trans('product.product_details.hair_colour')] = $product->is_hair_colour_optional ? $skus->unique('hair_colour_en')->map(function ($item, $key) {
                 return $item->hair_colour_en;
             }) : [];
-            $parameters['hair_densities'] = $product->is_hair_density_optional ? $skus->unique('hair_density_en')->map(function ($item, $key) {
+            $parameters[trans('product.product_details.hair_density')] = $product->is_hair_density_optional ? $skus->unique('hair_density_en')->map(function ($item, $key) {
                 return $item->hair_density_en;
             }) : [];
         }
@@ -319,9 +319,9 @@ class ProductsController extends Controller
                             'original_price' => bcmul($skus->first()->price, 1.2, 2),
                         ],
                         'parameters' => [
-                            'base_sizes' => [],
-                            'hair_colours' => [],
-                            'hair_densities' => [],
+                            trans('product.product_details.base_size') => [],
+                            trans('product.product_details.hair_colour') => [],
+                            trans('product.product_details.hair_density') => [],
                         ],
                     ],
                 ]);
@@ -343,9 +343,9 @@ class ProductsController extends Controller
                             'original_price' => '',
                         ],
                         'parameters' => [
-                            'base_sizes' => [],
-                            'hair_colours' => [],
-                            'hair_densities' => [],
+                            trans('product.product_details.base_size') => [],
+                            trans('product.product_details.hair_colour') => [],
+                            trans('product.product_details.hair_density') => [],
                         ],
                     ],
                 ]);
@@ -357,23 +357,23 @@ class ProductsController extends Controller
         }
 
         if ($is_locale_zh) {
-            $parameters['base_sizes'] = ($product->is_base_size_optional && !$base_size) ? $skus->unique('base_size_zh')->map(function ($item, $key) {
+            $parameters[trans('product.product_details.base_size')] = ($product->is_base_size_optional && !$base_size) ? $skus->unique('base_size_zh')->map(function ($item, $key) {
                 return $item->base_size_zh;
             }) : [];
-            $parameters['hair_colours'] = ($product->is_hair_colour_optional && !$hair_colour) ? $skus->unique('hair_colour_zh')->map(function ($item, $key) {
+            $parameters[trans('product.product_details.hair_colour')] = ($product->is_hair_colour_optional && !$hair_colour) ? $skus->unique('hair_colour_zh')->map(function ($item, $key) {
                 return $item->hair_colour_zh;
             }) : [];
-            $parameters['hair_densities'] = ($product->is_hair_density_optional && !$hair_density) ? $skus->unique('hair_density_zh')->map(function ($item, $key) {
+            $parameters[trans('product.product_details.hair_density')] = ($product->is_hair_density_optional && !$hair_density) ? $skus->unique('hair_density_zh')->map(function ($item, $key) {
                 return $item->hair_density_zh;
             }) : [];
         } else {
-            $parameters['base_sizes'] = ($product->is_base_size_optional && !$base_size) ? $skus->unique('base_size_en')->map(function ($item, $key) {
+            $parameters[trans('product.product_details.base_size')] = ($product->is_base_size_optional && !$base_size) ? $skus->unique('base_size_en')->map(function ($item, $key) {
                 return $item->base_size_en;
             }) : [];
-            $parameters['hair_colours'] = ($product->is_hair_colour_optional && !$hair_colour) ? $skus->unique('hair_colour_en')->map(function ($item, $key) {
+            $parameters[trans('product.product_details.hair_colour')] = ($product->is_hair_colour_optional && !$hair_colour) ? $skus->unique('hair_colour_en')->map(function ($item, $key) {
                 return $item->hair_colour_en;
             }) : [];
-            $parameters['hair_densities'] = ($product->is_hair_density_optional && !$hair_density) ? $skus->unique('hair_density_en')->map(function ($item, $key) {
+            $parameters[trans('product.product_details.hair_density')] = ($product->is_hair_density_optional && !$hair_density) ? $skus->unique('hair_density_en')->map(function ($item, $key) {
                 return $item->hair_density_en;
             }) : [];
         }
