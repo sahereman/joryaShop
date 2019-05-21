@@ -771,8 +771,6 @@
                   });
                   color_arr = uniqe(color_arr);
                   density_arr = uniqe(density_arr);
-                  console.log(color_arr)
-                  console.log(density_arr)
                   $.each(color_arr, function(i,n) {
                     html_color += "<option value='"+ n +"'>"+ n +"</option>"
                   });
