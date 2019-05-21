@@ -384,7 +384,7 @@
                     },
                     error: function (err) {
                         if (err.status == 422) {
-                            var arr = []
+                            var arr = [];
                             var dataobj = err.responseJSON.errors;
                             for (let i in dataobj) {
                                 arr.push(dataobj[i]); //属性
@@ -409,7 +409,7 @@
                     },
                     error: function (err) {
                         if (err.status == 422) {
-                            var arr = []
+                            var arr = [];
                             var dataobj = err.responseJSON.errors;
                             for (let i in dataobj) {
                                 arr.push(dataobj[i]); //属性
@@ -460,7 +460,7 @@
                         $(".for_cart_num").load(location.href + " .shop_cart_num");
                     },
                     error: function (err) {
-                        var arr = []
+                        var arr = [];
                         var dataobj = err.responseJSON.errors;
                         for (let i in dataobj) {
                             arr.push(dataobj[i]); //属性
@@ -562,7 +562,7 @@
                 },
                 error: function (e) {
                     if (err.status == 422) {
-                        var arr = []
+                        var arr = [];
                         var dataobj = err.responseJSON.errors;
                         for (let i in dataobj) {
                             arr.push(dataobj[i]); //属性
