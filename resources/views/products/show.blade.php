@@ -338,14 +338,6 @@
             // layer.msg("@lang('product.product_details.Please select specifications')");
             // } else {
             $(".reduce").removeClass('no_allow');
-            var data = {
-                base_size: $(".kindofsize select").val(),
-                hair_colour: $(".kindofcolour select").val(),
-                hair_density: $(".kindofdensity select").val()
-            };
-            if (parseInt($("#pro_num").val()) == 1) {
-                getSkuParameters(data, "getSkuId", false);
-            }
             if (parseInt($("#pro_num").val()) < sku_stock) {
                 var num = parseInt($("#pro_num").val()) + 1;
                 $("#pro_num").val(num);
@@ -632,6 +624,10 @@
             skus_arr.push(JSON.parse($(skus_hide[skus_i]).val()));
         }
         sku_id = skus_arr[0].id;
+        sku_stock = skus_arr[0].stock;
+        $("#sku_price_in_usd").html("<i>{{ get_global_symbol() }}</i> " + skus_arr[0].price);
+        var old_price = js_number_format(Math.imul(float_multiply_by_100(skus_arr[0].price), 12) / 1000);
+        $("#sku_original_price_in_usd").html("<i>{{ get_global_symbol() }}</i> " + old_price);
         //根据三个select的值进行数组查询
         function map_search(search_size, search_colour, search_density) {
             return skus_arr.map(function (item, index) {
@@ -786,7 +782,7 @@
                     if (colour != null) {
                         if ($.inArray(colour, colour_arr) >= 0) {
                             //已选select值存在
-                            $(".priceOfpro select[name='{{ __('product.product_details.hair_colour') }}']").find("option[name='" + colour + "']").attr("selected", true);
+                            $(".priceOfpro select[name='{{ __('product.product_details.hair_colour') }}']").find("option[value='" + colour + "']").attr("selected", true);
                         } else {
                             //已选select不存在，需将对应条件重置，默认显示第一个
                             layer.msg("The selected colour is not available. Please re-select it!");
@@ -795,7 +791,7 @@
                     if (density != null) {
                         if ($.inArray(denisty, density_arr) >= 0) {
                             //已选select值存在
-                            $(".priceOfpro select[name='{{ __('product.product_details.hair_density') }}']").find("option[name='" + denisty + "']").attr("selected", true);
+                            $(".priceOfpro select[name='{{ __('product.product_details.hair_density') }}']").find("option[value='" + denisty +"']").attr("selected", true);
                         } else {
                             //已选select不存在，需将对应条件重置，默认显示第一个
                             layer.msg("Selected density no goods, please re-select!");
@@ -829,7 +825,7 @@
                     if (size != null) {
                         if ($.inArray(size, size_arr) >= 0) {
                             //已选select值存在
-                            $(".priceOfpro select[name='{{ __('product.product_details.base_size') }}']").find("option[name='" + size + "']").attr("selected", true);
+                            $(".priceOfpro select[name='{{ __('product.product_details.base_size') }}']").find("option[value='" + size + "']").attr("selected", true);
                         } else {
                             //已选select不存在，需将对应条件重置，默认显示第一个
                             layer.msg("Selected dimensions are not available. Please re-select them!");
@@ -838,7 +834,7 @@
                     if (density != null) {
                         if ($.inArray(denisty, density_arr) >= 0) {
                             //已选select值存在
-                            $(".priceOfpro select[name='{{ __('product.product_details.hair_density') }}']").find("option[name='" + denisty + "']").attr("selected", true);
+                            $(".priceOfpro select[name='{{ __('product.product_details.hair_density') }}']").find("option[value='" + denisty +"']").attr("selected", true);
                         } else {
                             //已选select不存在，需将对应条件重置，默认显示第一个
                             layer.msg("Selected density no goods, please re-select!");
@@ -872,7 +868,7 @@
                     if (size != null) {
                         if ($.inArray(size, size_arr) >= 0) {
                             //已选select值存在
-                            $(".priceOfpro select[name='{{ __('product.product_details.base_size') }}']").find("option[name='" + size + "']").attr("selected", true);
+                            $(".priceOfpro select[name='{{ __('product.product_details.base_size') }}']").find("option[value='" + size + "']").attr("selected", true);
                         } else {
                             //已选select不存在，需将对应条件重置，默认显示第一个
                             layer.msg("Selected dimensions are not available. Please re-select them!");
@@ -881,7 +877,7 @@
                     if (colour != null) {
                         if ($.inArray(colour, colour_arr) >= 0) {
                             //已选select值存在
-                            $(".priceOfpro select[name='{{ __('product.product_details.hair_colour') }}']").find("option[name='" + colour + "']").attr("selected", true);
+                            $(".priceOfpro select[name='{{ __('product.product_details.hair_colour') }}']").find("option[value='" + colour + "']").attr("selected", true);
                         } else {
                             //已选select不存在，需将对应条件重置，默认显示第一个
                             layer.msg("The selected colour is not available. Please re-select it!");

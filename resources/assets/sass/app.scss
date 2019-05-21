@@ -1312,8 +1312,25 @@ footer {
             float: left;
             h4 {
                 margin-top: 60px;
-                font-size: 20px;
+                font-size: 18px;
                 color: #000;
+                a {
+                  line-height: 30px;
+                  height: 30px;
+                  display: inline-block;
+                  border: none;
+                  margin-top: 0;
+                  img {
+                      height: 100%;
+                  }
+                  span {
+                      font-size: 16px;
+                  }
+                  &:hover {
+                      background-color: transparent;
+                      color: #000;
+                  }
+                }
             }
             p {
                 font-size: 12px;
@@ -1553,9 +1570,7 @@ footer {
                     border-radius: 19px;
                     line-height: 38px;
                     font-size: 16px;
-                    margin: auto;
-                    margin-top: 35px;
-                    margin-bottom: 30px;
+                    margin: 15px auto;
                 }
                 p {
                     &:first-of-type {

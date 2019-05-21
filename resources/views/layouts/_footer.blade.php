@@ -46,7 +46,12 @@
         <div class="m-wrapper">
             <div class="contact_us">
                 {{--<h4>{{ \App\Models\Config::config('service_phone') }}</h4>--}}
-                <h4>Call Skype</h4>
+                <h4>
+                    <a class="skype_btn" href="skype:live:info_1104672?call">
+                        <img src="{{ asset('img/skype_32.png') }}"/>
+                        <span>Call Skype</span>
+                    </a>
+                </h4>
                 <p>@lang('app.Monday-Sunday') 9:00-21:00</p>
                 <a href="{{ route('root') }}">@lang('app.Contact Customer Service')</a>
             </div>
@@ -187,7 +192,6 @@
             <div class="customer_info">
                 <p>@lang('app.please login first')</p>
                 <a class="CustomerClickBtn">@lang('app.Contact Customer Service')</a>
-                <p>@lang('app.Customer Service Phone')：{{ \App\Models\Config::config('service_phone') }}</p>
                 <p>9:00-21:00</p>
             </div>
         </li>

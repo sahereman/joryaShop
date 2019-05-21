@@ -739,7 +739,7 @@
                     if (colour != null) {
                         if ($.inArray(colour, colour_arr) >= 0) {
                             //已选select值存在
-                            $(".skuListHead select[name='{{ __('product.product_details.hair_colour') }}']").find("option[name='" + colour + "']").attr("selected", true);
+                            $(".skuListHead select[name='{{ __('product.product_details.hair_colour') }}']").find("option[value='" + colour + "']").attr("selected", true);
                         } else {
                             //已选select不存在，需将对应条件重置，默认显示第一个
                             layer.msg("The selected colour is not available. Please re-select it!");
@@ -748,7 +748,7 @@
                     if (density != null) {
                         if ($.inArray(density, density_arr) >= 0) {
                             //已选select值存在
-                            $(".skuListHead select[name='{{ __('product.product_details.hair_density') }}']").find("option[name='" + density + "']").attr("selected", true);
+                            $(".skuListHead select[name='{{ __('product.product_details.hair_density') }}']").find("option[value='" + density + "']").attr("selected", true);
                         } else {
                             //已选select不存在，需将对应条件重置，默认显示第一个
                             layer.msg("Selected density no goods, please re-select!");
@@ -782,7 +782,7 @@
                     if (size != null) {
                         if ($.inArray(size, size_arr) >= 0) {
                             //已选select值存在
-                            $(".skuListHead select[name='{{ __('product.product_details.base_size') }}']").find("option[name='" + size + "']").attr("selected", true);
+                            $(".skuListHead select[name='{{ __('product.product_details.base_size') }}']").find("option[value='" + size + "']").attr("selected", true);
                         } else {
                             //已选select不存在，需将对应条件重置，默认显示第一个
                             layer.msg("Selected dimensions are not available. Please re-select them!");
@@ -791,7 +791,7 @@
                     if (density != null) {
                         if ($.inArray(density, density_arr) >= 0) {
                             //已选select值存在
-                            $(".skuListHead select[name='{{ __('product.product_details.hair_density') }}']").find("option[name='" + density + "']").attr("selected", true);
+                            $(".skuListHead select[name='{{ __('product.product_details.hair_density') }}']").find("option[value='" + density + "']").attr("selected", true);
                         } else {
                             //已选select不存在，需将对应条件重置，默认显示第一个
                             layer.msg("Selected density no goods, please re-select!");
@@ -825,7 +825,7 @@
                     if (size != null) {
                         if ($.inArray(size, size_arr) >= 0) {
                             //已选select值存在
-                            $(".skuListHead select[name='{{ __('product.product_details.base_size') }}']").find("option[name='" + size + "']").attr("selected", true);
+                            $(".skuListHead select[name='{{ __('product.product_details.base_size') }}']").find("option[value='" + size + "']").attr("selected", true);
                         } else {
                             //已选select不存在，需将对应条件重置，默认显示第一个
                             layer.msg("Selected dimensions are not available. Please re-select them!");
@@ -834,7 +834,7 @@
                     if (colour != null) {
                         if ($.inArray(colour, colour_arr) >= 0) {
                             //已选select值存在
-                            $(".skuListHead select[name='{{ __('product.product_details.hair_colour') }}']").find("option[name='" + colour + "']").attr("selected", true);
+                            $(".skuListHead select[name='{{ __('product.product_details.hair_colour') }}']").find("option[value='" + colour + "']").attr("selected", true);
                         } else {
                             //已选select不存在，需将对应条件重置，默认显示第一个
                             layer.msg("The selected colour is not available. Please re-select it!");
