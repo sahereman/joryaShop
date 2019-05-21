@@ -418,6 +418,14 @@
                 font-size: 12px;
                 text-align: left;
                 line-height: 40px;
+                &.dynamic_name {
+                    width: 50px;
+                    line-height: 20px;
+                    word-break: break-word;
+                    white-space: normal;
+                    letter-spacing: normal;
+                    margin-right: 5px;
+                }
                 i {
                     font-style: normal;
                 }
@@ -429,6 +437,7 @@
                 }
                 &.buy_numbers {
                     float: left;
+                    margin-right: 5px;
                 }
             }
             ul {
