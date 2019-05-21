@@ -53,6 +53,7 @@ Route::group([
 
     /*产品*/
     $router->resource('products', ProductsController::class)->names('admin.products');
+    $router->post('products/{product}/duplicate', 'ProductsController@duplicate')->name('admin.products.duplicate');
     $router->post('products/{product}/sort_photos', 'ProductsController@sortPhotos')->name('admin.products.sort_photos');
     $router->get('products/{product}/sku_generator', 'ProductsController@skuGeneratorShow')->name('admin.products.sku_generator_show');
     $router->post('products/{product}/sku_generator', 'ProductsController@skuGeneratorStore')->name('admin.products.sku_generator_store');

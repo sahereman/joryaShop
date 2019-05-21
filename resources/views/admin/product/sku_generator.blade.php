@@ -76,7 +76,7 @@
                         <div class="col-md-4">
                             <table class="table" attr_name='base_size'>
                                 <tr>
-                                    <th>Hair Size</th>
+                                    <th>Base Size</th>
                                 </tr>
                                 <tr>
                                     <td>
