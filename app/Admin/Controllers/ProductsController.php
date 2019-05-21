@@ -378,7 +378,9 @@ class ProductsController extends Controller
         // $form->text('description_zh', '描述(中文)')->rules('required');
         $form->hidden('description_zh', '描述(中文)')->default('lyrical');
         $form->text('description_en', '副标题')->rules('required');
-        $form->multipleImage('photos', '相册')->uniqueName()->removable()
+        $form->multipleImage('photos', '相册')
+            ->deletable(true)
+            ->uniqueName()->removable()
             // ->rules('required')
             ->move('original/' . date('Ym', now()->timestamp))
             ->help('相册尺寸:420 * 380')->rules('image');
