@@ -27,6 +27,9 @@ class Product extends Model
         'seo_description',
         /* 2019-04-09 for SEO */
 
+        'location',
+        'service',
+
         'thumb',
         'photos',
 
