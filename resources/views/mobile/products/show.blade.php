@@ -620,7 +620,7 @@
                         if (sku_photo != "") {
                             $(".skuGoods img").attr("src", sku_photo);
                         } else {
-                            $(".skuGoods img").attr("src", skus_arr[0].photo_url);
+                            $(".skuGoods img").attr("src", skus_arr[0].product.photo_urls[0]);
                         }
                     } else {
                         layer.msg("Current specifications do not exist. Please re-select the selected items!");
