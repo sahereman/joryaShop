@@ -79,8 +79,6 @@
                     <div class="header_logo">
                         <a href="{{ route('root') }}">
                             <img src="{{ asset('img/logo2.png') }}">
-                            <p> </p>
-                            {{--<p>@lang('app.The Best For You')</p>--}}
                         </a>
                     </div>
                     <div class="navbar-bottom-top-left-right">
