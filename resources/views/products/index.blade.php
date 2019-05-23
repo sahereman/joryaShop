@@ -9,8 +9,7 @@
             <div>
                 <p class="Crumbs">
                     <a href="{{ route('root') }}">@lang('product.All results')</a>
-                    <span>></span>
-                    <a href="javascript:void(0);">{{ App::isLocale('zh-CN') ? $category->name_zh : $category->name_en }}</a>
+                    {!! $crumbs !!}
                 </p>
             </div>
             <div class="search-level">

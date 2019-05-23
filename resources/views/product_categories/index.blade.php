@@ -25,8 +25,7 @@
             <div>
                 <p class="Crumbs">
                     <a href="{{ route('root') }}">@lang('basic.home')</a>
-                    <span>></span>
-                    <a href="javascript:void(0);">@lang('product.Categories')</a>
+                    {!! $crumbs !!}
                 </p>
             </div>
             <div class="classification-level">

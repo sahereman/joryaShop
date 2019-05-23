@@ -23,15 +23,45 @@ class ProductCategoriesController extends Controller
                 // on_sale: 是否在售 + index: 综合指数
                 $products[$child->id] = $child->products()->where('on_sale', 1)->orderByDesc('index')->limit(10)->get();
             });
+            // crumbs
+            $crumbs = '&nbsp;<span>&nbsp;&gt;&nbsp;<span>&nbsp;<a href="javascript:void(0);">'
+                . (App::isLocale('zh-CN') ? $category->name_zh : $category->name_en)
+                . '</a>';
+            $child = $category;
+            while ($parent = $child->parent) {
+                $crumbs = '&nbsp;<span>&nbsp;&gt;&nbsp;<span>&nbsp;<a href="'
+                    . route('product_categories.index', ['category' => $parent->id])
+                    . '">'
+                    . (App::isLocale('zh-CN') ? $parent->name_zh : $parent->name_en)
+                    . '</a>'
+                    . $crumbs;
+                $child = $parent;
+            }
             return view('product_categories.index', [
                 'category' => $category,
                 'children' => $children,
                 'products' => $products,
+                'crumbs' => $crumbs,
             ]);
         } else {
             // 第一次请求 route('product_categories.index') 打开待填充数据页面
+            // crumbs
+            $crumbs = '&nbsp;<span>&nbsp;&gt;&nbsp;<span>&nbsp;<a href="javascript:void(0);">'
+                . (App::isLocale('zh-CN') ? $category->name_zh : $category->name_en)
+                . '</a>';
+            $child = $category;
+            while ($parent = $child->parent) {
+                $crumbs = '&nbsp;<span>&nbsp;&gt;&nbsp;<span>&nbsp;<a href="'
+                    . route('product_categories.index', ['category' => $parent->id])
+                    . '">'
+                    . (App::isLocale('zh-CN') ? $parent->name_zh : $parent->name_en)
+                    . '</a>'
+                    . $crumbs;
+                $child = $parent;
+            }
             return view('products.index', [
                 'category' => $category,
+                'crumbs' => $crumbs,
             ]);
         }
     }
