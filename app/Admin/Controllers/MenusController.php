@@ -76,7 +76,7 @@ class MenusController extends Controller
             $tree->branch(function ($branch) {
                 $text = $branch['parent_id'] == 0 ? '<span class="label label-success">' . $branch['slug'] . '</span>' : '';
                 // return "ID:{$branch['id']} - {$branch['name_zh']} " . $text;
-                return "ID:{$branch['id']} - {$branch['name_en']} " . $text;
+                return "{$branch['name_en']} " . $text;
             });
         });
     }
