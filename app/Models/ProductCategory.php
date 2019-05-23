@@ -75,7 +75,7 @@ class ProductCategory extends Model
      * @var array
      */
     protected $appends = [
-         'banner_url',
+        'banner_url',
     ];
 
     public function getBannerUrlAttribute()

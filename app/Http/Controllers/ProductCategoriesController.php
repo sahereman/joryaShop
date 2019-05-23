@@ -17,7 +17,7 @@ class ProductCategoriesController extends Controller
     public function index(Request $request, ProductCategory $category)
     {
         $products = [];
-        if ($category->parent_id == 0) {
+        if ($category->children->isNotEmpty()) {
             $children = $category->children;
             $children->each(function (ProductCategory $child) use (&$products) {
                 // on_sale: 是否在售 + index: 综合指数
