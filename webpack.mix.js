@@ -16,7 +16,7 @@ mix.js('resources/assets/js/app.js', 'public/js')
     .sass('resources/assets/sass/app.scss', 'public/css');
 
 // 2019-01-22
-mix.copyDirectory('resources/assets/js/admin', 'public/js/admin');
+// mix.copyDirectory('resources/assets/js/admin', 'public/js/admin');
 // 2019-01-22
 
 mix.copyDirectory('resources/assets/img', 'public/img');
