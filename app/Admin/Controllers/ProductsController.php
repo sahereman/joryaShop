@@ -461,6 +461,8 @@ class ProductsController extends Controller
 
         // });
 
+        $form->html('<script type="text/javascript" src="/js/admin/product.js"></script>');
+
         $form->ignore(['_from_']);
 
         // 定义事件回调，当模型即将保存时会触发这个回调

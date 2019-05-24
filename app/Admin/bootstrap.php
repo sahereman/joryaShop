@@ -24,7 +24,7 @@ Admin::js('vendor/laravel-admin/laravel-admin-ext-chart/Chart.bundle.min.js');
 
 // 2019-01-22
 // Admin::js(asset('js/admin/product.js'));
-Admin::js('js/admin/product.js');
+//Admin::js('js/admin/product.js');
 // 2019-01-22
 
 Encore\Admin\Form::forget(['map', 'editor', 'image', 'multipleImage']);

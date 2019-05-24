@@ -178,6 +178,7 @@
             },
         });
     }
+
     // 去重
     function unique(arr, type) {
         // const res = new Map();
@@ -187,6 +188,7 @@
             return !res.has(a[type]) && res.set(a[type], 1);
         });
     }
+
     // 表单提交
     $('#submit_btn').on("click", function () {
         var json_str = new Object();
@@ -202,6 +204,7 @@
             var totalTrs = $(totalTabs[i]).find("tr");
             totalAttrs = [];
             for (var item = 1; item <= totalTrs.length - 2; item++) {
+                console.log(123);
                 if ($(totalTabs[i]).hasClass("photo_tab")) {
                     totalAttrs.push({
                         "data": $(totalTrs[item]).find("input[type=text]").val(),
@@ -211,10 +214,12 @@
                     totalAttrs.push({"data": $(totalTrs[item]).find("input[type=text]").val()});
                 }
             }
-            totalAttrs = unique(totalAttrs, "data");
+//            totalAttrs = unique(totalAttrs, "data");
             json_str[keyName] = totalAttrs;
         }
         $("input[name='attrs']").val(JSON.stringify(json_str));
+
+//        console.log(json_str);
         setTimeout(function () {
             $("form").submit();
         }, 500);

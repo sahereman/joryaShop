@@ -82,7 +82,7 @@ class ProductLocationsController extends Controller
         $grid = new Grid(new ProductLocation);
 
         $grid->id('Id');
-        $grid->name('仓库名称');
+//        $grid->name('仓库名称');
         $grid->description('仓库地址');
         $grid->created_at('Created at');
         $grid->updated_at('Updated at');
@@ -101,7 +101,7 @@ class ProductLocationsController extends Controller
         $show = new Show(ProductLocation::findOrFail($id));
 
         $show->id('Id');
-        $show->name('仓库名称');
+//        $show->name('仓库名称');
         $show->description('仓库地址');
         $show->created_at('Created at');
         $show->updated_at('Updated at');
@@ -118,7 +118,7 @@ class ProductLocationsController extends Controller
     {
         $form = new Form(new ProductLocation);
 
-        $form->text('name', '仓库名称');
+        $form->hidden('name')->default('Product Location Name');
         $form->text('description', '仓库地址');
 
         return $form;

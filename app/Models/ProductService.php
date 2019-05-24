@@ -19,7 +19,7 @@ class ProductService extends Model
     public static function availableOptions()
     {
         $available_options = static::orderBy('sort')->get(['name', 'description'])->mapWithKeys(function ($item) {
-            return [$item['description'] => $item['name']];
+            return [$item['description'] => $item['description']];
         })->toArray();
         return $available_options;
     }

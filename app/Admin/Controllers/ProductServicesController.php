@@ -82,7 +82,7 @@ class ProductServicesController extends Controller
         $grid = new Grid(new ProductService);
 
         $grid->id('Id');
-        $grid->name('服务名称');
+//        $grid->name('服务名称');
         $grid->description('服务描述');
         $grid->created_at('Created at');
         $grid->updated_at('Updated at');
@@ -101,7 +101,7 @@ class ProductServicesController extends Controller
         $show = new Show(ProductService::findOrFail($id));
 
         $show->id('Id');
-        $show->name('服务名称');
+//        $show->name('服务名称');
         $show->description('服务描述');
         $show->created_at('Created at');
         $show->updated_at('Updated at');
@@ -118,9 +118,9 @@ class ProductServicesController extends Controller
     {
         $form = new Form(new ProductService);
 
-        $form->text('name', '服务名称');
+        $form->hidden('name')->default('Product Service Name');
         $form->text('description', '服务描述');
-        $form->number('sort', '排序值');
+//        $form->number('sort', '排序值');
 
         return $form;
     }
