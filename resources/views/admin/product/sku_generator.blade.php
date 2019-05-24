@@ -140,6 +140,7 @@
         _$this.parents("tr").before(addRowCom);
         _$this.parents("tr").prev().find("img").attr('src', "{{ asset('img/pic_upload.png') }}");
         _$this.parents("tr").prev().find("input").val("");
+        _$this.parents("tr").prev().find("input[type='text']").attr("data_path","");
     }
     function delCol() {
         var _$this = $(event.target);
@@ -204,7 +205,6 @@
             var totalTrs = $(totalTabs[i]).find("tr");
             totalAttrs = [];
             for (var item = 1; item <= totalTrs.length - 2; item++) {
-                console.log(123);
                 if ($(totalTabs[i]).hasClass("photo_tab")) {
                     totalAttrs.push({
                         "data": $(totalTrs[item]).find("input[type=text]").val(),
@@ -218,8 +218,6 @@
             json_str[keyName] = totalAttrs;
         }
         $("input[name='attrs']").val(JSON.stringify(json_str));
-
-//        console.log(json_str);
         setTimeout(function () {
             $("form").submit();
         }, 500);
