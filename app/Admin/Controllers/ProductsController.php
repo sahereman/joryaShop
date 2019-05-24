@@ -461,7 +461,7 @@ class ProductsController extends Controller
 
         // });
 
-        $form->html('<script type="text/javascript" src="/js/admin/product.js"></script>');
+        $form->html('<script type="text/javascript" src="/vendor/laravel-admin/product.js"></script>');
 
         $form->ignore(['_from_']);
 
