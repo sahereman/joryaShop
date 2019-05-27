@@ -728,6 +728,7 @@ class ProductsController extends Controller
             return collect($item)->unique('data')->toArray();
         })->toArray();
         $attr_combo = $this->getAttrCombo($attrs);
+        $sku_count = count($attr_combo);
         $product->skus()->delete();
         foreach ($attr_combo as $option)
         {
@@ -750,7 +751,10 @@ class ProductsController extends Controller
             }
             ProductSku::create($sku_data);
         }
-        $product->update(['price' => $request->input('price', $product->price)]);
+        $product->update([
+            'price' => $request->input('price', $product->price),
+            'stock' => $request->input('stock') ? $request->input('stock') * $sku_count : 0,
+        ]);
         return redirect()->route('admin.products.edit', ['product' => $product->id]);
     }
 }
