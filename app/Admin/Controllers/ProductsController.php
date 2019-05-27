@@ -137,17 +137,17 @@ class ProductsController extends Controller
         $grid->name_en('标题')->display(function ($data) {
             return "<a target='_blank' href='" . route('products.show', ['product' => $this->id]) . "'><span style='width: 120px;display: inline-block;overflow: hidden'>$data</span></a>";
         });
-        $grid->stock('库存')->sortable();
         $grid->price('价格')->sortable();
+        $grid->stock('库存')->sortable();
         $grid->sales('销量')->sortable();
+        $grid->index('综合指数')->sortable();
+        $grid->heat('人气')->sortable();
+        $grid->comments('评论数')->count();
+        $grid->skus('SKU数')->count();
 
         $grid->column('', '选项')->switchGroup([
             'on_sale' => '售卖状态', 'is_index' => '首页推荐'
         ]);
-
-        $grid->index('综合指数')->sortable();
-        $grid->heat('人气')->sortable();
-        $grid->comments('评论数')->count();
 
 
         $grid->actions(function ($actions) {

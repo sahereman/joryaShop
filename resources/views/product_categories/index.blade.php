@@ -9,7 +9,7 @@
             <div class="swiper-wrapper">
                 <div class="swiper-slide">
                     @if(!empty($category->banner))
-                        <img style="height: 380px;" class="lazy" data-src="{{ $category->banner_url }}">
+                        <img class="lazy" data-src="{{ $category->banner_url }}">
                     @else
                         <div class="text_intru">
                             <p>{{ App::isLocale('zh-CN') ? $category->name_zh : $category->name_en }}</p>
