@@ -339,6 +339,7 @@ class ProductsController extends Controller
     protected function form()
     {
         $form = new Form(new Product());
+        $form->html('<button class="btn btn-primary"><i class="fa fa-send"></i>&nbsp;提交</button>');
 
         if ($this->mode == Builder::MODE_CREATE)
         {
