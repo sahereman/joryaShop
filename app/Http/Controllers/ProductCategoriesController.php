@@ -16,19 +16,19 @@ class ProductCategoriesController extends Controller
     // 二级分类及其商品列表 [仅展示页面]
     public function index(Request $request, ProductCategory $category)
     {
-        $products = [];
-        if ($category->children->isNotEmpty()) {
+        $category = ProductCategory::with('children.children')->find($category->id);
+
+        if ($category->children->isNotEmpty())
+        {
             $children = $category->children;
-            $children->each(function (ProductCategory $child) use (&$products) {
-                // on_sale: 是否在售 + index: 综合指数
-                $products[$child->id] = $child->products()->where('on_sale', 1)->orderByDesc('index')->limit(10)->get();
-            });
+
             // crumbs
             $crumbs = '&nbsp;<span>&nbsp;&gt;&nbsp;<span>&nbsp;<a href="javascript:void(0);">'
                 . (App::isLocale('zh-CN') ? $category->name_zh : $category->name_en)
                 . '</a>';
             $child = $category;
-            while ($parent = $child->parent) {
+            while ($parent = $child->parent)
+            {
                 $crumbs = '&nbsp;<span>&nbsp;&gt;&nbsp;<span>&nbsp;<a href="'
                     . route('product_categories.index', ['category' => $parent->id])
                     . '">'
@@ -40,17 +40,18 @@ class ProductCategoriesController extends Controller
             return view('product_categories.index', [
                 'category' => $category,
                 'children' => $children,
-                'products' => $products,
                 'crumbs' => $crumbs,
             ]);
-        } else {
+        } else
+        {
             // 第一次请求 route('product_categories.index') 打开待填充数据页面
             // crumbs
             $crumbs = '&nbsp;<span>&nbsp;&gt;&nbsp;<span>&nbsp;<a href="javascript:void(0);">'
                 . (App::isLocale('zh-CN') ? $category->name_zh : $category->name_en)
                 . '</a>';
             $child = $category;
-            while ($parent = $child->parent) {
+            while ($parent = $child->parent)
+            {
                 $crumbs = '&nbsp;<span>&nbsp;&gt;&nbsp;<span>&nbsp;<a href="'
                     . route('product_categories.index', ['category' => $parent->id])
                     . '">'
@@ -80,21 +81,25 @@ class ProductCategoriesController extends Controller
         $next_page = ($current_page < $page_count) ? ($current_page + 1) : false;
 
         $query_data = [];
-        if ($request->has('min_price') && $request->input('min_price')) {
+        if ($request->has('min_price') && $request->input('min_price'))
+        {
             // $min_price = App::isLocale('en') ? ExchangeRate::exchangePrice($request->input('min_price'), 'CNY', 'USD') : $request->input('min_price');
             $min_price = exchange_price($request->input('min_price'), 'USD', get_global_currency());
             $query_data['min_price'] = $request->input('min_price');
             $products = $products->where('price', '>', $min_price);
         }
-        if ($request->has('max_price') && $request->input('max_price')) {
+        if ($request->has('max_price') && $request->input('max_price'))
+        {
             // $max_price = App::isLocale('en') ? ExchangeRate::exchangePrice($request->input('max_price'), 'CNY', 'USD') : $request->input('max_price');
             $max_price = exchange_price($request->input('max_price'), 'USD', get_global_currency());
             $query_data['max_price'] = $request->input('max_price');
             $products = $products->where('price', '<', $max_price);
         }
-        if ($request->has('sort')) {
+        if ($request->has('sort'))
+        {
             $query_data['sort'] = $request->input('sort');
-            switch ($request->input('sort')) {
+            switch ($request->input('sort'))
+            {
                 case 'index':
                     $products = $products->orderByDesc('index');
                     break;
@@ -120,9 +125,11 @@ class ProductCategoriesController extends Controller
         }
         $products = $products->simplePaginate(10);
 
-        if ($next_page == false) {
+        if ($next_page == false)
+        {
             $request_url = false;
-        } else {
+        } else
+        {
             $query_data['page'] = $next_page;
             $request_url = route('product_categories.index', [
                     'category' => $category->id,

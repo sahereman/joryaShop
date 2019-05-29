@@ -58,6 +58,9 @@ Route::group([
     $router->get('products/{product}/sku_generator', 'ProductsController@skuGeneratorShow')->name('admin.products.sku_generator_show');
     $router->post('products/{product}/sku_generator', 'ProductsController@skuGeneratorStore')->name('admin.products.sku_generator_store');
 
+    /*产品SKU*/
+    $router->resource('product_skus', ProductSkusController::class)->names('admin.product_skus');
+
     /*产品仓库*/
     $router->resource('product_locations', ProductLocationsController::class)->names('admin.product_locations');
 

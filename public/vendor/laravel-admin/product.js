@@ -137,9 +137,8 @@ $(document).ready(function () {
     }
 
 
-
     //提交表单前删除 template标签
-    $("form").on("submit", function(event) {
+    $("form").on("submit", function (event) {
 
         //event.preventDefault();
         //event.stopPropagation();
@@ -147,6 +146,29 @@ $(document).ready(function () {
             $(this).remove();
         });
 
+    });
+
+
+    $(".sku_photo_delete").on("click", function () {
+        var sku_id = $(this).parent().parent().parent().find('.skus.id').val();
+        var close_button = $(this).parent().parent().parent().find('.close.fileinput-remove');
+        $.ajax({
+            type: "post",
+            url: '/admin/product_skus/' + sku_id,
+            data: {
+                key: 0,
+                photo: '_file_del_',
+                _file_del_: null,
+                _token: $('input[name="_token"]').val(),
+                _method: 'PUT',
+            },
+            success: function (data) {
+                close_button.trigger('click');
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
     });
 
 

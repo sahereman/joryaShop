@@ -5,6 +5,7 @@ namespace App\Models;
 use Encore\Admin\Traits\AdminBuilder;
 use Encore\Admin\Traits\ModelTree;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -21,6 +22,9 @@ class ProductCategory extends Model
         $this->setTitleColumn('name_en');
         $this->setOrderColumn('sort');
     }
+
+
+    private $collection_products;
 
     /**
      * The attributes that are mass assignable.
@@ -80,9 +84,11 @@ class ProductCategory extends Model
 
     public function getBannerUrlAttribute()
     {
-        if ($this->attributes['banner']) {
+        if ($this->attributes['banner'])
+        {
             // 如果 banner 字段本身就已经是完整的 url 就直接返回
-            if (Str::startsWith($this->attributes['banner'], ['http://', 'https://'])) {
+            if (Str::startsWith($this->attributes['banner'], ['http://', 'https://']))
+            {
                 return $this->attributes['banner'];
             }
             return Storage::disk('public')->url($this->attributes['banner']);
@@ -104,4 +110,41 @@ class ProductCategory extends Model
     {
         return $this->hasMany(Product::class);
     }
+
+    /**
+     * 获取包含所有子集分类下商品集合(包含自身分类下商品)
+     * @param string $sort
+     * @return mixed
+     */
+    public function all_products($sort = 'index')
+    {
+
+        $this->collection_products = $this->products()->where('on_sale', true)->get();
+
+        $children = $this->children;
+        $this->findChildrenProduct($children);
+
+        //        dd($this->collection_products);
+
+//        dd($this->collection_products->keyBy('id'));
+
+        return $this->collection_products->sortByDesc($sort);
+
+
+    }
+
+    private function findChildrenProduct($children)
+    {
+
+        $children->map(function ($item) {
+            $cl = $item->children;
+            if ($cl->isNotEmpty())
+            {
+                $this->findChildrenProduct($cl);
+            }
+            $this->collection_products = $this->collection_products->merge($item->products()->where('on_sale', true)->get());
+        });
+    }
+
+
 }

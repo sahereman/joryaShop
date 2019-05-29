@@ -409,6 +409,7 @@ class ProductsController extends Controller
         $form->number('heat', '人气')->min(0)->rules('required|integer|min:0');
 
         $form->hasMany('skus', 'SKU 列表', function (Form\NestedForm $form) {
+
             // $form->text('name_zh', 'SKU 名称(中文)')->rules('required');
             $form->hidden('name_zh', 'SKU 名称(中文)')->default('lyrical');
             // $form->text('name_en', 'SKU 名称(英文)')->rules('required')->default('');
@@ -430,11 +431,11 @@ class ProductsController extends Controller
             $form->image('photo', 'Photo')
                 ->deletable(true)
                 ->uniqueName()
-                // ->removable()
-                // ->rules('required')
-                ->move('original/' . date('Ym', now()->timestamp))
-                // ->help('Photo尺寸:420 * 380')
-                ->rules('image');
+//                ->removable()
+                ->move('original/' . date('Ym', now()->timestamp));
+
+            $form->html('<a class="btn btn-primary sku_photo_delete">Photo Delete</a>','Photo Delete');
+
 
             $form->currency('price', '单价')->symbol('$')->rules('required|numeric|min:0.01');
             $form->number('stock', '库存')->min(0)->rules('required|integer|min:0');
