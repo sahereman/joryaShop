@@ -2292,7 +2292,7 @@ Table.prototype = {
         // 拼接 table 模板
         var r = void 0,
             c = void 0;
-        var html = '<table border="0" width="100%" cellpadding="0" cellspacing="0">';
+        var html = '<table border="1" width="100%" cellpadding="0" cellspacing="0">';
         for (r = 0; r < rowNum; r++) {
             html += '<tr>';
             if (r === 0) {
