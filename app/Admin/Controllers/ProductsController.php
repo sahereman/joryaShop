@@ -106,7 +106,7 @@ class ProductsController extends Controller
         $category = ProductCategory::find($request->input('cid'));
 
         $grid = new Grid(new Product);
-        $grid->model()->with('comments')->orderBy('created_at', 'desc'); // 设置初始排序条件
+        $grid->model()->with(['comments', 'skus', 'category', 'category.parent'])->orderBy('created_at', 'desc'); // 设置初始排序条件
 
         if ($category)
         {
@@ -129,7 +129,19 @@ class ProductsController extends Controller
             return "<a href='" . route('admin.products.index', ['cid' => $this->product_category_id]) . "'>$data</a>";
         });*/
         $grid->category()->name_en('分类')->display(function ($data) {
-            return "<a href='" . route('admin.products.index', ['cid' => $this->product_category_id]) . "'>$data</a>";
+
+            if(empty($this->category['parent']))
+            {
+
+                $str = "</s><a href='" . route('admin.products.index', ['cid' => $this->product_category_id]) . "'>$data</a>";
+            }
+            else
+            {
+                $str = "<a href='" . route('admin.products.index', ['cid' => $this->category['parent']['id']]) . "'>".$this->category['parent']['name_en']."</a>" .
+                    "<br /><span> - </span><br /></s><a href='" . route('admin.products.index', ['cid' => $this->product_category_id]) . "'>$data</a>";
+            }
+
+            return $str;
         });
         /*$grid->name_zh('名称(中文)')->display(function ($data) {
             return "<span style='width: 120px;display: inline-block;overflow: hidden'>$data</span>";
@@ -431,10 +443,10 @@ class ProductsController extends Controller
             $form->image('photo', 'Photo')
                 ->deletable(true)
                 ->uniqueName()
-//                ->removable()
+                //                ->removable()
                 ->move('original/' . date('Ym', now()->timestamp));
 
-            $form->html('<a class="btn btn-primary sku_photo_delete">Photo Delete</a>','Photo Delete');
+            $form->html('<a class="btn btn-primary sku_photo_delete">Photo Delete</a>', 'Photo Delete');
 
 
             $form->currency('price', '单价')->symbol('$')->rules('required|numeric|min:0.01');
