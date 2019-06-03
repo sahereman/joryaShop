@@ -977,6 +977,8 @@
         var iframe_content = $('.iframe_content').html();
         $('.iframe_content').html("");
         $('#cmsCon').contents().find('body').html(iframe_content);
+        var x = document.getElementById('cmsCon').contentWindow.document.getElementsByTagName('table');    
+        x.border = "1";    
         autoHeight();  //动态调整高度
         var count = 0;
         var autoSet = window.setInterval('autoHeight()',500);

@@ -33,11 +33,11 @@
                     <div class="cart-items">
                         @foreach($carts as $cart)
                             <div class="clear single-item">
-                                <div class="left w20">
-                                    <input name="selectOne" type="checkbox" code="{{ $cart->sku->id }}"
+                                <div class="left w20 dis_n">
+                                    <input name="selectOne" type="checkbox" checked="checked" code="{{ $cart->sku->id }}"
                                            value="{{ $cart->id }}">
                                 </div>
-                                <div class="left w110 shop-img">
+                                <div class="left shop-img">
                                     <a class="cur_p" href="{{ route('products.show', $cart->sku->product_id) }}">
                                         <img class="lazy" data-src="{{ $cart->sku->product->thumb_url }}">
                                     </a>
@@ -73,10 +73,10 @@
                                 <div class="left w120 center">
                                     <p>
                                         @if($cart->favourite)
-                                            <a class="cur_p add_favourites" code="{{ $cart->sku->product_id }}"
+                                            {{--<a class="cur_p add_favourites" code="{{ $cart->sku->product_id }}"
                                                data-url="{{ route('user_favourites.destroy', ['favourite' => $cart->favourite->id]) }}">
                                                 @lang('product.shopping_cart.Remove_from_favourites')
-                                            </a>
+                                            </a>--}}
                                         @else
                                             <a class="cur_p add_favourites" code="{{ $cart->sku->product_id }}"
                                                data-url="{{ route('user_favourites.store') }}">
@@ -145,6 +145,10 @@
                 calcTotal();
             }
             // });
+            calcTotal();
+            
+            
+            
             // 全选
             $('.selectAll').on('change', function (evt) {
                 if ($(this).prop('checked')) {
@@ -309,9 +313,30 @@
                     }
                 });
             });
+            //删除商品函数
+            function del_forfavourty(url){
+                var data = {
+                    _method: "DELETE",
+                    _token: "{{ csrf_token() }}",
+                };
+                var url = url;
+                $.ajax({
+                    type: "post",
+                    url: url,
+                    data: data,
+                    success: function (data) {
+                        location.reload();
+//                      calcTotal();
+                    },
+                    error: function (err) {
+                        console.log(err);
+                    },
+                });
+            }
             // 加入收藏夹
             $('.single-item').on('click', ".add_favourites", function () {
                 var clickDom = $(this);
+                var url_del = clickDom.parents("p").find(".single_delete").attr("data-url");
                 var data = {
                     _token: "{{ csrf_token() }}",
                     product_id: clickDom.attr("code")
@@ -322,7 +347,8 @@
                     url: url,
                     data: data,
                     success: function (data) {
-                        calcTotal();
+                        del_forfavourty(url_del);
+//                      calcTotal();
                         layer.open({
                             title: "@lang('app.Prompt')",
                             content: "@lang('product.shopping_cart.Add_favourites_successfully')",

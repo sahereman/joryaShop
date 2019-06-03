@@ -21,7 +21,7 @@ return [
         'second' => 'Second',
         'year' => 'Year',
     ],
-    'delete' => 'Delete',
+    'delete' => 'Remove',
 
     'users' => [
         'Personal_Center' => 'My Account',
