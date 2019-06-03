@@ -451,7 +451,7 @@
                     url: url,
                     data: data,
                     success: function (data) {
-                        layer.alert("@lang('product.product_details.Shopping cart added successfully')");
+                        layer.msg("@lang('product.product_details.Shopping cart added successfully')");
                         $(".for_cart_num").load(location.href + " .shop_cart_num");
                     },
                     error: function (err) {

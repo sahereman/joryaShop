@@ -70,7 +70,7 @@
                                     @endif
                                 </div>
                             </li>
-                            <li>
+                            {{--<li>
                                 <span>QQ</span>
                                 <input type="text" name="qq" value="{{ $user->qq }}"
                                        placeholder="@lang('basic.users.Enter_QQ_account')">
@@ -79,7 +79,7 @@
                                 <span>@lang('basic.users.Wechat')</span>
                                 <input type="text" name="wechat" value="{{ $user->wechat }}"
                                        placeholder="@lang('basic.users.Enter_WeChat_account')">
-                            </li>
+                            </li>--}}
                             <!--<li>
                                 <span>国家|地区码</span>
                                 <input type="text" name="country_code" value="86">

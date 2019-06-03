@@ -43,7 +43,7 @@
                         </a>
                     </li>
                 </ul>
-                <ul class="ordertable_title">
+                <ul class="ordertable_title dis_n">
                     <li class="order_details">
                         <span>@lang('basic.users.The_order_details')</span>
                     </li>
