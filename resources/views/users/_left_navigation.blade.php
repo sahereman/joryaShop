@@ -3,15 +3,15 @@
         <li class="navigation_title user_index">
             <a href="{{ route('users.home') }}">@lang('basic.home')</a>
         </li>
-        <li class="navigation_title">
+        {{--<li class="navigation_title">
             <a href="javascript:void(0);">@lang('basic.users.Personal_Center')</a>
-        </li>
+        </li>--}}
         <li class="account_info">
             <a href="{{ route('users.edit', ['user' => Auth::id()]) }}">@lang('basic.users.Account_information')</a>
         </li>
-        <li class="change_psw">
+        {{--<li class="change_psw">
             <a href="{{ route('users.password', ['user' => Auth::id()]) }}">@lang('basic.users.Change_Password')</a>
-        </li>
+        </li>--}}
         <li class="user_address">
             <a href="{{ route('user_addresses.index') }}">@lang('basic.users.Receiving_address')</a>
         </li>

@@ -41,6 +41,10 @@
                                        placeholder="@lang('basic.users.Username')" readonly
                                        required>
                             </li>
+                            <li class="user_password">
+                                <span>Password</span>
+                                <a href="{{ route('users.password', ['user' => Auth::id()]) }}">@lang('basic.users.Change_Password')</a>
+                            </li>
                             {{--<li>
                                 <span>@lang('basic.users.Real_name')</span>
                                 <input type="text" name="real_name" value="{{ $user->real_name }}"
@@ -107,6 +111,30 @@
                             <label>确认密码</label>
                             <input type="password" name="password_confirmation" value="{{ $user->password }}">
                         </li>-->
+                        <li class="user_phone">
+                            <span class="sel_click">@lang('app.Mobile phone number')</span>
+                            <label class="reset_email">
+                                <!--<img  class="sel_click" src="{{ asset('img/sanjiao.png') }}">-->
+                                <select class="choose_tel_area" name="country_code">
+                                    @foreach(\App\Models\CountryCode::countryCodes() as $country_code)
+                                        @if($user->country_code == $country_code->country_code)
+                                        <option selected="selected" value="{{ $country_code->country_code }}">{{ $country_code->country_name }}</option>
+                                        @else
+                                        <option value="{{ $country_code->country_code }}">{{ $country_code->country_name }}</option>
+                                        @endif
+                                    @endforeach
+                                </select>
+                                <!--<span class="areaCode_choosed"></span>-->
+                                <input id="email" type="phone" name="phone" value="{{ $user->phone }}" required
+                                       placeholder="@lang('app.Please select a country first')">
+                            </label>
+                            @if ($errors->has('phone'))
+                                <span class="help-block">
+                                <img src="{{ asset('img/error_fork.png') }}">
+                                <strong>{{ $errors->first('phone') }}</strong>
+                            </span>
+                            @endif
+                        </li>
                         </ul>
                         <button type="submit">@lang('basic.users.Save')</button>
                     </form>

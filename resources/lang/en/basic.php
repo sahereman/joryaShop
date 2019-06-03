@@ -9,7 +9,7 @@ return [
         'unit' => 'Dollar',
     ],
 
-    'home' => 'Home',
+    'home' => 'My Account',
 
     'lang_label' => 'en',
 
@@ -25,14 +25,14 @@ return [
 
     'users' => [
         'Personal_Center' => 'My Account',
-        'Account_information' => 'My Account',
+        'Account_information' => 'Personal information',
         'Change_Password' => 'Change Password',
-        'Receiving_address' => 'Shipping address',
+        'Receiving_address' => 'Address',
         'My_collection' => 'My Favorites',
         'Browse_history' => 'Browsing history',
-        'Transaction_management' => 'Transaction',
+        'Transaction_management' => 'My Activities',
         'My_order' => 'My order',
-        'Service_Centre' => 'Service Centre',
+        'Service_Centre' => 'Resolution center',
         'After-sale_service' => 'After sales service',
         'nickname' => 'Username',
         'Modify_Personal_Information' => 'Personal Information',
