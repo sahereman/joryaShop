@@ -111,7 +111,7 @@ class UsersController extends Controller
 
         $user->update($data);
 
-        return redirect()->back();
+        return redirect()->route('users.home');
     }
 
     // POST logout
