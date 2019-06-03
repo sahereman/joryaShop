@@ -79,8 +79,8 @@
                         </a>
                     </li>
                 </ul>
-                <ul class="ordertable_title">
-                    <li class="order_details">
+                <ul class="ordertable_title" style="height: 0;">
+                    {{--<li class="order_details">
                         <span>@lang('basic.users.The_order_details')</span>
                     </li>
                     <li class="order_price">
@@ -97,7 +97,7 @@
                     </li>
                     <li class="order_operation">
                         <span>@lang('basic.users.operating')</span>
-                    </li>
+                    </li>--}}
                 </ul>
                 <!--订单列表分为两部分，1、暂无订单时展现其他时候隐藏。2、存在订单时显示.需进行判断-->
                 <div class="order_list">
