@@ -15,23 +15,29 @@
         <li class="user_address">
             <a href="{{ route('user_addresses.index') }}">@lang('basic.users.Receiving_address')</a>
         </li>
+        <li class="navigation_title">
+            <a>@lang('basic.users.Transaction_management')</a>
+        </li>
         <li class="my_collection">
             <a href="{{ route('user_favourites.index') }}">@lang('basic.users.My_collection')</a>
         </li>
         <li class="browse_history">
             <a href="{{ route('user_histories.index') }}">@lang('basic.users.Browse_history')</a>
         </li>
-        <li class="navigation_title">
-            <a>@lang('basic.users.Transaction_management')</a>
-        </li>
         <li class="my_order">
             <a href="{{ route('orders.index') }}">@lang('basic.users.My_order')</a>
+        </li>
+        <li class="">
+            <a>Purchase history</a>
+        </li>
+        <li class="navigation_title">
+            <a>My Messages</a>
         </li>
         <li class="navigation_title">
             <a>@lang('basic.users.Service_Centre')</a>
         </li>
-        <li class="after_sale">
+        {{--<li class="after_sale">
             <a href="{{ route('articles.show', ['slug' => 'refunding_service']) }}">@lang('basic.users.After-sale_service')</a>
-        </li>
+        </li>--}}
     </ul>
 </div>

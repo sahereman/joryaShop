@@ -61,15 +61,15 @@
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('orders.index') . '?status=' . \App\Models\Order::ORDER_STATUS_RECEIVING }}">
-                            <img src="{{ asset('img/tobe_received.png') }}">
-                            <span>@lang('basic.users.On_the_receiving_line')</span>
-                        </a>
-                    </li>
-                    <li>
                         <a href="{{ route('orders.index') . '?status=' . \App\Models\Order::ORDER_STATUS_UNCOMMENTED }}">
                             <img src="{{ asset('img/tobe_evaluated.png') }}">
                             <span>@lang('basic.users.Pending_feedback')</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('orders.index') . '?status=' . \App\Models\Order::ORDER_STATUS_RECEIVING }}">
+                            <img src="{{ asset('img/tobe_received.png') }}">
+                            <span>@lang('basic.users.On_the_receiving_line')</span>
                         </a>
                     </li>
                     <li>
