@@ -2143,13 +2143,14 @@ footer {
     width: 180px;
     height: 595px;
     .staircase_navigation {
-        width: 100%;
+        width: 88%;
 //      text-align: center;
         font-size: 12px;
         line-height: 35px;
+        margin-left: 24px;
         li {
             color: #666;
-            margin-left: 24px;
+            margin-left: 10px;
             font-size: 14px; 
             &:hover {
                 color: #be9067;
@@ -2159,7 +2160,6 @@ footer {
                 color: #333;
                 font-weight: 600;
                 margin: 10px 0;
-                margin-left: 10px;
                 &:hover {
                     color: #333;
                 }
