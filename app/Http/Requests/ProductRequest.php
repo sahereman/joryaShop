@@ -23,8 +23,8 @@ class ProductRequest extends Request
                     'string',
                     Rule::in(['index', 'heat', 'latest', 'sales', 'price_asc', 'price_desc'])
                 ],
-                'min_price' => 'bail|sometimes|nullable|numeric|lte:max_price',
-                'max_price' => 'bail|sometimes|nullable|numeric|gte:min_price',
+                'min_price' => 'bail|sometimes|nullable|numeric',
+                'max_price' => 'bail|sometimes|nullable|numeric',
                 'page' => 'sometimes|required|integer|min:1',
             ];
         } elseif ($this->routeIs('products.search_more') || $this->routeIs('products.search') || $this->routeIs('mobile.products.search')) {
@@ -37,8 +37,8 @@ class ProductRequest extends Request
                     'string',
                     Rule::in(['index', 'heat', 'latest', 'sales', 'price_asc', 'price_desc'])
                 ],
-                'min_price' => 'bail|sometimes|nullable|numeric|lte:max_price',
-                'max_price' => 'bail|sometimes|nullable|numeric|gte:min_price',
+                'min_price' => 'bail|sometimes|nullable|numeric',
+                'max_price' => 'bail|sometimes|nullable|numeric',
                 'page' => 'sometimes|required|integer|min:1',
             ];
         } else {
