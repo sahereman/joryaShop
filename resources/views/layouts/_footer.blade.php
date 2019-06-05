@@ -268,6 +268,7 @@
                         </li>
                         <li>
                             <span><i>*</i>Phone:</span>
+                            <span class="area_codeshow"></span>
                             <input type="text" name="phone" id="register_email" required>
                             @if ($errors->has('phone'))
                                 <p class="login_error error_content">
@@ -294,7 +295,7 @@
                     <p class="agreement_content">
                         <input type="checkbox" id="agreement" class="agree_agreement">
                         <span>@lang('app.I have read and agreed')</span>
-                        <a href="{{ route('root') }}">《@lang('app.User Service Use Agreement')》</a>
+                        <a href="{{ route('articles.show', ['slug' => 'terms_of_service']) }}">《@lang('app.User Service Use Agreement')》</a>
                     </p>
                 </div>
                 <a class="btn_dialog register_btn" id="register_btn"

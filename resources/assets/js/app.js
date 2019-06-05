@@ -747,6 +747,7 @@ $(function () {
         $(this).parents(".register_phone").find(".areaCode_val").html($(this).find("option:checked").val());
         $(this).parents(".register_phone").find("input").addClass("active");
         $(this).parents(".register_phone").find("input").prop('placeholder', (COUNTRY == "中文") ? '请输入手机号' : 'Please enter phone number');
+        $(".area_codeshow").html("+" + $(this).val());
     });
 });
 // 顶部模糊搜索
