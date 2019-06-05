@@ -363,6 +363,7 @@
                         </li>
                         <li>
                             <span><i>*</i>Phone:</span>
+                            <span class="area_codeshow"></span>
                             <input type="text" name="phone" id="login_email" required>
                             @if ($errors->has('phone'))
                                 <p class="login_error error_content">
