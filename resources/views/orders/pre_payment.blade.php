@@ -243,6 +243,7 @@
                         $(".address_name").html(json.data.address.name);
                         $(".address_phone").html(json.data.address.phone);
                         $(".address_location").html(json.data.address.address);
+                        $(".pre_payment_header").attr("code",json.data.address.id);
                         $(".new_receipt_address").hide();
                     },
                     error: function (err) {
