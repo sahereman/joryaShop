@@ -27,7 +27,7 @@
                                 </li>
                                 <li>
                                     <span>@lang('order.contact address')：</span>
-                                    <span class="address_location">{{ $address->address }}</span>
+                                    <span class="address_location">{{ $address->full_address }}</span>
                                 </li>
                             @else
                                 <li>
@@ -135,7 +135,7 @@
                                     <span class="address_name">{{ $address->name }}</span>
                                     <span class="address_phone">{{ substr_replace($address->phone, '*', 3, 4) }}</span>
                                 </p>
-                                <p class="address_info address_location">{{ $address->address }}</p>
+                                <p class="address_info address_location">{{ $address->full_address }}</p>
                             @else
                                 <p class="address_info">
                                     <span class="address_name"></span>

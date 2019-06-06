@@ -195,16 +195,20 @@ class OrdersController extends Controller
         $address = false;
         $userAddress = UserAddress::where('user_id', $request->user()->id);
         // $userAddress = $request->user()->addresses();
-        if ($userAddress->where('is_default', 1)->exists()) {
-            // 默认地址
-            $address = $userAddress->where('is_default', 1)
-                ->first();
-        } elseif ($userAddress->exists()) {
-            // 上次使用地址
-            $address = $userAddress->latest('last_used_at')
-                ->latest('updated_at')
-                ->latest()
-                ->first();
+        if ($userAddress->exists()) {
+            if ($userAddress->where('is_default', 1)->exists()) {
+                // 默认地址
+                $address = UserAddress::where('user_id', $request->user()->id)
+                    ->where('is_default', 1)
+                    ->first();
+            } else {
+                // 上次使用地址
+                $address = UserAddress::where('user_id', $request->user()->id)
+                    ->latest('last_used_at')
+                    ->latest('updated_at')
+                    ->latest()
+                    ->first();
+            }
         }
 
         return view('orders.pre_payment', [
@@ -260,16 +264,20 @@ class OrdersController extends Controller
         $address = false;
         $userAddress = UserAddress::where('user_id', $request->user()->id);
         // $userAddress = $request->user()->addresses();
-        if ($userAddress->where('is_default', 1)->exists()) {
-            // 默认地址
-            $address = $userAddress->where('is_default', 1)
-                ->first();
-        } elseif ($userAddress->exists()) {
-            // 上次使用地址
-            $address = $userAddress->latest('last_used_at')
-                ->latest('updated_at')
-                ->latest()
-                ->first();
+        if ($userAddress->exists()) {
+            if ($userAddress->where('is_default', 1)->exists()) {
+                // 默认地址
+                $address = UserAddress::where('user_id', $request->user()->id)
+                    ->where('is_default', 1)
+                    ->first();
+            } else {
+                // 上次使用地址
+                $address = UserAddress::where('user_id', $request->user()->id)
+                    ->latest('last_used_at')
+                    ->latest('updated_at')
+                    ->latest()
+                    ->first();
+            }
         }
 
         return view('orders.pre_payment', [
@@ -356,10 +364,14 @@ class OrdersController extends Controller
                 ]);
             }
 
+            $user_info = UserAddress::find($request->input('address_id'))->only('name', 'phone', 'full_address');
+            $user_info['address'] = $user_info['full_address'];
+            unset($user_info['full_address']);
             // 创建一条订单记录
             $order = new Order([
                 'user_id' => $user->id,
-                'user_info' => UserAddress::select(['name', 'phone', 'address',])->find($request->input('address_id'))->toArray(),
+                // 'user_info' => UserAddress::select(['name', 'phone', 'address',])->find($request->input('address_id'))->toArray(),
+                'user_info' => $user_info,
                 'status' => Order::ORDER_STATUS_PAYING,
                 'currency' => $currency,
                 'snapshot' => collect($snapshot)->toArray(),
@@ -436,10 +448,14 @@ class OrdersController extends Controller
             $total_shipping_fee = bcmul(exchange_price($product->shipping_fee, $currency), $number, 2);
             $total_amount = bcmul($price, $number, 2);
 
+            $user_info = UserAddress::find($request->input('address_id'))->only('name', 'phone', 'full_address');
+            $user_info['address'] = $user_info['full_address'];
+            unset($user_info['full_address']);
             // 创建一条订单记录
             $order = new Order([
                 'user_id' => $user->id,
-                'user_info' => UserAddress::select(['name', 'phone', 'address',])->find($request->input('address_id'))->toArray(),
+                // 'user_info' => UserAddress::select(['name', 'phone', 'address',])->find($request->input('address_id'))->toArray(),
+                'user_info' => $user_info,
                 'status' => Order::ORDER_STATUS_PAYING,
                 'currency' => $currency,
                 'snapshot' => collect($snapshot)->toArray(),

@@ -203,16 +203,20 @@ class OrdersController extends Controller
         $address = false;
         $userAddress = UserAddress::where('user_id', $request->user()->id);
         // $userAddress = $request->user()->addresses();
-        if ($userAddress->where('is_default', 1)->exists()) {
-            // 默认地址
-            $address = $userAddress->where('is_default', 1)
-                ->first();
-        } elseif ($userAddress->exists()) {
-            // 上次使用地址
-            $address = $userAddress->latest('last_used_at')
-                ->latest('updated_at')
-                ->latest()
-                ->first();
+        if ($userAddress->exists()) {
+            if ($userAddress->where('is_default', 1)->exists()) {
+                // 默认地址
+                $address = UserAddress::where('user_id', $request->user()->id)
+                    ->where('is_default', 1)
+                    ->first();
+            } else {
+                // 上次使用地址
+                $address = UserAddress::where('user_id', $request->user()->id)
+                    ->latest('last_used_at')
+                    ->latest('updated_at')
+                    ->latest()
+                    ->first();
+            }
         }
 
         return view('mobile.orders.pre_payment', [
@@ -268,16 +272,20 @@ class OrdersController extends Controller
         $address = false;
         $userAddress = UserAddress::where('user_id', $request->user()->id);
         // $userAddress = $request->user()->addresses();
-        if ($userAddress->where('is_default', 1)->exists()) {
-            // 默认地址
-            $address = $userAddress->where('is_default', 1)
-                ->first();
-        } elseif ($userAddress->exists()) {
-            // 上次使用地址
-            $address = $userAddress->latest('last_used_at')
-                ->latest('updated_at')
-                ->latest()
-                ->first();
+        if ($userAddress->exists()) {
+            if ($userAddress->where('is_default', 1)->exists()) {
+                // 默认地址
+                $address = UserAddress::where('user_id', $request->user()->id)
+                    ->where('is_default', 1)
+                    ->first();
+            } else {
+                // 上次使用地址
+                $address = UserAddress::where('user_id', $request->user()->id)
+                    ->latest('last_used_at')
+                    ->latest('updated_at')
+                    ->latest()
+                    ->first();
+            }
         }
 
         return view('mobile.orders.pre_payment', [

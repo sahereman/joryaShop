@@ -57,6 +57,7 @@
                                     <td class="dis_n address_country">{{ $address->country }}</td>
                                     <td class="dis_n address_city">{{ $address->city }}</td>
                                     <td class="dis_n address_province">{{ $address->province }}</td>
+                                    <td class="dis_n address_detail">{{ $address->address }}</td>
                                     <!--电话建议后台正则处理前端处理容易泄露-->
                                     <td class="address_tel">{{ $address->phone }}</td>
                                     <td class="address_operation">
@@ -319,7 +320,7 @@
                 $("#edit-form").prop("action", $(this).attr("url"));
                 $(".edit_harvest_address").find(".user_name").val($(this).parents("tr").find(".address_name").html());
                 $(".edit_harvest_address").find(".user_tel").val($(this).parents("tr").find(".address_tel").html());
-                $(".edit_harvest_address").find("textarea").val($(this).parents("tr").find(".address_info").html());
+                $(".edit_harvest_address").find("textarea").val($(this).parents("tr").find(".address_detail").html());
                 //address_country
                 $(".edit_harvest_address").find(".user_country").val($(this).parents("tr").find(".address_country").html());
                 $(".edit_harvest_address").find(".user_city").val($(this).parents("tr").find(".address_city").html());

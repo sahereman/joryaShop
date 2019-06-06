@@ -40,7 +40,7 @@
             <div class="addAdsItem" style="border:none;">
                 <label class="must">@lang('basic.address.Detailed address')</label>
                 {{--<input type="text" name="address" id="" value="{{ $address->address }}"/>--}}
-                <textarea name="address" value="">{{ $address->full_address }}</textarea>
+                <textarea name="address" value="">{{ $address->address }}</textarea>
             </div>
             <div class="defaultBox">
                 <label>@lang('basic.address.Set as default address')</label>

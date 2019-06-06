@@ -50,6 +50,9 @@ class UserAddressesController extends Controller
         $address->user_id = $user->id;
         $address->name = $request->input('name');
         $address->phone = $request->input('phone');
+        $address->country = $request->input('country');
+        $address->province = $request->input('province');
+        $address->city = $request->input('city');
         $address->address = $request->input('address');
         if (($request->filled('is_default') && $request->input('is_default') == 1) || $addressCount == 0) {
             UserAddress::where(['user_id' => $request->user()->id, 'is_default' => true])
@@ -80,6 +83,9 @@ class UserAddressesController extends Controller
         $address->user_id = $user->id;
         $address->name = $request->input('name');
         $address->phone = $request->input('phone');
+        $address->country = $request->input('country');
+        $address->province = $request->input('province');
+        $address->city = $request->input('city');
         $address->address = $request->input('address');
         if (($request->filled('is_default') && $request->input('is_default') == 1) || $addressCount == 0) {
             UserAddress::where(['user_id' => $request->user()->id, 'is_default' => true])
@@ -103,6 +109,9 @@ class UserAddressesController extends Controller
         $this->authorize('update', $address);
         $address->name = $request->input('name');
         $address->phone = $request->input('phone');
+        $address->country = $request->input('country');
+        $address->province = $request->input('province');
+        $address->city = $request->input('city');
         $address->address = $request->input('address');
         if ($request->filled('is_default') && $request->input('is_default') == 1) {
             UserAddress::where(['user_id' => $request->user()->id, 'is_default' => true])

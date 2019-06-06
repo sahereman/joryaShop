@@ -18,6 +18,9 @@ class UserAddressRequest extends Request
             return [
                 'name' => 'required|string',
                 'phone' => 'required|string',
+                'country' => 'string|nullable',
+                'province' => 'string|nullable',
+                'city' => 'string|nullable',
                 'address' => [
                     'required',
                     'string',
@@ -31,6 +34,9 @@ class UserAddressRequest extends Request
             return [
                 'name' => 'required|string',
                 'phone' => 'required|string',
+                'country' => 'string|nullable',
+                'province' => 'string|nullable',
+                'city' => 'string|nullable',
                 'address' => [
                     'required',
                     'string',
