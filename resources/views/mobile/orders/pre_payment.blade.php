@@ -18,7 +18,7 @@
                             @if($address->is_default == 1)
                                 <span class="default_btn">@lang('basic.address.Default')</span>
                             @endif
-                            <span class="address_info_all">{{ $address->address }}</span>
+                            <span class="address_info_all">{{ $address->full_address }}</span>
                         </p>
                     </div>
                     <img src="{{ asset('static_m/img/icon_more.png') }}">
@@ -136,17 +136,17 @@
                 </div>
                 <div class="addAdsItem">
                     <label class="must">Country or region</label>
-                    <input type="text" name="country" id="" value=""
+                    <input type="text" name="country" id="new_address_country" value=""
                            placeholder="Please fill in your Country or region"/>
                 </div>
                 <div class="addAdsItem">
                     <label class="must">City</label>
-                    <input type="text" name="city" id="" value=""
+                    <input type="text" name="city" id="new_address_city" value=""
                            placeholder="Please fill in your City"/>
                 </div>
                 <div class="addAdsItem">
                     <label class="must">State/Province/Region</label>
-                    <input type="text" name="province" id="" value=""
+                    <input type="text" name="province" id="new_address_province" value=""
                            placeholder="Please fill in your State/Province/Region"/>
                 </div>
                 <div class="addAdsItem" style="border:none;">
@@ -319,6 +319,9 @@
                     name: $("#new_address_name").val(),
                     phone: $("#new_address_phone").val(),
                     address: $("#new_address_info").val(),
+                    country:$("#new_address_country").val(),
+                    city:$("#new_address_city").val(),
+                    province:$("#new_address_province").val(),
                     is_default: $(".setas_default").val()
                 };
                 $.ajax({
@@ -381,7 +384,7 @@
                                     html += "</div>";
                                     html += "<div class='adsDetail'>";
                                     html += "<span class='adsP'>" + n.phone + "</span>";
-                                    html += "<span class='adsD'>" + n.address + "</span>";
+                                    html += "<span class='adsD'>" + n.full_address + "</span>";
                                     html += "</div>";
                                     html += "</div>";
                                 });

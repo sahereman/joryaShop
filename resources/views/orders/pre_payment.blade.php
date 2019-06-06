@@ -133,7 +133,7 @@
                             @if($address)
                                 <p class="address_info">
                                     <span class="address_name">{{ $address->name }}</span>
-                                    <span class="address_phone">{{ substr_replace($address->phone, '*', 3, 4) }}</span>
+                                    <span class="address_phone">{{ $address->phone }}</span>
                                 </p>
                                 <p class="address_info address_location">{{ $address->full_address }}</p>
                             @else
@@ -251,6 +251,9 @@
                     name:$(".new_receipt_address .user_name").val(),
                     phone:$(".new_receipt_address .user_tel").val(),
                     address:$(".new_receipt_address textarea").val(),
+                    country:$(".new_receipt_address .user_country").val(),
+                    city:$(".new_receipt_address .user_city").val(),
+                    province:$(".new_receipt_address .user_province").val(),
                     is_default: "0"
                 };
                 $.ajax({
@@ -291,7 +294,7 @@
                                     html += "<li class='clear' code='"+ n.id +"'>" +
                                             "<p class='clear'><span>@lang('order.Contact')：</span><span class='name'>" + n.name + "</span></p>" +
                                             "<p class='clear'><span>@lang('order.Contact information')：</span><span class='phone'>" + n.phone + "</span></p>" +
-                                            "<p class='clear'><span>@lang('order.contact address')：</span><span class='address'>" + n.address + "</span></p>" +
+                                            "<p class='clear'><span>@lang('order.contact address')：</span><span class='address'>" + n.full_address + "</span></p>" +
                                             "</li>";
                                 });
                                 $(".changeAddress ul").html("");
