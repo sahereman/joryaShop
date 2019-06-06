@@ -140,12 +140,12 @@
             }
         });
         // 短信发送倒计时器
-        var countdown = 10;
+        var countdown = 60;
         var settime = function () {
             if (countdown < 0) {
                 $(".getY").css("display", "inline-block");
                 $(".cutTime").css("display", "none");
-                countdown = 10;
+                countdown = 60;
                 return;
             } else {
                 $(".getY").css("display", "none");
