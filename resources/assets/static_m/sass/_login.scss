@@ -59,7 +59,7 @@
                 vertical-align: middle;
             }
             input{
-                width: 50%;
+                width: 65%;
                 border: none;
                 vertical-align: middle;
             }
@@ -81,6 +81,27 @@
                 span{
                     vertical-align: middle;
                 }
+            }
+        }
+        .emailBox {
+            width: 100%;
+            border-bottom: 1px solid #dcdcdc;
+            margin-top: 1.7rem;
+            padding-bottom: .7rem;
+            padding-left: .4rem;
+            position: relative;
+            .fImg{
+                width: 1.2rem;
+                vertical-align: middle;
+            }
+            input{
+                width: 65%;
+                border: none;
+                vertical-align: middle;
+            }
+            input::-webkit-input-placeholder {
+                  /* placeholder颜色  */
+                 color: #ababab;
             }
         }
         .subBtn{

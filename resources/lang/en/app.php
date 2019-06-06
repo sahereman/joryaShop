@@ -44,6 +44,7 @@ return [
     'New User Registration' => 'New Customer',
     'please enter user name' => 'please enter user name',
     'Please enter your password' => 'please enter your password',
+    'Please enter your email' => 'please enter your email',
     'Please enter phone number' => 'please enter phone number',
     'please enter verification code' => 'enter verification code',
     'get verification code' => 'Verification code',

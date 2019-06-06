@@ -44,6 +44,7 @@ return [
     'New User Registration' => '新用户注册',
     'please enter user name' => '请输入用户名',
     'Please enter your password' => '请输入密码',
+    'Please enter your password' => '请输入邮箱',
     'Please enter phone number' => '请输入手机号',
     'please enter verification code' => '请输入验证码',
     'get verification code' => '获取验证码',

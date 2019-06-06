@@ -652,7 +652,7 @@ $(function () {
     $("#register_btn").on("click", function () {
         var clickDome = $(this);
         if ($("#register-form").valid()) {
-            if($("#register_psw").val().length<=6) {
+            if($("#register_psw").val().length<6) {
                 layer.msg("Password must not be less than 6 bits");
                 return;
             }

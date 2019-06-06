@@ -10,7 +10,7 @@
             <div class="nameBox">
                 <img src="{{ asset('static_m/img/icon_name.png') }}" class="fImg"/>
                 <input type="text" name="name" value="{{ old('name') }}"
-                       placeholder="@lang('app.please enter user name')">
+                       placeholder="@lang('app.please enter user name')" required>
                 <div class="tipBox">
                     @if ($errors->has('name'))
                         <img src="{{ asset('static_m/img/icon_tip.png') }}"/>
@@ -20,11 +20,21 @@
             </div>
             <div class="psdBox">
                 <img src="{{ asset('static_m/img/icon_password.png') }}" class="fImg"/>
-                <input type="password" name="password" placeholder="@lang('app.Please enter your password')">
+                <input type="password" name="password" placeholder="@lang('app.Please enter your password')" minlength="6" required>
                 <div class="tipBox">
                     @if ($errors->has('password'))
                         <img src="{{ asset('static_m/img/icon_tip.png') }}"/>
                         <span> {{ $errors->first('password') }}</span>
+                    @endif
+                </div>
+            </div>
+            <div class="emailBox">
+                <img src="{{ asset('static_m/img/icon_email.png') }}" class="fImg"/>
+                <input type="email" name="email" placeholder="@lang('app.Please enter your email')" required>
+                <div class="tipBox">
+                    @if ($errors->has('email'))
+                        <img src="{{ asset('static_m/img/icon_tip.png') }}"/>
+                        <span> {{ $errors->first('email') }}</span>
                     @endif
                 </div>
             </div>
@@ -39,7 +49,7 @@
                 <span class="valSpan"></span>
                 <input type="text" name="phone" value="{{ old('phone') }}"
                        placeholder="@lang('app.Please select a country first')" class="phoneIpt"
-                       maxlength="11">
+                       maxlength="11" required>
                 <div class="tipBox">
                     @if ($errors->has('phone'))
                         <img src="{{ asset('static_m/img/icon_tip.png') }}"/>
@@ -50,7 +60,7 @@
             <div class="codeBox">
                 <img src="{{ asset('static_m/img/icon_yzm.png') }}" class="fImg"/>
                 <input type="text" name="code" value="" placeholder="@lang('app.please enter verification code')"
-                       class="codeIpt" maxlength="6">
+                       class="codeIpt" required>
                 <div class="getYBox">
                     <span class="getY">@lang('app.get verification code')</span>
                     <span class="cutTime"></span>
@@ -108,8 +118,13 @@
                         // 请求出错处理
                         if (xhr.status === 422) {
                             // http 状态码为 422 代表用户输入校验失败
+                            var arr = []
+                            var dataobj = xhr.responseJSON.errors;
+                            for (let i in dataobj) {
+                                arr.push(dataobj[i]); //属性
+                            }
                             layer.open({
-                                content: xhr.responseJSON.errors.phone[0],
+                                content: arr[0][0],
                                 time: 2,
                                 skin: 'msg',
                             });
