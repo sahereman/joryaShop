@@ -13,10 +13,11 @@
         <a href="{{ route('mobile.root') }}">@lang('product.shop_now')</a>
     </div>
     <div class="favBox histories_box {{ is_wechat_browser() ? 'margin-top_no' : '' }}">
-        <div class="lists"></div>
+        {{--{{ route('mobile.products.show' }}--}}
+        <div class="lists" data-url="{{ route('mobile.root') }}"></div>
     </div>
     <div class="editFav histories_box">
-        <div class="lists"></div>
+        <div class="lists" data-url="{{ route('mobile.root') }}"></div>
     </div>
     <div class="browseFixt">
         <div class="browseTotalDiv">
@@ -155,6 +156,7 @@
                         data: data,
                         dataType: 'json',
                         success: function (data) {
+                            console.log(data)
                             var dataobj = data.data.histories;
                             var html = "";
                             var name, symbol, price, sku_name, total_shipping_fee, total_shipping;
@@ -177,10 +179,10 @@
                                         html += "<input type='checkbox' name='checkitem' value='" + b.id + "'/>";
                                         html += "<span></span>";
                                         html += "</label>";
-                                        html += "<div class='img_box'>";
+                                        html += "<div class='img_box' code='"+ b.id +"'>";
                                         html += "<img src='" + b.product.thumb_url + "'/>";
                                         html += "</div>";
-                                        html += "<div class='favDetail'>";
+                                        html += "<div class='favDetail' code='"+ b.id +"'>";
                                         html += "<div class='goodsName'>" + name + "</div>";
                                         html += "<div class='goodsPri'>";
                                         html += "<div>";
@@ -216,7 +218,13 @@
                 }
             });
         }
-
+        //点击跳转 
+        $(".histories_box").on("click",".img_box",function(){
+            window.location.href = $(this).parents(".lists").attr("data-url")+"/products/"+$(this).attr("code");
+        })
+        $(".histories_box").on("click",".favDetail",function(){
+            window.location.href = $(this).parents(".lists").attr("data-url")+"/products/"+$(this).attr("code");
+        })
         function float_multiply_by_100(float) {
             float = String(float);
             // float = float.toString();
