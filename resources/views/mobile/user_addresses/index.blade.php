@@ -28,7 +28,7 @@
                         </div>
                         <div class="adsDetail">
                             <span class="adsP">{{ mb_substr($address->phone, 0, 3) . '****' . mb_substr($address->phone, -3) }}</span>
-                            <span class="adsD">{{ $address->address }}</span>
+                            <span class="adsD">{{ $address->full_address }}</span>
                         </div>
                         <div class="adsEdit">
                             <img data-url="{{ route('mobile.user_addresses.edit', ['address' => $address->id]) }}"

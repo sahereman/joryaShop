@@ -175,6 +175,25 @@
                                 </p>
                             </li>
                             <li>
+                                <p>
+                                    <span class="input_name"><i>*</i>Country or region：</span>
+                                    <input class="user_country" name="country" type="text"
+                                           placeholder="Enter the Country or region">
+                                </p>
+                            </li>
+                            <li>
+                                <p>
+                                    <span class="input_name"><i>*</i>City：</span>
+                                    <input class="user_city" name="city" type="text"
+                                           placeholder="Enter the City">
+                                </p>
+                                <p>
+                                    <span class="input_name"><i>*</i>State/Province/Region：</span>
+                                    <input class="user_province" name="province" type="text"
+                                           placeholder="Enter the State/Province/Region">
+                                </p>
+                            </li>
+                            <li>
                                 <span class="input_name"><i>*</i>@lang('basic.address.Detailed address')：</span>
                                 <textarea name="address"
                                           placeholder="@lang('basic.address.Detailed_address')"></textarea>
@@ -242,7 +261,7 @@
                     success: function (json) {
                         $(".address_name").html(json.data.address.name);
                         $(".address_phone").html(json.data.address.phone);
-                        $(".address_location").html(json.data.address.address);
+                        $(".address_location").html(json.data.address.full_address);
                         $(".pre_payment_header").attr("code",json.data.address.id);
                         $(".new_receipt_address").hide();
                     },

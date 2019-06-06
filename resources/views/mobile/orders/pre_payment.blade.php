@@ -75,13 +75,13 @@
             <div class="pre_amount">
                 <p>
                     <span>@lang('order.Sum')</span>
-                    <span class="RMB_num">&#165; {{ exchange_price($total_amount, 'CNY') }}</span>
-                    <span class="dis_ni dollar_num">&#36; {{ $total_amount }}</span>
+                    {{--<span class="dis_ni RMB_num">&#165; {{ exchange_price($total_amount, 'CNY') }}</span>--}}
+                    <span class="dollar_num">&#36; {{ $total_amount }}</span>
                 </p>
                 <p>
                     <span>@lang('order.freight')</span>
-                    <span class="RMB_num amount_of_money">&#165; <span>{{ exchange_price($total_shipping_fee, 'CNY') }}</span></span>
-                    <span class="dis_ni dollar_num amount_of_money">&#36; <span>{{ $total_shipping_fee }}</span></span>
+                    {{--<span class="dis_ni RMB_num amount_of_money">&#165; <span>{{ exchange_price($total_shipping_fee, 'CNY') }}</span></span>--}}
+                    <span class="dollar_num amount_of_money">&#36; <span>{{ $total_shipping_fee }}</span></span>
                 </p>
             </div>
             <div class="pre_currency">
@@ -98,8 +98,8 @@
             </div>
         </div>
         <div class="pre_paymentTotal">
-            <span class="RMB_num amount_of_money">&#165; <span>{{ exchange_price($total_fee, 'CNY') }}</span></span>
-            <span class="dis_ni dollar_num amount_of_money">&#36; <span>{{ $total_fee }}</span></span>
+            {{--<span class="dis_ni RMB_num amount_of_money">&#165; <span>{{ exchange_price($total_fee, 'CNY') }}</span></span>--}}
+            <span class="dollar_num amount_of_money">&#36; <span>{{ $total_fee }}</span></span>
             <a href="javascript:void(0);" class="payment_btn"
                data-url="{{ route('orders.store') }}">@lang('basic.orders.Submit an Order')</a>
         </div>
@@ -133,6 +133,21 @@
                     <label class="must">@lang('basic.address.Cellphone number')</label>
                     <input type="text" name="phone" id="new_address_phone" value=""
                            placeholder="@lang('basic.address.Please fill in your mobile phone number')"/>
+                </div>
+                <div class="addAdsItem">
+                    <label class="must">Country or region</label>
+                    <input type="text" name="country" id="" value=""
+                           placeholder="Please fill in your Country or region"/>
+                </div>
+                <div class="addAdsItem">
+                    <label class="must">City</label>
+                    <input type="text" name="city" id="" value=""
+                           placeholder="Please fill in your City"/>
+                </div>
+                <div class="addAdsItem">
+                    <label class="must">State/Province/Region</label>
+                    <input type="text" name="province" id="" value=""
+                           placeholder="Please fill in your State/Province/Region"/>
                 </div>
                 <div class="addAdsItem" style="border:none;">
                     <label class="must">@lang('basic.address.Detailed address')</label>
@@ -315,7 +330,7 @@
                     success: function (json) {
                         $(".address_name").html(json.data.address.name);
                         $(".address_phone").html(json.data.address.phone);
-                        $(".address_info_all").html(json.data.address.address);
+                        $(".address_info_all").html(json.data.address.full_address);
                         $(".address_title").attr("code", json.data.address.id)
                         $('.address_choose').removeClass("fadeInRightBig");
                         $('.address_choose').addClass("fadeOutRightBig");

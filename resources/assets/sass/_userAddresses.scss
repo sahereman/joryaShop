@@ -76,6 +76,11 @@
                         border-top: 0px;
                         td {
                             height: 110px;
+                            span {
+                                display: inline-block;
+                                width: 100%;
+                                word-wrap:break-word;
+                            }
 //                          line-height: 0px;
                             &.address_name {
                                 width: 150px;
@@ -86,6 +91,9 @@
                                 width: 300px;
                                 text-align: left;
                                 word-wrap:break-word;
+                                span {
+                                    width: 300px;
+                                }
                             }
                             &.address_tel,
                             &.address_operation {
@@ -133,7 +141,7 @@
                             overflow: hidden;
                             span {
                                 float: left;
-                                margin-right: 10px;
+//                              margin-right: 10px;
                             }
                             textarea {
                                 float: left;
@@ -146,12 +154,14 @@
                             p {
                                 float: left;
                                 span {
-                                    margin-right: 10px;
+//                                  margin-right: 10px;
                                 }
                                 input {
+                                    width: 210px;
                                     float: left;
+                                    &.user_city,
                                     &.user_name {
-                                        margin-left: 13px;
+//                                      margin-left: 13px;
                                         margin-right: 45px;
                                     }
                                     &.user_name ~label {

@@ -94,7 +94,7 @@ return [
         'File format is incorrect' => 'File format is incorrect',
         'Picture size cannot exceed' => 'Picture size cannot exceed',
         "ALL" => 'ALL',
-        'My address' => 'My address',
+        'My address' => 'Address',
         'My footprints' => 'My footprints',
         'Email_verification_code_sent_already' => 'The email verification code was sent already',
         'Email_has_not_been_registered_as_user' => 'This email has not been registered as user',

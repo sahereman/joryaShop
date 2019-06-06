@@ -22,6 +22,21 @@
                 <input type="text" name="phone" id="" value=""
                        placeholder="@lang('basic.address.Please fill in your mobile phone number')"/>
             </div>
+            <div class="addAdsItem">
+                <label class="must">Country or region</label>
+                <input type="text" name="country" id="" value=""
+                       placeholder="Please fill in your Country or region"/>
+            </div>
+            <div class="addAdsItem">
+                <label class="must">City</label>
+                <input type="text" name="city" id="" value=""
+                       placeholder="Please fill in your City"/>
+            </div>
+            <div class="addAdsItem">
+                <label class="must">State/Province/Region</label>
+                <input type="text" name="province" id="" value=""
+                       placeholder="Please fill in your State/Province/Region"/>
+            </div>
             <div class="addAdsItem" style="border:none;">
                 <label class="must">@lang('basic.address.Detailed address')</label>
                 {{--<input type="text" name="address" id="" value="" placeholder="@lang('basic.address.Detailed_address')"/>--}}

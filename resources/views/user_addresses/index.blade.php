@@ -52,7 +52,11 @@
                             @foreach($addresses as $address)
                                 <tr>
                                     <td class="address_name">{{ $address->name }}</td>
-                                    <td class="address_info">{{ $address->address }}</td>
+                                    <td class="address_info">{{ $address->full_address }}</td>
+                                    <!--新增用于修改是显示-->
+                                    <td class="dis_n address_country">{{ $address->country }}</td>
+                                    <td class="dis_n address_city">{{ $address->city }}</td>
+                                    <td class="dis_n address_province">{{ $address->province }}</td>
                                     <!--电话建议后台正则处理前端处理容易泄露-->
                                     <td class="address_tel">{{ $address->phone }}</td>
                                     <td class="address_operation">
@@ -152,6 +156,25 @@
                                 </p>
                             </li>
                             <li>
+                                <p>
+                                    <span class="input_name"><i>*</i>Country or region：</span>
+                                    <input class="user_country" name="country" type="text"
+                                           placeholder="Enter the Country or region">
+                                </p>
+                            </li>
+                            <li>
+                                <p>
+                                    <span class="input_name"><i>*</i>City：</span>
+                                    <input class="user_city" name="city" type="text"
+                                           placeholder="Enter the City">
+                                </p>
+                                <p>
+                                    <span class="input_name"><i>*</i>State/Province/Region：</span>
+                                    <input class="user_province" name="province" type="text"
+                                           placeholder="Enter the State/Province/Region">
+                                </p>
+                            </li>
+                            <li>
                                 <span class="input_name"><i>*</i>@lang('basic.address.Detailed address')：</span>
                                 <textarea name="address"
                                           placeholder="@lang('basic.address.Detailed_address')"></textarea>
@@ -201,6 +224,26 @@
                                     <span class="input_name"><i>*</i>@lang('basic.address.Contact')：</span>
                                     <input class="user_tel" name="phone" type="text"
                                            placeholder="@lang('basic.address.Enter the real and valid mobile phone number')">
+                                </p>
+                            </li>
+                            <!--新增修改内容的国家地区城市-->
+                            <li>
+                                <p>
+                                    <span class="input_name"><i>*</i>Country or region：</span>
+                                    <input class="user_country" name="country" type="text"
+                                           placeholder="Enter the Country or region">
+                                </p>
+                            </li>
+                            <li>
+                                <p>
+                                    <span class="input_name"><i>*</i>City：</span>
+                                    <input class="user_city" name="city" type="text"
+                                           placeholder="Enter the City">
+                                </p>
+                                <p>
+                                    <span class="input_name"><i>*</i>State/Province/Region：</span>
+                                    <input class="user_province" name="province" type="text"
+                                           placeholder="Enter the State/Province/Region">
                                 </p>
                             </li>
                             <li>
@@ -277,6 +320,10 @@
                 $(".edit_harvest_address").find(".user_name").val($(this).parents("tr").find(".address_name").html());
                 $(".edit_harvest_address").find(".user_tel").val($(this).parents("tr").find(".address_tel").html());
                 $(".edit_harvest_address").find("textarea").val($(this).parents("tr").find(".address_info").html());
+                //address_country
+                $(".edit_harvest_address").find(".user_country").val($(this).parents("tr").find(".address_country").html());
+                $(".edit_harvest_address").find(".user_city").val($(this).parents("tr").find(".address_city").html());
+                $(".edit_harvest_address").find(".user_province").val($(this).parents("tr").find(".address_province").html());
                 var isdefault = $(this).parents("tr").find(".setDefaultAddress ").hasClass("haddefault");
                 if (isdefault == true) {
                     $(".edit_harvest_address").find("#edit_default").attr("checked", true);

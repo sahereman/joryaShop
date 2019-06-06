@@ -41,7 +41,8 @@
             flex-direction: row;
             justify-content: space-between;
             align-items: center;
-            height: 3.4rem;
+            min-height: 3.4rem;
+            padding: .5rem 0;
             .adsName{
                 display: flex;
                 flex-direction: column;

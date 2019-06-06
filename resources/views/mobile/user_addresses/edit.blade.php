@@ -21,10 +21,26 @@
                 <label class="must">@lang('basic.address.Cellphone number')</label>
                 <input type="text" name="phone" id="" value="{{ $address->phone }}"/>
             </div>
+            <!--新增修改内容的国家地区城市-->
+            <div class="addAdsItem">
+                <label class="must">Country or region</label>
+                <input type="text" name="country" id="" value="{{ $address->country }}"
+                       placeholder="Please fill in your Country or region"/>
+            </div>
+            <div class="addAdsItem">
+                <label class="must">City</label>
+                <input type="text" name="city" id="" value="{{ $address->city }}"
+                       placeholder="Please fill in your City"/>
+            </div>
+            <div class="addAdsItem">
+                <label class="must">State/Province/Region</label>
+                <input type="text" name="province" id="" value="{{ $address->province }}"
+                       placeholder="Please fill in your State/Province/Region"/>
+            </div>
             <div class="addAdsItem" style="border:none;">
                 <label class="must">@lang('basic.address.Detailed address')</label>
                 {{--<input type="text" name="address" id="" value="{{ $address->address }}"/>--}}
-                <textarea name="address" value="">{{ $address->address }}</textarea>
+                <textarea name="address" value="">{{ $address->full_address }}</textarea>
             </div>
             <div class="defaultBox">
                 <label>@lang('basic.address.Set as default address')</label>
