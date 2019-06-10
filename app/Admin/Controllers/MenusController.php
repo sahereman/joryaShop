@@ -25,8 +25,8 @@ class MenusController extends Controller
     {
         return $content
             ->header('导航菜单管理')
-            ->description('列表')
-            ->body($this->tree());
+            ->description($request->input('slug').' 列表')
+            ->body($this->tree($request));
     }
 
     /**
@@ -70,9 +70,19 @@ class MenusController extends Controller
             ->body($this->form());
     }
 
-    protected function tree()
+    protected function tree($request)
     {
-        return Menu::tree(function (Tree $tree) {
+        $slug = $request->input('slug');
+
+        return Menu::tree(function (Tree $tree) use ($slug) {
+
+            if ($slug)
+            {
+                $tree->query(function ($query)  use ($slug){
+                    return $query->where('slug', $slug);
+                });
+            }
+
             $tree->branch(function ($branch) {
                 $text = $branch['parent_id'] == 0 ? '<span class="label label-success">' . $branch['slug'] . '</span>' : '';
                 // return "ID:{$branch['id']} - {$branch['name_zh']} " . $text;
@@ -133,21 +143,22 @@ class MenusController extends Controller
     {
         $form = new Form(new Menu);
 
-//        $parent_menus = Menu::where('parent_id', 0)->orderBy('sort')->get()->mapWithKeys(function ($item) {
-//            // return [$item['id'] => $item['name_zh']];
-//            return [$item['id'] => $item['name_en'] . ' (' . $item['slug'].')'];
-//        });
-//        $parent_menus->prepend('顶级分类', 0);
+        //        $parent_menus = Menu::where('parent_id', 0)->orderBy('sort')->get()->mapWithKeys(function ($item) {
+        //            // return [$item['id'] => $item['name_zh']];
+        //            return [$item['id'] => $item['name_en'] . ' (' . $item['slug'].')'];
+        //        });
+        //        $parent_menus->prepend('顶级分类', 0);
 
         $form->select('parent_id', '上级分类')->options(Menu::selectOptions())->rules('required');
 
-//        $form->select('parent_id', '上级分类')->options($parent_menus)->rules('required');
+        //        $form->select('parent_id', '上级分类')->options($parent_menus)->rules('required');
         // $form->text('name_zh', '名称(中文)')->rules('required');
         $form->hidden('name_zh', '名称(中文)')->default('lyrical');
         $form->text('name_en', '名称(英文)')->rules('required');
 
         $form->select('slug', '标示位')->options([
             'pc' => 'PC站',
+            'sub_pc' => 'PC站副导航',
             'mobile' => 'Mobile站'
         ])->rules('required');
 

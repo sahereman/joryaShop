@@ -16,7 +16,7 @@ class Menu extends Model
         parent::__construct($attributes);
 
         /*初始化Tree属性*/
-        // $this->setTitleColumn('name_zh');
+//         $this->setTitleColumn('name_zh');
         $this->setTitleColumn('name_en');
         $this->setOrderColumn('sort');
     }
@@ -50,6 +50,7 @@ class Menu extends Model
     public $timestamps = false;
 
     public static $pc_cache_key;
+    public static $sub_pc_cache_key;
     public static $mobile_cache_key;
     // Cache 生命周期: 24小时
     protected static $cache_expire_in_minutes = 1440;
@@ -77,6 +78,20 @@ class Menu extends Model
         // 否则运行匿名函数中的代码来取出 menus 表中所有的数据，返回的同时做了缓存。
         return Cache::remember(self::$mobile_cache_key, self::$cache_expire_in_minutes, function () {
             return Menu::where('slug', 'mobile')->orderBy('sort')->get();
+        });
+    }
+
+    public static function subPcMenus()
+    {
+        self::$sub_pc_cache_key = config('app.name') . '_sub_pc_menus';
+        // 尝试从缓存中取出 cache_key 对应的数据。如果能取到，便直接返回数据。
+        // 否则运行匿名函数中的代码来取出 menus 表中所有的数据，返回的同时做了缓存。
+        return Cache::remember(self::$sub_pc_cache_key, self::$cache_expire_in_minutes, function () {
+            $pc_menus = self::where([
+                'slug' => 'sub_pc',
+                'parent_id' => 0,
+            ])->orderBy('sort')->get();
+            return $pc_menus;
         });
     }
 

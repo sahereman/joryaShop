@@ -87,10 +87,11 @@
                     </div>
                 </div>
                 <div class="navbar-bottom-top-right">
-                    <a href="{{ route('articles.show', ['slug' => 'stock_order']) }}">@lang('app.Stock Order')</a>
-                    <a href="{{ route('articles.show', ['slug' => 'custom_order']) }}">@lang('app.Custom Order')</a>
-                    <a href="{{ route('articles.show', ['slug' => 'duplicate']) }}">@lang('app.Duplicate')</a>
-                    <a href="{{ route('articles.show', ['slug' => 'repair']) }}">@lang('app.Repair')</a>
+                    @foreach(\App\Models\Menu::subPcMenus() as $sub_child)
+                        <a href="{{ $sub_child['link'] }}">
+                            {{ App::isLocale('zh-CN') ? $sub_child['name_zh'] : $sub_child['name_en'] }}
+                        </a>
+                    @endforeach
                 </div>
             </div>
             <div class="navbar-bottom-bottom">
