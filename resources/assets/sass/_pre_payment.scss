@@ -263,8 +263,8 @@
                     float: left;
                     &:first-of-type {
                         color: #999;
-                        width: 70px;
-                        text-align: center;
+                        min-width: 70px;
+                        text-align: left;
                     }
                     &:last-of-type {
                         max-width: 720px;
