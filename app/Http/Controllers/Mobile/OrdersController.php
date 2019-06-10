@@ -20,7 +20,7 @@ use App\Models\ProductComment;
 use App\Models\ProductSku;
 use App\Models\ShipmentCompany;
 use App\Models\User;
-use App\Models\UserAddress;
+// use App\Models\UserAddress;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\App;
@@ -201,21 +201,14 @@ class OrdersController extends Controller
         }
 
         $address = false;
-        $userAddress = UserAddress::where('user_id', $request->user()->id);
-        // $userAddress = $request->user()->addresses();
-        if ($userAddress->exists()) {
-            if ($userAddress->where('is_default', 1)->exists()) {
+        $addresses = $user->addresses()->latest('last_used_at')->latest('updated_at')->latest()->get();
+        if ($addresses->isNotEmpty()) {
+            if ($addresses->where('is_default', 1)->isNotEmpty()) {
                 // 默认地址
-                $address = UserAddress::where('user_id', $request->user()->id)
-                    ->where('is_default', 1)
-                    ->first();
+                $address = $addresses->where('is_default', 1)->first();
             } else {
                 // 上次使用地址
-                $address = UserAddress::where('user_id', $request->user()->id)
-                    ->latest('last_used_at')
-                    ->latest('updated_at')
-                    ->latest()
-                    ->first();
+                $address = $addresses->first();
             }
         }
 
@@ -234,7 +227,7 @@ class OrdersController extends Controller
     // GET 选择地址+币种页面
     public function prePaymentBySkuParameters(PostOrderRequest $request)
     {
-        // $user = $request->user();
+        $user = $request->user();
         $items = [];
 
         $base_size = $request->query('base_size');
@@ -270,21 +263,14 @@ class OrdersController extends Controller
         // $total_fee_en = bcadd($total_amount_en, $total_shipping_fee_en, 2);
 
         $address = false;
-        $userAddress = UserAddress::where('user_id', $request->user()->id);
-        // $userAddress = $request->user()->addresses();
-        if ($userAddress->exists()) {
-            if ($userAddress->where('is_default', 1)->exists()) {
+        $addresses = $user->addresses()->latest('last_used_at')->latest('updated_at')->latest()->get();
+        if ($addresses->isNotEmpty()) {
+            if ($addresses->where('is_default', 1)->isNotEmpty()) {
                 // 默认地址
-                $address = UserAddress::where('user_id', $request->user()->id)
-                    ->where('is_default', 1)
-                    ->first();
+                $address = $addresses->where('is_default', 1)->first();
             } else {
                 // 上次使用地址
-                $address = UserAddress::where('user_id', $request->user()->id)
-                    ->latest('last_used_at')
-                    ->latest('updated_at')
-                    ->latest()
-                    ->first();
+                $address = $addresses->first();
             }
         }
 
