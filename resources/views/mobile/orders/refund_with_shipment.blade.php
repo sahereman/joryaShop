@@ -336,7 +336,7 @@
                         @lang('order.Save changes')
                     </a>
                     <a class="ordDetailBtnS Revocation_btn" href="javascript:void(0);"
-                       data-url="{{ route('orders.revoke_refund', ['order' => 1]) }}">
+                       data-url="{{ route('orders.revoke_refund', ['order' => $order->id]) }}">
                         @lang('order.Revocation of application')
                     </a>
                     @elseif(isset($refund) && $refund->status == \App\Models\OrderRefund::ORDER_REFUND_STATUS_SHIPPING)
@@ -443,7 +443,7 @@
                     _method: "PATCH",
                     _token: "{{ csrf_token() }}",
                 };
-                var url = $(this).attr('code');
+                var url = $(this).data('url');
                 $.ajax({
                     type: "post",
                     url: url,

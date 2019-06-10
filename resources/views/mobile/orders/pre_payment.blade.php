@@ -15,9 +15,9 @@
                             <span class="address_phone">{{ $address->phone }}</span>
                         </p>
                         <p class="address_info">
-                            @if($address->is_default == 1)
-                                <span class="default_btn">@lang('basic.address.Default')</span>
-                            @endif
+                            {{--@if($address->is_default == 1)--}}
+                                {{--<span class="default_btn">@lang('basic.address.Default')</span>--}}
+                            {{--@endif--}}
                             <span class="address_info_all">{{ $address->full_address }}</span>
                         </p>
                     </div>

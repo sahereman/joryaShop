@@ -183,7 +183,7 @@
                             <li>
                                 <p class="default_address_set">
                                     <label>
-                                        <input type="checkbox" name="is_default" class="setas_default">
+                                        <input type="checkbox" name="is_default" class="setas_default" value="1">
                                         <span>@lang('basic.address.Set to the default')</span>
                                     </label>
                                 </p>
@@ -256,7 +256,7 @@
                                 <p class="default_address_set">
                                     <label>
                                         <input type="checkbox" name="is_default" class="setas_default"
-                                               id="edit_default">
+                                               id="edit_default" value="1">
                                         <span>@lang('basic.address.Set to the default')</span>
                                     </label>
                                 </p>
