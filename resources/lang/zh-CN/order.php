@@ -14,7 +14,7 @@ return [
     'Dollars' => '美金',
     'Currency options' => '币种选择',
     'order note' => '订单备注',
-    'Optional message' => '选填，给卖家留言（限50字）',
+    'Optional message' => '选填，给卖家留言（限150字）',
     'Sum' => '合计',
     'freight' => '运费',
     'Amount payable' => '应付金额',

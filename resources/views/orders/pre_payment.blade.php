@@ -18,15 +18,15 @@
                             </li>
                             @if($address)
                                 <li>
-                                    <span>@lang('order.Contact')：</span>
+                                    <span class="dis_ni">@lang('order.Contact')：</span>
                                     <span class="address_name">{{ $address->name }}</span>
                                 </li>
                                 <li>
-                                    <span>@lang('order.Contact information')：</span>
+                                    <span class="dis_ni">@lang('order.Contact information')：</span>
                                     <span class="address_phone">{{ $address->phone }}</span>
                                 </li>
                                 <li>
-                                    <span>@lang('order.contact address')：</span>
+                                    <span class="dis_ni">@lang('order.contact address')：</span>
                                     <span class="address_location">{{ $address->full_address }}</span>
                                 </li>
                             @else
@@ -105,7 +105,7 @@
                     <ul>
                         <li class="clear">
                             <span>@lang('order.order note')：</span>
-                            <textarea class="remark" maxlength="50"
+                            <textarea class="remark" maxlength="150"
                                       placeholder="@lang('order.Optional message')"></textarea>
                         </li>
                         <li>

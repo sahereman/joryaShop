@@ -340,7 +340,7 @@ $(function () {
     var myReg = /^\d+$/;
     // 注册获取验证码
     $("#register_email").focus(function () {
-        if ($("#register_countryCode").val() == "null") {
+        if ($("#register_countryCode").val() == "000") {
             layer.msg((COUNTRY == "中文") ? '请先选择国家' : 'Please select a country first');
             $(this).blur();
         }
@@ -403,7 +403,7 @@ $(function () {
     });
     // 登录获取验证码
     $("#login_email").focus(function () {
-        if ($("#login_countryCode").val() == "null") {
+        if ($("#login_countryCode").val() == "000") {
             layer.msg((COUNTRY == "中文") ? '请先选择国家' : 'Please select a country first');
             $(this).blur();
         }

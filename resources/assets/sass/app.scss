@@ -858,10 +858,14 @@ img {
                         margin-right: 5px;
                     }
                     &.area_codeshow {
-                        position: absolute;
+                        position: relative;
                         height: 36px;
-                        top: 3px;
-                        padding-left: 5px;
+                        top: 1px;
+                        width: 45px;
+                        border: 1px solid #eaeaea;
+                        border-radius: 2px 0 0 2px;
+                        text-align: center;
+                        line-height: 36px;
                     }
                 }
                 #register_countryCode {
@@ -906,7 +910,7 @@ img {
                     border-left: none;
                 }
                 #register_email {
-                    padding-left: 30px;
+                    width: 240px;
                 }
             }
         }
@@ -1043,10 +1047,14 @@ img {
                             margin-right: 5px;
                         }
                         &.area_codeshow {
-                            position: absolute;
+                            position: relative;
                             height: 36px;
                             top: 3px;
-                            padding-left: 5px;
+                            width: 45px;
+                            border: 1px solid #eaeaea;
+                            border-radius: 2px 0 0 2px;
+                            text-align: center;
+//                          line-height: 36px;
                         }
                     }
                     #login_countryCode {
@@ -1091,7 +1099,7 @@ img {
                         border-left: none;
                     }
                     #login_email {
-                        padding-left: 30px;
+                      width: 240px;
                     }
                 }
             }

@@ -46,7 +46,7 @@
                 @else
                     <a id="user_info_btn" role="button" data-toggle="dropdown" aria-haspopup="true"
                        aria-expanded="false" class="user_name">
-                        {{ Auth::user()->name }}
+                       Hi, {{ Auth::user()->name }} <img src="{{ asset('img/header/down_arrow.png') }}">
                     </a>
                     <ul class="dropdown-menu" role="menu" aria-labelledby="user_info_btn">
                         <li>
@@ -63,7 +63,7 @@
                             </a>
                         </li>
                     </ul>
-                    <img src="{{ asset('img/header/down_arrow.png') }}">
+                    <!--<img src="{{ asset('img/header/down_arrow.png') }}">-->
                     <a class="about-us" href="{{ route('articles.show', ['slug' => 'contact_us']) }}">@lang('app.Contact_Us')</a>
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                         {{ csrf_field() }}

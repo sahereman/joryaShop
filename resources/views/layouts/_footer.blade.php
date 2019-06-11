@@ -257,7 +257,7 @@
                         <li>
                             <span><i>*</i>Country:</span>
                             <select class="choose_tel_area" name="country_code" id="register_countryCode">
-                                <option value="null">@lang('app.Please choose the country')</option>
+                                <option value="000">@lang('app.Please choose the country')</option>
                                 @foreach(\App\Models\CountryCode::countryCodes() as $country_code)
                                     <option value="{{ $country_code->country_code }}">{{ $country_code->country_name }}</option>
                                 @endforeach
@@ -268,7 +268,7 @@
                         </li>
                         <li>
                             <span><i>*</i>Phone:</span>
-                            <span class="area_codeshow"></span>
+                            <span class="area_codeshow">+000</span>
                             <input type="text" name="phone" id="register_email" required>
                             @if ($errors->has('phone'))
                                 <p class="login_error error_content">
@@ -352,7 +352,7 @@
                         <li>
                             <span><i>*</i>Country:</span>
                             <select class="choose_tel_area" name="country_code" id="login_countryCode">
-                                <option value="null">@lang('app.Please choose the country')</option>
+                                <option value="000">@lang('app.Please choose the country')</option>
                                 @foreach(\App\Models\CountryCode::countryCodes() as $country_code)
                                     <option value="{{ $country_code->country_code }}">{{ $country_code->country_name }}</option>
                                 @endforeach
@@ -363,7 +363,7 @@
                         </li>
                         <li>
                             <span><i>*</i>Phone:</span>
-                            <span class="area_codeshow"></span>
+                            <span class="area_codeshow">+000</span>
                             <input type="text" name="phone" id="login_email" required>
                             @if ($errors->has('phone'))
                                 <p class="login_error error_content">
