@@ -150,7 +150,7 @@
         </div>
     </div>
     <!--新建收货地址弹出层-->
-    <div class="dialog_popup new_receipt_address">
+    {{--<div class="dialog_popup new_receipt_address">
         <div class="dialog_content">
             <div class="close">
                 <i></i>
@@ -207,7 +207,72 @@
                 <a class="cancel">@lang('app.cancel')</a>
             </div>
         </div>
+    </div>--}}
+    
+    
+    
+    
+    <!--新增地址新版-->
+    <div id="addNewAddress" class="dis_n address-info-form">
+        <form id="creat-form" data-url="{{ route('user_addresses.store_for_ajax') }}">
+            <ul class="new_receipt_address">
+                <li>
+                    <p>
+                        <span class="input_name"><i>*</i>Country：</span>
+                        <input class="user_country" name="country" type="text">
+                    </p>
+                </li>
+                <li>
+                    <p>
+                        <span class="input_name"><i>*</i>@lang('basic.address.The consignee')：</span>
+                        <input class="user_name" name="name" type="text">
+                    </p>
+                </li>
+                <li>
+                    <p>
+                        <span class="input_name"><i>*</i>@lang('basic.address.Detailed address')：</span>
+                        <input name="address" class="user_detailed" placeholder="@lang('basic.address.Detailed_address')">
+                    </p>
+                </li>
+                <li class="city-state-zip">
+                    <p>
+                        <span class="input_name"><i>*</i>City：</span>
+                        <input class="user_city" name="city" type="text">
+                    </p>
+                    <p>
+                        <span class="input_name"><i>*</i>State/Province/Region：</span>
+                        <input class="user_province" name="province" type="text">
+                    </p>
+                    <p>
+                        <span class="input_name"><i>*</i>Zipcode：</span>
+                        <input class="user_zip" name="zip" type="text">
+                    </p>
+                </li>
+                <li class="contact-number">
+                    <p>
+                        <span class="input_name"><i>*</i>@lang('basic.address.Contact')：</span>
+                        <input class="user_tel" name="phone" type="text">
+                    </p>
+                </li>
+                <li class="dis_ni">
+                    <p class="default_address_set">
+                        <label>
+                            <input type="checkbox" name="is_default" class="setas_default" value="1">
+                            <span>@lang('basic.address.Set to the default')</span>
+                        </label>
+                    </p>
+                </li>
+            </ul>
+        </form>
     </div>
+    
+    
+    
+    
+    
+    
+    
+    
     <!--切换地址信息-->
     <div class="changeAddress dis_n">
         <ul></ul>
@@ -237,45 +302,118 @@
                         break;
                 }
             });
+            
+            $("#creat-form").validate({
+                rules: {
+                    name: {
+                        required: true
+                    },
+                    phone: {
+                        required: true
+                    },
+                    address: {
+                        required: true
+                    },
+                },
+                messages: {
+                    name: {
+                        required: "@lang('Please enter the consignee name')"
+                    },
+                    phone: {
+                        required: "@lang('Please enter the consignee contact information')"
+                    },
+                    address: {
+                        required: "@lang('Please enter the detailed shipping address')"
+                    },
+                },
+            });
+            
+            
             // 新建收货地址
             $(".add_new_address").on("click", function () {
-                $(".new_receipt_address").show();
-            });
-            $(".new_receipt_address").on("click", ".success", function () {
-                if($(".new_receipt_address .user_name").val()==""||$(".new_receipt_address .user_tel").val()==""||$(".new_receipt_address textarea").val()==""){
-                    layer.msg("@lang('order.Please complete the information')");
-                    return false
-                }
-                var data = {
-                    _token: "{{ csrf_token() }}",
-                    name:$(".new_receipt_address .user_name").val(),
-                    phone:$(".new_receipt_address .user_tel").val(),
-                    address:$(".new_receipt_address textarea").val(),
-                    country:$(".new_receipt_address .user_country").val(),
-                    city:$(".new_receipt_address .user_city").val(),
-                    province:$(".new_receipt_address .user_province").val(),
-                    is_default: "0"
-                };
-                $.ajax({
-                    type:"post",
-                    url:$(this).attr("data-url"),
-                    data: data,
-                    beforeSend: function () {},
-                    success: function (json) {
-                        $(".address_name").html(json.data.address.name);
-                        $(".address_phone").html(json.data.address.phone);
-                        $(".address_location").html(json.data.address.full_address);
-                        $(".pre_payment_header").attr("code",json.data.address.id);
-                        $(".new_receipt_address").hide();
-                    },
-                    error: function (err) {
-                        console.log(err);
-                        layer.msg($.parseJSON(err.responseText).errors.address[0]||$.parseJSON(err.responseText).errors.name[0]||$.parseJSON(err.responseText).errors.phone[0])
-                    },
-                    complete: function () {
-                    },
+                layer.open({
+                  title: ["The new address","font-size: 18px;"],
+                  type: 1,
+                  btn: ['Confirm', 'Cancel'],
+                  area: ['900px', '500px'],
+                  content: $('#addNewAddress'),
+                  yes: function(index, layero){
+                    if ($("#creat-form").valid()) {
+                        var data = {
+                            _token: "{{ csrf_token() }}",
+                            name:$(".new_receipt_address .user_name").val(),
+                            phone:$(".new_receipt_address .user_tel").val(),
+                            address:$(".new_receipt_address .user_detailed").val(),
+                            country:$(".new_receipt_address .user_country").val(),
+                            city:$(".new_receipt_address .user_city").val(),
+                            province:$(".new_receipt_address .user_province").val(),
+                            zip:$(".new_receipt_address .user_zip").val(),
+                            is_default: "0"
+                        };
+                        $.ajax({
+                            type:"post",
+                            url:$("#creat-form").attr("data-url"),
+                            data: data,
+                            beforeSend: function () {},
+                            success: function (json) {
+                                $(".address_name").html(json.data.address.name);
+                                $(".address_phone").html(json.data.address.phone);
+                                $(".address_location").html(json.data.address.full_address);
+                                $(".pre_payment_header").attr("code",json.data.address.id);
+                                $(".new_receipt_address").hide();
+                                layer.close(index);
+                            },
+                            error: function (err) {
+                                var arr = []
+                                var dataobj = err.responseJSON.errors;
+                                for (let i in dataobj) {
+                                    arr.push(dataobj[i]); //属性
+                                }
+                                layer.msg(arr[0][0]);
+                            },
+                            complete: function () {
+                            },
+                        });
+                    }
+                  }
                 });
+//              $(".new_receipt_address").show();
             });
+//          $(".new_receipt_address").on("click", ".success", function () {
+//              if($(".new_receipt_address .user_name").val()==""||$(".new_receipt_address .user_tel").val()==""||$(".new_receipt_address textarea").val()==""){
+//                  layer.msg("@lang('order.Please complete the information')");
+//                  return false
+//              }
+//              var data = {
+//                  _token: "{{ csrf_token() }}",
+//                  name:$(".new_receipt_address .user_name").val(),
+//                  phone:$(".new_receipt_address .user_tel").val(),
+//                  address:$(".new_receipt_address textarea").val(),
+//                  country:$(".new_receipt_address .user_country").val(),
+//                  city:$(".new_receipt_address .user_city").val(),
+//                  province:$(".new_receipt_address .user_province").val(),
+//                  is_default: "0"
+//              };
+//              $.ajax({
+//                  type:"post",
+//                  url:$(this).attr("data-url"),
+//                  data: data,
+//                  beforeSend: function () {},
+//                  success: function (json) {
+//                      $(".address_name").html(json.data.address.name);
+//                      $(".address_phone").html(json.data.address.phone);
+//                      $(".address_location").html(json.data.address.full_address);
+//                      $(".pre_payment_header").attr("code",json.data.address.id);
+//                      $(".new_receipt_address").hide();
+//                  },
+//                  error: function (err) {
+//                      console.log(err);
+//                      layer.msg($.parseJSON(err.responseText).errors.address[0]||$.parseJSON(err.responseText).errors.name[0]||$.parseJSON(err.responseText).errors.phone[0])
+//                  },
+//                  complete: function () {
+//                  },
+//              });
+//          });
             // 切换地址
             $(".change_address").on("click", function () {
                 var url = $(this).attr("data-url");

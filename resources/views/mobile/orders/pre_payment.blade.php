@@ -149,12 +149,17 @@
                     <input type="text" name="province" id="new_address_province" value=""
                            placeholder="Please fill in your State/Province/Region"/>
                 </div>
+                <div class="addAdsItem">
+                    <label class="must">Zipcode</label>
+                    <input type="text" name="zip" id="new_address_zip" value=""
+                           placeholder="Please fill in Zipcode"/>
+                </div>
                 <div class="addAdsItem" style="border:none;">
                     <label class="must">@lang('basic.address.Detailed address')</label>
                     {{--<input type="text" name="address" id="new_address_info" value=""
                            placeholder="@lang('basic.address.Detailed_address')"/>--}}
-                    <textarea name="address" id="new_address_info"
-                              placeholder="@lang('basic.address.Detailed_address')"></textarea>
+                    <input name="address" id="new_address_info"
+                              placeholder="@lang('basic.address.Detailed_address')">
                 </div>
                 <button class="doneBtn save_new_address"
                         data-url="{{ route('user_addresses.store_for_ajax') }}">@lang('basic.users.Save')</button>
@@ -322,6 +327,7 @@
                     country:$("#new_address_country").val(),
                     city:$("#new_address_city").val(),
                     province:$("#new_address_province").val(),
+                    zip: $("#new_address_zip").val(),
                     is_default: $(".setas_default").val()
                 };
                 $.ajax({
@@ -349,9 +355,13 @@
                         }
                     },
                     error: function (err) {
-                        console.log(err);
+                        var arr = []
+                        var dataobj = err.responseJSON.errors;
+                        for (let i in dataobj) {
+                            arr.push(dataobj[i]); //属性
+                        }
                         layer.open({
-                            content: $.parseJSON(err.responseText).errors.address[0] || $.parseJSON(err.responseText).errors.name[0] || $.parseJSON(err.responseText).errors.phone[0],
+                            content: arr[0][0],
                             skin: 'msg',
                             time: 2, //2秒后自动关闭
                         });

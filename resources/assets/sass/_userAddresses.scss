@@ -226,3 +226,48 @@
         }
 }
 
+.address-info-form {
+    li {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        padding: 25px 45px;
+        p {
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            span {
+                font-size: 16px;
+                font-weight: bold;
+                color: #000;
+                i {
+                    color: red;
+                }
+            }
+            input {
+                width: 200px;
+                border: 0;
+                border-bottom: 1px solid #e5e5e5;
+            }
+        }
+        &.city-state-zip {
+            input {
+                width: 150px;
+            }
+        }
+        &.contact-number {
+            p {
+                position: relative;
+                input {
+                  width: 340px;
+                }
+                &:after {
+                    content: "We only use this number if there's a shipping issue";
+                    position: absolute;
+                    right: 25px;
+                    top: 100%;
+                }
+            }
+        }
+    }
+}

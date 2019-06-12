@@ -37,10 +37,15 @@
                 <input type="text" name="province" id="" value=""
                        placeholder="Please fill in your State/Province/Region"/>
             </div>
+            <div class="addAdsItem">
+                <label class="must">Zipcode</label>
+                <input type="text" name="zip" id="" value=""
+                       placeholder="Please fill in Zipcode"/>
+            </div>
             <div class="addAdsItem" style="border:none;">
                 <label class="must">@lang('basic.address.Detailed address')</label>
                 {{--<input type="text" name="address" id="" value="" placeholder="@lang('basic.address.Detailed_address')"/>--}}
-                <textarea name="address" placeholder="@lang('basic.address.Detailed_address')"></textarea>
+                <input name="address" placeholder="@lang('basic.address.Detailed_address')">
             </div>
             <div class="defaultBox">
                 <label>@lang('basic.address.Set as default address')</label>

@@ -58,6 +58,7 @@
                                     <td class="dis_n address_city">{{ $address->city }}</td>
                                     <td class="dis_n address_province">{{ $address->province }}</td>
                                     <td class="dis_n address_detail">{{ $address->address }}</td>
+                                    <td class="dis_n address_zip">{{ $address->zip }}</td>
                                     <!--电话建议后台正则处理前端处理容易泄露-->
                                     <td class="address_tel">{{ $address->phone }}</td>
                                     <td class="address_operation">
@@ -130,7 +131,7 @@
         </div>
     </div>
     <!--新建收货地址弹出层-->
-    <div class="dialog_popup new_receipt_address">
+    {{--<div class="dialog_popup new_receipt_address">
         <div class="dialog_content">
             <div class="close">
                 <i></i>
@@ -141,7 +142,7 @@
                 </div>
                 <div class="textarea_content">
                     <form method="POST" action="{{ route('user_addresses.store') }}" enctype="multipart/form-data"
-                          id="creat-form">
+                          id="creat-form111">
                         {{ csrf_field() }}
                         <ul>
                             <li>
@@ -270,6 +271,117 @@
                 <a class="cancel">@lang('app.cancel')</a>
             </div>
         </div>
+    </div>--}}
+    <!--新增地址新版-->
+    <div id="addNewAddress" class="dis_n address-info-form">
+    	<form method="POST" action="{{ route('user_addresses.store') }}" enctype="multipart/form-data"
+              id="creat-form">
+            {{ csrf_field() }}
+            <ul>
+                <li>
+                    <p>
+                        <span class="input_name"><i>*</i>Country：</span>
+                        <input class="user_country" name="country" type="text">
+                    </p>
+                </li>
+                <li>
+                    <p>
+                        <span class="input_name"><i>*</i>@lang('basic.address.The consignee')：</span>
+                        <input class="user_name" name="name" type="text">
+                    </p>
+                </li>
+                <li>
+                    <p>
+                        <span class="input_name"><i>*</i>@lang('basic.address.Detailed address')：</span>
+                        <input name="address" class="user_detailed" placeholder="@lang('basic.address.Detailed_address')">
+                    </p>
+                </li>
+                <li class="city-state-zip">
+                    <p>
+                        <span class="input_name"><i>*</i>City：</span>
+                        <input class="user_city" name="city" type="text">
+                    </p>
+                    <p>
+                        <span class="input_name"><i>*</i>State/Province/Region：</span>
+                        <input class="user_province" name="province" type="text">
+                    </p>
+                    <p>
+                        <span class="input_name"><i>*</i>Zipcode：</span>
+                        <input class="user_zip" name="zip" type="text">
+                    </p>
+                </li>
+                <li class="contact-number">
+                    <p>
+                        <span class="input_name"><i>*</i>@lang('basic.address.Contact')：</span>
+                        <input class="user_tel" name="phone" type="text">
+                    </p>
+                </li>
+                <li class="dis_ni">
+                    <p class="default_address_set">
+                        <label>
+                            <input type="checkbox" name="is_default" class="setas_default" value="1">
+                            <span>@lang('basic.address.Set to the default')</span>
+                        </label>
+                    </p>
+                </li>
+            </ul>
+        </form>
+    </div>
+    <!--编辑地址新版-->
+    <div id="editNewAddress" class="dis_n address-info-form">
+        <form method="POST" action=""
+              enctype="multipart/form-data" id="edit-form">
+              {{ csrf_field() }}
+              {{ method_field('PUT') }}
+            <ul class="edit_harvest_address">
+                <li>
+                    <p>
+                        <span class="input_name"><i>*</i>Country：</span>
+                        <input class="user_country" name="country" type="text">
+                    </p>
+                </li>
+                <li>
+                    <p>
+                        <span class="input_name"><i>*</i>@lang('basic.address.The consignee')：</span>
+                        <input class="user_name" name="name" type="text">
+                    </p>
+                </li>
+                <li>
+                    <p>
+                        <span class="input_name"><i>*</i>@lang('basic.address.Detailed address')：</span>
+                        <input class="user_detailed" name="address" placeholder="@lang('basic.address.Detailed_address')">
+                    </p>
+                </li>
+                <li class="city-state-zip">
+                    <p>
+                        <span class="input_name"><i>*</i>City：</span>
+                        <input class="user_city" name="city" type="text">
+                    </p>
+                    <p>
+                        <span class="input_name"><i>*</i>State/Province/Region：</span>
+                        <input class="user_province" name="province" type="text">
+                    </p>
+                    <p>
+                        <span class="input_name"><i>*</i>Zipcode：</span>
+                        <input class="user_zip" name="zip" type="text">
+                    </p>
+                </li>
+                <li class="contact-number">
+                    <p>
+                        <span class="input_name"><i>*</i>@lang('basic.address.Contact')：</span>
+                        <input class="user_tel" name="phone" type="text">
+                    </p>
+                </li>
+                <li class="dis_ni">
+                    <p class="default_address_set">
+                        <label>
+                            <input type="checkbox" name="is_default" class="setas_default" value="1">
+                            <span>@lang('basic.address.Set to the default')</span>
+                        </label>
+                    </p>
+                </li>
+            </ul>
+        </form>
     </div>
 @endsection
 @section('scriptsAfterJs')
@@ -277,14 +389,7 @@
         $(function () {
             $(".navigation_left ul li").removeClass("active");
             $(".user_address").addClass("active");
-            //点击新建收货地址
-            $(".new_address").on("click", function () {
-                if ($(".residual").html() != 0) {
-                    $(".new_receipt_address").show();
-                } else {
-                    $(".confirm_residual").show();
-                }
-            });
+            
             //新建收货地址时进行表单验证
             $("#creat-form").validate({
                 rules: {
@@ -310,28 +415,62 @@
                     },
                 },
             });
-            $(".new_receipt_address").on("click", ".success", function () {
-                if ($("#creat-form").valid()) {
-                    $('#creat-form').submit();
-                }
+            
+            //点击新建收货地址
+            $(".new_address").on("click", function () {
+                layer.open({
+                  title: ["The new address","font-size: 18px;"],
+                  type: 1,
+                  btn: ['Confirm', 'Cancel'],
+                  area: ['900px', '500px'],
+                  content: $('#addNewAddress'),
+                  yes: function(index, layero){
+                    if ($("#creat-form").valid()) {
+                      $('#creat-form').submit();
+                    }
+                  }
+                });
+//              if ($(".residual").html() != 0) {
+//                  $(".new_receipt_address").show();
+//              } else {
+//                  $(".confirm_residual").show();
+//              }
             });
+//          $(".new_receipt_address").on("click", ".success", function () {
+//              if ($("#creat-form").valid()) {
+//                  $('#creat-form').submit();
+//              }
+//          });
             //点击表格中的编辑
             $(".address_list table").on("click", ".edit_address", function () {
                 $("#edit-form").prop("action", $(this).attr("url"));
                 $(".edit_harvest_address").find(".user_name").val($(this).parents("tr").find(".address_name").html());
                 $(".edit_harvest_address").find(".user_tel").val($(this).parents("tr").find(".address_tel").html());
-                $(".edit_harvest_address").find("textarea").val($(this).parents("tr").find(".address_detail").html());
+                $(".edit_harvest_address").find(".user_detailed").val($(this).parents("tr").find(".address_detail").html());
                 //address_country
                 $(".edit_harvest_address").find(".user_country").val($(this).parents("tr").find(".address_country").html());
                 $(".edit_harvest_address").find(".user_city").val($(this).parents("tr").find(".address_city").html());
                 $(".edit_harvest_address").find(".user_province").val($(this).parents("tr").find(".address_province").html());
+                $(".edit_harvest_address").find(".user_zip").val($(this).parents("tr").find(".address_zip").html());
                 var isdefault = $(this).parents("tr").find(".setDefaultAddress ").hasClass("haddefault");
                 if (isdefault == true) {
                     $(".edit_harvest_address").find("#edit_default").attr("checked", true);
                 } else {
                     $(".edit_harvest_address").find("#edit_default").attr("checked", false);
                 }
-                $(".edit_harvest_address").show();
+                layer.open({
+                  title: ["The new address","font-size: 18px;"],
+                  type: 1,
+                  btn: ['Confirm', 'Cancel'],
+                  area: ['900px', '500px'],
+                  content: $('#editNewAddress'),
+                  yes: function(index, layero){
+                    if ($("#edit-form").valid()) {
+                       $('#edit-form').submit();
+                    }
+                  }
+                });
+//              $(".edit_harvest_address").show();
             });
             //编辑收货地址时进行表单验证
             $("#edit-form").validate({
@@ -359,11 +498,11 @@
                 },
             });
             //编辑收货地址弹窗中的确定按钮
-            $(".edit_harvest_address").on("click", ".success", function () {
-                if ($("#edit-form").valid()) {
-                    $('#edit-form').submit();
-                }
-            });
+//          $(".edit_harvest_address").on("click", ".success", function () {
+//              if ($("#edit-form").valid()) {
+//                  $('#edit-form').submit();
+//              }
+//          });
             //点击表格中的设为默认按钮
             $(".address_list table").on("click", ".setDefaultAddress", function () {
                 if (!$(this).hasClass('haddefault')) {

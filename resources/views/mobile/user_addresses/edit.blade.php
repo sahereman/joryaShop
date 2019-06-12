@@ -37,10 +37,15 @@
                 <input type="text" name="province" id="" value="{{ $address->province }}"
                        placeholder="Please fill in your State/Province/Region"/>
             </div>
+            <div class="addAdsItem">
+                <label class="must">State/Province/Region</label>
+                <input type="text" name="zip" id="" value="{{ $address->zip }}"
+                       placeholder="Please fill in Zipcode"/>
+            </div>
             <div class="addAdsItem" style="border:none;">
                 <label class="must">@lang('basic.address.Detailed address')</label>
                 {{--<input type="text" name="address" id="" value="{{ $address->address }}"/>--}}
-                <textarea name="address" value="">{{ $address->address }}</textarea>
+                <input name="address" value="{{ $address->address }}">
             </div>
             <div class="defaultBox">
                 <label>@lang('basic.address.Set as default address')</label>
