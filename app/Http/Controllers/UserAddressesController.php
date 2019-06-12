@@ -54,6 +54,7 @@ class UserAddressesController extends Controller
         $address->province = $request->input('province');
         $address->city = $request->input('city');
         $address->address = $request->input('address');
+        $address->zip = $request->input('zip');
         if (($request->filled('is_default') && $request->input('is_default') == 1) || $addressCount == 0) {
             UserAddress::where(['user_id' => $request->user()->id, 'is_default' => true])
                 ->update(['is_default' => false]);
@@ -87,6 +88,7 @@ class UserAddressesController extends Controller
         $address->province = $request->input('province');
         $address->city = $request->input('city');
         $address->address = $request->input('address');
+        $address->zip = $request->input('zip');
         if (($request->filled('is_default') && $request->input('is_default') == 1) || $addressCount == 0) {
             UserAddress::where(['user_id' => $request->user()->id, 'is_default' => true])
                 ->update(['is_default' => false]);
@@ -113,6 +115,7 @@ class UserAddressesController extends Controller
         $address->province = $request->input('province');
         $address->city = $request->input('city');
         $address->address = $request->input('address');
+        $address->zip = $request->input('zip');
         if ($request->filled('is_default') && $request->input('is_default') == 1) {
             UserAddress::where(['user_id' => $request->user()->id, 'is_default' => true])
                 ->where('id', '<>', $address->id)

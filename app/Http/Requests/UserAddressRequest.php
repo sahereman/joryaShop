@@ -29,6 +29,7 @@ class UserAddressRequest extends Request
                     //->where('name', $this->input('name')),
                     //->where('phone', $this->input('phone')),
                 ],
+                'zip' => 'string|nullable',
             ];
         } elseif ($this->routeIs('user_addresses.update')) {
             return [
@@ -46,6 +47,7 @@ class UserAddressRequest extends Request
                     //->where('name', $this->input('name')),
                     //->where('phone', $this->input('phone')),
                 ],
+                'zip' => 'string|nullable',
             ];
         } else {
             throw new NotFoundHttpException();
@@ -64,7 +66,11 @@ class UserAddressRequest extends Request
         return [
             'name' => '收货人',
             'phone' => '手机号码',
+            'country' => '国家',
+            'province' => '省',
+            'city' => '市',
             'address' => '详细地址',
+            'zip' => '邮政编码',
         ];
     }
 }
