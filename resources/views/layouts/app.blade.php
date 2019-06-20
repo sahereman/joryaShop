@@ -55,6 +55,16 @@
     var symbols = JSON.parse(app_node.attr('data-symbols'));
     var exchange_rates = JSON.parse(app_node.attr('data-exchange-rates'));
 
+    Math.imul = Math.imul || function (a, b) {
+        var ah = (a >>> 16) & 0xffff;
+        var al = a & 0xffff;
+        var bh = (b >>> 16) & 0xffff;
+        var bl = b & 0xffff;
+        // the shift by 0 fixes the sign on the high part
+        // the final |0 converts the unsigned value into a signed value
+        return ((al * bl) + (((ah * bl + al * bh) << 16) >>> 0) | 0);
+    };
+
     function float_multiply_by_100(float) {
         float = String(float);
         // float = float.toString();
