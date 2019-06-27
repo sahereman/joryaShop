@@ -19,7 +19,7 @@
             </div>
             @foreach($order->snapshot as $order_item)
                 <div class="ordDetail">
-                    <a href="{{ route('products.show', $order_item['sku']['product']['id']) }}">
+                    <a href="{ route('products.show', ['product' =>  $order_item['sku']['product']['id'],'slug'=> $order_item['sku']['product']['slug']]) }}">
                         <img src="{{ $order_item['sku']['product']['thumb_url'] }}">
                     </a>
                     <div>
@@ -30,7 +30,7 @@
                             &nbsp;&nbsp;
                         </span>
                         <span>
-                            <a href="{{ route('mobile.products.show', ['product' => $order_item['sku']['product']['id']]) }}">
+                            <a href="{{ route('mobile.products.show', ['product' => $order_item['sku']['product']['id'],'slug'=>$order_item['sku']['product']['slug']]) }}">
                                 {{--{{ App::isLocale('en') ? $order_item['sku']['name_en'] : $order_item['sku']['name_zh'] }}--}}
                                 {{ App::isLocale('zh-CN') ? $order_item['sku']['parameters_zh'] : $order_item['sku']['parameters_en'] }}
                             </a>

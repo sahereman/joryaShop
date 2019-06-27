@@ -16,7 +16,7 @@
         <div class="favBox {{ is_wechat_browser() ? 'margin-top_no' : '' }}">
             @foreach($favourites as $favourite)
                 <div class="favItem" code='{{ $favourite->id }}'
-                     data-url="{{ route('mobile.products.show', ['product' => $favourite->product->id]) }}">
+                     data-url="{{ route('mobile.products.show', ['product' => $product->id,'slug'=>$product->slug]) }}">
                     <img src="{{ $favourite->product->thumb_url }}"/>
                     <div class="favDetail">
                         <div class="goodsName">
@@ -48,10 +48,10 @@
                                code="{{ route('user_favourites.destroy', $favourite->id) }}">
                         <span></span>
                     </label>
-                    <img data-url="{{ route('mobile.products.show', ['product' => $favourite->product->id]) }}"
+                    <img data-url="{{ route('mobile.products.show', ['product' => $favourite->product->id,'slug'=>$favourite->product->slug]) }}"
                          src="{{ $favourite->product->thumb_url }}"/>
                     <div class="favDetail"
-                         data-url="{{ route('mobile.products.show', ['product' => $favourite->product->id]) }}">
+                         data-url="{{ route('mobile.products.show', ['product' => $favourite->product->id,'slug'=>$favourite->product->slug]) }}">
                         <div class="goodsName">
                             {{ App::isLocale('zh-CN') ? $favourite->product->name_zh : $favourite->product->name_en }}
                         </div>

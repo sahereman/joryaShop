@@ -40,7 +40,7 @@
                     <div class="swiper-wrapper">
                         @foreach($latest as $product)
                             <div class="swiper-slide swiper-slides"
-                                 data-url="{{ route('mobile.products.show', ['product' => $product->id]) }}">
+                                 data-url="{{ route('mobile.products.show', ['product' => $product->id,'slug'=>$product->slug]) }}">
                                 <img class="lazy" data-src="{{ $product->thumb_url }}"/>
                                 <div class="new_pro_name">{{ App::isLocale('zh-CN') ? $product->name_zh : $product->name_en }}</div>
                                 <span class="new_pro_price">
@@ -78,7 +78,7 @@
                                     @endif
                                 @endif
                                 <div class="blockItem">
-                                    <a href="{{ route('mobile.products.show', ['product' => $product->id]) }}">
+                                    <a href="{{ route('mobile.products.show', ['product' => $product->id,'slug'=>$product->slug]) }}">
                                         <img class="lazy" data-src="{{ $product->thumb_url }}"/>
                                         <div class="block_name">{{ App::isLocale('zh-CN') ? $product->name_zh : $product->name_en }}</div>
                                         <span class="block_price">
@@ -115,7 +115,7 @@
                                     @endif
                                 @endif
                                 <div class="blockItem blockItemCus">
-                                    <a href="{{ route('mobile.products.show', ['product' => $product->id]) }}">
+                                    <a href="{{ route('mobile.products.show', ['product' => $product->id,'slug'=>$product->slug]) }}">
                                         <img class="lazy" data-src="{{ $product->thumb_url }}"/>
                                         <div class="block_name">{{ App::isLocale('zh-CN') ? $product->name_zh : $product->name_en }}</div>
                                         <span class="block_price">
@@ -136,7 +136,7 @@
                 <div class="recBox">
                     {{--@foreach($guesses as $k => $guess)
                         <div class="recItem">
-                            <a href="{{ route('mobile.products.show', ['product' => $guess->id]) }}">
+                            <a href="{{ route('mobile.products.show', ['product' => $product->id,'slug'=>$product->slug]) }}">
                                 <img class="lazy" data-src="{{ $guess->thumb_url }}"/>
                                 <div class="block_name">{{ App::isLocale('en') ? $guess->name_en : $guess->name_zh }}</div>
                                 <span class="block_price">@lang('basic.currency.symbol') {{ App::isLocale('en') ? $guess->price_in_usd : $guess->price }}</span>

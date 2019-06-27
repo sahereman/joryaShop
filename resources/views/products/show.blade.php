@@ -63,7 +63,7 @@
                 <!--商品参数-->
                 <div class="parameters_content">
                     <h4 class="forstorage_name" info_url="{{ $product->thumb_url }}" info_code="{{ $product->id }}"
-                        info_href="{{ route('products.show', ['product' => $product->id]) }}">
+                        info_href="{{ route('products.show', ['product' => $product->id,'slug'=>$product->slug]) }}">
                         {{ App::isLocale('zh-CN') ? $product->name_zh : $product->name_en }}
                     </h4>
                     <p class="small_title">{!! App::isLocale('zh-CN') ? $product->description_zh : $product->description_en !!}</p>
@@ -175,7 +175,7 @@
                     <ul>
                         @foreach($guesses as $guess)
                             <li>
-                                <a href="{{ route('products.show', ['product' => $guess->id]) }}">
+                                <a href="{{ route('products.show', ['product' => $guess->id,'slug'=>$guess->slug]) }}">
                                     <div>
                                         <img class="lazy" data-src="{{ $guess->thumb_url }}">
                                     </div>
@@ -202,7 +202,7 @@
                         <ul class="pro-lists">
                             {{--@foreach($hot_sales as $hot_sale)
                                 <li>
-                                    <a href="{{ route('products.show', ['product' => $hot_sale->id]) }}">
+                                    <a href="{{ route('products.show', ['product' => $product->id,'slug'=>$product->slug]) }}">
                                         <div>
                                             <img class="lazy" data-src="{{ $hot_sale->thumb_url }}">
                                         </div>
@@ -218,7 +218,7 @@
                         <ul class="pro-lists">
                             @foreach($best_sellers as $best_seller)
                                 <li>
-                                    <a href="{{ route('products.show', ['product' => $best_seller->id]) }}">
+                                    <a href="{{ route('products.show', ['product' => $product->id,'slug'=>$product->slug]) }}">
                                         <div>
                                             <img class="lazy" data-src="{{ $best_seller->thumb_url }}">
                                         </div>

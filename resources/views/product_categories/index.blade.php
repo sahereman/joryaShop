@@ -57,7 +57,7 @@
                             @if($child->children->isNotEmpty())
                                 @foreach($child->all_products()->take(10) as $product )
                                     <li>
-                                        <a href="{{ route('products.show', ['product' => $product->id]) }}">
+                                        <a href="{{ route('products.show', ['product' => $product->id,'slug'=>$product->slug]) }}">
                                             <div class="list-img">
                                                 <img class="lazy" data-src="{{ $product->thumb_url }}">
                                             </div>
@@ -78,7 +78,7 @@
                             @else
                                 @foreach($child->products()->where('on_sale', true)->orderByDesc('index')->limit(10)->get() as $product )
                                     <li>
-                                        <a href="{{ route('products.show', ['product' => $product->id]) }}">
+                                        <a href="{{ route('products.show', ['product' => $product->id,'slug'=>$product->slug]) }}">
                                             <div class="list-img">
                                                 <img class="lazy" data-src="{{ $product->thumb_url }}">
                                             </div>

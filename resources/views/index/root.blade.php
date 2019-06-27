@@ -113,7 +113,7 @@
                                         @endif
                                     @endif
                                     <li>
-                                        <a href="{{ route('products.show', ['product' => $product->id]) }}">
+                                        <a href="{{ route('products.show', ['product' => $product->id,'slug'=>$product->slug]) }}">
                                             <img class="lazy" data-src="{{ $product->thumb_url }}">
                                             <h5 title="{{ App::isLocale('zh-CN') ? $product->name_zh : $product->name_en }}">
                                                 {{ App::isLocale('zh-CN') ? $product->name_zh : $product->name_en }}
@@ -193,7 +193,7 @@
                                     <li>
                                         <div>
                                             <img class="lazy" data-src="{{ $product->thumb_url }}">
-                                            <a href="{{ route('products.show', ['product' => $product->id]) }}">
+                                            <a href="{{ route('products.show', ['product' => $product->id,'slug'=>$product->slug]) }}">
                                                 <div class="list_mask"></div>
                                                 <img src="{{ asset('img/mask_search.png') }}">
                                             </a>

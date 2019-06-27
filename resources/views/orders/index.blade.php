@@ -102,14 +102,14 @@
                                         <tr>
                                             <td class="col-pro-img">
                                                 <p class="p-img">
-                                                    <a href="{{ route('products.show', $order_item['sku']['product']['id']) }}">
+                                                    <a href="{{ route('products.show', ['product' =>  $order_item['sku']['product']['id'],'slug'=> $order_item['sku']['product']['slug']]) }}">
                                                         <img src="{{ $order_item['sku']['product']['thumb_url'] }}">
                                                     </a>
                                                 </p>
                                             </td>
                                             <td class="col-pro-info">
                                                 <p class="p-info">
-                                                    <a code="{{ $order_item['sku']['id'] }}" href="{{ route('products.show', $order_item['sku']['product']['id']) }}">
+                                                    <a code="{{ $order_item['sku']['id'] }}" href="{{ route('products.show', ['product' =>  $order_item['sku']['product']['id'],'slug'=> $order_item['sku']['product']['slug']]) }}">
                                                         {{ App::isLocale('zh-CN') ? $order_item['sku']['product']['name_zh'] : $order_item['sku']['product']['name_en'] }}
                                                     </a>
                                                 </p>
@@ -221,7 +221,7 @@
                                         <tr class="order_top">
                                             <td class="col-pro-img">
                                                 <p class="p-img">
-                                                    <a href="{{ route('products.show', $order_item['sku']['product']['id']) }}">
+                                                    <a href="{{ route('products.show', ['product' =>  $order_item['sku']['product']['id'],'slug'=> $order_item['sku']['product']['slug']]) }}">
                                                         <img src="{{ $order_item['sku']['product']['thumb_url'] }}">
                                                     </a>
                                                 </p>
@@ -229,7 +229,7 @@
                                             <td class="col-pro-info">
                                                 <p class="p-info">
                                                     <a code="{{ $order_item['sku']['id'] }}"
-                                                       href="{{ route('products.show', $order_item['sku']['product']['id']) }}">
+                                                       href="{{ route('products.show', ['product' =>  $order_item['sku']['product']['id'],'slug'=> $order_item['sku']['product']['slug']]) }}">
                                                         {{ App::isLocale('zh-CN') ? $order_item['sku']['product']['name_zh'] : $order_item['sku']['product']['name_en'] }}
                                                     </a>
                                                 </p>
@@ -285,7 +285,7 @@
                                         <span class="old_price">{{ get_global_symbol() }} {{ bcmul(get_current_price($guess->price), 1.2, 2) }}</span>
                                     </p>
                                     <a class="add_to_cart"
-                                       href="{{ route('products.show', $guess->id) }}">@lang('app.see details')</a>
+                                       href="{{ route('products.show', ['product' => $guess->id,'slug'=>$guess->slug]) }}">@lang('app.see details')</a>
                                 </li>
                             @endforeach
                         </ul>

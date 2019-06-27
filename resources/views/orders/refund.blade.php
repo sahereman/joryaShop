@@ -233,7 +233,7 @@
                         <ul>
                             @foreach($snapshot as $order_item)
                                 <li>
-                                    <a href="{{ route('products.show', ['product' => $order_item['sku']['product']['id']]) }}">
+                                    <a href="{{ route('products.show', ['product' =>  $order_item['sku']['product']['id'],'slug'=> $order_item['sku']['product']['slug']]) }}">
                                         <div class="info_img">
                                             <img src="{{ $order_item['sku']['product']['thumb_url'] }}">
                                         </div>

@@ -2,12 +2,27 @@
 
 namespace App\Models;
 
+use Cviebrock\EloquentSluggable\Sluggable;
+use Cviebrock\EloquentSluggable\SluggableScopeHelpers;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class Product extends Model
 {
+    use Sluggable;
+    use SluggableScopeHelpers;
+
+    public function sluggable()
+    {
+        return [
+            'slug' => [
+                'source' => 'name_en'
+            ]
+        ];
+    }
+
+
     /**
      * The attributes that are mass assignable.
      * @var array

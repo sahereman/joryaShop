@@ -13,7 +13,6 @@
         <a href="{{ route('mobile.root') }}">@lang('product.shop_now')</a>
     </div>
     <div class="favBox histories_box {{ is_wechat_browser() ? 'margin-top_no' : '' }}">
-        {{--{{ route('mobile.products.show' }}--}}
         <div class="lists" data-url="{{ route('mobile.root') }}"></div>
     </div>
     <div class="editFav histories_box">

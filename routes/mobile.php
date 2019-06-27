@@ -37,7 +37,7 @@ Route::get('product_categories/{category}/more', 'ProductCategoriesController@mo
 
 /*商品*/
 Route::get('products/search', 'ProductsController@search')->name('mobile.products.search'); // 商品搜索结果 页面 [仅展示页面]
-Route::get('products/{product}', 'ProductsController@show')->name('mobile.products.show'); // 商品详情 页面
+Route::get('products/{product}/{slug?}', 'ProductsController@show')->name('mobile.products.show'); // 商品详情 页面
 
 /*手机端 - 微信浏览器内获取用户 open id*/
 Route::get('payments/get_wechat_open_id', 'PaymentsController@getWechatOpenId')->name('mobile.payments.get_wechat_open_id'); // get wechat open_id
