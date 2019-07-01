@@ -36,11 +36,14 @@ class DatabaseSeeder extends Seeder
         //购物车
         $this->call(CartsSeeder::class);
 
+        //文章
+        $this->call(ArticleCategoriesSeeder::class);
+        $this->call(ArticlesSeeder::class);
+
         //其他
         $this->call(BannersSeeder::class);
         $this->call(CountryCodesSeeder::class);
         $this->call(ExchangeRatesSeeder::class);
-        $this->call(ArticlesSeeder::class);
         $this->call(PostersSeeder::class);
         $this->call(ShipmentCompaniesSeeder::class);
 

@@ -42,7 +42,7 @@ class AdminTablesSeeder extends Seeder
                 'name' => '文章管理',
                 'slug' => 'articles',
                 'http_method' => '',
-                'http_path' => "/articles",
+                'http_path' => "/article_categories\r\n/articles",
             ],
             [
                 'name' => 'Banner管理',
@@ -125,7 +125,7 @@ class AdminTablesSeeder extends Seeder
                 'order' => 5,
                 'title' => '文章管理',
                 'icon' => 'fa-copy',
-                'uri' => 'articles',
+                'uri' => '',
             ],
             [
                 'parent_id' => 0,
@@ -201,6 +201,23 @@ class AdminTablesSeeder extends Seeder
                 'icon' => 'fa-archive',
                 'uri' => 'order_recycles',
             ],
+
+            //文章
+            [
+                'parent_id' => 16,
+                'order' => 1,
+                'title' => '分类',
+                'icon' => 'fa-bookmark',
+                'uri' => 'article_categories',
+            ],
+            [
+                'parent_id' => 16,
+                'order' => 2,
+                'title' => '文章',
+                'icon' => 'fa-bookmark-o',
+                'uri' => 'articles',
+            ],
+
 
             //其他设置
             [

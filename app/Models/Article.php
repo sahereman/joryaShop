@@ -31,4 +31,9 @@ class Article extends Model
         }
         return false;
     }
+
+    public function category()
+    {
+        return $this->belongsTo(ArticleCategory::class, 'category_id');
+    }
 }

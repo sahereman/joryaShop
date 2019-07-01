@@ -74,6 +74,7 @@ Route::group([
     $router->resource('posters', PostersController::class)->names('admin.posters');
 
     /*文章*/
+    $router->resource('article_categories', ArticleCategoriesController::class)->names('admin.article_categories');
     $router->resource('articles', ArticlesController::class)->names('admin.articles');
 
     /*Banner图*/

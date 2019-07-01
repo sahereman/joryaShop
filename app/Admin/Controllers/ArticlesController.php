@@ -4,6 +4,7 @@ namespace App\Admin\Controllers;
 
 use App\Models\Article;
 use App\Http\Controllers\Controller;
+use App\Models\ArticleCategory;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
@@ -79,6 +80,8 @@ class ArticlesController extends Controller
         $grid->disableFilter();
 
         $grid->id('ID');
+        $grid->category()->name_en('分类');
+
         $grid->name('名称');
         $grid->slug('标示位');
         $grid->created_at('创建时间');
@@ -97,6 +100,21 @@ class ArticlesController extends Controller
         $show = new Show(Article::findOrFail($id));
 
         $show->id('ID');
+
+        $show->category('分类', function ($category) {
+            /*禁用*/
+            $category->panel()->tools(function ($tools) {
+                $tools->disableList();
+                $tools->disableEdit();
+                $tools->disableDelete();
+            });
+
+            /*属性*/
+            // $category->name_zh('名称(中文)');
+            $category->name_en('名称(英文)');
+        });
+
+
         $show->name('名称');
         $show->slug('标示位');
         // $show->content_zh('内容(中文)');
@@ -154,6 +172,7 @@ class ArticlesController extends Controller
 
         $form = new Form(new Article);
 
+        $form->select('category_id', '分类')->options(ArticleCategory::selectOptions())->rules('nullable|exists:article_categories,id');
         $form->text('name', '名称');
 
         $form->text('slug', '标示位')->rules(function ($form) {

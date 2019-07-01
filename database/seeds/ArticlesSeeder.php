@@ -54,9 +54,12 @@ class ArticlesSeeder extends Seeder
             ['After Sales Service', 'refunding_service'],
         ];
 
+        $category = \App\Models\ArticleCategory::first();
+
         foreach ($slug_arr as $item)
         {
             factory(Article::class)->create([
+                'category_id'=>$category->id,
                 'name' => $item[0],
                 'slug' => $item[1],
             ]);
