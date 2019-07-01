@@ -77,7 +77,8 @@
                                 $.each(n.products, function (a, b) {
                                     list_name = ($(".cgeMainRight").attr('code') == "en") ? b.name_en : b.name_zh;
                                     html += "<div class='cgeItemPro'>";
-                                    html += "<img class='lazy' src=" + b.thumb_url + ">";
+                                    html += "<a href='/mobile/products/" +b.id+ "/" +
+                                        b.slug+"'><img class='lazy' src=" + b.thumb_url + "></a>";
                                     html += "<p>" + list_name + "</p>";
                                     html += "</div>";
                                 });

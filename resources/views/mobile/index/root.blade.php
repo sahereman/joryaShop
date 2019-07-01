@@ -228,7 +228,7 @@
                                     // price = ($(".pro_rec").attr("code") == "en") ? n.price_in_usd : n.price;
                                     symbol = global_symbol;
                                     price = get_current_price(n.price);
-                                    html += "<div class='recItem' code='" + n.id + "'>";
+                                    html += "<div class='recItem' code='" + n.id+"/"+n.slug + "'>";
                                     html += "<img class='lazy' src='" + n.thumb_url + "' >";
                                     html += "<div class='block_name'>"+ name +"</div>";
                                     html += "<span class='block_price'>"+ symbol + price + "</span>";

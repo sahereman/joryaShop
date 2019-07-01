@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Cviebrock\EloquentSluggable\Sluggable;
 use Encore\Admin\Traits\AdminBuilder;
 use Encore\Admin\Traits\ModelTree;
 use Illuminate\Database\Eloquent\Model;
@@ -12,6 +13,19 @@ use Illuminate\Support\Str;
 class ProductCategory extends Model
 {
     use ModelTree, AdminBuilder;
+
+
+    use Sluggable;
+
+    public function sluggable()
+    {
+        return [
+            'slug' => [
+                'source' => 'name_en'
+            ]
+        ];
+    }
+
 
     public function __construct(array $attributes = [])
     {

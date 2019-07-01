@@ -16,7 +16,7 @@
         <div class="favBox {{ is_wechat_browser() ? 'margin-top_no' : '' }}">
             @foreach($favourites as $favourite)
                 <div class="favItem" code='{{ $favourite->id }}'
-                     data-url="{{ route('mobile.products.show', ['product' => $product->id,'slug'=>$product->slug]) }}">
+                     data-url="{{ route('mobile.products.show', ['product' => $favourite->product->id,'slug'=>$favourite->product->slug]) }}">
                     <img src="{{ $favourite->product->thumb_url }}"/>
                     <div class="favDetail">
                         <div class="goodsName">

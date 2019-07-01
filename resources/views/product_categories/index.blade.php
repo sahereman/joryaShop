@@ -36,7 +36,7 @@
                     </li>
                     @foreach($children as $child)
                         <li>
-                            <a href="{{ route('product_categories.index', ['category' => $child->id]) }}"><span>{{ App::isLocale('zh-CN') ? $child->name_zh : $child->name_en }}</span></a>
+                            <a href="{{ route('product_categories.index', ['category' => $child->id,'slug'=>$child->slug]) }}"><span>{{ App::isLocale('zh-CN') ? $child->name_zh : $child->name_en }}</span></a>
                         </li>
                     @endforeach
                 </ul>

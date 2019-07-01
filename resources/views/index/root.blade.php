@@ -62,7 +62,7 @@
                 <div class="fashion_trend product-part">
                     <div class="m-wrapper">
                         <div class="part_title">
-                            <a href="{{ route('product_categories.index', ['category' => $category_products['category']->id]) }}">
+                            <a href="{{ route('product_categories.index', ['category' => $category_products['category']->id,'slug'=>$category_products['category']->slug]) }}">
                                 <h3>{{ App::isLocale('zh-CN') ? $category_products['category']->name_zh : $category_products['category']->name_en }}</h3>
                             </a>
                             <!--查看更多需要数据修改-->
@@ -74,7 +74,7 @@
                                         @foreach($category_products['children'] as $k => $child)
                                             @if($k > 4)
                                             <li role="presentation">
-                                                <a role="menuitem" href="{{ route('product_categories.index', ['category' => $child->id]) }}">
+                                                <a role="menuitem" href="{{ route('product_categories.index', ['category' => $child->id,'slug'=>$child->slug]) }}">
                                                     {{ App::isLocale('zh-CN') ? $child->name_zh : $child->name_en }}
                                                 </a>
                                             </li>
@@ -90,7 +90,7 @@
                                         @break
                                     @endif
                                     <li>
-                                        <a href="{{ route('product_categories.index', ['category' => $child->id]) }}">
+                                        <a href="{{ route('product_categories.index', ['category' => $child->id,'slug'=>$child->slug]) }}">
                                             {{ App::isLocale('zh-CN') ? $child->name_zh : $child->name_en }}
                                         </a>
                                         @if($k != 0)
@@ -134,7 +134,7 @@
                 <div class="customization product-part">
                     <div class="m-wrapper">
                         <div class="part_title">
-                            <a href="{{ route('product_categories.index', ['category' => $category_products['category']->id]) }}">
+                            <a href="{{ route('product_categories.index', ['category' => $category_products['category']->id,'slug'=>$category_products['category']->slug]) }}">
                                 <h3>{{ App::isLocale('zh-CN') ? $category_products['category']->name_zh : $category_products['category']->name_en }}</h3>
                             </a>
                             <!--查看更多需要数据修改-->
@@ -146,7 +146,7 @@
                                         @foreach($category_products['children'] as $k => $child)
                                             @if($k > 4)
                                                 <li role="presentation">
-                                                    <a role="menuitem" href="{{ route('product_categories.index', ['category' => $child->id]) }}">
+                                                    <a role="menuitem" href="{{ route('product_categories.index', ['category' => $child->id,'slug'=>$child->slug]) }}">
                                                         {{ App::isLocale('zh-CN') ? $child->name_zh : $child->name_en }}
                                                     </a>
                                                 </li>
@@ -162,7 +162,7 @@
                                         @break
                                     @endif
                                     <li>
-                                        <a href="{{ route('product_categories.index', ['category' => $child->id]) }}">
+                                        <a href="{{ route('product_categories.index', ['category' => $child->id,'slug'=>$child->slug]) }}">
                                             {{ App::isLocale('zh-CN') ? $child->name_zh : $child->name_en }}
                                         </a>
                                         @if($k != 0)
