@@ -48,6 +48,7 @@ class ProductsSeeder extends Seeder
                 'photo_urls',
                 'price_in_usd',
                 'shipping_fee_in_usd',
+                'attrs'
             ]));
         });
     }
