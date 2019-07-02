@@ -2,7 +2,6 @@
 
 namespace App\Observers;
 
-
 use App\Models\RefundReason;
 use Illuminate\Support\Facades\Cache;
 
@@ -16,7 +15,6 @@ class RefundReasonObserver
     saving -> updating -> updated -> saved(不会触发保存操作)
     当模型不存在，需要新增的时候，依次触发的顺序则是:
     saving -> creating -> created -> saved(不会触发保存操作)*/
-
 
     public function created(RefundReason $refundReason)
     {
@@ -32,5 +30,4 @@ class RefundReasonObserver
     {
         Cache::forget($refundReason::$cache_key);
     }
-
 }

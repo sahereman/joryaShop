@@ -143,6 +143,7 @@ class Order extends Model
         return false;
     }
 
+    /* Eloquent Relationships */
     public function user()
     {
         return $this->belongsTo(User::class);

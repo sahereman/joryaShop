@@ -46,6 +46,7 @@ class UserHistory extends Model
         'browsed_at',
     ];
 
+    /* Eloquent Relationships */
     public function user()
     {
         return $this->belongsTo(User::class);

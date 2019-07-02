@@ -122,6 +122,7 @@ class OrderRefund extends Model
         return $refund_sn;
     }
 
+    /* Accessors */
     public function getRefundPhotoUrlsAttribute()
     {
         $refund_photo_urls = [];
@@ -158,6 +159,7 @@ class OrderRefund extends Model
         return $shipment_photo_urls;
     }
 
+    /* Eloquent Relationships */
     public function order()
     {
         return $this->belongsTo(Order::class);

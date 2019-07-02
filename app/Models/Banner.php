@@ -20,6 +20,7 @@ class Banner extends Model
         'image_url',
     ];
 
+    /* Accessors */
     public function getImageUrlAttribute()
     {
         // 如果 image 字段本身就已经是完整的 url 就直接返回

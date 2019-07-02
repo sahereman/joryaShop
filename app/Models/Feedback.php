@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Feedback extends Model
 {
-
     /**
      * The table associated with the model.
      * @var string
@@ -52,6 +51,7 @@ class Feedback extends Model
         //
     ];
 
+    /* Accessors */
     /**
      * Get the user's id.
      * @param integer|null $value
@@ -62,6 +62,7 @@ class Feedback extends Model
         return $value ?: 'Anonymous';
     }
 
+    /* Eloquent Relationships */
     public function user()
     {
         return $this->belongsTo(User::class);

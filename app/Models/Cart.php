@@ -32,12 +32,14 @@ class Cart extends Model
         'favourite',
     ];
 
+    /* Accessors */
     public function getFavouriteAttribute()
     {
         $favourite = UserFavourite::where('user_id', $this->attributes['user_id'])->where('product_id', $this->sku->product_id)->first();
         return $favourite;
     }
 
+    /* Eloquent Relationships */
     public function user()
     {
         return $this->belongsTo(User::class);

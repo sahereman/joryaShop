@@ -32,6 +32,7 @@ class Article extends Model
         return false;
     }
 
+    /* Eloquent Relationships */
     public function category()
     {
         return $this->belongsTo(ArticleCategory::class, 'category_id');

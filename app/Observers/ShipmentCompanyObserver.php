@@ -17,7 +17,6 @@ class ShipmentCompanyObserver
     当模型不存在，需要新增的时候，依次触发的顺序则是:
     saving -> creating -> created -> saved(不会触发保存操作)*/
 
-
     public function created(ShipmentCompany $company)
     {
         Cache::forget($company::$cache_key);

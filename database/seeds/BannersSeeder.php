@@ -12,12 +12,13 @@ class BannersSeeder extends Seeder
      */
     public function run(Faker $faker)
     {
-        $prefix_path = Storage::disk('public')->getAdapter()->getPathPrefix();
+        // $prefix_path = Storage::disk('public')->getAdapter()->getPathPrefix();
 
         factory(Banner::class, 1)->create([
             'type' => 'index',
             'disk' => 'public',
-            'image' => $faker->image($prefix_path, 1920, 780, null, false),
+            // 'image' => $faker->image($prefix_path, 1920, 780, null, false),
+            'image' => $faker->imageUrl(1920, 780, null, false),
             'link' => $faker->url,
             'sort' => 10,
         ]);
@@ -25,7 +26,8 @@ class BannersSeeder extends Seeder
         factory(Banner::class, 1)->create([
             'type' => 'mobile',
             'disk' => 'public',
-            'image' => $faker->image($prefix_path, 960, 390, null, false),
+            // 'image' => $faker->image($prefix_path, 960, 390, null, false),
+            'image' => $faker->imageUrl(960, 390, null, false),
             'link' => $faker->url,
             'sort' => 20,
         ]);

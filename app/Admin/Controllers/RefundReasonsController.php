@@ -79,6 +79,7 @@ class RefundReasonsController extends Controller
     protected function grid()
     {
         $grid = new Grid(new RefundReason);
+        $grid->model()->orderBy('sort', 'desc'); // 设置初始排序条件
 
         $grid->id('Id');
         $grid->reason_en('退款原因英文');

@@ -34,22 +34,18 @@ class OrderRecyclesController extends Controller
     //永久删除
     public function delete($order, Request $request)
     {
-
         $order = Order::withTrashed()->where('id', $order)->where('deleted_at', '!=', null)->first();
 
-        if (!$order)
-        {
+        if (!$order) {
             throw new InvalidRequestException('该订单当前状态不允许删除');
         }
 
         // 判断当前订单状态 必须是 交易关闭 或 已完成
-        if (!in_array($order->status, [Order::ORDER_STATUS_CLOSED, Order::ORDER_STATUS_COMPLETED]))
-        {
+        if (!in_array($order->status, [Order::ORDER_STATUS_CLOSED, Order::ORDER_STATUS_COMPLETED])) {
             throw new InvalidRequestException('该订单当前状态不允许删除');
         }
 
         $order->forceDelete();
-
 
         // 返回上一页
         return response()->json([
@@ -93,7 +89,7 @@ class OrderRecyclesController extends Controller
             }, '买家(邮箱、客户电话)');
         });
 
-//        $grid->id('ID');
+        // $grid->id('ID');
 
         $grid->order_sn('订单号');
         $grid->column('user.email', '邮箱');

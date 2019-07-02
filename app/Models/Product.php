@@ -48,16 +48,6 @@ class Product extends Model
         'thumb',
         'photos',
 
-        // 2019-05-14
-        // 'attribute_options',
-        // 2019-05-14
-
-        // 2019-01-22
-        'is_base_size_optional',
-        'is_hair_colour_optional',
-        'is_hair_density_optional',
-        // 2019-01-22
-
         'shipping_fee',
         'stock',
         'sales',
@@ -67,6 +57,7 @@ class Product extends Model
         'is_index',
         'on_sale',
     ];
+
 
     /**
      * The attributes that should be hidden for serialization.
@@ -84,17 +75,7 @@ class Product extends Model
     protected $casts = [
         'is_index' => 'boolean',
         'on_sale' => 'boolean',
-        'photos' => 'json',
-
-        // 2019-05-14
-        // 'attribute_options' => 'json',
-        // 2019-05-14
-
-        // 2019-01-22
-        'is_base_size_optional' => 'boolean',
-        'is_hair_colour_optional' => 'boolean',
-        'is_hair_density_optional' => 'boolean',
-        // 2019-01-22
+        'photos' => 'json'
     ];
 
     /**
@@ -112,10 +93,11 @@ class Product extends Model
     protected $appends = [
         'thumb_url',
         'photo_urls',
-        // 'price_in_usd',
-        // 'shipping_fee_in_usd',
+        'attr_names',
+        'grouped_params'
     ];
 
+    /* Accessors */
     public function getThumbUrlAttribute()
     {
         if ($this->attributes['thumb']) {
@@ -146,28 +128,57 @@ class Product extends Model
         return $photo_urls;
     }
 
-    /*public function getPriceInUsdAttribute()
+    public function getAttrNamesAttribute()
     {
-        $price_in_usd = ExchangeRate::exchangePrice($this->attributes['price'], 'USD');
-        if ($price_in_usd == 0.00) {
-            return 0.01;
-        }
-        return $price_in_usd;
-    }*/
+        $attr_options = [];
+        $this->attrs->each(function ($attr) use (&$attr_options) {
+            $attr_options[$attr->name] = $attr->name;
+        });
 
-    /*public function getShippingFeeInUsdAttribute()
+        return $attr_options;
+    }
+
+    public function getParamNamesAttribute()
     {
-        // 运费可以为0.00
-        if ($this->attributes['shipping_fee'] == 0.00) {
-            return 0.00;
-        }
-        $shipping_fee_in_usd = ExchangeRate::exchangePrice($this->attributes['shipping_fee'], 'USD');
-        if ($shipping_fee_in_usd == 0.00) {
-            return 0.01;
-        }
-        return $shipping_fee_in_usd;
-    }*/
+        return $this->params->unique('name')->pluck('name')->toArray();
+    }
 
+    public function getGroupedParamsAttribute()
+    {
+        $grouped_params = [];
+        $this->params()->each(function (ProductParam $param) use (&$grouped_params) {
+            $grouped_params[$param->name][$param->value] = $param->value;
+        });
+        return $grouped_params;
+    }
+
+    public function getGroupedParamValuesAttribute()
+    {
+        $grouped_param_values = [];
+        $this->getGroupedParamsAttribute()->each(function ($params, $name) use (&$grouped_param_values) {
+            foreach ($params as $param) {
+                if (isset($grouped_param_values[$name])) {
+                    $grouped_param_values[$name] .= ' . ' . $param['value'];
+                } else {
+                    $grouped_param_values[$name] = $param['value'];
+                }
+            }
+        });
+        return $grouped_param_values;
+    }
+
+    /* Mutators */
+    public function setAttrNamesAttribute($value)
+    {
+        unset($this->attributes['attr_names']);
+    }
+
+    public function setGroupedParamsAttribute()
+    {
+        unset($this->attributes['grouped_params']);
+    }
+
+    /* Eloquent Relationships */
     public function category()
     {
         return $this->belongsTo(ProductCategory::class, 'product_category_id');
@@ -183,12 +194,13 @@ class Product extends Model
         return $this->hasMany(ProductComment::class);
     }
 
-    /*商品属性 2019-03-01*/
-    // Many-to-many Relationship.
-    /*public function attrs()
+    public function attrs()
     {
-        // return $this->belongsToMany(Attr::class);
-        return $this->belongsToMany(Attr::class, 'attr_products', 'product_id', 'attr_id');
-    }*/
-    /*商品属性 2019-03-01*/
+        return $this->hasMany(ProductAttr::class)->orderByDesc('sort');
+    }
+
+    public function params()
+    {
+        return $this->hasMany(ProductParam::class)->orderByDesc('sort');
+    }
 }

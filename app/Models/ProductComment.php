@@ -47,6 +47,7 @@ class ProductComment extends Model
         'photo_urls',
     ];
 
+    /* Accessors */
     public function getPhotoUrlsAttribute()
     {
         $photo_urls = [];
@@ -65,6 +66,7 @@ class ProductComment extends Model
         return $photo_urls;
     }
 
+    /* Eloquent Relationships */
     public function supplements()
     {
         return $this->hasMany(ProductCommentSupplement::class);

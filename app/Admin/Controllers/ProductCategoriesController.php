@@ -174,11 +174,11 @@ class ProductCategoriesController extends Controller
     {
         $form = new Form(new ProductCategory);
 
-//        $parent_categories = ProductCategory::where('parent_id', 0)->get()->mapWithKeys(function ($item) {
-//            // return [$item['id'] => $item['name_zh']];
-//            return [$item['id'] => $item['name_en']];
-//        });
-//        $parent_categories->prepend('顶级分类', 0);
+        /*$parent_categories = ProductCategory::where('parent_id', 0)->get()->mapWithKeys(function ($item) {
+            // return [$item['id'] => $item['name_zh']];
+            return [$item['id'] => $item['name_en']];
+        });
+        $parent_categories->prepend('顶级分类', 0);*/
 
         $form->select('parent_id', '上级分类')->options(ProductCategory::selectOptions())->rules('required');
         // $form->text('name_zh', '名称(中文)')->rules('required');
@@ -197,7 +197,7 @@ class ProductCategoriesController extends Controller
         $form->hidden('content_zh', '内容(中文)')->default('lyrical');
         $form->hidden('content_en', '内容(英文)')->default('lyrical');
 
-        $form->image('banner','分类主页图')->uniqueName()->move('banners')->removable()->help('尺寸:1920 * 380');;
+        $form->image('banner', '分类主页图')->uniqueName()->move('banners')->removable()->help('尺寸:1920 * 380');
 
         $form->switch('is_index', '首页显示');
         $form->number('sort', '排序值')->default(999);

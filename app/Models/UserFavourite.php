@@ -23,6 +23,7 @@ class UserFavourite extends Model
         //
     ];
 
+    /* Eloquent Relationships */
     public function user()
     {
         return $this->belongsTo(User::class);

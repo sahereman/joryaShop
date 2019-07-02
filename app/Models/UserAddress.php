@@ -50,6 +50,7 @@ class UserAddress extends Model
         'full_address',
     ];
 
+    /* Accessors */
     public function getFullAddressAttribute()
     {
         // full_address in foreign style
@@ -64,6 +65,7 @@ class UserAddress extends Model
         return $full_address;
     }
 
+    /* Eloquent Relationships */
     public function user()
     {
         return $this->belongsTo(User::class);

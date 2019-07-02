@@ -21,12 +21,6 @@ class DatabaseSeeder extends Seeder
         $this->call(ProductsSeeder::class);
         $this->call(ProductSkusSeeder::class);
 
-
-        /*商品属性 2019-03-01*/
-        // $this->call(AttrsSeeder::class);
-        // $this->call(AttrProductsSeeder::class);
-        /*商品属性 2019-03-01*/
-
         //用户
         $this->call(UsersSeeder::class);
         $this->call(UserAddressesSeeder::class);
@@ -59,5 +53,17 @@ class DatabaseSeeder extends Seeder
 
         // 留言板
         $this->call(FeedbacksSeeder::class);
+
+        // 根据商品名称生成 Slug
+        // $this->call(ProductSlugsSeeder::class);
+
+        // 商品属性
+        $this->call(AttrsSeeder::class);
+        $this->call(ProductAttrsSeeder::class);
+
+        // 商品参数
+        $this->call(ParamsSeeder::class);
+        $this->call(ParamValuesSeeder::class);
+        $this->call(ProductParamsSeeder::class);
     }
 }

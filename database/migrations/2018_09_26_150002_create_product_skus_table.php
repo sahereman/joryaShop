@@ -19,7 +19,7 @@ class CreateProductSkusTable extends Migration
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
 
             $table->string('name_en')->nullable()->default('')->comment('英文名称'); // 备用字段
-            $table->string('name_zh')->nullable(false)->comment('中文名称');
+            $table->string('name_zh')->nullable()->default('')->comment('中文名称'); // 备用字段
 
             // 2019-01-22
             $table->string('base_size_en')->nullable()->default('Common')->comment('Base Size 英文名称');

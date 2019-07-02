@@ -31,7 +31,7 @@ class ProductServicesController extends Controller
     /**
      * Show interface.
      *
-     * @param mixed   $id
+     * @param mixed $id
      * @param Content $content
      * @return Content
      */
@@ -46,7 +46,7 @@ class ProductServicesController extends Controller
     /**
      * Edit interface.
      *
-     * @param mixed   $id
+     * @param mixed $id
      * @param Content $content
      * @return Content
      */
@@ -82,8 +82,8 @@ class ProductServicesController extends Controller
         $grid = new Grid(new ProductService);
 
         $grid->id('Id');
-//        $grid->name('服务名称');
-        $grid->description('服务描述');
+        $grid->name('服务名称');
+        // $grid->description('服务描述');
         $grid->created_at('Created at');
         $grid->updated_at('Updated at');
 
@@ -93,7 +93,7 @@ class ProductServicesController extends Controller
     /**
      * Make a show builder.
      *
-     * @param mixed   $id
+     * @param mixed $id
      * @return Show
      */
     protected function detail($id)
@@ -101,7 +101,7 @@ class ProductServicesController extends Controller
         $show = new Show(ProductService::findOrFail($id));
 
         $show->id('Id');
-//        $show->name('服务名称');
+        // $show->name('服务名称');
         $show->description('服务描述');
         $show->created_at('Created at');
         $show->updated_at('Updated at');
@@ -120,7 +120,7 @@ class ProductServicesController extends Controller
 
         $form->hidden('name')->default('Product Service Name');
         $form->text('description', '服务描述');
-//        $form->number('sort', '排序值');
+        // $form->number('sort', '排序值');
 
         return $form;
     }

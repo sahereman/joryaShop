@@ -14,7 +14,6 @@ class ProductCategory extends Model
 {
     use ModelTree, AdminBuilder;
 
-
     use Sluggable;
 
     public function sluggable()
@@ -26,7 +25,6 @@ class ProductCategory extends Model
         ];
     }
 
-
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
@@ -36,7 +34,6 @@ class ProductCategory extends Model
         $this->setTitleColumn('name_en');
         $this->setOrderColumn('sort');
     }
-
 
     private $collection_products;
 
@@ -96,13 +93,12 @@ class ProductCategory extends Model
         'banner_url',
     ];
 
+    /* Accessors */
     public function getBannerUrlAttribute()
     {
-        if ($this->attributes['banner'])
-        {
+        if ($this->attributes['banner']) {
             // 如果 banner 字段本身就已经是完整的 url 就直接返回
-            if (Str::startsWith($this->attributes['banner'], ['http://', 'https://']))
-            {
+            if (Str::startsWith($this->attributes['banner'], ['http://', 'https://'])) {
                 return $this->attributes['banner'];
             }
             return Storage::disk('public')->url($this->attributes['banner']);
@@ -110,6 +106,7 @@ class ProductCategory extends Model
         return '';
     }
 
+    /* Eloquent Relationships */
     public function children()
     {
         return $this->hasMany(self::class, 'parent_id', 'id');
@@ -132,33 +129,22 @@ class ProductCategory extends Model
      */
     public function all_products($sort = 'index')
     {
-
         $this->collection_products = $this->products()->where('on_sale', true)->get();
 
         $children = $this->children;
         $this->findChildrenProduct($children);
 
-        //        dd($this->collection_products);
-
-//        dd($this->collection_products->keyBy('id'));
-
         return $this->collection_products->sortByDesc($sort);
-
-
     }
 
     private function findChildrenProduct($children)
     {
-
         $children->map(function ($item) {
             $cl = $item->children;
-            if ($cl->isNotEmpty())
-            {
+            if ($cl->isNotEmpty()) {
                 $this->findChildrenProduct($cl);
             }
             $this->collection_products = $this->collection_products->merge($item->products()->where('on_sale', true)->get());
         });
     }
-
-
 }

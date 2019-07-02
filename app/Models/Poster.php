@@ -20,6 +20,7 @@ class Poster extends Model
         'image_url',
     ];
 
+    /* Accessors */
     public function getImageUrlAttribute()
     {
         if ($this->attributes['image']) {

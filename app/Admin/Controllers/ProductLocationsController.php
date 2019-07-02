@@ -31,7 +31,7 @@ class ProductLocationsController extends Controller
     /**
      * Show interface.
      *
-     * @param mixed   $id
+     * @param mixed $id
      * @param Content $content
      * @return Content
      */
@@ -46,7 +46,7 @@ class ProductLocationsController extends Controller
     /**
      * Edit interface.
      *
-     * @param mixed   $id
+     * @param mixed $id
      * @param Content $content
      * @return Content
      */
@@ -82,7 +82,7 @@ class ProductLocationsController extends Controller
         $grid = new Grid(new ProductLocation);
 
         $grid->id('Id');
-//        $grid->name('仓库名称');
+        // $grid->name('仓库名称');
         $grid->description('仓库地址');
         $grid->created_at('Created at');
         $grid->updated_at('Updated at');
@@ -93,7 +93,7 @@ class ProductLocationsController extends Controller
     /**
      * Make a show builder.
      *
-     * @param mixed   $id
+     * @param mixed $id
      * @return Show
      */
     protected function detail($id)
@@ -101,7 +101,7 @@ class ProductLocationsController extends Controller
         $show = new Show(ProductLocation::findOrFail($id));
 
         $show->id('Id');
-//        $show->name('仓库名称');
+        // $show->name('仓库名称');
         $show->description('仓库地址');
         $show->created_at('Created at');
         $show->updated_at('Updated at');

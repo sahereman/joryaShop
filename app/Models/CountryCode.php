@@ -44,14 +44,13 @@ class CountryCode extends Model
         self::$cache_key = config('app.name') . '_country_codes';
     }
 
-
     public static function countryCodes()
     {
         // 尝试从缓存中取出 cache_key 对应的数据。如果能取到，便直接返回数据。
         // 否则运行匿名函数中的代码来取出 country_codes 表中所有的数据，返回的同时做了缓存。
         return Cache::remember(self::$cache_key, self::$cache_expire_in_minutes, function () {
             // return self::all();
-            return self::orderBy('sort')->get();
+            return self::orderByDesc('sort')->get();
         });
     }
 }

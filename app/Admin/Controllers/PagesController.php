@@ -15,7 +15,6 @@ use Encore\Admin\Widgets\Box;
 
 class PagesController extends Controller
 {
-
     public function index(Content $content)
     {
         return $content
@@ -80,7 +79,6 @@ class PagesController extends Controller
                     $receiving_counts = $week->merge($receiving_counts);
                     $refunding_counts = $week->merge($refunding_counts);
 
-
                     $column->append(new Box('近7天订单统计【 商城订单共 ' . Order::count() . ' 单】', view('admin.pages.index.order', [
                         'paying_counts' => $paying_counts,
                         'shipping_counts' => $shipping_counts,
@@ -90,7 +88,6 @@ class PagesController extends Controller
                 });
             });
     }
-
 
     public function dashboard(Content $content)
     {

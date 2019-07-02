@@ -15,7 +15,6 @@ class AddSlugColumnToProductsTable extends Migration
     {
         Schema::table('products', function (Blueprint $table) {
             $table->string('slug')->nullable()->comment('URL链接名称')->after('id');
-
         });
     }
 
@@ -27,9 +26,7 @@ class AddSlugColumnToProductsTable extends Migration
     public function down()
     {
         Schema::table('products', function (Blueprint $table) {
-            //
             $table->dropColumn('slug');
-
         });
     }
 }

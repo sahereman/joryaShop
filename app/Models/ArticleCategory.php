@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class ArticleCategory extends Model
 {
-
     use ModelTree, AdminBuilder;
 
     public function __construct(array $attributes = [])
@@ -65,23 +64,19 @@ class ArticleCategory extends Model
         //
     ];
 
-
+    /* Eloquent Relationships */
     public function children()
     {
         return $this->hasMany(self::class, 'parent_id', 'id');
     }
-
 
     public function parent()
     {
         return $this->belongsTo(self::class, 'parent_id');
     }
 
-
     public function articles()
     {
-        return $this->hasMany(Article::class,'category_id');
+        return $this->hasMany(Article::class, 'category_id');
     }
-
-
 }

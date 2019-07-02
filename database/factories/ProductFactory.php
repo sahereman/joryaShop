@@ -20,12 +20,6 @@ $factory->define(Product::class, function (Faker $faker) {
         'thumb' => asset('demo/product-' . random_int(1, 46) . '.jpg'),
         'photos' => array(asset('demo/product-' . random_int(1, 46) . '.jpg'), asset('demo/product-' . random_int(1, 46) . '.jpg'), asset('demo/product-' . random_int(1, 46) . '.jpg')),
 
-        // 2019-01-22
-        'is_base_size_optional' => true,
-        'is_hair_colour_optional' => true,
-        'is_hair_density_optional' => true,
-        // 2019-01-22
-
         'shipping_fee' => $faker->randomFloat(2, 0, 20),
         'stock' => $faker->randomNumber(5, true),
         'price' => $faker->randomFloat(2, 10, 20),

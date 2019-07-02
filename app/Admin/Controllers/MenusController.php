@@ -25,7 +25,7 @@ class MenusController extends Controller
     {
         return $content
             ->header('导航菜单管理')
-            ->description($request->input('slug').' 列表')
+            ->description($request->input('slug') . ' 列表')
             ->body($this->tree($request));
     }
 
@@ -75,10 +75,8 @@ class MenusController extends Controller
         $slug = $request->input('slug');
 
         return Menu::tree(function (Tree $tree) use ($slug) {
-
-            if ($slug)
-            {
-                $tree->query(function ($query)  use ($slug){
+            if ($slug) {
+                $tree->query(function ($query) use ($slug) {
                     return $query->where('slug', $slug);
                 });
             }
@@ -143,15 +141,15 @@ class MenusController extends Controller
     {
         $form = new Form(new Menu);
 
-        //        $parent_menus = Menu::where('parent_id', 0)->orderBy('sort')->get()->mapWithKeys(function ($item) {
-        //            // return [$item['id'] => $item['name_zh']];
-        //            return [$item['id'] => $item['name_en'] . ' (' . $item['slug'].')'];
-        //        });
-        //        $parent_menus->prepend('顶级分类', 0);
+        /*$parent_menus = Menu::where('parent_id', 0)->orderBy('sort')->get()->mapWithKeys(function ($item) {
+            // return [$item['id'] => $item['name_zh']];
+            return [$item['id'] => $item['name_en'] . ' (' . $item['slug'] . ')'];
+        });
+        $parent_menus->prepend('顶级分类', 0);*/
 
         $form->select('parent_id', '上级分类')->options(Menu::selectOptions())->rules('required');
 
-        //        $form->select('parent_id', '上级分类')->options($parent_menus)->rules('required');
+        // $form->select('parent_id', '上级分类')->options($parent_menus)->rules('required');
         // $form->text('name_zh', '名称(中文)')->rules('required');
         $form->hidden('name_zh', '名称(中文)')->default('lyrical');
         $form->text('name_en', '名称(英文)')->rules('required');

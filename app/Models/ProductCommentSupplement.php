@@ -53,6 +53,7 @@ class ProductCommentSupplement extends Model
         'photo_urls',
     ];
 
+    /* Accessors */
     public function getUserAttribute()
     {
         if ($this->attributes['from'] == self::FROM_USER && !is_null($this->attributes['user_id'])) {
@@ -79,6 +80,7 @@ class ProductCommentSupplement extends Model
         return $photo_urls;
     }
 
+    /* Eloquent Relationships */
     public function comment()
     {
         return $this->belongsTo(ProductComment::class);

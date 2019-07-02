@@ -14,8 +14,6 @@ class AddCategoryIdColumnToArticlesTable extends Migration
     public function up()
     {
         Schema::table('articles', function (Blueprint $table) {
-            //
-
             $table->unsignedInteger('category_id')->nullable()->default(null)->comment('article-category-id')->after('id');
             $table->foreign('category_id')->references('id')->on('article_categories')->onDelete('set null');
         });
@@ -29,7 +27,6 @@ class AddCategoryIdColumnToArticlesTable extends Migration
     public function down()
     {
         Schema::table('articles', function (Blueprint $table) {
-            //
             $table->dropForeign(['category_id']);
             $table->dropColumn('category_id');
         });

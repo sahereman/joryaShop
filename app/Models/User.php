@@ -30,7 +30,7 @@ class User extends Authenticatable
 
     protected $appends = ['avatar_url'];
 
-    // $this->user()->avatar_url
+    /* Accessors */
     public function getAvatarUrlAttribute()
     {
         // 如果 image 字段本身就已经是完整的 url 就直接返回
@@ -40,6 +40,7 @@ class User extends Authenticatable
         return \Storage::disk('public')->url($this->attributes['avatar']);
     }
 
+    /* Eloquent Relationships */
     public function favourites()
     {
         return $this->hasMany(UserFavourite::class);

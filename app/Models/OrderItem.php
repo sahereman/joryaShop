@@ -23,6 +23,7 @@ class OrderItem extends Model
      */
     public $timestamps = false;
 
+    /* Eloquent Relationships */
     public function order()
     {
         return $this->belongsTo(Order::class);

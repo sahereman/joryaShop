@@ -31,7 +31,7 @@ class ProductSkusController extends Controller
     /**
      * Show interface.
      *
-     * @param mixed   $id
+     * @param mixed $id
      * @param Content $content
      * @return Content
      */
@@ -46,7 +46,7 @@ class ProductSkusController extends Controller
     /**
      * Edit interface.
      *
-     * @param mixed   $id
+     * @param mixed $id
      * @param Content $content
      * @return Content
      */
@@ -84,13 +84,13 @@ class ProductSkusController extends Controller
         $grid->id('Id');
         $grid->product_id('Product id');
         $grid->name_en('Name en');
-        $grid->name_zh('Name zh');
-        $grid->base_size_en('Base size en');
+        // $grid->name_zh('Name zh');
+        /*$grid->base_size_en('Base size en');
         $grid->base_size_zh('Base size zh');
         $grid->hair_colour_en('Hair colour en');
         $grid->hair_colour_zh('Hair colour zh');
         $grid->hair_density_en('Hair density en');
-        $grid->hair_density_zh('Hair density zh');
+        $grid->hair_density_zh('Hair density zh');*/
         $grid->photo('Photo');
         $grid->price('Price');
         $grid->stock('Stock');
@@ -104,7 +104,7 @@ class ProductSkusController extends Controller
     /**
      * Make a show builder.
      *
-     * @param mixed   $id
+     * @param mixed $id
      * @return Show
      */
     protected function detail($id)
@@ -114,13 +114,13 @@ class ProductSkusController extends Controller
         $show->id('Id');
         $show->product_id('Product id');
         $show->name_en('Name en');
-        $show->name_zh('Name zh');
-        $show->base_size_en('Base size en');
+        // $show->name_zh('Name zh');
+        /*$show->base_size_en('Base size en');
         $show->base_size_zh('Base size zh');
         $show->hair_colour_en('Hair colour en');
         $show->hair_colour_zh('Hair colour zh');
         $show->hair_density_en('Hair density en');
-        $show->hair_density_zh('Hair density zh');
+        $show->hair_density_zh('Hair density zh');*/
         $show->photo('Photo');
         $show->price('Price');
         $show->stock('Stock');
@@ -142,17 +142,17 @@ class ProductSkusController extends Controller
 
         $form->number('product_id', 'Product id');
         $form->text('name_en', 'Name en');
-        $form->text('name_zh', 'Name zh');
-        $form->text('base_size_en', 'Base size en')->default('Common');
+        // $form->text('name_zh', 'Name zh');
+        /*$form->text('base_size_en', 'Base size en')->default('Common');
         $form->text('base_size_zh', 'Base size zh')->default('普通');
         $form->text('hair_colour_en', 'Hair colour en')->default('Common');
         $form->text('hair_colour_zh', 'Hair colour zh')->default('普通');
         $form->text('hair_density_en', 'Hair density en')->default('Common');
-        $form->text('hair_density_zh', 'Hair density zh')->default('普通');
+        $form->text('hair_density_zh', 'Hair density zh')->default('普通');*/
         $form->image('photo', 'Photo')
             ->deletable(true)
             ->uniqueName()
-//            ->removable()
+            // ->removable()
             ->move('original/' . date('Ym', now()->timestamp));
         $form->decimal('price', 'Price')->default(0.01);
         $form->number('stock', 'Stock');

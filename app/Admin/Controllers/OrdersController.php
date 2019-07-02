@@ -67,13 +67,11 @@ class OrdersController extends Controller
     public function modify(Order $order, Request $request)
     {
         // 判断当前订单是否已支付
-        if ($order->paid_at)
-        {
+        if ($order->paid_at) {
             throw new InvalidRequestException('该订单已付款');
         }
         // 判断当前订单发货状态是否为待发货
-        if ($order->status !== Order::ORDER_STATUS_PAYING)
-        {
+        if ($order->status !== Order::ORDER_STATUS_PAYING) {
             throw new InvalidRequestException('该订单已付款');
         }
 
@@ -97,13 +95,11 @@ class OrdersController extends Controller
     public function ship(Order $order, Request $request)
     {
         // 判断当前订单是否已支付
-        if (!$order->paid_at)
-        {
+        if (!$order->paid_at) {
             throw new InvalidRequestException('该订单未付款');
         }
         // 判断当前订单发货状态是否为待发货
-        if ($order->status !== Order::ORDER_STATUS_SHIPPING)
-        {
+        if ($order->status !== Order::ORDER_STATUS_SHIPPING) {
             throw new InvalidRequestException('该订单已发货');
         }
 
@@ -139,8 +135,7 @@ class OrdersController extends Controller
     public function delete(Order $order, Request $request)
     {
         // 判断当前订单状态 必须是 交易关闭 或 已完成
-        if (!in_array($order->status, [Order::ORDER_STATUS_CLOSED, Order::ORDER_STATUS_COMPLETED]))
-        {
+        if (!in_array($order->status, [Order::ORDER_STATUS_CLOSED, Order::ORDER_STATUS_COMPLETED])) {
             throw new InvalidRequestException('该订单当前状态不允许删除');
         }
 
@@ -212,8 +207,7 @@ class OrdersController extends Controller
             $actions->disableDelete();
             $actions->append('<a class="btn btn-xs btn-primary" style="margin-right:8px" href="' . route('admin.orders.show', [$actions->getKey()]) . '">查看</a>');
 
-            if ($actions->row->refund)
-            {
+            if ($actions->row->refund) {
                 $actions->append('<a class="btn btn-xs btn-warning" style="margin-right:8px" href="' . route('admin.order_refunds.show', [$actions->row->refund['id']]) . '">售后</a>');
             }
 
