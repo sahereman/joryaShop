@@ -14,41 +14,41 @@ class DatabaseSeeder extends Seeder
         $this->call(AdminTablesSeeder::class);
         $this->call(ConfigsSeeder::class);
 
-        //产品
+        // 产品
         $this->call(ProductCategoriesSeeder::class);
         $this->call(ProductServicesSeeder::class);
         $this->call(ProductLocationsSeeder::class);
         $this->call(ProductsSeeder::class);
         $this->call(ProductSkusSeeder::class);
 
-        //用户
+        // 用户
         $this->call(UsersSeeder::class);
         $this->call(UserAddressesSeeder::class);
         $this->call(UserFavouritesSeeder::class);
         $this->call(UserHistoriesSeeder::class);
 
-        //购物车
+        // 购物车
         $this->call(CartsSeeder::class);
 
-        //文章
+        // 文章
         $this->call(ArticleCategoriesSeeder::class);
         $this->call(ArticlesSeeder::class);
 
-        //其他
+        // 其他
         $this->call(BannersSeeder::class);
         $this->call(CountryCodesSeeder::class);
         $this->call(ExchangeRatesSeeder::class);
         $this->call(PostersSeeder::class);
         $this->call(ShipmentCompaniesSeeder::class);
 
-        //订单
+        // 订单
         $this->call(OrdersSeeder::class);
         $this->call(OrderItemsSeeder::class);
         $this->call(OrderRefundsSeeder::class);
         $this->call(RefundReasonsSeeder::class);
         // $this->call(ProductCommentsSeeder::class);
 
-        //菜单
+        // 菜单
         $this->call(MenusSeeder::class);
 
         // 留言板
@@ -57,7 +57,7 @@ class DatabaseSeeder extends Seeder
         // 根据商品名称生成 Slug
         // $this->call(ProductSlugsSeeder::class);
 
-        // 商品属性
+        // SKU 属性
         $this->call(AttrsSeeder::class);
         $this->call(ProductAttrsSeeder::class);
 

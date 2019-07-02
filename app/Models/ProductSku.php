@@ -92,8 +92,13 @@ class ProductSku extends Model
 
     public function getAttrValueCompositionAttribute()
     {
-        $attr_values = $this->attr_values()->pluck('value')->toArray();
-        return implode(' - ', $attr_values);
+        /*$attr_values = $this->attr_values()->pluck('value')->toArray();
+        return implode(' - ', $attr_values);*/
+        $attr_value_composition = '';
+        $this->attr_values()->each(function (ProductSkuAttrValue $attrValue) use (&$attr_value_composition) {
+            $attr_value_composition .= $attrValue->attr->name . ' (' . $attrValue->value . ') ; ';
+        });
+        return substr($attr_value_composition, 0, -3);
     }
 
     /* Eloquent Relationships */

@@ -16,6 +16,7 @@ use App\Models\ProductLocation;
 use App\Models\ProductParam;
 use App\Models\ProductService;
 use App\Models\ProductSku;
+use App\Models\ProductSkuAttrValue;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
 use Encore\Admin\Form\Builder;
@@ -261,6 +262,7 @@ class ProductsController extends Controller
             $sku->price('单价');
             $sku->stock('库存');
             $sku->sales('销量');
+            $sku->attr_value_composition('SKU 属性概况');
         });
 
         $show->comments('评价列表', function ($comment) {
@@ -369,13 +371,13 @@ class ProductsController extends Controller
         $form->number('index', '综合指数')->min(0)->rules('required|integer|min:0');
         $form->number('heat', '人气')->min(0)->rules('required|integer|min:0');
 
-        /* 商品属性 */
+        /* SKU 属性 */
         $form->divider();
         $attr_options = [];
         Attr::all()->each(function (Attr $attr) use (&$attr_options) {
             $attr_options[$attr->name] = $attr->name;
         });
-        $form->checkbox('attr_names', 'Attributes :')->options($attr_options);
+        $form->checkbox('attr_names', 'SKU 属性选择 :')->options($attr_options);
 
         /* 商品参数 */
         $form->divider();
@@ -385,7 +387,7 @@ class ProductsController extends Controller
             foreach ($param->values as $value) {
                 $param_options[$param->name][$value->value] = $value->value;
             }
-            $form->checkbox("grouped_params.{$param->name}", "{$param->name} :")->options($param_options[$param->name]);
+            $form->checkbox("grouped_params.{$param->name}", "商品参数 {$param->name} :")->options($param_options[$param->name]);
         }
 
         // })->tab('商品详细', function (Form $form) {
@@ -412,7 +414,7 @@ class ProductsController extends Controller
             $product_id = $form->model()->id;
             $product = Product::with('attrs')->find($product_id);
 
-            /* 商品属性 */
+            /* SKU 属性 */
             $attr_names = request()->input('attr_names');
             $product->attrs->each(function (ProductAttr $attr) use ($attr_names) {
                 if (!in_array($attr->name, $attr_names)) {
@@ -562,19 +564,21 @@ class ProductsController extends Controller
         foreach ($attr_combo as $option) {
             $sku_data = [];
             $sku_data['product_id'] = $product->id;
+            $sku_data['name_en'] = 'lyrical';
+            $sku_data['name_zh'] = 'lyrical';
             $sku_data['price'] = $request->input('price', $product->price);
             $sku_data['stock'] = $request->input('stock', $product->stock);
-            if ($product->is_base_size_optional) {
-                $sku_data['base_size_en'] = $option['base_size']['data'];
+            $sku = ProductSku::create($sku_data);
+            $sort = 1;
+            foreach ($option as $product_attr_id => $attr_data) {
+                $sort++;
+                ProductSkuAttrValue::create([
+                    'product_sku_id' => $sku->id,
+                    'product_attr_id' => $product_attr_id,
+                    'value' => $attr_data['data'],
+                    'sort' => $sort
+                ]);
             }
-            if ($product->is_hair_colour_optional) {
-                $sku_data['hair_colour_en'] = $option['hair_colour']['data'];
-                $sku_data['photo'] = $option['hair_colour']['photo'];
-            }
-            if ($product->is_hair_density_optional) {
-                $sku_data['hair_density_en'] = $option['hair_density']['data'];
-            }
-            ProductSku::create($sku_data);
         }
         $product->update([
             'price' => $request->input('price', $product->price),

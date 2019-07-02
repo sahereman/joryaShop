@@ -22,7 +22,7 @@ class CreateProductSkuAttrValuesTable extends Migration
             $table->unsignedInteger('product_attr_id')->nullable(false)->comment('product_attr-id');
             $table->foreign('product_attr_id')->references('id')->on('product_attrs')->onDelete('cascade');
 
-            $table->string('value')->nullable(false)->comment('商品属性值');
+            $table->string('value')->nullable(false)->comment('SKU 属性值');
 
             $table->unsignedSmallInteger('sort')->nullable(false)->default(0)->comment('排序值');
 

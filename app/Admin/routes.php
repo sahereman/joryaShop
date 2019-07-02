@@ -43,10 +43,10 @@ Route::group([
     $router->get('order_recycles', 'OrderRecyclesController@index')->name('admin.order_recycles.index');/*列表*/
     $router->delete('order_recycles/{order}/delete', 'OrderRecyclesController@delete')->name('admin.order_recycles.delete');/*永久删除*/
 
-    /*商品属性 */
+    /*SKU 属性*/
     $router->resource('attrs', AttrsController::class)->names('admin.attrs');
 
-    /*商品参数 */
+    /*商品参数*/
     $router->resource('params', ParamsController::class)->names('admin.params');
 
     /*产品分类*/

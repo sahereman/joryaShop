@@ -24,7 +24,7 @@ class AttrsController extends Controller
     public function index(Content $content)
     {
         return $content
-            ->header('商品属性管理')
+            ->header('SKU 属性管理')
             ->description('属性 - 列表')
             ->body($this->grid());
     }
@@ -39,7 +39,7 @@ class AttrsController extends Controller
     public function show($id, Content $content)
     {
         return $content
-            ->header('商品属性管理')
+            ->header('SKU 属性管理')
             ->description('属性 - 详情')
             ->body($this->detail($id));
     }
@@ -54,7 +54,7 @@ class AttrsController extends Controller
     public function edit($id, Content $content)
     {
         return $content
-            ->header('商品属性管理')
+            ->header('SKU 属性管理')
             ->description('属性 - 编辑')
             ->body($this->form()->edit($id));
     }
@@ -68,7 +68,7 @@ class AttrsController extends Controller
     public function create(Content $content)
     {
         return $content
-            ->header('商品属性管理')
+            ->header('SKU 属性管理')
             ->description('属性 - 新增')
             ->body($this->form());
     }
@@ -81,10 +81,10 @@ class AttrsController extends Controller
     protected function grid()
     {
         $grid = new Grid(new Attr);
-        $grid->model()->with('values')->orderBy('sort', 'desc'); // 设置初始排序条件
+        $grid->model()->orderBy('sort', 'desc'); // 设置初始排序条件
 
         $grid->id('Id');
-        $grid->name('商品属性名称')->sortable();
+        $grid->name('SKU 属性名称')->sortable();
         $grid->sort('排序值')->sortable();
         // $grid->created_at('Created at');
         // $grid->updated_at('Updated at');
@@ -103,7 +103,7 @@ class AttrsController extends Controller
         $show = new Show(Attr::findOrFail($id));
 
         $show->id('Id');
-        $show->name('商品属性名称');
+        $show->name('SKU 属性名称');
         $show->sort('排序值');
         // $show->created_at('Created at');
         // $show->updated_at('Updated at');
@@ -120,7 +120,7 @@ class AttrsController extends Controller
     {
         $form = new Form(new Attr);
 
-        $form->text('name', '商品属性名称');
+        $form->text('name', 'SKU 属性名称');
         $form->number('sort', '排序值');
 
         return $form;

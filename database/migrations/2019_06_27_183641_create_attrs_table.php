@@ -16,7 +16,7 @@ class CreateAttrsTable extends Migration
         Schema::create('attrs', function (Blueprint $table) {
             $table->increments('id');
 
-            $table->string('name')->nullable(false)->comment('商品属性名称');
+            $table->string('name')->nullable(false)->comment('SKU 属性名称');
             $table->index('name');
 
             $table->unsignedSmallInteger('sort')->nullable(false)->default(0)->comment('排序值');

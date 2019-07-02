@@ -12,8 +12,7 @@
     </div>
 @endif
 <div class="box">
-    <form role="form" method="POST" enctype="multipart/form-data"
-          action="{{ route('admin.products.sku_generator_store', ['product' => $product->id]) }}">
+    <form role="form" method="POST" enctype="multipart/form-data" action="{{ route('admin.products.sku_generator_store', ['product' => $product->id]) }}">
         {{ csrf_field() }}
         <input type="hidden" name="attrs" value="">
         <div class="box-header">
@@ -37,97 +36,37 @@
             <div class="container-fluid">
                 <div class="row">
                     <!--col-md-4这个class值不是固定的。要根据不同的数目的表格来进行区分，总数为12，现在有3类每一类占4分，-->
-                    @if ($product->is_hair_colour_optional)
+                    @foreach($product->attrs as $attr)
                         <div class="col-md-4">
-                            <table class="table photo_tab" attr_name='hair_colour'>
+                            <table class="table photo_tab" attr_name="{{ $attr->id }}">
                                 <tr>
-                                    <th>Hair Colour</th>
+                                    <th>{{ $attr->name }}</th>
                                 </tr>
                                 <tr>
                                     <td>
                                         <div class="input-group">
-                                    <span class="input-group-btn pic_btn" style="overflow: hidden;">
-                                        <img src="{{ asset('img/pic_upload.png') }}"
-                                             style="height: 34px;border: 1px solid #ccc;padding: 2px;">
-                                        <input type="file" name="image" data-url="{{ route('image.upload') }}"
-                                               style="opacity: 0;position: absolute;top: 0;width: 100%;height: 100%;"
-                                               onchange="imgChange(this)">
-                                    </span>
-                                            <input type="text" name="hair_colour" data_path='' class="form-control">
-                                    <span class="input-group-btn">
-                                        <button class="btn btn-danger" type="button" onclick="delCol()">
-                                            <span class="glyphicon glyphicon-remove"></span>
-                                        </button>
-                                    </span>
+                                            {{--<span class="input-group-btn pic_btn" style="overflow: hidden;">
+                                                <img src="{{ asset('img/pic_upload.png') }}" style="height: 34px;border: 1px solid #ccc;padding: 2px;">
+                                                <input type="file" name="image" data-url="{{ route('image.upload') }}" style="opacity: 0;position: absolute;top: 0;width: 100%;height: 100%;" onchange="imgChange(this)">
+                                            </span>--}}
+                                            <input type="text" name="{{ $attr->id }}" data_path='' class="form-control">
+                                            <span class="input-group-btn">
+                                                <button class="btn btn-danger" type="button" onclick="delCol()">
+                                                    <span class="glyphicon glyphicon-remove"></span>
+                                                </button>
+                                            </span>
                                         </div>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
-                                        <button type="button" attr_name="hair_colour" class="btn-group btn btn-primary"
-                                                onclick="addCol()">增加
+                                        <button type="button" attr_name="{{ $attr->id }}" class="btn-group btn btn-primary" onclick="addCol()">增加
                                         </button>
                                     </td>
                                 </tr>
                             </table>
                         </div>
-                    @endif
-                    @if ($product->is_base_size_optional)
-                        <div class="col-md-4">
-                            <table class="table" attr_name='base_size'>
-                                <tr>
-                                    <th>Base Size</th>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="input-group">
-                                            <input type="text" name="base_size" class="form-control">
-                                    <span class="input-group-btn">
-                                        <button class="btn btn-danger" type="button" onclick="delCol()">
-                                            <span class="glyphicon glyphicon-remove"></span>
-                                        </button>
-                                    </span>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <button type="button" attr_name="base_size" class="btn-group btn btn-primary"
-                                                onclick="addCol()">增加
-                                        </button>
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>
-                    @endif
-                    @if ($product->is_hair_density_optional)
-                        <div class="col-md-4">
-                            <table class="table" attr_name='hair_density'>
-                                <tr>
-                                    <th>Hair Density</th>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="input-group">
-                                            <input type="text" name="hair_density" class="form-control">
-                                    <span class="input-group-btn">
-                                        <button class="btn btn-danger" type="button" onclick="delCol()">
-                                            <span class="glyphicon glyphicon-remove"></span>
-                                        </button>
-                                    </span>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <button type="button" attr_name="hair_density" class="btn-group btn btn-primary"
-                                                onclick="addCol()">增加
-                                        </button>
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>
-                    @endif
+                    @endforeach
                 </div>
             </div>
         </div>
@@ -140,7 +79,7 @@
         _$this.parents("tr").before(addRowCom);
         _$this.parents("tr").prev().find("img").attr('src', "{{ asset('img/pic_upload.png') }}");
         _$this.parents("tr").prev().find("input").val("");
-        _$this.parents("tr").prev().find("input[type='text']").attr("data_path","");
+        _$this.parents("tr").prev().find("input[type='text']").attr("data_path", "");
     }
     function delCol() {
         var _$this = $(event.target);
@@ -214,7 +153,7 @@
                     totalAttrs.push({"data": $(totalTrs[item]).find("input[type=text]").val()});
                 }
             }
-//            totalAttrs = unique(totalAttrs, "data");
+            // totalAttrs = unique(totalAttrs, "data");
             json_str[keyName] = totalAttrs;
         }
         $("input[name='attrs']").val(JSON.stringify(json_str));

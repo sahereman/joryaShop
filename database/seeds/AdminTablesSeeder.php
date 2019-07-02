@@ -24,7 +24,7 @@ class AdminTablesSeeder extends Seeder
                 'name' => '产品管理',
                 'slug' => 'products',
                 'http_method' => '',
-                'http_path' => "/product_categories\r\n/products\r\n/product_locations\r\n/product_services",
+                'http_path' => "/product_categories\r\n/products\r\n/product_locations\r\n/product_services\r\n/attrs\r\n/params",
             ],
             [
                 'name' => '订单管理',
@@ -91,7 +91,7 @@ class AdminTablesSeeder extends Seeder
     /*自定义添加的菜单*/
     private $custom_menus =
         [
-            //菜单组
+            // 菜单组
             [
                 'parent_id' => 0,
                 'order' => 1,
@@ -153,33 +153,47 @@ class AdminTablesSeeder extends Seeder
             [
                 'parent_id' => 13,
                 'order' => 1,
+                'title' => 'SKU 属性',
+                'icon' => 'fa-arrows',
+                'uri' => 'attrs',
+            ],
+            [
+                'parent_id' => 13,
+                'order' => 2,
+                'title' => '商品参数',
+                'icon' => 'fa-arrows-alt',
+                'uri' => 'params',
+            ],
+            [
+                'parent_id' => 13,
+                'order' => 3,
                 'title' => '分类',
                 'icon' => 'fa-cube',
                 'uri' => 'product_categories',
             ],
             [
                 'parent_id' => 13,
-                'order' => 2,
+                'order' => 4,
                 'title' => '产品',
                 'icon' => 'fa-cubes',
                 'uri' => 'products',
             ],
             [
                 'parent_id' => 13,
-                'order' => 3,
+                'order' => 5,
                 'title' => '仓库',
                 'icon' => 'fa-fort-awesome',
                 'uri' => 'product_locations',
             ],
             [
                 'parent_id' => 13,
-                'order' => 4,
+                'order' => 6,
                 'title' => '服务',
                 'icon' => 'fa-server',
                 'uri' => 'product_services',
             ],
 
-            //订单
+            // 订单
             [
                 'parent_id' => 14,
                 'order' => 1,
@@ -202,7 +216,7 @@ class AdminTablesSeeder extends Seeder
                 'uri' => 'order_recycles',
             ],
 
-            //文章
+            // 文章
             [
                 'parent_id' => 16,
                 'order' => 1,
@@ -219,7 +233,7 @@ class AdminTablesSeeder extends Seeder
             ],
 
 
-            //其他设置
+            // 其他设置
             [
                 'parent_id' => 19,
                 'order' => 1,
@@ -281,7 +295,7 @@ class AdminTablesSeeder extends Seeder
         // add role to user.
         Administrator::first()->roles()->save(Role::first());
 
-        //create a permission
+        // create a permission
         Permission::truncate();
         $permissions = [
             [
