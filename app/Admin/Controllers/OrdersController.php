@@ -3,6 +3,7 @@
 namespace App\Admin\Controllers;
 
 use App\Admin\Extensions\Ajax\Ajax_Delete;
+use App\Events\OrderShippedEvent;
 use App\Exceptions\InvalidRequestException;
 use App\Http\Requests\Request;
 use App\Models\Config;
@@ -124,7 +125,9 @@ class OrdersController extends Controller
             'to_be_completed_at' => Carbon::now()->addSeconds(Order::getSecondsToCompleteOrder())
         ]);
 
-        // 分派定时自动关闭订单任务
+        event(new OrderShippedEvent($order));
+
+        // 分派定时自动收货订单任务
         $this->dispatch(new AutoCompleteOrderJob($order, Order::getSecondsToCompleteOrder()));
 
         // 返回上一页

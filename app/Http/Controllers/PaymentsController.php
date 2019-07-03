@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\OrderPaidEvent;
 use App\Exceptions\InvalidRequestException;
 use App\Models\Order;
 use App\Models\OrderRefund;
@@ -131,6 +132,7 @@ class PaymentsController extends Controller
                     'payment_method' => Order::PAYMENT_METHOD_ALIPAY, // 支付方式
                     'payment_sn' => $data->trade_no, // 支付宝订单号
                 ]);
+                event(new OrderPaidEvent($order));
                 Log::info('A New Alipay Payment Completed: order id - ' . $order->id);
             } else {
                 Log::error('A New Alipay Payment Failed: order id - ' . $order->id . '; With Wrong Data: ' . $data->toJson());
@@ -397,6 +399,7 @@ class PaymentsController extends Controller
                     'payment_method' => Order::PAYMENT_METHOD_WECHAT, // 支付方式
                     'payment_sn' => $data->transaction_id, // Wechat 订单号
                 ]);
+                event(new OrderPaidEvent($order));
                 Log::info('A New Wechat Payment Completed: order id - ' . $order->id);
             } else {
                 Log::error('A New Wechat Payment Failed: order id - ' . $order->id . '; With Wrong Data: ' . $data->toJson());
@@ -890,6 +893,7 @@ class PaymentsController extends Controller
                 'status' => Order::ORDER_STATUS_SHIPPING,
                 'paid_at' => Carbon::now()->toDateTimeString(),
             ]);
+            event(new OrderPaidEvent($order));
             Log::info("A New Paypal Payment Executed - Asynchronously: order id - " . $order->id);
             return response()->json([
                 'code' => 200,

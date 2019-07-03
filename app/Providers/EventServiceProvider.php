@@ -34,6 +34,14 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\SmsRegisterEvent' => [
             'App\Listeners\SmsRegisterEventListener',
         ],
+
+        //订单
+        'App\Events\OrderPaidEvent' => [
+            'App\Listeners\OrderPaidNotification'
+        ],
+        'App\Events\OrderShippedEvent' => [
+            'App\Listeners\OrderShippedNotification'
+        ],
         'App\Events\OrderSnapshotEvent' => [
             'App\Listeners\OrderSnapshotEventListener',
         ],
@@ -49,6 +57,8 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\OrderRefundedWithShipmentEvent' => [
             'App\Listeners\OrderRefundedWithShipmentEventListener',
         ],
+
+        //用户
         'App\Events\UserBrowsingHistoryEvent' => [
             'App\Listeners\UserBrowsingHistoryEventListener',
         ],
