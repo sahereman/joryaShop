@@ -37,10 +37,10 @@ class EventServiceProvider extends ServiceProvider
 
         //订单
         'App\Events\OrderPaidEvent' => [
-            'App\Listeners\OrderPaidNotification'
+            'App\Listeners\OrderPaidNotificationListener'
         ],
         'App\Events\OrderShippedEvent' => [
-            'App\Listeners\OrderShippedNotification'
+            'App\Listeners\OrderShippedNotificationListener'
         ],
         'App\Events\OrderSnapshotEvent' => [
             'App\Listeners\OrderSnapshotEventListener',
