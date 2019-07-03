@@ -19,12 +19,18 @@ Route::group([
     $router->post('configs/submit', 'ConfigsController@submit')->name('admin.configs.submit');/*提交*/
 
     /*用户*/
+    $router->get('users/send_message/{id?}', 'UsersController@sendMessageShow')->name('admin.users.send_message.show');/*站内信 页面*/
+    $router->post('users/send_message', 'UsersController@sendMessageStore')->name('admin.users.send_message.store');/*站内信 请求处理*/
+
     $router->get('users', 'UsersController@index')->name('admin.users.index');
     $router->get('users/create', 'UsersController@create')->name('admin.users.create');
     $router->get('users/{id}', 'UsersController@show')->name('admin.users.show');
     $router->get('users/{id}/edit', 'UsersController@edit')->name('admin.users.edit');
     $router->put('users/{id}', 'UsersController@update')->name('admin.users.update');
     $router->delete('users/{id}', 'UsersController@destroy')->name('admin.users.destroy');
+
+
+    /*用户邮件*/
 
     /*商品订单*/
     $router->get('orders', 'OrdersController@index')->name('admin.orders.index');/*列表*/

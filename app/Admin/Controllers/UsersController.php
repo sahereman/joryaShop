@@ -2,14 +2,19 @@
 
 namespace App\Admin\Controllers;
 
+use App\Http\Requests\Request;
 use App\Models\User;
 
+use App\Notifications\AdminCustomNotification;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Show;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Notification;
+use Illuminate\Validation\Rule;
 
 class UsersController extends Controller
 {
@@ -66,6 +71,76 @@ class UsersController extends Controller
             ->body($this->form());
     }
 
+    public function sendMessageShow($id = null, Content $content)
+    {
+        return $content
+            ->header('发送站内信')
+            ->body($this->sendMessageForm($id));
+    }
+
+    protected function sendMessageForm($id)
+    {
+        $form = new Form(new User());
+        $form->setAction(route('admin.users.send_message.store'));
+        $form->tools(function (Form\Tools $tools) {
+            $tools->disableList();
+            $tools->disableDelete();
+            $tools->disableView();
+        });
+
+        if ($id == null)
+        {
+            $form->listbox('user_ids', '选择用户')->options(User::all()->pluck('name', 'id'));
+        } else
+        {
+            $form->listbox('user_ids', '选择用户')->options(User::where('id', $id)->get()->pluck('name', 'id'));
+        }
+
+
+        $form->textarea('title', '标题');
+        $form->text('link', '链接');
+
+
+        return $form;
+    }
+
+    public function sendMessageStore(Request $request, Content $content)
+    {
+        $data = $this->validate($request, [
+            'user_ids' => [
+                'required',
+                function ($attribute, $value, $fail) {
+                    if (User::whereIn('id', request()->input($attribute))->count() == 0)
+                    {
+                        $fail('请选择用户');
+                    }
+                },
+            ],
+            'title' => ['required',],
+            'link' => ['required'],
+        ], [], [
+            'user_ids' => '用户',
+            'title' => '标题',
+            'link' => '链接',
+        ]);
+
+
+        $users = User::whereIn('id', $data['user_ids'])->get();
+
+        $users->each(function ($user) use ($data) {
+
+            $user->notify(new AdminCustomNotification(array(
+                'title' => $data['title'],
+                'link' => $data['link'],
+            )));
+
+        });
+
+        return $content
+            ->row("<center><h3>发送站内信成功</h3></center>")
+            ->row("<center><a href='" . route('admin.users.index') . "'>返回用户列表</a></center>");
+    }
+
     /**
      * Make a grid builder.
      * @return Grid
@@ -87,7 +162,15 @@ class UsersController extends Controller
         $grid->column('format_phone', '手机号')->display(function () {
             return "+$this->country_code " . $this->phone;
         });
+        $grid->email('邮箱');
         $grid->created_at('创建时间')->sortable();
+
+        $grid->column('send_message', '发送消息')->display(function () {
+            $buttons = '';
+            $buttons .= '<a class="btn btn-xs btn-primary" style="margin-right:8px" href="' . route('admin.orders.show', [$this->id]) . '">邮件</a>';
+            $buttons .= '<a class="btn btn-xs btn-primary" style="margin-right:8px" href="' . route('admin.users.send_message.show', ['id' => $this->id]) . '">站内信</a>';
+            return $buttons;
+        });
 
         // 不在页面显示 `新建` 按钮，因为我们不需要在后台新建用户
         $grid->disableCreateButton();

@@ -94,60 +94,77 @@ class AdminTablesSeeder extends Seeder
             // 菜单组
             [
                 'parent_id' => 0,
-                'order' => 1,
+                'order' => 20,
                 'title' => '用户管理',
                 'icon' => 'fa-users',
                 'uri' => 'users',
             ],
             [
                 'parent_id' => 0,
-                'order' => 2,
+                'order' => 30,
                 'title' => '产品管理',
                 'icon' => 'fa-database',
                 'uri' => '',
             ],
             [
                 'parent_id' => 0,
-                'order' => 3,
+                'order' => 40,
                 'title' => '订单管理',
                 'icon' => 'fa-book',
                 'uri' => '',
             ],
             [
                 'parent_id' => 0,
-                'order' => 4,
+                'order' => 50,
                 'title' => '广告位管理',
                 'icon' => 'fa-buysellads',
                 'uri' => 'posters',
             ],
             [
                 'parent_id' => 0,
-                'order' => 5,
+                'order' => 60,
                 'title' => '文章管理',
                 'icon' => 'fa-copy',
                 'uri' => '',
             ],
             [
                 'parent_id' => 0,
-                'order' => 6,
+                'order' => 70,
                 'title' => 'Banner管理',
                 'icon' => 'fa-image',
                 'uri' => 'banners',
             ],
             [
                 'parent_id' => 0,
-                'order' => 7,
+                'order' => 80,
                 'title' => '订阅管理',
                 'icon' => 'fa-feed',
                 'uri' => 'feedbacks',
             ],
             [
                 'parent_id' => 0,
-                'order' => 20,
+                'order' => 90,
                 'title' => '其他设置',
                 'icon' => 'fa-dashboard',
                 'uri' => '',
             ],
+
+            //用户
+            [
+                'parent_id' => 12,
+                'order' => 1,
+                'title' => '用户',
+                'icon' => 'fa-user',
+                'uri' => 'users',
+            ],
+            [
+                'parent_id' => 12,
+                'order' => 2,
+                'title' => '群发站内信',
+                'icon' => 'fa-file-text',
+                'uri' => 'users/send_message',
+            ],
+
 
             // 产品
             [
