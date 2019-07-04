@@ -2,6 +2,8 @@
 
 use App\Admin\Models\Product;
 use App\Models\ProductCategory;
+use App\Models\ProductLocation;
+use App\Models\ProductService;
 use Illuminate\Database\Seeder;
 
 class ProductsSeeder extends Seeder
@@ -35,14 +37,18 @@ class ProductsSeeder extends Seeder
         $product_names = require(database_path('demo/Products.php'));
 
         $categories = ProductCategory::all();
+        $product_locations = ProductLocation::all();
+        $product_services = ProductService::all();
         $products = factory(Product::class, 100)->make();
-        $products->map(function ($product) use ($categories, $product_names) {
+        $products->map(function ($product) use ($categories, $product_names, $product_locations, $product_services) {
             $category = $categories->random();
             $category_name_zh = $category->parent_id == 0 ? $category->name_zh : $category->parent->name_zh;
             $product->product_category_id = $category->id;
             list($product_name_en, $product_name_zh) = array_random($product_names[$category_name_zh]);
             $product->name_en = $product_name_en;
             $product->name_zh = $product_name_zh;
+            $product->location = $product_locations->random()->description;
+            $product->service = $product_services->random()->description;
             Product::create(array_except($product->toArray(), [
                 //
             ]));

@@ -17,7 +17,7 @@ class ProductSku extends Model
         'name_en', // 备用字段
         'name_zh', // 备用字段
 
-        'photo', // 备用字段
+        'photo',
         'price',
         'stock',
         'sales',
@@ -29,7 +29,7 @@ class ProductSku extends Model
      * @var array
      */
     protected $hidden = [
-        // 'photo', // 备用字段
+        //
     ];
 
     /**
@@ -64,10 +64,11 @@ class ProductSku extends Model
     {
         if ($this->attributes['photo']) {
             // 如果 photo 字段本身就已经是完整的 url 就直接返回
-            if (Str::startsWith($this->attributes['photo'], ['http://', 'https://'])) {
+            /*if (Str::startsWith($this->attributes['photo'], ['http://', 'https://'])) {
                 return $this->attributes['photo'];
             }
-            return Storage::disk('public')->url($this->attributes['photo']);
+            return Storage::disk('public')->url($this->attributes['photo']);*/
+            return generate_image_url($this->attributes['photo'], 'public');
         }
         return '';
     }

@@ -103,10 +103,11 @@ class Product extends Model
     {
         if ($this->attributes['thumb']) {
             // 如果 thumb 字段本身就已经是完整的 url 就直接返回
-            if (Str::startsWith($this->attributes['thumb'], ['http://', 'https://'])) {
+            /*if (Str::startsWith($this->attributes['thumb'], ['http://', 'https://'])) {
                 return $this->attributes['thumb'];
             }
-            return Storage::disk('public')->url($this->attributes['thumb']);
+            return Storage::disk('public')->url($this->attributes['thumb']);*/
+            return generate_image_url($this->attributes['thumb'], 'public');
         }
         return '';
     }

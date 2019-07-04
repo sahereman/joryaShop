@@ -157,7 +157,7 @@ class ProductSkusController extends Controller
 
         $grid->id('Id');
 
-        $grid->photo_url('Photo')->image('', 60);
+        $grid->photo('Photo')->image('', 60);
 
         $grid->product()->name_en('Product')->display(function ($data) use ($product_id) {
             $str = "<a href='" . route('admin.products.show', ['product' => $product_id]) . "'>{$data}</a>";
@@ -213,9 +213,9 @@ class ProductSkusController extends Controller
         // $show->name_zh('Name zh');
 
         if ($show->getModel()->photo) {
-            $show->photo_url('Photo')->image();
+            $show->photo('Photo')->image();
         } else {
-            $show->photo_url('Photo');
+            $show->photo('Photo');
         }
 
         $show->price('单价');
@@ -292,7 +292,6 @@ class ProductSkusController extends Controller
                     . '</div>');
             });
         }
-
 
         $form->hidden('product_id')->default($this->product_id);
         $form->display('product_name', 'Product')->default($product->name_en);

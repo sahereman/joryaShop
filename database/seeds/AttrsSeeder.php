@@ -15,12 +15,12 @@ class AttrsSeeder extends Seeder
         $attrs = [
             [
                 'name' => 'Base Size',
-                'has_photo' => true,
+                'has_photo' => false,
                 'sort' => 3
             ],
             [
                 'name' => 'Hair Color',
-                'has_photo' => false,
+                'has_photo' => true,
                 'sort' => 2
             ],
             [

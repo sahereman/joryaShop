@@ -16,8 +16,8 @@ class DatabaseSeeder extends Seeder
 
         // 产品
         $this->call(ProductCategoriesSeeder::class);
-        $this->call(ProductServicesSeeder::class);
         $this->call(ProductLocationsSeeder::class);
+        $this->call(ProductServicesSeeder::class);
         $this->call(ProductsSeeder::class);
         $this->call(ProductSkusSeeder::class);
 
@@ -60,6 +60,7 @@ class DatabaseSeeder extends Seeder
         // SKU 属性
         $this->call(AttrsSeeder::class);
         $this->call(ProductAttrsSeeder::class);
+        $this->call(ProductSkuAttrValuesSeeder::class);
 
         // 商品参数
         $this->call(ParamsSeeder::class);
