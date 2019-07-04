@@ -18,6 +18,27 @@ class ProductSkuAttrValue extends Model
         'sort'
     ];
 
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = [
+        'name'
+    ];
+
+    /* Accessors */
+    public function getNameAttribute()
+    {
+        return $this->attr->name;
+    }
+
+    /* Mutators */
+    public function setNameAttribute($value)
+    {
+        unset($this->attributes['name']);
+    }
+
     /* Eloquent Relationships */
     public function sku()
     {

@@ -44,11 +44,7 @@ class ProductsSeeder extends Seeder
             $product->name_en = $product_name_en;
             $product->name_zh = $product_name_zh;
             Product::create(array_except($product->toArray(), [
-                'thumb_url',
-                'photo_urls',
-                'price_in_usd',
-                'shipping_fee_in_usd',
-                'attrs'
+                //
             ]));
         });
     }

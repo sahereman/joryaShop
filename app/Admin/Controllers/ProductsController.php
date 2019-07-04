@@ -64,6 +64,7 @@ class ProductsController extends Controller
     {
         $this->mode = 'show';
         $this->product_id = $id;
+
         return $content
             ->header('商品管理')
             ->description('商品 - 详情')
@@ -80,6 +81,7 @@ class ProductsController extends Controller
     {
         $this->mode = 'edit';
         $this->product_id = $id;
+
         return $content
             ->header('商品管理')
             ->description('商品 - 编辑')
@@ -93,6 +95,8 @@ class ProductsController extends Controller
      */
     public function create(Content $content)
     {
+        $this->mode = 'create';
+
         return $content
             ->header('商品管理')
             ->description('商品 - 新增')
@@ -178,6 +182,17 @@ class ProductsController extends Controller
         $this->product_id = $id;
         $show = new Show(Product::findOrFail($id));
 
+        $show->panel()->tools(function ($tools) use ($id) {
+            // $tools->disableEdit();
+            // $tools->disableList();
+            // $tools->disableDelete();
+            $tools->append('<div class="btn-group pull-right" style="margin-right: 5px">'
+                . '<a href="' . route('admin.product_skus.index') . '?product_id=' . $id . '" class="btn btn-sm btn-success">'
+                . '<i class="fa fa-list"></i>&nbsp;SKU - 列表'
+                . '</a>'
+                . '</div>');
+        });
+
         $show->id('ID');
         // $show->name_zh('名称(中文)');
         $show->name_en('标题');
@@ -250,19 +265,26 @@ class ProductsController extends Controller
 
         $show->skus('SKU列表', function ($sku) {
             /*禁用*/
-            $sku->disableActions();
+            // $sku->disableActions();
             $sku->disableRowSelector();
             $sku->disableExport();
             $sku->disableFilter();
             $sku->disableCreateButton();
             $sku->disablePagination();
 
+            $sku->resource('/admin/product_skus');
+
             // $sku->name_zh('SKU 名称(中文)');
             // $sku->name_en('SKU 名称(英文)');
+
+            $sku->photo('Photo')->image('', 60)->display(function ($data) use ($sku) {
+                return '<a target="_blank" href="' . route('admin.product_skus.show', ['product_sku' => $this->getKey()]) . '">' . $data . '</a>';
+            });
+
             $sku->price('单价');
             $sku->stock('库存');
             $sku->sales('销量');
-            $sku->attr_value_composition('SKU 属性概况');
+            $sku->attr_value_string('SKU 属性概况');
         });
 
         $show->comments('评价列表', function ($comment) {
@@ -324,6 +346,11 @@ class ProductsController extends Controller
                 $tools->append('<div class="btn-group pull-right" style="margin-right: 5px">'
                     . '<a href="' . route('admin.products.sku_generator_show', ['product' => $product_id]) . '" class="btn btn-sm btn-success">'
                     . '<i class="fa fa-archive"></i>&nbsp;SKU生成器'
+                    . '</a>'
+                    . '</div>&nbsp;'
+                    . '<div class="btn-group pull-right" style="margin-right: 5px">'
+                    . '<a href="' . route('admin.product_skus.index') . '?product_id=' . $product_id . '" class="btn btn-sm btn-success">'
+                    . '<i class="fa fa-list"></i>&nbsp;SKU - 列表'
                     . '</a>'
                     . '</div>');
             });
@@ -387,7 +414,7 @@ class ProductsController extends Controller
             foreach ($param->values as $value) {
                 $param_options[$param->name][$value->value] = $value->value;
             }
-            $form->checkbox("grouped_params.{$param->name}", "商品参数 {$param->name} :")->options($param_options[$param->name]);
+            $form->checkbox("grouped_param_values.{$param->name}", "商品参数 {$param->name} :")->options($param_options[$param->name]);
         }
 
         // })->tab('商品详细', function (Form $form) {
@@ -423,23 +450,26 @@ class ProductsController extends Controller
             });
             foreach ($attr_names as $attr_name) {
                 if (!in_array($attr_name, $product->attr_names) && !is_null($attr_name)) {
+                    $attr = Attr::where('name', $attr_name)->first();
                     ProductAttr::create([
                         'product_id' => $product_id,
-                        'name' => $attr_name
+                        'name' => $attr_name,
+                        'has_photo' => $attr->has_photo,
+                        'sort' => $attr->sort
                     ]);
                 }
             }
 
             /* 商品参数 */
-            $grouped_params = request()->input('grouped_params');
-            $product->params->each(function (ProductParam $param) use ($grouped_params) {
-                if (!in_array($param->name, $grouped_params) || !in_array($param->value, $grouped_params[$param->name])) {
+            $grouped_param_values = request()->input('grouped_param_values');
+            $product->params->each(function (ProductParam $param) use ($grouped_param_values) {
+                if (!in_array($param->name, $grouped_param_values) || !in_array($param->value, $grouped_param_values[$param->name])) {
                     $param->delete();
                 }
             });
-            foreach ($grouped_params as $name => $values) {
+            foreach ($grouped_param_values as $name => $values) {
                 foreach ($values as $value) {
-                    if ((!in_array($name, $grouped_params) || !in_array($value, $grouped_params[$name])) && !is_null($value)) {
+                    if ((!in_array($name, $grouped_param_values) || !in_array($value, $grouped_param_values[$name])) && !is_null($value)) {
                         ProductParam::create([
                             'product_id' => $product_id,
                             'name' => $name,
@@ -500,31 +530,50 @@ class ProductsController extends Controller
      * @param $attrs array
      * Demo:
      * $attrs = [
-     *   'basic_size' => [['data' => 1], ['data' => 2], ['data' => 3]],
-     *   'hair_colour' => [['data' => 'red', 'photo' => 'url-string'], ['data' => 'black', 'photo' => 'url-string'], ['data' => 'blue', 'photo' => 'url-string']],
-     *   'hair_density' => [['data' => '10%'], ['data' => '20%'], ['data' => '30%']],
+     *   'product_attr_id_1' => [['data' => 1], ['data' => 2], ['data' => 3]],
+     *   'product_attr_id_2' => [['data' => 'red', 'photo' => 'url-string'], ['data' => 'black', 'photo' => 'url-string'], ['data' => 'blue', 'photo' => 'url-string']],
+     *   'product_attr_id_3' => [['data' => '10%'], ['data' => '20%'], ['data' => '30%']],
      * ];
      * @return array
      */
     protected function getAttrCombo($attrs)
     {
-        foreach ($attrs as $attr => $options) {
+        foreach ($attrs as $product_attr_id => $options) {
             if ($this->flag) {
                 $this->flag = false;
                 foreach ($options as $option) {
-                    $this->tempo[] = [$attr => $option];
+                    /*if (isset($option['photo']) && $option['photo'] != '') {
+                        $this->tempo[] = [
+                            $product_attr_id => $option['data'],
+                            'photo' => $option['photo']
+                        ];
+                    } else {
+                        $this->tempo[] = [
+                            $product_attr_id => $option['data']
+                        ];
+                    }*/
+                    if (isset($option['photo']) && $option['photo'] == '') {
+                        unset($option['photo']);
+                    }
+                    $option[$product_attr_id] = $option['data'];
+                    unset($option['data']);
+                    $this->tempo[] = $option;
                 }
             } else {
                 $this->attr_combo = [];
                 foreach ($options as $option) {
                     foreach ($this->tempo as $item) {
-                        $item[$attr] = $option;
+                        if (isset($option['photo']) && $option['photo'] != '') {
+                            $item['photo'] = $option['photo'];
+                        }
+                        $item[$product_attr_id] = $option['data'];
                         $this->attr_combo[] = $item;
                     }
                 }
                 $this->tempo = $this->attr_combo;
             }
         }
+        $this->flag = true;
         return $this->attr_combo;
     }
 
@@ -547,9 +596,9 @@ class ProductsController extends Controller
     /**
      * Demo of attrs-json-string:
      * {
-     *   'base_size': [{'data':1},{'data':2},{'data':3}],
-     *   'hair_colour': [{'data':'red', 'photo':'url-string'},{'data':'black', 'photo':'url-string'},{'data':'blue', 'photo':'url-string'}],
-     *   'hair_density': [{'data':'10%'},{'data':'20%'},{'data':'30%'}],
+     *   'product_attr_id_1': [{'data':1},{'data':2},{'data':3}],
+     *   'product_attr_id_2': [{'data':'red', 'photo':'url-string'},{'data':'black', 'photo':'url-string'},{'data':'blue', 'photo':'url-string'}],
+     *   'product_attr_id_3': [{'data':'10%'},{'data':'20%'},{'data':'30%'}],
      * }
      */
     public function skuGeneratorStore(SkuGeneratorRequest $request, Product $product)
@@ -566,17 +615,18 @@ class ProductsController extends Controller
             $sku_data['product_id'] = $product->id;
             $sku_data['name_en'] = 'lyrical';
             $sku_data['name_zh'] = 'lyrical';
+            $sku_data['photo'] = $option['photo'];
             $sku_data['price'] = $request->input('price', $product->price);
             $sku_data['stock'] = $request->input('stock', $product->stock);
             $sku = ProductSku::create($sku_data);
-            $sort = 1;
-            foreach ($option as $product_attr_id => $attr_data) {
-                $sort++;
+            unset($option['photo']);
+            foreach ($option as $product_attr_id => $attr_value) {
+                $product_attr = ProductAttr::find($product_attr_id);
                 ProductSkuAttrValue::create([
                     'product_sku_id' => $sku->id,
                     'product_attr_id' => $product_attr_id,
-                    'value' => $attr_data['data'],
-                    'sort' => $sort
+                    'value' => $attr_value,
+                    'sort' => $product_attr->sort
                 ]);
             }
         }
@@ -584,6 +634,6 @@ class ProductsController extends Controller
             'price' => $request->input('price', $product->price),
             'stock' => $request->input('stock') ? $request->input('stock') * $sku_count : 0,
         ]);
-        return redirect()->route('admin.products.edit', ['product' => $product->id]);
+        return redirect()->route('admin.products.show', ['product' => $product->id]);
     }
 }

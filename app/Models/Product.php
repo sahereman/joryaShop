@@ -93,8 +93,9 @@ class Product extends Model
     protected $appends = [
         'thumb_url',
         'photo_urls',
-        'attr_names',
-        'grouped_params'
+        // 'attr_names',
+        // 'grouped_param_values',
+        // 'grouped_param_value_string'
     ];
 
     /* Accessors */
@@ -131,7 +132,7 @@ class Product extends Model
     public function getAttrNamesAttribute()
     {
         $attr_options = [];
-        $this->attrs->each(function ($attr) use (&$attr_options) {
+        $this->attrs()->get(['name'])->each(function ($attr) use (&$attr_options) {
             $attr_options[$attr->name] = $attr->name;
         });
 
@@ -140,42 +141,55 @@ class Product extends Model
 
     public function getParamNamesAttribute()
     {
-        return $this->params->unique('name')->pluck('name')->toArray();
-    }
-
-    public function getGroupedParamsAttribute()
-    {
-        $grouped_params = [];
-        $this->params()->each(function (ProductParam $param) use (&$grouped_params) {
-            $grouped_params[$param->name][$param->value] = $param->value;
-        });
-        return $grouped_params;
+        return $this->params()->distinct()->get(['name'])->pluck('name')->toArray();
     }
 
     public function getGroupedParamValuesAttribute()
     {
         $grouped_param_values = [];
-        $this->getGroupedParamsAttribute()->each(function ($params, $name) use (&$grouped_param_values) {
-            foreach ($params as $param) {
-                if (isset($grouped_param_values[$name])) {
-                    $grouped_param_values[$name] .= ' . ' . $param['value'];
-                } else {
-                    $grouped_param_values[$name] = $param['value'];
-                }
-            }
+        $this->params()->get(['name', 'value'])->each(function (ProductParam $param) use (&$grouped_param_values) {
+            $grouped_param_values[$param->name][$param->value] = $param->value;
         });
         return $grouped_param_values;
     }
 
+    public function getGroupedParamValueStringAttribute()
+    {
+        $grouped_param_value_string = [];
+        $this->params()->get(['name', 'value'])->each(function (ProductParam $param) use (&$grouped_param_value_string) {
+            if (isset($grouped_param_value_string[$param->name])) {
+                $grouped_param_value_string[$param->name] .= ' . ' . $param->value;
+            } else {
+                $grouped_param_value_string[$param->name] = $param->value;
+            }
+        });
+        return $grouped_param_value_string;
+    }
+
     /* Mutators */
+    public function setThumbUrlAttribute($value)
+    {
+        unset($this->attributes['thumb_url']);
+    }
+
+    public function setPhotoUrlsAttribute($value)
+    {
+        unset($this->attributes['photo_urls']);
+    }
+
     public function setAttrNamesAttribute($value)
     {
         unset($this->attributes['attr_names']);
     }
 
-    public function setGroupedParamsAttribute()
+    public function setGroupedParamValuesAttribute($value)
     {
-        unset($this->attributes['grouped_params']);
+        unset($this->attributes['grouped_param_values']);
+    }
+
+    public function setGroupedParamValueStringAttribute($value)
+    {
+        unset($this->attributes['grouped_param_value_string']);
     }
 
     /* Eloquent Relationships */

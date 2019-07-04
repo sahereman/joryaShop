@@ -19,6 +19,8 @@ class CreateAttrsTable extends Migration
             $table->string('name')->nullable(false)->comment('SKU 属性名称');
             $table->index('name');
 
+            $table->boolean('has_photo')->nullable(false)->default(false)->comment('是否有对应图片');
+
             $table->unsignedSmallInteger('sort')->nullable(false)->default(0)->comment('排序值');
 
             $table->timestamps();

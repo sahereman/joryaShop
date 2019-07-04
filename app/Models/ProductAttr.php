@@ -14,22 +14,50 @@ class ProductAttr extends Model
     protected $fillable = [
         'product_id',
         'name',
+        'has_photo',
         'sort'
+    ];
+
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'has_photo' => 'boolean'
     ];
 
     /* Accessors */
     public function getProtoAttrAttribute()
     {
-        return Attr::where(['name' => $this->attributes['name']])->first();
+        if (Attr::where(['name' => $this->attributes['name']])->exists()) {
+            return Attr::where(['name' => $this->attributes['name']])->first();
+        } else {
+            return Attr::create([
+                'name' => $this->attributes['name'],
+                'has_photo' => false
+            ]);
+        }
     }
 
     public function getValueOptionsAttribute()
     {
-        $proto_attr = $this->getProtoAttrAttribute();
-        if ($proto_attr) {
-            return $proto_attr->values;
+        $attr = Attr::where(['name' => $this->attributes['name']])->first();
+        if ($attr) {
+            return $attr->values;
         }
         return $this->values();
+    }
+
+    /* Mutators */
+    public function setProtoAttrAttribute($value)
+    {
+        unset($this->attributes['proto_attr']);
+    }
+
+    public function setValueOptionsAttribute($value)
+    {
+        unset($this->attributes['value_options']);
     }
 
     /* Eloquent Relationships */

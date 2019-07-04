@@ -54,30 +54,12 @@ class ProductSku extends Model
      */
     protected $appends = [
         'photo_url',
-        'attr_value_composition'
+        'product_name',
+        'attr_value_string',
+        'attr_value_options'
     ];
 
     /* Accessors */
-    /*public function getParametersZhAttribute()
-    {
-        $product = $this->product;
-        $parameters_zh = '';
-        $parameters_zh .= $product->is_base_size_optional ? $this->attributes['base_size_zh'] : '';
-        $parameters_zh .= $product->is_hair_colour_optional ? $this->attributes['hair_colour_zh'] : '';
-        $parameters_zh .= $product->is_hair_density_optional ? $this->attributes['hair_density_zh'] : '';
-        return $parameters_zh;
-    }*/
-
-    /*public function getParametersEnAttribute()
-    {
-        $product = $this->product;
-        $parameters_en = '';
-        $parameters_en .= $product->is_base_size_optional ? $this->attributes['base_size_en'] : '';
-        $parameters_en .= $product->is_hair_colour_optional ? ' - ' . $this->attributes['hair_colour_en'] : '';
-        $parameters_en .= $product->is_hair_density_optional ? ' - ' . $this->attributes['hair_density_en'] : '';
-        return $parameters_en;
-    }*/
-
     public function getPhotoUrlAttribute()
     {
         if ($this->attributes['photo']) {
@@ -90,15 +72,48 @@ class ProductSku extends Model
         return '';
     }
 
-    public function getAttrValueCompositionAttribute()
+    public function getProductNameAttribute()
     {
-        /*$attr_values = $this->attr_values()->pluck('value')->toArray();
-        return implode(' - ', $attr_values);*/
-        $attr_value_composition = '';
-        $this->attr_values()->each(function (ProductSkuAttrValue $attrValue) use (&$attr_value_composition) {
-            $attr_value_composition .= $attrValue->attr->name . ' (' . $attrValue->value . ') ; ';
+        return Product::find($this->attributes['product_id'])->name_en;
+    }
+
+    public function getAttrValueStringAttribute()
+    {
+        $attr_value_string = '';
+        ProductSkuAttrValue::where('product_sku_id', $this->attributes['id'])->each(function (ProductSkuAttrValue $attrValue) use (&$attr_value_string) {
+            $attr_value_string .= $attrValue->attr->name . ' (' . $attrValue->value . ') ; ';
         });
-        return substr($attr_value_composition, 0, -3);
+        return substr($attr_value_string, 0, -3);
+    }
+
+    public function getAttrValueOptionsAttribute()
+    {
+        $attr_value_options = [];
+        ProductSkuAttrValue::where('product_sku_id', $this->attributes['id'])->orderByDesc('sort')->each(function (ProductSkuAttrValue $attrValue) use (&$attr_value_options) {
+            $attr_value_options[$attrValue->product_attr_id] = $attrValue->toArray();
+        });
+        return $attr_value_options;
+    }
+
+    /* Mutators */
+    public function setPhotoUrlAttribute($value)
+    {
+        unset($this->attributes['photo_url']);
+    }
+
+    public function setProductNameAttribute($value)
+    {
+        unset($this->attributes['product_name']);
+    }
+
+    public function setAttrValueStringAttribute($value)
+    {
+        unset($this->attributes['attr_value_string']);
+    }
+
+    public function setAttrValueOptionsAttribute($value)
+    {
+        unset($this->attributes['attr_value_options']);
     }
 
     /* Eloquent Relationships */

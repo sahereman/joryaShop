@@ -13,6 +13,16 @@ class Attr extends Model
      */
     protected $fillable = [
         'name',
+        'has_photo',
         'sort'
+    ];
+
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'has_photo' => 'boolean'
     ];
 }

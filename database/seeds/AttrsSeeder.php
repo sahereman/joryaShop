@@ -13,14 +13,27 @@ class AttrsSeeder extends Seeder
     public function run()
     {
         $attrs = [
-            'Base Size',
-            'Hair Color',
-            'Hair Density'
+            [
+                'name' => 'Base Size',
+                'has_photo' => true,
+                'sort' => 3
+            ],
+            [
+                'name' => 'Hair Color',
+                'has_photo' => false,
+                'sort' => 2
+            ],
+            [
+                'name' => 'Hair Density',
+                'has_photo' => false,
+                'sort' => 1
+            ]
         ];
-        foreach ($attrs as $key => $attr) {
+        foreach ($attrs as $attr) {
             factory(Attr::class)->create([
-                'name' => $attr,
-                'sort' => $key + 1
+                'name' => $attr['name'],
+                'has_photo' => $attr['has_photo'],
+                'sort' => $attr['sort']
             ]);
         }
     }

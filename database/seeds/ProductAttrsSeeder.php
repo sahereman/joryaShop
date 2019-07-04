@@ -15,10 +15,13 @@ class ProductAttrsSeeder extends Seeder
     public function run()
     {
         Product::all()->each(function (Product $product) {
-            Attr::all()->each(function (Attr $attr) use ($product) {
+            $index = 0;
+            Attr::all()->each(function (Attr $attr) use ($product, &$index) {
+                $index++;
                 factory(ProductAttr::class)->create([
                     'product_id' => $product->id,
                     'name' => $attr->name,
+                    'has_photo' => $attr->has_photo,
                     'sort' => $attr->sort
                 ]);
             });

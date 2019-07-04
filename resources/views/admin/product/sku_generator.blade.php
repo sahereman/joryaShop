@@ -45,10 +45,12 @@
                                 <tr>
                                     <td>
                                         <div class="input-group">
-                                            {{--<span class="input-group-btn pic_btn" style="overflow: hidden;">
+                                            @if($attr->has_photo)
+                                            <span class="input-group-btn pic_btn" style="overflow: hidden;">
                                                 <img src="{{ asset('img/pic_upload.png') }}" style="height: 34px;border: 1px solid #ccc;padding: 2px;">
                                                 <input type="file" name="image" data-url="{{ route('image.upload') }}" style="opacity: 0;position: absolute;top: 0;width: 100%;height: 100%;" onchange="imgChange(this)">
-                                            </span>--}}
+                                            </span>
+                                            @endif
                                             <input type="text" name="{{ $attr->id }}" data_path='' class="form-control">
                                             <span class="input-group-btn">
                                                 <button class="btn btn-danger" type="button" onclick="delCol()">
@@ -60,7 +62,8 @@
                                 </tr>
                                 <tr>
                                     <td>
-                                        <button type="button" attr_name="{{ $attr->id }}" class="btn-group btn btn-primary" onclick="addCol()">增加
+                                        <button type="button" attr_name="{{ $attr->id }}" class="btn-group btn btn-primary" onclick="addCol()">
+                                            增加
                                         </button>
                                     </td>
                                 </tr>
