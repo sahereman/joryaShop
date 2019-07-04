@@ -39,6 +39,12 @@ class Cart extends Model
         return $favourite;
     }
 
+    /* Mutators */
+    public function setFavouriteAttribute($value)
+    {
+        unset($this->attributes['favourite']);
+    }
+
     /* Eloquent Relationships */
     public function user()
     {

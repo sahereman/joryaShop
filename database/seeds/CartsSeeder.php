@@ -21,7 +21,6 @@ class CartsSeeder extends Seeder
                     'product_sku_id' => $item->id,
                 ]);
                 Cart::create(array_except($cart->toArray(), [
-                    'favourite',
                     'sku',
                 ]));
             }

@@ -32,6 +32,5 @@ class OrderRefundsSeeder extends Seeder
                 'type' => OrderRefund::ORDER_REFUND_TYPE_REFUND_WITH_SHIPMENT,
             ]);
         });*/
-
     }
 }

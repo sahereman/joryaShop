@@ -47,11 +47,15 @@ class ProductsSeeder extends Seeder
             list($product_name_en, $product_name_zh) = array_random($product_names[$category_name_zh]);
             $product->name_en = $product_name_en;
             $product->name_zh = $product_name_zh;
+            $product->seo_title = $product_name_en;
+            $product->seo_keywords = $product_name_en . ', ' . $product_name_zh;
+            $product->seo_description = $product_name_en . ', ' . $product_name_zh . ', ' . $product->description_en;
             $product->location = $product_locations->random()->description;
             $product->service = $product_services->random()->description;
-            Product::create(array_except($product->toArray(), [
+            /*Product::create(array_except($product->toArray(), [
                 //
-            ]));
+            ]));*/
+            Product::create($product->toArray());
         });
     }
 }

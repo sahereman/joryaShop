@@ -11,7 +11,8 @@ $factory->define(App\Models\ProductLocation::class, function (Faker $faker) {
     $created_at = $faker->dateTimeThisMonth($updated_at);
     return [
         'name' => 'name',
-        'description' => 'location',
+        // 'description' => 'location',
+        'description' => $faker->address . $faker->streetAddress,
         'created_at' => $created_at,
         'updated_at' => $updated_at,
     ];

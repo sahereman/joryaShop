@@ -12,7 +12,7 @@ class ProductLocationsSeeder extends Seeder
      */
     public function run()
     {
-        $product_locations = [
+        /*$product_locations = [
             [
                 'name' => 'Product Location No. 1',
                 'description' => 'Description for Product Location No. 1',
@@ -33,13 +33,15 @@ class ProductLocationsSeeder extends Seeder
                 'name' => 'Product Location No. 5',
                 'description' => 'Description for Product Location No. 5',
             ],
-        ];
+        ];*/
 
-        foreach ($product_locations as $product_service) {
+        /*foreach ($product_locations as $product_service) {
             factory(ProductLocation::class)->create([
                 'name' => $product_service['name'],
                 'description' => $product_service['description'],
             ]);
-        }
+        }*/
+
+        factory(ProductLocation::class, 10)->create();
     }
 }
