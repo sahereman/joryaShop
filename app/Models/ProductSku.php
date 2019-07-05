@@ -54,9 +54,9 @@ class ProductSku extends Model
      */
     protected $appends = [
         'photo_url',
-        'product_name',
-        'attr_value_string',
-        'attr_value_options'
+        // 'product_name',
+        // 'attr_value_string',
+        // 'attr_value_options'
     ];
 
     /* Accessors */
@@ -81,7 +81,10 @@ class ProductSku extends Model
     public function getAttrValueStringAttribute()
     {
         $attr_value_string = '';
-        ProductSkuAttrValue::where('product_sku_id', $this->attributes['id'])->each(function (ProductSkuAttrValue $attrValue) use (&$attr_value_string) {
+        /*ProductSkuAttrValue::where('product_sku_id', $this->attributes['id'])->with('attr')->orderByDesc('sort')->each(function (ProductSkuAttrValue $attrValue) use (&$attr_value_string) {
+            $attr_value_string .= $attrValue->attr->name . ' (' . $attrValue->value . ') ; ';
+        });*/
+        $this->attr_values()->with('attr')->each(function (ProductSkuAttrValue $attrValue) use (&$attr_value_string) {
             $attr_value_string .= $attrValue->attr->name . ' (' . $attrValue->value . ') ; ';
         });
         return substr($attr_value_string, 0, -3);
@@ -90,7 +93,10 @@ class ProductSku extends Model
     public function getAttrValueOptionsAttribute()
     {
         $attr_value_options = [];
-        ProductSkuAttrValue::where('product_sku_id', $this->attributes['id'])->orderByDesc('sort')->each(function (ProductSkuAttrValue $attrValue) use (&$attr_value_options) {
+        /*ProductSkuAttrValue::where('product_sku_id', $this->attributes['id'])->orderByDesc('sort')->each(function (ProductSkuAttrValue $attrValue) use (&$attr_value_options) {
+            $attr_value_options[$attrValue->product_attr_id] = $attrValue->toArray();
+        });*/
+        $this->attr_values()->each(function (ProductSkuAttrValue $attrValue) use (&$attr_value_options) {
             $attr_value_options[$attrValue->product_attr_id] = $attrValue->toArray();
         });
         return $attr_value_options;

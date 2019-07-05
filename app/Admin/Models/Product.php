@@ -29,4 +29,9 @@ class Product extends ProductModel
         // 'grouped_param_value_string'
     ];
 
+    /* Eloquent Relationships */
+    public function skus()
+    {
+        return $this->hasMany(ProductSku::class);
+    }
 }

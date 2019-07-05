@@ -5,6 +5,7 @@ namespace App\Admin\Controllers;
 use App\Admin\Extensions\Ajax\Ajax_Delete;
 use App\Admin\Extensions\Ajax\Ajax_Icon;
 use App\Admin\Models\Product;
+use App\Admin\Models\ProductSku;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\SkuGeneratorRequest;
 use App\Http\Requests\Request;
@@ -15,7 +16,6 @@ use App\Models\ProductCategory;
 use App\Models\ProductLocation;
 use App\Models\ProductParam;
 use App\Models\ProductService;
-use App\Models\ProductSku;
 use App\Models\ProductSkuAttrValue;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
@@ -111,7 +111,7 @@ class ProductsController extends Controller
     {
         $category = ProductCategory::find($request->input('cid'));
 
-        $grid = new Grid(new Product);
+        $grid = new Grid(new \App\Models\Product);
         $grid->model()->with(['comments', 'skus', 'category', 'category.parent'])->orderBy('created_at', 'desc'); // 设置初始排序条件
 
         if ($category) {

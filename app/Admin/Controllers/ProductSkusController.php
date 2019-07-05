@@ -3,11 +3,11 @@
 namespace App\Admin\Controllers;
 
 use App\Admin\Extensions\Ajax\Ajax_Icon;
+use App\Admin\Models\Product;
+use App\Admin\Models\ProductSku;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Request;
-use App\Models\Product;
 use App\Models\ProductAttr;
-use App\Models\ProductSku;
 use App\Models\ProductSkuAttrValue;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
@@ -121,7 +121,7 @@ class ProductSkusController extends Controller
         }
 
         $grid = new Grid(new ProductSku);
-        $grid->model()->where('product_id', $this->product_id);
+        $grid->model()->with('product.attrs')->where('product_id', $this->product_id);
 
         /*禁用*/
         // $grid->disableActions();
@@ -159,7 +159,12 @@ class ProductSkusController extends Controller
 
         $grid->photo('Photo')->image('', 60);
 
-        $grid->product()->name_en('Product')->display(function ($data) use ($product_id) {
+        /*$grid->product()->name_en('Product')->display(function ($data) use ($product_id) {
+            $str = "<a href='" . route('admin.products.show', ['product' => $product_id]) . "'>{$data}</a>";
+            return $str;
+        });*/
+
+        $grid->product_name('Product')->display(function ($data) use ($product_id) {
             $str = "<a href='" . route('admin.products.show', ['product' => $product_id]) . "'>{$data}</a>";
             return $str;
         });
