@@ -2,22 +2,24 @@
 
 namespace App\Admin\Controllers;
 
-use App\Admin\Extensions\Ajax\Ajax_Icon;
-use App\Admin\Models\Product;
+// use App\Admin\Extensions\Ajax\Ajax_Icon;
+// use App\Admin\Models\Product;
 use App\Admin\Models\ProductSku;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Request;
+use App\Models\Product;
 use App\Models\ProductAttr;
 use App\Models\ProductSkuAttrValue;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
 use Encore\Admin\Form\Builder;
-use Encore\Admin\Form\NestedForm;
+// use Encore\Admin\Form\NestedForm;
 use Encore\Admin\Form\Tools;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\MessageBag;
 
 class ProductSkusController extends Controller
 {
@@ -347,16 +349,22 @@ class ProductSkusController extends Controller
             foreach ($attr_value_options as $attr_value_option) {
                 if (is_null($attr_value_option['value'])) {
                     $flag = false;
-                    /* TODO ... */
-                    /* Put Error Msg into MessageBag */
+                    $error = new MessageBag([
+                        'title' => "SKU 参数列表：SKU 参数（{$attr_value_option['name']}）值不可为空！",
+                    ]);
+                    // return back()->withInput()->with(compact('error'));
+                    return back()->with(compact('error')); // The method withInput() is buggy with unwanted results.
                 }
                 $attr_value_string .= $attr_value_option['name'] . ' (' . $attr_value_option['value'] . ') ; ';
             }
             $attr_value_string = substr($attr_value_string, 0, -3);
             if (in_array($attr_value_string, $attr_value_strings)) {
                 $flag = false;
-                /* TODO ... */
-                /* Put Error Msg into MessageBag */
+                $error = new MessageBag([
+                    'title' => "SKU 参数列表：同一商品下，SKU 参数值组合不可重复！",
+                ]);
+                // return back()->withInput()->with(compact('error'));
+                return back()->with(compact('error')); // The method withInput() is buggy with unwanted results.
             }
 
             if (request()->input('_from_') == Builder::MODE_CREATE) {
