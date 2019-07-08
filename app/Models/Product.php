@@ -22,6 +22,15 @@ class Product extends Model
         ];
     }
 
+    const PRODUCT_TYPE_COMMON = 'common'; // 普通
+    const PRODUCT_TYPE_PERIOD = 'period'; // 限时
+    const PRODUCT_TYPE_AUCTION = 'auction'; // 拍卖
+
+    public static $productTypeMap = [
+        self::PRODUCT_TYPE_COMMON => '普通',
+        self::PRODUCT_TYPE_PERIOD => '限时',
+        self::PRODUCT_TYPE_AUCTION => '拍卖'
+    ];
 
     /**
      * The attributes that are mass assignable.
@@ -29,6 +38,7 @@ class Product extends Model
      */
     protected $fillable = [
         'product_category_id',
+        'type',
         'name_en',
         'name_zh',
         'description_en',
@@ -217,5 +227,15 @@ class Product extends Model
     public function params()
     {
         return $this->hasMany(ProductParam::class)->orderByDesc('sort');
+    }
+
+    public function period()
+    {
+        return $this->hasOne(PeriodProduct::class);
+    }
+
+    public function auction()
+    {
+        return $this->hasOne(AuctionProduct::class);
     }
 }

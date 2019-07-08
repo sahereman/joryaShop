@@ -14,7 +14,6 @@ class AddNotificationCountColumnToUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            //
             $table->unsignedInteger('notification_count')->default(0)->comment('未读的通知数');
         });
     }
@@ -27,7 +26,6 @@ class AddNotificationCountColumnToUsersTable extends Migration
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-            //
             $table->dropColumn('notification_count');
         });
     }
