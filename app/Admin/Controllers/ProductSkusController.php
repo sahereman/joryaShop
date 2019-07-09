@@ -61,7 +61,8 @@ class ProductSkusController extends Controller
     {
         $this->mode = 'show';
         $this->product_sku_id = $id;
-        $this->product_id = ProductSku::find($id)->product->id;
+        // $this->product_id = ProductSku::find($id)->product->id;
+        $this->product_id = ProductSku::find($id)->product_id;
 
         return $content
             ->header('商品 SKU 管理')
@@ -80,7 +81,8 @@ class ProductSkusController extends Controller
     {
         $this->mode = 'edit';
         $this->product_sku_id = $id;
-        $this->product_id = ProductSku::find($id)->product->id;
+        // $this->product_id = ProductSku::find($id)->product->id;
+        $this->product_id = ProductSku::find($id)->product_id;
 
         return $content
             ->header('商品 SKU 管理')
@@ -138,10 +140,10 @@ class ProductSkusController extends Controller
             $actions->disableView();
             $actions->disableEdit();
             // $actions->disableDelete();
-            $actions->prepend('<a href="' . route('admin.product_skus.show', ['product_sku' => $actions->getKey()]) . '?product_id=' . $product_id . '">'
+            $actions->prepend('<a href="' . route('admin.product_skus.show', ['product_skus' => $actions->getKey(), 'product_id' => $product_id]) . '">'
                 . '<i class="fa fa-eye"></i>'
                 . '</a>&nbsp;'
-                . '<a href="' . route('admin.product_skus.edit', ['product_sku' => $actions->getKey()]) . '?product_id=' . $product_id . '">'
+                . '<a href="' . route('admin.product_skus.edit', ['product_skus' => $actions->getKey(), 'product_id' => $product_id]) . '">'
                 . '<i class="fa fa-edit"></i>'
                 . '</a>');
         });
@@ -151,7 +153,7 @@ class ProductSkusController extends Controller
                 $batch->disableDelete();
             });*/
             $tools->append('<div class="btn-group pull-right" style="margin-right: 10px">'
-                . '<a href="' . route('admin.product_skus.create') . '?product_id=' . $this->product_id . '" class="btn btn-sm btn-success">'
+                . '<a href="' . route('admin.product_skus.create', ['product_id' => $this->product_id]) . '" class="btn btn-sm btn-success">'
                 . '<i class="fa fa-save"></i>&nbsp;&nbsp;新增'
                 . '</a>'
                 . '</div>');
@@ -200,18 +202,23 @@ class ProductSkusController extends Controller
         // $this->product_id = ProductSku::find($id)->product->id;
         $this->product_id = $show->getModel()->product_id;
 
-        $show->panel()->tools(function ($tools) {
-            // $tools->disableEdit();
+        $show->panel()->tools(function ($tools) use ($id) {
+            $tools->disableEdit();
             $tools->disableList();
             // $tools->disableDelete();
             $tools->append('<div class="btn-group pull-right" style="margin-right: 5px">'
-                . '<a href="' . route('admin.product_skus.index') . '?product_id=' . $this->product_id . '" class="btn btn-sm btn-default">'
+                . '<a href="' . route('admin.product_skus.edit', ['product_skus' => $id, 'product_id' => $this->product_id]) . '" class="btn btn-sm btn-primary">'
+                . '<i class="fa fa-edit"></i>&nbsp;编辑'
+                . '</a>'
+                . '</div>&nbsp;'
+                . '<div class="btn-group pull-right" style="margin-right: 5px">'
+                . '<a href="' . route('admin.product_skus.index', ['product_id' => $this->product_id]) . '" class="btn btn-sm btn-default">'
                 . '<i class="fa fa-list"></i>&nbsp;列表'
                 . '</a>'
                 . '</div>');
         });
 
-        $show->id('Id');
+        // $show->id('Id');
 
         // $show->product()->name_en('Product');
         $show->product_name('Product');
@@ -268,11 +275,13 @@ class ProductSkusController extends Controller
         }
         if ($this->mode == Builder::MODE_EDIT) {
             $this->product_sku_id = Route::current()->parameter('product_skus');
-            $this->product_id = ProductSku::find($this->product_sku_id)->product->id;
+            // $this->product_id = ProductSku::find($this->product_sku_id)->product->id;
+            $this->product_id = ProductSku::find($this->product_sku_id)->product_id;
             $form->hidden('_from_')->default(Builder::MODE_EDIT);
         }
 
         $product_id = $this->product_id;
+        $product_sku_id = $this->product_sku_id;
         $product = Product::with('attrs')->find($this->product_id);
 
         if ($this->mode == Builder::MODE_CREATE) {
@@ -281,19 +290,24 @@ class ProductSkusController extends Controller
                 $tools->disableList();
                 $tools->disableView();
                 $tools->append('<div class="btn-group pull-right" style="margin-right: 5px">'
-                    . '<a href="' . route('admin.product_skus.index') . '?product_id=' . $product_id . '" class="btn btn-sm btn-default">'
+                    . '<a href="' . route('admin.product_skus.index', ['product_id' => $product_id]) . '" class="btn btn-sm btn-default">'
                     . '<i class="fa fa-list"></i>&nbsp;列表'
                     . '</a>'
                     . '</div>');
             });
         }
         if ($this->mode == Builder::MODE_EDIT) {
-            $form->tools(function (Tools $tools) use ($product_id) {
+            $form->tools(function (Tools $tools) use ($product_id, $product_sku_id) {
                 // $tools->disableDelete();
                 $tools->disableList();
-                // $tools->disableView();
+                $tools->disableView();
                 $tools->append('<div class="btn-group pull-right" style="margin-right: 5px">'
-                    . '<a href="' . route('admin.product_skus.index') . '?product_id=' . $product_id . '" class="btn btn-sm btn-default">'
+                    . '<a href="' . route('admin.product_skus.show', ['product_skus' => $product_sku_id, 'product_id' => $product_id]) . '" class="btn btn-sm btn-primary">'
+                    . '<i class="fa fa-eye"></i>&nbsp;查看'
+                    . '</a>'
+                    . '</div>&nbsp;'
+                    . '<div class="btn-group pull-right" style="margin-right: 5px">'
+                    . '<a href="' . route('admin.product_skus.index', ['product_id' => $product_id]) . '" class="btn btn-sm btn-default">'
                     . '<i class="fa fa-list"></i>&nbsp;列表'
                     . '</a>'
                     . '</div>');
@@ -375,10 +389,10 @@ class ProductSkusController extends Controller
                         $attr_value_option['product_sku_id'] = $this->product_sku_id;
                         ProductSkuAttrValue::create($attr_value_option);
                     }
-                    return redirect()->to(route('admin.product_skus.show', ['product_sku' => $this->product_sku_id]) . '?product_id=' . $this->product_id);
+                    return redirect()->to(route('admin.product_skus.show', ['product_skus' => $this->product_sku_id, 'product_id' => $this->product_id]));
                 }
 
-                return redirect()->to(route('admin.product_skus.index') . '?product_id=' . $this->product_id);
+                return redirect()->to(route('admin.product_skus.index', ['product_id' => $this->product_id]));
             }
 
             if (request()->input('_from_') == Builder::MODE_EDIT) {
@@ -403,10 +417,10 @@ class ProductSkusController extends Controller
                             }
                         }
                     }
-                    return redirect()->to(route('admin.product_skus.show', ['product_sku' => $this->product_sku_id]) . '?product_id=' . $this->product_id);
+                    return redirect()->to(route('admin.product_skus.show', ['product_skus' => $this->product_sku_id, 'product_id' => $this->product_id]));
                 }
 
-                return redirect()->to(route('admin.product_skus.index') . '?product_id=' . $this->product_id);
+                return redirect()->to(route('admin.product_skus.index', ['product_id' => $this->product_id]));
             }
         });
 

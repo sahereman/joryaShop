@@ -2,19 +2,21 @@
 
 namespace App\Admin\Models;
 
-use App\Models\ProductSku as ProductSkuModel;
+use App\Models\AuctionProduct as AuctionProductModel;
 
-class ProductSku extends ProductSkuModel
+class AuctionProduct extends AuctionProductModel
 {
     /**
      * The accessors to append to the model's array form.
+     *
      * @var array
      */
     protected $appends = [
-        'photo_url',
         'product_name',
-        'attr_value_string',
-        'attr_value_options'
+        'status_name',
+        // 'length',
+        'period',
+        'bids'
     ];
 
     /* Accessors */
@@ -23,15 +25,19 @@ class ProductSku extends ProductSkuModel
         return Product::find($this->attributes['product_id'])->name_en;
     }
 
+    public function getPeriodAttribute()
+    {
+        return "{$this->attributes['started_at']}  至  {$this->attributes['stopped_at']}";
+    }
+
     /* Mutators */
     public function setProductNameAttribute($value)
     {
         unset($this->attributes['product_name']);
     }
 
-    /* Eloquent Relationships */
-    public function product()
+    public function setPeriodAttribute($value)
     {
-        return $this->belongsTo(Product::class);
+        unset($this->attributes['period']);
     }
 }

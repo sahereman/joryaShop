@@ -68,6 +68,12 @@ Route::group([
     /*产品SKU*/
     $router->resource('product_skus', ProductSkusController::class)->names('admin.product_skus');
 
+    /*限时商品*/
+    $router->resource('period_products', PeriodProductsController::class)->names('admin.period_products');
+
+    /*拍卖商品*/
+    $router->resource('auction_products', AuctionProductsController::class)->names('admin.auction_products');
+
     /*产品仓库*/
     $router->resource('product_locations', ProductLocationsController::class)->names('admin.product_locations');
 

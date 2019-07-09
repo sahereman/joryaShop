@@ -23,12 +23,12 @@ class CreateAuctionProductsTable extends Migration
             $table->unsignedDecimal('current_price', 8, 2)->nullable()->comment('当前价');
             $table->unsignedDecimal('final_price', 8, 2)->nullable()->comment('成交价');
 
-            $table->unsignedDecimal('step', 8, 2)->nullable()->comment('价格变动幅度');
+            $table->unsignedDecimal('step', 8, 2)->nullable()->comment('加价幅度');
 
             $table->unsignedInteger('max_participant_number')->nullable(false)->default(0)->comment('最大竞拍人数');
             $table->unsignedInteger('max_deal_number')->nullable(false)->default(0)->comment('最大成交人数');
 
-            $table->string('status')->nullable()->default('preparing')->comment('Status'); // Status: preparing(尚未开始) | auctioning(拍卖中) | dealt(成交) | failed(流拍)
+            $table->string('status')->nullable()->default('preparing')->comment('Status'); // Status: preparing(尚未开始) | bidding(拍卖进行中) | signed(成交) | abortive(流拍)
 
             $table->timestamp('started_at')->nullable()->comment('Period Started at');
             $table->timestamp('stopped_at')->nullable()->comment('Period Stopped at');

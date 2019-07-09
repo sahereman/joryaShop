@@ -73,10 +73,10 @@ class ProductSku extends Model
         return '';
     }
 
-    public function getProductNameAttribute()
+    /*public function getProductNameAttribute()
     {
         return Product::find($this->attributes['product_id'])->name_en;
-    }
+    }*/
 
     public function getAttrValueStringAttribute()
     {
@@ -108,10 +108,10 @@ class ProductSku extends Model
         unset($this->attributes['photo_url']);
     }
 
-    public function setProductNameAttribute($value)
+    /*public function setProductNameAttribute($value)
     {
         unset($this->attributes['product_name']);
-    }
+    }*/
 
     public function setAttrValueStringAttribute($value)
     {

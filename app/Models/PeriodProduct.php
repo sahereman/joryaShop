@@ -34,19 +34,50 @@ class PeriodProduct extends Model
      * @var array
      */
     protected $appends = [
-        // 'length'
+        // 'product_name',
+        // 'length',
+        // 'status'
     ];
 
     /* Accessors */
+    /*public function getProductNameAttribute()
+    {
+        return Product::find($this->attributes['product_id'])->name_en;
+    }*/
+
     public function getLengthAttribute()
     {
         return Carbon::make($this->attributes['started_at'])->diffInRealSeconds($this->attributes['stopped_at']);
     }
 
+    public function getStatusAttribute()
+    {
+        $now = Carbon::now()->getTimestamp();
+        $started_at = Carbon::make($this->attributes['started_at'])->getTimestamp();
+        $stopped_at = Carbon::make($this->attributes['stopped_at'])->getTimestamp();
+        if ($now < $started_at) {
+            return '尚未开始';
+        } else if ($now > $stopped_at) {
+            return '已结束';
+        } else {
+            return '进行中';
+        }
+    }
+
     /* Mutators */
+    /*public function setProductNameAttribute($value)
+    {
+        unset($this->attributes['product_name']);
+    }*/
+
     public function setLengthAttribute($value)
     {
         unset($this->attributes['length']);
+    }
+
+    public function setStatusAttribute($value)
+    {
+        unset($this->attributes['status']);
     }
 
     /* Eloquent Relationships */

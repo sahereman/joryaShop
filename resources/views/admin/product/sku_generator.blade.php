@@ -12,7 +12,8 @@
     </div>
 @endif
 <div class="box">
-    <form role="form" method="POST" enctype="multipart/form-data" action="{{ route('admin.products.sku_generator_store', ['product' => $product->id]) }}">
+    <form id="sku_generator_form" role="form" method="POST" enctype="multipart/form-data"
+          action="{{ route('admin.products.sku_generator_store', ['product' => $product->id]) }}">
         {{ csrf_field() }}
         <input type="hidden" name="attrs" value="">
         <div class="box-header">
@@ -46,9 +47,12 @@
                                     <td>
                                         <div class="input-group">
                                             @if($attr->has_photo)
-                                            <span class="input-group-btn pic_btn" style="overflow: hidden;">
-                                                <img src="{{ asset('img/pic_upload.png') }}" style="height: 34px;border: 1px solid #ccc;padding: 2px;">
-                                                <input type="file" name="image" data-url="{{ route('image.upload') }}" style="opacity: 0;position: absolute;top: 0;width: 100%;height: 100%;" onchange="imgChange(this)">
+                                                <span class="input-group-btn pic_btn" style="overflow: hidden;">
+                                                <img src="{{ asset('img/pic_upload.png') }}"
+                                                     style="height: 34px;border: 1px solid #ccc;padding: 2px;">
+                                                <input type="file" name="image" data-url="{{ route('image.upload') }}"
+                                                       style="opacity: 0;position: absolute;top: 0;width: 100%;height: 100%;"
+                                                       onchange="imgChange(this)">
                                             </span>
                                             @endif
                                             <input type="text" name="{{ $attr->id }}" data_path='' class="form-control">
@@ -62,7 +66,8 @@
                                 </tr>
                                 <tr>
                                     <td>
-                                        <button type="button" attr_name="{{ $attr->id }}" class="btn-group btn btn-primary" onclick="addCol()">
+                                        <button type="button" attr_name="{{ $attr->id }}"
+                                                class="btn-group btn btn-primary" onclick="addCol()">
                                             增加
                                         </button>
                                     </td>
@@ -161,7 +166,7 @@
         }
         $("input[name='attrs']").val(JSON.stringify(json_str));
         setTimeout(function () {
-            $("form").submit();
+            $("form#sku_generator_form").submit();
         }, 500);
     });
 </script>
