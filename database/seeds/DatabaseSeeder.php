@@ -54,6 +54,9 @@ class DatabaseSeeder extends Seeder
         // 留言板
         $this->call(FeedbacksSeeder::class);
 
+        //邮件模板
+        $this->call(EmailTemplatesSeeder::class);
+
         // 根据商品名称生成 Slug
         // $this->call(ProductSlugsSeeder::class);
 

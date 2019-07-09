@@ -164,6 +164,13 @@ class AdminTablesSeeder extends Seeder
                 'icon' => 'fa-file-text',
                 'uri' => 'users/send_message',
             ],
+            [
+                'parent_id' => 12,
+                'order' => 3,
+                'title' => '群发邮件',
+                'icon' => 'fa-file-text',
+                'uri' => 'users/send_email',
+            ],
 
 
             // 产品
@@ -285,6 +292,13 @@ class AdminTablesSeeder extends Seeder
                 'title' => '退款原因管理',
                 'icon' => 'fa-retweet',
                 'uri' => 'refund_reasons',
+            ],
+            [
+                'parent_id' => 19,
+                'order' => 6,
+                'title' => '邮件模板管理',
+                'icon' => 'fa-bookmark',
+                'uri' => 'email_templates',
             ],
         ];
 

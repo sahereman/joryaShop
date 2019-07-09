@@ -19,7 +19,7 @@ class WangEditorController extends Controller
 
         $paths = array();
         foreach ($data['images'] as $item) {
-            $paths[] = \Storage::url($uploader->uploadOriginal($item));
+            $paths[] = \Storage::disk('public')->url($uploader->uploadOriginal($item));
         }
 
         return response()->json([

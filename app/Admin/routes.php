@@ -21,16 +21,15 @@ Route::group([
     /*用户*/
     $router->get('users/send_message/{id?}', 'UsersController@sendMessageShow')->name('admin.users.send_message.show');/*站内信 页面*/
     $router->post('users/send_message', 'UsersController@sendMessageStore')->name('admin.users.send_message.store');/*站内信 请求处理*/
-
+    $router->get('users/send_email/{id?}', 'UsersController@sendEmailShow')->name('admin.users.send_email.show');/*邮件 页面*/
+    $router->post('users/send_email', 'UsersController@sendEmailStore')->name('admin.users.send_email.store');/*邮件 请求处理*/
+    /* --- */
     $router->get('users', 'UsersController@index')->name('admin.users.index');
     $router->get('users/create', 'UsersController@create')->name('admin.users.create');
     $router->get('users/{id}', 'UsersController@show')->name('admin.users.show');
     $router->get('users/{id}/edit', 'UsersController@edit')->name('admin.users.edit');
     $router->put('users/{id}', 'UsersController@update')->name('admin.users.update');
     $router->delete('users/{id}', 'UsersController@destroy')->name('admin.users.destroy');
-
-
-    /*用户邮件*/
 
     /*商品订单*/
     $router->get('orders', 'OrdersController@index')->name('admin.orders.index');/*列表*/
@@ -110,6 +109,10 @@ Route::group([
 
     /*留言板*/
     $router->resource('feedbacks', FeedbacksController::class)->names('admin.feedbacks');
+
+    /*邮件模板*/
+    $router->get('email_templates/preview/{email_template}', 'EmailTemplatesController@preview')->name('admin.email_templates.preview');
+    $router->resource('email_templates', EmailTemplatesController::class)->names('admin.email_templates');
 
     // $router->resource('example', ExampleController::class)->names('admin.example');
     // $router->get('example', 'ExampleController@index')->name('admin.example.index');

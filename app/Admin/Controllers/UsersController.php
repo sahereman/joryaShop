@@ -3,6 +3,8 @@
 namespace App\Admin\Controllers;
 
 use App\Http\Requests\Request;
+use App\Mail\SendTemplateEmail;
+use App\Models\EmailTemplate;
 use App\Models\User;
 
 use App\Notifications\AdminCustomNotification;
@@ -13,6 +15,7 @@ use Encore\Admin\Layout\Content;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Show;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Validation\Rule;
 
@@ -141,6 +144,81 @@ class UsersController extends Controller
             ->row("<center><a href='" . route('admin.users.index') . "'>返回用户列表</a></center>");
     }
 
+
+    public function sendEmailShow($id = null, Content $content)
+    {
+        return $content
+            ->header('发送邮件')
+            ->body($this->sendEmailForm($id));
+    }
+
+    protected function sendEmailForm($id)
+    {
+        $form = new Form(new User());
+        $form->setAction(route('admin.users.send_email.store'));
+        $form->tools(function (Form\Tools $tools) {
+            $tools->disableList();
+            $tools->disableDelete();
+            $tools->disableView();
+        });
+
+        if ($id == null)
+        {
+            $form->listbox('user_ids', '选择用户')->options(User::all()->pluck('email', 'id'));
+        } else
+        {
+            $form->listbox('user_ids', '选择用户')->options(User::where('id', $id)->get()->pluck('email', 'id'));
+        }
+
+        $form->select('email_template', '选择邮件模板')->options(EmailTemplate::all()->pluck('name', 'id'));
+        $form->html('<a class="btn btn-primary email_preview">预览邮件</a>', '预览邮件');
+
+
+        $form->html('<script type="text/javascript">
+                        $(document).ready(function () {
+                            $(".email_preview").on("click", function () {
+                                var template_id = $(".email_template option:selected").val();
+                                window.open("/admin/email_templates/preview/" + template_id);
+                            });
+                        });
+                    </script>');
+
+
+        return $form;
+    }
+
+    public function sendEmailStore(Request $request, Content $content)
+    {
+        $data = $this->validate($request, [
+            'user_ids' => [
+                'required',
+                function ($attribute, $value, $fail) {
+                    if (User::whereIn('id', request()->input($attribute))->count() == 0)
+                    {
+                        $fail('请选择用户');
+                    }
+                },
+            ],
+            'email_template' => ['required'],
+        ], [], [
+            'user_ids' => '用户',
+            'email_template' => '邮件模板',
+        ]);
+
+        $users = User::whereIn('id', $data['user_ids'])->get();
+
+
+        $users->each(function ($user) use ($data) {
+
+            Mail::to($user)->queue(new SendTemplateEmail(EmailTemplate::find($data['email_template'])));
+
+        });
+
+        return $content
+            ->row("<center><h3>发送邮件成功</h3></center>")
+            ->row("<center><a href='" . route('admin.users.index') . "'>返回用户列表</a></center>");
+    }
+
     /**
      * Make a grid builder.
      * @return Grid
@@ -167,7 +245,7 @@ class UsersController extends Controller
 
         $grid->column('send_message', '发送消息')->display(function () {
             $buttons = '';
-            $buttons .= '<a class="btn btn-xs btn-primary" style="margin-right:8px" href="' . route('admin.orders.show', [$this->id]) . '">邮件</a>';
+            $buttons .= '<a class="btn btn-xs btn-primary" style="margin-right:8px" href="' . route('admin.users.send_email.show', ['id' => $this->id]) . '">邮件</a>';
             $buttons .= '<a class="btn btn-xs btn-primary" style="margin-right:8px" href="' . route('admin.users.send_message.show', ['id' => $this->id]) . '">站内信</a>';
             return $buttons;
         });
