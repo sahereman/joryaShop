@@ -106,7 +106,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     /*收货地址*/
     Route::get('user_addresses', 'UserAddressesController@index')->name('user_addresses.index'); // 列表
-    Route::get('user_addresses/list_all', 'UserAddressesController@listAll')->name('user_addresses.list_all'); // 获取当前用户收货地址列表 [for Ajax request]
+    // Route::get('user_addresses/list_all', 'UserAddressesController@listAll')->name('user_addresses.list_all'); // 获取当前用户收货地址列表 [for Ajax request]
     Route::post('user_addresses', 'UserAddressesController@store')->name('user_addresses.store'); // 创建用户收货地址表单提交
     Route::post('user_addresses/store_for_ajax', 'UserAddressesController@storeForAjax')->name('user_addresses.store_for_ajax'); // 创建用户收货地址 [for Ajax request]
     Route::put('user_addresses/{address}', 'UserAddressesController@update')->name('user_addresses.update'); // 更新
@@ -123,12 +123,12 @@ Route::group(['middleware' => 'auth'], function () {
 
     /*订单*/
     Route::get('orders', 'OrdersController@index')->name('orders.index'); // 订单列表
-    Route::get('orders/pre_payment', 'OrdersController@prePayment')->name('orders.pre_payment'); // 订单预支付页面：选择地址+币种页面
-    Route::get('orders/pre_payment_by_sku_parameters', 'OrdersController@prePaymentBySkuParameters')->name('orders.pre_payment_by_sku_parameters'); // 订单预支付页面：选择地址+币种页面
+    // Route::get('orders/pre_payment', 'OrdersController@prePayment')->name('orders.pre_payment'); // 订单预支付页面：选择地址+币种页面
+    // Route::get('orders/pre_payment_by_sku_parameters', 'OrdersController@prePaymentBySkuParameters')->name('orders.pre_payment_by_sku_parameters'); // 订单预支付页面：选择地址+币种页面
     Route::get('orders/{order}', 'OrdersController@show')->name('orders.show'); // 订单详情
-    Route::post('orders/store_by_sku_parameters', 'OrdersController@storeBySkuParameters')->name('orders.store_by_sku_parameters'); // 提交订单
-    Route::post('orders', 'OrdersController@store')->name('orders.store'); // 提交订单
-    Route::get('orders/{order}/payment_method', 'OrdersController@paymentMethod')->name('orders.payment_method'); // 选择支付方式页面
+    // Route::post('orders/store_by_sku_parameters', 'OrdersController@storeBySkuParameters')->name('orders.store_by_sku_parameters'); // 提交订单
+    // Route::post('orders', 'OrdersController@store')->name('orders.store'); // 提交订单
+    // Route::get('orders/{order}/payment_method', 'OrdersController@paymentMethod')->name('orders.payment_method'); // 选择支付方式页面
     Route::patch('orders/{order}/close', 'OrdersController@close')->name('orders.close'); // [主动]取消订单，交易关闭 [订单进入交易关闭状态:status->closed]
     Route::patch('orders/{order}/complete', 'OrdersController@complete')->name('orders.complete'); // 确认收货，交易关闭 [订单进入交易结束状态:status->completed]
     Route::delete('orders/{order}', 'OrdersController@destroy')->name('orders.destroy'); // 订单删除
@@ -200,6 +200,18 @@ Route::get('products/search_hint', 'ProductsController@searchHint')->name('produ
 Route::get('products/{product}/{slug?}', 'ProductsController@show')->name('products.show'); // 商品详情页
 Route::get('products/{product}/comment', 'ProductsController@comment')->name('products.comment'); // 获取商品评价 [for Ajax request]
 Route::get('products/{product}/get_sku_parameters', 'ProductsController@getSkuParameters')->name('products.get_sku_parameters'); // 获取SKU参数列表[三级联动] [for Ajax request]
+
+/*收货地址*/
+Route::get('user_addresses/list_all', 'UserAddressesController@listAll')->name('user_addresses.list_all'); // 获取当前用户收货地址列表 [for Ajax request]
+Route::post('user_addresses/store_for_ajax', 'UserAddressesController@storeForAjax')->name('user_addresses.store_for_ajax'); // 创建用户收货地址 [for Ajax request]
+
+/*订单*/
+Route::get('orders/pre_payment', 'OrdersController@prePayment')->name('orders.pre_payment'); // 订单预支付页面：选择地址+币种页面
+// Route::get('orders/pre_payment_by_sku_parameters', 'OrdersController@prePaymentBySkuParameters')->name('orders.pre_payment_by_sku_parameters'); // 订单预支付页面：选择地址+币种页面
+Route::get('orders/search_by_sn/{sn}', 'OrdersController@searchBySn')->name('orders.search_by_sn'); // 根据订单序列号查看订单详情
+// Route::post('orders/store_by_sku_parameters', 'OrdersController@storeBySkuParameters')->name('orders.store_by_sku_parameters'); // 提交订单
+Route::post('orders', 'OrdersController@store')->name('orders.store'); // 提交订单
+Route::get('orders/{order}/payment_method', 'OrdersController@paymentMethod')->name('orders.payment_method'); // 选择支付方式页面
 
 /*支付通知 [notify_url]*/
 Route::post('payments/{order}/alipay/notify', 'PaymentsController@alipayNotify')->name('payments.alipay.notify'); // Alipay 支付成功通知 [notify_url]

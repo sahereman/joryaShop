@@ -5,24 +5,28 @@ namespace App\Http\Controllers\Mobile;
 use App\Exceptions\InvalidRequestException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PostOrderRequest;
-use App\Http\Requests\RefundOrderRequest;
-use App\Http\Requests\RefundOrderWithShipmentRequest;
-use App\Jobs\AutoCloseOrderJob;
-use App\Jobs\AutoCompleteOrderJob;
+
+// use App\Http\Requests\RefundOrderRequest;
+// use App\Http\Requests\RefundOrderWithShipmentRequest;
+// use App\Jobs\AutoCloseOrderJob;
+// use App\Jobs\AutoCompleteOrderJob;
 use App\Models\Cart;
-use App\Models\Config;
-use App\Models\ExchangeRate;
+
+// use App\Models\Config;
+// use App\Models\ExchangeRate;
 use App\Models\Order;
-use App\Models\OrderItem;
-use App\Models\OrderRefund;
+
+// use App\Models\OrderItem;
+// use App\Models\OrderRefund;
 use App\Models\Product;
-use App\Models\ProductComment;
+// use App\Models\ProductComment;
 use App\Models\ProductSku;
 use App\Models\ShipmentCompany;
-use App\Models\User;
+
+// use App\Models\User;
 // use App\Models\UserAddress;
 use Illuminate\Http\Request;
-use Illuminate\Support\Carbon;
+// use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -137,6 +141,52 @@ class OrdersController extends Controller
         ]);
     }
 
+    // GET 根据订单序列号查看订单详情
+    public function searchBySn(Request $request, string $sn)
+    {
+        $user = $request->user();
+        $order = Order::where('order_sn', $sn)->first();
+        if (!$order || ($user && $order->user_id)) {
+            throw new InvalidRequestException('You access to this resource is denied.');
+        }
+
+        // 订单物流状态
+        $shipment_company_name = $order->shipment_company;
+        $order_shipment_traces = [];
+        if ($order->shipment_company != null && $order->shipment_company != 'etc' && $order->shipment_sn != null) {
+            $shipment_companies = ShipmentCompany::shipmentCompanies()->pluck('name', 'code');
+            if (isset($shipment_companies[$order->shipment_company])) {
+                $shipment_company_name = $shipment_companies[$order->shipment_company];
+                // 快递鸟(kdniao.com) 即时查询API
+                $order_shipment_traces = kdniao_shipment_query($order->shipment_company, $order->shipment_sn);
+            }
+        }
+
+        $seconds_to_close_order = 0;
+        $seconds_to_complete_order = 0;
+        if ($order->status == Order::ORDER_STATUS_PAYING) {
+            $seconds_to_close_order = strtotime($order->created_at) + Order::getSecondsToCloseOrder() - time();
+            if ($seconds_to_close_order < 0) {
+                $seconds_to_close_order = 0;
+            }
+        }
+        if ($order->status == Order::ORDER_STATUS_RECEIVING) {
+            $seconds_to_complete_order = strtotime($order->shipped_at) + Order::getSecondsToCompleteOrder() - time();
+            if ($seconds_to_complete_order < 0) {
+                $seconds_to_complete_order = 0;
+            }
+        }
+
+        return view('mobile.orders.show', [
+            'order' => $order,
+            'shipment_sn' => $order->shipment_sn,
+            'shipment_company' => $shipment_company_name,
+            'order_shipment_traces' => $order_shipment_traces,
+            'seconds_to_close_order' => $seconds_to_close_order,
+            'seconds_to_complete_order' => $seconds_to_complete_order,
+        ]);
+    }
+
     // GET 选择地址+币种页面
     public function prePayment(PostOrderRequest $request)
     {
@@ -163,7 +213,7 @@ class OrdersController extends Controller
             $total_shipping_fee = bcmul($product->shipping_fee, $number, 2);
             // $total_shipping_fee_en = bcmul($product->shipping_fee_in_usd, $number, 2);
             $is_nil = false;
-        } elseif ($request->has('cart_ids')) {
+        } elseif ($user && $request->has('cart_ids')) {
             $cart_ids = explode(',', $request->query('cart_ids'));
             foreach ($cart_ids as $key => $cart_id) {
                 $cart = Cart::find($cart_id);
@@ -201,14 +251,16 @@ class OrdersController extends Controller
         }
 
         $address = false;
-        $addresses = $user->addresses()->latest('last_used_at')->latest('updated_at')->latest()->get();
-        if ($addresses->isNotEmpty()) {
-            if ($addresses->where('is_default', 1)->isNotEmpty()) {
-                // 默认地址
-                $address = $addresses->where('is_default', 1)->first();
-            } else {
-                // 上次使用地址
-                $address = $addresses->first();
+        if ($user) {
+            $addresses = $user->addresses()->latest('last_used_at')->latest('updated_at')->latest()->get();
+            if ($addresses->isNotEmpty()) {
+                if ($addresses->where('is_default', 1)->isNotEmpty()) {
+                    // 默认地址
+                    $address = $addresses->where('is_default', 1)->first();
+                } else {
+                    // 上次使用地址
+                    $address = $addresses->first();
+                }
             }
         }
 
@@ -289,7 +341,10 @@ class OrdersController extends Controller
     // GET 选择支付方式页面
     public function paymentMethod(Request $request, Order $order)
     {
-        $this->authorize('pay', $order);
+        $user = $request->user();
+        if ($user && $order->user_id) {
+            $this->authorize('pay', $order);
+        }
 
         if ($order->paid_at != null && $order->payment_method != null && $order->payment_sn != null) {
             return redirect()->route('mobile.payments.success', [

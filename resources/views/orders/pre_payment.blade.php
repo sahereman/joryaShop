@@ -208,10 +208,7 @@
             </div>
         </div>
     </div>--}}
-    
-    
-    
-    
+
     <!--新增地址新版-->
     <div id="addNewAddress" class="dis_n address-info-form">
         <form id="creat-form" data-url="{{ route('user_addresses.store_for_ajax') }}">
@@ -265,14 +262,7 @@
             </ul>
         </form>
     </div>
-    
-    
-    
-    
-    
-    
-    
-    
+
     <!--切换地址信息-->
     <div class="changeAddress dis_n">
         <ul></ul>
@@ -527,6 +517,9 @@
                     sku_id: sku_id,
                     number: number,
                     address_id: $(".pre_payment_header").attr("code"),
+                    name: $('.address_name').text(),
+                    phone: $('.address_phone').text(),
+                    address: $('.address_location').text(),
                     remark: $(".remark").val(),
                     currency: $(".currency_selection").find("a.active").attr("country")
                 };
@@ -559,6 +552,9 @@
                     _token: "{{ csrf_token() }}",
                     cart_ids: cart_ids,
                     address_id: $(".pre_payment_header").attr("code"),
+                    name: $('.address_name').text(),
+                    phone: $('.address_phone').text(),
+                    address: $('.address_location').text(),
                     remark: $(".remark").val(),
                     currency: $(".currency_selection").find("a.active").attr("country")
                 };

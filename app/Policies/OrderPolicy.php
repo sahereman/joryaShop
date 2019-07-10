@@ -23,7 +23,7 @@ class OrderPolicy
     {
         // 不可查看已删除订单
         if (!$order->deleted_at) {
-            return $user->id === $order->user_id;
+            return $this->own($user, $order);
         }
         return false;
     }
@@ -37,11 +37,11 @@ class OrderPolicy
      */
     public function pay(User $user, Order $order)
     {
-        /*if ($this->update($user, $order)) {
-            return $order->status === Order::ORDER_STATUS_PAYING;
+        /*if ($order->status === Order::ORDER_STATUS_PAYING) {
+            return $this->own($user, $order);
         }
         return false;*/
-        return $this->update($user, $order);
+        return $this->own($user, $order);
     }
 
     /**
@@ -53,7 +53,7 @@ class OrderPolicy
      */
     public function update(User $user, Order $order)
     {
-        return $user->id === $order->user_id;
+        return $this->own($user, $order);
     }
 
     /**
@@ -65,8 +65,8 @@ class OrderPolicy
      */
     public function close(User $user, Order $order)
     {
-        if ($this->update($user, $order)) {
-            return $order->status === Order::ORDER_STATUS_PAYING;
+        if ($order->status === Order::ORDER_STATUS_PAYING) {
+            return $this->own($user, $order);
         }
         return false;
     }
@@ -80,8 +80,8 @@ class OrderPolicy
      */
     public function complete(User $user, Order $order)
     {
-        if ($this->update($user, $order)) {
-            return $order->status === Order::ORDER_STATUS_RECEIVING;
+        if ($order->status === Order::ORDER_STATUS_RECEIVING) {
+            return $this->own($user, $order);
         }
         return false;
     }
@@ -95,8 +95,8 @@ class OrderPolicy
      */
     public function show_comment(User $user, Order $order)
     {
-        if ($this->update($user, $order)) {
-            return $order->status === Order::ORDER_STATUS_COMPLETED;
+        if ($order->status === Order::ORDER_STATUS_COMPLETED) {
+            return $this->own($user, $order);
         }
         return false;
     }
@@ -116,8 +116,8 @@ class OrderPolicy
                 'order_id' => $order->id,
             ])->exists();
         }*/
-        if ($this->update($user, $order)) {
-            return $order->status === Order::ORDER_STATUS_COMPLETED;
+        if ($order->status === Order::ORDER_STATUS_COMPLETED) {
+            return $this->own($user, $order);
         }
         return false;
     }
@@ -131,7 +131,7 @@ class OrderPolicy
      */
     public function append_comment(User $user, Order $order)
     {
-        if ($this->update($user, $order) && $order->status === Order::ORDER_STATUS_COMPLETED) {
+        if ($this->own($user, $order) && $order->status === Order::ORDER_STATUS_COMPLETED) {
             return ProductComment::where([
                 'user_id' => $user->id,
                 'order_id' => $order->id,
@@ -152,8 +152,8 @@ class OrderPolicy
         /*
          * order status： shipping -> refund [仅退款]
          * */
-        if ($this->update($user, $order)) {
-            return in_array($order->status, [Order::ORDER_STATUS_SHIPPING, Order::ORDER_STATUS_REFUNDING]);
+        if (in_array($order->status, [Order::ORDER_STATUS_SHIPPING, Order::ORDER_STATUS_REFUNDING])) {
+            return $this->update($user, $order);
         }
         return false;
     }
@@ -170,8 +170,8 @@ class OrderPolicy
         /*
          * order status： receiving -> refund_with_shipment [退货并退款]
          * */
-        if ($this->update($user, $order)) {
-            return in_array($order->status, [Order::ORDER_STATUS_RECEIVING, Order::ORDER_STATUS_REFUNDING]);
+        if (in_array($order->status, [Order::ORDER_STATUS_RECEIVING, Order::ORDER_STATUS_REFUNDING])) {
+            return $this->update($user, $order);
         }
         return false;
     }
@@ -185,7 +185,7 @@ class OrderPolicy
      */
     public function revoke_refund(User $user, Order $order)
     {
-        if ($this->update($user, $order) && $order->status === Order::ORDER_STATUS_REFUNDING) {
+        if ($this->own($user, $order) && $order->status === Order::ORDER_STATUS_REFUNDING) {
             return !in_array($order->refund->status, [OrderRefund::ORDER_REFUND_STATUS_REFUNDED, OrderRefund::ORDER_REFUND_STATUS_DECLINED]);
         }
         return false;
@@ -201,7 +201,7 @@ class OrderPolicy
     public function delete(User $user, Order $order)
     {
         if (in_array($order->status, [Order::ORDER_STATUS_CLOSED, Order::ORDER_STATUS_COMPLETED])) {
-            return $user->id === $order->user_id;
+            return $this->own($user, $order);
         }
         return false;
     }
@@ -215,8 +215,17 @@ class OrderPolicy
      */
     public function shipment_query(User $user, Order $order)
     {
-        if ($this->update($user, $order)) {
-            return !in_array($order->status, [Order::ORDER_STATUS_PAYING, Order::ORDER_STATUS_CLOSED, Order::ORDER_STATUS_SHIPPING]);
+        if (!in_array($order->status, [Order::ORDER_STATUS_PAYING, Order::ORDER_STATUS_CLOSED, Order::ORDER_STATUS_SHIPPING])) {
+            return $this->own($user, $order);
+        }
+        return false;
+    }
+
+    // Determine whether the user owns the order.
+    protected function own(User $user, Order $order)
+    {
+        if ($user && $order->user_id) {
+            return $user->id === $order->user_id;
         }
         return false;
     }

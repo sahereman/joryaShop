@@ -25,12 +25,22 @@ class UserAddressesController extends Controller
     // GET 获取当前用户收货地址列表 [for Ajax request]
     public function listAll(Request $request)
     {
+        $user = $request->user();
+        if ($user) {
+            return response()->json([
+                'code' => 200,
+                'message' => 'success',
+                'data' => [
+                    'addresses' => $user->addresses
+                ]
+            ], 200);
+        }
         return response()->json([
             'code' => 200,
             'message' => 'success',
             'data' => [
-                'addresses' => $request->user()->addresses,
-            ],
+                'addresses' => []
+            ]
         ], 200);
     }
 
@@ -72,6 +82,23 @@ class UserAddressesController extends Controller
     public function storeForAjax(UserAddressRequest $request)
     {
         $user = $request->user();
+        if (!$user) {
+            $address = new UserAddress();
+            $address->name = $request->input('name');
+            $address->phone = $request->input('phone');
+            $address->country = $request->input('country');
+            $address->province = $request->input('province');
+            $address->city = $request->input('city');
+            $address->address = $request->input('address');
+            $address->zip = $request->input('zip');
+            return response()->json([
+                'code' => 200,
+                'message' => 'success',
+                'data' => [
+                    'address' => $address
+                ]
+            ]);
+        }
         $addressCount = $user->addresses->count();
         if ($addressCount >= Config::config('max_user_address_count')) {
             if (App::isLocale('zh-CN')) {

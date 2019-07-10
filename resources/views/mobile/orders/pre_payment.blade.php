@@ -159,7 +159,7 @@
                     {{--<input type="text" name="address" id="new_address_info" value=""
                            placeholder="@lang('basic.address.Detailed_address')"/>--}}
                     <input name="address" id="new_address_info"
-                              placeholder="@lang('basic.address.Detailed_address')">
+                           placeholder="@lang('basic.address.Detailed_address')">
                 </div>
                 <button class="doneBtn save_new_address"
                         data-url="{{ route('user_addresses.store_for_ajax') }}">@lang('basic.users.Save')</button>
@@ -324,9 +324,9 @@
                     name: $("#new_address_name").val(),
                     phone: $("#new_address_phone").val(),
                     address: $("#new_address_info").val(),
-                    country:$("#new_address_country").val(),
-                    city:$("#new_address_city").val(),
-                    province:$("#new_address_province").val(),
+                    country: $("#new_address_country").val(),
+                    city: $("#new_address_city").val(),
+                    province: $("#new_address_province").val(),
                     zip: $("#new_address_zip").val(),
                     is_default: $(".setas_default").val()
                 };
@@ -475,6 +475,9 @@
                     sku_id: sku_id,
                     number: number,
                     address_id: $(".address_title").attr("code"),
+                    name: $('.address_name').text(),
+                    phone: $('.address_phone').text(),
+                    address: $('.address_info_all').text(),
                     remark: $(".remark").val(),
                     currency: $(".currency_selection").find("a.active").attr("country")
                 };
@@ -513,6 +516,9 @@
                     _token: "{{ csrf_token() }}",
                     cart_ids: cart_ids,
                     address_id: $(".address_title").attr("code"),
+                    name: $('.address_name').text(),
+                    phone: $('.address_phone').text(),
+                    address: $('.address_info_all').text(),
                     remark: $(".remark").val(),
                     currency: $(".currency_selection").find("a.active").attr("country"),
                 };

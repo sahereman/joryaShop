@@ -14,6 +14,7 @@ class CreateOrdersTable extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->increments('id');
+
             $table->string('order_sn')->nullable(false)->comment('order-sn');
             $table->unique('order_sn');
 

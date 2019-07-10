@@ -39,6 +39,13 @@ Route::get('product_categories/{category}/more', 'ProductCategoriesController@mo
 Route::get('products/search', 'ProductsController@search')->name('mobile.products.search'); // 商品搜索结果 页面 [仅展示页面]
 Route::get('products/{product}/{slug?}', 'ProductsController@show')->name('mobile.products.show'); // 商品详情 页面
 
+/*订单*/
+Route::get('orders/pre_payment', 'OrdersController@prePayment')->name('mobile.orders.pre_payment'); // 订单预支付页面：选择地址+币种页面
+// Route::get('orders/pre_payment_by_sku_parameters', 'OrdersController@prePaymentBySkuParameters')->name('mobile.orders.pre_payment_by_sku_parameters'); // 订单预支付页面：选择地址+币种页面
+Route::get('orders/{order}/payment_method', 'OrdersController@paymentMethod')->name('mobile.orders.payment_method')->middleware('openid'); // 选择支付方式页面
+Route::get('orders/search_by_sn/{sn}', 'OrdersController@searchBySn')->name('mobile.orders.search_by_sn'); // 根据订单序列号查看订单详情
+Route::get('orders/{order}/show_shipment', 'OrdersController@showShipment')->name('mobile.orders.show_shipment'); // 物流详情 页面
+
 /*手机端 - 微信浏览器内获取用户 open id*/
 Route::get('payments/get_wechat_open_id', 'PaymentsController@getWechatOpenId')->name('mobile.payments.get_wechat_open_id'); // get wechat open_id
 
@@ -59,30 +66,30 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('user_addresses', 'UserAddressesController@index')->name('mobile.user_addresses.index'); // 列表 页面
     Route::get('user_addresses/create', 'UserAddressesController@create')->name('mobile.user_addresses.create'); // 新增 页面
     Route::get('user_addresses/{address}/edit', 'UserAddressesController@edit')->name('mobile.user_addresses.edit'); // 编辑 页面
-    //Route::post('user_addresses', 'UserAddressesController@store')->name('user_addresses.store'); // 新增 请求
-    //Route::put('user_addresses/{userAddress}', 'UserAddressesController@update')->name('user_addresses.update'); // 编辑 请求
-    //Route::delete('user_addresses/{userAddress}', 'UserAddressesController@destroy')->name('user_addresses.destroy'); // 删除 请求
-    //Route::patch('user_addresses/{userAddress}/set_default', 'UserAddressesController@setDefault')->name('user_addresses.set_default'); // 设置默认
+    // Route::post('user_addresses', 'UserAddressesController@store')->name('user_addresses.store'); // 新增 请求
+    // Route::put('user_addresses/{userAddress}', 'UserAddressesController@update')->name('user_addresses.update'); // 编辑 请求
+    // Route::delete('user_addresses/{userAddress}', 'UserAddressesController@destroy')->name('user_addresses.destroy'); // 删除 请求
+    // Route::patch('user_addresses/{userAddress}/set_default', 'UserAddressesController@setDefault')->name('user_addresses.set_default'); // 设置默认
 
     /*商品收藏*/
     Route::get('user_favourites', 'UserFavouritesController@index')->name('mobile.user_favourites.index'); // 列表 页面
-    //Route::post('user_favourites', 'UserFavouritesController@store')->name('user_favourites.store'); // 加入收藏
-    //Route::delete('user_favourites/{userFavourite}', 'UserFavouritesController@destroy')->name('user_favourites.destroy'); // 删除
+    // Route::post('user_favourites', 'UserFavouritesController@store')->name('user_favourites.store'); // 加入收藏
+    // Route::delete('user_favourites/{userFavourite}', 'UserFavouritesController@destroy')->name('user_favourites.destroy'); // 删除
 
     /*浏览历史*/
     Route::get('user_histories', 'UserHistoriesController@index')->name('mobile.user_histories.index'); // 列表 [仅展示页面]
     Route::get('user_histories/more', 'UserHistoriesController@more')->name('mobile.user_histories.more'); // 列表 下拉加载更多 [for Ajax request]
-    //Route::delete('user_histories/{userHistory}', 'UserHistoriesController@destroy')->name('user_histories.destroy'); // 删除
-    //Route::delete('user_histories', 'UserHistoriesController@flush')->name('user_histories.flush'); // 清空
+    // Route::delete('user_histories/{userHistory}', 'UserHistoriesController@destroy')->name('user_histories.destroy'); // 删除
+    // Route::delete('user_histories', 'UserHistoriesController@flush')->name('user_histories.flush'); // 清空
 
     /*我的订单*/
     Route::get('orders', 'OrdersController@index')->name('mobile.orders.index'); // 列表 页面
     Route::get('orders/more', 'OrdersController@more')->name('mobile.orders.more'); // 获取订单数据 请求 [for Ajax request]
-    Route::get('orders/pre_payment', 'OrdersController@prePayment')->name('mobile.orders.pre_payment'); // 订单预支付页面：选择地址+币种页面
-    Route::get('orders/pre_payment_by_sku_parameters', 'OrdersController@prePaymentBySkuParameters')->name('mobile.orders.pre_payment_by_sku_parameters'); // 订单预支付页面：选择地址+币种页面
-    Route::get('orders/{order}/payment_method', 'OrdersController@paymentMethod')->name('mobile.orders.payment_method')->middleware('openid'); // 选择支付方式页面
+    // Route::get('orders/pre_payment', 'OrdersController@prePayment')->name('mobile.orders.pre_payment'); // 订单预支付页面：选择地址+币种页面
+    // Route::get('orders/pre_payment_by_sku_parameters', 'OrdersController@prePaymentBySkuParameters')->name('mobile.orders.pre_payment_by_sku_parameters'); // 订单预支付页面：选择地址+币种页面
+    // Route::get('orders/{order}/payment_method', 'OrdersController@paymentMethod')->name('mobile.orders.payment_method')->middleware('openid'); // 选择支付方式页面
     Route::get('orders/{order}', 'OrdersController@show')->name('mobile.orders.show'); // 详情 页面
-    Route::get('orders/{order}/show_shipment', 'OrdersController@showShipment')->name('mobile.orders.show_shipment'); // 物流详情 页面
+    // Route::get('orders/{order}/show_shipment', 'OrdersController@showShipment')->name('mobile.orders.show_shipment'); // 物流详情 页面
     Route::get('orders/{order}/refund', 'OrdersController@refund')->name('mobile.orders.refund'); // 售后订单 [仅退款] 退单申请页面
     Route::get('orders/{order}/refund_with_shipment', 'OrdersController@refundWithShipment')->name('mobile.orders.refund_with_shipment'); //售后订单 [退货并退款] 退单申请页面
 

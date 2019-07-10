@@ -71,7 +71,9 @@ class PostOrderRequest extends Request
                 ],
                 'address_id' => [
                     'bail',
-                    'required',
+                    // 'required',
+                    'sometimes',
+                    'nullable',
                     'integer',
                     // 'exists:user_addresses,id',
                     function ($attribute, $value, $fail) {
@@ -80,6 +82,9 @@ class PostOrderRequest extends Request
                         }
                     },
                 ],
+                'name' => 'bail|sometimes|nullable|string',
+                'phone' => 'bail|sometimes|nullable|string',
+                'address' => 'bail|sometimes|nullable|string',
                 'remark' => 'bail|sometimes|nullable|string',
             ];
         } elseif ($this->routeIs('orders.store_by_sku_parameters')) {
@@ -171,7 +176,9 @@ class PostOrderRequest extends Request
                 ],
                 'address_id' => [
                     'bail',
-                    'required',
+                    // 'required',
+                    'sometimes',
+                    'nullable',
                     'integer',
                     // 'exists:user_addresses,id',
                     function ($attribute, $value, $fail) {
@@ -180,6 +187,9 @@ class PostOrderRequest extends Request
                         }
                     },
                 ],
+                'name' => 'bail|sometimes|nullable|string',
+                'phone' => 'bail|sometimes|nullable|string',
+                'address' => 'bail|sometimes|nullable|string',
                 'remark' => 'bail|sometimes|nullable|string',
             ];
         } elseif ($this->routeIs('orders.pre_payment') || $this->routeIs('mobile.orders.pre_payment')) {
@@ -320,6 +330,9 @@ class PostOrderRequest extends Request
             'number' => '商品购买数量',
             'cart_ids' => '购物车IDs',
             'address_id' => '用户地址ID',
+            'name' => '收件人姓名',
+            'phone' => '收件人联系方式',
+            'address' => '收货地址',
             'remark' => '订单备注',
         ];
     }
