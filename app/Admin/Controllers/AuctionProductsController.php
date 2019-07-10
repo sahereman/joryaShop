@@ -321,8 +321,9 @@ class AuctionProductsController extends Controller
 
         $form->hidden('status', 'Status')->default('preparing');
 
-        $form->datetime('started_at', 'Started at')->default(date('Y-m-d H:i:s'));
-        $form->datetime('stopped_at', 'Stopped at')->default(date('Y-m-d H:i:s'));
+        // $form->datetime('started_at', 'Started at')->default(date('Y-m-d H:i:s'));
+        // $form->datetime('stopped_at', 'Stopped at')->default(date('Y-m-d H:i:s'));
+        $form->datetimeRange('started_at', 'stopped_at', '限时时段');
 
         $form->ignore(['_from_']);
 
