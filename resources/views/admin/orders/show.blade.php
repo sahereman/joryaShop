@@ -12,7 +12,7 @@
             <tbody>
             <tr>
                 <td>买家：</td>
-                <td>{{ $order->user->name }}</td>
+                <td>{{ $order->user_name }}</td>
                 <td>订单状态：</td>
                 <td>{{ \App\Models\Order::$orderStatusMap[$order->status]}}</td>
             </tr>

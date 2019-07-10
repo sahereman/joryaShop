@@ -143,6 +143,19 @@ class Order extends Model
         return false;
     }
 
+    /* Accessors */
+    public function getUserNameAttribute()
+    {
+        $user_info = json_decode($this->attributes['user_info'], true);
+        return $user_info['name'];
+    }
+
+    /* Mutators */
+    public function setUserNameAttribute($value)
+    {
+        unset($this->attributes['user_name']);
+    }
+
     /* Eloquent Relationships */
     public function user()
     {
