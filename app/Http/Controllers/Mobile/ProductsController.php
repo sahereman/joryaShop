@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Mobile;
 
+use App\Exceptions\InvalidRequestException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ProductRequest;
 use App\Models\Product;
+use App\Models\ProductSkuAttrValue;
 use App\Models\UserFavourite;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
@@ -20,49 +22,34 @@ class ProductsController extends Controller
 
     public function show(Request $request, Product $product)
     {
+        if ($product->on_sale == 0) {
+            throw new InvalidRequestException('该商品尚未上架');
+        }
+
         // user browsing history - appending (maybe firing an event)
         $productsController = new \App\Http\Controllers\ProductsController();
         $productsController->appendUserBrowsingHistoryCacheByProduct($product);
 
-        $skus = $product->skus;
         $comment_count = $product->comments->count();
         /* SQL: SELECT COUNT(*) FROM `product_comments` WHERE `photos` IS NOT NULL AND `photos` <> ''; */
-        $photo_comment_count = $product->comments()->whereNotNull('photos')->Where('photos', '<>', '')->count();
+        $photo_comment_count = $product->comments()->whereNotNull('photos')->where('photos', '<>', '')->count();
         $user = $request->user();
-        $favourite = null;
+        $is_favourite = false;
         if ($user) {
-            $favourite = UserFavourite::where('user_id', $user->id)->where('product_id', $product->id)->first();
+            $is_favourite = UserFavourite::where('user_id', $user->id)->where('product_id', $product->id)->exists();
         }
 
-        if (App::isLocale('zh-CN')) {
-            $parameters[trans('product.product_details.base_size')] = $product->is_base_size_optional ? $skus->unique('base_size_zh')->map(function ($item, $key) {
-                return $item->base_size_zh;
-            }) : [];
-            $parameters[trans('product.product_details.hair_colour')] = $product->is_hair_colour_optional ? $skus->unique('hair_colour_zh')->map(function ($item, $key) {
-                return $item->hair_colour_zh;
-            }) : [];
-            $parameters[trans('product.product_details.hair_density')] = $product->is_hair_density_optional ? $skus->unique('hair_density_zh')->map(function ($item, $key) {
-                return $item->hair_density_zh;
-            }) : [];
-        } else {
-            $parameters[trans('product.product_details.base_size')] = $product->is_base_size_optional ? $skus->unique('base_size_en')->map(function ($item, $key) {
-                return $item->base_size_en;
-            }) : [];
-            $parameters[trans('product.product_details.hair_colour')] = $product->is_hair_colour_optional ? $skus->unique('hair_colour_en')->map(function ($item, $key) {
-                return $item->hair_colour_en;
-            }) : [];
-            $parameters[trans('product.product_details.hair_density')] = $product->is_hair_density_optional ? $skus->unique('hair_density_en')->map(function ($item, $key) {
-                return $item->hair_density_en;
-            }) : [];
-        }
+        $product_skus = $product->skus;
+        $product_sku_ids = $product_skus->pluck('id');
+        $attributes = ProductSkuAttrValue::with('sku')->whereIn('product_sku_id', $product_sku_ids)->get()->groupBy('product_sku_id')->toArray();
 
         return view('mobile.products.show', [
             'product' => $product->makeVisible(['content_en', 'content_zh']),
-            'skus' => $skus,
-            'parameters' => $parameters,
+            'product_skus' => $product_skus,
+            'attributes' => $attributes,
             'comment_count' => $comment_count,
             'photo_comment_count' => $photo_comment_count,
-            'favourite' => $favourite,
+            'is_favourite' => $is_favourite,
         ]);
     }
 }

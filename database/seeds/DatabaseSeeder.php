@@ -69,5 +69,8 @@ class DatabaseSeeder extends Seeder
         $this->call(ParamsSeeder::class);
         $this->call(ParamValuesSeeder::class);
         $this->call(ProductParamsSeeder::class);
+
+        // 优惠券
+        $this->call(CouponsSeeder::class);
     }
 }

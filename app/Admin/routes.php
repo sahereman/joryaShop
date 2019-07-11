@@ -54,6 +54,9 @@ Route::group([
     /*商品参数*/
     $router->resource('params', ParamsController::class)->names('admin.params');
 
+    /*优惠券*/
+    $router->resource('coupons', CouponsController::class)->names('admin.coupons');
+
     /*产品分类*/
     $router->resource('product_categories', ProductCategoriesController::class)->names('admin.product_categories');
 

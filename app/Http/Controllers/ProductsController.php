@@ -10,6 +10,7 @@ use App\Models\Product;
 use App\Models\ProductSku;
 use App\Models\ProductCategory;
 use App\Models\ProductComment;
+use App\Models\ProductSkuAttrValue;
 use App\Models\UserFavourite;
 use App\Models\UserHistory;
 use Illuminate\Http\Request;
@@ -147,52 +148,33 @@ class ProductsController extends Controller
         }
 
         $category = $product->category()->with('parent')->first();
-        $skus = $product->skus;
         $comment_count = $product->comments->count();
         $guesses = Product::where(['is_index' => 1, 'on_sale' => 1])->orderByDesc('index')->limit(8)->get();
         $hot_sales = Product::where(['is_index' => 1, 'on_sale' => 1])->orderByDesc('heat')->limit(8)->get();
         $best_sellers = Product::where(['is_index' => 1, 'on_sale' => 1])->orderByDesc('sales')->limit(8)->get();
         $user = $request->user();
-        $favourite = null;
+        $is_favourite = false;
         if ($user) {
-            $favourite = UserFavourite::where('user_id', $user->id)->where('product_id', $product->id)->first();
+            $is_favourite = UserFavourite::where('user_id', $user->id)->where('product_id', $product->id)->exists();
         }
 
         // user browsing history - appending (maybe firing an event)
         $this->appendUserBrowsingHistoryCacheByProduct($product);
 
-        if (App::isLocale('zh-CN')) {
-            $parameters[trans('product.product_details.base_size')] = $product->is_base_size_optional ? $skus->unique('base_size_zh')->map(function ($item, $key) {
-                return $item->base_size_zh;
-            }) : [];
-            $parameters[trans('product.product_details.hair_colour')] = $product->is_hair_colour_optional ? $skus->unique('hair_colour_zh')->map(function ($item, $key) {
-                return $item->hair_colour_zh;
-            }) : [];
-            $parameters[trans('product.product_details.hair_density')] = $product->is_hair_density_optional ? $skus->unique('hair_density_zh')->map(function ($item, $key) {
-                return $item->hair_density_zh;
-            }) : [];
-        } else {
-            $parameters[trans('product.product_details.base_size')] = $product->is_base_size_optional ? $skus->unique('base_size_en')->map(function ($item, $key) {
-                return $item->base_size_en;
-            }) : [];
-            $parameters[trans('product.product_details.hair_colour')] = $product->is_hair_colour_optional ? $skus->unique('hair_colour_en')->map(function ($item, $key) {
-                return $item->hair_colour_en;
-            }) : [];
-            $parameters[trans('product.product_details.hair_density')] = $product->is_hair_density_optional ? $skus->unique('hair_density_en')->map(function ($item, $key) {
-                return $item->hair_density_en;
-            }) : [];
-        }
+        $product_skus = $product->skus;
+        $product_sku_ids = $product_skus->pluck('id');
+        $attributes = ProductSkuAttrValue::with('sku')->whereIn('product_sku_id', $product_sku_ids)->get()->groupBy('product_sku_id')->toArray();
 
         return view('products.show', [
             'category' => $category,
             'product' => $product->makeVisible(['content_en', 'content_zh']),
-            'skus' => $skus,
-            'parameters' => $parameters,
+            'product_skus' => $product_skus,
+            'attributes' => $attributes,
             'comment_count' => $comment_count,
             'guesses' => $guesses,
             'hot_sales' => $hot_sales,
             'best_sellers' => $best_sellers,
-            'favourite' => $favourite,
+            'is_favourite' => $is_favourite
         ]);
     }
 
@@ -211,8 +193,7 @@ class ProductsController extends Controller
                 throw new InvalidRequestException('The parameter page must be an integer.');
             }
         }
-        $comments = ProductComment::where('product_id', $product->id)->get();
-        $comment_count = $comments->count();
+        $comment_count = $product->comments->count();
         $page_count = ceil($comment_count / 10);
         $next_page = ($current_page < $page_count) ? ($current_page + 1) : false;
         if ($next_page == false) {
@@ -236,165 +217,6 @@ class ProductsController extends Controller
                 'description_index' => $description_index,
                 'shipment_index' => $shipment_index,
                 'request_url' => $request_url,
-            ],
-        ]);
-    }
-
-    // GET: 获取SKU参数列表[三级联动]
-    public function getSkuParameters(Request $request, Product $product)
-    {
-        $base_size = $request->query('base_size', false);
-        $hair_colour = $request->query('hair_colour', false);
-        $hair_density = $request->query('hair_density', false);
-        $photo_url = '';
-
-        $is_locale_zh = App::isLocale('zh-CN');
-
-        $skus = $product->skus();
-        $parameter_allow = 0;
-        $parameter_count = 0;
-        if ($is_locale_zh) {
-            if ($product->is_base_size_optional) {
-                $parameter_allow += 1;
-                if ($base_size) {
-                    $parameter_count += 1;
-                    $skus = $skus->where('base_size_zh', $base_size);
-                }
-            }
-            if ($product->is_hair_colour_optional) {
-                $parameter_allow += 1;
-                if ($hair_colour) {
-                    $parameter_count += 1;
-                    $skus = $skus->where('hair_colour_zh', $hair_colour);
-                }
-            }
-            if ($product->is_hair_density_optional) {
-                $parameter_allow += 1;
-                if ($hair_density) {
-                    $parameter_count += 1;
-                    $skus = $skus->where('hair_density_zh', $hair_density);
-                }
-            }
-        } else {
-            if ($product->is_base_size_optional) {
-                $parameter_allow += 1;
-                if ($base_size) {
-                    $parameter_count += 1;
-                    $skus = $skus->where('base_size_en', $base_size);
-                }
-            }
-            if ($product->is_hair_colour_optional) {
-                $parameter_allow += 1;
-                if ($hair_colour) {
-                    $parameter_count += 1;
-                    $skus = $skus->where('hair_colour_en', $hair_colour);
-                }
-            }
-            if ($product->is_hair_density_optional) {
-                $parameter_allow += 1;
-                if ($hair_density) {
-                    $parameter_count += 1;
-                    $skus = $skus->where('hair_density_en', $hair_density);
-                }
-            }
-        }
-        $skus = $skus->get();
-        $sku_count = $skus->count();
-        if ($parameter_allow == $parameter_count) {
-            if ($sku_count == 1) {
-                return response()->json([
-                    'code' => 200,
-                    'message' => 'success',
-                    'data' => [
-                        'product' => [
-                            'price' => $product->price,
-                            'original_price' => bcmul($product->price, 1.2, 2),
-                        ],
-                        'sku' => [
-                            'id' => $skus->first()->id,
-                            'photo' => $skus->first()->photo_url,
-                            'stock' => $skus->first()->stock,
-                            'sales' => $skus->first()->sales,
-                            'price' => $skus->first()->price,
-                            'original_price' => bcmul($skus->first()->price, 1.2, 2),
-                        ],
-                        'parameters' => [
-                            trans('product.product_details.base_size') => [],
-                            trans('product.product_details.hair_colour') => [],
-                            trans('product.product_details.hair_density') => [],
-                        ],
-                    ],
-                ]);
-            } else {
-                return response()->json([
-                    'code' => 401,
-                    'message' => trans('basic.orders.Sku_does_not_exist'),
-                    'data' => [
-                        'product' => [
-                            'price' => $product->price,
-                            'original_price' => bcmul($product->price, 1.2, 2),
-                        ],
-                        'sku' => [
-                            'id' => '',
-                            'photo' => '',
-                            'stock' => '',
-                            'sales' => '',
-                            'price' => '',
-                            'original_price' => '',
-                        ],
-                        'parameters' => [
-                            trans('product.product_details.base_size') => [],
-                            trans('product.product_details.hair_colour') => [],
-                            trans('product.product_details.hair_density') => [],
-                        ],
-                    ],
-                ]);
-            }
-        }
-
-        if ($sku_count > 0) {
-            $photo_url = $skus->first()->photo_url;
-        }
-
-        if ($is_locale_zh) {
-            $parameters[trans('product.product_details.base_size')] = ($product->is_base_size_optional && !$base_size) ? $skus->unique('base_size_zh')->map(function ($item, $key) {
-                return $item->base_size_zh;
-            }) : [];
-            $parameters[trans('product.product_details.hair_colour')] = ($product->is_hair_colour_optional && !$hair_colour) ? $skus->unique('hair_colour_zh')->map(function ($item, $key) {
-                return $item->hair_colour_zh;
-            }) : [];
-            $parameters[trans('product.product_details.hair_density')] = ($product->is_hair_density_optional && !$hair_density) ? $skus->unique('hair_density_zh')->map(function ($item, $key) {
-                return $item->hair_density_zh;
-            }) : [];
-        } else {
-            $parameters[trans('product.product_details.base_size')] = ($product->is_base_size_optional && !$base_size) ? $skus->unique('base_size_en')->map(function ($item, $key) {
-                return $item->base_size_en;
-            }) : [];
-            $parameters[trans('product.product_details.hair_colour')] = ($product->is_hair_colour_optional && !$hair_colour) ? $skus->unique('hair_colour_en')->map(function ($item, $key) {
-                return $item->hair_colour_en;
-            }) : [];
-            $parameters[trans('product.product_details.hair_density')] = ($product->is_hair_density_optional && !$hair_density) ? $skus->unique('hair_density_en')->map(function ($item, $key) {
-                return $item->hair_density_en;
-            }) : [];
-        }
-
-        return response()->json([
-            'code' => 200,
-            'message' => 'success',
-            'data' => [
-                'product' => [
-                    'price' => $product->price,
-                    'original_price' => bcmul($product->price, 1.2, 2),
-                ],
-                'sku' => [
-                    'id' => '',
-                    'photo' => $photo_url,
-                    'stock' => '',
-                    'sales' => '',
-                    'price' => '',
-                    'original_price' => '',
-                ],
-                'parameters' => $parameters,
             ],
         ]);
     }
