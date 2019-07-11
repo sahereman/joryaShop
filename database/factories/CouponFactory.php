@@ -16,6 +16,7 @@ $factory->define(App\Models\Coupon::class, function (Faker $faker) {
         'threshold' => 1000,
         'number' => null,
         'allowance' => 1,
+        'scenario' => 'register',
         'sort' => 0,
         'started_at' => $now,
         'stopped_at' => $stopped_at,

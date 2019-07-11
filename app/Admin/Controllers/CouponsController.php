@@ -133,6 +133,10 @@ class CouponsController extends Controller
         // $grid->designated_product_types('Designated product types');
         $grid->designated_product_type_string('指定商品类型');
 
+        $grid->scenario('用户领取场景')->display(function ($value) {
+            return Coupon::$couponScenarioMap[$value];
+        });
+
         $grid->period('限时时段');
         $grid->status('Status');
 
@@ -181,6 +185,9 @@ class CouponsController extends Controller
         // $show->designated_product_types('Designated product types');
         $show->designated_product_type_string('指定商品类型');
 
+        $show->scenario('用户领取场景')->as(function ($value) {
+            return Coupon::$couponScenarioMap[$value];
+        });
         $show->period('限时时段');
         $show->status('Status');
         $show->sort('排序值');
@@ -253,6 +260,7 @@ class CouponsController extends Controller
 
         $form->number('allowance', '单人领取限额')->default(1)->rules('integer|min:1');
         $form->checkbox('designated_product_types', '指定商品类型')->options(Product::$productTypeMap);
+        $form->select('scenario', '用户领取场景')->options(Coupon::$couponScenarioMap)->default('register');
         $form->number('sort', '排序值')->default(0)->rules('integer|min:0');
 
         // $form->datetime('started_at', 'Started at')->default(date('Y-m-d H:i:s'));

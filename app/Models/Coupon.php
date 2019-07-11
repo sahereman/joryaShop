@@ -15,6 +15,12 @@ class Coupon extends Model
         self::COUPON_TYPE_REDUCTION => '满减'
     ];
 
+    const COUPON_SCENARIO_REGISTER = 'register';
+
+    public static $couponScenarioMap = [
+        self::COUPON_SCENARIO_REGISTER => '新用户注册'
+    ];
+
     /**
      * The attributes that are mass assignable.
      *
@@ -29,6 +35,7 @@ class Coupon extends Model
         'number',
         'allowance',
         'designated_product_types',
+        'scenario',
         'sort',
         'started_at',
         'stopped_at'
