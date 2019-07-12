@@ -10,16 +10,14 @@ use Illuminate\Support\Str;
 class User extends Authenticatable
 {
 
-    use Notifiable
-    {
+    use Notifiable {
         notify as protected laravelNotify;
     }
 
     public function notify($instance)
     {
         // 如果要通知的人是当前用户，就不必通知了！
-        if ($this->id == Auth::id())
-        {
+        if ($this->id == Auth::id()) {
             return;
         }
         $this->increment('notification_count');
@@ -92,5 +90,10 @@ class User extends Authenticatable
     public function auction_logs()
     {
         return $this->hasMany(ProductAuctionLog::class);
+    }
+
+    public function coupons()
+    {
+        return $this->hasMany(UserCoupon::class);
     }
 }

@@ -34,7 +34,7 @@ class Coupon extends Model
         'threshold',
         'number',
         'allowance',
-        'designated_product_types',
+        'supported_product_types',
         'scenario',
         'sort',
         'started_at',
@@ -47,7 +47,7 @@ class Coupon extends Model
      * @var array
      */
     protected $casts = [
-        'designated_product_types' => 'json'
+        'supported_product_types' => 'json'
     ];
 
     /**
@@ -66,21 +66,21 @@ class Coupon extends Model
      * @var array
      */
     protected $appends = [
-        'designated_product_type_string',
+        'supported_product_type_string',
         // 'is_limited',
         'period',
         'status'
     ];
 
     /* Accessors */
-    public function getDesignatedProductTypeStringAttribute()
+    public function getSupportedProductTypeStringAttribute()
     {
-        $designated_product_type_string = '';
-        $designated_product_types = json_decode($this->attributes['designated_product_types'], true);
-        foreach ($designated_product_types as $designated_product_type) {
-            $designated_product_type_string .= Product::$productTypeMap[$designated_product_type] . ' | ';
+        $supported_product_type_string = '';
+        $supported_product_types = json_decode($this->attributes['supported_product_types'], true);
+        foreach ($supported_product_types as $supported_product_type) {
+            $supported_product_type_string .= Product::$productTypeMap[$supported_product_type] . ' | ';
         }
-        return substr($designated_product_type_string, 0, -3);
+        return substr($supported_product_type_string, 0, -3);
     }
 
     public function getIsLimitedAttribute()
@@ -108,9 +108,9 @@ class Coupon extends Model
     }
 
     /* Mutators */
-    public function setDesignatedProductTypeStringAttribute($value)
+    public function setSupportedProductTypeStringAttribute($value)
     {
-        unset($this->attributes['designated_product_type_string']);
+        unset($this->attributes['supported_product_type_string']);
     }
 
     public function setIsLimitedAttribute($value)
@@ -129,4 +129,8 @@ class Coupon extends Model
     }
 
     /* Eloquent Relationships */
+    public function users()
+    {
+        return $this->hasMany(UserCoupon::class);
+    }
 }

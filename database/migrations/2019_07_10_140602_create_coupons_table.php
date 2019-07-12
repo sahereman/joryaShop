@@ -23,7 +23,7 @@ class CreateCouponsTable extends Migration
             $table->unsignedDecimal('threshold', 8, 2)->nullable(false)->default(0.00)->comment('优惠策略之消费金额触发阈值');
             $table->unsignedInteger('number')->nullable()->default(null)->comment('数量'); // null: 不限量
             $table->unsignedInteger('allowance')->nullable(false)->default(1)->comment('单人领取限额');
-            $table->json('designated_product_types')->nullable(false)->comment('指定商品类型'); // product_types: common | period | auction
+            $table->json('supported_product_types')->nullable(false)->comment('支持商品类型'); // product_types: common | period | auction
             $table->string('scenario')->nullable(false)->comment('用户领取场景');
             $table->unsignedSmallInteger('sort')->nullable(false)->default(0)->comment('排序值');
             $table->timestamp('started_at')->nullable()->comment('Started at');

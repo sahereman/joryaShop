@@ -91,11 +91,9 @@ class UsersController extends Controller
             $tools->disableView();
         });
 
-        if ($id == null)
-        {
+        if ($id == null) {
             $form->listbox('user_ids', '选择用户')->options(User::all()->pluck('name', 'id'));
-        } else
-        {
+        } else {
             $form->listbox('user_ids', '选择用户')->options(User::where('id', $id)->get()->pluck('name', 'id'));
         }
 
@@ -113,8 +111,7 @@ class UsersController extends Controller
             'user_ids' => [
                 'required',
                 function ($attribute, $value, $fail) {
-                    if (User::whereIn('id', request()->input($attribute))->count() == 0)
-                    {
+                    if (User::whereIn('id', request()->input($attribute))->count() == 0) {
                         $fail('请选择用户');
                     }
                 },
@@ -162,11 +159,9 @@ class UsersController extends Controller
             $tools->disableView();
         });
 
-        if ($id == null)
-        {
+        if ($id == null) {
             $form->listbox('user_ids', '选择用户')->options(User::all()->pluck('email', 'id'));
-        } else
-        {
+        } else {
             $form->listbox('user_ids', '选择用户')->options(User::where('id', $id)->get()->pluck('email', 'id'));
         }
 
@@ -193,8 +188,7 @@ class UsersController extends Controller
             'user_ids' => [
                 'required',
                 function ($attribute, $value, $fail) {
-                    if (User::whereIn('id', request()->input($attribute))->count() == 0)
-                    {
+                    if (User::whereIn('id', request()->input($attribute))->count() == 0) {
                         $fail('请选择用户');
                     }
                 },
@@ -313,6 +307,25 @@ class UsersController extends Controller
         $show->divider();
         $show->country_code('国家|地区码');
         $show->phone('手机号');
+        $show->divider();
+        $show->coupons('优惠券 - 列表', function ($coupon) {
+            /*禁用*/
+            // $sku->disableActions();
+            $coupon->disableRowSelector();
+            $coupon->disableExport();
+            $coupon->disableFilter();
+            $coupon->disableCreateButton();
+            $coupon->disablePagination();
+
+            $coupon->coupon_name('优惠券名称');
+            $coupon->got_at('领取时间');
+            $coupon->is_used('是否已使用')->display(function ($value) {
+                return $value ? '是' : '否';
+            });
+            $coupon->order_sn('订单序列号')->display(function ($value) {
+                return $value ?: '尚未使用';
+            });
+        });
         $show->divider();
         $show->created_at('创建时间');
         $show->updated_at('更新时间');

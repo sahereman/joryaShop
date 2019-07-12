@@ -130,8 +130,8 @@ class CouponsController extends Controller
         })->sortable();
         $grid->allowance('单人领取限额')->sortable();
 
-        // $grid->designated_product_types('Designated product types');
-        $grid->designated_product_type_string('指定商品类型');
+        // $grid->supported_product_types('Supported product types');
+        $grid->supported_product_type_string('支持商品类型');
 
         $grid->scenario('用户领取场景')->display(function ($value) {
             return Coupon::$couponScenarioMap[$value];
@@ -182,8 +182,8 @@ class CouponsController extends Controller
         });
         $show->allowance('单人领取限额');
 
-        // $show->designated_product_types('Designated product types');
-        $show->designated_product_type_string('指定商品类型');
+        // $show->supported_product_types('Supported product types');
+        $show->supported_product_type_string('支持商品类型');
 
         $show->scenario('用户领取场景')->as(function ($value) {
             return Coupon::$couponScenarioMap[$value];
@@ -259,7 +259,7 @@ class CouponsController extends Controller
         $form->switch('is_limited', '是否限量')->states($states)->default(0);*/
 
         $form->number('allowance', '单人领取限额')->default(1)->rules('integer|min:1');
-        $form->checkbox('designated_product_types', '指定商品类型')->options(Product::$productTypeMap);
+        $form->checkbox('supported_product_types', '支持商品类型')->options(Product::$productTypeMap);
         $form->select('scenario', '用户领取场景')->options(Coupon::$couponScenarioMap)->default('register');
         $form->number('sort', '排序值')->default(0)->rules('integer|min:0');
 

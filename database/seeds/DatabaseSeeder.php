@@ -72,5 +72,6 @@ class DatabaseSeeder extends Seeder
 
         // 优惠券
         $this->call(CouponsSeeder::class);
+        $this->call(UserCouponsSeeder::class);
     }
 }

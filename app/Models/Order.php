@@ -186,4 +186,9 @@ class Order extends Model
     {
         return (integer)(Config::config('time_to_complete_order')) * 3600 * 24;
     }
+
+    public function coupons()
+    {
+        return $this->hasMany(UserCoupon::class);
+    }
 }
