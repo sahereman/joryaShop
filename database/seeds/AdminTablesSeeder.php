@@ -24,7 +24,7 @@ class AdminTablesSeeder extends Seeder
                 'name' => '产品管理',
                 'slug' => 'products',
                 'http_method' => '',
-                'http_path' => "/attrs\r\n/params\r\n/product_categories\r\n/products\r\n/product_locations\r\n/product_services\r\n/coupons",
+                'http_path' => "/attrs\r\n/params\r\n/product_categories\r\n/products\r\n/product_locations\r\n/product_services\r\n/coupons\r\n/custom_attrs",
             ],
             [
                 'name' => '订单管理',
@@ -222,6 +222,13 @@ class AdminTablesSeeder extends Seeder
                 'title' => '优惠券',
                 'icon' => 'fa-contao',
                 'uri' => 'coupons',
+            ],
+            [
+                'parent_id' => 13,
+                'order' => 8,
+                'title' => '定制商品 SKU 属性',
+                'icon' => 'fa-asterisk',
+                'uri' => 'custom_attrs',
             ],
 
             // 订单

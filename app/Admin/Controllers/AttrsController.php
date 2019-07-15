@@ -114,7 +114,7 @@ class AttrsController extends Controller
     {
         $show = new Show(Attr::findOrFail($id));
 
-        $show->id('Id');
+        // $show->id('Id');
         $show->name('SKU 属性名称');
         $show->has_photo('是否有对应图片')->as(function ($has_photo) {
             return $has_photo ? '是' : '否';

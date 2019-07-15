@@ -18,7 +18,7 @@ class CreateExchangeRatesTable extends Migration
 
             $table->string('name')->nullable()->comment('仅用于后台管理展示');
             $table->string('currency')->nullable(false)->comment('currency-type[币种]:USD|CNY|etc')->unique();
-            $table->unsignedDecimal('rate')->nullable(false)->comment('exchange-rate-of-USD');
+            $table->unsignedDecimal('rate', 8, 2)->nullable(false)->comment('exchange-rate-of-USD');
         });
     }
 

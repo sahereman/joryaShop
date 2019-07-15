@@ -9,6 +9,7 @@ use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
+use Illuminate\Support\MessageBag;
 
 class ExchangeRatesController extends Controller
 {
@@ -114,8 +115,23 @@ class ExchangeRatesController extends Controller
 
         $form->text('name', '名称');
         $form->display('currency', '币种');
-        $form->decimal('rate', '汇率')
+        $form->currency('rate', '汇率')
             ->help('1.00 (USD) 兑换等值 (币种)');
+
+        // 定义事件回调，当模型即将保存时会触发这个回调
+        $form->saving(function (Form $form) {
+            if (request()->input('rate') < 0) {
+                $error = new MessageBag([
+                    'title' => "汇率值不可为负数！",
+                ]);
+                // return back()->withInput()->with(compact('error'));
+                return back()->with(compact('error')); // The method withInput() is buggy with unwanted results.
+            }
+        });
+
+        $form->saved(function (Form $form) {
+            //
+        });
 
         return $form;
     }

@@ -76,6 +76,9 @@ Route::group([
     /*拍卖商品*/
     $router->resource('auction_products', AuctionProductsController::class)->names('admin.auction_products');
 
+    /*定制商品 SKU 属性*/
+    $router->resource('custom_attrs', CustomAttrsController::class)->names('admin.custom_attrs');
+
     /*产品仓库*/
     $router->resource('product_locations', ProductLocationsController::class)->names('admin.product_locations');
 
