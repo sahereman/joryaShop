@@ -35,6 +35,6 @@ class CreateProductAuctionLogsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('product_sku_auction_logs');
+        Schema::dropIfExists('product_auction_logs');
     }
 }
