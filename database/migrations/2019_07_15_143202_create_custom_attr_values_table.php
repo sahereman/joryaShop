@@ -19,7 +19,7 @@ class CreateCustomAttrValuesTable extends Migration
             $table->unsignedInteger('custom_attr_id')->nullable(false)->comment('custom-attr-id');
             $table->foreign('custom_attr_id')->references('id')->on('custom_attrs')->onDelete('cascade');
 
-            $table->string('value')->nullable(false)->comment('订制商品 SKU 属性值');
+            $table->string('value')->nullable(false)->comment('定制商品 SKU 属性值');
             $table->index('value');
 
             $table->decimal('delta_price', 8, 2)->nullable(false)->default(0.00)->comment('加价[+|-]');

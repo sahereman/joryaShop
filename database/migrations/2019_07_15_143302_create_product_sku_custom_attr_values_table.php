@@ -19,9 +19,9 @@ class CreateProductSkuCustomAttrValuesTable extends Migration
             $table->unsignedInteger('product_sku_id')->nullable(false)->comment('product_sku-id');
             $table->foreign('product_sku_id')->references('id')->on('product_skus')->onDelete('cascade');
 
-            $table->string('name')->nullable(false)->comment('订制商品 SKU 属性名称');
+            $table->string('name')->nullable(false)->comment('定制商品 SKU 属性名称');
 
-            $table->string('value')->nullable(false)->comment('订制商品 SKU 属性值');
+            $table->string('value')->nullable(false)->comment('定制商品 SKU 属性值');
 
             $table->unsignedSmallInteger('sort')->nullable(false)->default(0)->comment('排序值');
 

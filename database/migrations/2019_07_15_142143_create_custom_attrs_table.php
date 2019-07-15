@@ -16,7 +16,7 @@ class CreateCustomAttrsTable extends Migration
         Schema::create('custom_attrs', function (Blueprint $table) {
             $table->increments('id');
 
-            $table->string('name')->nullable(false)->comment('订制商品 SKU 属性名称');
+            $table->string('name')->nullable(false)->comment('定制商品 SKU 属性名称');
             $table->index('name');
 
             $table->boolean('is_required')->nullable(false)->default(false)->comment('是否必填');

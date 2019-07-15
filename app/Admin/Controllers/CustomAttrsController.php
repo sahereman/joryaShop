@@ -24,8 +24,8 @@ class CustomAttrsController extends Controller
     public function index(Content $content)
     {
         return $content
-            ->header('订制商品 SKU 属性管理')
-            ->description('订制商品 SKU 属性 - 列表')
+            ->header('定制商品 SKU 属性管理')
+            ->description('定制商品 SKU 属性 - 列表')
             ->body($this->grid());
     }
 
@@ -39,8 +39,8 @@ class CustomAttrsController extends Controller
     public function show($id, Content $content)
     {
         return $content
-            ->header('订制商品 SKU 属性管理')
-            ->description('订制商品 SKU 属性 - 详情')
+            ->header('定制商品 SKU 属性管理')
+            ->description('定制商品 SKU 属性 - 详情')
             ->body($this->detail($id));
     }
 
@@ -54,8 +54,8 @@ class CustomAttrsController extends Controller
     public function edit($id, Content $content)
     {
         return $content
-            ->header('订制商品 SKU 属性管理')
-            ->description('订制商品 SKU 属性 - 编辑')
+            ->header('定制商品 SKU 属性管理')
+            ->description('定制商品 SKU 属性 - 编辑')
             ->body($this->form()->edit($id));
     }
 
@@ -68,8 +68,8 @@ class CustomAttrsController extends Controller
     public function create(Content $content)
     {
         return $content
-            ->header('订制商品 SKU 属性管理')
-            ->description('订制商品 SKU 属性 - 新增')
+            ->header('定制商品 SKU 属性管理')
+            ->description('定制商品 SKU 属性 - 新增')
             ->body($this->form());
     }
 
