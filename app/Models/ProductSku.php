@@ -90,6 +90,15 @@ class ProductSku extends Model
         return substr($attr_value_string, 0, -3);
     }
 
+    public function getCustomAttrValueStringAttribute()
+    {
+        $custom_attr_value_string = '';
+        $this->custom_attr_values()->each(function (ProductSkuCustomAttrValue $customAttrValue) use (&$custom_attr_value_string) {
+            $custom_attr_value_string .= $customAttrValue->name . ' (' . $customAttrValue->value . ') ; ';
+        });
+        return substr($custom_attr_value_string, 0, -3);
+    }
+
     public function getAttrValueOptionsAttribute()
     {
         $attr_value_options = [];
@@ -132,5 +141,10 @@ class ProductSku extends Model
     public function attr_values()
     {
         return $this->hasMany(ProductSkuAttrValue::class)->orderByDesc('sort');
+    }
+
+    public function custom_attr_values()
+    {
+        return $this->hasMany(ProductSkuCustomAttrValue::class)->orderByDesc('sort');
     }
 }

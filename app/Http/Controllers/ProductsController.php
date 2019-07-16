@@ -5,16 +5,18 @@ namespace App\Http\Controllers;
 use App\Events\UserBrowsingHistoryEvent;
 use App\Exceptions\InvalidRequestException;
 use App\Http\Requests\ProductRequest;
-use App\Models\ExchangeRate;
+// use App\Models\ExchangeRate;
+use App\Models\CustomAttrValue;
 use App\Models\Product;
 use App\Models\ProductSku;
-use App\Models\ProductCategory;
+// use App\Models\ProductCategory;
 use App\Models\ProductComment;
 use App\Models\ProductSkuAttrValue;
+use App\Models\ProductSkuCustomAttrValue;
 use App\Models\UserFavourite;
 use App\Models\UserHistory;
 use Illuminate\Http\Request;
-use Illuminate\Support\Carbon;
+// use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
@@ -251,5 +253,66 @@ class ProductsController extends Controller
                 }
             }
         }
+    }
+
+    public function customShow(Request $request, Product $product)
+    {
+        return view('products.custom', [
+            'product' => $product
+        ]);
+    }
+
+    public function customStore(Request $request, Product $product)
+    {
+        $product_sku = ProductSku::create([
+            'product_id' => $product->id,
+            'name_en' => 'custom product sku of lyrical hair',
+            'name_zh' => 'custom product sku of lyrical hair',
+            'photo' => '',
+            'price' => $request->input('price'),
+            'stock' => 0,
+            'sales' => 1,
+        ]);
+
+        foreach ($request->input('custom_attr_values') as $custom_attr_value) {
+            $custom_attr_value_model = CustomAttrValue::first(['value' => $custom_attr_value['value']]);
+            ProductSkuCustomAttrValue::create([
+                'product_sku_id' => $product_sku->id,
+                'name' => $custom_attr_value['name'],
+                'value' => $custom_attr_value['value'],
+                'sort' => $custom_attr_value_model->sort
+            ]);
+        }
+
+        return response()->json([
+            'code' => 200,
+            'message' => 'success'
+        ]);
+    }
+
+    public function customUpdate(Request $request, Product $product)
+    {
+        // $product_sku = ProductSku::with('custom_attr_values')->find($request->input('product_sku_id'));
+        foreach ($request->input('custom_attr_values') as $custom_attr_value) {
+            $custom_attr_value_model = CustomAttrValue::first(['value' => $custom_attr_value['value']]);
+            $product_sku_custom_attr_value = ProductSkuCustomAttrValue::firstOrCreate([
+                'product_sku_id' => $request->input('product_sku_id'),
+                'name' => $custom_attr_value['name']
+            ], [
+                'value' => $custom_attr_value['value'],
+                'sort' => $custom_attr_value_model->sort
+            ]);
+            if ($product_sku_custom_attr_value->value != $custom_attr_value['value']) {
+                $product_sku_custom_attr_value->update([
+                    'value' => $custom_attr_value['value'],
+                    'sort' => $custom_attr_value_model->sort
+                ]);
+            }
+        }
+
+        return response()->json([
+            'code' => 200,
+            'message' => 'success'
+        ]);
     }
 }

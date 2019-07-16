@@ -120,9 +120,9 @@ class ExchangeRatesController extends Controller
 
         // 定义事件回调，当模型即将保存时会触发这个回调
         $form->saving(function (Form $form) {
-            if (request()->input('rate') < 0) {
+            if (request()->input('rate') <= 0) {
                 $error = new MessageBag([
-                    'title' => "汇率值不可为负数！",
+                    'title' => "汇率值必须是正数！",
                 ]);
                 // return back()->withInput()->with(compact('error'));
                 return back()->with(compact('error')); // The method withInput() is buggy with unwanted results.

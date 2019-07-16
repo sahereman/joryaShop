@@ -151,7 +151,7 @@ class CustomAttrsController extends Controller
 
         $form->hasMany('values', '属性值 - 列表', function (NestedForm $form) {
             $form->text('value', '属性值');
-            $form->decimal('delta_price', '加价[+|-]');
+            $form->decimal('delta_price', '加价[+|-]')->help('取值为正数(+)时，为加价；取值为负数(-)时，为减价。');
 
             $form->image('photo', 'Photo')
                 ->deletable(true)
