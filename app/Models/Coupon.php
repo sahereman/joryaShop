@@ -15,9 +15,13 @@ class Coupon extends Model
         self::COUPON_TYPE_REDUCTION => '满减'
     ];
 
+    const COUPON_SCENARIO_PAGE = 'page';
+    const COUPON_SCENARIO_ADMIN = 'admin';
     const COUPON_SCENARIO_REGISTER = 'register';
 
     public static $couponScenarioMap = [
+        self::COUPON_SCENARIO_PAGE => '用户页面领取',
+        self::COUPON_SCENARIO_ADMIN => '系统后台发放',
         self::COUPON_SCENARIO_REGISTER => '新用户注册'
     ];
 

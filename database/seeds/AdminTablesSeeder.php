@@ -168,10 +168,16 @@ class AdminTablesSeeder extends Seeder
                 'parent_id' => 12,
                 'order' => 3,
                 'title' => '群发邮件',
-                'icon' => 'fa-file-text',
+                'icon' => 'fa-send',
                 'uri' => 'users/send_email',
             ],
-
+            [
+                'parent_id' => 12,
+                'order' => 4,
+                'title' => '群发优惠券',
+                'icon' => 'fa-codiepie',
+                'uri' => 'users/send_coupon',
+            ],
 
             // 产品
             [

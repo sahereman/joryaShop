@@ -59,6 +59,24 @@ class CouponsSeeder extends Seeder
 
         foreach ($coupons as $key => $coupon) {
             $coupon['sort'] = $key;
+            $coupon['scenario'] = 'page';
+            $coupon['allowance'] = $key + 1;
+            $coupon['threshold'] = 1000 * ($key + 1);
+            $coupon['name'] = 'Coupon No.' . ($key + 1);
+            factory(Coupon::class)->create($coupon);
+        }
+
+        foreach ($coupons as $key => $coupon) {
+            $coupon['sort'] = $key;
+            $coupon['scenario'] = 'admin';
+            $coupon['allowance'] = $key + 1;
+            $coupon['threshold'] = 1000 * ($key + 1);
+            $coupon['name'] = 'Coupon No.' . ($key + 1);
+            factory(Coupon::class)->create($coupon);
+        }
+
+        foreach ($coupons as $key => $coupon) {
+            $coupon['sort'] = $key;
             $coupon['allowance'] = $key + 1;
             $coupon['threshold'] = 1000 * ($key + 1);
             $coupon['name'] = 'Coupon No.' . ($key + 1);

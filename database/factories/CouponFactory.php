@@ -16,7 +16,7 @@ $factory->define(App\Models\Coupon::class, function (Faker $faker) {
         'threshold' => 1000,
         'number' => null,
         'allowance' => 1,
-        'scenario' => 'register',
+        'scenario' => 'register', // register - 新用户注册; page - 用户页面领取; admin - 系统后台发放
         'sort' => 0,
         'started_at' => $now,
         'stopped_at' => $stopped_at,

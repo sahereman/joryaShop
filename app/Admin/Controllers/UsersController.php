@@ -4,9 +4,10 @@ namespace App\Admin\Controllers;
 
 use App\Http\Requests\Request;
 use App\Mail\SendTemplateEmail;
+use App\Models\Coupon;
 use App\Models\EmailTemplate;
 use App\Models\User;
-
+use App\Models\UserCoupon;
 use App\Notifications\AdminCustomNotification;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
@@ -14,6 +15,7 @@ use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Show;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Notification;
@@ -97,10 +99,8 @@ class UsersController extends Controller
             $form->listbox('user_ids', '选择用户')->options(User::where('id', $id)->get()->pluck('name', 'id'));
         }
 
-
         $form->textarea('title', '标题');
         $form->text('link', '链接');
-
 
         return $form;
     }
@@ -124,7 +124,6 @@ class UsersController extends Controller
             'link' => '链接',
         ]);
 
-
         $users = User::whereIn('id', $data['user_ids'])->get();
 
         $users->each(function ($user) use ($data) {
@@ -140,7 +139,6 @@ class UsersController extends Controller
             ->row("<center><h3>发送站内信成功</h3></center>")
             ->row("<center><a href='" . route('admin.users.index') . "'>返回用户列表</a></center>");
     }
-
 
     public function sendEmailShow($id = null, Content $content)
     {
@@ -168,7 +166,6 @@ class UsersController extends Controller
         $form->select('email_template', '选择邮件模板')->options(EmailTemplate::all()->pluck('name', 'id'));
         $form->html('<a class="btn btn-primary email_preview">预览邮件</a>', '预览邮件');
 
-
         $form->html('<script type="text/javascript">
                         $(document).ready(function () {
                             $(".email_preview").on("click", function () {
@@ -177,7 +174,6 @@ class UsersController extends Controller
                             });
                         });
                     </script>');
-
 
         return $form;
     }
@@ -213,6 +209,84 @@ class UsersController extends Controller
             ->row("<center><a href='" . route('admin.users.index') . "'>返回用户列表</a></center>");
     }
 
+    public function sendCouponShow(User $user = null, Content $content)
+    {
+        $coupon = null;
+        if ($coupon_id = request()->query('coupon_id')) {
+            $coupon = Coupon::find($coupon_id);
+        }
+        return $content
+            ->header('发送站内信')
+            ->body($this->sendCouponForm($user, $coupon));
+    }
+
+    protected function sendCouponForm($user, $coupon)
+    {
+        $form = new Form(new User());
+        $form->setAction(route('admin.users.send_coupon.store'));
+        $form->tools(function (Form\Tools $tools) {
+            $tools->disableList();
+            $tools->disableDelete();
+            $tools->disableView();
+        });
+
+        if ($coupon == null) {
+            $form->select('coupon_id')->options(Coupon::where(['scenario' => 'admin'])->get()->filter(function (Coupon $coupon) {
+                return $coupon->status == '已启用';
+            })->pluck('name', 'id'));
+        } else {
+            /*$form->hidden('coupon_id')->default($coupon->id);
+            $form->display('优惠券')->default($coupon->name);*/
+            $form->select('coupon_id')->options(Coupon::where(['scenario' => 'admin'])->get()->filter(function (Coupon $coupon) {
+                return $coupon->status == '已启用';
+            })->pluck('name', 'id'))->default($coupon->id);
+        }
+
+        if ($user == null) {
+            $form->listbox('user_ids', '选择用户')->options(User::all()->pluck('name', 'id'));
+        } else {
+            $form->listbox('user_ids', '选择用户')->options(User::where('id', $user->id)->get()->pluck('name', 'id'))->default($user->id);
+        }
+
+        return $form;
+    }
+
+    public function sendCouponStore(Request $request, Content $content)
+    {
+        $data = $this->validate($request, [
+            'user_ids' => [
+                'required',
+                function ($attribute, $value, $fail) {
+                    if (User::whereIn('id', request()->input($attribute))->count() == 0) {
+                        $fail('请选择用户');
+                    }
+                },
+            ],
+            'coupon_id' => 'required'
+        ], [], [
+            'user_ids' => '用户',
+            'coupon_id' => '优惠券'
+        ]);
+
+        $users = User::whereIn('id', $data['user_ids'])->get();
+        $coupon = Coupon::find($data['coupon_id']);
+        $users->each(function ($user) use ($data, $coupon) {
+            UserCoupon::create([
+                'user_id' => $user->id,
+                'coupon_id' => $data['coupon_id'],
+                'got_at' => Carbon::now()->toDateTimeString()
+            ]);
+            $user->notify(new AdminCustomNotification([
+                'title' => 'You just received a new coupon: ' . $coupon->name,
+                'link' => ''
+            ]));
+        });
+
+        return $content
+            ->row("<center><h3>发送优惠券成功</h3></center>")
+            ->row("<center><a href='" . route('admin.users.index') . "'>返回用户列表</a></center>");
+    }
+
     /**
      * Make a grid builder.
      * @return Grid
@@ -241,6 +315,7 @@ class UsersController extends Controller
             $buttons = '';
             $buttons .= '<a class="btn btn-xs btn-primary" style="margin-right:8px" href="' . route('admin.users.send_email.show', ['id' => $this->id]) . '">邮件</a>';
             $buttons .= '<a class="btn btn-xs btn-primary" style="margin-right:8px" href="' . route('admin.users.send_message.show', ['id' => $this->id]) . '">站内信</a>';
+            $buttons .= '<a class="btn btn-xs btn-primary" style="margin-right:8px" href="' . route('admin.users.send_coupon.show', ['id' => $this->id]) . '">优惠券</a>';
             return $buttons;
         });
 

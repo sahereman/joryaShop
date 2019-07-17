@@ -2,6 +2,7 @@
 
 namespace App\Admin\Controllers;
 
+use App\Admin\Extensions\Ajax\Ajax_Icon;
 use App\Models\Coupon;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
@@ -134,7 +135,12 @@ class CouponsController extends Controller
         $grid->supported_product_type_string('支持商品类型');
 
         $grid->scenario('用户领取场景')->display(function ($value) {
-            return Coupon::$couponScenarioMap[$value];
+            if ($value != Coupon::COUPON_SCENARIO_ADMIN) {
+                return Coupon::$couponScenarioMap[$value];
+            } else {
+                // return '<a href="' . $this->getKey() . '">' . Coupon::$couponScenarioMap[$value] . '</a>';
+                return '<a href="' . route('admin.users.send_coupon.show') . '?coupon_id=' . $this->id . '">' . Coupon::$couponScenarioMap[$value] . '</a>';
+            }
         });
 
         $grid->period('限时时段');

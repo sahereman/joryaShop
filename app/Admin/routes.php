@@ -19,10 +19,12 @@ Route::group([
     $router->post('configs/submit', 'ConfigsController@submit')->name('admin.configs.submit');/*提交*/
 
     /*用户*/
-    $router->get('users/send_message/{id?}', 'UsersController@sendMessageShow')->name('admin.users.send_message.show');/*站内信 页面*/
-    $router->post('users/send_message', 'UsersController@sendMessageStore')->name('admin.users.send_message.store');/*站内信 请求处理*/
-    $router->get('users/send_email/{id?}', 'UsersController@sendEmailShow')->name('admin.users.send_email.show');/*邮件 页面*/
-    $router->post('users/send_email', 'UsersController@sendEmailStore')->name('admin.users.send_email.store');/*邮件 请求处理*/
+    $router->get('users/send_message/{id?}', 'UsersController@sendMessageShow')->name('admin.users.send_message.show'); /*群发站内信 页面*/
+    $router->post('users/send_message', 'UsersController@sendMessageStore')->name('admin.users.send_message.store'); /*群发站内信 请求处理*/
+    $router->get('users/send_email/{id?}', 'UsersController@sendEmailShow')->name('admin.users.send_email.show'); /*群发邮件 页面*/
+    $router->post('users/send_email', 'UsersController@sendEmailStore')->name('admin.users.send_email.store'); /*群发邮件 请求处理*/
+    $router->get('users/send_coupon/{user?}', 'UsersController@sendCouponShow')->name('admin.users.send_coupon.show'); /*群发优惠券 页面*/
+    $router->post('users/send_coupon', 'UsersController@sendCouponStore')->name('admin.users.send_coupon.store'); /*群发优惠券 请求处理*/
     /* --- */
     $router->get('users', 'UsersController@index')->name('admin.users.index');
     $router->get('users/create', 'UsersController@create')->name('admin.users.create');
