@@ -68,6 +68,8 @@ Route::group([
     $router->post('products/{product}/sort_photos', 'ProductsController@sortPhotos')->name('admin.products.sort_photos');
     $router->get('products/{product}/sku_generator', 'ProductsController@skuGeneratorShow')->name('admin.products.sku_generator_show');
     $router->post('products/{product}/sku_generator', 'ProductsController@skuGeneratorStore')->name('admin.products.sku_generator_store');
+    $router->get('products/{product}/sku_editor', 'ProductsController@skuEditorShow')->name('admin.products.sku_editor_show');
+    $router->post('products/{product}/sku_editor', 'ProductsController@skuEditorStore')->name('admin.products.sku_editor_store');
 
     /*产品SKU*/
     $router->resource('product_skus', ProductSkusController::class)->names('admin.product_skus');

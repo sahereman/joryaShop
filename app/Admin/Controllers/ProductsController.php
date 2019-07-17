@@ -7,6 +7,7 @@ use App\Admin\Extensions\Ajax\Ajax_Icon;
 use App\Admin\Models\Product;
 use App\Admin\Models\ProductSku;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\SkuEditorRequest;
 use App\Http\Requests\Admin\SkuGeneratorRequest;
 use App\Http\Requests\Request;
 use App\Models\Attr;
@@ -195,6 +196,11 @@ class ProductsController extends Controller
             // $tools->disableList();
             // $tools->disableDelete();
             $tools->append('<div class="btn-group pull-right" style="margin-right: 5px">'
+                . '<a href="' . route('admin.products.sku_editor_show', ['product' => $id]) . '" class="btn btn-sm btn-success">'
+                . '<i class="fa fa-archive"></i>&nbsp;SKU 编辑器'
+                . '</a>'
+                . '</div>&nbsp;'
+                . '<div class="btn-group pull-right" style="margin-right: 5px">'
                 . '<a href="' . route('admin.product_skus.index', ['product_id' => $id]) . '" class="btn btn-sm btn-success">'
                 . '<i class="fa fa-list"></i>&nbsp;SKU - 列表'
                 . '</a>'
@@ -392,7 +398,12 @@ class ProductsController extends Controller
             $form->tools(function (Form\Tools $tools) use ($product_id) {
                 $tools->append('<div class="btn-group pull-right" style="margin-right: 5px">'
                     . '<a href="' . route('admin.products.sku_generator_show', ['product' => $product_id]) . '" class="btn btn-sm btn-success">'
-                    . '<i class="fa fa-archive"></i>&nbsp;SKU生成器'
+                    . '<i class="fa fa-archive"></i>&nbsp;SKU 生成器'
+                    . '</a>'
+                    . '</div>&nbsp;'
+                    . '<div class="btn-group pull-right" style="margin-right: 5px">'
+                    . '<a href="' . route('admin.products.sku_editor_show', ['product' => $product_id]) . '" class="btn btn-sm btn-success">'
+                    . '<i class="fa fa-archive"></i>&nbsp;SKU 编辑器'
                     . '</a>'
                     . '</div>&nbsp;'
                     . '<div class="btn-group pull-right" style="margin-right: 5px">'
@@ -672,7 +683,7 @@ class ProductsController extends Controller
         }
         return $content
             ->header('商品管理')
-            ->description('商品 - SKU生成器')
+            ->description('商品 - SKU 生成器')
             ->body(view('admin.product.sku_generator', [
                 'product' => $product,
                 'messages' => $messages,
@@ -741,5 +752,38 @@ class ProductsController extends Controller
             default:
                 return redirect()->route('admin.products.show', ['product' => $product->id]);
         }
+    }
+
+    public function skuEditorShow(Request $request, Product $product, Content $content)
+    {
+        $errors = $request->session()->get('errors');
+        $messages = [];
+        if ($errors instanceof ViewErrorBag) {
+            $messages = $errors->getMessages();
+        }
+        return $content
+            ->header('商品管理')
+            ->description('商品 - SKU 编辑器')
+            ->body(view('admin.product.sku_editor', [
+                'product' => $product,
+                'messages' => $messages,
+            ]));
+    }
+
+    public function skuEditorStore(SkuEditorRequest $request, Product $product)
+    {
+        $skus = $request->input('skus');
+        foreach ($skus as $sku_id => $sku) {
+            if ($sku['stock_increment']) {
+                $sku['stock'] += $sku['stock_increment'];
+            }
+            if ($sku['stock_decrement']) {
+                $sku['stock'] -= $sku['stock_decrement'];
+            }
+            unset($sku['stock_increment']);
+            unset($sku['stock_decrement']);
+            ProductSku::find($sku_id)->update($sku);
+        }
+        return redirect()->route('admin.products.show', ['product' => $product->id]);
     }
 }
