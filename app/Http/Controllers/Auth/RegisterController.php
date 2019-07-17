@@ -8,11 +8,15 @@ use App\Http\Requests\RegisterEmailCodeRequest;
 use App\Http\Requests\RegisterEmailCodeValidationRequest;
 use App\Http\Requests\SmsCodeRegisterRequest;
 use App\Http\Requests\SmsCodeRegisterValidationRequest;
+use App\Models\Coupon;
 use App\Models\User;
+use App\Models\UserCoupon;
 use App\Models\UserHistory;
+use App\Notifications\AdminCustomNotification;
 use App\Rules\RegisterSmsCodeValidRule;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\URL;
@@ -182,6 +186,26 @@ class RegisterController extends Controller
 
         // user browsing history - initialization
         $this->initializeUserBrowsingHistoryCacheByUser($user);
+
+        /* Send coupons to the newly registered user */
+        $coupons = Coupon::where(['scenario' => Coupon::COUPON_SCENARIO_REGISTER])->get()->filter(function (Coupon $coupon) {
+            return $coupon->status == '已启用';
+        });
+        $coupon_names = '';
+        $coupons->each(function (Coupon $coupon) use ($user, &$coupon_names) {
+            UserCoupon::create([
+                'user_id' => $user->id,
+                'coupon_id' => $coupon->id,
+                'got_at' => Carbon::now()->toDateTimeString()
+            ]);
+            $coupon_names .= $coupon->name . ', ';
+        });
+        $coupon_count = $coupons->count();
+        $coupon_names = substr($coupon_names, 0, -2);
+        $user->notify(new AdminCustomNotification([
+            'title' => 'You just received ' . $coupon_count . ' new coupons: ' . $coupon_names,
+            'link' => ''
+        ]));
 
         return response()->json([
             'code' => 200,
