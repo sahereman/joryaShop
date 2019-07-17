@@ -18,7 +18,7 @@ class AdminTablesSeeder extends Seeder
                 'name' => '用户管理',
                 'slug' => 'users',
                 'http_method' => '',
-                'http_path' => "/users\r\n/user_addresses\r\n/user_favourites",
+                'http_path' => "/users\r\n/user_addresses\r\n/user_favourites\r\n/distribution_levels",
             ],
             [
                 'name' => '产品管理',
@@ -178,7 +178,13 @@ class AdminTablesSeeder extends Seeder
                 'icon' => 'fa-codiepie',
                 'uri' => 'users/send_coupon',
             ],
-
+            [
+                'parent_id' => 12,
+                'order' => 5,
+                'title' => '分销等级',
+                'icon' => 'fa-arrows',
+                'uri' => 'distribution_levels',
+            ],
             // 产品
             [
                 'parent_id' => 13,

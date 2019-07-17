@@ -383,9 +383,13 @@ class UsersController extends Controller
         $show->country_code('国家|地区码');
         $show->phone('手机号');
         $show->divider();
+        $show->created_at('创建时间');
+        $show->updated_at('更新时间');
+
+
         $show->coupons('优惠券 - 列表', function ($coupon) {
             /*禁用*/
-            // $sku->disableActions();
+            $coupon->disableActions();
             $coupon->disableRowSelector();
             $coupon->disableExport();
             $coupon->disableFilter();
@@ -401,9 +405,27 @@ class UsersController extends Controller
                 return $value ?: '尚未使用';
             });
         });
-        $show->divider();
-        $show->created_at('创建时间');
-        $show->updated_at('更新时间');
+
+        $show->money_bills('金额账单', function ($bill) {
+
+            $bill->model()->orderBy('created_at', 'desc');
+            /*禁用*/
+            $bill->disableActions();
+            $bill->disableRowSelector();
+            $bill->disableExport();
+            $bill->disableFilter();
+            $bill->disableCreateButton();
+
+            $bill->created_at('时间')->sortable();
+
+            $bill->type('类型')->sortable();
+            $bill->description('描述');
+
+            $bill->operator(' ');
+            $bill->number('数额');
+            $bill->currency('币种');
+        });
+
 
         return $show;
     }

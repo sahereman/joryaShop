@@ -61,15 +61,22 @@ class OrdersSeeder extends Seeder
             'total_amount' => $this->totalAmount,
             'closed_at' => $earlier,
         ]);
-        factory(Order::class, 10)->create([
-            'status' => Order::ORDER_STATUS_SHIPPING,
-            'snapshot' => $this->makeRandomSnapshot(),
-            'total_shipping_fee' => $this->totalShippingFee,
-            'total_amount' => $this->totalAmount,
-            'payment_sn' => 'PAYMENT_SN_ALIPAY_88888888',
-            'payment_method' => Order::PAYMENT_METHOD_ALIPAY,
-            'paid_at' => $earlier,
-        ]);
+
+        //待发货订单
+        for ($i = 0; $i <= 10; $i++)
+        {
+            $order = factory(Order::class)->create([
+                'status' => Order::ORDER_STATUS_SHIPPING,
+                'snapshot' => $this->makeRandomSnapshot(),
+                'total_shipping_fee' => $this->totalShippingFee,
+                'total_amount' => $this->totalAmount,
+                'payment_sn' => 'PAYMENT_SN_ALIPAY_88888888',
+                'payment_method' => Order::PAYMENT_METHOD_ALIPAY,
+                'paid_at' => $earlier,
+            ]);
+            event(new \App\Events\OrderPaidEvent($order));
+        }
+
         factory(Order::class, 10)->create([
             'status' => Order::ORDER_STATUS_RECEIVING,
             'snapshot' => $this->makeRandomSnapshot(),
@@ -116,7 +123,8 @@ class OrdersSeeder extends Seeder
         $sku_count = ProductSku::all()->count();
         $random_count = random_int(1, 3);
         $random_snapshot = [];
-        for ($i = 0; $i < $random_count; $i++) {
+        for ($i = 0; $i < $random_count; $i++)
+        {
             $random_sku_id = random_int(1, $sku_count);
             $random_sku = ProductSku::find($random_sku_id);
             $random_snapshot[$i]['sku_id'] = $random_sku_id;

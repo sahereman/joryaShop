@@ -124,6 +124,9 @@ Route::group([
     $router->get('email_templates/preview/{email_template}', 'EmailTemplatesController@preview')->name('admin.email_templates.preview');
     $router->resource('email_templates', EmailTemplatesController::class)->names('admin.email_templates');
 
+    /*分销等级*/
+    $router->resource('distribution_levels', DistributionLevelsController::class)->names('admin.distribution_levels');
+
     // $router->resource('example', ExampleController::class)->names('admin.example');
     // $router->get('example', 'ExampleController@index')->name('admin.example.index');
     // $router->get('example/create', 'ExampleController@create')->name('admin.example.create');

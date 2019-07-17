@@ -70,9 +70,11 @@
             </tr>
             @foreach($order->items as $item)
                 <tr>
-                    <td>{{ $item->sku->product->name_zh }}</td>
-                    {{--<td>{{ $item->sku->name_zh }} </td>--}}
-                    <td>{{ $item->sku->parameters_zh }} </td>
+                    <td><a href="{{route('admin.products.show',$item->sku->product->id)}}">{{ $item->sku->product->name_en }}</a></td>
+                    <td>{{ $item->sku->base_size_en }}
+                        | {{ $item->sku->hair_colour_en }}
+                        | {{ $item->sku->hair_density_en }}
+                    </td>
                     <td>{{ $item->price }}</td>
                     <td>{{ $item->number }}</td>
                 </tr>
@@ -85,25 +87,25 @@
             </tr>--}}
 
             @if ($order->status === \App\Models\Order::ORDER_STATUS_PAYING)
-                        <tr>
-                            <td colspan="5">
-                                <form action="{{ route('admin.orders.modify', ['order' => $order->id]) }}" method="post" class="form-inline" style="padding: 18px 0">
-                                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                    <div class="form-group {{ $errors->has('total_shipping_fee') ? 'has-error' : '' }}" style="margin-right: 20px;">
-                                        <label for="total_shipping_fee" style="margin-left: 20px;">运费：</label>
-                                        <input type="text" name="total_shipping_fee" id="total_shipping_fee" value="{{ $order->total_shipping_fee }}">
-                                        <span style="margin-left: 20px;">金额：</span>
-                                        <span>{{ $order->total_amount }}</span>
-                                        @if($errors->has('total_shipping_fee'))
-                                            @foreach($errors->get('total_shipping_fee') as $msg)
-                                                <span class="help-block">{{ $msg }}</span>
-                                            @endforeach
-                                        @endif
-                                    </div>
-                                    <button type="submit" class="btn btn-success" id="ship-btn" style="margin-left: 20px;">确认修改</button>
-                                </form>
-                            </td>
-                        </tr>
+                <tr>
+                    <td colspan="5">
+                        <form action="{{ route('admin.orders.modify', ['order' => $order->id]) }}" method="post" class="form-inline" style="padding: 18px 0">
+                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                            <div class="form-group {{ $errors->has('total_shipping_fee') ? 'has-error' : '' }}" style="margin-right: 20px;">
+                                <label for="total_shipping_fee" style="margin-left: 20px;">运费：</label>
+                                <input type="text" name="total_shipping_fee" id="total_shipping_fee" value="{{ $order->total_shipping_fee }}">
+                                <span style="margin-left: 20px;">金额：</span>
+                                <span>{{ $order->total_amount }}</span>
+                                @if($errors->has('total_shipping_fee'))
+                                    @foreach($errors->get('total_shipping_fee') as $msg)
+                                        <span class="help-block">{{ $msg }}</span>
+                                    @endforeach
+                                @endif
+                            </div>
+                            <button type="submit" class="btn btn-success" id="ship-btn" style="margin-left: 20px;">确认修改</button>
+                        </form>
+                    </td>
+                </tr>
             @elseif ($order->status === \App\Models\Order::ORDER_STATUS_SHIPPING)
                 <!-- 订单发货开始 -->
                 <!-- 如果订单未发货，展示发货表单 -->

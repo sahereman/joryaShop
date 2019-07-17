@@ -77,5 +77,8 @@ class DatabaseSeeder extends Seeder
         // 定制商品
         $this->call(CustomAttrsSeeder::class);
         $this->call(CustomAttrValuesSeeder::class);
+
+        //分销级别
+        $this->call(DistributionLevelsSeeder::class);
     }
 }

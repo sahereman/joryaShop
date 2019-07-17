@@ -1,8 +1,6 @@
 <?php
 
-Route::get('test', function () {
-    dd('test');
-});
+Route::get('test', 'IndexController@test');
 
 Route::get('locale/{locale}', 'IndexController@localeUpdate')->name('locale.update'); // 修改网站语言
 Route::get('currency/{currency}', 'IndexController@currencyUpdate')->name('currency.update'); // 修改币种
