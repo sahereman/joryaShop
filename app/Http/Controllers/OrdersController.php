@@ -267,7 +267,7 @@ class OrdersController extends Controller
                     foreach ($product_types as $product_type) {
                         if (in_array($product_type, $coupon->supported_product_types)) {
                             $available_coupons[] = $coupon;
-                            continue;
+                            break;
                         }
                     }
                 }
