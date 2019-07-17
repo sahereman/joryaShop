@@ -232,13 +232,13 @@ class UsersController extends Controller
 
         if ($coupon == null) {
             $form->select('coupon_id')->options(Coupon::where(['scenario' => 'admin'])->get()->filter(function (Coupon $coupon) {
-                return $coupon->status == '已启用';
+                return $coupon->status == Coupon::COUPON_STATUS_USING;
             })->pluck('name', 'id'));
         } else {
             /*$form->hidden('coupon_id')->default($coupon->id);
             $form->display('优惠券')->default($coupon->name);*/
             $form->select('coupon_id')->options(Coupon::where(['scenario' => 'admin'])->get()->filter(function (Coupon $coupon) {
-                return $coupon->status == '已启用';
+                return $coupon->status == Coupon::COUPON_STATUS_USING;
             })->pluck('name', 'id'))->default($coupon->id);
         }
 

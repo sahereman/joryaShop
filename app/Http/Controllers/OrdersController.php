@@ -16,6 +16,7 @@ use App\Models\Cart;
 
 // use App\Models\Config;
 // use App\Models\ExchangeRate;
+use App\Models\Coupon;
 use App\Models\Order;
 // use App\Models\OrderItem;
 use App\Models\OrderRefund;
@@ -25,6 +26,7 @@ use App\Models\ProductSku;
 use App\Models\ShipmentCompany;
 // use App\Models\User;
 use App\Models\UserAddress;
+use App\Models\UserCoupon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\App;
@@ -186,9 +188,11 @@ class OrdersController extends Controller
         // $total_shipping_fee_en = 0;
         $items = [];
         $is_nil = true;
+        $product_types = [];
         if ($request->has('sku_id') && $request->has('number')) {
             $sku = ProductSku::find($request->query('sku_id'));
             $product = $sku->product;
+            $product_types[] = $product->type;
             $number = $request->query('number');
             $items[0]['sku'] = $sku;
             $items[0]['product'] = $product;
@@ -217,6 +221,9 @@ class OrdersController extends Controller
                 }
                 // $sku->price_in_usd = ExchangeRate::exchangePrice($sku->price, 'USD');
                 $product = $sku->product;
+                if (!in_array($product->type, $product_types)) {
+                    $product_types[] = $product->type;
+                }
                 // $product->shipping_fee_in_usd = ExchangeRate::exchangePrice($product->shipping_fee, 'USD');
                 $items[$key]['sku'] = $sku;
                 $items[$key]['product'] = $product;
@@ -240,6 +247,7 @@ class OrdersController extends Controller
         }
 
         $address = false;
+        $available_coupons = [];
         if ($user) {
             $addresses = $user->addresses()->latest('last_used_at')->latest('updated_at')->latest()->get();
             if ($addresses->isNotEmpty()) {
@@ -251,6 +259,19 @@ class OrdersController extends Controller
                     $address = $addresses->first();
                 }
             }
+            $coupons = $user->user_coupons->map(function (UserCoupon $userCoupon) {
+                return $userCoupon->proto_coupon;
+            });
+            $coupons->each(function (Coupon $coupon) use ($product_types, &$available_coupons) {
+                if ($coupon->status == Coupon::COUPON_STATUS_USING) {
+                    foreach ($product_types as $product_type) {
+                        if (in_array($product_type, $coupon->supported_product_types)) {
+                            $available_coupons[] = $coupon;
+                            continue;
+                        }
+                    }
+                }
+            });
         }
 
         return view('orders.pre_payment', [
@@ -262,6 +283,7 @@ class OrdersController extends Controller
             // 'total_shipping_fee_en' => $total_shipping_fee_en,
             'total_fee' => $total_fee,
             // 'total_fee_en' => $total_fee_en,
+            'available_coupons' => $available_coupons
         ]);
     }
 

@@ -189,7 +189,7 @@ class RegisterController extends Controller
 
         /* Send coupons to the newly registered user */
         $coupons = Coupon::where(['scenario' => Coupon::COUPON_SCENARIO_REGISTER])->get()->filter(function (Coupon $coupon) {
-            return $coupon->status == '已启用';
+            return $coupon->status == Coupon::COUPON_STATUS_USING;
         });
         $coupon_names = '';
         $coupons->each(function (Coupon $coupon) use ($user, &$coupon_names) {

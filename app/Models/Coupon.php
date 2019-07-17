@@ -25,6 +25,16 @@ class Coupon extends Model
         self::COUPON_SCENARIO_REGISTER => '新用户注册'
     ];
 
+    const COUPON_STATUS_TOBEUSED = 'to_be_used';
+    const COUPON_STATUS_USING = 'using';
+    const COUPON_STATUS_EXPIRED = 'expired';
+
+    public static $couponStatusMap = [
+        self::COUPON_STATUS_TOBEUSED => '尚未启用',
+        self::COUPON_STATUS_USING => '已启用',
+        self::COUPON_STATUS_EXPIRED => '已过期'
+    ];
+
     /**
      * The attributes that are mass assignable.
      *
@@ -103,11 +113,11 @@ class Coupon extends Model
         $started_at = Carbon::make($this->attributes['started_at'])->getTimestamp();
         $stopped_at = Carbon::make($this->attributes['stopped_at'])->getTimestamp();
         if ($now < $started_at) {
-            return '尚未启用';
+            return 'to_be_used';
         } else if ($now > $stopped_at) {
-            return '已过期';
+            return 'expired';
         } else {
-            return '已启用';
+            return 'using';
         }
     }
 
@@ -133,7 +143,7 @@ class Coupon extends Model
     }
 
     /* Eloquent Relationships */
-    public function users()
+    public function user_coupons()
     {
         return $this->hasMany(UserCoupon::class);
     }

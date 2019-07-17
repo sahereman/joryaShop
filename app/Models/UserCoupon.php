@@ -96,9 +96,9 @@ class UserCoupon extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function coupon()
+    public function proto_coupon()
     {
-        return $this->belongsTo(Coupon::class);
+        return $this->belongsTo(Coupon::class, 'coupon_id');
     }
 
     public function order()
