@@ -10,6 +10,7 @@ $factory->define(App\Models\CustomAttr::class, function (Faker $faker) {
     // 传参为生成最大时间不超过，创建时间永远比更改时间要早
     $created_at = $faker->dateTimeThisMonth($updated_at);
     return [
+        'type' => 'BASE',
         'is_required' => true,
         'created_at' => $created_at,
         'updated_at' => $updated_at,

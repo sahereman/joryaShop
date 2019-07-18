@@ -83,6 +83,7 @@ class CustomAttrsController extends Controller
         $grid = new Grid(new CustomAttr);
 
         $grid->id('Id');
+        $grid->type('属性类型');
         $grid->name('属性名称');
         $grid->is_required('是否必填')->display(function ($value) {
             return $value ? '<span class="label label-primary">是</span>' : '<span class="label label-default">否</span>';
@@ -106,9 +107,10 @@ class CustomAttrsController extends Controller
         $show = new Show(CustomAttr::findOrFail($id));
 
         // $show->id('Id');
+        $show->type('属性类型');
         $show->name('属性名称');
         $show->is_required('是否必填')->as(function ($value) {
-            return $value ? '<span class="label label-primary">是</span>' : '<span class="label label-default">否</span>';
+            return $value ? '是' : '否';
         });
         $show->sort('排序值');
         $show->values('属性值 - 列表', function ($value) {
@@ -144,7 +146,9 @@ class CustomAttrsController extends Controller
     protected function form()
     {
         $form = new Form(new CustomAttr);
+        $form->html('<button class="btn btn-primary"><i class="fa fa-send"></i>&nbsp;提交</button>');
 
+        $form->select('type', '属性类型')->options(CustomAttr::$customAttrTypeMap);
         $form->text('name', '属性名称');
         $form->switch('is_required', '是否必填');
         $form->number('sort', '排序值');

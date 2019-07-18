@@ -13,28 +13,41 @@ class CustomAttrsSeeder extends Seeder
     public function run()
     {
         $custom_attrs = [
-            'Base Size',
-            'Base Design',
-            'Base Material Color',
-            'Front Contour',
-            'Scallop Front',
-            'Hair Length',
-            'Curl & Wave',
-            'Hair Density',
-            'Hair Direction',
-            'Hair Color',
-            'Grey Hair',
-            'Highlight',
-            'Bleach Knots',
-            'Hair Type',
-            'Hair Cut',
-            'Production Time'
+            'BASE' => [
+                'Base Size',
+                'Base Design',
+                'Base Material Color',
+                'Front Contour',
+                'Scallop Front'
+            ],
+            'HAIR' => [
+                'Hair Length',
+                'Curl & Wave',
+                'Hair Density',
+                'Hair Direction'
+            ],
+            'COLOR' => [
+                'Hair Color',
+                'Grey Hair',
+                'Highlight',
+                'Bleach Knots',
+                'Hair Type'
+            ],
+            'SERVICE' => [
+                'Hair Cut',
+                'Production Time'
+            ]
         ];
-        foreach ($custom_attrs as $key => $custom_attr) {
-            factory(CustomAttr::class)->create([
-                'name' => $custom_attr,
-                'sort' => $key + 1
-            ]);
+        $i = 0;
+        foreach ($custom_attrs as $type => $attrs) {
+            foreach ($attrs as $key => $attr) {
+                $i++;
+                factory(CustomAttr::class)->create([
+                    'type' => $type,
+                    'name' => $attr,
+                    'sort' => $i + 1
+                ]);
+            }
         }
     }
 }

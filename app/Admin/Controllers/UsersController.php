@@ -19,7 +19,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Notification;
-use Illuminate\Validation\Rule;
+// use Illuminate\Validation\Rule;
 
 class UsersController extends Controller
 {
@@ -387,21 +387,21 @@ class UsersController extends Controller
         $show->updated_at('更新时间');
 
 
-        $show->coupons('优惠券 - 列表', function ($coupon) {
+        $show->user_coupons('优惠券 - 列表', function ($userCoupon) {
             /*禁用*/
-            $coupon->disableActions();
-            $coupon->disableRowSelector();
-            $coupon->disableExport();
-            $coupon->disableFilter();
-            $coupon->disableCreateButton();
-            $coupon->disablePagination();
+            $userCoupon->disableActions();
+            $userCoupon->disableRowSelector();
+            $userCoupon->disableExport();
+            $userCoupon->disableFilter();
+            $userCoupon->disableCreateButton();
+            $userCoupon->disablePagination();
 
-            $coupon->coupon_name('优惠券名称');
-            $coupon->got_at('领取时间');
-            $coupon->is_used('是否已使用')->display(function ($value) {
+            $userCoupon->coupon_name('优惠券名称');
+            $userCoupon->got_at('领取时间');
+            $userCoupon->is_used('是否已使用')->display(function ($value) {
                 return $value ? '是' : '否';
             });
-            $coupon->order_sn('订单序列号')->display(function ($value) {
+            $userCoupon->order_sn('订单序列号')->display(function ($value) {
                 return $value ?: '尚未使用';
             });
         });

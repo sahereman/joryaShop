@@ -16,6 +16,8 @@ class CreateCustomAttrsTable extends Migration
         Schema::create('custom_attrs', function (Blueprint $table) {
             $table->increments('id');
 
+            $table->string('type')->nullable(false)->default('BASE')->comment('属性类型'); // Types: BASE | HAIR | COLOR | SERVICE
+
             $table->string('name')->nullable(false)->comment('定制商品 SKU 属性名称');
             $table->index('name');
 

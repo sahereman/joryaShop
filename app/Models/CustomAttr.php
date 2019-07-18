@@ -6,12 +6,25 @@ use Illuminate\Database\Eloquent\Model;
 
 class CustomAttr extends Model
 {
+    const CUSTOM_ATTR_TYPE_BASE = 'BASE';
+    const CUSTOM_ATTR_TYPE_HAIR = 'HAIR';
+    const CUSTOM_ATTR_TYPE_COLOR = 'COLOR';
+    const CUSTOM_ATTR_TYPE_SERVICE = 'SERVICE';
+
+    public static $customAttrTypeMap = [
+        self::CUSTOM_ATTR_TYPE_BASE => 'BASE',
+        self::CUSTOM_ATTR_TYPE_HAIR => 'HAIR',
+        self::CUSTOM_ATTR_TYPE_COLOR => 'COLOR',
+        self::CUSTOM_ATTR_TYPE_SERVICE => 'SERVICE'
+    ];
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
+        'type',
         'name',
         'is_required',
         'sort'

@@ -13,6 +13,7 @@ class ProductSkuCustomAttrValue extends Model
      */
     protected $fillable = [
         'product_sku_id',
+        'type',
         'name',
         'value',
         'sort'

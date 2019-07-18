@@ -49,7 +49,7 @@ class UserCoupon extends Model
 
     public function getCouponNameAttribute()
     {
-        return $this->coupon->name;
+        return $this->proto_coupon->name;
     }
 
     public function getOrderSnAttribute()

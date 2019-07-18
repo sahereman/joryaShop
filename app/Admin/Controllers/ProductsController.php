@@ -154,11 +154,7 @@ class ProductsController extends Controller
             return "<a target='_blank' href='" . route('products.show', ['product' => $this->id]) . "'><span style='width: 120px;display: inline-block;overflow: hidden'>$data</span></a>";
         });
         $grid->type('商品类型')->display(function ($type) {
-            $type_names = [
-                'common' => '普通',
-                'period' => '限时',
-                'auction' => '拍卖',
-            ];
+            $type_names = Product::$productTypeMap;
             return "<span>{$type_names[$type]}</span>";
         })->sortable();
         $grid->price('价格')->sortable();
@@ -189,23 +185,26 @@ class ProductsController extends Controller
     protected function detail($id)
     {
         $this->product_id = $id;
+        $product = Product::find($id);
         $show = new Show(Product::findOrFail($id));
 
-        $show->panel()->tools(function ($tools) use ($id) {
+        $show->panel()->tools(function ($tools) use ($product, $id) {
             // $tools->disableEdit();
             // $tools->disableList();
             // $tools->disableDelete();
-            $tools->append('<div class="btn-group pull-right" style="margin-right: 5px">'
-                . '<a href="' . route('admin.products.sku_editor_show', ['product' => $id]) . '" class="btn btn-sm btn-success">'
-                . '<i class="fa fa-archive"></i>&nbsp;SKU 编辑器'
-                . '</a>'
-                . '</div>&nbsp;'
-                . '<div class="btn-group pull-right" style="margin-right: 5px">'
-                . '<a href="' . route('admin.product_skus.index', ['product_id' => $id]) . '" class="btn btn-sm btn-success">'
-                . '<i class="fa fa-list"></i>&nbsp;SKU - 列表'
-                . '</a>'
-                . '</div>');
-            $product = Product::find($id);
+
+            if ($product->type != Product::PRODUCT_TYPE_CUSTOM) {
+                $tools->append('<div class="btn-group pull-right" style="margin-right: 5px">'
+                    . '<a href="' . route('admin.products.sku_editor_show', ['product' => $id]) . '" class="btn btn-sm btn-success">'
+                    . '<i class="fa fa-archive"></i>&nbsp;SKU 编辑器'
+                    . '</a>'
+                    . '</div>&nbsp;'
+                    . '<div class="btn-group pull-right" style="margin-right: 5px">'
+                    . '<a href="' . route('admin.product_skus.index', ['product_id' => $id]) . '" class="btn btn-sm btn-success">'
+                    . '<i class="fa fa-list"></i>&nbsp;SKU - 列表'
+                    . '</a>'
+                    . '</div>');
+            }
             if ($product->type == Product::PRODUCT_TYPE_PERIOD) {
                 if ($period_product = $product->period) {
                     $tools->append('<div class="btn-group pull-right" style="margin-right: 5px">'
@@ -316,29 +315,31 @@ class ProductsController extends Controller
             $param->value('商品参数值');
         });
 
-        $show->skus('SKU 列表', function ($sku) {
-            /*禁用*/
-            // $sku->disableActions();
-            $sku->disableRowSelector();
-            $sku->disableExport();
-            $sku->disableFilter();
-            $sku->disableCreateButton();
-            $sku->disablePagination();
+        if ($product->type != Product::PRODUCT_TYPE_CUSTOM) {
+            $show->skus('SKU 列表', function ($sku) {
+                /*禁用*/
+                // $sku->disableActions();
+                $sku->disableRowSelector();
+                $sku->disableExport();
+                $sku->disableFilter();
+                $sku->disableCreateButton();
+                $sku->disablePagination();
 
-            $sku->resource('/admin/product_skus');
+                $sku->resource('/admin/product_skus');
 
-            // $sku->name_zh('SKU 名称(中文)');
-            // $sku->name_en('SKU 名称(英文)');
+                // $sku->name_zh('SKU 名称(中文)');
+                // $sku->name_en('SKU 名称(英文)');
 
-            $sku->photo('Photo')->image('', 60)->display(function ($data) use ($sku) {
-                return '<a target="_blank" href="' . route('admin.product_skus.show', ['product_skus' => $this->getKey()]) . '">' . $data . '</a>';
+                $sku->photo('Photo')->image('', 60)->display(function ($data) use ($sku) {
+                    return '<a target="_blank" href="' . route('admin.product_skus.show', ['product_skus' => $this->getKey()]) . '">' . $data . '</a>';
+                });
+
+                $sku->price('单价');
+                $sku->stock('库存');
+                $sku->sales('销量');
+                $sku->attr_value_string('SKU 属性概况');
             });
-
-            $sku->price('单价');
-            $sku->stock('库存');
-            $sku->sales('销量');
-            $sku->attr_value_string('SKU 属性概况');
-        });
+        }
 
         $show->comments('评价列表', function ($comment) {
             /*禁用*/
@@ -580,7 +581,7 @@ class ProductsController extends Controller
                 return redirect()->route('admin.products.index');
             }
 
-            if (request()->input('_from_') == Builder::MODE_CREATE) {
+            if (request()->input('_from_') == Builder::MODE_CREATE && $product->type != Product::PRODUCT_TYPE_CUSTOM) {
                 return redirect()->route('admin.products.sku_generator_show', ['product' => $product_id]);
             }
         });
