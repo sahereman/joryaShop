@@ -50,11 +50,12 @@ class Order extends Model
     protected $fillable = [
         'order_sn',
         'user_id',
+        'payment_id',
         'user_info',
         'status',
         'currency',
-        'payment_method',
-        'payment_sn',
+        // 'payment_method',
+        // 'payment_sn',
         'shipment_company',
         'shipment_sn',
         'snapshot',
@@ -93,7 +94,7 @@ class Order extends Model
      * @var array
      */
     protected $dates = [
-        'paid_at',
+        // 'paid_at',
         'to_be_closed_at',
         'closed_at',
         'shipped_at',
@@ -107,7 +108,11 @@ class Order extends Model
      * The accessors to append to the model's array form.
      * @var array
      */
-    protected $appends = [];
+    protected $appends = [
+        'payment_method',
+        'payment_sn',
+        'paid_at'
+    ];
 
     protected static function boot()
     {
@@ -150,16 +155,60 @@ class Order extends Model
         return $user_info['name'];
     }
 
+    public function getPaymentMethodAttribute()
+    {
+        if ($this->payment) {
+            return $this->payment->payment_method;
+        }
+        return '';
+    }
+
+    public function getPaymentSnAttribute()
+    {
+        if ($this->payment) {
+            return $this->payment->payment_sn;
+        }
+        return '';
+    }
+
+    public function getPaidAtAttribute()
+    {
+        if ($this->payment) {
+            return $this->payment->paid_at;
+        }
+        return '';
+    }
+
     /* Mutators */
     public function setUserNameAttribute($value)
     {
         unset($this->attributes['user_name']);
     }
 
+    public function setPaymentMethodAttribute($value)
+    {
+        unset($this->attributes['payment_method']);
+    }
+
+    public function setPaymentSnAttribute($value)
+    {
+        unset($this->attributes['payment_sn']);
+    }
+
+    public function setPaidAtAttribute($value)
+    {
+        unset($this->attributes['paid_at']);
+    }
+
     /* Eloquent Relationships */
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function payment()
+    {
+        return $this->belongsTo(Payment::class);
     }
 
     public function items()
