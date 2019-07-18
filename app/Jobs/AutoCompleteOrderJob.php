@@ -2,14 +2,13 @@
 
 namespace App\Jobs;
 
+use App\Events\OrderCompletedEvent;
 use App\Models\Order;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\DB;
 
 class AutoCompleteOrderJob implements ShouldQueue
 {
@@ -23,11 +22,9 @@ class AutoCompleteOrderJob implements ShouldQueue
      * @param $time_to_complete_order integer unit:seconds
      * @return void
      */
-    public function __construct(Order $order, $time_to_complete_order)
+    public function __construct(Order $order)
     {
         $this->order = $order;
-        // 设置延迟的时间，delay() 方法的参数代表多少秒之后执行
-        $this->delay($time_to_complete_order);
     }
 
     // 定义这个任务类具体的执行逻辑
@@ -44,19 +41,7 @@ class AutoCompleteOrderJob implements ShouldQueue
         if ($this->order->status != Order::ORDER_STATUS_RECEIVING) {
             return;
         }
-        // 通过事务执行 sql
-        DB::transaction(function () {
-            // 将订单的 status 字段标记为 completed，即确认订单
-            $this->order->update([
-                'status' => Order::ORDER_STATUS_COMPLETED,
-                'completed_at' => Carbon::now()->toDateTimeString(),
-            ]);
 
-            // Product & Sku +销量
-            foreach ($this->order->items as $item) {
-                $item->sku->increment('sales', $item->number);
-                $item->sku->product->increment('sales', $item->number);
-            }
-        });
+        event(new OrderCompletedEvent($this->order));
     }
 }

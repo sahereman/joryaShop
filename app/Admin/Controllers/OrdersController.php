@@ -128,7 +128,7 @@ class OrdersController extends Controller
         event(new OrderShippedEvent($order));
 
         // 分派定时自动收货订单任务
-        $this->dispatch(new AutoCompleteOrderJob($order, Order::getSecondsToCompleteOrder()));
+        AutoCompleteOrderJob::dispatch($order)->delay(Order::getSecondsToCompleteOrder());
 
         // 返回上一页
         return redirect()->back();

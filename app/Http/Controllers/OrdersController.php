@@ -600,15 +600,6 @@ class OrdersController extends Controller
     {
         $this->authorize('close', $order);
 
-        // 通过事务执行 sql
-        DB::transaction(function () use ($order) {
-            // 将订单的 status 字段标记为 closed，即关闭订单
-            $order->update([
-                'status' => Order::ORDER_STATUS_CLOSED,
-                'close_at' => Carbon::now()->toDateTimeString(),
-            ]);
-        });
-
         event(new OrderClosedEvent($order));
 
         return response()->json([
@@ -622,14 +613,6 @@ class OrdersController extends Controller
     {
         $this->authorize('complete', $order);
 
-        // 通过事务执行 sql
-        DB::transaction(function () use ($order) {
-            // 将订单的 status 字段标记为 completed，即确认订单
-            $order->update([
-                'status' => Order::ORDER_STATUS_COMPLETED,
-                'completed_at' => Carbon::now()->toDateTimeString(),
-            ]);
-        });
         event(new OrderCompletedEvent($order));
         return response()->json([
             'code' => 200,
