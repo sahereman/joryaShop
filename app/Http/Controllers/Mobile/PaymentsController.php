@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Mobile;
 
+use App\Events\OrderPaidEvent;
 use App\Exceptions\InvalidRequestException;
 use App\Http\Controllers\Controller;
-use App\Http\Middleware\GetWechatOpenId;
+// use App\Http\Middleware\GetWechatOpenId;
 use App\Models\Order;
-use App\Models\OrderRefund;
+// use App\Models\OrderRefund;
+use App\Models\Payment as LocalPayment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Log;
@@ -16,10 +18,10 @@ use PayPal\Api\Amount;
 use PayPal\Api\Details;
 use PayPal\Api\Payer;
 use PayPal\Api\PayerInfo;
-use PayPal\Api\Payment;
+use PayPal\Api\Payment as PayPalPayment;
 use PayPal\Api\PaymentExecution;
 use PayPal\Api\RedirectUrls;
-use PayPal\Api\RefundRequest;
+// use PayPal\Api\RefundRequest;
 use PayPal\Api\Sale;
 use PayPal\Api\Transaction;
 use PayPal\Auth\OAuthTokenCredential;
@@ -30,33 +32,33 @@ use Yansongda\Pay\Pay;
 class PaymentsController extends Controller
 {
     /*Alipay Payment*/
-    public static function getAlipayConfig(Order $order)
+    public static function getAlipayConfig(LocalPayment $payment)
     {
         return array_merge(config('payment.alipay'), [
-            'notify_url' => route('payments.alipay.notify', ['order' => $order->id]),
-            'return_url' => route('mobile.payments.alipay.return', ['order' => $order->id]),
+            'notify_url' => route('payments.alipay.notify', ['payment' => $payment->id]),
+            'return_url' => route('mobile.payments.alipay.return', ['payment' => $payment->id]),
         ]);
     }
 
     // GET Alipay Mobile-Wap 支付页面
-    public function alipayWap(Request $request, Order $order)
+    public function alipayWap(Request $request, LocalPayment $payment)
     {
         // 判断订单是否属于当前用户
-        if ($request->user()->id !== $order->user_id) {
+        if ($request->user()->id !== $payment->user_id) {
             throw new InvalidRequestException('您没有权限操作此订单');
         }
         // 判断当前订单状态是否支持支付
-        if ($order->status !== Order::ORDER_STATUS_PAYING) {
+        if ($payment->paid_at) {
             throw new InvalidRequestException('当前订单状态不正确');
         }
 
-        Log::info('A New Alipay Mobile-Wap Payment Begins: order id - ' . $order->id);
+        Log::info('A New Alipay Mobile-Wap Payment Begins: local payment id - ' . $payment->id);
 
         // 调用Alipay的手机网站支付
-        return Pay::alipay($this->getAlipayConfig($order))->wap([
-            'out_trade_no' => $order->order_sn, // 订单编号，需保证在商户端不重复
-            'total_amount' => bcadd($order->total_amount, $order->total_shipping_fee, 2), // 订单金额，单位元，支持小数点后两位
-            'subject' => '请支付来自 Lyrical Hair 的订单：' . $order->order_sn, // 订单标题
+        return Pay::alipay($this->getAlipayConfig($payment))->wap([
+            'out_trade_no' => $payment->sn, // 支付序列号，需保证在商户端不重复
+            'total_amount' => $payment->amount, // 支付金额，单位元，支持小数点后两位
+            'subject' => '请支付来自 Lyrical Hair 的订单：' . $payment->sn, // 订单标题
         ]);
     }
 
@@ -78,13 +80,13 @@ class PaymentsController extends Controller
         "seller_id": "2088231964255230",
         "timestamp": "2018-11-22 13:53:52"
     }*/
-    public function alipayReturn(Request $request, Order $order)
+    public function alipayReturn(Request $request, LocalPayment $payment)
     {
         Log::info('Alipay Mobile-Wap Payment Return-Url : ' . $request->getUri());
 
         try {
             // 校验提交的参数是否合法
-            $data = Pay::alipay($this->getAlipayConfig($order))->verify();
+            $data = Pay::alipay($this->getAlipayConfig($payment))->verify();
             Log::info('A New Alipay Mobile-Wap Payment Return With Verified Data: ' . $data->toJson());
 
             //return $alipay->success();
@@ -92,27 +94,30 @@ class PaymentsController extends Controller
                 'msg' => '付款成功',
             ]);*/
             return view('mobile.payments.success', [
-                'order' => $order,
+                'payment' => $payment,
+                // 'orders' => $payment->orders,
+                'msg' => '付款成功',
             ]);
         } catch (\Exception $e) {
             // error_log($e->getMessage());
             /*return view('mobile.pages.error', [
                 'msg' => '付款失败',
             ]);*/
-            Log::error('A New Alipay Mobile-Wap Payment Return Failed: order id - ' . $order->id . '; With Error Message: ' . $e->getMessage());
+            Log::error('A New Alipay Mobile-Wap Payment Return Failed: local payment id - ' . $payment->id . '; With Error Message: ' . $e->getMessage());
             return view('mobile.payments.error', [
-                'order' => $order,
+                'payment' => $payment,
+                // 'orders' => $payment->orders,
                 'message' => $e->getMessage(),
             ]);
         }
     }
 
     /*Wechat Payment*/
-    public static function getWechatConfig(Order $order)
+    public static function getWechatConfig(LocalPayment $payment)
     {
         return array_merge(config('payment.wechat'), [
-            'notify_url' => route('payments.wechat.notify', ['order' => $order->id]),
-            'return_url' => route('mobile.payments.wechat_return', ['order' => $order->id]),
+            'notify_url' => route('payments.wechat.notify', ['payment' => $payment->id]),
+            'return_url' => route('mobile.payments.wechat_return', ['payment' => $payment->id]),
         ]);
     }
 
@@ -132,31 +137,31 @@ class PaymentsController extends Controller
         "trade_type": "NATIVE",
         "code_url": "weixin://wxpay/bizpayurl?pr=fHd7mdg"
     }*/
-    public function wechatMp(Request $request, Order $order)
+    public function wechatMp(Request $request, LocalPayment $payment)
     {
         // 判断订单是否属于当前用户
-        if ($request->user()->id !== $order->user_id) {
+        if ($request->user()->id !== $payment->user_id) {
             throw new InvalidRequestException('您没有权限操作此订单');
         }
         // 判断当前订单状态是否支持支付
-        if ($order->status !== Order::ORDER_STATUS_PAYING) {
+        if ($payment->paid_at) {
             throw new InvalidRequestException('当前订单状态不正确');
         }
 
-        Log::info('A New Wechat Mobile-Mp Payment Begins: order id - ' . $order->id);
+        Log::info('A New Wechat Mobile-Mp Payment Begins: local payment id - ' . $payment->id);
 
         try {
             $basic_user_info = Session::get('wechat-basic_user_info');
 
             // 调用Wechat的公众号支付(微信浏览器内支付)
-            $response = Pay::wechat($this->getWechatConfig($order))->mp([
-                'out_trade_no' => $order->order_sn, // 订单编号，需保证在商户端不重复
-                'body' => '请支付来自 Lyrical Hair 的订单：' . $order->order_sn, // 订单标题
-                'total_fee' => bcmul(bcadd($order->total_amount, $order->total_shipping_fee, 2), 100, 0), // 订单金额，单位分，参数值不能带小数点
+            $response = Pay::wechat($this->getWechatConfig($payment))->mp([
+                'out_trade_no' => $payment->sn, // 支付序列号，需保证在商户端不重复
+                'body' => '请支付来自 Lyrical Hair 的订单：' . $payment->sn, // 订单标题
+                'total_fee' => bcmul($payment->amount, 100, 0), // 支付金额，单位分，参数值不能带小数点
                 'openid' => $basic_user_info['openid'],
             ]);
 
-            Log::info('A New Wechat Mobile-Mp Payment Finished: order id - ' . $order->id . '; With Response: ' . $response->toJson());
+            Log::info('A New Wechat Mobile-Mp Payment Finished: local payment id - ' . $payment->id . '; With Response: ' . $response->toJson());
 
             return response()->json($response->toArray());
 
@@ -201,55 +206,57 @@ class PaymentsController extends Controller
             /*return view('mobile.pages.error', [
                 'msg' => '付款失败',
             ]);*/
-            Log::error('A New Wechat Mobile-Mp Payment Failed: order id - ' . $order->id . '; With Error Message: ' . $e->getMessage());
+            Log::error('A New Wechat Mobile-Mp Payment Failed: local payment id - ' . $payment->id . '; With Error Message: ' . $e->getMessage());
             return view('mobile.payments.error', [
-                'order' => $order,
+                'payment' => $payment,
+                // 'orders' => $payment->orders,
                 'message' => $e->getMessage(),
             ]);
         }
     }
 
     // GET Wechat Mobile-Wap 支付页面
-    public function wechatWap(Request $request, Order $order)
+    public function wechatWap(Request $request, LocalPayment $payment)
     {
         // 判断订单是否属于当前用户
-        if ($request->user()->id !== $order->user_id) {
+        if ($request->user()->id !== $payment->user_id) {
             throw new InvalidRequestException('您没有权限操作此订单');
         }
         // 判断当前订单状态是否支持支付
-        if ($order->status !== Order::ORDER_STATUS_PAYING) {
+        if ($payment->paid_at) {
             throw new InvalidRequestException('当前订单状态不正确');
         }
 
-        Log::info('A New Wechat Mobile-Wap Payment Begins: order id - ' . $order->id);
+        Log::info('A New Wechat Mobile-Wap Payment Begins: local payment id - ' . $payment->id);
         try {
             // 调用Wechat的手机网站支付
-            return Pay::wechat($this->getWechatConfig($order))->wap([
-                'out_trade_no' => $order->order_sn, // 订单编号，需保证在商户端不重复
-                'body' => '请支付来自 Lyrical Hair 的订单：' . $order->order_sn, // 订单标题
-                'total_fee' => bcmul(bcadd($order->total_amount, $order->total_shipping_fee, 2), 100, 0), // 订单金额，单位分，参数值不能带小数点
+            return Pay::wechat($this->getWechatConfig($payment))->wap([
+                'out_trade_no' => $payment->sn, // 支付序列号，需保证在商户端不重复
+                'body' => '请支付来自 Lyrical Hair 的订单：' . $payment->sn, // 订单标题
+                'total_fee' => bcmul($payment->amount, 100, 0), // 支付金额，单位分，参数值不能带小数点
             ]);
         } catch (\Exception $e) {
             // error_log($e->getMessage());
             /*return view('mobile.pages.error', [
                 'msg' => '付款失败',
             ]);*/
-            Log::error('A New Wechat Mobile-Wap Payment Failed: order id - ' . $order->id . '; With Error Message: ' . $e->getMessage());
+            Log::error('A New Wechat Mobile-Wap Payment Failed: local payment id - ' . $payment->id . '; With Error Message: ' . $e->getMessage());
             return view('mobile.payments.error', [
-                'order' => $order,
+                'payment' => $payment,
+                // 'orders' => $payment->orders,
                 'message' => $e->getMessage(),
             ]);
         }
     }
 
     /*Paypal Payment*/
-    public static function getPaypalConfig(Order $order)
+    public static function getPaypalConfig(LocalPayment $localPayment)
     {
         return array_merge(config('payment.paypal'), [
             'redirect_urls' => [
-                'return_url' => route('mobile.payments.paypal.execute', ['order' => $order->id]),
-                'cancel_url' => route('mobile.payments.paypal.execute', ['order' => $order->id]),
-                'notify_url' => route('payments.paypal.notify', ['order' => $order->id]),
+                'return_url' => route('mobile.payments.paypal.execute', ['payment' => $localPayment->id]),
+                'cancel_url' => route('mobile.payments.paypal.execute', ['payment' => $localPayment->id]),
+                'notify_url' => route('payments.paypal.notify', ['payment' => $localPayment->id]),
             ],
         ]);
         // return config('payment.paypal');
@@ -299,23 +306,23 @@ class PaymentsController extends Controller
             }
         ]
     }*/
-    public function paypalCreate(Request $request, Order $order)
+    public function paypalCreate(Request $request, LocalPayment $localPayment)
     {
         // 判断订单是否属于当前用户
-        if ($request->user()->id !== $order->user_id) {
+        if ($request->user()->id !== $localPayment->user_id) {
             throw new InvalidRequestException('您没有权限操作此订单');
         }
         // 判断当前订单状态是否支持支付
-        if ($order->status !== Order::ORDER_STATUS_PAYING) {
+        if ($localPayment->paid_at) {
             throw new InvalidRequestException('当前订单状态不正确');
         }
         // 判断PayPal是否支持当前订单支付币种
-        if (in_array($order->currency, ['CNY'])) {
-            throw new InvalidRequestException('Paypal暂不支持当前订单支付币种: ' . $order->currency);
+        if (in_array($localPayment->currency, ['CNY'])) {
+            throw new InvalidRequestException('Paypal暂不支持当前订单支付币种: ' . $localPayment->currency);
         }
 
         // Step-1: get an access token && create the api context
-        $config = $this->getPaypalConfig($order);
+        $config = $this->getPaypalConfig($localPayment);
         $oAuthTokenCredential = new OAuthTokenCredential($config[$config['mode']]['client_id'], $config[$config['mode']]['client_secret']);
         $apiContext = new ApiContext($oAuthTokenCredential);
         $apiContext->setConfig($config);
@@ -323,12 +330,11 @@ class PaymentsController extends Controller
 
         // Step-2: create a new payment
         $payer = new Payer();
-        $payer->setPaymentMethod(Order::PAYMENT_METHOD_PAYPAL); // paypal
+        $payer->setPaymentMethod(LocalPayment::PAYMENT_METHOD_PAYPAL); // paypal
 
         $amount = new Amount();
-        $totalFee = bcadd($order->total_amount, $order->total_shipping_fee, 2);
-        $amount->setTotal($totalFee);
-        $amount->setCurrency($order->currency);
+        $amount->setTotal($localPayment->amount)
+            ->setCurrency($localPayment->currency);
 
         $transaction = new Transaction($apiContext);
         $transaction->setAmount($amount);
@@ -338,37 +344,37 @@ class PaymentsController extends Controller
         $redirectUrls->setReturnUrl($config['redirect_urls']['return_url'])
             ->setCancelUrl($config['redirect_urls']['cancel_url']);
 
-        $payment = new Payment($apiContext);
-        $payment->setIntent('sale')
+        $paypalPayment = new PayPalPayment($apiContext);
+        $paypalPayment->setIntent('sale')
             ->setPayer($payer)
             ->setTransactions(array($transaction))
             ->setRedirectUrls($redirectUrls);
         try {
-            $payment->create($apiContext, $restCall);
-            if ($payment->getState() == 'created') {
-                $order->update([
-                    // 'payment_method' => $payment->getPayer()->getPaymentMethod(), // paypal
-                    'payment_method' => Order::PAYMENT_METHOD_PAYPAL,
-                    // 'payment_sn' => $payment->getToken(), // token
-                    'payment_sn' => $payment->getId(), // paymentId
+            $paypalPayment->create($apiContext, $restCall);
+            if ($paypalPayment->getState() == 'created') {
+                $localPayment->update([
+                    // 'method' => $paypalPayment->getPayer()->getPaymentMethod(), // paypal
+                    'method' => LocalPayment::PAYMENT_METHOD_PAYPAL,
+                    // 'payment_sn' => $paypalPayment->getToken(), // token
+                    'payment_sn' => $paypalPayment->getId(), // paymentId
                 ]);
-                Log::info("A New Paypal Mobile Payment Created: " . $payment->toJSON());
+                Log::info("A New Paypal Mobile Payment Created: " . $paypalPayment->toJSON());
                 return response()->json([
                     'code' => 200,
                     'message' => 'success',
                     'data' => [
-                        'payment' => $payment->toArray(),
-                        'redirect_url' => $payment->getApprovalLink(),
+                        'payment' => $paypalPayment->toArray(),
+                        'redirect_url' => $paypalPayment->getApprovalLink(),
                     ],
                 ]);
             } else {
-                Log::error("A New Paypal Mobile Payment Creation Failed: " . $payment->toJSON());
+                Log::error("A New Paypal Mobile Payment Creation Failed: " . $paypalPayment->toJSON());
                 return response()->json([
                     'code' => 400,
                     'message' => 'A New Paypal Mobile Payment Creation Failed',
                     'data' => [
-                        'payment' => $payment->toArray(),
-                        'failure_reason' => $payment->getFailureReason(),
+                        'payment' => $paypalPayment->toArray(),
+                        'failure_reason' => $paypalPayment->getFailureReason(),
                     ],
                 ]);
             }
@@ -377,48 +383,49 @@ class PaymentsController extends Controller
             /*return view('mobile.pages.error', [
                 'msg' => '付款失败',
             ]);*/
-            Log::error("A New Paypal Mobile Payment Creation Failed: order id - " . $order->id . '; With Error Message: ' . $e->getMessage());
+            Log::error("A New Paypal Mobile Payment Creation Failed: local payment id - " . $localPayment->id . '; With Error Message: ' . $e->getMessage());
             return response()->json([
                 'code' => $e->getCode(),
                 'message' => $e->getMessage(),
             ]);
             /*return view('mobile.payments.error', [
-                'order' => $order,
+                'payment' => $payment,
+                // 'orders' => $payment->orders
                 'message' => $e->getMessage(),
             ]);*/
         }
     }
 
     // GET Paypal: get the info of a payment [Test API]
-    public function paypalGet(Request $request, Order $order)
+    public function paypalGet(Request $request, LocalPayment $localPayment)
     {
         // 判断订单是否属于当前用户
-        if ($request->user()->id !== $order->user_id) {
+        if ($request->user()->id !== $localPayment->user_id) {
             throw new InvalidRequestException('您没有权限操作此订单');
         }
-        if ($order->payment_method !== Order::PAYMENT_METHOD_PAYPAL) {
-            throw new InvalidRequestException('This order is not a payment from paypal: payment method - ' . $order->payment_method);
+        if ($localPayment->method !== LocalPayment::PAYMENT_METHOD_PAYPAL) {
+            throw new InvalidRequestException('This order is not a payment from paypal: payment method - ' . $localPayment->method);
         }
         // 判断PayPal是否支持当前订单支付币种
-        if (in_array($order->currency, ['CNY'])) {
-            throw new InvalidRequestException('Paypal暂不支持当前订单支付币种: ' . $order->currency);
+        if (in_array($localPayment->currency, ['CNY'])) {
+            throw new InvalidRequestException('Paypal暂不支持当前订单支付币种: ' . $localPayment->currency);
         }
 
-        $config = $this->getPaypalConfig($order);
+        $config = $this->getPaypalConfig($localPayment);
         $oAuthTokenCredential = new OAuthTokenCredential($config[$config['mode']]['client_id'], $config[$config['mode']]['client_secret']);
         $apiContext = new ApiContext($oAuthTokenCredential);
         $apiContext->setConfig($config);
         $restCall = new PayPalRestCall($apiContext);
 
-        $paymentId = $order->payment_sn;
-        $payment = Payment::get($paymentId, $apiContext, $restCall);
+        $paymentId = $localPayment->payment_sn;
+        $paypalPayment = PayPalPayment::get($paymentId, $apiContext, $restCall);
 
-        /*$transactions = $payment->getTransactions();
+        /*$transactions = $paypalPayment->getTransactions();
         $relatedResources = $transactions[0]->getRelatedResources();
         $sale = $relatedResources[0]->getSale();
         $saleId = $sale->getId();
 
-        $payer = $payment->getPayer();
+        $payer = $paypalPayment->getPayer();
         $payerInfo = $payer->getPayerInfo();
         $payerId = $payerInfo->getPayerId();*/
 
@@ -426,7 +433,7 @@ class PaymentsController extends Controller
             'code' => 200,
             'message' => 'success',
             'data' => [
-                'payment' => $payment->toArray(),
+                'payment' => $paypalPayment->toArray(),
                 // 'transaction' => $transactions[0]->toArray(),
                 // 'sale' => $sale->toArray(),
                 // 'payer' => $payer->toArray(),
@@ -435,7 +442,7 @@ class PaymentsController extends Controller
     }
 
     // GET Paypal: synchronously execute[approve|cancel] an approved|cancelled PayPal payment. 支付同步通知
-    public function paypalExecute(Request $request, Order $order)
+    public function paypalExecute(Request $request, LocalPayment $localPayment)
     {
         Log::info('Paypal Payment Synchronous Redirection Url: ' . $request->getUri());
         Log::info('An Approved|Cancelled Payment Redirection From Paypal - Synchronously: ' . collect($request->all())->toJson());
@@ -448,11 +455,11 @@ class PaymentsController extends Controller
             $payerId = $request->query('PayerID');
 
             // 拿到订单流水号 payment_sn [$paymentId]，并在数据库中查询
-            $paypalOrder = Order::where('payment_method', Order::PAYMENT_METHOD_PAYPAL)
+            $payment = LocalPayment::where('method', LocalPayment::PAYMENT_METHOD_PAYPAL)
                 ->where('payment_sn', $paymentId)
                 ->first();
             // 正常来说不太可能出现支付了一笔不存在的订单，这个判断只是加强系统健壮性。
-            if (!$paypalOrder || $paypalOrder->id != $order->id) {
+            if (!$payment || $payment->id != $localPayment->id) {
                 Log::error('Paypal Notified With Wrong Payment Id: ' . $paymentId . ' or Wrong Token: ' . $token);
                 /*return response()->json([
                     'code' => 400,
@@ -462,36 +469,37 @@ class PaymentsController extends Controller
                     'msg' => '付款失败',
                 ]);*/
                 return view('mobile.payments.error', [
-                    'order' => $order,
+                    'payment' => $localPayment,
+                    // 'orders' => $localPayment->orders
                     'message' => 'Paypal Notified With Wrong Payment Id: ' . $paymentId . ' or Wrong Token: ' . $token,
                 ]);
             }
 
             // 如果这笔订单的状态已经是已支付
-            if ($order->paid_at) {
+            if ($localPayment->paid_at) {
                 // 返回数据给 Paypal
-                Log::info('A Paid Paypal Payment Notified Again - Synchronously: order id - ' . $order->id);
+                Log::info('A Paid Paypal Payment Notified Again - Synchronously: local payment id - ' . $localPayment->id);
                 /*return response()->json([
                     'code' => 200,
                     'message' => 'Paypal Payment Paid Already - Synchronously',
                 ]);*/
                 return view('mobile.payments.success', [
-                    'order' => $order,
+                    'payment' => $localPayment,
+                    // 'orders' => $localPayment->orders
                 ]);
             }
 
-            $config = $this->getPaypalConfig($order);
+            $config = $this->getPaypalConfig($localPayment);
             $oAuthTokenCredential = new OAuthTokenCredential($config[$config['mode']]['client_id'], $config[$config['mode']]['client_secret']);
             $apiContext = new ApiContext($oAuthTokenCredential);
             $apiContext->setConfig($config);
             $restCall = new PayPalRestCall($apiContext);
 
-            $payment = Payment::get($paymentId, $apiContext, $restCall);
+            $paypalPayment = PayPalPayment::get($paymentId, $apiContext, $restCall);
 
             $amount = new Amount();
-            $totalFee = bcadd($order->total_amount, $order->total_shipping_fee, 2);
-            $amount->setTotal($totalFee);
-            $amount->setCurrency($order->currency);
+            $amount->setTotal($localPayment->amount)
+                ->setCurrency($localPayment->currency);
 
             $transaction = new Transaction();
             $transaction->setAmount($amount);
@@ -500,38 +508,57 @@ class PaymentsController extends Controller
             $paymentExecution->setPayerId($payerId);
             $paymentExecution->setTransactions(array($transaction));
             try {
-                $payment->execute($paymentExecution, $apiContext, $restCall);
-                if ($payment->getState() == 'approved') {
-                    $order->update([
-                        'payment_method' => Order::PAYMENT_METHOD_PAYPAL,
-                        // 'payment_sn' => $payment->getId(),
-                        'payment_sn' => $paymentId,
-                        'status' => Order::ORDER_STATUS_SHIPPING,
-                        'paid_at' => Carbon::now()->toDateTimeString(),
-                    ]);
-                    Log::info("A New Paypal Payment Executed - Synchronously: " . $payment->toJSON());
+                $paypalPayment->execute($paymentExecution, $apiContext, $restCall);
+                if ($paypalPayment->getState() == 'approved') {
+                    try {
+                        DB::transaction(function () use ($localPayment, $paymentId) {
+                            // MySQL InnoDB 默认行级锁。行级锁都是基于索引的，如果一条SQL语句用不到索引是不会使用行级锁的，会使用表级锁把整张表锁住，这点需要注意。
+                            // where(['id' => $localPayment->id]) 意义在于：使用索引以触发行级锁
+                            $payment = LocalPayment::where(['id' => $localPayment->id])->lockForUpdate()->first();
+                            if ($payment) {
+                                if (!$payment->paid_at) {
+                                    $payment->update([
+                                        'method' => LocalPayment::PAYMENT_METHOD_PAYPAL,
+                                        // 'payment_sn' => $paypalPayment->getId(),
+                                        'payment_sn' => $paymentId,
+                                        'paid_at' => Carbon::now()->toDateTimeString(),
+                                    ]);
+                                    $localPayment->orders->each(function (Order $order) {
+                                        event(new OrderPaidEvent($order));
+                                    });
+                                }
+                            } else {
+                                throw new \Exception('MySQL lock-for-update of local payment is out of time - local payment id: ' . $localPayment->id);
+                            }
+                        });
+                    } catch (\Exception $e) {
+                        Log::error('MySQL lock-for-update of local payment is out of time - local payment id: ' . $localPayment->id);
+                    }
+                    Log::info("A New Paypal Payment Executed - Synchronously: " . $paypalPayment->toJSON());
                     return view('mobile.payments.success', [
-                        'order' => $order,
+                        'payment' => $localPayment,
+                        // 'orders' => $localPayment->orders
                     ]);
                     /*return response()->json([
                         'code' => 200,
                         'message' => 'Paypal Payment Executed - Synchronously',
                         'data' => [
-                            'payment' => $payment->toArray(),
+                            'payment' => $paypalPayment->toArray(),
                         ],
                     ]);*/
                 } else {
-                    Log::info("A New Paypal Mobile Payment Execution Failed - Synchronously: " . $payment->toJSON());
+                    Log::info("A New Paypal Mobile Payment Execution Failed - Synchronously: " . $paypalPayment->toJSON());
                     return view('mobile.payments.error', [
-                        'order' => $order,
-                        'message' => "A New Paypal Mobile Payment Execution Failed - Synchronously: " . $payment->toJSON(),
+                        'payment' => $localPayment,
+                        // 'orders' => $localPayment->orders
+                        'message' => "A New Paypal Mobile Payment Execution Failed - Synchronously: " . $paypalPayment->toJSON(),
                     ]);
                     /*return response()->json([
                         'code' => 400,
                         'message' => 'A New Paypal Mobile Payment Execution Failed - Synchronously',
                         'data' => [
-                            'payment' => $payment->toArray(),
-                            'failure_reason' => $payment->getFailureReason(),
+                            'payment' => $paypalPayment->toArray(),
+                            'failure_reason' => $paypalPayment->getFailureReason(),
                         ],
                     ]);*/
                 }
@@ -540,17 +567,19 @@ class PaymentsController extends Controller
                 /*return view('mobile.pages.error', [
                     'msg' => '付款失败',
                 ]);*/
-                Log::error("A New Paypal Mobile Payment Execution Failed - Synchronously: order id - " . $order->id . '; With Error Message: ' . $e->getMessage());
+                Log::error("A New Paypal Mobile Payment Execution Failed - Synchronously: local payment id - " . $localPayment->id . '; With Error Message: ' . $e->getMessage());
                 return view('mobile.payments.error', [
-                    'order' => $order,
-                    'message' => "A New Paypal Mobile Payment Execution Failed - Synchronously: order id - " . $order->id . '; With Error Message: ' . $e->getMessage(),
+                    'payment' => $localPayment,
+                    // 'orders' => $localPayment->orders
+                    'message' => "A New Paypal Mobile Payment Execution Failed - Synchronously: local payment id - " . $localPayment->id . '; With Error Message: ' . $e->getMessage(),
                 ]);
                 /*return response()->json([
                     'code' => $e->getCode(),
                     'message' => $e->getMessage(),
                 ]);*/
                 /*return view('mobile.payments.error', [
-                    'order' => $order,
+                    'payment' => $localPayment,
+                    // 'orders' => $localPayment->orders
                     'message' => $e->getMessage(),
                 ]);*/
             }
@@ -567,27 +596,29 @@ class PaymentsController extends Controller
                     'msg' => '付款失败',
                 ]);*/
                 return view('mobile.payments.error', [
-                    'order' => $order,
+                    'payment' => $localPayment,
+                    // 'orders' => $localPayment->orders
                     'message' => 'PayPal Notified With Wrong Parameters: Cancel Url Without Token - Synchronously',
                 ]);
             }
 
             // 如果这笔订单的状态已经是已支付
-            if ($order->paid_at) {
+            if ($localPayment->paid_at) {
                 // 返回数据给 Paypal
-                Log::info('A Paid Paypal Payment Notified Again - Synchronously: order id - ' . $order->id);
+                Log::info('A Paid Paypal Payment Notified Again - Synchronously: local payment id - ' . $localPayment->id);
                 /*return response()->json([
                     'code' => 200,
                     'message' => 'Paypal Payment Paid Already - Synchronously',
                 ]);*/
                 return view('mobile.payments.success', [
-                    'order' => $order,
+                    'payment' => $localPayment,
+                    // 'orders' => $localPayment->orders
                 ]);
             }
 
             // Do Nothing
-            /*$order->update([
-                'payment_method' => '',
+            /*$localPayment->update([
+                'method' => '',
                 'payment_sn' => '',
             ]);*/
 
@@ -599,7 +630,8 @@ class PaymentsController extends Controller
                 'msg' => '付款失败',
             ]);*/
             return view('mobile.payments.error', [
-                'order' => $order,
+                'payment' => $localPayment,
+                // 'orders' => $localPayment->orders,
                 'message' => 'Paypal Payment Cancelled - Synchronously',
             ]);
         }
@@ -678,38 +710,41 @@ class PaymentsController extends Controller
         }
     }
 
-    public function wechatReturn(Request $request, Order $order)
+    public function wechatReturn(Request $request, LocalPayment $payment)
     {
         // 判断订单是否属于当前用户
-        if ($request->user()->id !== $order->user_id) {
+        if ($request->user()->id !== $payment->user_id) {
             throw new InvalidRequestException('您没有权限操作此订单');
         }
 
-        if ($order->paid_at != null && $order->payment_method != null && $order->payment_sn != null) {
+        // if ($payment->paid_at != null && $payment->method != null && $payment->payment_sn != null) {
+        if ($payment->paid_at) {
             return redirect()->route('mobile.payments.success', [
-                'order' => $order->id,
+                'payment' => $payment->id,
             ]);
         }
 
         return view('mobile.payments.wechat_return', [
-            'order' => $order,
+            'payment' => $payment,
+            // 'orders' => $payment->orders
         ]);
     }
 
     // GET 通用 - 支付成功页面
-    public function success(Request $request, Order $order)
+    public function success(Request $request, LocalPayment $payment)
     {
         // 判断订单是否属于当前用户
-        if ($request->user()->id !== $order->user_id) {
+        if ($request->user()->id !== $payment->user_id) {
             throw new InvalidRequestException('您没有权限操作此订单');
         }
         // 判断当前订单状态是否支持支付
-        if (in_array($order->status, [Order::ORDER_STATUS_PAYING, Order::ORDER_STATUS_CLOSED])) {
+        if (!$payment->paid_at) {
             throw new InvalidRequestException('当前订单状态不正确');
         }
 
         return view('mobile.payments.success', [
-            'order' => $order,
+            'payment' => $payment,
+            // 'orders' => $payment->orders
         ]);
     }
 }

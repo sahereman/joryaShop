@@ -38,7 +38,6 @@ class OrderClosedEventListener
                 'close_at' => Carbon::now()->toDateTimeString(),
             ]);
 
-
             // 恢复 Product & Sku +库存 -人气|热度 -综合指数
             foreach ($order->items as $item) {
                 $item->sku->increment('stock', $item->number);
@@ -47,7 +46,5 @@ class OrderClosedEventListener
                 $item->sku->product->decrement('heat');
             }
         });
-
-
     }
 }

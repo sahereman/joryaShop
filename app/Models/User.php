@@ -39,7 +39,7 @@ class User extends Authenticatable
         'name', 'avatar', 'email', 'password',
         'real_name', 'gender', 'qq', 'wechat',
         'country_code', 'phone', 'facebook',
-        'money','point','distribution_parent'
+        'money', 'point', 'distribution_parent'
     ];
 
     /**

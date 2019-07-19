@@ -110,6 +110,7 @@ class OrderRefundsController extends Controller
 
                     // TODO ...
                     // $this->dispatch(new AutoDeclineOrderRefundJob($order, OrderRefund::getSecondsToDeclineOrderRefund()));
+                    // AutoDeclineOrderRefundJob::dispatch($order)->delay(OrderRefund::getSecondsToDeclineOrderRefund());
 
                     return response()->json([
                         'messages' => '审核通过并提醒买家发货'

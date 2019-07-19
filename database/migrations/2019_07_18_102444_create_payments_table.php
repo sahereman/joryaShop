@@ -19,12 +19,12 @@ class CreatePaymentsTable extends Migration
             $table->string('sn')->nullable(false)->comment('sn');
             $table->unique('sn');
 
-            $table->unsignedInteger('user_id')->nullable(false)->comment('user-id');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->unsignedInteger('user_id')->nullable()->comment('user-id');
+            $table->foreign('user_id')->references('id')->on('users');
 
-            $table->string('currency')->nullable(false)->default('USD')->comment('payment-currency[支付币种]:USD|CNY|etc');
-            $table->unsignedDecimal('payment_amount', 8, 2)->nullable(false)->comment('payment-amount:支付金额[采用当前币种换算表示]');
-            $table->string('payment_method')->nullable()->comment('payment-method:alipay|wechat|paypal');
+            $table->string('currency')->nullable(false)->default('USD')->comment('currency[支付币种]:USD|CNY|etc');
+            $table->unsignedDecimal('amount', 8, 2)->nullable(false)->comment('amount:支付金额[采用当前币种换算表示]');
+            $table->string('method')->nullable()->comment('method:alipay|wechat|paypal');
             $table->string('payment_sn')->nullable()->comment('payment-sn');
             $table->timestamp('paid_at')->nullable()->comment('支付订单时间');
 

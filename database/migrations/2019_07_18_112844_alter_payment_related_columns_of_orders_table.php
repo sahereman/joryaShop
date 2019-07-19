@@ -15,7 +15,7 @@ class AlterPaymentRelatedColumnsOfOrdersTable extends Migration
     {
         Schema::table('orders', function (Blueprint $table) {
             $table->unsignedInteger('payment_id')->nullable()->comment('payment-id')->after('user_id');
-            $table->foreign('payment_id')->references('id')->on('payments')->onDelete('cascade');
+            $table->foreign('payment_id')->references('id')->on('payments');
 
             $table->dropColumn('payment_method');
             $table->dropColumn('payment_sn');

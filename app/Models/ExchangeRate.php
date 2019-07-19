@@ -14,11 +14,11 @@ class ExchangeRate extends Model
     const CAD = 'CAD';
     const EUR = 'EUR';
     const RUB = 'RUB';
-    //    const CNY = 'CNY';
-    //    const HKD = 'HKD';
-    //    const JPY = 'JPY';
-    //    const KRW = 'KRW';
-    //    const TWD = 'TWD';
+    // const CNY = 'CNY';
+    // const HKD = 'HKD';
+    // const JPY = 'JPY';
+    // const KRW = 'KRW';
+    // const TWD = 'TWD';
 
     /**
      * Reference: https://www.toptal.com/designers/htmlarrows/currency/
@@ -31,11 +31,11 @@ class ExchangeRate extends Model
         self::CAD => '&#36;', // '&dollar;'
         self::EUR => '&#8364;', // '&euro;'
         self::RUB => '&#8381;' ,
-//        self::CNY => '&#165;', // '&yen;'
-//        self::HKD => '&#36;', // '&dollar;'
-//        self::JPY => '&#20870;', // '&#165;' or '&yen;'
-//        self::KRW => '&#8361;', // '&#50896;'
-//        self::TWD => '&#36;', // '&dollar;'
+        // self::CNY => '&#165;', // '&yen;'
+        // self::HKD => '&#36;', // '&dollar;'
+        // self::JPY => '&#20870;', // '&#165;' or '&yen;'
+        // self::KRW => '&#8361;', // '&#50896;'
+        // self::TWD => '&#36;', // '&dollar;'
     ];
 
     /*public static $currencyMap = [

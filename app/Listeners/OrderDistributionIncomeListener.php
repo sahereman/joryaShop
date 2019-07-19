@@ -38,23 +38,18 @@ class OrderDistributionIncomeListener
             $income_user = null;
 
             // 获取多级别分销用户中,当前收益用户
-            for ($i = 1; $i <= $item->level; $i++)
-            {
-                if ($i == 1)
-                {
+            for ($i = 1; $i <= $item->level; $i++) {
+                if ($i == 1) {
                     $income_user = $user->income_user;
-                } elseif ($income_user == null)
-                {
+                } elseif ($income_user == null) {
                     break;
-                } else
-                {
+                } else {
                     $income_user = $income_user->income_user;
                 }
 
             }
 
-            if ($income_user instanceof User)
-            {
+            if ($income_user instanceof User) {
                 // 收益率乘数
                 $ration = $item->profit_ratio / 100;
 

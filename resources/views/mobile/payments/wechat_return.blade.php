@@ -17,11 +17,11 @@
             function _fresh() {
                 $.ajax({
                     type: "get",
-                    url: "{{ route('orders.is_paid', ['order' => $order->id]) }}",
+                    url: "{{ route('payments.is_completed', ['payment' => $payment->id]) }}",
                     success: function (json) {
                         console.log(json);
                         if (json.code == 200) {
-                            window.location.href = "{{ route('mobile.payments.success', ['order' => $order->id]) }}";
+                            window.location.href = "{{ route('mobile.payments.success', ['payment' => $payment->id]) }}";
                         }
                     }
                 });

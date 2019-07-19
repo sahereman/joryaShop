@@ -6,16 +6,18 @@ use App\Events\OrderPaidEvent;
 use App\Exceptions\InvalidRequestException;
 use App\Models\Order;
 use App\Models\OrderRefund;
+use App\Models\Payment as LocalPayment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use PayPal\Api\Amount;
 use PayPal\Api\Details;
 use PayPal\Api\Payer;
 use PayPal\Api\PayerInfo;
-use PayPal\Api\Payment;
+use PayPal\Api\Payment as PayPalPayment;
 use PayPal\Api\PaymentExecution;
 use PayPal\Api\RedirectUrls;
 use PayPal\Api\RefundRequest;
@@ -29,42 +31,43 @@ use Yansongda\Pay\Pay;
 class PaymentsController extends Controller
 {
     /*Alipay Payment*/
-    public static function getAlipayConfig(Order $order)
+    public static function getAlipayConfig(LocalPayment $payment)
     {
         return array_merge(config('payment.alipay'), [
-            'notify_url' => route('payments.alipay.notify', ['order' => $order->id]),
-            'return_url' => route('payments.alipay.return', ['order' => $order->id]),
+            'notify_url' => route('payments.alipay.notify', ['payment' => $payment->id]),
+            'return_url' => route('payments.alipay.return', ['payment' => $payment->id]),
         ]);
     }
 
     // GET Alipay 支付页面
-    public function alipay(Request $request, Order $order)
+    public function alipay(Request $request, LocalPayment $payment)
     {
         // 判断订单是否属于当前用户
-        if ($request->user()->id !== $order->user_id) {
+        if ($request->user()->id !== $payment->user_id) {
             throw new InvalidRequestException('您没有权限操作此订单');
         }
         // 判断当前订单状态是否支持支付
-        if ($order->status !== Order::ORDER_STATUS_PAYING) {
+        if ($payment->paid_at) {
             throw new InvalidRequestException('当前订单状态不正确');
         }
 
-        Log::info('A New Alipay Pc-Web Payment Begins: order id - ' . $order->id);
-        try{
+        Log::info('A New Alipay Pc-Web Payment Begins: local payment id - ' . $payment->id);
+        try {
             // 调用Alipay的电脑支付(网页支付)
-            return Pay::alipay($this->getAlipayConfig($order))->web([
-                'out_trade_no' => $order->order_sn, // 订单编号，需保证在商户端不重复
-                'total_amount' => bcadd($order->total_amount, $order->total_shipping_fee, 2), // 订单金额，单位元，支持小数点后两位
-                'subject' => '请支付来自 Lyrical Hair 的订单：' . $order->order_sn, // 订单标题
+            return Pay::alipay($this->getAlipayConfig($payment))->web([
+                'out_trade_no' => $payment->sn, // 支付序列号，需保证在商户端不重复
+                'total_amount' => $payment->amount, // 支付金额，单位元，支持小数点后两位
+                'subject' => '请支付来自 Lyrical Hair 的订单：' . $payment->sn, // 支付页标题
             ]);
         } catch (\Exception $e) {
             // error_log($e->getMessage());
-            /*return view('mobile.pages.error', [
+            /*return view('pages.error', [
                 'msg' => '付款失败',
             ]);*/
-            Log::error('A New Wechat Pc-Web Payment Failed: order id - ' . $order->id . '; With Error Message: ' . $e->getMessage());
-            return view('mobile.payments.error', [
-                'order' => $order,
+            Log::error('A New Wechat Pc-Web Payment Failed: local payment id - ' . $payment->id . '; With Error Message: ' . $e->getMessage());
+            return view('payments.error', [
+                'payment' => $payment,
+                // 'orders' => $payment->orders,
                 'message' => $e->getMessage(),
             ]);
         }
@@ -99,53 +102,54 @@ class PaymentsController extends Controller
         "sign_type": "RSA2",
         "seller_id": "2088231964255230"
     }*/
-    public function alipayNotify(Request $request, Order $order)
+    public function alipayNotify(Request $request, LocalPayment $payment)
     {
         Log::info('Alipay Payment Notification Url: ' . $request->getUri());
 
         try {
             // 如果这笔订单的状态已经是已支付
-            if ($order->paid_at) {
+            if ($payment->paid_at) {
                 // 返回数据给支付宝
-                Log::info('A Paid Alipay Payment Notified Again: order id - ' . $order->id);
-                return Pay::alipay($this->getAlipayConfig($order))->success();
+                Log::info('A Paid Alipay Payment Notified Again: local payment id - ' . $payment->id);
+                return Pay::alipay($this->getAlipayConfig($payment))->success();
             }
 
             // 校验输入参数
-            $data = Pay::alipay($this->getAlipayConfig($order))->verify();
+            $data = Pay::alipay($this->getAlipayConfig($payment))->verify();
             Log::info('A Payment Notification From Alipay With Verified Data: ' . $data->toJson());
 
-            // $data->out_trade_no 拿到订单流水号，并在数据库中查询
-            $alipayOrder = Order::where('order_sn', $data->out_trade_no)->first();
+            // $data->out_trade_no 拿到支付序列号，并在数据库中查询
+            $alipayPayment = LocalPayment::where('sn', $data->out_trade_no)->first();
 
             // 正常来说不太可能出现支付了一笔不存在的订单，这个判断只是加强系统健壮性。
-            if (!$alipayOrder || $alipayOrder->id != $order->id) {
+            if (!$alipayPayment || $alipayPayment->id != $payment->id) {
                 Log::error('Alipay Notified With Wrong Out_Trade_No: ' . $data->out_trade_no);
                 return '';
             }
 
             // 支付通知数据校验 [谨慎起见]
-            if ($data->trade_status == 'TRADE_SUCCESS' && $data->total_amount == bcadd($order->total_amount, $order->total_shipping_fee, 2)) {
-                $order->update([
-                    'status' => Order::ORDER_STATUS_SHIPPING,
+            if ($data->trade_status == 'TRADE_SUCCESS' && $data->total_amount == $payment->amount) {
+                $payment->update([
                     'paid_at' => Carbon::now()->toDateTimeString(), // 支付时间
-                    'payment_method' => Order::PAYMENT_METHOD_ALIPAY, // 支付方式
+                    'method' => LocalPayment::PAYMENT_METHOD_ALIPAY, // 支付方式
                     'payment_sn' => $data->trade_no, // 支付宝订单号
                 ]);
-                event(new OrderPaidEvent($order));
-                Log::info('A New Alipay Payment Completed: order id - ' . $order->id);
+                $payment->orders->each(function (Order $order) {
+                    event(new OrderPaidEvent($order));
+                });
+                Log::info('A New Alipay Payment Completed: local payment id - ' . $payment->id);
             } else {
-                Log::error('A New Alipay Payment Failed: order id - ' . $order->id . '; With Wrong Data: ' . $data->toJson());
+                Log::error('A New Alipay Payment Failed: local payment id - ' . $payment->id . '; With Wrong Data: ' . $data->toJson());
             }
         } catch (\Exception $e) {
             // error_log($e->getMessage());
             /*return view('pages.error', [
                 'msg' => '付款失败',
             ]);*/
-            Log::error('A New Alipay Payment Notification Failed: order id - ' . $order->id . '; With Error Message: ' . $e->getMessage());
+            Log::error('A New Alipay Payment Notification Failed: local payment id - ' . $payment->id . '; With Error Message: ' . $e->getMessage());
         }
 
-        return Pay::alipay($this->getAlipayConfig($order))->success();
+        return Pay::alipay($this->getAlipayConfig($payment))->success();
     }
 
     // GET Alipay 支付回调 [return url]
@@ -166,13 +170,13 @@ class PaymentsController extends Controller
         "seller_id": "2088231964255230",
         "timestamp": "2018-11-22 13:53:52"
     }*/
-    public function alipayReturn(Request $request, Order $order)
+    public function alipayReturn(Request $request, LocalPayment $payment)
     {
         Log::info('Alipay Pc-Web Payment Return-Url : ' . $request->getUri());
 
         try {
             // 校验提交的参数是否合法
-            $data = Pay::alipay($this->getAlipayConfig($order))->verify();
+            $data = Pay::alipay($this->getAlipayConfig($payment))->verify();
             Log::info('A New Alipay Pc-Web Payment Return With Verified Data: ' . $data->toJson());
 
             //return $alipay->success();
@@ -180,16 +184,18 @@ class PaymentsController extends Controller
                 'msg' => '付款成功',
             ]);*/
             return view('payments.success', [
-                'order' => $order,
+                'payment' => $payment,
+                // 'orders' => $payment->orders
             ]);
         } catch (\Exception $e) {
             // error_log($e->getMessage());
             /*return view('pages.error', [
                 'msg' => '付款失败',
             ]);*/
-            Log::error('A New Alipay Pc-Web Payment Return Failed: order id - ' . $order->id . '; With Error Message: ' . $e->getMessage());
+            Log::error('A New Alipay Pc-Web Payment Return Failed: local payment id - ' . $payment->id . '; With Error Message: ' . $e->getMessage());
             return view('payments.error', [
-                'order' => $order,
+                'payment' => $payment,
+                // 'orders' => $payment->orders,
                 'message' => $e->getMessage(),
             ]);
         }
@@ -233,11 +239,12 @@ class PaymentsController extends Controller
 
         Log::info('A New Alipay Refund Begins: order refund id - ' . $order->refund->id);
 
+        $payment = $order->payment;
         try {
             // 调用支付宝支付实例的 refund 方法
-            $response = Pay::alipay($this->getAlipayConfig($order))->refund([
-                'out_trade_no' => $order->order_sn, // 之前的订单流水号
-                'refund_amount' => bcadd($order->total_amount, $order->total_shipping_fee, 2), // 退款金额，单位元
+            $response = Pay::alipay($this->getAlipayConfig($payment))->refund([
+                'out_trade_no' => $payment->sn, // 之前的支付序列号
+                'refund_amount' => $order->payment_amount, // 退款金额，单位元
             ]);
 
             Log::info('A New Alipay Refund Responded: ' . $response->toJson());
@@ -273,10 +280,10 @@ class PaymentsController extends Controller
     }
 
     /*Wechat Payment*/
-    public static function getWechatConfig(Order $order)
+    public static function getWechatConfig(LocalPayment $payment)
     {
         return array_merge(config('payment.wechat'), [
-            'notify_url' => route('payments.wechat.notify', ['order' => $order->id]),
+            'notify_url' => route('payments.wechat.notify', ['payment' => $payment->id]),
         ]);
     }
 
@@ -296,23 +303,23 @@ class PaymentsController extends Controller
         "trade_type": "NATIVE",
         "code_url": "weixin://wxpay/bizpayurl?pr=fHd7mdg"
     }*/
-    public function wechat(Request $request, Order $order)
+    public function wechat(Request $request, LocalPayment $payment)
     {
         // 判断订单是否属于当前用户
-        if ($request->user()->id !== $order->user_id) {
+        if ($request->user()->id !== $payment->user_id) {
             throw new InvalidRequestException('您没有权限操作此订单');
         }
         // 判断当前订单状态是否支持支付
-        if ($order->status !== Order::ORDER_STATUS_PAYING) {
+        if ($payment->paid_at) {
             throw new InvalidRequestException('当前订单状态不正确');
         }
 
         try {
             // 调用Wechat的扫码支付(网页支付)
-            $response = Pay::wechat($this->getWechatConfig($order))->scan([
-                'out_trade_no' => $order->order_sn, // 订单编号，需保证在商户端不重复
-                'body' => '请支付来自 Lyrical Hair 的订单：' . $order->order_sn, // 订单标题
-                'total_fee' => bcmul(bcadd($order->total_amount, $order->total_shipping_fee, 2), 100, 0), // 订单金额，单位分，参数值不能带小数点
+            $response = Pay::wechat($this->getWechatConfig($payment))->scan([
+                'out_trade_no' => $payment->sn, // 支付序列号，需保证在商户端不重复
+                'body' => '请支付来自 Lyrical Hair 的订单：' . $payment->sn, // 支付页标题
+                'total_fee' => bcmul($payment->amount, 100, 0), // 订单金额，单位分，参数值不能带小数点
             ]);
 
             if ($response->return_code == 'SUCCESS' && $response->result_code == 'SUCCESS' && $response->return_msg == 'OK' && $response->code_url) {
@@ -321,14 +328,15 @@ class PaymentsController extends Controller
 
                 Log::info('A New Wechat Pc-Scan Payment Created: ' . $response->toJSON() . '; With Qr Code Url: ' . $qr_code_url);
                 return view('payments.wechat', [
-                    'order' => $order,
+                    'order' => $payment,
                     'qr_code_url' => $qr_code_url,
                 ]);
             } else {
                 Log::error('A New Wechat Pc-Scan Payment Responded With Wrong Response: ' . $response->toJSON());
                 return view('payments.error', [
-                    'order' => $order,
-                    'message' => $response->toJson(),
+                    'payment' => $payment,
+                    // 'orders' => $payment->orders,
+                    'message' => $response->toJson()
                 ]);
             }
         } catch (\Exception $e) {
@@ -336,10 +344,11 @@ class PaymentsController extends Controller
             /*return view('pages.error', [
                 'msg' => '付款失败',
             ]);*/
-            Log::error('A New Wechat Pc-Scan Payment Failed: order id - ' . $order->id . '; With Error Message: ' . $e->getMessage());
+            Log::error('A New Wechat Pc-Scan Payment Failed: local payment id - ' . $payment->id . '; With Error Message: ' . $e->getMessage());
             return view('payments.error', [
-                'order' => $order,
-                'message' => $e->getMessage(),
+                'payment' => $payment,
+                // 'orders' => $payment->orders,
+                'message' => $e->getMessage()
             ]);
         }
     }
@@ -366,53 +375,55 @@ class PaymentsController extends Controller
         "trade_type": "NATIVE",
         "transaction_id": "4200000228201811224246112891"
     }*/
-    public function wechatNotify(Request $request, Order $order)
+    public function wechatNotify(Request $request, LocalPayment $payment)
     {
         Log::info('Wechat Payment Notification Url: ' . $request->getUri());
 
         try {
             // 如果这笔订单的状态已经是已支付
-            if ($order->paid_at) {
+            if ($payment->paid_at) {
                 // 返回数据给 Wechat
-                Log::info('A Paid Wechat Payment Notified Again: order id - ' . $order->id);
-                return Pay::wechat($this->getWechatConfig($order))->success();
+                Log::info('A Paid Wechat Payment Notified Again: local payment id - ' . $payment->id);
+                return Pay::wechat($this->getWechatConfig($payment))->success();
             }
 
             // 校验输入参数
-            $data = Pay::wechat($this->getWechatConfig($order))->verify();
+            $data = Pay::wechat($this->getWechatConfig($payment))->verify();
             Log::info('A Payment Notification From Wechat With Verified Data: ' . $data->toJson());
 
-            // $data->out_trade_no 拿到订单流水号，并在数据库中查询
-            $wechatOrder = Order::where('order_sn', $data->out_trade_no)->first();
+            // $data->out_trade_no 拿到支付序列号，并在数据库中查询
+            $wechatPayment = LocalPayment::where('sn', $data->out_trade_no)->first();
 
             // 正常来说不太可能出现支付了一笔不存在的订单，这个判断只是加强系统健壮性。
-            if (!$wechatOrder || $wechatOrder->id != $order->id) {
+            if (!$wechatPayment || $wechatPayment->id != $payment->id) {
                 Log::error('Wechat Notified With Wrong Out_Trade_No: ' . $data->out_trade_no);
                 return '';
             }
 
             // 支付通知数据校验 [谨慎起见]
-            if ($data->result_code == 'SUCCESS' && $data->return_code == 'SUCCESS' && $data->total_fee == bcmul(bcadd($order->total_amount, $order->total_shipping_fee, 2), 100, 0)) {
-                $order->update([
+            if ($data->result_code == 'SUCCESS' && $data->return_code == 'SUCCESS' && $data->total_fee == bcmul($payment->amount, 100, 0)) {
+                $payment->update([
                     'status' => Order::ORDER_STATUS_SHIPPING,
                     'paid_at' => Carbon::now()->toDateTimeString(), // 支付时间
-                    'payment_method' => Order::PAYMENT_METHOD_WECHAT, // 支付方式
+                    'method' => LocalPayment::PAYMENT_METHOD_WECHAT, // 支付方式
                     'payment_sn' => $data->transaction_id, // Wechat 订单号
                 ]);
-                event(new OrderPaidEvent($order));
-                Log::info('A New Wechat Payment Completed: order id - ' . $order->id);
+                $payment->orders->each(function (Order $order) {
+                    event(new OrderPaidEvent($order));
+                });
+                Log::info('A New Wechat Payment Completed: local payment id - ' . $payment->id);
             } else {
-                Log::error('A New Wechat Payment Failed: order id - ' . $order->id . '; With Wrong Data: ' . $data->toJson());
+                Log::error('A New Wechat Payment Failed: local payment id - ' . $payment->id . '; With Wrong Data: ' . $data->toJson());
             }
         } catch (\Exception $e) {
             // error_log($e->getMessage());
             /*return view('pages.error', [
                 'msg' => '付款失败',
             ]);*/
-            Log::error('A New Wechat Payment Notification Failed: order id - ' . $order->id . '; With Error Message: ' . $e->getMessage());
+            Log::error('A New Wechat Payment Notification Failed: local payment id - ' . $payment->id . '; With Error Message: ' . $e->getMessage());
         }
 
-        return Pay::wechat($this->getWechatConfig($order))->success();
+        return Pay::wechat($this->getWechatConfig($payment))->success();
     }
 
     // Wechat 退款
@@ -461,13 +472,14 @@ class PaymentsController extends Controller
 
         Log::info('A New Wechat Refund Begins: order refund id - ' . $order->refund->id);
 
+        $payment = $order->payment;
         try {
             // 调用Wechat支付实例的 refund 方法
-            $response = Pay::wechat($this->getWechatConfig($order))->refund([
-                'out_trade_no' => $order->order_sn, // 之前的订单流水号
+            $response = Pay::wechat($this->getWechatConfig($payment))->refund([
+                'out_trade_no' => $payment->sn, // 之前的支付序列号
                 'out_refund_no' => $order->refund->refund_sn, // 退款订单流水号
-                'total_fee' => bcmul(bcadd($order->total_amount, $order->total_shipping_fee, 2), 100, 0), // 订单金额，单位分，只能为整数
-                'refund_fee' => bcmul(bcadd($order->total_amount, $order->total_shipping_fee, 2), 100, 0), // 退款金额，单位分，只能为整数
+                'total_fee' => bcmul($payment->amount, 100, 0), // 订单金额，单位分，只能为整数
+                'refund_fee' => bcmul($order->payment_amount, 100, 0), // 退款金额，单位分，只能为整数
                 'refund_desc' => '这是来自 Lyrical Hair 的退款订单' . $order->refund->refund_sn,
             ]);
 
@@ -504,13 +516,13 @@ class PaymentsController extends Controller
     }
 
     /*Paypal Payment*/
-    public static function getPaypalConfig(Order $order)
+    public static function getPaypalConfig(LocalPayment $localPayment)
     {
         return array_merge(config('payment.paypal'), [
             'redirect_urls' => [
-                'return_url' => route('payments.paypal.execute', ['order' => $order->id]),
-                'cancel_url' => route('payments.paypal.execute', ['order' => $order->id]),
-                'notify_url' => route('payments.paypal.notify', ['order' => $order->id]),
+                'return_url' => route('payments.paypal.execute', ['payment' => $localPayment->id]),
+                'cancel_url' => route('payments.paypal.execute', ['payment' => $localPayment->id]),
+                'notify_url' => route('payments.paypal.notify', ['payment' => $localPayment->id]),
             ],
         ]);
         // return config('payment.paypal');
@@ -560,23 +572,23 @@ class PaymentsController extends Controller
             }
         ]
     }*/
-    public function paypalCreate(Request $request, Order $order)
+    public function paypalCreate(Request $request, LocalPayment $localPayment)
     {
         // 判断订单是否属于当前用户
-        if ($request->user()->id !== $order->user_id) {
+        if ($request->user()->id !== $localPayment->user_id) {
             throw new InvalidRequestException('您没有权限操作此订单');
         }
         // 判断当前订单状态是否支持支付
-        if ($order->status !== Order::ORDER_STATUS_PAYING) {
+        if ($localPayment->paid_at) {
             throw new InvalidRequestException('当前订单状态不正确');
         }
         // 判断PayPal是否支持当前订单支付币种
-        if (in_array($order->currency, ['CNY'])) {
-            throw new InvalidRequestException('Paypal暂不支持当前订单支付币种: ' . $order->currency);
+        if (in_array($localPayment->currency, ['CNY'])) {
+            throw new InvalidRequestException('Paypal暂不支持当前订单支付币种: ' . $localPayment->currency);
         }
 
         // Step-1: get an access token && create the api context
-        $config = $this->getPaypalConfig($order);
+        $config = $this->getPaypalConfig($localPayment);
         $oAuthTokenCredential = new OAuthTokenCredential($config[$config['mode']]['client_id'], $config[$config['mode']]['client_secret']);
         $apiContext = new ApiContext($oAuthTokenCredential);
         $apiContext->setConfig($config);
@@ -584,12 +596,11 @@ class PaymentsController extends Controller
 
         // Step-2: create a new payment
         $payer = new Payer();
-        $payer->setPaymentMethod(Order::PAYMENT_METHOD_PAYPAL); // paypal
+        $payer->setPaymentMethod(LocalPayment::PAYMENT_METHOD_PAYPAL); // paypal
 
         $amount = new Amount();
-        $totalFee = bcadd($order->total_amount, $order->total_shipping_fee, 2);
-        $amount->setTotal($totalFee);
-        $amount->setCurrency($order->currency);
+        $amount->setTotal($localPayment->amount)
+            ->setCurrency($localPayment->currency);
 
         $transaction = new Transaction($apiContext);
         $transaction->setAmount($amount);
@@ -599,37 +610,37 @@ class PaymentsController extends Controller
         $redirectUrls->setReturnUrl($config['redirect_urls']['return_url'])
             ->setCancelUrl($config['redirect_urls']['cancel_url']);
 
-        $payment = new Payment($apiContext);
-        $payment->setIntent('sale')
+        $paypalPayment = new PayPalPayment($apiContext);
+        $paypalPayment->setIntent('sale')
             ->setPayer($payer)
             ->setTransactions(array($transaction))
             ->setRedirectUrls($redirectUrls);
         try {
-            $payment->create($apiContext, $restCall);
-            if ($payment->getState() == 'created') {
-                $order->update([
-                    // 'payment_method' => $payment->getPayer()->getPaymentMethod(), // paypal
-                    'payment_method' => Order::PAYMENT_METHOD_PAYPAL,
-                    // 'payment_sn' => $payment->getToken(), // token
-                    'payment_sn' => $payment->getId(), // paymentId
+            $paypalPayment->create($apiContext, $restCall);
+            if ($paypalPayment->getState() == 'created') {
+                $localPayment->update([
+                    // 'method' => $paypalPayment->getPayer()->getPaymentMethod(), // paypal
+                    'method' => LocalPayment::PAYMENT_METHOD_PAYPAL,
+                    // 'payment_sn' => $paypalPayment->getToken(), // token
+                    'payment_sn' => $paypalPayment->getId(), // paymentId
                 ]);
-                Log::info("A New Paypal Pc Payment Created: " . $payment->toJSON());
+                Log::info("A New Paypal Pc Payment Created: " . $paypalPayment->toJSON());
                 return response()->json([
                     'code' => 200,
                     'message' => 'success',
                     'data' => [
-                        'payment' => $payment->toArray(),
-                        'redirect_url' => $payment->getApprovalLink(),
+                        'payment' => $paypalPayment->toArray(),
+                        'redirect_url' => $paypalPayment->getApprovalLink(),
                     ],
                 ]);
             } else {
-                Log::error("A New Paypal Pc Payment Creation Failed: " . $payment->toJSON());
+                Log::error("A New Paypal Pc Payment Creation Failed: " . $paypalPayment->toJSON());
                 return response()->json([
                     'code' => 400,
                     'message' => 'A New Paypal Pc Payment Creation Failed',
                     'data' => [
-                        'payment' => $payment->toArray(),
-                        'failure_reason' => $payment->getFailureReason(),
+                        'payment' => $paypalPayment->toArray(),
+                        'failure_reason' => $paypalPayment->getFailureReason(),
                     ],
                 ]);
             }
@@ -638,48 +649,49 @@ class PaymentsController extends Controller
             /*return view('pages.error', [
                 'msg' => '付款失败',
             ]);*/
-            Log::error("A New Paypal Pc Payment Creation Failed: order id - " . $order->id . '; With Error Message: ' . $e->getMessage());
+            Log::error("A New Paypal Pc Payment Creation Failed: local payment id - " . $localPayment->id . '; With Error Message: ' . $e->getMessage());
             return response()->json([
                 'code' => $e->getCode(),
                 'message' => $e->getMessage(),
             ]);
             /*return view('payments.error', [
-                'order' => $order,
-                'message' => $e->getMessage(),
+                'payment' => $localPayment,
+                // 'orders' => $localPayment->orders,
+                'message' => $e->getMessage()
             ]);*/
         }
     }
 
     // GET Paypal: get the info of a payment [Test API]
-    public function paypalGet(Request $request, Order $order)
+    public function paypalGet(Request $request, LocalPayment $localPayment)
     {
         // 判断订单是否属于当前用户
-        if ($request->user()->id !== $order->user_id) {
+        if ($request->user()->id !== $localPayment->user_id) {
             throw new InvalidRequestException('您没有权限操作此订单');
         }
-        if ($order->payment_method !== Order::PAYMENT_METHOD_PAYPAL) {
-            throw new InvalidRequestException('This order is not a payment from paypal: payment method - ' . $order->payment_method);
+        if ($localPayment->method !== LocalPayment::PAYMENT_METHOD_PAYPAL) {
+            throw new InvalidRequestException('This order is not a payment from paypal: payment method - ' . $localPayment->method);
         }
         // 判断PayPal是否支持当前订单支付币种
-        if (in_array($order->currency, ['CNY'])) {
-            throw new InvalidRequestException('Paypal暂不支持当前订单支付币种: ' . $order->currency);
+        if (in_array($localPayment->currency, ['CNY'])) {
+            throw new InvalidRequestException('Paypal暂不支持当前订单支付币种: ' . $localPayment->currency);
         }
 
-        $config = $this->getPaypalConfig($order);
+        $config = $this->getPaypalConfig($localPayment);
         $oAuthTokenCredential = new OAuthTokenCredential($config[$config['mode']]['client_id'], $config[$config['mode']]['client_secret']);
         $apiContext = new ApiContext($oAuthTokenCredential);
         $apiContext->setConfig($config);
         $restCall = new PayPalRestCall($apiContext);
 
-        $paymentId = $order->payment_sn;
-        $payment = Payment::get($paymentId, $apiContext, $restCall);
+        $paymentId = $localPayment->payment_sn;
+        $paypalPayment = PayPalPayment::get($paymentId, $apiContext, $restCall);
 
-        /*$transactions = $payment->getTransactions();
+        /*$transactions = $paypalPayment->getTransactions();
         $relatedResources = $transactions[0]->getRelatedResources();
         $sale = $relatedResources[0]->getSale();
         $saleId = $sale->getId();
 
-        $payer = $payment->getPayer();
+        $payer = $paypalPayment->getPayer();
         $payerInfo = $payer->getPayerInfo();
         $payerId = $payerInfo->getPayerId();*/
 
@@ -687,7 +699,7 @@ class PaymentsController extends Controller
             'code' => 200,
             'message' => 'success',
             'data' => [
-                'payment' => $payment->toArray(),
+                'payment' => $paypalPayment->toArray(),
                 // 'transaction' => $transactions[0]->toArray(),
                 // 'sale' => $sale->toArray(),
                 // 'payer' => $payer->toArray(),
@@ -696,7 +708,7 @@ class PaymentsController extends Controller
     }
 
     // GET Paypal: synchronously execute[approve|cancel] an approved|cancelled PayPal payment. 支付同步通知
-    public function paypalExecute(Request $request, Order $order)
+    public function paypalExecute(Request $request, LocalPayment $localPayment)
     {
         Log::info('Paypal Payment Synchronous Redirection Url: ' . $request->getUri());
         Log::info('An Approved|Cancelled Payment Redirection From Paypal - Synchronously: ' . collect($request->all())->toJson());
@@ -708,12 +720,12 @@ class PaymentsController extends Controller
             $token = $request->query('token');
             $payerId = $request->query('PayerID');
 
-            // 拿到订单流水号 payment_sn [$paymentId]，并在数据库中查询
-            $paypalOrder = Order::where('payment_method', Order::PAYMENT_METHOD_PAYPAL)
+            // 拿到支付序列号 payment_sn [$paymentId]，并在数据库中查询
+            $payment = LocalPayment::where('method', LocalPayment::PAYMENT_METHOD_PAYPAL)
                 ->where('payment_sn', $paymentId)
                 ->first();
             // 正常来说不太可能出现支付了一笔不存在的订单，这个判断只是加强系统健壮性。
-            if (!$paypalOrder || $paypalOrder->id != $order->id) {
+            if (!$payment || $payment->id != $localPayment->id) {
                 Log::error('Paypal Notified With Wrong Payment Id: ' . $paymentId . ' or Wrong Token: ' . $token);
                 /*return response()->json([
                     'code' => 400,
@@ -723,36 +735,37 @@ class PaymentsController extends Controller
                     'msg' => '付款失败',
                 ]);*/
                 return view('payments.error', [
-                    'order' => $order,
-                    'message' => 'Paypal Notified With Wrong Payment Id: ' . $paymentId . ' or Wrong Token: ' . $token,
+                    'payment' => $localPayment,
+                    // 'orders' => $localPayment->orders,
+                    'message' => 'Paypal Notified With Wrong PayPal Payment Id (ie. Payment SN): ' . $paymentId . ' or Wrong Token: ' . $token
                 ]);
             }
 
             // 如果这笔订单的状态已经是已支付
-            if ($order->paid_at) {
+            if ($localPayment->paid_at) {
                 // 返回数据给 Paypal
-                Log::info('A Paid Paypal Payment Notified Again - Synchronously: order id - ' . $order->id);
+                Log::info('A Paid Paypal Payment Notified Again - Synchronously: local payment id - ' . $localPayment->id);
                 /*return response()->json([
                     'code' => 200,
                     'message' => 'Paypal Payment Paid Already - Synchronously',
                 ]);*/
                 return view('payments.success', [
-                    'order' => $order,
+                    'payment' => $localPayment,
+                    // 'orders' => $localPayment->orders
                 ]);
             }
 
-            $config = $this->getPaypalConfig($order);
+            $config = $this->getPaypalConfig($localPayment);
             $oAuthTokenCredential = new OAuthTokenCredential($config[$config['mode']]['client_id'], $config[$config['mode']]['client_secret']);
             $apiContext = new ApiContext($oAuthTokenCredential);
             $apiContext->setConfig($config);
             $restCall = new PayPalRestCall($apiContext);
 
-            $payment = Payment::get($paymentId, $apiContext, $restCall);
+            $paypalPayment = PayPalPayment::get($paymentId, $apiContext, $restCall);
 
             $amount = new Amount();
-            $totalFee = bcadd($order->total_amount, $order->total_shipping_fee, 2);
-            $amount->setTotal($totalFee);
-            $amount->setCurrency($order->currency);
+            $amount->setTotal($localPayment->amount)
+                ->setCurrency($localPayment->currency);
 
             $transaction = new Transaction();
             $transaction->setAmount($amount);
@@ -761,18 +774,35 @@ class PaymentsController extends Controller
             $paymentExecution->setPayerId($payerId);
             $paymentExecution->setTransactions(array($transaction));
             try {
-                $payment->execute($paymentExecution, $apiContext, $restCall);
-                if ($payment->getState() == 'approved') {
-                    $order->update([
-                        'payment_method' => Order::PAYMENT_METHOD_PAYPAL,
-                        // 'payment_sn' => $payment->getId(),
-                        'payment_sn' => $paymentId,
-                        'status' => Order::ORDER_STATUS_SHIPPING,
-                        'paid_at' => Carbon::now()->toDateTimeString(),
-                    ]);
-                    Log::info("A New Paypal Payment Executed - Synchronously: " . $payment->toJSON());
+                $paypalPayment->execute($paymentExecution, $apiContext, $restCall);
+                if ($paypalPayment->getState() == 'approved') {
+                    try {
+                        DB::transaction(function () use ($localPayment, $paymentId) {
+                            // MySQL InnoDB 默认行级锁。行级锁都是基于索引的，如果一条SQL语句用不到索引是不会使用行级锁的，会使用表级锁把整张表锁住，这点需要注意。
+                            // where(['id' => $localPayment->id]) 意义在于：使用索引以触发行级锁
+                            $payment = LocalPayment::where(['id' => $localPayment->id])->lockForUpdate()->first();
+                            if ($payment) {
+                                if (!$payment->paid_at) {
+                                    $payment->update([
+                                        'method' => LocalPayment::PAYMENT_METHOD_PAYPAL,
+                                        // 'payment_sn' => $paypalPayment->getId(),
+                                        'payment_sn' => $paymentId,
+                                        'paid_at' => Carbon::now()->toDateTimeString(),
+                                    ]);
+                                    $localPayment->orders->each(function (Order $order) {
+                                        event(new OrderPaidEvent($order));
+                                    });
+                                }
+                            } else {
+                                throw new \Exception('MySQL lock-for-update of local payment is out of time - local payment id: ' . $localPayment->id);
+                            }
+                        });
+                    } catch (\Exception $e) {
+                        Log::error('MySQL lock-for-update of local payment is out of time - local payment id: ' . $localPayment->id);
+                    }
+                    Log::info("A New Paypal Payment Executed - Synchronously: " . $paypalPayment->toJSON());
                     return view('payments.success', [
-                        'order' => $order,
+                        'payment' => $localPayment
                     ]);
                     /*return response()->json([
                         'code' => 200,
@@ -784,8 +814,9 @@ class PaymentsController extends Controller
                 } else {
                     Log::info("A New Paypal Pc Payment Execution Failed - Synchronously: " . $payment->toJSON());
                     return view('payments.error', [
-                        'order' => $order,
-                        'message' => "A New Paypal Pc Payment Execution Failed - Synchronously: " . $payment->toJSON(),
+                        'payment' => $payment,
+                        // 'orders' => $payment->orders,
+                        'message' => "A New Paypal Pc Payment Execution Failed - Synchronously: " . $payment->toJSON()
                     ]);
                     /*return response()->json([
                         'code' => 400,
@@ -801,17 +832,19 @@ class PaymentsController extends Controller
                 /*return view('pages.error', [
                     'msg' => '付款失败',
                 ]);*/
-                Log::error("A New Paypal Pc Payment Execution Failed - Synchronously: order id - " . $order->id . '; With Error Message: ' . $e->getMessage());
+                Log::error("A New Paypal Pc Payment Execution Failed - Synchronously: local payment id - " . $localPayment->id . '; With Error Message: ' . $e->getMessage());
                 return view('payments.error', [
-                    'order' => $order,
-                    'message' => "A New Paypal Pc Payment Execution Failed - Synchronously: order id - " . $order->id . '; With Error Message: ' . $e->getMessage(),
+                    'payment' => $payment,
+                    // 'orders' => $payment->orders,
+                    'message' => "A New Paypal Pc Payment Execution Failed - Synchronously: payment id - " . $localPayment->id . '; With Error Message: ' . $e->getMessage(),
                 ]);
                 /*return response()->json([
                     'code' => $e->getCode(),
                     'message' => $e->getMessage(),
                 ]);*/
                 /*return view('payments.error', [
-                    'order' => $order,
+                    'payment' => $payment,
+                    // 'orders' => $payment->orders,
                     'message' => $e->getMessage(),
                 ]);*/
             }
@@ -828,27 +861,28 @@ class PaymentsController extends Controller
                     'msg' => '付款失败',
                 ]);*/
                 return view('payments.error', [
-                    'order' => $order,
+                    'payment' => $localPayment,
+                    // 'orders' => $localPayment->orders,
                     'message' => 'PayPal Notified With Wrong Parameters: Cancel Url Without Token - Synchronously',
                 ]);
             }
 
             // 如果这笔订单的状态已经是已支付
-            if ($order->paid_at) {
+            if ($localPayment->paid_at) {
                 // 返回数据给 Paypal
-                Log::info('A Paid Paypal Payment Notified Again - Synchronously: order id - ' . $order->id);
+                Log::info('A Paid Paypal Payment Notified Again - Synchronously: local payment id - ' . $localPayment->id);
                 /*return response()->json([
                     'code' => 200,
                     'message' => 'Paypal Payment Paid Already - Synchronously',
                 ]);*/
                 return view('payments.success', [
-                    'order' => $order,
+                    'payment' => $localPayment,
                 ]);
             }
 
             // Do Nothing
-            /*$order->update([
-                'payment_method' => '',
+            /*$localPayment->update([
+                'method' => '',
                 'payment_sn' => '',
             ]);*/
 
@@ -860,14 +894,15 @@ class PaymentsController extends Controller
                 'msg' => '付款失败',
             ]);*/
             return view('payments.error', [
-                'order' => $order,
+                'payment' => $localPayment,
+                // 'orders' => $localPayment->orders,
                 'message' => 'Paypal Payment Cancelled - Synchronously',
             ]);
         }
     }
 
     // POST Paypal 支付异步通知 [notify_url]
-    public function paypalNotify(Request $request, Order $order)
+    public function paypalNotify(Request $request, LocalPayment $localPayment)
     {
         Log::info('Paypal Payment Asynchronous Notification Url: ' . $request->getUri());
         Log::info('An Approved|Cancelled Payment Notification From Paypal - Asynchronously: ' . collect($request->all())->toJson());
@@ -877,24 +912,39 @@ class PaymentsController extends Controller
         if ($request->input('payment_status') == 'Completed' && $request->input('payer_status') == 'verified') {
             // Payment approved.
             // 如果这笔订单的状态已经是已支付
-            if ($order->paid_at) {
+            if ($localPayment->paid_at) {
                 // 返回数据给 Paypal
-                Log::info('A Paid Paypal Payment Notified Again - Asynchronously: order id - ' . $order->id);
+                Log::info('A Paid Paypal Payment Notified Again - Asynchronously: local payment id - ' . $localPayment->id);
                 return response()->json([
                     'code' => 200,
                     'message' => 'Paypal Payment Paid Already - Asynchronously',
                 ]);
             }
-
-            $order->update([
-                'payment_method' => Order::PAYMENT_METHOD_PAYPAL,
-                // 'payment_sn' => $payment->getId(),
-                // 'payment_sn' => $paymentId,
-                'status' => Order::ORDER_STATUS_SHIPPING,
-                'paid_at' => Carbon::now()->toDateTimeString(),
-            ]);
-            event(new OrderPaidEvent($order));
-            Log::info("A New Paypal Payment Executed - Asynchronously: order id - " . $order->id);
+            try {
+                DB::transaction(function () use ($localPayment) {
+                    // MySQL InnoDB 默认行级锁。行级锁都是基于索引的，如果一条SQL语句用不到索引是不会使用行级锁的，会使用表级锁把整张表锁住，这点需要注意。
+                    // where(['id' => $localPayment->id]) 意义在于：使用索引以触发行级锁
+                    $payment = LocalPayment::where(['id' => $localPayment->id])->lockForUpdate()->first();
+                    if ($payment) {
+                        if (!$payment->paid_at) {
+                            $payment->update([
+                                'method' => LocalPayment::PAYMENT_METHOD_PAYPAL,
+                                // 'payment_sn' => $paypalPayment->getId(),
+                                // 'payment_sn' => $paymentId,
+                                'paid_at' => Carbon::now()->toDateTimeString(),
+                            ]);
+                            $localPayment->orders->each(function (Order $order) {
+                                event(new OrderPaidEvent($order));
+                            });
+                        }
+                    } else {
+                        throw new \Exception('MySQL lock-for-update of local payment is out of time - local payment id: ' . $localPayment->id);
+                    }
+                });
+            } catch (\Exception $e) {
+                Log::error('MySQL lock-for-update of local payment is out of time - local payment id: ' . $localPayment->id);
+            }
+            Log::info("A New Paypal Payment Executed - Asynchronously: local payment id - " . $localPayment->id);
             return response()->json([
                 'code' => 200,
                 'message' => 'Paypal Payment Executed - Asynchronously',
@@ -902,9 +952,9 @@ class PaymentsController extends Controller
         } else {
             // Payment Cancelled.
             // 如果这笔订单的状态已经是已支付
-            if ($order->paid_at) {
+            if ($localPayment->paid_at) {
                 // 返回数据给 Paypal
-                Log::info('A Paid Paypal Payment Notified Again - Asynchronously: order id - ' . $order->id);
+                Log::info('A Paid Paypal Payment Notified Again - Asynchronously: local payment id - ' . $localPayment->id);
                 return response()->json([
                     'code' => 200,
                     'message' => 'Paypal Payment Paid Already - Asynchronously',
@@ -912,8 +962,8 @@ class PaymentsController extends Controller
             }
 
             // Do Nothing
-            /*$order->update([
-                'payment_method' => '',
+            /*$localPayment->update([
+                'method' => '',
                 'payment_sn' => '',
             ]);*/
 
@@ -943,26 +993,32 @@ class PaymentsController extends Controller
 
         Log::info('A New Paypal Refund Begins: order refund id - ' . $order->refund->id);
 
-        $config = $this->getPaypalConfig($order);
+        $localPayment = $order->payment;
+        $config = $this->getPaypalConfig($localPayment);
         $oAuthTokenCredential = new OAuthTokenCredential($config[$config['mode']]['client_id'], $config[$config['mode']]['client_secret']);
         $apiContext = new ApiContext($oAuthTokenCredential);
         $apiContext->setConfig($config);
         $restCall = new PayPalRestCall($apiContext);
 
-        $paymentId = $order->payment_sn;
-        $payment = Payment::get($paymentId, $apiContext, $restCall);
+        $paymentId = $localPayment->payment_sn;
+        $paypalPayment = PayPalPayment::get($paymentId, $apiContext, $restCall);
 
-        $transactions = $payment->getTransactions();
+        $transactions = $paypalPayment->getTransactions();
         $amount = $transactions[0]->getAmount();
         $relatedResources = $transactions[0]->getRelatedResources();
         $sale = $relatedResources[0]->getSale();
         // $saleId = $sale->getId();
 
-        /*$payer = $payment->getPayer();
+        /*$payer = $paypalPayment->getPayer();
         $payerInfo = $payer->getPayerInfo();
         $payerId = $payerInfo->getPayerId();*/
 
         $refundRequest = new RefundRequest();
+        /* Alter the amount of refund request */
+        $amount->setCurrency($order->currency)
+            ->setTotal($order->payment_amount);
+        $refundRequest->setAmount($amount);
+        /* Alter the amount of refund request */
         try {
             $detailedRefund = $sale->refundSale($refundRequest, $apiContext, $restCall);
             Log::info("A New Paypal Payment Refund Created: " . $detailedRefund->toJSON());
@@ -1000,7 +1056,8 @@ class PaymentsController extends Controller
                 'message' => $e->getMessage(),
             ]);
             /*return view('payments.error', [
-                'order' => $order,
+                'payment' => $localPayment,
+                // 'orders' => $localPayment->orders,
                 'message' => $e->getMessage(),
             ]);*/
         }
@@ -1103,13 +1160,13 @@ class PaymentsController extends Controller
         }
 
         switch ($order->payment_method) {
-            case Order::PAYMENT_METHOD_ALIPAY:
+            case LocalPayment::PAYMENT_METHOD_ALIPAY:
                 return $this->alipayRefund($request);
                 break;
-            case Order::PAYMENT_METHOD_WECHAT:
+            case LocalPayment::PAYMENT_METHOD_WECHAT:
                 return $this->wechatRefund($request);
                 break;
-            case Order::PAYMENT_METHOD_PAYPAL:
+            case LocalPayment::PAYMENT_METHOD_PAYPAL:
                 return $this->paypalRefund($request);
                 break;
             default:
@@ -1119,19 +1176,43 @@ class PaymentsController extends Controller
     }
 
     // GET 通用 - 支付成功页面
-    public function success(Request $request, Order $order)
+    public function success(Request $request, LocalPayment $payment)
     {
         // 判断订单是否属于当前用户
-        if ($request->user()->id !== $order->user_id) {
+        if ($request->user()->id !== $payment->user_id) {
             throw new InvalidRequestException('您没有权限操作此订单');
         }
         // 判断当前订单状态是否支持支付
-        if (in_array($order->status, [Order::ORDER_STATUS_PAYING, Order::ORDER_STATUS_CLOSED])) {
+        if (!$payment->paid_at) {
             throw new InvalidRequestException('当前订单状态不正确');
         }
 
         return view('payments.success', [
-            'order' => $order,
+            'payment' => $payment
+        ]);
+    }
+
+    // GET 判断订单支付是否已经完成 [for Ajax request]
+    public function isCompleted(Request $request, LocalPayment $payment)
+    {
+        if ($payment->paid_at) {
+            return response()->json([
+                'code' => 200,
+                'message' => 'Order Payment is completed already',
+                'data' => [
+                    'payment_id' => $payment->id,
+                    'is_completed' => true,
+                    'request_url' => route('payments.success', ['payment' => $payment->id]),
+                ],
+            ]);
+        }
+        return response()->json([
+            'code' => 202,
+            'message' => 'Order Payment is not completed yet',
+            'data' => [
+                'payment_id' => $payment->id,
+                'is_completed' => false,
+            ],
         ]);
     }
 }

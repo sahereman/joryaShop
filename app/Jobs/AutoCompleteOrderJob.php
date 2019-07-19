@@ -19,7 +19,6 @@ class AutoCompleteOrderJob implements ShouldQueue
     /**
      * Create a new job instance.
      * @param $order \App\Models\Order
-     * @param $time_to_complete_order integer unit:seconds
      * @return void
      */
     public function __construct(Order $order)

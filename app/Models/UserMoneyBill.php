@@ -67,45 +67,38 @@ class UserMoneyBill extends Model
 
     public function change(User $user, $type, $currency, $number, Model $related = null)
     {
-        if (!in_array($type, array_keys($this->typeMap)))
-        {
+        if (!in_array($type, array_keys($this->typeMap))) {
             throw new \Exception('账单类型异常');
         }
 
-        if (!in_array($currency, array_keys(ExchangeRate::$symbolMap)))
-        {
+        if (!in_array($currency, array_keys(ExchangeRate::$symbolMap))) {
             throw new InvalidRequestException('货币参数异常');
         }
 
-        if ($number < 0)
-        {
+        if ($number < 0) {
             throw new InvalidRequestException('账单数额异常');
         }
 
-        switch ($type)
-        {
+        switch ($type) {
             case self::TYPE_ORDER_PAYMENT :
-                if (!$related instanceof Order || !$related->exists)
-                {
+                if (!$related instanceof Order || !$related->exists) {
                     throw new \Exception('关联模型异常');
                 }
                 $operator = '-';
-                $description = 'Order Payment '  . $currency . ' ' . $number;
+                $description = 'Order Payment ' . $currency . ' ' . $number;
                 break;
             case self::TYPE_ORDER_REFUND :
-                if (!$related instanceof OrderRefund || !$related->exists)
-                {
+                if (!$related instanceof OrderRefund || !$related->exists) {
                     throw new \Exception('关联模型异常');
                 }
                 $operator = '+';
-                $description = 'Order Refund '  . $currency . ' ' . $number;
+                $description = 'Order Refund ' . $currency . ' ' . $number;
                 break;
             case self::TYPE_DISTRIBUTION_INCOME :
                 $operator = '+';
-                $description = 'Distribution Income '  . $currency . ' ' . $number;
+                $description = 'Distribution Income ' . $currency . ' ' . $number;
                 break;
         }
-
 
         $data = [
             'user_id' => $user->id,
@@ -116,8 +109,7 @@ class UserMoneyBill extends Model
             'number' => $number,
         ];
 
-        if ($related != null && $related->exists)
-        {
+        if ($related != null && $related->exists) {
             $data = array_merge($data, [
                 'related_model' => $related->getMorphClass(),
                 'related_id' => $related->id,
@@ -141,6 +133,4 @@ class UserMoneyBill extends Model
     {
         return $this->belongsTo($this->related_model, 'related_id');
     }
-
-
 }

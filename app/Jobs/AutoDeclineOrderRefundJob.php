@@ -21,14 +21,11 @@ class AutoDeclineOrderRefundJob implements ShouldQueue
     /**
      * Create a new job instance.
      * @param $order \App\Models\Order
-     * @param $time_to_decline_order_refund integer unit:seconds
      * @return void
      */
-    public function __construct(Order $order, $time_to_decline_order_refund)
+    public function __construct(Order $order)
     {
         $this->order = $order;
-        // 设置延迟的时间，delay() 方法的参数代表多少秒之后执行
-        $this->delay($time_to_decline_order_refund);
     }
 
     // 定义这个任务类具体的执行逻辑

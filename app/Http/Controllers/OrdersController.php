@@ -20,6 +20,7 @@ use App\Models\Coupon;
 use App\Models\Order;
 // use App\Models\OrderItem;
 use App\Models\OrderRefund;
+use App\Models\Payment;
 use App\Models\Product;
 use App\Models\ProductComment;
 use App\Models\ProductSku;
@@ -287,68 +288,6 @@ class OrdersController extends Controller
         ]);
     }
 
-    // GET 选择地址+币种页面
-    public function prePaymentBySkuParameters(PostOrderRequest $request)
-    {
-        $user = $request->user();
-        $items = [];
-
-        $base_size = $request->query('base_size');
-        $hair_colour = $request->query('hair_colour');
-        $hair_density = $request->query('hair_density');
-        $product = Product::find($request->query('product_id'));
-        $skus = $product->skus();
-        if (App::isLocale('zh-CN')) {
-            $skus = $product->is_base_size_optional ? $skus->where('base_size_zh', $base_size) : $skus;
-            $skus = $product->is_hair_colour_optional ? $skus->where('hair_colour_zh', $hair_colour) : $skus;
-            $skus = $product->is_hair_density_optional ? $skus->where('hair_density_zh', $hair_density) : $skus;
-        } else {
-            $skus = $product->is_base_size_optional ? $skus->where('base_size_en', $base_size) : $skus;
-            $skus = $product->is_hair_colour_optional ? $skus->where('hair_colour_en', $hair_colour) : $skus;
-            $skus = $product->is_hair_density_optional ? $skus->where('hair_density_en', $hair_density) : $skus;
-        }
-        $sku = $skus->first();
-
-        $number = $request->query('number');
-        $items[0]['sku'] = $sku;
-        $items[0]['product'] = $product;
-        $items[0]['number'] = $number;
-        $items[0]['amount'] = bcmul($sku->price, $number, 2);
-        // $items[0]['amount_en'] = bcmul($sku->price_in_usd, $number, 2);
-        $items[0]['shipping_fee'] = bcmul($product->shipping_fee, $number, 2);
-        // $items[0]['shipping_fee_en'] = bcmul($product->shipping_fee_in_usd, $number, 2);
-        $total_amount = bcmul($sku->price, $number, 2);
-        // $total_amount_en = bcmul($sku->price_in_usd, $number, 2);
-        $total_shipping_fee = bcmul($product->shipping_fee, $number, 2);
-        // $total_shipping_fee_en = bcmul($product->shipping_fee_in_usd, $number, 2);
-
-        $total_fee = bcadd($total_amount, $total_shipping_fee, 2);
-        // $total_fee_en = bcadd($total_amount_en, $total_shipping_fee_en, 2);
-
-        $address = false;
-        $addresses = $user->addresses()->latest('last_used_at')->latest('updated_at')->latest()->get();
-        if ($addresses->isNotEmpty()) {
-            if ($addresses->where('is_default', 1)->isNotEmpty()) {
-                // 默认地址
-                $address = $addresses->where('is_default', 1)->first();
-            } else {
-                // 上次使用地址
-                $address = $addresses->first();
-            }
-        }
-
-        return view('orders.pre_payment', [
-            'items' => $items,
-            'address' => $address,
-            'total_amount' => $total_amount,
-            // 'total_amount_en' => $total_amount_en,
-            'total_shipping_fee' => $total_shipping_fee,
-            // 'total_shipping_fee_en' => $total_shipping_fee_en,
-            'total_fee' => $total_fee,
-            // 'total_fee_en' => $total_fee_en,
-        ]);
-    }
-
     // POST 提交创建订单
     public function store(PostOrderRequest $request)
     {
@@ -378,7 +317,7 @@ class OrdersController extends Controller
                 $total_shipping_fee = bcmul(exchange_price($product->shipping_fee, $currency), $number, 2);
                 $total_amount = bcmul($price, $number, 2);
                 $is_nil = false;
-            } elseif ($request->has('cart_ids')) {
+            } elseif ($user && $request->has('cart_ids')) {
                 // 来自购物车的订单
                 $cart_ids = explode(',', $request->input('cart_ids', ''));
                 foreach ($cart_ids as $key => $cartId) {
@@ -428,9 +367,16 @@ class OrdersController extends Controller
             } else {
                 $user_info = $request->only('name', 'phone', 'address');
             }
+            // 创建一条支付记录
+            $payment = Payment::create([
+                'user_id' => $user ? $user->id : null,
+                'currency' => $currency,
+                'amount' => bcadd($total_amount, $total_shipping_fee, 2),
+            ]);
             // 创建一条订单记录
             $order = new Order([
                 'user_id' => $user ? $user->id : null,
+                'payment_id' => $payment->id,
                 // 'user_info' => UserAddress::select(['name', 'phone', 'address',])->find($request->input('address_id'))->toArray(),
                 'user_info' => $user_info,
                 'status' => Order::ORDER_STATUS_PAYING,
@@ -450,91 +396,8 @@ class OrdersController extends Controller
         });
 
         // 分派定时自动关闭订单任务
-        $this->dispatch(new AutoCloseOrderJob($order, Order::getSecondsToCloseOrder())); // 系统自动关闭订单时间（单位：分钟）
-
-        return response()->json([
-            'code' => 200,
-            'message' => 'success',
-            'data' => [
-                'order' => $order,
-                'request_url' => route('orders.payment_method', [
-                    'order' => $order->id,
-                ]),
-                'mobile_request_url' => route('mobile.orders.payment_method', [
-                    'order' => $order->id,
-                ]),
-            ],
-        ]);
-    }
-
-    // POST 提交创建订单
-    public function storeBySkuParameters(PostOrderRequest $request)
-    {
-        $user = $request->user();
-        $currency = $request->has('currency') ? $request->input('currency') : 'USD';
-
-        // 开启事务
-        $order = DB::transaction(function () use ($request, $user, $currency) {
-
-            // 生成子订单信息快照 snapshot
-            $snapshot = [];
-
-            // 来自SKU的订单
-            $base_size = $request->input('base_size');
-            $hair_colour = $request->input('hair_colour');
-            $hair_density = $request->input('hair_density');
-            $product = Product::find($request->input('product_id'));
-            $skus = $product->skus();
-            if (App::isLocale('zh-CN')) {
-                $skus = $product->is_base_size_optional ? $skus->where('base_size_zh', $base_size) : $skus;
-                $skus = $product->is_hair_colour_optional ? $skus->where('hair_colour_zh', $hair_colour) : $skus;
-                $skus = $product->is_hair_density_optional ? $skus->where('hair_density_zh', $hair_density) : $skus;
-            } else {
-                $skus = $product->is_base_size_optional ? $skus->where('base_size_en', $base_size) : $skus;
-                $skus = $product->is_hair_colour_optional ? $skus->where('hair_colour_en', $hair_colour) : $skus;
-                $skus = $product->is_hair_density_optional ? $skus->where('hair_density_en', $hair_density) : $skus;
-            }
-            $sku = $skus->first();
-
-            $sku_id = $sku->id;
-            $number = $request->input('number');
-            $sku = ProductSku::find($sku_id);
-            $product = $sku->product;
-            // $price = ($currency == 'CNY') ? $sku->price : $sku->price_in_usd;
-            $price = exchange_price($sku->price, $currency);
-            $snapshot[0]['sku_id'] = $sku_id;
-            $snapshot[0]['price'] = $price;
-            $snapshot[0]['number'] = $number;
-            // $total_shipping_fee = ($currency == 'CNY') ? bcmul($product->shipping_fee, $number, 2) : bcmul($product->shipping_fee_in_usd, $number, 2);
-            $total_shipping_fee = bcmul(exchange_price($product->shipping_fee, $currency), $number, 2);
-            $total_amount = bcmul($price, $number, 2);
-
-            $user_info = UserAddress::find($request->input('address_id'))->only('name', 'phone', 'full_address');
-            $user_info['address'] = $user_info['full_address'];
-            unset($user_info['full_address']);
-            // 创建一条订单记录
-            $order = new Order([
-                'user_id' => $user->id,
-                // 'user_info' => UserAddress::select(['name', 'phone', 'address',])->find($request->input('address_id'))->toArray(),
-                'user_info' => $user_info,
-                'status' => Order::ORDER_STATUS_PAYING,
-                'currency' => $currency,
-                'snapshot' => collect($snapshot)->toArray(),
-                'total_shipping_fee' => $total_shipping_fee,
-                'total_amount' => $total_amount,
-                'remark' => $request->has('remark') ? $request->input('remark') : '',
-                'to_be_closed_at' => Carbon::now()->addSeconds(Order::getSecondsToCloseOrder())->toDateTimeString(),
-            ]);
-
-            // $order->user()->associate($user);
-
-            $order->save();
-
-            return $order;
-        });
-
-        // 分派定时自动关闭订单任务
-        $this->dispatch(new AutoCloseOrderJob($order, Order::getSecondsToCloseOrder())); // 系统自动关闭订单时间（单位：分钟）
+        // $this->dispatch(new AutoCloseOrderJob($order, Order::getSecondsToCloseOrder())); // 系统自动关闭订单时间（单位：分钟）
+        AutoCloseOrderJob::dispatch($order)->delay(Order::getSecondsToCloseOrder()); // 系统自动关闭订单时间（单位：分钟）
 
         return response()->json([
             'code' => 200,
@@ -614,6 +477,7 @@ class OrdersController extends Controller
         $this->authorize('complete', $order);
 
         event(new OrderCompletedEvent($order));
+
         return response()->json([
             'code' => 200,
             'message' => 'success',

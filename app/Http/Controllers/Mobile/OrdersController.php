@@ -276,68 +276,6 @@ class OrdersController extends Controller
         ]);
     }
 
-    // GET 选择地址+币种页面
-    public function prePaymentBySkuParameters(PostOrderRequest $request)
-    {
-        $user = $request->user();
-        $items = [];
-
-        $base_size = $request->query('base_size');
-        $hair_colour = $request->query('hair_colour');
-        $hair_density = $request->query('hair_density');
-        $product = Product::find($request->query('product_id'));
-        $skus = $product->skus();
-        if (App::isLocale('zh-CN')) {
-            $skus = $product->is_base_size_optional ? $skus->where('base_size_zh', $base_size) : $skus;
-            $skus = $product->is_hair_colour_optional ? $skus->where('hair_colour_zh', $hair_colour) : $skus;
-            $skus = $product->is_hair_density_optional ? $skus->where('hair_density_zh', $hair_density) : $skus;
-        } else {
-            $skus = $product->is_base_size_optional ? $skus->where('base_size_en', $base_size) : $skus;
-            $skus = $product->is_hair_colour_optional ? $skus->where('hair_colour_en', $hair_colour) : $skus;
-            $skus = $product->is_hair_density_optional ? $skus->where('hair_density_en', $hair_density) : $skus;
-        }
-        $sku = $skus->first();
-
-        $number = $request->query('number');
-        $items[0]['sku'] = $sku;
-        $items[0]['product'] = $product;
-        $items[0]['number'] = $number;
-        $items[0]['amount'] = bcmul($sku->price, $number, 2);
-        // $items[0]['amount_en'] = bcmul($sku->price_in_usd, $number, 2);
-        $items[0]['shipping_fee'] = bcmul($product->shipping_fee, $number, 2);
-        // $items[0]['shipping_fee_en'] = bcmul($product->shipping_fee_in_usd, $number, 2);
-        $total_amount = bcmul($sku->price, $number, 2);
-        // $total_amount_en = bcmul($sku->price_in_usd, $number, 2);
-        $total_shipping_fee = bcmul($product->shipping_fee, $number, 2);
-        // $total_shipping_fee_en = bcmul($product->shipping_fee_in_usd, $number, 2);
-
-        $total_fee = bcadd($total_amount, $total_shipping_fee, 2);
-        // $total_fee_en = bcadd($total_amount_en, $total_shipping_fee_en, 2);
-
-        $address = false;
-        $addresses = $user->addresses()->latest('last_used_at')->latest('updated_at')->latest()->get();
-        if ($addresses->isNotEmpty()) {
-            if ($addresses->where('is_default', 1)->isNotEmpty()) {
-                // 默认地址
-                $address = $addresses->where('is_default', 1)->first();
-            } else {
-                // 上次使用地址
-                $address = $addresses->first();
-            }
-        }
-
-        return view('mobile.orders.pre_payment', [
-            'items' => $items,
-            'address' => $address,
-            'total_amount' => $total_amount,
-            // 'total_amount_en' => $total_amount_en,
-            'total_shipping_fee' => $total_shipping_fee,
-            // 'total_shipping_fee_en' => $total_shipping_fee_en,
-            'total_fee' => $total_fee,
-            // 'total_fee_en' => $total_fee_en,
-        ]);
-    }
-
     // GET 选择支付方式页面
     public function paymentMethod(Request $request, Order $order)
     {
@@ -356,7 +294,6 @@ class OrdersController extends Controller
             'order' => $order,
         ]);
     }
-
 
     // GET 物流详情 页面
     public function showShipment(Request $request, Order $order)
@@ -431,7 +368,6 @@ class OrdersController extends Controller
             'snapshot' => $order->snapshot,
         ]);
     }
-
 
     // GET 退单申请页面 [退货并退款]
     public function refundWithShipment(Request $request, Order $order)

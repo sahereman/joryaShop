@@ -158,7 +158,7 @@ class Order extends Model
     public function getPaymentMethodAttribute()
     {
         if ($this->payment) {
-            return $this->payment->payment_method;
+            return $this->payment->method;
         }
         return '';
     }
@@ -177,6 +177,11 @@ class Order extends Model
             return $this->payment->paid_at;
         }
         return '';
+    }
+
+    public function getPaymentAmountAttribute()
+    {
+        return bcadd($this->attributes['total_amount'], $this->attributes['total_shipping_fee'], 2);
     }
 
     /* Mutators */
@@ -198,6 +203,11 @@ class Order extends Model
     public function setPaidAtAttribute($value)
     {
         unset($this->attributes['paid_at']);
+    }
+
+    public function setPaymentAmountAttribute($value)
+    {
+        unset($this->attributes['payment_amount']);
     }
 
     /* Eloquent Relationships */

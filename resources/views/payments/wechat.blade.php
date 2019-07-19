@@ -5,11 +5,11 @@
         <div class="m-wrapper">
             <div class="wechat_title clear">
                 <p class="title">请及时付款，以便订单尽快处理！</p>
-                <p class="yxTradeNo" data-url="{{ route('orders.is_paid',$order->id) }}">交易号：{{ $order->order_sn }}</p>
+                <p class="yxTradeNo" data-url="{{ route('payments.is_completed', ['payment' => $payment->id]) }}">交易号：{{ $payment->sn }}</p>
                 <p class="actualPrice">
                     <span>实付：</span>
-                    {{--<span class="red">{{ (($order->currency === 'CNY') ? "&#165; " : "&#36; ") . bcadd($order->total_amount, $order->total_shipping_fee, 2) }}</span>--}}
-                    <span class="red">{{ (get_symbol_by_currency($order->currency)) . ' ' . bcadd($order->total_amount, $order->total_shipping_fee, 2) }}</span>
+                    {{--<span class="red">{{ (($payment->currency === 'CNY') ? "&#165; " : "&#36; ") . $payment->payment_amount }}</span>--}}
+                    <span class="red">{{ (get_symbol_by_currency($payment->currency)) . ' ' . $payment->payment_amount }}</span>
                 </p>
             </div>
             <div class="payment_success wechat">
@@ -18,7 +18,7 @@
                         <div class="bd">
                             <img src="{!! generate_qr_code($qr_code_url, 'png', 150) !!}">
                         </div>
-                        <p class="text" data-url="{{ route('payments.success', ['order' => $order->id]) }}">微信扫一扫支付</p>
+                        <p class="text" data-url="{{ route('payments.success', ['payment' => $payment->id]) }}">微信扫一扫支付</p>
                     </div>
                     <img class="phone left" src="{{ asset('img/wechat_pay.png') }}">
                 </div>

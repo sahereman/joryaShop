@@ -38,13 +38,10 @@ class OrderCompletedEventListener
             ]);
 
             // Product & Sku +销量
-            foreach ($order->items as $item)
-            {
+            foreach ($order->items as $item) {
                 $item->sku->increment('sales', $item->number);
                 $item->sku->product->increment('sales', $item->number);
             }
         });
-
-
     }
 }
