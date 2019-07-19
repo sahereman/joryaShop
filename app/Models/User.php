@@ -39,6 +39,7 @@ class User extends Authenticatable
         'name', 'avatar', 'email', 'password',
         'real_name', 'gender', 'qq', 'wechat',
         'country_code', 'phone', 'facebook',
+        'money','point','distribution_parent'
     ];
 
     /**
@@ -100,5 +101,10 @@ class User extends Authenticatable
     public function money_bills()
     {
         return $this->hasMany(UserMoneyBill::class);
+    }
+
+    public function income_user()
+    {
+        return $this->belongsTo(self::class, 'distribution_parent');
     }
 }

@@ -116,7 +116,7 @@ class UserMoneyBill extends Model
             'number' => $number,
         ];
 
-        if ($related->exists)
+        if ($related != null && $related->exists)
         {
             $data = array_merge($data, [
                 'related_model' => $related->getMorphClass(),

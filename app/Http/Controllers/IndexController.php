@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\OrderCompletedEvent;
 use App\Handlers\ImageUploadHandler;
 use App\Http\Requests\ImageUploadRequest;
 use App\Models\Banner;
@@ -20,6 +21,13 @@ class IndexController extends Controller
 
     public function test()
     {
+//        $order = Order::where('status',Order::ORDER_STATUS_SHIPPING)->first();
+//
+//        dump($order->id);
+//
+//        event(new OrderCompletedEvent($order));
+
+
 //        $aa = UserMoneyBill::find(2);
 //
 //        dd($aa->related);

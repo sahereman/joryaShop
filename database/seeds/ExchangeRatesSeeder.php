@@ -21,18 +21,18 @@ class ExchangeRatesSeeder extends Seeder
             'rate' => 1.40,
         ]);
 
+        // 英镑
+        ExchangeRate::create([
+            'name' => 'USD to GBP',
+            'currency' => 'GBP',
+            'rate' => 0.77,
+        ]);
+
         // 加元
         ExchangeRate::create([
             'name' => 'USD to CAD',
             'currency' => 'CAD',
             'rate' => 1.32,
-        ]);
-
-        // 人民币
-        ExchangeRate::create([
-            'name' => 'USD to CNY',
-            'currency' => 'CNY',
-            'rate' => 6.76,
         ]);
 
         // 欧元
@@ -42,39 +42,51 @@ class ExchangeRatesSeeder extends Seeder
             'rate' => 0.88,
         ]);
 
-        // 英镑
+        // 卢布
         ExchangeRate::create([
-            'name' => 'USD to GBP',
-            'currency' => 'GBP',
-            'rate' => 0.77,
+            'name' => 'USD to RUB',
+            'currency' => 'RUB',
+            'rate' => 62.75,
         ]);
 
-        // 港元
-        ExchangeRate::create([
-            'name' => 'USD to HKD',
-            'currency' => 'HKD',
-            'rate' => 7.85,
-        ]);
 
-        // 日元
-        ExchangeRate::create([
-            'name' => 'USD to JPY',
-            'currency' => 'JPY',
-            'rate' => 110.52,
-        ]);
 
-        // 韩元
-        ExchangeRate::create([
-            'name' => 'USD to KRW',
-            'currency' => 'KRW',
-            'rate' => 1126.83,
-        ]);
 
-        // 台币
-        ExchangeRate::create([
-            'name' => 'USD to TWD',
-            'currency' => 'TWD',
-            'rate' => 30.83,
-        ]);
+
+//        // 人民币
+//        ExchangeRate::create([
+//            'name' => 'USD to CNY',
+//            'currency' => 'CNY',
+//            'rate' => 6.76,
+//        ]);
+//
+//
+//        // 港元
+//        ExchangeRate::create([
+//            'name' => 'USD to HKD',
+//            'currency' => 'HKD',
+//            'rate' => 7.85,
+//        ]);
+//
+//        // 日元
+//        ExchangeRate::create([
+//            'name' => 'USD to JPY',
+//            'currency' => 'JPY',
+//            'rate' => 110.52,
+//        ]);
+//
+//        // 韩元
+//        ExchangeRate::create([
+//            'name' => 'USD to KRW',
+//            'currency' => 'KRW',
+//            'rate' => 1126.83,
+//        ]);
+//
+//        // 台币
+//        ExchangeRate::create([
+//            'name' => 'USD to TWD',
+//            'currency' => 'TWD',
+//            'rate' => 30.83,
+//        ]);
     }
 }

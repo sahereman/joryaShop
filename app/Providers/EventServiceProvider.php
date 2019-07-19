@@ -51,6 +51,7 @@ class EventServiceProvider extends ServiceProvider
         ],
         'App\Events\OrderCompletedEvent' => [
             'App\Listeners\OrderCompletedEventListener',
+            'App\Listeners\OrderDistributionIncomeListener',
         ],
         'App\Events\OrderRefundingEvent' => [
             'App\Listeners\OrderRefundingEventListener',
