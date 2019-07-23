@@ -2,6 +2,7 @@
 
 return [
     'switch language' => '切换语言',
+    'switch currency' => '切换币种',
     'you may also like' => '猜你喜欢',
     'see details' => '查看详情',
     'New Product Starter' => '新品首发',

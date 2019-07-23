@@ -2,6 +2,7 @@
 
 return [
     'switch language' => 'Switch language',
+    'switch currency' => 'Switch currency',
     'you may also like' => 'You may also like',
     'New Product Starter' => 'New Product Starter',
     'see details' => 'See Details',

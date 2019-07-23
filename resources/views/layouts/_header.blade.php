@@ -35,6 +35,35 @@
                            </li>
                        </ul>
                    </li>--}}
+                    <li><span>&nbsp;&nbsp;&nbsp;</span></li>
+                    <li>
+                        <span>@lang('app.switch currency')：</span>
+                    </li>
+                    <li class="dropdown">
+                        <button id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true"
+                                aria-expanded="false">
+                            {{--<span>{{ App::getLocale() == 'en' ? 'English' : '中文' }}</span>--}}
+                            <img src="{{ asset('img/header/down_arrow.png') }}">
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dLabel">
+                            <li>
+                                <a href="{{ route('currency.update', ['currency' => 'USD']) }}">
+                                    {{--<img src="{{ asset('img/header/en_flag.png') }}">--}}
+                                    <span>&#36;</span>
+                                    <span>USD</span>
+                                </a>
+                            </li>
+                            @foreach(\App\Models\ExchangeRate::all() as $exchangeRate)
+                                <li>
+                                    <a href="{{ route('currency.update', ['currency' => $exchangeRate->currency]) }}">
+                                        {{--<img src="{{ asset('img/header/en_flag.png') }}">--}}
+                                        <span>{{ \App\Models\ExchangeRate::$symbolMap[$exchangeRate->currency] }}</span>
+                                        <span>{{ $exchangeRate->currency }}</span>
+                                    </a>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </li>
                 </ul>
             </div>
             <div class="navbar-top-right pull-right">
