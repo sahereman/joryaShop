@@ -14,6 +14,9 @@ class DatabaseSeeder extends Seeder
         $this->call(AdminTablesSeeder::class);
         $this->call(ConfigsSeeder::class);
 
+        //国家地区
+        $this->call(CountryProvincesSeeder::class);
+
         // 产品
         $this->call(ProductCategoriesSeeder::class);
         $this->call(ProductLocationsSeeder::class);
@@ -80,5 +83,6 @@ class DatabaseSeeder extends Seeder
 
         //分销级别
         $this->call(DistributionLevelsSeeder::class);
+
     }
 }
