@@ -155,9 +155,9 @@ class ProductsController extends Controller
         $hot_sales = Product::where(['is_index' => 1, 'on_sale' => 1])->orderByDesc('heat')->limit(8)->get();
         $best_sellers = Product::where(['is_index' => 1, 'on_sale' => 1])->orderByDesc('sales')->limit(8)->get();
         $user = $request->user();
-        $is_favourite = false;
+        $favourite = false;
         if ($user) {
-            $is_favourite = UserFavourite::where('user_id', $user->id)->where('product_id', $product->id)->exists();
+            $favourite = UserFavourite::where('user_id', $user->id)->where('product_id', $product->id)->first();
         }
 
         // user browsing history - appending (maybe firing an event)
@@ -165,7 +165,13 @@ class ProductsController extends Controller
 
         $product_skus = $product->skus;
         $product_sku_ids = $product_skus->pluck('id');
-        $attributes = ProductSkuAttrValue::with('sku')->whereIn('product_sku_id', $product_sku_ids)->get()->groupBy('product_sku_id')->toArray();
+        $attributes = ProductSkuAttrValue::with('sku')->whereIn('product_sku_id', $product_sku_ids)->get()->map(function (ProductSkuAttrValue $productSkuAttrValue) {
+            return [
+                'product_sku_id' => $productSkuAttrValue->product_sku_id,
+                'name' => $productSkuAttrValue->name,
+                'value' => $productSkuAttrValue->value
+            ];
+        })->groupBy('product_sku_id')->toArray();
 
         return view('products.show', [
             'category' => $category,
@@ -176,7 +182,7 @@ class ProductsController extends Controller
             'guesses' => $guesses,
             'hot_sales' => $hot_sales,
             'best_sellers' => $best_sellers,
-            'is_favourite' => $is_favourite
+            'favourite' => $favourite
         ]);
     }
 
