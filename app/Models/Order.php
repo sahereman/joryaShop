@@ -58,6 +58,8 @@ class Order extends Model
         // 'payment_sn',
         'shipment_company',
         'shipment_sn',
+        'shipment_info',
+        'last_queried_at',
         'snapshot',
         'total_shipping_fee',
         'total_amount',
@@ -86,6 +88,7 @@ class Order extends Model
      */
     protected $casts = [
         'user_info' => 'json',
+        'shipment_info' => 'json',
         'snapshot' => 'json',
     ];
 
@@ -95,6 +98,7 @@ class Order extends Model
      */
     protected $dates = [
         // 'paid_at',
+        'last_queried_at',
         'to_be_closed_at',
         'closed_at',
         'shipped_at',

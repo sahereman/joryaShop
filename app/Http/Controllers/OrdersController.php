@@ -104,7 +104,17 @@ class OrdersController extends Controller
             if (isset($shipment_companies[$order->shipment_company])) {
                 $shipment_company_name = $shipment_companies[$order->shipment_company];
                 // 快递鸟(kdniao.com) 即时查询API
-                $order_shipment_traces = kdniao_shipment_query($order->shipment_company, $order->shipment_sn);
+                if (in_array($order->status, [Order::ORDER_STATUS_PAYING, Order::ORDER_STATUS_CLOSED, Order::ORDER_STATUS_SHIPPING])) {
+                    $order_shipment_traces = [];
+                } else if (($order->status == Order::ORDER_STATUS_COMPLETED) || ($order->status == Order::ORDER_STATUS_REFUNDING && $order->refund->status == OrderRefund::ORDER_REFUND_STATUS_REFUNDED) || Carbon::now()->diffInRealSeconds($order->last_queried_at) < 3600 * 6) {
+                    $order_shipment_traces = $order->shipment_info;
+                } else {
+                    $order_shipment_traces = kdniao_shipment_query($order->shipment_company, $order->shipment_sn);
+                    $order->update([
+                        'shipment_info' => $order_shipment_traces,
+                        'last_queried_at' => Carbon::now()->toDateTimeString()
+                    ]);
+                }
             }
         }
 
@@ -150,7 +160,17 @@ class OrdersController extends Controller
             if (isset($shipment_companies[$order->shipment_company])) {
                 $shipment_company_name = $shipment_companies[$order->shipment_company];
                 // 快递鸟(kdniao.com) 即时查询API
-                $order_shipment_traces = kdniao_shipment_query($order->shipment_company, $order->shipment_sn);
+                if (in_array($order->status, [Order::ORDER_STATUS_PAYING, Order::ORDER_STATUS_CLOSED, Order::ORDER_STATUS_SHIPPING])) {
+                    $order_shipment_traces = [];
+                } else if (($order->status == Order::ORDER_STATUS_COMPLETED) || ($order->status == Order::ORDER_STATUS_REFUNDING && $order->refund->status == OrderRefund::ORDER_REFUND_STATUS_REFUNDED) || Carbon::now()->diffInRealSeconds($order->last_queried_at) < 3600 * 6) {
+                    $order_shipment_traces = $order->shipment_info;
+                } else {
+                    $order_shipment_traces = kdniao_shipment_query($order->shipment_company, $order->shipment_sn);
+                    $order->update([
+                        'shipment_info' => $order_shipment_traces,
+                        'last_queried_at' => Carbon::now()->toDateTimeString()
+                    ]);
+                }
             }
         }
 
@@ -767,13 +787,27 @@ class OrdersController extends Controller
     // GET 快递100 API 实时查询订单物流状态
     public function shipmentQuery(Request $request, Order $order)
     {
-        $this->authorize('shipment_query', $order);
+        // $this->authorize('shipment_query', $order);
+        $user = $request->user();
+        if (!$user || $user->id != $order->user_id || in_array($order->status, [Order::ORDER_STATUS_PAYING, Order::ORDER_STATUS_CLOSED, Order::ORDER_STATUS_SHIPPING])) {
+            return response()->json([
+                'order_shipment_traces' => []
+            ]);
+        }
 
         // 订单物流状态
         $order_shipment_traces = [];
-        if ($order->shipment_company != null && $order->shipment_sn != null) {
+        if ($order->shipment_company != null && $order->shipment_company != 'etc' && $order->shipment_sn != null) {
             // 快递鸟(kdniao.com) 即时查询API
-            $order_shipment_traces = kdniao_shipment_query($order->shipment_company, $order->shipment_sn);
+            if (($order->status == Order::ORDER_STATUS_COMPLETED) || ($order->status == Order::ORDER_STATUS_REFUNDING && $order->refund->status == OrderRefund::ORDER_REFUND_STATUS_REFUNDED) || Carbon::now()->diffInRealSeconds($order->last_queried_at) < 3600 * 6) {
+                $order_shipment_traces = $order->shipment_info;
+            } else {
+                $order_shipment_traces = kdniao_shipment_query($order->shipment_company, $order->shipment_sn);
+                $order->update([
+                    'shipment_info' => $order_shipment_traces,
+                    'last_queried_at' => Carbon::now()->toDateTimeString()
+                ]);
+            }
         }
 
         return response()->json([
