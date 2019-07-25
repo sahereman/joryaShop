@@ -11,7 +11,9 @@
                     <a href="{{ route('root') }}">@lang('basic.home')</a>
                     @if($category->parent)
                         <span>></span>
-                        <a href="{{ route('product_categories.index', ['category' => $category->parent->id,'slug'=>$category->parent->slug]) }}">{{ App::isLocale('zh-CN') ? $category->parent->name_zh : $category->parent->name_en }}</a>
+                        <a href="{{ route('product_categories.index', ['category' => $category->parent->id,'slug'=>$category->parent->slug]) }}">
+                            {{ App::isLocale('zh-CN') ? $category->parent->name_zh : $category->parent->name_en }}
+                        </a>
                     @endif
                     <span>></span>
                     <a href="{{ route('product_categories.index', ['category' => $category->id,'slug'=>$category->slug]) }}">{{ App::isLocale('zh-CN') ? $category->name_zh : $category->name_en }}</a>
@@ -62,11 +64,14 @@
                 </div>
                 <!--商品参数-->
                 <div class="parameters_content">
+                    {{-- 商品标题 --}}
                     <h4 class="forstorage_name" info_url="{{ $product->thumb_url }}" info_code="{{ $product->id }}"
                         info_href="{{ route('products.show', ['product' => $product->id,'slug'=>$product->slug]) }}">
                         {{ App::isLocale('zh-CN') ? $product->name_zh : $product->name_en }}
                     </h4>
+                    {{-- 商品小标题介绍 --}}
                     <p class="small_title">{!! App::isLocale('zh-CN') ? $product->description_zh : $product->description_en !!}</p>
+                    {{-- 价格服务模块 --}}
                     <div class="price_service">
                         <p class="original_price">
                             <span>@lang('product.product_details.the original price')</span>
@@ -96,46 +101,29 @@
                             {{--<span class="service-kind"><i>•</i>@lang('product.product_details.Quick refund in 48 hours')</span>--}}
                         </p>
                     </div>
-                    {{--<div class="priceOfpro">
+                    {{-- 商品SKU参数部分 --}}
+                    {{-- <div class="priceOfpro">
                         <span>@lang('product.product_details.freight')</span>
                         <span><i>@lang('basic.currency.symbol') </i>{{ App::isLocale('en') ? $product->shipping_fee_in_usd : $product->shipping_fee }}</span>
                         <span><i>{{ get_global_symbol() }} </i>{{ get_current_price($product->shipping_fee) }}</span>
-                    </div>--}}
-
-                    @if(count($parameters) > 0)
-                        @foreach($parameters as $key => $specifications)
-                            <div class="priceOfpro forgetSel"
-                                 data-url="{{ route('products.get_sku_parameters', ['product' => $product->id]) }}">
-                                <span class="dynamic_name">{{ $key }}</span>
-                                <select name="{{ $key }}">
-                                    @if(count($specifications) > 0)
-                                        @foreach($specifications as $index => $specification)
-                                            <option value="{{ $specification }}">{{$specification}}</option>
-                                        @endforeach
-                                    @endif
-                                </select>
-                            </div>
-                        @endforeach
-                    @endif
-                    @if(count($skus) > 0)
-                        <div class="forSkusHidde dis_n">
-                            @foreach($skus as $specifications)
-                                <input type="text" value="{{ $specifications }}"/>
-                            @endforeach
-                        </div>
-                    @endif
+                    </div> --}}
+                    {{-- 动态渲染的skus选择器存放位置 --}}
+                    <div class="sku-choose-store"></div>
+                    {{-- skus参数数组 --}}
+                    <input type="hidden" class="parameter-data" value="{{ json_encode($attributes) }}"/>
+                    {{-- 商品数量相关 --}}
                     <div class="priceOfpro">
                         <span class="buy_numbers">@lang('product.product_details.Quantity')</span>
                         <div class="quantity_control">
                             <span class="reduce no_allow"><i>-</i></span>
-                            <input name="number" id="pro_num" type="number" value="1" min="1" max="99">
+                            <input type="number" name="number" id="pro_num" value="1" min="1" max="99">
                             <span class="add"><i>+</i></span>
                         </div>
                         <div class="availableSold">
-                            <span class="defalutavailableSold" data-stock='{{ $skus->first()->stock }}'
+                            {{-- <span class="defalutavailableSold" data-stock='{{ $skus->first()->stock }}'
                                   data-sales='{{ $skus->first()->sales }}'>
                                 {{ $skus->first()->stock }} Available / <i>{{ $skus->first()->sales }} Sold</i>
-                            </span>
+                            </span>--}}
                         </div>
                     </div>
                     <!--添加购物车与立即购买-->
@@ -241,9 +229,37 @@
                             <strong>({{ $comment_count }})</strong></li>
                     </ul>
                     <div class="mc tabcon product_info">
+                        {{--商品参数部分--}}
+                        <div class="commodity-parameters">
+                            {{-- 用来存放后台返回的的iframe的数据或者富文本  --}}
+                            <div class="parameters-iframe dis_ni">
+                                {{-- 占位假数据需替换为后台接口 --}}
+                                {{-- {!! App::isLocale('zh-CN') ? $product->content_zh : $product->content_en !!} --}}
+                                <ul class="parameter2 p-parameter-list">
+                                    <li title="AppleApple Watch">商品名称：AppleApple Watch</li>
+                                    <li title="100003047541">商品编号：100003047541</li>
+                                    <li title="0.52kg">商品毛重：0.52kg</li>
+                                    <li title="中国大陆">商品产地：中国大陆</li>
+                                    <li title="10-12mm">机身厚度：10-12mm</li>
+                                    <li title="40mm以上">屏幕大小：40mm以上</li>
+                                    <li title="彩色触屏">屏幕显示：彩色触屏</li>
+                                    <li title="50米防水">防水等级：50米防水</li>
+                                    <li title="3天以下">续航时间：3天以下</li>
+                                    <li title="蓝牙通话">通话功能：蓝牙通话</li>
+                                    <li title="10-15种">运动模式识别：10-15种</li>
+                                    <li title="自定义表盘，睡眠监测，消息提醒，心率监测，NFC支付，久坐提醒，GPS定位，气压高度测量，多重定位，社交娱乐">功能用途：自定义表盘，睡眠监测，消息提醒，心率监测，NFC支付，久坐提醒，GPS定位，气压高度测量，多重定位，社交娱乐</li>
+                                    <li title="男士，女士，老人，儿童，通用">适用人群：男士，女士，老人，儿童，通用</li>
+                                    <li title="织布">腕带材质：织布</li>
+                                </ul>
+                            </div>
+                            <iframe name="parameters-cmsCon" id="parameters-cmsCon" class="parameters-cmsCon" frameborder="0" width="100%" scrolling="no" height="auto"></iframe>
+                        </div>
+                        {{--商品详情部分iframe--}}
                         <div class="iframe_content dis_ni">
+                            {{-- 用来存放后台返回的的iframe的数据或者富文本 --}}
                             {!! App::isLocale('zh-CN') ? $product->content_zh : $product->content_en !!}
                         </div>
+                        {{-- 页面实际展示的部分，用js进行页面渲染 --}}
                         <iframe name="cmsCon" id="cmsCon" class="cmsCon" frameborder="0" width="100%" scrolling="no" height="auto"></iframe>
                     </div>
                     <div class="mc tabcon dis_n">
@@ -440,6 +456,7 @@
             if ($(this).hasClass('for_show_login') == true) {
                 $(".login").click();
             } else {
+                getSkuId()
                 var data = {
                     _token: "{{ csrf_token() }}",
                     sku_id: sku_id,
@@ -472,6 +489,8 @@
                 $(".login").click();
             } else {
                 var url = clickDom.attr('data-url');
+                // 获取sku_id
+                getSkuId()
                 window.location.href = url + "?sku_id=" + sku_id + "&number=" + $("#pro_num").val() + "&sendWay=1";
             }
         });
@@ -504,13 +523,13 @@
                     } else {
                         var html = "";
                         // var name;
-                        var parameters;
+                        var attributes;
                         $(".composite_index").text((json.data.composite_index).toFixed(1));
                         $(".description_index").text((json.data.description_index).toFixed(1));
                         $(".shipment_index").text((json.data.shipment_index).toFixed(1));
                         $.each(dataObj, function (i, n) {
                             // name = (country == "中文") ? n.order_item.sku.name_zh : n.order_item.sku.name_en;
-                            parameters = (country == "中文") ? n.order_item.sku.parameters_zh : n.order_item.sku.parameters_en;
+                            attributes = (country == "中文") ? n.order_item.sku.attributes_zh : n.order_item.sku.attributes_en;
                             dataObj_photo = n.photo_urls;
                             html += "<div class='item'>";
                             html += "<div class='evaluation_results_left'>";
@@ -523,9 +542,9 @@
                             html += "<div class='five_star_evaluation'>";
                             html += "<img src='" + "{{ config('app.url') }}" + "/img/star-" + n.composite_index + ".png' />";
                             html += "</div>";
-                            html += "<p class='product_parameters'>";
+                            html += "<p class='product_attributes'>";
                             // html += "<span>" + name + "</span>";
-                            html += "<span>" + parameters + "</span>";
+                            html += "<span>" + attributes + "</span>";
                             html += "</p>";
                             html += "<p class='eva_text'>" + n.content + "</p>";
                             html += "<ul class='evaluation_img'>";
@@ -615,292 +634,360 @@
                 }
             });
         });
-
-        //数组选择器
-        //定义skus数组内容
-        var skus_arr = [];
-        var size = null,
-                colour = null,
-                density = null;
-        var skus_hide = $(".forSkusHidde").find("input");
-        for (var skus_i = 0; skus_i <= skus_hide.length - 1; skus_i++) {
-            skus_arr.push(JSON.parse($(skus_hide[skus_i]).val()));
-        }
-        sku_id = skus_arr[0].id;
-        sku_stock = skus_arr[0].stock;
-        $("#sku_price_in_usd").html("<i>{{ get_global_symbol() }}</i> " + skus_arr[0].price);
-        var old_price = js_number_format(Math.imul(float_multiply_by_100(skus_arr[0].price), 12) / 1000);
-        $("#sku_original_price_in_usd").html("<i>{{ get_global_symbol() }}</i> " + old_price);
-        //根据三个select的值进行数组查询
-        function map_search(search_size, search_colour, search_density) {
-            return skus_arr.map(function (item, index) {
-                if (item.base_size_en == search_size
-                        && item.hair_colour_en == search_colour
-                        && item.hair_density_en == search_density
-                ) {
-                    // return skus_arr[index];
-                    var search_result = skus_arr[index];
-                    if (search_result.length != 0) {
-                        $("#sku_price_in_usd").html("<i>" + global_symbol + "</i> " + search_result.price);
-                        var old_price = js_number_format(Math.imul(float_multiply_by_100(search_result.price), 12) / 1000);
-                        $("#sku_original_price_in_usd").html("<i>" + global_symbol + "</i> " + old_price);
-                        sku_price = get_current_price(search_result.price);
-                        sku_original_price = get_current_price(old_price);
-                        sku_id = search_result.id;
-                        sku_stock = search_result.stock;
-                        var dataStock = $(".availableSold .defalutavailableSold").attr("data-stock"),
-                                dataSales = $(".availableSold .defalutavailableSold").attr("data-sales");
-                        var stock = search_result.stock || dataStock,
-                                sales = search_result.sales || dataSales;
-                        $(".availableSold").find(".changeavailableSold").remove();
-                        $(".defalutavailableSold").addClass('dis_ni');
-                        $(".availableSold").append("<span class='changeavailableSold'>" + stock + " Available / <i>" + sales + " Sold</i></span>");
-                        var sku_photo = search_result.photo_url;
-                        if (sku_photo != "") {
-                            $("#mediumContainer img").attr("src", sku_photo);
-                            $("#img_u img").attr("src", sku_photo);
-                        } else {
-                            var active_src = $("#img_x .active").find("img").attr("src");
-                            $("#mediumContainer img").attr("src", active_src);
-                            $("#img_u img").attr("src", active_src);
-                        }
-                    } else {
-                        layer.msg("Current specifications do not exist. Please re-select the selected items!");
-                    }
+        // map方法的兼容性写法
+        /**
+         * map遍历数组
+         * @param callback [function] 回调函数；
+         * @param context [object] 上下文；
+         */
+        Array.prototype.myMap = function myMap(callback,context){
+            context = context || window;
+            if('map' in Array.prototye) {
+                return this.map(callback,context);
+            }
+            //IE6-8下自己编写回调函数执行的逻辑
+            var newAry = [];
+            for(var i = 0,len = this.length; i < len;i++) {
+                if(typeof callback === 'function') {
+                    var val = callback.call(context,this[i],i,this);
+                    newAry[newAry.length] = val;
                 }
-            }).filter(function (item) {
-                return item != undefined;
-            });
-        }
-        //数据选择器
-        if (!Array.prototype.filter) {
-            Array.prototype.filter = function (fn, context) {
-                var i,
-                        value,
-                        result = [],
-                        length;
-
-                if (!this || typeof fn !== 'function' || (fn instanceof RegExp)) {
-                    throw new TypeError();
-                }
-
-                length = this.length;
-
-                for (i = 0; i < length; i++) {
-                    if (this.hasOwnProperty(i)) {
-                        value = this[i];
-                        if (fn.call(context, value, i, this)) {
-                            result.push(value);
-                        }
-                    }
-                }
-                return result;
-            };
-        }
-        var _findItemByValue = function (obj, prop, value) {
-            return obj.filter(function (item) {
-                return (item[prop] === value);
-            });
+            }
+            return newAry;
         };
-        //数组去重
-        function unique(arr) {
-            var new_arr = arr.filter(function (element, index, self) {
-                return self.indexOf(element) === index;
+        // 数组选择器
+        // 定义skus数组内容
+        
+     //   数据融合公用方法
+        function  dataFusion(intArray,outArray) {
+            $.each(intArray, function (sku_arr_i,sku_arr_n) {
+                $.each(sku_arr_n, function (sku_arr_n_index,sku_arr_n_item) {
+                    outArray.push(sku_arr_n_item);
+                })
             });
-            return new_arr;
         }
-        //数据计算方法
-        function float_multiply_by_100(float) {
-            float = String(float);
-            // float = float.toString();
-            var index_of_dec_point = float.indexOf('.');
-            if (index_of_dec_point == -1) {
-                float += '00';
-            } else {
-                var float_splitted = float.split('.');
-                var dec_length = float_splitted[1].length;
-                if (dec_length == 1) {
-                    float_splitted[1] += '0';
-                } else if (dec_length > 2) {
-                    float_splitted[1] = float_splitted[1].substring(0, 1);
-                }
-                float = float_splitted.join('');
-            }
-            return Number(float);
-        }
-        function js_number_format(number) {
-            number = String(number);
-            var index_of_dec_point = number.indexOf('.');
-            if (index_of_dec_point == -1) {
-                number += '.00';
-            } else {
-                var number_splitted = number.split('.');
-                var dec_length = number_splitted[1].length;
-                if (dec_length == 1) {
-                    number += '0';
-                } else if (dec_length > 2) {
-                    number_splitted[1] = number_splitted[1].substring(0, 2);
-                    number = number_splitted.join('.');
+     //   数组按属性值进行分类
+        function dataFusionClassif(intArray,outArray,mapname,attributename) {
+            for(var i = 0; i < intArray.length; i++){
+                var coalesce_a = intArray[i];     // skus_arr_coalesce循环的每个单独数据的定义
+                if(!mapname[coalesce_a[attributename]]){       // 如果map对象中不存在查找的name值则将这个name新增到map对象中
+                    outArray.push({
+                        name: coalesce_a[attributename],
+                        data: [coalesce_a]
+                    });
+                    mapname[coalesce_a[attributename]] = coalesce_a;
+                }else{       // 如果查找的name值存在于map对象中，则将该条数据除了name外对应的数据添加到map中已有相应名字对象的data数组中
+                    for(var j = 0; j < outArray.length; j++){
+                        var coalesce_d = outArray[j];
+                        if(coalesce_d['name'] == coalesce_a[attributename]){
+                            coalesce_d.data.push(coalesce_a);
+                            break;
+                        }
+                    }
                 }
             }
-            return number;
         }
-        //每次切换select的时候根据当前的三个select已选中的默认进行多值查询，查找到的商品id与价格进行变换,
-        //切换其中一个select时对size、colour、density的值进行判断，根据这三个参数的值判断哪个select已进行切换过
-        //然后对当前选中的值在skus的数组中进行找到，找出当前值对应的商品分类，然后其他两个规格的内容进行数组查找，判断已选值是否存在
-        //如果存在默认显示已选值内容，如不存在默认显示最新查询出的数组中的第一个值，避免出现三种select切换后出现商品不存在的情况
-
-        //切换
-        $(".priceOfpro").on("change", "select", function () {
-            var current_val = $(this).val();
-            var current_name = $(this).attr("name");
-            var html_colour = '',
-                    html_size = '',
-                    html_density = '';
-            var search_result = [],
-                    judge_arr = [],
-                    colour_arr = [],
-                    size_arr = [],
-                    density_arr = [];
-            switch (current_name) {
-                case '{{ __('product.product_details.base_size') }}':
-                    size = current_val;
-                    search_result = _findItemByValue(skus_arr, 'base_size_en', current_val);
-                    $.each(search_result, function (i, n) {
-                        colour_arr.push(n.hair_colour_en);
-                        density_arr.push(n.hair_density_en)
-                    });
-                    colour_arr = unique(colour_arr);
-                    density_arr = unique(density_arr);
-                    $.each(colour_arr, function (i, n) {
-                        html_colour += "<option value='" + n + "'>" + n + "</option>"
-                    });
-                    $.each(density_arr, function (i, n) {
-                        html_density += "<option value='" + n + "'>" + n + "</option>"
-                    });
-                    $(".priceOfpro").find("select[name='{{ __('product.product_details.hair_colour') }}'] option").remove();
-                    $(".priceOfpro").find("select[name='{{ __('product.product_details.hair_density') }}'] option").remove();
-                    $(".priceOfpro").find("select[name='{{ __('product.product_details.hair_colour') }}']").append(html_colour);
-                    $(".priceOfpro").find("select[name='{{ __('product.product_details.hair_density') }}']").append(html_density);
-                    if (colour != null) {
-                        if ($.inArray(colour, colour_arr) >= 0) {
-                            //已选select值存在
-                            $(".priceOfpro select[name='{{ __('product.product_details.hair_colour') }}']").find("option[value='" + colour + "']").attr("selected", true);
-                        } else {
-                            //已选select不存在，需将对应条件重置，默认显示第一个
-                            layer.msg("The selected colour is not available. Please re-select it!");
-                        }
-                    }
-                    if (density != null) {
-                        if ($.inArray(denisty, density_arr) >= 0) {
-                            //已选select值存在
-                            $(".priceOfpro select[name='{{ __('product.product_details.hair_density') }}']").find("option[value='" + denisty +"']").attr("selected", true);
-                        } else {
-                            //已选select不存在，需将对应条件重置，默认显示第一个
-                            layer.msg("Selected density no goods, please re-select!");
-                        }
-                    }
-                    //每次选择后对当前三种规格的内容在数组中进行查找，改变价格及库存
-                    var search_size = $(".priceOfpro").find("select[name='{{ __('product.product_details.base_size') }}']").val(),
-                            search_colour = $(".priceOfpro").find("select[name='{{ __('product.product_details.hair_colour') }}']").val(),
-                            search_density = $(".priceOfpro").find("select[name='{{ __('product.product_details.hair_density') }}']").val();
-                    map_search(search_size, search_colour, search_density);
-                    break;
-                case '{{ __('product.product_details.hair_colour') }}':
-                    colour = current_val;
-                    search_result = _findItemByValue(skus_arr, 'hair_colour_en', current_val);
-                    $.each(search_result, function (i, n) {
-                        size_arr.push(n.base_size_en);
-                        density_arr.push(n.hair_density_en)
-                    });
-                    size_arr = unique(size_arr);
-                    density_arr = unique(density_arr);
-                    $.each(size_arr, function (i, n) {
-                        html_size += "<option value='" + n + "'>" + n + "</option>"
-                    });
-                    $.each(density_arr, function (i, n) {
-                        html_density += "<option value='" + n + "'>" + n + "</option>"
-                    });
-                    $(".priceOfpro").find("select[name='{{ __('product.product_details.base_size') }}'] option").remove();
-                    $(".priceOfpro").find("select[name='{{ __('product.product_details.hair_density') }}'] option").remove();
-                    $(".priceOfpro").find("select[name='{{ __('product.product_details.base_size') }}']").append(html_size);
-                    $(".priceOfpro").find("select[name='{{ __('product.product_details.hair_density') }}']").append(html_density);
-                    if (size != null) {
-                        if ($.inArray(size, size_arr) >= 0) {
-                            //已选select值存在
-                            $(".priceOfpro select[name='{{ __('product.product_details.base_size') }}']").find("option[value='" + size + "']").attr("selected", true);
-                        } else {
-                            //已选select不存在，需将对应条件重置，默认显示第一个
-                            layer.msg("Selected dimensions are not available. Please re-select them!");
-                        }
-                    }
-                    if (density != null) {
-                        if ($.inArray(denisty, density_arr) >= 0) {
-                            //已选select值存在
-                            $(".priceOfpro select[name='{{ __('product.product_details.hair_density') }}']").find("option[value='" + denisty +"']").attr("selected", true);
-                        } else {
-                            //已选select不存在，需将对应条件重置，默认显示第一个
-                            layer.msg("Selected density no goods, please re-select!");
-                        }
-                    }
-                    //每次选择后对当前三种规格的内容在数组中进行查找，改变价格及库存
-                    var search_size = $(".priceOfpro").find("select[name='{{ __('product.product_details.base_size') }}']").val(),
-                            search_colour = $(".priceOfpro").find("select[name='{{ __('product.product_details.hair_colour') }}']").val(),
-                            search_density = $(".priceOfpro").find("select[name='{{ __('product.product_details.hair_density') }}']").val();
-                    map_search(search_size, search_colour, search_density);
-                    break;
-                case '{{ __('product.product_details.hair_density') }}':
-                    density = current_val;
-                    search_result = _findItemByValue(skus_arr, 'hair_density_en', current_val);
-                    $.each(search_result, function (i, n) {
-                        size_arr.push(n.base_size_en);
-                        colour_arr.push(n.hair_colour_en)
-                    });
-                    size_arr = unique(size_arr);
-                    colour_arr = unique(colour_arr);
-                    $.each(size_arr, function (i, n) {
-                        html_size += "<option value='" + n + "'>" + n + "</option>"
-                    });
-                    $.each(colour_arr, function (i, n) {
-                        html_colour += "<option value='" + n + "'>" + n + "</option>"
-                    });
-                    $(".priceOfpro").find("select[name='{{ __('product.product_details.base_size') }}'] option").remove();
-                    $(".priceOfpro").find("select[name='{{ __('product.product_details.hair_colour') }}'] option").remove();
-                    $(".priceOfpro").find("select[name='{{ __('product.product_details.base_size') }}']").append(html_size);
-                    $(".priceOfpro").find("select[name='{{ __('product.product_details.hair_colour') }}']").append(html_colour);
-                    if (size != null) {
-                        if ($.inArray(size, size_arr) >= 0) {
-                            //已选select值存在
-                            $(".priceOfpro select[name='{{ __('product.product_details.base_size') }}']").find("option[value='" + size + "']").attr("selected", true);
-                        } else {
-                            //已选select不存在，需将对应条件重置，默认显示第一个
-                            layer.msg("Selected dimensions are not available. Please re-select them!");
-                        }
-                    }
-                    if (colour != null) {
-                        if ($.inArray(colour, colour_arr) >= 0) {
-                            //已选select值存在
-                            $(".priceOfpro select[name='{{ __('product.product_details.hair_colour') }}']").find("option[value='" + colour + "']").attr("selected", true);
-                        } else {
-                            //已选select不存在，需将对应条件重置，默认显示第一个
-                            layer.msg("The selected colour is not available. Please re-select it!");
-                        }
-                    }
-                    //每次选择后对当前三种规格的内容在数组中进行查找，改变价格及库存
-                    var search_size = $(".priceOfpro").find("select[name='{{ __('product.product_details.base_size') }}']").val(),
-                            search_colour = $(".priceOfpro").find("select[name='{{ __('product.product_details.hair_colour') }}']").val(),
-                            search_density = $(".priceOfpro").find("select[name='{{ __('product.product_details.hair_density') }}']").val();
-                    map_search(search_size, search_colour, search_density);
-                    break;
-                default:
-                    size = null;
-                    colour = null;
-                    density = null;
-                    break;
-            }
+     var skus_arr = [],   // 后台返回数据转json的存放数组
+         skus_arr_coalesce = [], // 存放json第一次循环后的混合数组
+         map = {},  // 定义一个map对象用于数组中具有相同name值得数据进行合并  // 根据数组的name属性对数据进行map操作与数组整合
+         skus_map = [],  // 经过map操作融合后的数据,同时对该数组进行循环，将内容渲染到页面中
+         already_selected = [],   // 存放用户做出选择的skus参数的数组
+         temporary_storage = [], // 用于临时存储根据索引从原始数组中存储的数据
+         sku_parameter = {     // 定义一个sku参数对象集合，单个相关参数存放在该对象中方便区分与查找
+             html: '',
+             optionHtml: '',   // 每次选择之后刷新的option的模板
+             sku_data_warehouse: $(".parameter-data"), // 初始存放数据的仓库的选择器
+             sku_choose_store: $(".sku-choose-store"),    // 存放渲染节点的父级节点选择器
+             choose_classify_index: '',   // 下拉菜单select被操作的对应的data-index值
+             choose_classify_sku_id: '',   // 活跃状态下被选中的select的sku_id值
+             sku_select_amount: 0  // 定义sku中select选择器的数量
+         };
+        skus_arr = JSON.parse(sku_parameter.sku_data_warehouse.val());
+        dataFusion(skus_arr,skus_arr_coalesce);
+        //当 数据完成第一次处理之后将页面中的input的value进行置空
+        sku_parameter.sku_data_warehouse.val("");
+        // 第二种数据分组的方式
+        // var attr_value_options = [];
+        // $.each(skus_arr, function (product_sku_id, product_sku_attr_values) {
+        //     $.each(product_sku_attr_values, function (product_sku_attr_values_index, product_sku_attr_value) {
+        //         if (! attr_value_options[product_sku_attr_value.name]) {
+        //             attr_value_options[product_sku_attr_value.name] = [];
+        //         }
+        //         if (attr_value_options[product_sku_attr_value.name].indexOf(product_sku_attr_value.value) == -1) {
+        //             attr_value_options[product_sku_attr_value.name].push(product_sku_attr_value.value);
+        //         }
+        //     })
+        // });
+        dataFusionClassif(skus_arr_coalesce,skus_map,map,'name');
+        // console.log(skus_map);
+         // 根据数组对象进行去重
+        function arrayUnique2(arr, name) {
+            var hash = {};
+            return arr.reduce(function (item, next) {
+                hash[next[name]] ? '' : hash[next[name]] = true && item.push(next);
+                return item;
+            }, []);
+        }
+         //   对处理过后的数据进行循环，动态生成相应的DOM节点
+        //   虚拟的DOM结构
+        // <div class="priceOfpro forgetSel">
+        //   <span class="dynamic_name">参数名</span>
+        //   <select name="parameter-name">
+        //     <option value="参数值">参数值</option>
+        //   </select>
+        // </div>
+        $.each(skus_map,function (sku_map_i,sku_map_n) {
+            sku_parameter.html += "<div class='priceOfpro forgetSel'>"
+            sku_parameter.html += "<span class='dynamic_name'>"+ sku_map_n.name +"</span>"
+            sku_parameter.html += "<select data-index='"+ sku_map_i +"' name='"+ sku_map_n.name +"'>"
+            var sku_map_item =arrayUnique2(sku_map_n.data,'value');
+            $.each(sku_map_item,function (sku_map_data_i,sku_map_data_n) {
+                sku_parameter.html += "<option value='" + sku_map_data_n.value + "'>"+ sku_map_data_n.value +"</option>"
+            });
+            sku_parameter.html += "</select>"
+            sku_parameter.html += "</div>"
         });
 
-        // 页面加载时将商品信息存储到localstorage中，方便之后进行调取
+        // 判断数组中是否存在重复标号
+        function isExists(arr,aim,search){
+            return arr.some(function(item) {
+                if (item[aim] == search) {
+                    return true;
+                }
+            });
+        }
+        // 删除需要更新的旧数据
+        function delOldData(Array,aim,search){
+            for (var select_i = 0; select_i< Array.length;select_i++){
+                if(already_selected[select_i][aim] == search){
+                    Array.splice(select_i,1);
+                }
+            }
+        }
+        // 获取sku_id
+        function getSkuId(){
+            var searchArr = [],
+                newSkuArray = [],
+                childSkuArr = [],
+                firstResultArr = [],
+                secondResultArr = [];
+            var allChooseSelect = $(".sku-choose-store").find("select");
+            $.each(allChooseSelect,function (chooseSelect_in,chooseSelect_value) {
+                searchArr.push({name: $(chooseSelect_value).attr("name"),value: $(chooseSelect_value).val() })
+                // searchArr.push({value: $(chooseSelect_value).val() })
+            });
+            for(var arr_key in skus_arr) {
+                newSkuArray.push({id:arr_key,data:skus_arr[arr_key]});
+                for(var newSkuArrayKey in newSkuArray) {
+                    childSkuArr = newSkuArray[newSkuArrayKey].data
+                    for (var childSkuArrKey in childSkuArr){
+                        for (var searchArrKey in searchArr){
+                            if (childSkuArr[childSkuArrKey].value!=undefined&&searchArr[searchArrKey].value!=undefined) {
+                                if(childSkuArr[childSkuArrKey].value == searchArr[searchArrKey].value&&childSkuArr[childSkuArrKey].name == searchArr[searchArrKey].name){
+                                    firstResultArr.push(newSkuArray[newSkuArrayKey]);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            // 一次轮询后的数字进行去重操作
+            var firstResultArr_hash=[];
+            for (var i = 0; i < firstResultArr.length; i++) {
+                for (var j = i+1; j < firstResultArr.length; j++) {
+                    if(firstResultArr[i].id===firstResultArr[j].id){
+                        ++i;
+                    }
+                }
+                firstResultArr_hash.push(firstResultArr[i]);
+            }
+            $.each(firstResultArr_hash,function (firstResultArr_in,firstResultArr_value) {
+                var firstResultData = firstResultArr_value.data;
+                for (var firstResultData_i = 0;firstResultData_i<firstResultData.length;firstResultData_i++) {
+                    for (var searchArr_index = 0;searchArr_index<searchArr.length;searchArr_index++){
+                        if(firstResultData[firstResultData_i].name==searchArr[searchArr_index].name&&firstResultData[firstResultData_i].value==searchArr[searchArr_index].value){
+                            secondResultArr.push(firstResultData[firstResultData_i]);
+                        }
+                    }
+                }
+                // $.each(firstResultArr_value.data,function (ResultArr_value_i,ResultArr_value_n) {
+                //     secondResultArr.push({name: ResultArr_value_n.name,value: ResultArr_value_n.value })
+                // })
+            });
+            var searchResultMap = {},
+                finalArray = [];
+            var aimLength = $(".sku-choose-store").find('select').length;
+            dataFusionClassif(secondResultArr,finalArray,searchResultMap,'product_sku_id');
+            $.each(finalArray,function (finalArray_i,finalArray_n) {
+                if(finalArray_n.data.length == aimLength) {
+                    sku_id = finalArray_n.name;
+                }
+            })
+        }
+        sku_parameter.sku_choose_store.html("").append(sku_parameter.html);
+        sku_parameter.sku_choose_store.find("select").on("change",function () {
+            var _that = $(this);
+                selected_val = _that.val();
+            //    每次切换时将临时仓库进行置空操作
+            temporary_storage = [];
+            sku_parameter.choose_classify_index = $(this).attr("data-index");
+            // for(var change_index = 0;change_index<=skus_map.length-1;change_index++){
+                // 判断当前的操作的select的DOM节点
+                // if(change_index == sku_parameter.choose_classify_index) {
+                    for(var search_key in skus_arr){
+                        for (var search_key_child in skus_arr[search_key]) {
+                                // 通过轮询的方式在原始数组查找与所选项目相同的数组内容
+                                if(skus_arr[search_key][search_key_child].value == selected_val){
+                                    // already_selected为用于存放用户已选择的选项的数组
+                                    // 如果数组为空便将用户选择的内容添加到数组中
+                                    // 如果数组不为空则分两种情况考虑：
+                                    // 1、以skus_map数组为依据判断页面中sku种类的数量，如果already_selected的长度小于skus_map的长度则继续添加新的数据
+                                    //    添加新数据的同时判断数组内是否已存在当前操作的select的已选值，如果存在则更新，反之则继续添加
+                                    // 2、同样是根据skus_map数组的长度进行判断，当长度相同时代表用户对所有的sku参数都已经进行过操作如果继续操作则只需要更新即可
+                                    //  ！！！！！当存在重置功能时，重置时也需要将already_selected进行置空操作
+                                    var select_index = _that.attr("data-index"),     // 用户进行操作的DOM的标号
+                                        active_sku_id = skus_arr[search_key][search_key_child].product_sku_id,  // 用户选择的sku对用的id
+                                        active_value = skus_arr[search_key][search_key_child].value,  // 用户选择的sku对应的value值
+                                        exists = false;    // 用于判断数组是否存在重复选择的值
+                                    if(already_selected.length < skus_map.length ||already_selected.length == 0) {
+                                        if(already_selected.length != 0) {
+                                            // 用来判断数组是否存在重复的select的选择标号
+                                            exists = isExists(already_selected,'select_index',select_index);
+                                        }
+                                        if (exists){
+                                            delOldData(already_selected,'select_index',select_index);
+                                        }
+                                    }else {
+                                        exists = isExists(already_selected,'select_index',select_index);
+                                        if (exists){
+                                            delOldData(already_selected,'select_index',select_index);
+                                        }
+                                    }
+                                    // 将已选择的参数添加到数组中进行存储
+                                    already_selected.push({select_index: select_index,product_sku_id: active_sku_id,value:active_value,name:_that.attr('name')});
+                                    // 将查找到的数据存储到临时仓库中
+                                    temporary_storage.push(skus_arr[search_key]);
+                                    // console.log(temporary_storage)
+                                    if (temporary_storage.length == 1) {
+                                        sku_id = temporary_storage[0][0].product_sku_id;
+                                    }
+                                //    通过对临时仓库和以选择仓库的数据进行对比查找到相应的已选择的
+                                }
+                        }
+                    }
+                    //   将搜索的结果进行处理对剩下的select的option选项进行刷新
+                    var temporary_storage_change1 = [],
+                        temporary_storage_change2 = [],
+                        temporary_storage_map = {};
+                    dataFusion(temporary_storage,temporary_storage_change1);
+                    dataFusionClassif(temporary_storage_change1,temporary_storage_change2,temporary_storage_map,'name');
+                    var aimSelect ;
+                        // 将处理好的数据进行渲染    optionHtml
+                    // console.log(temporary_storage_change2);
+                    $.each(temporary_storage_change2,function (storage_index,storage_value) {
+                        var storage_value_item =arrayUnique2(storage_value.data,'value');
+                        sku_parameter.optionHtml = "";
+                        $.each(storage_value_item,function (storage_value_index,storage_value_content) {
+                            sku_parameter.optionHtml += "<option value='" + storage_value_content.value + "'>"+ storage_value_content.value +"</option>"
+                        });
+                        aimSelect = $(".sku-choose-store").find("select[name='"+ storage_value.name +"']");
+                        $.each(already_selected,function (already_selected_key,already_selected_value) {
+                            if(aimSelect.attr("data-index") == already_selected_value.select_index) {
+                                $(aimSelect).find("option[value='"+ already_selected_value.value +"']").attr("selected",true);
+                            }
+                        });
+                        $(aimSelect).find("option").remove();
+                        $(aimSelect).append(sku_parameter.optionHtml);
+                        // $(aimSelect).find("option[value='"+ selected_val +"']").attr("selected",true);
+                    })
+                // }else {
+                //
+                // }
+            // }
+        });
+
+
+
+
+     // 原价计算
+     // var old_price = js_number_format(Math.imul(float_multiply_by_100(origin_price), 12) / 1000);
+     {{--$("#sku_original_price_in_usd").html("<i>{{ get_global_symbol() }}</i> " + old_price);--}}
+
+      //数据选择器兼容性处理
+     if (!Array.prototype.filter) {
+         Array.prototype.filter = function (fn, context) {
+             var i,
+                 value,
+                 result = [],
+                 length;
+
+             if (!this || typeof fn !== 'function' || (fn instanceof RegExp)) {
+                 throw new TypeError();
+             }
+
+             length = this.length;
+
+             for (i = 0; i < length; i++) {
+                 if (this.hasOwnProperty(i)) {
+                     value = this[i];
+                     if (fn.call(context, value, i, this)) {
+                         result.push(value);
+                     }
+                 }
+             }
+             return result;
+         };
+     }
+     var _findItemByValue = function (obj, prop, value) {
+         return obj.filter(function (item) {
+             return (item[prop] === value);
+         });
+     };
+//      //数组去重
+     function unique(arr) {
+         var new_arr = arr.filter(function (element, index, self) {
+             return self.indexOf(element) === index;
+         });
+         return new_arr;
+     }
+     //数据计算方法
+     function float_multiply_by_100(float) {
+         float = String(float);
+         // float = float.toString();
+         var index_of_dec_point = float.indexOf('.');
+         if (index_of_dec_point == -1) {
+             float += '00';
+         } else {
+             var float_splitted = float.split('.');
+             var dec_length = float_splitted[1].length;
+             if (dec_length == 1) {
+                 float_splitted[1] += '0';
+             } else if (dec_length > 2) {
+                 float_splitted[1] = float_splitted[1].substring(0, 1);
+             }
+             float = float_splitted.join('');
+         }
+         return Number(float);
+     }
+     function js_number_format(number) {
+         number = String(number);
+         var index_of_dec_point = number.indexOf('.');
+         if (index_of_dec_point == -1) {
+             number += '.00';
+         } else {
+             var number_splitted = number.split('.');
+             var dec_length = number_splitted[1].length;
+             if (dec_length == 1) {
+                 number += '0';
+             } else if (dec_length > 2) {
+                 number_splitted[1] = number_splitted[1].substring(0, 2);
+                 number = number_splitted.join('.');
+             }
+         }
+         return number;
+     }
+
+     // 页面加载时将商品信息存储到localstorage中，方便之后进行调取
         // 判断浏览器是否支持 localStorage 属性
         var hisProductOld = [],
                 hisProductNew = [],
@@ -995,6 +1082,30 @@
                 window.clearInterval(autoSet);
             }
             
+        }
+
+    //    商品参数iframe
+        var parameters_content = $('.parameters-iframe').html();
+        $('.parameters-iframe').html("");
+        $('#parameters-cmsCon').contents().find('body').html(parameters_content);
+        var parameter_x = document.getElementById('parameters-cmsCon').contentWindow.document.getElementsByTagName('table');
+        parameter_x.border = "1";
+        autoHeightParameters();  //动态调整高度
+        var parameter_count = 0;
+        var parameter_autoSet = window.setInterval('autoHeightParameters()',500);
+        function autoHeightParameters(){
+            var parameter_mainheight;
+            parameter_count++;
+            if(parameter_count == 1){
+                parameter_mainheight = $('.parameters-cmsCon').contents().find("body").height()+50;
+            }else{
+                parameter_mainheight = $('.parameters-cmsCon').contents().find("body").height()+24;
+            }
+            $('.parameters-cmsCon').height(parameter_mainheight);
+            if(parameter_count == 5){
+                window.clearInterval(parameter_autoSet);
+            }
+
         }
     </script>
 @endsection
