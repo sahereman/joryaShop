@@ -148,6 +148,13 @@ class AdminTablesSeeder extends Seeder
                 'icon' => 'fa-dashboard',
                 'uri' => '',
             ],
+            [
+                'parent_id' => 0,
+                'order' => 110,
+                'title' => '导航菜单管理',
+                'icon' => 'fa-anchor',
+                'uri' => 'menus',
+            ],
 
             //用户
             [
@@ -308,13 +315,6 @@ class AdminTablesSeeder extends Seeder
             ],
             [
                 'parent_id' => 19,
-                'order' => 4,
-                'title' => '导航菜单管理',
-                'icon' => 'fa-anchor',
-                'uri' => 'menus',
-            ],
-            [
-                'parent_id' => 19,
                 'order' => 5,
                 'title' => '退款原因管理',
                 'icon' => 'fa-retweet',
@@ -326,6 +326,36 @@ class AdminTablesSeeder extends Seeder
                 'title' => '邮件模板管理',
                 'icon' => 'fa-bookmark',
                 'uri' => 'email_templates',
+            ],
+            [
+                'parent_id' => 19,
+                'order' => 8,
+                'title' => '运费模板管理',
+                'icon' => 'fa-bookmark',
+                'uri' => 'shipment_templates',
+            ],
+
+            // 导航
+            [
+                'parent_id' => 20,
+                'order' => 1,
+                'title' => 'PC主导航',
+                'icon' => 'fa-anchor',
+                'uri' => 'menus?slug=pc',
+            ],
+            [
+                'parent_id' => 20,
+                'order' => 2,
+                'title' => 'PC副导航',
+                'icon' => 'fa-anchor',
+                'uri' => 'menus?slug=sub_pc',
+            ],
+            [
+                'parent_id' => 20,
+                'order' => 3,
+                'title' => 'Mobile导航',
+                'icon' => 'fa-anchor',
+                'uri' => 'menus?slug=mobile',
             ],
         ];
 

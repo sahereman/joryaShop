@@ -124,6 +124,10 @@ Route::group([
     $router->get('email_templates/preview/{email_template}', 'EmailTemplatesController@preview')->name('admin.email_templates.preview');
     $router->resource('email_templates', EmailTemplatesController::class)->names('admin.email_templates');
 
+    /*运费模板*/
+    $router->resource('shipment_templates', ShipmentTemplatesController::class)->names('admin.shipment_templates');
+    $router->resource('shipment_template_plans', ShipmentTemplatePlansController::class)->names('admin.shipment_template_plans');
+
     /*分销等级*/
     $router->resource('distribution_levels', DistributionLevelsController::class)->names('admin.distribution_levels');
 
