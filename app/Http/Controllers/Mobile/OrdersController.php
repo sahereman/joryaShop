@@ -14,6 +14,7 @@ use App\Models\Cart;
 
 // use App\Models\Config;
 // use App\Models\ExchangeRate;
+use App\Models\Coupon;
 use App\Models\Order;
 
 // use App\Models\OrderItem;
@@ -25,6 +26,7 @@ use App\Models\ShipmentCompany;
 
 // use App\Models\User;
 // use App\Models\UserAddress;
+use App\Models\UserCoupon;
 use Illuminate\Http\Request;
 // use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\App;
@@ -192,26 +194,23 @@ class OrdersController extends Controller
     {
         $user = $request->user();
         $total_amount = 0;
-        // $total_amount_en = 0;
         $total_shipping_fee = 0;
-        // $total_shipping_fee_en = 0;
         $items = [];
         $is_nil = true;
+        $product_types = [];
+
         if ($request->has('sku_id') && $request->has('number')) {
             $sku = ProductSku::find($request->query('sku_id'));
             $product = $sku->product;
+            $product_types[] = $product->type;
             $number = $request->query('number');
             $items[0]['sku'] = $sku;
             $items[0]['product'] = $product;
             $items[0]['number'] = $number;
             $items[0]['amount'] = bcmul($sku->price, $number, 2);
-            // $items[0]['amount_en'] = bcmul($sku->price_in_usd, $number, 2);
             $items[0]['shipping_fee'] = bcmul($product->shipping_fee, $number, 2);
-            // $items[0]['shipping_fee_en'] = bcmul($product->shipping_fee_in_usd, $number, 2);
             $total_amount = bcmul($sku->price, $number, 2);
-            // $total_amount_en = bcmul($sku->price_in_usd, $number, 2);
             $total_shipping_fee = bcmul($product->shipping_fee, $number, 2);
-            // $total_shipping_fee_en = bcmul($product->shipping_fee_in_usd, $number, 2);
             $is_nil = false;
         } elseif ($user && $request->has('cart_ids')) {
             $cart_ids = explode(',', $request->query('cart_ids'));
@@ -226,31 +225,28 @@ class OrdersController extends Controller
                 if ($number > $sku->stock) {
                     throw new InvalidRequestException(trans('basic.orders.Insufficient_sku_stock'));
                 }
-                // $sku->price_in_usd = ExchangeRate::exchangePrice($sku->price, 'USD');
                 $product = $sku->product;
-                // $product->shipping_fee_in_usd = ExchangeRate::exchangePrice($product->shipping_fee, 'USD');
+                if (!in_array($product->type, $product_types)) {
+                    $product_types[] = $product->type;
+                }
                 $items[$key]['sku'] = $sku;
                 $items[$key]['product'] = $product;
                 $items[$key]['number'] = $number;
                 $items[$key]['amount'] = bcmul($sku->price, $number, 2);
-                // $items[$key]['amount_en'] = bcmul($sku->price_in_usd, $number, 2);
                 $items[$key]['shipping_fee'] = bcmul($product->shipping_fee, $number, 2);
-                // $items[$key]['shipping_fee_en'] = bcmul($product->shipping_fee_in_usd, $number, 2);
                 $total_amount += bcmul($sku->price, $number, 2);
-                // $total_amount_en += bcmul($sku->price_in_usd, $number, 2);
                 $total_shipping_fee += bcmul($product->shipping_fee, $number, 2);
-                // $total_shipping_fee_en += bcmul($product->shipping_fee_in_usd, $number, 2);
                 $is_nil = false;
             }
         }
         $total_fee = bcadd($total_amount, $total_shipping_fee, 2);
-        // $total_fee_en = bcadd($total_amount_en, $total_shipping_fee_en, 2);
 
         if ($is_nil) {
             return redirect()->back();
         }
 
         $address = false;
+        $available_coupons = [];
         if ($user) {
             $addresses = $user->addresses()->latest('last_used_at')->latest('updated_at')->latest()->get();
             if ($addresses->isNotEmpty()) {
@@ -262,7 +258,39 @@ class OrdersController extends Controller
                     $address = $addresses->first();
                 }
             }
+
+            /* usage of coupon */
+            $user->available_coupons->each(function (UserCoupon $userCoupon) use ($total_fee, $product_types, &$available_coupons) {
+                if ($userCoupon->proto_coupon->status == Coupon::COUPON_STATUS_USING && $userCoupon->proto_coupon->threshold <= $total_fee) {
+                    foreach ($product_types as $product_type) {
+                        if (in_array($product_type, $userCoupon->proto_coupon->supported_product_types)) {
+                            $available_coupons[] = $userCoupon;
+                            break;
+                        }
+                    }
+                }
+            });
+            /* usage of coupon */
         }
+
+        /* usage of coupon */
+        $saved_fee = [];
+        foreach ($available_coupons as $user_coupon) {
+            $user_coupon_id = $user_coupon->id;
+            $saved_fee[$user_coupon_id] = 0;
+            $proto_coupon = $user_coupon->proto_coupon;
+            if ($proto_coupon->type == Coupon::COUPON_TYPE_REDUCTION) {
+                $saved_fee[$user_coupon_id] = $proto_coupon->reduction;
+            } else if ($proto_coupon->type == Coupon::COUPON_TYPE_DISCOUNT) {
+                foreach ($items as $item) {
+                    if (in_array($item['product']->type, $proto_coupon->supported_product_types)) {
+                        $saved_fee[$user_coupon_id] += bcmul(bcadd($item['amount'], $item['shipping_fee'], 2), $proto_coupon->discount, 2);
+                    }
+                }
+            }
+        }
+        asort($saved_fee, SORT_NUMERIC);
+        /* usage of coupon */
 
         return view('mobile.orders.pre_payment', [
             'items' => $items,
@@ -273,6 +301,8 @@ class OrdersController extends Controller
             // 'total_shipping_fee_en' => $total_shipping_fee_en,
             'total_fee' => $total_fee,
             // 'total_fee_en' => $total_fee_en,
+            'available_coupons' => $available_coupons,
+            'saved_fee' => $saved_fee
         ]);
     }
 

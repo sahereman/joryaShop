@@ -121,6 +121,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     /*订单*/
     Route::get('orders', 'OrdersController@index')->name('orders.index'); // 订单列表
+    Route::get('orders/get_available_coupons', 'OrdersController@getAvailableCoupons')->name('orders.get_available_coupons'); // 获得当前用户可用的优惠券列表 [for Ajax request]
     // Route::get('orders/pre_payment', 'OrdersController@prePayment')->name('orders.pre_payment'); // 订单预支付页面：选择地址+币种页面
     // Route::get('orders/pre_payment_by_sku_parameters', 'OrdersController@prePaymentBySkuParameters')->name('orders.pre_payment_by_sku_parameters'); // 订单预支付页面：选择地址+币种页面
     Route::get('orders/{order}', 'OrdersController@show')->name('orders.show'); // 订单详情

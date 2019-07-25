@@ -3,9 +3,17 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class UserCoupon extends Model
 {
+    /*
+     * To enable soft deletes for a model,
+     * use the Illuminate\Database\Eloquent\SoftDeletes trait on the model,
+     * and add the deleted_at column to your $dates property.
+     */
+    use SoftDeletes;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -16,7 +24,8 @@ class UserCoupon extends Model
         'coupon_id',
         'order_id',
         'got_at',
-        'used_at'
+        'used_at',
+        'deleted_at'
     ];
 
     /**
@@ -26,7 +35,8 @@ class UserCoupon extends Model
      */
     protected $dates = [
         'got_at',
-        'used_at'
+        'used_at',
+        'deleted_at'
     ];
 
     /**

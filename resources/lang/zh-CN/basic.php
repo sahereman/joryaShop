@@ -179,6 +179,7 @@ return [
         'Plz_select_a_hair_density' => '请选择一个 Hair Density',
         'Sku_does_not_exist' => '该商品SKU不存在',
         'User_address_does_not_exist' => '该用户地址不存在',
+        'User_coupon_does_not_exist' => '该优惠券不存在',
     ],
     'comments' => [
         'Plz_mark_every_composite_index' => '请确保评价每个商品的综合评分',

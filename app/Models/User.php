@@ -62,6 +62,27 @@ class User extends Authenticatable
         return \Storage::disk('public')->url($this->attributes['avatar']);
     }
 
+    public function getAvailableCouponsAttribute()
+    {
+        return $this->user_coupons()->where([
+            'order_id' => null,
+            'used_at' => null
+        ])->get()->filter(function (UserCoupon $userCoupon) {
+            return $userCoupon->proto_coupon->status == Coupon::COUPON_STATUS_USING;
+        });
+    }
+
+    /* Mutators */
+    public function setAvatarUrlAttribute($value)
+    {
+        unset($this->attributes['avatar_url']);
+    }
+
+    public function setAvailableCouponsAttribute($value)
+    {
+        unset($this->attributes['available_coupons']);
+    }
+
     /* Eloquent Relationships */
     public function favourites()
     {

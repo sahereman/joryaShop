@@ -26,12 +26,14 @@ class Product extends Model
     const PRODUCT_TYPE_PERIOD = 'period'; // 限时
     const PRODUCT_TYPE_AUCTION = 'auction'; // 拍卖
     const PRODUCT_TYPE_CUSTOM = 'custom'; // 定制
+    const PRODUCT_TYPE_POINT = 'point'; // 积分
 
     public static $productTypeMap = [
         self::PRODUCT_TYPE_COMMON => '普通',
         self::PRODUCT_TYPE_PERIOD => '限时',
         self::PRODUCT_TYPE_AUCTION => '拍卖',
-        self::PRODUCT_TYPE_CUSTOM => '定制'
+        self::PRODUCT_TYPE_CUSTOM => '定制',
+        self::PRODUCT_TYPE_POINT => '积分'
     ];
 
     /**

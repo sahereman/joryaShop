@@ -6,6 +6,7 @@ use App\Models\ExchangeRate;
 use App\Models\Product;
 use App\Models\ProductSku;
 use App\Models\UserAddress;
+use App\Models\UserCoupon;
 use Illuminate\Support\Facades\App;
 use Illuminate\Validation\Rule;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -82,12 +83,23 @@ class PostOrderRequest extends Request
                         }
                     },
                 ],
+                'coupon_id' => [
+                    'bail',
+                    'sometimes',
+                    'nullable',
+                    'integer',
+                    function ($attribute, $value, $fail) {
+                        if (!UserCoupon::where(['id' => $value, 'user_id' => $this->user()->id, 'order_id' => null])->exists()) {
+                            $fail(trans('basic.orders.User_coupon_does_not_exist'));
+                        }
+                    },
+                ],
                 'name' => 'bail|sometimes|nullable|string',
                 'phone' => 'bail|sometimes|nullable|string',
                 'address' => 'bail|sometimes|nullable|string',
                 'remark' => 'bail|sometimes|nullable|string',
             ];
-        } elseif ($this->routeIs('orders.pre_payment') || $this->routeIs('mobile.orders.pre_payment')) {
+        } elseif ($this->routeIs('orders.get_available_coupons') || $this->routeIs('orders.pre_payment') || $this->routeIs('mobile.orders.pre_payment')) {
             return [
                 'sku_id' => [
                     'bail',

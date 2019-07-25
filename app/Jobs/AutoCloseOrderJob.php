@@ -3,6 +3,8 @@
 namespace App\Jobs;
 
 use App\Models\Order;
+use App\Models\OrderItem;
+use App\Models\UserCoupon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
@@ -50,10 +52,18 @@ class AutoCloseOrderJob implements ShouldQueue
             ]);
 
             // 恢复 Product & Sku +库存
-            foreach ($this->order->items as $item) {
+            $this->order->items->each(function (OrderItem $item) {
                 $item->sku->increment('stock', $item->number);
                 $item->sku->product->increment('stock', $item->number);
-            }
+            });
+
+            // 恢复 UserCoupon 记录
+            $this->order->coupons->each(function (UserCoupon $coupon) {
+                $coupon->update([
+                    'order_id' => null,
+                    'used_at' => null
+                ]);
+            });
         });
     }
 }

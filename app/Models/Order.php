@@ -63,8 +63,9 @@ class Order extends Model
         'snapshot',
         'total_shipping_fee',
         'total_amount',
+        'saved_fee',
         'remark',
-        'paid_at',
+        // 'paid_at',
         'closed_at',
         'to_be_closed_at',
         'shipped_at',
@@ -185,7 +186,7 @@ class Order extends Model
 
     public function getPaymentAmountAttribute()
     {
-        return bcadd($this->attributes['total_amount'], $this->attributes['total_shipping_fee'], 2);
+        return bcsub(bcadd($this->attributes['total_amount'], $this->attributes['total_shipping_fee'], 2), $this->attributes['saved_fee'], 2);
     }
 
     /* Mutators */

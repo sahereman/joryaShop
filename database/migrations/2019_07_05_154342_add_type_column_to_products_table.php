@@ -14,7 +14,7 @@ class AddTypeColumnToProductsTable extends Migration
     public function up()
     {
         Schema::table('products', function (Blueprint $table) {
-            // common(普通), period(限时), auction(拍卖), custom(定制)
+            // common(普通), period(限时), auction(拍卖), custom(定制), point(积分)
             $table->string('type')->nullable(false)->default('common')->comment('Product Type')->after('product_category_id')->index();
         });
     }

@@ -199,14 +199,12 @@ class OrdersController extends Controller
         ]);
     }
 
-    // GET 选择地址+币种页面
-    public function prePayment(PostOrderRequest $request)
+    // GET 获得当前用户可用的优惠券列表 [for Ajax request]
+    public function getAvailableCoupons(PostOrderRequest $request)
     {
         $user = $request->user();
         $total_amount = 0;
-        // $total_amount_en = 0;
         $total_shipping_fee = 0;
-        // $total_shipping_fee_en = 0;
         $items = [];
         $is_nil = true;
         $product_types = [];
@@ -219,16 +217,12 @@ class OrdersController extends Controller
             $items[0]['product'] = $product;
             $items[0]['number'] = $number;
             $items[0]['amount'] = bcmul($sku->price, $number, 2);
-            // $items[0]['amount_en'] = bcmul($sku->price_in_usd, $number, 2);
             $items[0]['shipping_fee'] = bcmul($product->shipping_fee, $number, 2);
-            // $items[0]['shipping_fee_en'] = bcmul($product->shipping_fee_in_usd, $number, 2);
             $total_amount = bcmul($sku->price, $number, 2);
-            // $total_amount_en = bcmul($sku->price_in_usd, $number, 2);
             $total_shipping_fee = bcmul($product->shipping_fee, $number, 2);
-            // $total_shipping_fee_en = bcmul($product->shipping_fee_in_usd, $number, 2);
             $is_nil = false;
         } elseif ($user && $request->has('cart_ids')) {
-            $cart_ids = explode(',', $request->query('cart_ids', ''));
+            $cart_ids = explode(',', $request->query('cart_ids'));
             foreach ($cart_ids as $key => $cart_id) {
                 $cart = Cart::find($cart_id);
                 if ($cart->user_id != $user->id) {
@@ -240,28 +234,123 @@ class OrdersController extends Controller
                 if ($number > $sku->stock) {
                     throw new InvalidRequestException(trans('basic.orders.Insufficient_sku_stock'));
                 }
-                // $sku->price_in_usd = ExchangeRate::exchangePrice($sku->price, 'USD');
                 $product = $sku->product;
                 if (!in_array($product->type, $product_types)) {
                     $product_types[] = $product->type;
                 }
-                // $product->shipping_fee_in_usd = ExchangeRate::exchangePrice($product->shipping_fee, 'USD');
                 $items[$key]['sku'] = $sku;
                 $items[$key]['product'] = $product;
                 $items[$key]['number'] = $number;
                 $items[$key]['amount'] = bcmul($sku->price, $number, 2);
-                // $items[$key]['amount_en'] = bcmul($sku->price_in_usd, $number, 2);
                 $items[$key]['shipping_fee'] = bcmul($product->shipping_fee, $number, 2);
-                // $items[$key]['shipping_fee_en'] = bcmul($product->shipping_fee_in_usd, $number, 2);
                 $total_amount += bcmul($sku->price, $number, 2);
-                // $total_amount_en += bcmul($sku->price_in_usd, $number, 2);
                 $total_shipping_fee += bcmul($product->shipping_fee, $number, 2);
-                // $total_shipping_fee_en += bcmul($product->shipping_fee_in_usd, $number, 2);
                 $is_nil = false;
             }
         }
         $total_fee = bcadd($total_amount, $total_shipping_fee, 2);
-        // $total_fee_en = bcadd($total_amount_en, $total_shipping_fee_en, 2);
+
+        if ($is_nil) {
+            return response()->json([
+                'total_amount' => $total_amount,
+                'total_shipping_fee' => $total_shipping_fee,
+                'total_fee' => $total_fee,
+                'available_coupons' => [],
+                'saved_fees' => []
+            ]);
+        }
+
+        $available_coupons = [];
+        if ($user) {
+            $user->available_coupons->each(function (UserCoupon $userCoupon) use ($total_fee, $product_types, &$available_coupons) {
+                if ($userCoupon->proto_coupon->status == Coupon::COUPON_STATUS_USING && $userCoupon->proto_coupon->threshold <= $total_fee) {
+                    foreach ($product_types as $product_type) {
+                        if (in_array($product_type, $userCoupon->proto_coupon->supported_product_types)) {
+                            $available_coupons[] = $userCoupon;
+                            break;
+                        }
+                    }
+                }
+            });
+        }
+
+        $saved_fees = [];
+        foreach ($available_coupons as $user_coupon) {
+            $user_coupon_id = $user_coupon->id;
+            $saved_fees[$user_coupon_id] = 0;
+            $proto_coupon = $user_coupon->proto_coupon;
+            if ($proto_coupon->type == Coupon::COUPON_TYPE_REDUCTION) {
+                $saved_fees[$user_coupon_id] = $proto_coupon->reduction;
+            } else if ($proto_coupon->type == Coupon::COUPON_TYPE_DISCOUNT) {
+                foreach ($items as $item) {
+                    if (in_array($item['product']->type, $proto_coupon->supported_product_types)) {
+                        $saved_fees[$user_coupon_id] += bcmul(bcadd($item['amount'], $item['shipping_fee'], 2), $proto_coupon->discount, 2);
+                    }
+                }
+            }
+        }
+        asort($saved_fees, SORT_NUMERIC);
+
+        return response()->json([
+            'total_amount' => $total_amount,
+            'total_shipping_fee' => $total_shipping_fee,
+            'total_fee' => $total_fee,
+            'available_coupons' => $available_coupons,
+            'saved_fees' => $saved_fees
+        ]);
+    }
+
+    // GET 选择地址+币种页面
+    public function prePayment(PostOrderRequest $request)
+    {
+        $user = $request->user();
+        $total_amount = 0;
+        $total_shipping_fee = 0;
+        $items = [];
+        $is_nil = true;
+        $product_types = [];
+
+        if ($request->has('sku_id') && $request->has('number')) {
+            $sku = ProductSku::find($request->query('sku_id'));
+            $product = $sku->product;
+            $product_types[] = $product->type;
+            $number = $request->query('number');
+            $items[0]['sku'] = $sku;
+            $items[0]['product'] = $product;
+            $items[0]['number'] = $number;
+            $items[0]['amount'] = bcmul($sku->price, $number, 2);
+            $items[0]['shipping_fee'] = bcmul($product->shipping_fee, $number, 2);
+            $total_amount = bcmul($sku->price, $number, 2);
+            $total_shipping_fee = bcmul($product->shipping_fee, $number, 2);
+            $is_nil = false;
+        } elseif ($user && $request->has('cart_ids')) {
+            $cart_ids = explode(',', $request->query('cart_ids'));
+            foreach ($cart_ids as $key => $cart_id) {
+                $cart = Cart::find($cart_id);
+                if ($cart->user_id != $user->id) {
+                    // array_forget($cart_ids, $key);
+                    continue;
+                }
+                $number = $cart->number;
+                $sku = $cart->sku;
+                if ($number > $sku->stock) {
+                    throw new InvalidRequestException(trans('basic.orders.Insufficient_sku_stock'));
+                }
+                $product = $sku->product;
+                if (!in_array($product->type, $product_types)) {
+                    $product_types[] = $product->type;
+                }
+                $items[$key]['sku'] = $sku;
+                $items[$key]['product'] = $product;
+                $items[$key]['number'] = $number;
+                $items[$key]['amount'] = bcmul($sku->price, $number, 2);
+                $items[$key]['shipping_fee'] = bcmul($product->shipping_fee, $number, 2);
+                $total_amount += bcmul($sku->price, $number, 2);
+                $total_shipping_fee += bcmul($product->shipping_fee, $number, 2);
+                $is_nil = false;
+            }
+        }
+        $total_fee = bcadd($total_amount, $total_shipping_fee, 2);
 
         if ($is_nil) {
             return redirect()->back();
@@ -280,31 +369,48 @@ class OrdersController extends Controller
                     $address = $addresses->first();
                 }
             }
-            $coupons = $user->user_coupons->map(function (UserCoupon $userCoupon) {
-                return $userCoupon->proto_coupon;
-            });
-            $coupons->each(function (Coupon $coupon) use ($product_types, &$available_coupons) {
-                if ($coupon->status == Coupon::COUPON_STATUS_USING) {
+
+            /* usage of coupon */
+            $user->available_coupons->each(function (UserCoupon $userCoupon) use ($total_fee, $product_types, &$available_coupons) {
+                if ($userCoupon->proto_coupon->status == Coupon::COUPON_STATUS_USING && $userCoupon->proto_coupon->threshold <= $total_fee) {
                     foreach ($product_types as $product_type) {
-                        if (in_array($product_type, $coupon->supported_product_types)) {
-                            $available_coupons[] = $coupon;
+                        if (in_array($product_type, $userCoupon->proto_coupon->supported_product_types)) {
+                            $available_coupons[] = $userCoupon;
                             break;
                         }
                     }
                 }
             });
+            /* usage of coupon */
         }
+
+        /* usage of coupon */
+        $saved_fees = [];
+        foreach ($available_coupons as $user_coupon) {
+            $user_coupon_id = $user_coupon->id;
+            $saved_fees[$user_coupon_id] = 0;
+            $proto_coupon = $user_coupon->proto_coupon;
+            if ($proto_coupon->type == Coupon::COUPON_TYPE_REDUCTION) {
+                $saved_fees[$user_coupon_id] = $proto_coupon->reduction;
+            } else if ($proto_coupon->type == Coupon::COUPON_TYPE_DISCOUNT) {
+                foreach ($items as $item) {
+                    if (in_array($item['product']->type, $proto_coupon->supported_product_types)) {
+                        $saved_fees[$user_coupon_id] += bcmul(bcadd($item['amount'], $item['shipping_fee'], 2), $proto_coupon->discount, 2);
+                    }
+                }
+            }
+        }
+        asort($saved_fees, SORT_NUMERIC);
+        /* usage of coupon */
 
         return view('orders.pre_payment', [
             'items' => $items,
             'address' => $address,
             'total_amount' => $total_amount,
-            // 'total_amount_en' => $total_amount_en,
             'total_shipping_fee' => $total_shipping_fee,
-            // 'total_shipping_fee_en' => $total_shipping_fee_en,
             'total_fee' => $total_fee,
-            // 'total_fee_en' => $total_fee_en,
-            'available_coupons' => $available_coupons
+            'available_coupons' => $available_coupons,
+            'saved_fees' => $saved_fees
         ]);
     }
 
@@ -313,33 +419,68 @@ class OrdersController extends Controller
     {
         $user = $request->user();
         $currency = $request->has('currency') ? $request->input('currency') : 'USD';
+        $coupon_id = $request->has('coupon_id') ? $request->input('coupon_id') : null;
 
         // 开启事务
-        $order = DB::transaction(function () use ($request, $user, $currency) {
+        $order = DB::transaction(function () use ($request, $user, $currency, $coupon_id) {
 
             // 生成子订单信息快照 snapshot
             $snapshot = [];
             $total_shipping_fee = 0;
             $total_amount = 0;
+            $saved_fee = 0;
             $is_nil = true;
+
+            /* usage of coupon */
+            $user_coupon = null;
+            $coupon = null;
+            if ($user) {
+                $user_coupon = is_null($coupon_id) ? null : UserCoupon::where([
+                    'id' => $coupon_id,
+                    'order_id' => null,
+                    'used_at' => null
+                ])->first();
+
+                if ($user_coupon && $user_coupon->user_id == $user->id) {
+                    $coupon = $user_coupon->proto_coupon;
+                }
+            }
+            /* usage of coupon */
+
             if ($request->has('sku_id') && $request->has('number')) {
                 // 来自SKU的订单
                 $sku_id = $request->input('sku_id');
                 $number = $request->input('number');
                 $sku = ProductSku::find($sku_id);
                 $product = $sku->product;
-                // $price = ($currency == 'CNY') ? $sku->price : $sku->price_in_usd;
                 $price = exchange_price($sku->price, $currency);
                 $snapshot[0]['sku_id'] = $sku_id;
                 $snapshot[0]['price'] = $price;
                 $snapshot[0]['number'] = $number;
-                // $total_shipping_fee = ($currency == 'CNY') ? bcmul($product->shipping_fee, $number, 2) : bcmul($product->shipping_fee_in_usd, $number, 2);
                 $total_shipping_fee = bcmul(exchange_price($product->shipping_fee, $currency), $number, 2);
                 $total_amount = bcmul($price, $number, 2);
                 $is_nil = false;
+
+                /* usage of coupon */
+                if ($coupon && $coupon->status == Coupon::COUPON_STATUS_USING && $coupon->type == Coupon::COUPON_TYPE_REDUCTION && in_array($product->type, $coupon->supported_product_types) && $coupon->threshold <= bcadd($total_amount, $total_shipping_fee, 2)) {
+                    $saved_fee = $coupon->reduction;
+                }
+                if ($coupon && $coupon->status == Coupon::COUPON_STATUS_USING && $coupon->type == Coupon::COUPON_TYPE_DISCOUNT && in_array($product->type, $coupon->supported_product_types) && $coupon->threshold <= bcadd($total_amount, $total_shipping_fee, 2)) {
+                    $saved_fee = bcmul(bcadd($total_amount, $total_shipping_fee, 2), $coupon->discount, 2);
+                }
+                /* usage of coupon */
             } elseif ($user && $request->has('cart_ids')) {
                 // 来自购物车的订单
-                $cart_ids = explode(',', $request->input('cart_ids', ''));
+                $cart_ids = explode(',', $request->input('cart_ids'));
+
+                /* usage of coupon */
+                $is_product_type_supported = false; // flag variable
+                if ($coupon && $coupon->status == Coupon::COUPON_STATUS_USING && $coupon->type == Coupon::COUPON_TYPE_REDUCTION) {
+                    $saved_fee = $coupon->reduction;
+                    $is_product_type_supported = true;
+                }
+                /* usage of coupon */
+
                 foreach ($cart_ids as $key => $cartId) {
                     $cart = Cart::find($cartId);
                     if ($cart->user_id != $user->id) {
@@ -352,20 +493,31 @@ class OrdersController extends Controller
                         throw new InvalidRequestException(trans('basic.orders.Insufficient_sku_stock'));
                     }
                     $product = $sku->product;
-                    // $price = ($currency == 'CNY') ? $sku->price : $sku->price_in_usd;
                     $price = exchange_price($sku->price, $currency);
                     $snapshot[$key]['sku_id'] = $sku->id;
                     $snapshot[$key]['price'] = $price;
                     $snapshot[$key]['number'] = $cart->number;
-                    // $total_shipping_fee += ($currency == 'CNY') ? bcmul($product->shipping_fee, $number, 2) : bcmul($product->shipping_fee_in_usd, $number, 2);
                     $total_shipping_fee = bcmul(exchange_price($product->shipping_fee, $currency), $number, 2);
                     $total_amount += bcmul($price, $number, 2);
                     $is_nil = false;
+
+                    /* usage of coupon */
+                    if ($coupon && $coupon->status == Coupon::COUPON_STATUS_USING && $coupon->type == Coupon::COUPON_TYPE_DISCOUNT && in_array($product->type, $coupon->supported_product_types)) {
+                        $saved_fee = bcmul(bcadd($total_amount, $total_shipping_fee, 2), $coupon->discount, 2);
+                        $is_product_type_supported = true;
+                    }
+                    /* usage of coupon */
                 }
                 if ($is_nil == false) {
                     // 删除相关购物车记录
                     Cart::destroy($cart_ids);
                 }
+
+                /* usage of coupon */
+                if (!$is_product_type_supported || ($coupon && $coupon->threshold > bcadd($total_amount, $total_shipping_fee, 2))) {
+                    $saved_fee = 0;
+                }
+                /* usage of coupon */
             }
 
             if ($is_nil) {
@@ -387,30 +539,39 @@ class OrdersController extends Controller
             } else {
                 $user_info = $request->only('name', 'phone', 'address');
             }
+
             // 创建一条支付记录
             $payment = Payment::create([
                 'user_id' => $user ? $user->id : null,
                 'currency' => $currency,
-                'amount' => bcadd($total_amount, $total_shipping_fee, 2),
+                'amount' => bcsub(bcadd($total_amount, $total_shipping_fee, 2), $saved_fee, 2)
             ]);
+
             // 创建一条订单记录
             $order = new Order([
                 'user_id' => $user ? $user->id : null,
                 'payment_id' => $payment->id,
-                // 'user_info' => UserAddress::select(['name', 'phone', 'address',])->find($request->input('address_id'))->toArray(),
                 'user_info' => $user_info,
                 'status' => Order::ORDER_STATUS_PAYING,
                 'currency' => $currency,
                 'snapshot' => collect($snapshot)->toArray(),
                 'total_shipping_fee' => $total_shipping_fee,
                 'total_amount' => $total_amount,
+                'saved_fee' => $saved_fee,
                 'remark' => $request->has('remark') ? $request->input('remark') : '',
                 'to_be_closed_at' => Carbon::now()->addSeconds(Order::getSecondsToCloseOrder())->toDateTimeString(),
             ]);
 
-            // $order->user()->associate($user);
-
             $order->save();
+
+            /* usage of coupon */
+            if (!is_null($user_coupon) && $saved_fee > 0) {
+                $user_coupon->update([
+                    'order_id' => $order->id,
+                    'used_at' => Carbon::now()->toDateTimeString()
+                ]);
+            }
+            /* usage of coupon */
 
             return $order;
         });

@@ -254,11 +254,7 @@ class ProductsController extends Controller
         });
 
         $show->type('商品类型')->as(function ($type) {
-            $type_names = [
-                'common' => '普通',
-                'period' => '限时',
-                'auction' => '拍卖',
-            ];
+            $type_names = Product::$productTypeMap;
             return "<span>{$type_names[$type]}</span>";
         })->sortable();
         $show->is_index('首页推荐')->as(function ($item) {
@@ -451,11 +447,7 @@ class ProductsController extends Controller
             $form->hidden('product_photos', 'Product Photos')->default(collect($product->photos)->toJson());
         }
         $form->select('product_category_id', '商品分类')->options(ProductCategory::selectOptions())->rules('required|exists:product_categories,id');
-        $form->select('type', '商品类型')->options([
-            'common' => '普通',
-            'period' => '限时',
-            'auction' => '拍卖'
-        ])->default('common');
+        $form->select('type', '商品类型')->options(Product::$productTypeMap)->default('common');
         $form->select('location', '仓库地址')->options(ProductLocation::availableOptions())->rules('required|exists:product_locations,description');
         $form->select('service', '服务内容')->options(ProductService::availableOptions())->rules('required|exists:product_services,description');
         // $form->text('name_zh', '名称(中文)')->rules('required');

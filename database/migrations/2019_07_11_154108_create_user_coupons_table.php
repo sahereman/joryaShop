@@ -28,6 +28,7 @@ class CreateUserCouponsTable extends Migration
             $table->timestamp('got_at')->nullable()->comment('领取时间');
             $table->timestamp('used_at')->nullable()->comment('使用时间');
 
+            $table->softDeletes(); // timestamp deleted_at used for soft deletes.
             $table->timestamps();
         });
     }
