@@ -249,10 +249,18 @@
                 border: 0;
                 border-bottom: 1px solid #e5e5e5;
             }
+            select {
+                width: 200px;
+                border: 0;
+                border-bottom: 1px solid #e5e5e5;
+            }
         }
         &.city-state-zip {
             input {
                 width: 150px;
+            }
+            select {
+              width: 150px;
             }
         }
         &.contact-number {

@@ -216,7 +216,8 @@
                 <li>
                     <p>
                         <span class="input_name"><i>*</i>Country：</span>
-                        <input class="user_country" name="country" type="text">
+                        {{--<input class="user_country" name="country" type="text">--}}
+                        <select name="country" id="new_address_country" class="user_country"></select>
                     </p>
                 </li>
                 <li>
@@ -238,7 +239,8 @@
                     </p>
                     <p>
                         <span class="input_name"><i>*</i>State/Province/Region：</span>
-                        <input class="user_province" name="province" type="text">
+                        {{--<input class="user_province" name="province" type="text">--}}
+                        <select name="province" id="new_address_province" class="user_province"></select>
                     </p>
                     <p>
                         <span class="input_name"><i>*</i>Zipcode：</span>
@@ -579,6 +581,46 @@
                     complete: function () {
                     },
                 });
+            }
+            //     省份二级联动
+            //    省份假数据
+            // 设置二级联动中的选项数组
+            var provience_array=['请选择省份','北京市','上海市','天津市','河北省','山西省','内蒙古省','辽宁省','吉林省','黑龙江省'];
+            var city_array=[
+                ['请选择城市'],
+                ["东城区", "西城区", "崇文区", "宣武区", "朝阳区", "丰台区", "石景山区", "海淀区", "门头沟区", "房山区", "通州区", "顺义区", "昌平区", "大兴区", "怀柔区", "平谷区", "密云县", "延庆县"],
+                ["黄浦区", "卢湾区", "徐汇区", "长宁区", "静安区", "普陀区", "虹口区", "杨浦区", "闵行区", "宝山区", "嘉定区", "浦东新区", "金山区", "松江区", "青浦区", "南汇区", "奉贤区", "崇明县"],
+                ["和平区", "河东区", "河西区", "南开区", "河北区", "红桥区", "塘沽区", "汉沽区", "大港区", "东丽区", "西青区", "津南区", "北辰区", "武清区", "宝坻区", "宁河县", "静海县", "蓟县"],
+                ["石家庄市","张家口市","承德市","秦皇岛市","唐山市","廊坊市","保定市","衡水市","沧州市","邢台市","邯郸市"],
+                ["太原市","朔州市","大同市","阳泉市","长治市","晋城市","忻州市","晋中市","临汾市","吕梁市","运城市"],
+                ["呼和浩特市","包头市","乌海市","赤峰市","通辽市","呼伦贝尔市","鄂尔多斯市","乌兰察布市","巴彦淖尔市","兴安盟","锡林郭勒盟","阿拉善盟"],
+                ["沈阳市","朝阳市","阜新市","铁岭市","抚顺市","本溪市","辽阳市","鞍山市","丹东市","大连市","营口市","盘锦市","锦州市","葫芦岛市"],
+                ["长春市","白城市","松原市","吉林市","四平市","辽源市","通化市","白山市","延边州"],
+                ["哈尔滨市","齐齐哈尔市","七台河市","黑河市","大庆市","鹤岗市","伊春市","佳木斯市","双鸭山市","鸡西市","牡丹江市","绥化市","大兴安岭地区"]
+            ];
+            // 获取页面中的选项卡
+            var provience=document.getElementById('new_address_country');
+            var city=document.getElementById('new_address_province');
+
+            // 给第一个选项卡中的option赋值
+            provience.options.length=provience_array.length;
+            for(var i=0;i<provience.options.length;i++){
+                provience.options[i].text=provience_array[i];
+                provience.options[i].value=provience_array[i];
+            }
+
+            // 初始化第二个选项卡，默认显示"请选择城市"
+            city.options.length=1;
+            city.options[0].text=city_array[0][0];
+            city.options[0].value=city_array[0][0];
+
+            // 通过onchange监视函数，一旦第一个选项卡发生变化，第二个选项卡中的内容也跟着变化
+            provience.onchange=function(){
+                city.options.length=city_array[this.selectedIndex].length;
+                for(var j=0;j<city.options.length;j++){
+                    city.options[j].text=city_array[this.selectedIndex][j];
+                    city.options[j].value=city_array[this.selectedIndex][j];
+                }
             }
         });
     </script>
