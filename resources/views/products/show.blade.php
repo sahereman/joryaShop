@@ -774,8 +774,8 @@
             var allChooseSelect = $(".sku-choose-store").find("select");
             $.each(allChooseSelect,function (chooseSelect_in,chooseSelect_value) {
                 searchArr.push({name: $(chooseSelect_value).attr("name"),value: $(chooseSelect_value).val() })
-                // searchArr.push({value: $(chooseSelect_value).val() })
             });
+            console.log(searchArr);
             for(var arr_key in skus_arr) {
                 newSkuArray.push({id:arr_key,data:skus_arr[arr_key]});
                 for(var newSkuArrayKey in newSkuArray) {
@@ -793,14 +793,7 @@
             }
             // 一次轮询后的数字进行去重操作
             var firstResultArr_hash=[];
-            for (var i = 0; i < firstResultArr.length; i++) {
-                for (var j = i+1; j < firstResultArr.length; j++) {
-                    if(firstResultArr[i].id===firstResultArr[j].id){
-                        ++i;
-                    }
-                }
-                firstResultArr_hash.push(firstResultArr[i]);
-            }
+            firstResultArr_hash = arrayUnique2(firstResultArr,"id");
             $.each(firstResultArr_hash,function (firstResultArr_in,firstResultArr_value) {
                 var firstResultData = firstResultArr_value.data;
                 for (var firstResultData_i = 0;firstResultData_i<firstResultData.length;firstResultData_i++) {
@@ -810,9 +803,6 @@
                         }
                     }
                 }
-                // $.each(firstResultArr_value.data,function (ResultArr_value_i,ResultArr_value_n) {
-                //     secondResultArr.push({name: ResultArr_value_n.name,value: ResultArr_value_n.value })
-                // })
             });
             var searchResultMap = {},
                 finalArray = [];
