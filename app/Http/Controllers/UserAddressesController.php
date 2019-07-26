@@ -3,11 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Exceptions\InvalidRequestException;
+use App\Http\Requests\UserAddressRequest;
 use App\Models\Config;
+use App\Models\CountryProvince;
 use App\Models\User;
 use App\Models\UserAddress;
 use Illuminate\Http\Request;
-use App\Http\Requests\UserAddressRequest;
 use Illuminate\Support\Facades\App;
 
 class UserAddressesController extends Controller
@@ -15,10 +16,29 @@ class UserAddressesController extends Controller
     // GET 列表
     public function index(Request $request)
     {
+        $countries = [];
+        $provinces = [];
+        CountryProvince::with('children')->where(['parent_id' => 0, 'type' => 'country'])->get()->each(function (CountryProvince $countryProvince) use (&$countries, &$provinces) {
+            if (!in_array($countryProvince->name_en, $countries)) {
+                $countries[] = $countryProvince->name_en;
+            }
+            if (!isset($provinces[$countryProvince->name_en])) {
+                $provinces[$countryProvince->name_en] = [];
+            }
+            $countryProvince->children()->get()->each(function (CountryProvince $province) use ($countryProvince, &$provinces) {
+                if (!in_array($province->name_en, $provinces[$countryProvince->name_en])) {
+                    $provinces[$countryProvince->name_en][] = $province->name_en;
+                }
+            });
+
+        });
+
         return view('user_addresses.index', [
             'addresses' => $request->user()->addresses,
             'max' => Config::config('max_user_address_count'),
             'count' => $request->user()->addresses->count(),
+            'countries' => json_encode($countries),
+            'provinces' => json_encode($provinces)
         ]);
     }
 

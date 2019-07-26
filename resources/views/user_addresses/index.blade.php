@@ -28,9 +28,12 @@
                 <div class="receive_address">
                     <div class="address_note">
                         <div class="pull-left">
-                            <p>@lang('basic.users.Stored shipping address')
-                                （@lang('basic.users.Up to'){{ $max }}@lang('basic.users.addresses_and can save')<span
-                                        class="residual">{{ $max - $count }}</span>）</p>
+                            <p>
+                                @lang('basic.users.Stored shipping address')
+                                （@lang('basic.users.Up to'){{ $max }}
+                                @lang('basic.users.addresses_and can save')
+                                <span class="residual">{{ $max - $count }}</span>）
+                            </p>
                         </div>
                         <div class="pull-right">
                             <a class="new_address">+@lang('basic.address.The new address')</a>
@@ -272,9 +275,9 @@
             </div>
         </div>
     </div>--}}
-    <!--新增地址新版-->
+            <!--新增地址新版-->
     <div id="addNewAddress" class="dis_n address-info-form">
-    	<form method="POST" action="{{ route('user_addresses.store') }}" enctype="multipart/form-data"
+        <form method="POST" action="{{ route('user_addresses.store') }}" enctype="multipart/form-data"
               id="creat-form">
             {{ csrf_field() }}
             <ul>
@@ -283,7 +286,9 @@
                         <span class="input_name"><i>*</i>Country：</span>
                         {{--<input class="user_country" name="country" type="text">--}}
                         {{-- 国家选择 --}}
-                        <select name="country"  class="user_country" id="user_country"></select>
+                        <select name="country" class="user_country" id="user_country">
+                            <option value=0>Please select a country</option>
+                        </select>
                     </p>
                 </li>
                 <li>
@@ -295,7 +300,8 @@
                 <li>
                     <p>
                         <span class="input_name"><i>*</i>@lang('basic.address.Detailed address')：</span>
-                        <input name="address" class="user_detailed" placeholder="@lang('basic.address.Detailed_address')">
+                        <input name="address" class="user_detailed"
+                               placeholder="@lang('basic.address.Detailed_address')">
                     </p>
                 </li>
                 <li class="city-state-zip">
@@ -307,7 +313,9 @@
                         <span class="input_name"><i>*</i>State/Province/Region：</span>
                         {{--<input class="user_province" name="province" type="text">--}}
                         {{-- 省份联动 --}}
-                        <select name="province" id="user_province" class="user_province"></select>
+                        <select name="province" id="user_province" class="user_province">
+                            <option value=0>Please select a state/province/region</option>
+                        </select>
                     </p>
                     <p>
                         <span class="input_name"><i>*</i>Zipcode：</span>
@@ -335,8 +343,8 @@
     <div id="editNewAddress" class="dis_n address-info-form">
         <form method="POST" action=""
               enctype="multipart/form-data" id="edit-form">
-              {{ csrf_field() }}
-              {{ method_field('PUT') }}
+            {{ csrf_field() }}
+            {{ method_field('PUT') }}
             <ul class="edit_harvest_address">
                 <li>
                     <p>
@@ -353,7 +361,8 @@
                 <li>
                     <p>
                         <span class="input_name"><i>*</i>@lang('basic.address.Detailed address')：</span>
-                        <input class="user_detailed" name="address" placeholder="@lang('basic.address.Detailed_address')">
+                        <input class="user_detailed" name="address"
+                               placeholder="@lang('basic.address.Detailed_address')">
                     </p>
                 </li>
                 <li class="city-state-zip">
@@ -387,14 +396,16 @@
             </ul>
         </form>
     </div>
+    <span id="countries" data-json="{{ $countries }}"></span>
+    <span id="provinces" data-json="{{ $provinces }}"></span>
 @endsection
 @section('scriptsAfterJs')
     <script type="text/javascript">
         $(function () {
             $(".navigation_left ul li").removeClass("active");
             $(".user_address").addClass("active");
-            
-            //新建收货地址时进行表单验证
+
+            // 新建收货地址时进行表单验证
             $("#creat-form").validate({
                 rules: {
                     name: {
@@ -419,33 +430,33 @@
                     },
                 },
             });
-            
+
             //点击新建收货地址
             $(".new_address").on("click", function () {
                 layer.open({
-                  title: ["The new address","font-size: 18px;"],
-                  type: 1,
-                  btn: ['Confirm', 'Cancel'],
-                  area: ['900px', '500px'],
-                  content: $('#addNewAddress'),
-                  yes: function(index, layero){
-                    if ($("#creat-form").valid()) {
-                      $('#creat-form').submit();
+                    title: ["The new address", "font-size: 18px;"],
+                    type: 1,
+                    btn: ['Confirm', 'Cancel'],
+                    area: ['900px', '500px'],
+                    content: $('#addNewAddress'),
+                    yes: function (index, layero) {
+                        if ($("#creat-form").valid()) {
+                            $('#creat-form').submit();
+                        }
                     }
-                  }
                 });
-//              if ($(".residual").html() != 0) {
-//                  $(".new_receipt_address").show();
-//              } else {
-//                  $(".confirm_residual").show();
-//              }
+                /*if ($(".residual").html() != 0) {
+                    $(".new_receipt_address").show();
+                } else {
+                    $(".confirm_residual").show();
+                }*/
             });
-//          $(".new_receipt_address").on("click", ".success", function () {
-//              if ($("#creat-form").valid()) {
-//                  $('#creat-form').submit();
-//              }
-//          });
-            //点击表格中的编辑
+            /*$(".new_receipt_address").on("click", ".success", function () {
+                if ($("#creat-form").valid()) {
+                    $('#creat-form').submit();
+                }
+            });*/
+            // 点击表格中的编辑
             $(".address_list table").on("click", ".edit_address", function () {
                 $("#edit-form").prop("action", $(this).attr("url"));
                 $(".edit_harvest_address").find(".user_name").val($(this).parents("tr").find(".address_name").html());
@@ -463,20 +474,20 @@
                     $(".edit_harvest_address").find("#edit_default").attr("checked", false);
                 }
                 layer.open({
-                  title: ["The new address","font-size: 18px;"],
-                  type: 1,
-                  btn: ['Confirm', 'Cancel'],
-                  area: ['900px', '500px'],
-                  content: $('#editNewAddress'),
-                  yes: function(index, layero){
-                    if ($("#edit-form").valid()) {
-                       $('#edit-form').submit();
+                    title: ["The new address", "font-size: 18px;"],
+                    type: 1,
+                    btn: ['Confirm', 'Cancel'],
+                    area: ['900px', '500px'],
+                    content: $('#editNewAddress'),
+                    yes: function (index, layero) {
+                        if ($("#edit-form").valid()) {
+                            $('#edit-form').submit();
+                        }
                     }
-                  }
                 });
-//              $(".edit_harvest_address").show();
+                // $(".edit_harvest_address").show();
             });
-            //编辑收货地址时进行表单验证
+            // 编辑收货地址时进行表单验证
             $("#edit-form").validate({
                 rules: {
                     name: {
@@ -501,13 +512,13 @@
                     },
                 },
             });
-            //编辑收货地址弹窗中的确定按钮
-//          $(".edit_harvest_address").on("click", ".success", function () {
-//              if ($("#edit-form").valid()) {
-//                  $('#edit-form').submit();
-//              }
-//          });
-            //点击表格中的设为默认按钮
+            // 编辑收货地址弹窗中的确定按钮
+            /*$(".edit_harvest_address").on("click", ".success", function () {
+                if ($("#edit-form").valid()) {
+                    $('#edit-form').submit();
+                }
+            });*/
+            // 点击表格中的设为默认按钮
             $(".address_list table").on("click", ".setDefaultAddress", function () {
                 if (!$(this).hasClass('haddefault')) {
                     var data = {
@@ -529,12 +540,12 @@
                     });
                 }
             });
-            //点击表格中的删除
+            // 点击表格中的删除
             $(".address_list table").on("click", ".delete_address", function () {
                 $(".textarea_content span").attr('url', $(this).attr('url'));
                 $(".confirm_delete").show();
             });
-            //点击确定删除按钮
+            // 点击确定删除按钮
             $(".confirm_delete").on("click", ".success", function () {
                 var data = {
                     _method: "DELETE",
@@ -553,44 +564,69 @@
                     },
                 });
             });
-        //     省份二级联动
-        //    省份假数据
-            // 设置二级联动中的选项数组
-            var provience_array=['请选择省份','北京市','上海市','天津市','河北省','山西省','内蒙古省','辽宁省','吉林省','黑龙江省'];
-            var city_array=[
+            // 国家省份二级联动
+            // var countries = ['请选择省份', '北京市', '上海市', '天津市', '河北省', '山西省', '内蒙古省', '辽宁省', '吉林省', '黑龙江省'];
+            var countries = Array.from(JSON.parse($('#countries').attr('data-json')));
+            countries.unshift('Please select a country');
+            // console.log(countries);
+            /*var provinces = [
                 ['请选择城市'],
                 ["东城区", "西城区", "崇文区", "宣武区", "朝阳区", "丰台区", "石景山区", "海淀区", "门头沟区", "房山区", "通州区", "顺义区", "昌平区", "大兴区", "怀柔区", "平谷区", "密云县", "延庆县"],
                 ["黄浦区", "卢湾区", "徐汇区", "长宁区", "静安区", "普陀区", "虹口区", "杨浦区", "闵行区", "宝山区", "嘉定区", "浦东新区", "金山区", "松江区", "青浦区", "南汇区", "奉贤区", "崇明县"],
                 ["和平区", "河东区", "河西区", "南开区", "河北区", "红桥区", "塘沽区", "汉沽区", "大港区", "东丽区", "西青区", "津南区", "北辰区", "武清区", "宝坻区", "宁河县", "静海县", "蓟县"],
-                ["石家庄市","张家口市","承德市","秦皇岛市","唐山市","廊坊市","保定市","衡水市","沧州市","邢台市","邯郸市"],
-                ["太原市","朔州市","大同市","阳泉市","长治市","晋城市","忻州市","晋中市","临汾市","吕梁市","运城市"],
-                ["呼和浩特市","包头市","乌海市","赤峰市","通辽市","呼伦贝尔市","鄂尔多斯市","乌兰察布市","巴彦淖尔市","兴安盟","锡林郭勒盟","阿拉善盟"],
-                ["沈阳市","朝阳市","阜新市","铁岭市","抚顺市","本溪市","辽阳市","鞍山市","丹东市","大连市","营口市","盘锦市","锦州市","葫芦岛市"],
-                ["长春市","白城市","松原市","吉林市","四平市","辽源市","通化市","白山市","延边州"],
-                ["哈尔滨市","齐齐哈尔市","七台河市","黑河市","大庆市","鹤岗市","伊春市","佳木斯市","双鸭山市","鸡西市","牡丹江市","绥化市","大兴安岭地区"]
-            ];
+                ["石家庄市", "张家口市", "承德市", "秦皇岛市", "唐山市", "廊坊市", "保定市", "衡水市", "沧州市", "邢台市", "邯郸市"],
+                ["太原市", "朔州市", "大同市", "阳泉市", "长治市", "晋城市", "忻州市", "晋中市", "临汾市", "吕梁市", "运城市"],
+                ["呼和浩特市", "包头市", "乌海市", "赤峰市", "通辽市", "呼伦贝尔市", "鄂尔多斯市", "乌兰察布市", "巴彦淖尔市", "兴安盟", "锡林郭勒盟", "阿拉善盟"],
+                ["沈阳市", "朝阳市", "阜新市", "铁岭市", "抚顺市", "本溪市", "辽阳市", "鞍山市", "丹东市", "大连市", "营口市", "盘锦市", "锦州市", "葫芦岛市"],
+                ["长春市", "白城市", "松原市", "吉林市", "四平市", "辽源市", "通化市", "白山市", "延边州"],
+                ["哈尔滨市", "齐齐哈尔市", "七台河市", "黑河市", "大庆市", "鹤岗市", "伊春市", "佳木斯市", "双鸭山市", "鸡西市", "牡丹江市", "绥化市", "大兴安岭地区"]
+            ];*/
+            // var provinces = JSON.parse($('#provinces').attr('data-json'));
+            var country_provinces = JSON.parse($('#provinces').attr('data-json'));
+            var provinces = [];
+            for (var index in country_provinces) {
+                provinces[index] = country_provinces[index];
+                // provinces[index].unshift('Please select a state/province/region');
+            }
+            provinces['0'] = ['Please select a state/province/region'];
             // 获取页面中的选项卡
-            var provience=document.getElementById('user_country');
-            var city=document.getElementById('user_province');
+            var country = document.getElementById('user_country');
+            var province = document.getElementById('user_province');
 
             // 给第一个选项卡中的option赋值
-            provience.options.length=provience_array.length;
-            for(var i=0;i<provience.options.length;i++){
-                provience.options[i].text=provience_array[i];
-                provience.options[i].value=provience_array[i];
+            country.options.length = countries.length;
+            country.options[0].text = 'Please select a country';
+            country.options[0].value = 0;
+            for (var i = 0; i < country.options.length; i++) {
+                //key = i + 1;
+                country.options[i].text = countries[i];
+                country.options[i].value = countries[i];
             }
 
             // 初始化第二个选项卡，默认显示"请选择城市"
-            city.options.length=1;
-            city.options[0].text=city_array[0][0];
-            city.options[0].value=city_array[0][0];
+            province.options.length = 1;
+            // province.options.length = provinces[countries['0']].length;
+            province.options[0].text = 'Please select a state/province/region';
+            province.options[0].value = 0;
+            /*for (var i = 0; i < provinces[countries['0']].length; i++) {
+                // key = i + 1;
+                province.options[i].text = provinces[countries['0']][i];
+                province.options[i].value = provinces[countries['0']][i];
+            }*/
 
             // 通过onchange监视函数，一旦第一个选项卡发生变化，第二个选项卡中的内容也跟着变化
-            provience.onchange=function(){
-                city.options.length=city_array[this.selectedIndex].length;
-                for(var j=0;j<city.options.length;j++){
-                    city.options[j].text=city_array[this.selectedIndex][j];
-                    city.options[j].value=city_array[this.selectedIndex][j];
+            country.onchange = function () {
+                country_name = this.value;
+                if (country_name != 0) {
+                    province_set = provinces[country_name];
+                    province.options.length = province_set.length;
+                    // province.options[0].text = 'Please select a state/province/region';
+                    // province.options[0].value = 0;
+                    for (var j = 0; j < province.options.length; j++) {
+                        //key = j + 1;
+                        province.options[j].text = provinces[country_name][j];
+                        province.options[j].value = provinces[country_name][j];
+                    }
                 }
             }
         });
