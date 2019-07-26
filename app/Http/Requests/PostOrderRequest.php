@@ -140,6 +140,15 @@ class PostOrderRequest extends Request
                     'regex:/^\d+(\,\d+)*$/',
                 ],
             ];
+        } elseif ($this->routeIs('orders.integrate') || $this->routeIs('mobile.orders.integrate')) {
+            return [
+                'order_ids' => [
+                    'bail',
+                    'required',
+                    'string',
+                    'regex:/^\d+(\,\d+)*$/'
+                ]
+            ];
         } else {
             throw new NotFoundHttpException();
         }
@@ -164,6 +173,7 @@ class PostOrderRequest extends Request
             'phone' => '收件人联系方式',
             'address' => '收货地址',
             'remark' => '订单备注',
+            'order_ids' => '订单IDs'
         ];
     }
 

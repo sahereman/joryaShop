@@ -154,14 +154,14 @@ Route::group(['middleware' => 'auth'], function () {
     Route::patch('orders/{order}/revoke_refund', 'OrdersController@revokeRefund')->name('orders.revoke_refund'); // 撤销退单申请 [订单恢复状态:status->shipping | receiving]
 
     /*支付*/
-    Route::get('payments/{payment}/alipay', 'PaymentsController@alipay')->name('payments.alipay'); // Alipay 支付页面
-    Route::get('payments/{payment}/wechat', 'PaymentsController@wechat')->name('payments.wechat'); // Wechat 支付页面
-    Route::get('payments/{payment}/paypal/create', 'PaymentsController@paypalCreate')->name('payments.paypal.create'); // PayPal: create a payment
+    // Route::get('payments/{payment}/alipay', 'PaymentsController@alipay')->name('payments.alipay'); // Alipay 支付页面
+    // Route::get('payments/{payment}/wechat', 'PaymentsController@wechat')->name('payments.wechat'); // Wechat 支付页面
+    // Route::get('payments/{payment}/paypal/create', 'PaymentsController@paypalCreate')->name('payments.paypal.create'); // PayPal: create a payment
     // Route::get('payments/{payment}/paypal/get', 'PaymentsController@paypalGet')->name('payments.paypal.get'); // PayPal: get the info of a payment [Test API]
-    Route::get('payments/{payment}/paypal/execute', 'PaymentsController@paypalExecute')->name('payments.paypal.execute'); // PayPal: execute[approve|cancel] a payment
+    // Route::get('payments/{payment}/paypal/execute', 'PaymentsController@paypalExecute')->name('payments.paypal.execute'); // PayPal: execute[approve|cancel] a payment
 
     /*支付回调 [return_url]*/
-    Route::get('payments/{payment}/alipay/return', 'PaymentsController@alipayReturn')->name('payments.alipay.return'); // Alipay 支付回调
+    // Route::get('payments/{payment}/alipay/return', 'PaymentsController@alipayReturn')->name('payments.alipay.return'); // Alipay 支付回调
 
     /*退款 [just for test]*/
     Route::post('payments/refund', 'PaymentsController@refund')->name('payments.refund'); // 通用 - 模拟后台发起订单退款
@@ -170,7 +170,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('payments/paypal/refund', 'PaymentsController@paypalRefund')->name('payments.paypal.refund'); // Paypal 退款
 
     /*支付成功: Wechat & Paypal*/
-    Route::get('payments/{payment}/success', 'PaymentsController@success')->name('payments.success'); // 通用 - 支付成功页面 [Wechat & Paypal]
+    // Route::get('payments/{payment}/success', 'PaymentsController@success')->name('payments.success'); // 通用 - 支付成功页面 [Wechat & Paypal]
 });
 
 /*首页*/
@@ -209,7 +209,22 @@ Route::post('user_addresses/store_for_ajax', 'UserAddressesController@storeForAj
 Route::get('orders/pre_payment', 'OrdersController@prePayment')->name('orders.pre_payment'); // 订单预支付页面：选择地址+币种页面
 Route::get('orders/search_by_sn/{sn}', 'OrdersController@searchBySn')->name('orders.search_by_sn'); // 根据订单序列号查看订单详情
 Route::post('orders', 'OrdersController@store')->name('orders.store'); // 提交订单
-Route::get('orders/{order}/payment_method', 'OrdersController@paymentMethod')->name('orders.payment_method'); // 选择支付方式页面
+// Route::get('orders/{order}/payment_method', 'OrdersController@paymentMethod')->name('orders.payment_method'); // 选择支付方式页面
+Route::post('orders/integrate', 'OrdersController@integrate')->name('orders.integrate'); // 多个订单聚合支付
+
+/*支付*/
+Route::get('payments/{payment}/method', 'PaymentsController@method')->name('payments.method'); // 选择支付方式页面
+Route::get('payments/{payment}/alipay', 'PaymentsController@alipay')->name('payments.alipay'); // Alipay 支付页面
+Route::get('payments/{payment}/wechat', 'PaymentsController@wechat')->name('payments.wechat'); // Wechat 支付页面
+Route::get('payments/{payment}/paypal/create', 'PaymentsController@paypalCreate')->name('payments.paypal.create'); // PayPal: create a payment
+// Route::get('payments/{payment}/paypal/get', 'PaymentsController@paypalGet')->name('payments.paypal.get'); // PayPal: get the info of a payment [Test API]
+Route::get('payments/{payment}/paypal/execute', 'PaymentsController@paypalExecute')->name('payments.paypal.execute'); // PayPal: execute[approve|cancel] a payment
+
+/*支付回调 [return_url]*/
+Route::get('payments/{payment}/alipay/return', 'PaymentsController@alipayReturn')->name('payments.alipay.return'); // Alipay 支付回调
+
+/*支付成功: Wechat & Paypal*/
+Route::get('payments/{payment}/success', 'PaymentsController@success')->name('payments.success'); // 通用 - 支付成功页面 [Wechat & Paypal]
 
 /*支付通知 [notify_url]*/
 Route::post('payments/{order}/alipay/notify', 'PaymentsController@alipayNotify')->name('payments.alipay.notify'); // Alipay 支付成功通知 [notify_url]

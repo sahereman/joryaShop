@@ -8,8 +8,8 @@
                 <p class="yxTradeNo" data-url="{{ route('payments.is_completed', ['payment' => $payment->id]) }}">交易号：{{ $payment->sn }}</p>
                 <p class="actualPrice">
                     <span>实付：</span>
-                    {{--<span class="red">{{ (($payment->currency === 'CNY') ? "&#165; " : "&#36; ") . $payment->payment_amount }}</span>--}}
-                    <span class="red">{{ (get_symbol_by_currency($payment->currency)) . ' ' . $payment->payment_amount }}</span>
+                    {{--<span class="red">{{ (($payment->currency === 'CNY') ? "&#165; " : "&#36; ") . $payment->amount }}</span>--}}
+                    <span class="red">{{ (get_symbol_by_currency($payment->currency)) . ' ' . $payment->amount }}</span>
                 </p>
             </div>
             <div class="payment_success wechat">

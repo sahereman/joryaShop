@@ -5,30 +5,14 @@ namespace App\Http\Controllers\Mobile;
 use App\Exceptions\InvalidRequestException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PostOrderRequest;
-
-// use App\Http\Requests\RefundOrderRequest;
-// use App\Http\Requests\RefundOrderWithShipmentRequest;
-// use App\Jobs\AutoCloseOrderJob;
-// use App\Jobs\AutoCompleteOrderJob;
 use App\Models\Cart;
-
-// use App\Models\Config;
-// use App\Models\ExchangeRate;
 use App\Models\Coupon;
 use App\Models\Order;
-
-// use App\Models\OrderItem;
-// use App\Models\OrderRefund;
-use App\Models\Product;
-// use App\Models\ProductComment;
+use App\Models\Payment;
 use App\Models\ProductSku;
 use App\Models\ShipmentCompany;
-
-// use App\Models\User;
-// use App\Models\UserAddress;
 use App\Models\UserCoupon;
 use Illuminate\Http\Request;
-// use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -303,6 +287,58 @@ class OrdersController extends Controller
             // 'total_fee_en' => $total_fee_en,
             'available_coupons' => $available_coupons,
             'saved_fee' => $saved_fee
+        ]);
+    }
+
+    // POST 多个订单聚合支付
+    public function integrate(PostOrderRequest $request)
+    {
+        $user = $request->user();
+        $order_ids = $request->input('order_ids');
+        if ($order_ids && preg_match($order_ids, '/\d+(,\d+)*/')) {
+            $order_ids = explode(',', $order_ids);
+            if ($user) {
+                $orders = Order::where('user_id', $user->id)->whereIn('id', $order_ids)->get()->filter(function (Order $order) {
+                    return $order->status == Order::ORDER_STATUS_PAYING;
+                });
+            } else {
+                $orders = Order::whereNull('user_id')->whereIn('id', $order_ids)->get()->filter(function (Order $order) {
+                    return $order->status == Order::ORDER_STATUS_PAYING;
+                });
+            }
+            if ($orders->isNotEmpty()) {
+                $amount = 0;
+                $currency = $orders->first()->currency;
+                $is_currency_consistent = true;
+                $orders->each(function (Order $order) use (&$amount, $currency, &$is_currency_consistent) {
+                    $amount += $order->payment_amount;
+                    if ($order->currency != $currency) {
+                        $is_currency_consistent = false;
+                    }
+                });
+                if ($is_currency_consistent == false) {
+                    return redirect()->back()->withErrors([
+                        'orders' => ['Please make sure that the orders are paid at the same currency']
+                    ]);
+                }
+                $payment = Payment::create([
+                    'user_id' => $user ? $user->id : null,
+                    'currency' => $currency,
+                    'amount' => $amount
+                ]);
+                $payment_id = $payment->id;
+                $orders->each(function (Order $order) use ($payment_id) {
+                    $order->update([
+                        'payment_id' => $payment_id
+                    ]);
+                });
+                return redirect()->route('payments.method', [
+                    'payment' => $payment_id
+                ]);
+            }
+        }
+        return redirect()->back()->withErrors([
+            'order_ids' => ['Please select at least one of your orders']
         ]);
     }
 

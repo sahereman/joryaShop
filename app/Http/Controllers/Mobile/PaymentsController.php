@@ -31,6 +31,31 @@ use Yansongda\Pay\Pay;
 
 class PaymentsController extends Controller
 {
+    protected function isAuthorized(Request $request, LocalPayment $payment)
+    {
+        $user = $request->user();
+        if (($user && $payment->user_id && $payment->user_id = $user->id) || ($user == null && $payment->user_id == null)) {
+            return true;
+        }
+
+        // throw new InvalidRequestException('您没有权限操作此订单');
+        throw new InvalidRequestException('You do not have access to the payment of this order');
+    }
+
+    // GET 选择支付方式页面
+    public function method(Request $request, LocalPayment $payment)
+    {
+        $this->isAuthorized($request, $payment);
+        if ($payment->paid_at != null && $payment->payment_method != null && $payment->payment_sn != null) {
+            return redirect()->route('mobile.payments.success', [
+                'payment' => $payment->id,
+            ]);
+        }
+        return view('mobile.payments.payment_method', [
+            'payment' => $payment,
+        ]);
+    }
+
     /*Alipay Payment*/
     public static function getAlipayConfig(LocalPayment $payment)
     {
@@ -43,10 +68,11 @@ class PaymentsController extends Controller
     // GET Alipay Mobile-Wap 支付页面
     public function alipayWap(Request $request, LocalPayment $payment)
     {
+        $this->isAuthorized($request, $payment);
         // 判断订单是否属于当前用户
-        if ($request->user()->id !== $payment->user_id) {
+        /*if ($request->user()->id !== $payment->user_id) {
             throw new InvalidRequestException('您没有权限操作此订单');
-        }
+        }*/
         // 判断当前订单状态是否支持支付
         if ($payment->paid_at) {
             throw new InvalidRequestException('当前订单状态不正确');
@@ -139,10 +165,11 @@ class PaymentsController extends Controller
     }*/
     public function wechatMp(Request $request, LocalPayment $payment)
     {
+        $this->isAuthorized($request, $payment);
         // 判断订单是否属于当前用户
-        if ($request->user()->id !== $payment->user_id) {
+        /*if ($request->user()->id !== $payment->user_id) {
             throw new InvalidRequestException('您没有权限操作此订单');
-        }
+        }*/
         // 判断当前订单状态是否支持支付
         if ($payment->paid_at) {
             throw new InvalidRequestException('当前订单状态不正确');
@@ -218,10 +245,11 @@ class PaymentsController extends Controller
     // GET Wechat Mobile-Wap 支付页面
     public function wechatWap(Request $request, LocalPayment $payment)
     {
+        $this->isAuthorized($request, $payment);
         // 判断订单是否属于当前用户
-        if ($request->user()->id !== $payment->user_id) {
+        /*if ($request->user()->id !== $payment->user_id) {
             throw new InvalidRequestException('您没有权限操作此订单');
-        }
+        }*/
         // 判断当前订单状态是否支持支付
         if ($payment->paid_at) {
             throw new InvalidRequestException('当前订单状态不正确');
@@ -308,10 +336,11 @@ class PaymentsController extends Controller
     }*/
     public function paypalCreate(Request $request, LocalPayment $localPayment)
     {
+        $this->isAuthorized($request, $localPayment);
         // 判断订单是否属于当前用户
-        if ($request->user()->id !== $localPayment->user_id) {
+        /*if ($request->user()->id !== $localPayment->user_id) {
             throw new InvalidRequestException('您没有权限操作此订单');
-        }
+        }*/
         // 判断当前订单状态是否支持支付
         if ($localPayment->paid_at) {
             throw new InvalidRequestException('当前订单状态不正确');
@@ -399,10 +428,11 @@ class PaymentsController extends Controller
     // GET Paypal: get the info of a payment [Test API]
     public function paypalGet(Request $request, LocalPayment $localPayment)
     {
+        $this->isAuthorized($request, $localPayment);
         // 判断订单是否属于当前用户
-        if ($request->user()->id !== $localPayment->user_id) {
+        /*if ($request->user()->id !== $localPayment->user_id) {
             throw new InvalidRequestException('您没有权限操作此订单');
-        }
+        }*/
         if ($localPayment->method !== LocalPayment::PAYMENT_METHOD_PAYPAL) {
             throw new InvalidRequestException('This order is not a payment from paypal: payment method - ' . $localPayment->method);
         }
@@ -712,11 +742,13 @@ class PaymentsController extends Controller
 
     public function wechatReturn(Request $request, LocalPayment $payment)
     {
+        $this->isAuthorized($request, $payment);
         // 判断订单是否属于当前用户
-        if ($request->user()->id !== $payment->user_id) {
+        /*if ($request->user()->id !== $payment->user_id) {
             throw new InvalidRequestException('您没有权限操作此订单');
-        }
+        }*/
 
+        // 判断当前订单状态是否已经支付
         // if ($payment->paid_at != null && $payment->method != null && $payment->payment_sn != null) {
         if ($payment->paid_at) {
             return redirect()->route('mobile.payments.success', [
@@ -733,11 +765,13 @@ class PaymentsController extends Controller
     // GET 通用 - 支付成功页面
     public function success(Request $request, LocalPayment $payment)
     {
+        $this->isAuthorized($request, $payment);
         // 判断订单是否属于当前用户
-        if ($request->user()->id !== $payment->user_id) {
+        /*if ($request->user()->id !== $payment->user_id) {
             throw new InvalidRequestException('您没有权限操作此订单');
-        }
-        // 判断当前订单状态是否支持支付
+        }*/
+
+        // 判断当前订单状态是否已经支付
         if (!$payment->paid_at) {
             throw new InvalidRequestException('当前订单状态不正确');
         }

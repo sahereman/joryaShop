@@ -13,10 +13,10 @@ use App\Http\Requests\RefundOrderWithShipmentRequest;
 use App\Jobs\AutoCloseOrderJob;
 // use App\Jobs\AutoCompleteOrderJob;
 use App\Models\Cart;
-
 // use App\Models\Config;
 // use App\Models\ExchangeRate;
 use App\Models\Coupon;
+// use App\Models\ExchangeRate;
 use App\Models\Order;
 // use App\Models\OrderItem;
 use App\Models\OrderRefund;
@@ -592,6 +592,49 @@ class OrdersController extends Controller
                     'order' => $order->id,
                 ]),
             ],
+        ]);
+    }
+
+    // POST 多个订单聚合支付
+    public function integrate(PostOrderRequest $request)
+    {
+        $user = $request->user();
+        $order_ids = $request->input('order_ids');
+        if ($order_ids && preg_match($order_ids, '/^\d+(\,\d+)*$/')) {
+            $order_ids = explode(',', $order_ids);
+            if ($user) {
+                $orders = Order::where('user_id', $user->id)->whereIn('id', $order_ids)->get()->filter(function (Order $order) {
+                    return $order->status == Order::ORDER_STATUS_PAYING;
+                });
+            } else {
+                $orders = Order::whereNull('user_id')->whereIn('id', $order_ids)->get()->filter(function (Order $order) {
+                    return $order->status == Order::ORDER_STATUS_PAYING;
+                });
+            }
+            if ($orders->isNotEmpty()) {
+                $amount = 0;
+                $currency = $orders->first()->currency;
+                $orders->each(function (Order $order) use (&$amount) {
+                    $amount += $order->payment_amount;
+                });
+                $payment = Payment::create([
+                    'user_id' => $user ? $user->id : null,
+                    'currency' => $currency,
+                    'amount' => $amount
+                ]);
+                $payment_id = $payment->id;
+                $orders->each(function (Order $order) use ($payment_id) {
+                    $order->update([
+                        'payment_id' => $payment_id
+                    ]);
+                });
+                return redirect()->route('payments.method', [
+                    'payment' => $payment_id
+                ]);
+            }
+        }
+        return redirect()->back()->withErrors([
+            'order_ids' => ['Please select at least one of your orders']
         ]);
     }
 
