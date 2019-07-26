@@ -11,6 +11,12 @@ class CountryProvincesSeeder extends Seeder
      */
     public function run()
     {
+        // $mb_detect_order = mb_detect_order(); // ["ASCII", "UTF-8"]
+        // $location_content_en = file_get_contents(database_path('demo/LocList_en.xml'));
+        // $encoding = mb_detect_encoding($location_content_en); // UTF-8
+        // $location_content_en = mb_convert_encoding($location_content_en, 'UTF-8');
+        // $xml = simplexml_load_string($location_content_en);
+
         $xml = simplexml_load_file(database_path('demo/LocList_en.xml'));
 
         foreach ($xml as $item)
@@ -71,6 +77,11 @@ class CountryProvincesSeeder extends Seeder
             }
         }
 
+        // $mb_detect_order = mb_detect_order(); // ["ASCII", "UTF-8"]
+        // $location_content_zh = file_get_contents(database_path('demo/LocList_zh.xml'));
+        // $encoding = mb_detect_encoding($location_content_zh); // UTF-8
+        // $location_content_zh = mb_convert_encoding($location_content_zh, 'UTF-8');
+        // $xml2 = simplexml_load_string($location_content_zh);
 
         $xml2 = simplexml_load_file(database_path('demo/LocList_zh.xml'));
 

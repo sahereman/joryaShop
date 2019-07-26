@@ -6,6 +6,7 @@ use App\Events\OrderCompletedEvent;
 use App\Handlers\ImageUploadHandler;
 use App\Http\Requests\ImageUploadRequest;
 use App\Models\Banner;
+use App\Models\CountryProvince;
 use App\Models\ExchangeRate;
 use App\Models\Order;
 use App\Models\Payment;

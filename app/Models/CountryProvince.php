@@ -44,11 +44,6 @@ class CountryProvince extends Model
         return $this->attributes['name_en'] . ' - ' . $this->attributes['name_zh'];
     }
 
-    public function parent()
-    {
-        return $this->belongsTo(self::class, 'parent_id');
-    }
-
     public function country_pluck()
     {
         $country = $this->where('type', 'country')->get();
@@ -60,14 +55,11 @@ class CountryProvince extends Model
     {
         $country_ids = collect();
 
-        if ($template_id && $plan_id)
-        {
+        if ($template_id && $plan_id) {
             $template = ShipmentTemplate::find($template_id);
 
-            foreach ($template->plans as $item)
-            {
-                if ($item->id != $plan_id)
-                {
+            foreach ($template->plans as $item) {
+                if ($item->id != $plan_id) {
                     $country_ids = $country_ids->merge($item->country_provinces->pluck('id'));
                 }
             }
@@ -75,20 +67,17 @@ class CountryProvince extends Model
 
             $province = $this->with('parent')->where('type', 'province')->whereNotIn('id', $country_ids)->get();
 
-        } else if ($template_id)
-        {
+        } else if ($template_id) {
             $template = ShipmentTemplate::find($template_id);
 
-            foreach ($template->plans as $item)
-            {
+            foreach ($template->plans as $item) {
                 $country_ids = $country_ids->merge($item->country_provinces->pluck('id'));
             }
             $country_ids = $country_ids->unique();
 
             $province = $this->with('parent')->where('type', 'province')->whereNotIn('id', $country_ids)->get();
 
-        } else
-        {
+        } else {
             $province = $this->with('parent')->where('type', 'province')->get();
 
         }
@@ -98,7 +87,17 @@ class CountryProvince extends Model
             return $item;
         });
 
-
         return $province->pluck('nameAll', 'id');
+    }
+
+    /* Eloquent Relationships */
+    public function children()
+    {
+        return $this->hasMany(self::class, 'parent_id', 'id');
+    }
+
+    public function parent()
+    {
+        return $this->belongsTo(self::class, 'parent_id');
     }
 }

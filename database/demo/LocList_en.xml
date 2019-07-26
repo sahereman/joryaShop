@@ -142,7 +142,7 @@
       <City Name="Formosa" Code="FMA"/>
       <City Name="Jujuy" Code="JUJ"/>
       <City Name="La Plata" Code="LPG"/>
-      <City Name="La Rioja" Code="IRJ"/>
+      <City Name="La Rioja" Code="IRJ"/>
       <City Name="Mar del Plata" Code="MDQ"/>
       <City Name="Mendoza" Code="MDZ"/>
       <City Name="Neuquen" Code="NQN"/>
@@ -158,10 +158,10 @@
       <City Name="San Miguel de Tucuman" Code="SMC"/>
       <City Name="San Nicolas" Code="SNS"/>
       <City Name="San Rafael" Code="AFA"/>
-      <City Name="San Luis" Code="LUQ"/>
+      <City Name="San Luis" Code="LUQ"/>
       <City Name="Santa Fe" Code="SFN"/>
       <City Name="Santa Rosa" Code="RSA"/>
-      <City Name="Santiago del Estero" Code="SDE"/>
+      <City Name="Santiago del Estero" Code="SDE"/>
       <City Name="Trelew" Code="REL"/>
       <City Name="Ushuaia" Code="USH"/>
       <City Name="Viedma" Code="VDM"/>
@@ -184,17 +184,17 @@
     </State>
   </CountryRegion>
   <CountryRegion Name="Aruba" Code="ABW" />
-  <CountryRegion Name="Ascension Island" Code="ASC" />
+  <CountryRegion Name="Ascension Island" Code="ASC" />
   <CountryRegion Name="Australia" Code="AUS">
     <State Name="Canberra" Code="ACT">
       <City Name="Canberra" Code="CBR"/>
     </State>
-    <State Name="New South Wales" Code="NSW">
+    <State Name="New South Wales" Code="NSW">
       <City Name="Newcastle" Code="NTL"/>
       <City Name="Sydney" Code="HBS"/>
       <City Name="Wollongong" Code="WOL"/>
     </State>
-    <State Name="Northern Territory" Code="NT">
+    <State Name="Northern Territory" Code="NT">
       <City Name="Darwin" Code="DRW"/>
       <City Name="Palmerston" Code="PAL"/>
     </State>
@@ -206,7 +206,7 @@
       <City Name="Toowoomba" Code="TWB"/>
       <City Name="Townsville" Code="TSV"/>
     </State>
-    <State Name="South Australia" Code="SA">
+    <State Name="South Australia" Code="SA">
       <City Name="Adelaide" Code="ADL"/>
       <City Name="Mount Gambier" Code="MGB"/>
       <City Name="Murray Bridge" Code="MYB"/>
@@ -226,7 +226,7 @@
       <City Name="Geelong" Code="GEX"/>
       <City Name="Melbourne" Code="MEL"/>
     </State>
-    <State Name="Western Australia" Code="WA">
+    <State Name="Western Australia" Code="WA">
       <City Name="Albany" Code="ALH"/>
       <City Name="Bunbury" Code="BUY"/>
       <City Name="Fremantle" Code="FRE"/>
@@ -240,11 +240,11 @@
     <State >
       <City Name="Burgenland" Code="BUR"/>
       <City Name="Carinthia" Code="CAT"/>
-      <City Name="Lower Austria" Code="LAU"/>
+      <City Name="Lower Austria" Code="LAU"/>
       <City Name="Salzburg" Code="SZG"/>
       <City Name="Styria" Code="STY"/>
       <City Name="Tyrol" Code="TYR"/>
-      <City Name="Upper Austria" Code="UAU"/>
+      <City Name="Upper Austria" Code="UAU"/>
       <City Name="Vienna" Code="VDD"/>
       <City Name="Vorarlberg" Code="VOR"/>
     </State>
@@ -309,8 +309,8 @@
       <City Name="Belize" Code="BZ"/>
       <City Name="Cayo" Code="CY"/>
       <City Name="Corozal" Code="CR"/>
-      <City Name="Orange Walk" Code="OW"/>
-      <City Name="Stann Creek" Code="SC"/>
+      <City Name="Orange Walk" Code="OW"/>
+      <City Name="Stann Creek" Code="SC"/>
       <City Name="Toledo" Code="TO"/>
     </State>
   </CountryRegion>
@@ -337,19 +337,19 @@
     <State >
       <City Name="Chuquisaca" Code="CHU"/>
       <City Name="Cochabamba" Code="CBB"/>
-      <City Name="El Alto" Code="ALT"/>
-      <City Name="El Beni" Code="BEN"/>
-      <City Name="La Paz" Code="LPB"/>
+      <City Name="El Alto" Code="ALT"/>
+      <City Name="El Beni" Code="BEN"/>
+      <City Name="La Paz" Code="LPB"/>
       <City Name="Oruro" Code="ORU"/>
       <City Name="Pando" Code="PAN"/>
       <City Name="Potosi" Code="POI"/>
       <City Name="Quillacollo" Code="QUI"/>
       <City Name="Sacaba" Code="SAC"/>
-      <City Name="Santa Cruz" Code="SRZ"/>
+      <City Name="Santa Cruz" Code="SRZ"/>
       <City Name="Tarija" Code="TJA"/>
     </State>
   </CountryRegion>
-  <CountryRegion Name="Bosnia and Herzegovina" Code="BIH">
+  <CountryRegion Name="Bosnia and Herzegovina" Code="BIH">
     <State >
       <City Name="Bosansko-Podrinjski" Code="FBP"/>
       <City Name="Hercegovacko-Bosanski" Code="FHB"/>
@@ -365,7 +365,7 @@
     </State>
   </CountryRegion>
   <CountryRegion Name="Botswana" Code="BWA" />
-  <CountryRegion Name="Bouvet Island" Code="BVT" />
+  <CountryRegion Name="Bouvet Island" Code="BVT" />
   <CountryRegion Name="Brazil" Code="BRA">
     <State >
       <City Name="Acre" Code="AC"/>
@@ -375,34 +375,34 @@
       <City Name="Bahia" Code="BA"/>
       <City Name="Brasilia" Code="BSB"/>
       <City Name="Ceara" Code="CE"/>
-      <City Name="Espirito Santo" Code="ES"/>
+      <City Name="Espirito Santo" Code="ES"/>
       <City Name="Goias" Code="GO"/>
       <City Name="Maranhao" Code="MA"/>
-      <City Name="Mato Grosso" Code="MT"/>
-      <City Name="Mato Grosso do Sul" Code="MS"/>
-      <City Name="Minas Gerais" Code="MG"/>
+      <City Name="Mato Grosso" Code="MT"/>
+      <City Name="Mato Grosso do Sul" Code="MS"/>
+      <City Name="Minas Gerais" Code="MG"/>
       <City Name="Para" Code="PA"/>
       <City Name="Paraiba" Code="PB"/>
       <City Name="Parana" Code="PR"/>
       <City Name="Pernambuco" Code="PE"/>
       <City Name="Piaui" Code="PI"/>
-      <City Name="Rio de Janeiro" Code="RJ"/>
-      <City Name="Rio Grande do Norte" Code="RN"/>
-      <City Name="Rio Grande do Sul" Code="RS"/>
+      <City Name="Rio de Janeiro" Code="RJ"/>
+      <City Name="Rio Grande do Norte" Code="RN"/>
+      <City Name="Rio Grande do Sul" Code="RS"/>
       <City Name="Rondonia" Code="RO"/>
       <City Name="Roraima" Code="RR"/>
-      <City Name="Santa Catarina" Code="SC"/>
-      <City Name="Sao Paulo" Code="SP"/>
+      <City Name="Santa Catarina" Code="SC"/>
+      <City Name="Sao Paulo" Code="SP"/>
       <City Name="Sergipe" Code="SE"/>
       <City Name="Tocantins" Code="TO"/>
     </State>
   </CountryRegion>
-  <CountryRegion Name="British Indian Ocean Territory" Code="IOT" />
+  <CountryRegion Name="British Indian Ocean Territory" Code="IOT" />
   <CountryRegion Name="Brunei" Code="BRN" />
   <CountryRegion Name="Bulgaria" Code="BGR">
     <State >
       <City Name="Burgas" Code="BOJ"/>
-      <City Name="Grad Sofiya" Code="GSO"/>
+      <City Name="Grad Sofiya" Code="GSO"/>
       <City Name="Khaskovo" Code="KHO"/>
       <City Name="Lovech" Code="LVP"/>
       <City Name="Montana" Code="OZA"/>
@@ -412,7 +412,7 @@
       <City Name="Varna" Code="VAR"/>
     </State>
   </CountryRegion>
-  <CountryRegion Name="Burkina Faso" Code="BFA">
+  <CountryRegion Name="Burkina Faso" Code="BFA">
     <State >
       <City Name="Bale" Code="BAL"/>
       <City Name="Bam" Code="BAM"/>
@@ -464,8 +464,8 @@
   <CountryRegion Name="Burundi" Code="BDI">
     <State >
       <City Name="Bubanza" Code="BB"/>
-      <City Name="Bujumbura Mairie" Code="BM"/>
-      <City Name="Bujumbura Rural" Code="BU"/>
+      <City Name="Bujumbura Mairie" Code="BM"/>
+      <City Name="Bujumbura Rural" Code="BU"/>
       <City Name="Bururi" Code="BR"/>
       <City Name="Cankuzo" Code="CA"/>
       <City Name="Cibitoke" Code="CI"/>
@@ -484,29 +484,29 @@
   </CountryRegion>
   <CountryRegion Name="Cambodia" Code="KHM">
     <State >
-      <City Name="Banteay Mean Chey" Code="BM"/>
-      <City Name="Bat Dambang" Code="BA"/>
-      <City Name="Kampong Cham" Code="KM"/>
-      <City Name="Kampong Chhnang" Code="KZC"/>
-      <City Name="Kampong Spoe" Code="KO"/>
-      <City Name="Kampong Thum" Code="KZK"/>
+      <City Name="Banteay Mean Chey" Code="BM"/>
+      <City Name="Bat Dambang" Code="BA"/>
+      <City Name="Kampong Cham" Code="KM"/>
+      <City Name="Kampong Chhnang" Code="KZC"/>
+      <City Name="Kampong Spoe" Code="KO"/>
+      <City Name="Kampong Thum" Code="KZK"/>
       <City Name="Kampot" Code="KMT"/>
       <City Name="Kandal" Code="KL"/>
-      <City Name="Kaoh Kong" Code="KKZ"/>
+      <City Name="Kaoh Kong" Code="KKZ"/>
       <City Name="Kracheh" Code="KH"/>
-      <City Name="Krong Keb" Code="KB"/>
-      <City Name="Krong Pailin" Code="PL"/>
-      <City Name="Krong Preah" Code="KA"/>
-      <City Name="Mondol Kiri" Code="MWV"/>
-      <City Name="Otdar Mean Chey" Code="OC"/>
-      <City Name="Phnum Penh" Code="PNH"/>
+      <City Name="Krong Keb" Code="KB"/>
+      <City Name="Krong Pailin" Code="PL"/>
+      <City Name="Krong Preah" Code="KA"/>
+      <City Name="Mondol Kiri" Code="MWV"/>
+      <City Name="Otdar Mean Chey" Code="OC"/>
+      <City Name="Phnum Penh" Code="PNH"/>
       <City Name="Pouthĭsat" Code="PO"/>
-      <City Name="Preah Vihear" Code="PR"/>
-      <City Name="Prey Veng" Code="PG"/>
-      <City Name="Rotanak Kiri" Code="RBE"/>
-      <City Name="Siem Reab" Code="REP"/>
-      <City Name="Stoeng Treng" Code="TNX"/>
-      <City Name="Svay Rieng" Code="SVR"/>
+      <City Name="Preah Vihear" Code="PR"/>
+      <City Name="Prey Veng" Code="PG"/>
+      <City Name="Rotanak Kiri" Code="RBE"/>
+      <City Name="Siem Reab" Code="REP"/>
+      <City Name="Stoeng Treng" Code="TNX"/>
+      <City Name="Svay Rieng" Code="SVR"/>
       <City Name="Takev" Code="TK"/>
     </State>
   </CountryRegion>
@@ -562,32 +562,32 @@
       <City Name="Yellowknife" Code="YZF"/>
     </State>
   </CountryRegion>
-  <CountryRegion Name="Cape Verde" Code="CPV">
+  <CountryRegion Name="Cape Verde" Code="CPV">
     <State >
-      <City Name="Boa Vista" Code="BV"/>
+      <City Name="Boa Vista" Code="BV"/>
       <City Name="Brava" Code="BR"/>
       <City Name="Fogo" Code="FO"/>
       <City Name="Maio" Code="MA"/>
       <City Name="Mosteiros" Code="MO"/>
       <City Name="Paul" Code="PA"/>
-      <City Name="Porto Novo" Code="PN"/>
+      <City Name="Porto Novo" Code="PN"/>
       <City Name="Praia" Code="PR"/>
-      <City Name="Ribeira Grande" Code="RG"/>
+      <City Name="Ribeira Grande" Code="RG"/>
       <City Name="Sal" Code="SL"/>
-      <City Name="Santa Catarina" Code="CA"/>
-      <City Name="Santa Cruz" Code="CR"/>
+      <City Name="Santa Catarina" Code="CA"/>
+      <City Name="Santa Cruz" Code="CR"/>
       <City Name="Santiago" Code="IA"/>
-      <City Name="Santo Antao" Code="SA"/>
-      <City Name="Sao Domingos" Code="SD"/>
-      <City Name="Sao Filipe" Code="SF"/>
-      <City Name="Sao Miguel" Code="SM"/>
-      <City Name="Sao Nicolau" Code="SN"/>
-      <City Name="Sao Vicente" Code="SV"/>
+      <City Name="Santo Antao" Code="SA"/>
+      <City Name="Sao Domingos" Code="SD"/>
+      <City Name="Sao Filipe" Code="SF"/>
+      <City Name="Sao Miguel" Code="SM"/>
+      <City Name="Sao Nicolau" Code="SN"/>
+      <City Name="Sao Vicente" Code="SV"/>
       <City Name="Tarrafal" Code="TA"/>
     </State>
   </CountryRegion>
-  <CountryRegion Name="Cayman Islands" Code="CYM" />
-  <CountryRegion Name="Central African Republic" Code="CAF">
+  <CountryRegion Name="Cayman Islands" Code="CYM" />
+  <CountryRegion Name="Central African Republic" Code="CAF">
     <State >
       <City Name="Bamingui-Bangoran" Code="BB"/>
       <City Name="Bangui" Code="BGF"/>
@@ -613,18 +613,18 @@
   <CountryRegion Name="Chile" Code="CHL">
     <State >
       <City Name="Libertador" Code="LI"/>
-      <City Name="Magallanes y Antartica Chilena" Code="MA"/>
-      <City Name="Metropolitana de Santiago" Code="RM"/>
-      <City Name="Region de Alsen del General Carlos Ibanez del" Code="AI"/>
-      <City Name="Region de Antofagasta" Code="AN"/>
-      <City Name="Region de Atacama" Code="AT"/>
-      <City Name="Region de Coquimbo" Code="CO"/>
-      <City Name="Region de la Araucania" Code="AR"/>
-      <City Name="Region de los Lagos" Code="LL"/>
-      <City Name="Region de Tarapaca" Code="TA"/>
-      <City Name="Region de Valparaiso" Code="VS"/>
-      <City Name="Region del Biobio" Code="BI"/>
-      <City Name="Region del Maule" Code="ML"/>
+      <City Name="Magallanes y Antartica Chilena" Code="MA"/>
+      <City Name="Metropolitana de Santiago" Code="RM"/>
+      <City Name="Region de Alsen del General Carlos Ibanez del" Code="AI"/>
+      <City Name="Region de Antofagasta" Code="AN"/>
+      <City Name="Region de Atacama" Code="AT"/>
+      <City Name="Region de Coquimbo" Code="CO"/>
+      <City Name="Region de la Araucania" Code="AR"/>
+      <City Name="Region de los Lagos" Code="LL"/>
+      <City Name="Region de Tarapaca" Code="TA"/>
+      <City Name="Region de Valparaiso" Code="VS"/>
+      <City Name="Region del Biobio" Code="BI"/>
+      <City Name="Region del Maule" Code="ML"/>
     </State>
   </CountryRegion>
   <CountryRegion Name="China" Code="1">
@@ -1174,7 +1174,7 @@
       <City Name="Zhoushan" Code="9"/>
     </State>
   </CountryRegion>
-  <CountryRegion Name="Christmas Island" Code="CXR" />
+  <CountryRegion Name="Christmas Island" Code="CXR" />
   <CountryRegion Name="Cocos(Keeling)Islands" Code="CCK" />
   <CountryRegion Name="Colombia" Code="COL">
     <State >
@@ -1196,19 +1196,19 @@
       <City Name="Guainia" Code="GNA"/>
       <City Name="Guaviare" Code="GVR"/>
       <City Name="Huila" Code="HUI"/>
-      <City Name="La Guajira" Code="GJR"/>
+      <City Name="La Guajira" Code="GJR"/>
       <City Name="Magdalena" Code="MAG"/>
       <City Name="Meta" Code="MET"/>
       <City Name="Narino" Code="NAR"/>
-      <City Name="Norte de Santander" Code="NDS"/>
+      <City Name="Norte de Santander" Code="NDS"/>
       <City Name="Putumayo" Code="PUT"/>
       <City Name="Quindio" Code="QUI"/>
       <City Name="Risaralda" Code="RIS"/>
-      <City Name="San Andres y Providencia" Code="SAP"/>
+      <City Name="San Andres y Providencia" Code="SAP"/>
       <City Name="Santander" Code="SAN"/>
       <City Name="Sucre" Code="SUC"/>
       <City Name="Tolima" Code="TOL"/>
-      <City Name="Valle del Cauca" Code="VDC"/>
+      <City Name="Valle del Cauca" Code="VDC"/>
       <City Name="Vaupes" Code="VAU"/>
       <City Name="Vichada" Code="VIC"/>
     </State>
@@ -1216,8 +1216,8 @@
   <CountryRegion Name="Comoros" Code="COM" />
   <CountryRegion Name="Congo" Code="COG" />
   <CountryRegion Name="Congo(DRC)" Code="COD" />
-  <CountryRegion Name="Cook Islands" Code="COK" />
-  <CountryRegion Name="Costa Rica" Code="CRI">
+  <CountryRegion Name="Cook Islands" Code="COK" />
+  <CountryRegion Name="Costa Rica" Code="CRI">
     <State >
       <City Name="Alajuela" Code="A"/>
       <City Name="Cartago" Code="C"/>
@@ -1225,10 +1225,10 @@
       <City Name="Heredia" Code="H"/>
       <City Name="Limon" Code="L"/>
       <City Name="Puntarenas" Code="P"/>
-      <City Name="San Jose" Code="SJ"/>
+      <City Name="San Jose" Code="SJ"/>
     </State>
   </CountryRegion>
-  <CountryRegion Name="Cote d&apos;Ivoire" Code="CIV">
+  <CountryRegion Name="Cote d&apos;Ivoire" Code="CIV">
     <State >
       <City Name="Agnebi" Code="AG"/>
       <City Name="Bafing" Code="BF"/>
@@ -1246,7 +1246,7 @@
       <City Name="Savanes" Code="SV"/>
       <City Name="Sud-Bandama" Code="SB"/>
       <City Name="Sud-Comoe" Code="SC"/>
-      <City Name="Vallee du Bandama" Code="VB"/>
+      <City Name="Vallee du Bandama" Code="VB"/>
       <City Name="Worodougou" Code="WR"/>
       <City Name="Zanzan" Code="ZA"/>
     </State>
@@ -1256,7 +1256,7 @@
       <City Name="Bjelovarsko-Bilogorska" Code="7"/>
       <City Name="Brodsko-Posavska" Code="12"/>
       <City Name="Dubrovacko-Neretvanska" Code="19"/>
-      <City Name="Grad Zagreb" Code="21"/>
+      <City Name="Grad Zagreb" Code="21"/>
       <City Name="Istarska" Code="18"/>
       <City Name="Karlovacka" Code="4"/>
       <City Name="Koprivnicko-Krizevacka" Code="6"/>
@@ -1279,22 +1279,22 @@
   <CountryRegion Name="Cuba" Code="CUB">
     <State >
       <City Name="Camaguey" Code="9"/>
-      <City Name="Ciego de Avila" Code="8"/>
+      <City Name="Ciego de Avila" Code="8"/>
       <City Name="Cienfuegos" Code="6"/>
-      <City Name="Ciudad de la Habana" Code="3"/>
+      <City Name="Ciudad de la Habana" Code="3"/>
       <City Name="Granma" Code="12"/>
       <City Name="Guantanamo" Code="14"/>
       <City Name="Holguin" Code="11"/>
-      <City Name="Isla de la Juventud" Code="99"/>
-      <City Name="La Habana" Code="2"/>
-      <City Name="Las Tunas" Code="10"/>
+      <City Name="Isla de la Juventud" Code="99"/>
+      <City Name="La Habana" Code="2"/>
+      <City Name="Las Tunas" Code="10"/>
       <City Name="Manzanillo" Code="MZO"/>
       <City Name="Matanzas" Code="4"/>
       <City Name="Mayari" Code="MAY"/>
-      <City Name="Pinar del Rio" Code="1"/>
-      <City Name="Sancti Spiritus" Code="7"/>
-      <City Name="Santiago de Cuba" Code="13"/>
-      <City Name="Villa Clara" Code="5"/>
+      <City Name="Pinar del Rio" Code="1"/>
+      <City Name="Sancti Spiritus" Code="7"/>
+      <City Name="Santiago de Cuba" Code="13"/>
+      <City Name="Villa Clara" Code="5"/>
     </State>
   </CountryRegion>
   <CountryRegion Name="Cyprus" Code="CYP">
@@ -1307,7 +1307,7 @@
       <City Name="Pafos" Code="5"/>
     </State>
   </CountryRegion>
-  <CountryRegion Name="Czech Republic" Code="CZE">
+  <CountryRegion Name="Czech Republic" Code="CZE">
     <State >
       <City Name="Jihomoravsky" Code="JC"/>
       <City Name="Karlovarsky" Code="KA"/>
@@ -1344,14 +1344,14 @@
   </CountryRegion>
   <CountryRegion Name="Djibouti" Code="DJI">
     <State >
-      <City Name="Ali Sabih" Code="S"/>
+      <City Name="Ali Sabih" Code="S"/>
       <City Name="Dikhil" Code="K"/>
       <City Name="Obock" Code="O"/>
       <City Name="Tadjoura" Code="T"/>
     </State>
   </CountryRegion>
   <CountryRegion Name="Dominica" Code="DMA" />
-  <CountryRegion Name="Dominican Republic" Code="DOM" />
+  <CountryRegion Name="Dominican Republic" Code="DOM" />
   <CountryRegion Name="Ecuador" Code="ECU">
     <State >
       <City Name="Azuay" Code="A"/>
@@ -1360,16 +1360,16 @@
       <City Name="Carchi" Code="C"/>
       <City Name="Chimborazo" Code="H"/>
       <City Name="Cotopaxi" Code="X"/>
-      <City Name="El Oro" Code="O"/>
+      <City Name="El Oro" Code="O"/>
       <City Name="Esmeraldas" Code="E"/>
       <City Name="Galapagos" Code="W"/>
       <City Name="Guayas" Code="G"/>
       <City Name="Imbabura" Code="I"/>
       <City Name="Loja" Code="L"/>
-      <City Name="Los Rios" Code="R"/>
+      <City Name="Los Rios" Code="R"/>
       <City Name="Manabi" Code="M"/>
       <City Name="Morona-Santiago" Code="S"/>
-      <City Name="Napo, Orellana" Code="D"/>
+      <City Name="Napo, Orellana" Code="D"/>
       <City Name="Pastaza" Code="Y"/>
       <City Name="Pichincha" Code="P"/>
       <City Name="Sucumbios" Code="U"/>
@@ -1383,30 +1383,30 @@
       <City Name="Alexandria" Code="ALY"/>
       <City Name="Aswan" Code="ASW"/>
       <City Name="Cairo" Code="CAI"/>
-      <City Name="Shubra al Khaymah" Code="SKH"/>
+      <City Name="Shubra al Khaymah" Code="SKH"/>
     </State>
   </CountryRegion>
-  <CountryRegion Name="El Salvador" Code="SLV">
+  <CountryRegion Name="El Salvador" Code="SLV">
     <State >
       <City Name="Ahuachapan" Code="AH"/>
       <City Name="Apopa" Code="APO"/>
       <City Name="Cabanas" Code="CA"/>
-      <City Name="Centro Sur" Code="CS"/>
+      <City Name="Centro Sur" Code="CS"/>
       <City Name="Chalatenango" Code="CH"/>
       <City Name="Cuscatlan" Code="CU"/>
       <City Name="Delgado" Code="DE"/>
       <City Name="Ilopango" Code="IL"/>
       <City Name="Kie-Ntem" Code="KN"/>
-      <City Name="La Libertad" Code="LB"/>
-      <City Name="La Paz" Code="PZ"/>
-      <City Name="La Union" Code="UN"/>
+      <City Name="La Libertad" Code="LB"/>
+      <City Name="La Paz" Code="PZ"/>
+      <City Name="La Union" Code="UN"/>
       <City Name="Litoral" Code="LI"/>
       <City Name="Mejicanos" Code="MEJ"/>
       <City Name="Morazan" Code="MO"/>
-      <City Name="San Miguel" Code="SM"/>
-      <City Name="San Salvador" Code="SS"/>
-      <City Name="San Vicente" Code="SV"/>
-      <City Name="Santa Ana" Code="SA"/>
+      <City Name="San Miguel" Code="SM"/>
+      <City Name="San Salvador" Code="SS"/>
+      <City Name="San Vicente" Code="SV"/>
+      <City Name="Santa Ana" Code="SA"/>
       <City Name="Sonsonate" Code="SO"/>
       <City Name="Soyapango" Code="SOY"/>
       <City Name="Usulutan" Code="US"/>
@@ -1417,10 +1417,10 @@
     <State >
       <City Name="Anseba" Code="KE"/>
       <City Name="Debub" Code="DE"/>
-      <City Name="Debubawi Keyih Bahri" Code="DK"/>
-      <City Name="Gash Barka" Code="BR"/>
+      <City Name="Debubawi Keyih Bahri" Code="DK"/>
+      <City Name="Gash Barka" Code="BR"/>
       <City Name="Maekel" Code="MA"/>
-      <City Name="Semenawi Keyih Bahri" Code="SK"/>
+      <City Name="Semenawi Keyih Bahri" Code="SK"/>
     </State>
   </CountryRegion>
   <CountryRegion Name="Estonia" Code="EST">
@@ -1444,22 +1444,22 @@
   </CountryRegion>
   <CountryRegion Name="Ethiopia" Code="ETH">
     <State >
-      <City Name="Adis abeba" Code="AA"/>
+      <City Name="Adis abeba" Code="AA"/>
       <City Name="Afar" Code="AF"/>
       <City Name="Amara" Code="AH"/>
-      <City Name="Binshangul Gumuz" Code="BG"/>
-      <City Name="Dire Dawa" Code="DD"/>
-      <City Name="Gambela Hizboch" Code="GB"/>
-      <City Name="Hareri  Hizb" Code="HR"/>
+      <City Name="Binshangul Gumuz" Code="BG"/>
+      <City Name="Dire Dawa" Code="DD"/>
+      <City Name="Gambela Hizboch" Code="GB"/>
+      <City Name="Hareri  Hizb" Code="HR"/>
       <City Name="Oromiya" Code="OR"/>
       <City Name="Sumale" Code="SM"/>
       <City Name="Tigray" Code="TG"/>
-      <City Name="YeDebub Biheroch" Code="SN"/>
+      <City Name="YeDebub Biheroch" Code="SN"/>
     </State>
   </CountryRegion>
-  <CountryRegion Name="Falkland Islands" Code="FLK" />
-  <CountryRegion Name="Faroe Islands" Code="FRO" />
-  <CountryRegion Name="Fiji Islands" Code="FJI" />
+  <CountryRegion Name="Falkland Islands" Code="FLK" />
+  <CountryRegion Name="Faroe Islands" Code="FRO" />
+  <CountryRegion Name="Fiji Islands" Code="FJI" />
   <CountryRegion Name="Finland" Code="FIN">
     <State >
       <City Name="Espoo" Code="ESP"/>
@@ -1511,9 +1511,9 @@
       <City Name="Valence" Code="VAA"/>
     </State>
   </CountryRegion>
-  <CountryRegion Name="Frech Polynesia" Code="PYF" />
-  <CountryRegion Name="French Guiana" Code="GUF" />
-  <CountryRegion Name="French Southern and Antarctic Lands" Code="ATF" />
+  <CountryRegion Name="Frech Polynesia" Code="PYF" />
+  <CountryRegion Name="French Guiana" Code="GUF" />
+  <CountryRegion Name="French Southern and Antarctic Lands" Code="ATF" />
   <CountryRegion Name="Gabon" Code="GAB">
     <State >
       <City Name="Estuaire" Code="ES"/>
@@ -1578,14 +1578,14 @@
   <CountryRegion Name="Ghana" Code="GHA">
     <State >
       <City Name="Ashanti" Code="AS"/>
-      <City Name="Brong Ahafo" Code="BA"/>
+      <City Name="Brong Ahafo" Code="BA"/>
       <City Name="Central" Code="CE"/>
       <City Name="Eastern" Code="EA"/>
-      <City Name="Greater Accra" Code="GA"/>
+      <City Name="Greater Accra" Code="GA"/>
       <City Name="Northern" Code="NO"/>
       <City Name="Obuasi" Code="OBU"/>
-      <City Name="Upper East" Code="UE"/>
-      <City Name="Upper West" Code="UW"/>
+      <City Name="Upper East" Code="UE"/>
+      <City Name="Upper West" Code="UW"/>
       <City Name="Volta" Code="VO"/>
       <City Name="Western" Code="WE"/>
     </State>
@@ -1611,11 +1611,11 @@
   <CountryRegion Name="Guam" Code="GUM" />
   <CountryRegion Name="Guatemala" Code="GTM">
     <State >
-      <City Name="Alta Verapaz" Code="AV"/>
-      <City Name="Baja Verapaz" Code="BV"/>
+      <City Name="Alta Verapaz" Code="AV"/>
+      <City Name="Baja Verapaz" Code="BV"/>
       <City Name="Chimaltenango" Code="CM"/>
       <City Name="Chiquimula" Code="CQ"/>
-      <City Name="El Progreso" Code="PR"/>
+      <City Name="El Progreso" Code="PR"/>
       <City Name="Escuintla" Code="ES"/>
       <City Name="Guatemala" Code="GU"/>
       <City Name="Huehuetenango" Code="HU"/>
@@ -1628,12 +1628,12 @@
       <City Name="Quiche" Code="QC"/>
       <City Name="Retalhuleu" Code="RE"/>
       <City Name="Sacatepequez" Code="ST"/>
-      <City Name="San Marcos" Code="SM"/>
-      <City Name="Santa Rosa" Code="SR"/>
+      <City Name="San Marcos" Code="SM"/>
+      <City Name="Santa Rosa" Code="SR"/>
       <City Name="Solola" Code="SO"/>
       <City Name="Suchitepequez" Code="SU"/>
       <City Name="Totonicapan" Code="TO"/>
-      <City Name="Villa Nueva" Code="VIN"/>
+      <City Name="Villa Nueva" Code="VIN"/>
       <City Name="Zacapa" Code="ZA"/>
     </State>
   </CountryRegion>
@@ -1656,17 +1656,17 @@
       <City Name="Barima-Waini" Code="BW"/>
       <City Name="Cuyuni-Mazaruni" Code="CM"/>
       <City Name="Demerara-Mahaica" Code="DM"/>
-      <City Name="East Berbice-Corentyne" Code="EC"/>
-      <City Name="Essequibo Islands-West Demerara" Code="EW"/>
+      <City Name="East Berbice-Corentyne" Code="EC"/>
+      <City Name="Essequibo Islands-West Demerara" Code="EW"/>
       <City Name="Mahaica-Berbice" Code="MB"/>
       <City Name="Pomeroon-Supenaam" Code="PM"/>
       <City Name="Potaro-Siparuni" Code="PI"/>
-      <City Name="Upper Demerara-Berbice" Code="UD"/>
-      <City Name="Upper Takutu-Upper Essequibo" Code="UT"/>
+      <City Name="Upper Demerara-Berbice" Code="UD"/>
+      <City Name="Upper Takutu-Upper Essequibo" Code="UT"/>
     </State>
   </CountryRegion>
   <CountryRegion Name="Haiti" Code="HTI" />
-  <CountryRegion Name="Heard Island and McDonald Islands" Code="HMD" />
+  <CountryRegion Name="Heard Island and McDonald Islands" Code="HMD" />
   <CountryRegion Name="Honduras" Code="HND">
     <State >
       <City Name="Atlantida" Code="AT"/>
@@ -1676,16 +1676,16 @@
       <City Name="Comayagua" Code="CM"/>
       <City Name="Copan" Code="CP"/>
       <City Name="Cortes" Code="CR"/>
-      <City Name="El Paraiso" Code="PA"/>
-      <City Name="Francisco Morazan" Code="FM"/>
-      <City Name="Gracias a Dios" Code="GD"/>
+      <City Name="El Paraiso" Code="PA"/>
+      <City Name="Francisco Morazan" Code="FM"/>
+      <City Name="Gracias a Dios" Code="GD"/>
       <City Name="Intibuca" Code="IN"/>
-      <City Name="Islas de la Bahia" Code="IB"/>
-      <City Name="La Paz" Code="PZ"/>
+      <City Name="Islas de la Bahia" Code="IB"/>
+      <City Name="La Paz" Code="PZ"/>
       <City Name="Lempira" Code="LE"/>
       <City Name="Ocotepeque" Code="OC"/>
       <City Name="Olancho" Code="OL"/>
-      <City Name="Santa Barbara" Code="SB"/>
+      <City Name="Santa Barbara" Code="SB"/>
       <City Name="Valle" Code="VA"/>
       <City Name="Yoro" Code="YO"/>
     </State>
@@ -1755,30 +1755,30 @@
       <City Name="Bali" Code="BA"/>
       <City Name="Banten" Code="BT"/>
       <City Name="Bengkulu" Code="BE"/>
-      <City Name="Daerah Istimewa Yogyakarta" Code="YO"/>
-      <City Name="Daerah Tingkat I Kalimantan Barat" Code="KB"/>
-      <City Name="Irian Jaya" Code="IJ"/>
-      <City Name="Jakarta Raya" Code="JK"/>
+      <City Name="Daerah Istimewa Yogyakarta" Code="YO"/>
+      <City Name="Daerah Tingkat I Kalimantan Barat" Code="KB"/>
+      <City Name="Irian Jaya" Code="IJ"/>
+      <City Name="Jakarta Raya" Code="JK"/>
       <City Name="Jambi" Code="JA"/>
-      <City Name="Java Barat" Code="JB"/>
-      <City Name="Java Tengah" Code="JT"/>
-      <City Name="Java Timur" Code="JI"/>
-      <City Name="Kalimantan Selatan" Code="KS"/>
-      <City Name="Kalimantan Tengah" Code="KT"/>
-      <City Name="Kalimantan Timur" Code="KI"/>
-      <City Name="Kepulauan Bangka Belitung" Code="BB"/>
+      <City Name="Java Barat" Code="JB"/>
+      <City Name="Java Tengah" Code="JT"/>
+      <City Name="Java Timur" Code="JI"/>
+      <City Name="Kalimantan Selatan" Code="KS"/>
+      <City Name="Kalimantan Tengah" Code="KT"/>
+      <City Name="Kalimantan Timur" Code="KI"/>
+      <City Name="Kepulauan Bangka Belitung" Code="BB"/>
       <City Name="Lampung" Code="LA"/>
       <City Name="Maluku" Code="MA"/>
-      <City Name="Nusa Tenggara Barat" Code="NB"/>
-      <City Name="Nusa Tenggara Timur" Code="NT"/>
+      <City Name="Nusa Tenggara Barat" Code="NB"/>
+      <City Name="Nusa Tenggara Timur" Code="NT"/>
       <City Name="Riau" Code="RI"/>
-      <City Name="Sulawesi Selatan" Code="SN"/>
-      <City Name="Sulawesi Tengah" Code="ST"/>
-      <City Name="Sulawesi Tenggara" Code="SG"/>
-      <City Name="Sulawesi Utara" Code="SA"/>
-      <City Name="Sumatera Barat" Code="SR"/>
-      <City Name="Sumatera Selatan" Code="SS"/>
-      <City Name="Sumatera Utara" Code="SU"/>
+      <City Name="Sulawesi Selatan" Code="SN"/>
+      <City Name="Sulawesi Tengah" Code="ST"/>
+      <City Name="Sulawesi Tenggara" Code="SG"/>
+      <City Name="Sulawesi Utara" Code="SA"/>
+      <City Name="Sumatera Barat" Code="SR"/>
+      <City Name="Sumatera Selatan" Code="SS"/>
+      <City Name="Sumatera Utara" Code="SU"/>
     </State>
   </CountryRegion>
   <CountryRegion Name="Iran" Code="IRN" />
@@ -1813,17 +1813,17 @@
       <City Name="Wicklow" Code="WK"/>
     </State>
   </CountryRegion>
-  <CountryRegion Name="Isle of Man" Code="IMN" />
+  <CountryRegion Name="Isle of Man" Code="IMN" />
   <CountryRegion Name="Israel" Code="ISR">
     <State >
       <City Name="Ashdod" Code="ASH"/>
-      <City Name="Bat Yam" Code="BAT"/>
+      <City Name="Bat Yam" Code="BAT"/>
       <City Name="Beersheba" Code="BEV"/>
       <City Name="Haifa" Code="HFA"/>
       <City Name="Holon" Code="HOL"/>
       <City Name="Jerusalem" Code="J"/>
       <City Name="Netanya" Code="NAT"/>
-      <City Name="Tel Aviv-Yafo" Code="TLV"/>
+      <City Name="Tel Aviv-Yafo" Code="TLV"/>
     </State>
   </CountryRegion>
   <CountryRegion Name="Italy" Code="ITA">
@@ -1903,13 +1903,13 @@
       <City Name="Kingston" Code="KIN"/>
       <City Name="Manchester" Code="MAN"/>
       <City Name="Portland" Code="POR"/>
-      <City Name="St. Andrews" Code="AND"/>
-      <City Name="St. Ann" Code="ANN"/>
-      <City Name="St. Catherine" Code="CAT"/>
-      <City Name="St. Elizabeth" Code="ELI"/>
-      <City Name="St. James" Code="JAM"/>
-      <City Name="St. Mary" Code="MAR"/>
-      <City Name="St. Thomas" Code="THO"/>
+      <City Name="St. Andrews" Code="AND"/>
+      <City Name="St. Ann" Code="ANN"/>
+      <City Name="St. Catherine" Code="CAT"/>
+      <City Name="St. Elizabeth" Code="ELI"/>
+      <City Name="St. James" Code="JAM"/>
+      <City Name="St. Mary" Code="MAR"/>
+      <City Name="St. Thomas" Code="THO"/>
       <City Name="Trelawny" Code="TRL"/>
       <City Name="Westmoreland" Code="WML"/>
     </State>
@@ -1994,7 +1994,7 @@
       <City Name="Astana" Code="AST"/>
       <City Name="Atyrau" Code="ATY"/>
       <City Name="Balkhash" Code="BXH"/>
-      <City Name="Batys Qazaqstan" Code="ZAP"/>
+      <City Name="Batys Qazaqstan" Code="ZAP"/>
       <City Name="Ekibastuz" Code="EKB"/>
       <City Name="Kapchagay" Code="KAP"/>
       <City Name="Karazhal" Code="KZO"/>
@@ -2003,7 +2003,7 @@
       <City Name="Leninogorsk" Code="LEN"/>
       <City Name="Lisakovsk" Code="LKK"/>
       <City Name="Mangghystau" Code="MAN"/>
-      <City Name="Ongtustik Qazaqstan" Code="KGT"/>
+      <City Name="Ongtustik Qazaqstan" Code="KGT"/>
       <City Name="Pavlodar" Code="PAV"/>
       <City Name="Qaraghandy" Code="KAR"/>
       <City Name="Qostanay" Code="KST"/>
@@ -2012,8 +2012,8 @@
       <City Name="Saran" Code="SAR"/>
       <City Name="Semey" Code="SEM"/>
       <City Name="Shakhtinsk" Code="SAK"/>
-      <City Name="Shyghys Qazaqstan" Code="VOS"/>
-      <City Name="Soltustik Qazaqstan" Code="SEV"/>
+      <City Name="Shyghys Qazaqstan" Code="VOS"/>
+      <City Name="Soltustik Qazaqstan" Code="SEV"/>
       <City Name="Stepnogorsk" Code="STE"/>
       <City Name="Tekeli" Code="TEK"/>
       <City Name="Temirtau" Code="TEM"/>
@@ -2078,9 +2078,9 @@
   </CountryRegion>
   <CountryRegion Name="Kiribati" Code="KIR">
     <State >
-      <City Name="Gilberts Islands" Code="GIL"/>
-      <City Name="Line Islands" Code="LIN"/>
-      <City Name="Phoenix Islands" Code="PHO"/>
+      <City Name="Gilberts Islands" Code="GIL"/>
+      <City Name="Line Islands" Code="LIN"/>
+      <City Name="Phoenix Islands" Code="PHO"/>
     </State>
   </CountryRegion>
   <CountryRegion Name="Korea" Code="KOR">
@@ -2298,7 +2298,7 @@
       <City Name="Champasak" Code="CH"/>
       <City Name="Houaphan" Code="HO"/>
       <City Name="Khammouan" Code="KH"/>
-      <City Name="Louang Namtha" Code="LM"/>
+      <City Name="Louang Namtha" Code="LM"/>
       <City Name="Louangphrabang" Code="LP"/>
       <City Name="Oudomxai" Code="OU"/>
       <City Name="Phongsali" Code="PH"/>
@@ -2348,7 +2348,7 @@
       <City Name="An-Nabatiyah" Code="NA"/>
       <City Name="Ash-Shamal" Code="AS"/>
       <City Name="Bayrut" Code="BA"/>
-      <City Name="Jabal Lubnan" Code="JL"/>
+      <City Name="Jabal Lubnan" Code="JL"/>
     </State>
   </CountryRegion>
   <CountryRegion Name="Lesotho" Code="LSO">
@@ -2358,9 +2358,9 @@
       <City Name="Leribe" Code="C"/>
       <City Name="Mafeteng" Code="E"/>
       <City Name="Maseru" Code="A"/>
-      <City Name="Mohales Hoek" Code="F"/>
+      <City Name="Mohales Hoek" Code="F"/>
       <City Name="Mokhotlong" Code="J"/>
-      <City Name="Qachas Nek" Code="H"/>
+      <City Name="Qachas Nek" Code="H"/>
       <City Name="Quthing" Code="G"/>
       <City Name="Thaba-Tseka" Code="K"/>
     </State>
@@ -2370,19 +2370,19 @@
       <City Name="Bomi" Code="BM"/>
       <City Name="Bong" Code="BG"/>
       <City Name="Bopolu" Code="BOP"/>
-      <City Name="Fish Town" Code="FT"/>
+      <City Name="Fish Town" Code="FT"/>
       <City Name="Gbarpolu" Code="GBA"/>
-      <City Name="Grand Bassa" Code="GB"/>
-      <City Name="Grand Cape Mount" Code="CM"/>
-      <City Name="Grand Gedeh" Code="GG"/>
-      <City Name="Grand Kru" Code="GK"/>
+      <City Name="Grand Bassa" Code="GB"/>
+      <City Name="Grand Cape Mount" Code="CM"/>
+      <City Name="Grand Gedeh" Code="GG"/>
+      <City Name="Grand Kru" Code="GK"/>
       <City Name="Lofa" Code="LO"/>
       <City Name="Margibi" Code="MG"/>
       <City Name="Maryland" Code="MY"/>
       <City Name="Montserrado" Code="MO"/>
       <City Name="Nimba" Code="NI"/>
-      <City Name="River Cess" Code="RI"/>
-      <City Name="River Gee" Code="RG"/>
+      <City Name="River Cess" Code="RI"/>
+      <City Name="River Gee" Code="RG"/>
       <City Name="Sinoe" Code="SI"/>
     </State>
   </CountryRegion>
@@ -2410,7 +2410,7 @@
       <City Name="Luxembourg" Code="LL"/>
     </State>
   </CountryRegion>
-  <CountryRegion Name="Macedonia,Former Yugoslav Republic of" Code="MKD" />
+  <CountryRegion Name="Macedonia,Former Yugoslav Republic of" Code="MKD" />
   <CountryRegion Name="Madagascar" Code="MDG">
     <State >
       <City Name="Antananarivo" Code="AN"/>
@@ -2474,7 +2474,7 @@
       <City Name="Jasin" Code="JAS"/>
       <City Name="Melaka" Code="MEL"/>
     </State>
-    <State Name="Negeri Sembilan" Code="NS">
+    <State Name="Negeri Sembilan" Code="NS">
       <City Name="Jelebu" Code="JEL"/>
       <City Name="Jempol" Code="JEP"/>
       <City Name="Kuala Pilah" Code="KPI"/>
@@ -2509,7 +2509,7 @@
     <State Name="Perlis" Code="PS">
       <City Name="Kangar" Code="KGR"/>
     </State>
-    <State Name="Pulau Pinang" Code="PH">
+    <State Name="Pulau Pinang" Code="PH">
       <City Name="Bukit Mertajam" Code="BMJ"/>
       <City Name="Butterworth" Code="BWH"/>
       <City Name="George Town" Code="PEN"/>
@@ -2575,27 +2575,27 @@
   </CountryRegion>
   <CountryRegion Name="Maldives" Code="MDV">
     <State >
-      <City Name="Addu Atoll" Code="ADD"/>
+      <City Name="Addu Atoll" Code="ADD"/>
       <City Name="Faadhippolhu" Code="FAA"/>
-      <City Name="Felidhu Atoll" Code="FEA"/>
+      <City Name="Felidhu Atoll" Code="FEA"/>
       <City Name="Foammulah" Code="FMU"/>
       <City Name="Hadhdhunmathi" Code="HDH"/>
       <City Name="Kolhumadulu" Code="KLH"/>
       <City Name="Male" Code="MAL"/>
-      <City Name="Male Atoll" Code="MAA"/>
+      <City Name="Male Atoll" Code="MAA"/>
       <City Name="Mulakatholhu" Code="MUA"/>
-      <City Name="North Ari Atoll" Code="AAD"/>
-      <City Name="North Huvadhu Atoll" Code="HAD"/>
-      <City Name="North Maalhosmadhulu" Code="MAD"/>
-      <City Name="North Miladhunmadhulu" Code="MLD"/>
-      <City Name="North Nilandhe Atoll" Code="NAD"/>
-      <City Name="North Thiladhunmathi" Code="THD"/>
-      <City Name="South Ari Atoll" Code="AAU"/>
-      <City Name="South Huvadhu Atoll" Code="HAU"/>
-      <City Name="South Maalhosmadulu" Code="MAU"/>
-      <City Name="South Miladhunmadhulu" Code="MLU"/>
-      <City Name="South Nilandhe Atoll" Code="NAU"/>
-      <City Name="South Thiladhunmathi" Code="THU"/>
+      <City Name="North Ari Atoll" Code="AAD"/>
+      <City Name="North Huvadhu Atoll" Code="HAD"/>
+      <City Name="North Maalhosmadhulu" Code="MAD"/>
+      <City Name="North Miladhunmadhulu" Code="MLD"/>
+      <City Name="North Nilandhe Atoll" Code="NAD"/>
+      <City Name="North Thiladhunmathi" Code="THD"/>
+      <City Name="South Ari Atoll" Code="AAU"/>
+      <City Name="South Huvadhu Atoll" Code="HAU"/>
+      <City Name="South Maalhosmadulu" Code="MAU"/>
+      <City Name="South Miladhunmadhulu" Code="MLU"/>
+      <City Name="South Nilandhe Atoll" Code="NAU"/>
+      <City Name="South Thiladhunmathi" Code="THU"/>
     </State>
   </CountryRegion>
   <CountryRegion Name="Mali" Code="MLI">
@@ -2612,22 +2612,22 @@
     </State>
   </CountryRegion>
   <CountryRegion Name="Malta" Code="MLT" />
-  <CountryRegion Name="Marshall Islands" Code="MHL" />
+  <CountryRegion Name="Marshall Islands" Code="MHL" />
   <CountryRegion Name="Martinique" Code="MTQ" />
   <CountryRegion Name="Mauritania" Code="MRT">
     <State >
       <City Name="Adrar" Code="AD"/>
       <City Name="Brakna" Code="BR"/>
-      <City Name="Dakhlet Nouadhibou" Code="DN"/>
+      <City Name="Dakhlet Nouadhibou" Code="DN"/>
       <City Name="El-Acaba" Code="AS"/>
       <City Name="Gorgol" Code="GO"/>
       <City Name="Guidimaka" Code="GM"/>
-      <City Name="Hodh ech-Chargui" Code="HC"/>
-      <City Name="Hodh el-Gharbi" Code="HG"/>
+      <City Name="Hodh ech-Chargui" Code="HC"/>
+      <City Name="Hodh el-Gharbi" Code="HG"/>
       <City Name="Inchiri" Code="IN"/>
       <City Name="Nouakchott" Code="NO"/>
       <City Name="Tagant" Code="TA"/>
-      <City Name="Tiris Zemmour" Code="TZ"/>
+      <City Name="Tiris Zemmour" Code="TZ"/>
       <City Name="Trarza" Code="TR"/>
     </State>
   </CountryRegion>
@@ -2679,7 +2679,7 @@
       <City Name="Queretaro" Code="QUE"/>
       <City Name="Reynosa" Code="REX"/>
       <City Name="Saltillo" Code="SLW"/>
-      <City Name="San Luis Potosi" Code="SLP"/>
+      <City Name="San Luis Potosi" Code="SLP"/>
       <City Name="Tampico" Code="TAM"/>
       <City Name="Tapachula" Code="TAP"/>
       <City Name="Tehuacan" Code="TCN"/>
@@ -2720,7 +2720,7 @@
       <City Name="Selenge" Code="49"/>
       <City Name="Suhbaatar" Code="51"/>
       <City Name="Tov" Code="47"/>
-      <City Name="Ulaanbaatar hot" Code="1"/>
+      <City Name="Ulaanbaatar hot" Code="1"/>
       <City Name="Umnogovi" Code="UMN"/>
       <City Name="Uvorhangay" Code="UVO"/>
       <City Name="Uvs" Code="46"/>
@@ -2737,7 +2737,7 @@
       <City Name="Rabat" Code="RSA"/>
       <City Name="Tangier" Code="TGR"/>
       <City Name="Tetouan" Code="TET"/>
-      <City Name="Western Sahara" Code="WSH"/>
+      <City Name="Western Sahara" Code="WSH"/>
     </State>
   </CountryRegion>
   <CountryRegion Name="Mozambique" Code="MOZ" />
@@ -2827,9 +2827,9 @@
       <City Name="Zwolle" Code="ZWO"/>
     </State>
   </CountryRegion>
-  <CountryRegion Name="Netherlands Antilles" Code="ANT" />
-  <CountryRegion Name="New Caledonia" Code="NCL" />
-  <CountryRegion Name="New Zealand" Code="NZL">
+  <CountryRegion Name="Netherlands Antilles" Code="ANT" />
+  <CountryRegion Name="New Caledonia" Code="NCL" />
+  <CountryRegion Name="New Zealand" Code="NZL">
     <State >
       <City Name="Auckland" Code="AUK"/>
       <City Name="Blenheim" Code="BHE"/>
@@ -2859,8 +2859,8 @@
   </CountryRegion>
   <CountryRegion Name="Nicaragua" Code="NIC">
     <State >
-      <City Name="Atlantico Norte" Code="AN"/>
-      <City Name="Atlantico Sur" Code="AS"/>
+      <City Name="Atlantico Norte" Code="AN"/>
+      <City Name="Atlantico Sur" Code="AS"/>
       <City Name="Boaco" Code="BO"/>
       <City Name="Carazo" Code="CA"/>
       <City Name="Chinandega" Code="CD"/>
@@ -2873,8 +2873,8 @@
       <City Name="Managua" Code="MN"/>
       <City Name="Masaya" Code="MS"/>
       <City Name="Matagalpa" Code="MT"/>
-      <City Name="Nueva Segovia" Code="NS"/>
-      <City Name="Rio San Juan" Code="SJ"/>
+      <City Name="Nueva Segovia" Code="NS"/>
+      <City Name="Rio San Juan" Code="SJ"/>
       <City Name="Rivas" Code="RV"/>
     </State>
   </CountryRegion>
@@ -2884,7 +2884,7 @@
       <City Name="Diffa" Code="DIF"/>
       <City Name="Dosso" Code="DSS"/>
       <City Name="Maradi" Code="MFQ"/>
-      <City Name="Niamey C.U." Code="NIM"/>
+      <City Name="Niamey C.U." Code="NIM"/>
       <City Name="Tahoua" Code="THZ"/>
       <City Name="Tillaberi" Code="TIL"/>
       <City Name="Zinder" Code="ZND"/>
@@ -2900,8 +2900,8 @@
     </State>
   </CountryRegion>
   <CountryRegion Name="Niue" Code="NIU" />
-  <CountryRegion Name="Norfolk Island" Code="NFK" />
-  <CountryRegion Name="North Korea" Code="PRK">
+  <CountryRegion Name="Norfolk Island" Code="NFK" />
+  <CountryRegion Name="North Korea" Code="PRK">
     <State >
       <City Name="Ch&apos;ongjin" Code="CHO"/>
       <City Name="Haeju" Code="HAE"/>
@@ -2917,7 +2917,7 @@
       <City Name="Wonsan" Code="WON"/>
     </State>
   </CountryRegion>
-  <CountryRegion Name="Northern Mariana Islands" Code="MNP" />
+  <CountryRegion Name="Northern Mariana Islands" Code="MNP" />
   <CountryRegion Name="Norway" Code="NOR">
     <State >
       <City Name="Akershus" Code="2"/>
@@ -2926,14 +2926,14 @@
       <City Name="Finnmark" Code="20"/>
       <City Name="Hedmark" Code="4"/>
       <City Name="Hordaland" Code="12"/>
-      <City Name="More og Romsdal" Code="15"/>
+      <City Name="More og Romsdal" Code="15"/>
       <City Name="Nordland" Code="18"/>
       <City Name="Nord-Trondelag" Code="17"/>
       <City Name="Oppland" Code="5"/>
       <City Name="Oslo" Code="3"/>
       <City Name="Ostfold" Code="1"/>
       <City Name="Rogaland" Code="11"/>
-      <City Name="Sogn og Fjordane" Code="14"/>
+      <City Name="Sogn og Fjordane" Code="14"/>
       <City Name="Sor-Trondelag" Code="16"/>
       <City Name="Telemark" Code="8"/>
       <City Name="Troms" Code="19"/>
@@ -2967,40 +2967,40 @@
     </State>
   </CountryRegion>
   <CountryRegion Name="Palau" Code="PLW" />
-  <CountryRegion Name="Palestinian Authority" Code="PSE">
+  <CountryRegion Name="Palestinian Authority" Code="PSE">
     <State >
-      <City Name="Gaza Strip" Code="GZ"/>
-      <City Name="West Bank" Code="WE"/>
+      <City Name="Gaza Strip" Code="GZ"/>
+      <City Name="West Bank" Code="WE"/>
     </State>
   </CountryRegion>
   <CountryRegion Name="Panama" Code="PAN" />
-  <CountryRegion Name="Papua New Guinea" Code="PNG">
+  <CountryRegion Name="Papua New Guinea" Code="PNG">
     <State >
       <City Name="Bougainville" Code="BV"/>
-      <City Name="East New Britain" Code="EB"/>
-      <City Name="East Sepik" Code="ES"/>
-      <City Name="Eastern Highlands" Code="EH"/>
+      <City Name="East New Britain" Code="EB"/>
+      <City Name="East Sepik" Code="ES"/>
+      <City Name="Eastern Highlands" Code="EH"/>
       <City Name="Enga" Code="EN"/>
       <City Name="Gulf" Code="GU"/>
       <City Name="Madang" Code="MD"/>
       <City Name="Manus" Code="MN"/>
-      <City Name="Milne Bay" Code="MB"/>
+      <City Name="Milne Bay" Code="MB"/>
       <City Name="Morobe" Code="MR"/>
-      <City Name="New Ireland" Code="NI"/>
+      <City Name="New Ireland" Code="NI"/>
       <City Name="Northern" Code="NO"/>
       <City Name="Port Moresby" Code="NC"/>
       <City Name="Sandaun" Code="SA"/>
       <City Name="Simbu" Code="SI"/>
-      <City Name="Southern Highlands" Code="SH"/>
-      <City Name="West New Britain" Code="WB"/>
+      <City Name="Southern Highlands" Code="SH"/>
+      <City Name="West New Britain" Code="WB"/>
       <City Name="Western" Code="WE"/>
-      <City Name="Western Highlands" Code="WH"/>
+      <City Name="Western Highlands" Code="WH"/>
     </State>
   </CountryRegion>
   <CountryRegion Name="Paraguay" Code="PRY">
     <State >
-      <City Name="Alto Paraguay" Code="AG"/>
-      <City Name="Alto Parana" Code="AN"/>
+      <City Name="Alto Paraguay" Code="AG"/>
+      <City Name="Alto Parana" Code="AN"/>
       <City Name="Amambay" Code="AM"/>
       <City Name="Asuncion" Code="AS"/>
       <City Name="Boqueron" Code="BO"/>
@@ -3015,8 +3015,8 @@
       <City Name="Misiones" Code="MI"/>
       <City Name="Neembucu" Code="NE"/>
       <City Name="Paraguari" Code="PA"/>
-      <City Name="Presidente Hayes" Code="PH"/>
-      <City Name="San Pedro" Code="SP"/>
+      <City Name="Presidente Hayes" Code="PH"/>
+      <City Name="San Pedro" Code="SP"/>
     </State>
   </CountryRegion>
   <CountryRegion Name="Peru" Code="PER">
@@ -3029,23 +3029,23 @@
       <City Name="Cajamarca" Code="CJ"/>
       <City Name="Callao" Code="CL"/>
       <City Name="Chimbote" Code="CHM"/>
-      <City Name="Chincha Alta" Code="CHI"/>
+      <City Name="Chincha Alta" Code="CHI"/>
       <City Name="Cusco" Code="CU"/>
       <City Name="Huancavelica" Code="HV"/>
       <City Name="Huanuco" Code="HO"/>
       <City Name="Ica" Code="IC"/>
       <City Name="Juliaca" Code="JUL"/>
       <City Name="Junin" Code="JU"/>
-      <City Name="La Libertad" Code="LD"/>
+      <City Name="La Libertad" Code="LD"/>
       <City Name="Lambayeque" Code="LY"/>
       <City Name="Lima" Code="LI"/>
       <City Name="Loreto" Code="LO"/>
-      <City Name="Madre de Dios" Code="MD"/>
+      <City Name="Madre de Dios" Code="MD"/>
       <City Name="Moquegua" Code="MO"/>
       <City Name="Pasco" Code="PA"/>
       <City Name="Piura" Code="PI"/>
       <City Name="Puno" Code="PU"/>
-      <City Name="San Martin" Code="SM"/>
+      <City Name="San Martin" Code="SM"/>
       <City Name="Sullana" Code="SUL"/>
       <City Name="Tacna" Code="TA"/>
       <City Name="Tumbes" Code="TU"/>
@@ -3060,7 +3060,7 @@
       <City Name="Manila" Code="MNL"/>
     </State>
   </CountryRegion>
-  <CountryRegion Name="Pitcairn Islands" Code="PCN" />
+  <CountryRegion Name="Pitcairn Islands" Code="PCN" />
   <CountryRegion Name="Poland" Code="POL">
     <State >
       <City Name="Biała Podlaska" Code="BAP"/>
@@ -3161,18 +3161,18 @@
       <City Name="Tamega" Code="TAM"/>
     </State>
   </CountryRegion>
-  <CountryRegion Name="Puerto Rico" Code="PRI" />
+  <CountryRegion Name="Puerto Rico" Code="PRI" />
   <CountryRegion Name="Qatar" Code="QAT">
     <State >
-      <City Name="Ad Dawhah" Code="DW"/>
-      <City Name="Al Ghuwariyah" Code="GW"/>
-      <City Name="Al Jumaliyah" Code="JM"/>
-      <City Name="Al Khawr" Code="KR"/>
-      <City Name="Al Wakrah" Code="WK"/>
-      <City Name="Ar Rayyan" Code="RN"/>
-      <City Name="Jariyan al Batnah" Code="JB"/>
-      <City Name="Madinat ach Shamal" Code="MS"/>
-      <City Name="Umm Salal" Code="UL"/>
+      <City Name="Ad Dawhah" Code="DW"/>
+      <City Name="Al Ghuwariyah" Code="GW"/>
+      <City Name="Al Jumaliyah" Code="JM"/>
+      <City Name="Al Khawr" Code="KR"/>
+      <City Name="Al Wakrah" Code="WK"/>
+      <City Name="Ar Rayyan" Code="RN"/>
+      <City Name="Jariyan al Batnah" Code="JB"/>
+      <City Name="Madinat ach Shamal" Code="MS"/>
+      <City Name="Umm Salal" Code="UL"/>
     </State>
   </CountryRegion>
   <CountryRegion Name="Reunion" Code="REU" />
@@ -3331,9 +3331,9 @@
     </State>
   </CountryRegion>
   <CountryRegion Name="Samoa" Code="WSM" />
-  <CountryRegion Name="San Marino" Code="SMR" />
-  <CountryRegion Name="Sao Tome and Principe" Code="STP" />
-  <CountryRegion Name="Saudi Arabia" Code="SAU">
+  <CountryRegion Name="San Marino" Code="SMR" />
+  <CountryRegion Name="Sao Tome and Principe" Code="STP" />
+  <CountryRegion Name="Saudi Arabia" Code="SAU">
     <State >
       <City Name="Abha" Code="AHB"/>
       <City Name="Al Bahah" Code="BH"/>
@@ -3342,7 +3342,7 @@
       <City Name="Al-Kharj" Code="AKH"/>
       <City Name="Al-Mubarraz" Code="MBR"/>
       <City Name="Arar" Code="ARA"/>
-      <City Name="At Tarif" Code="TAR"/>
+      <City Name="At Tarif" Code="TAR"/>
       <City Name="Buraydah" Code="BUR"/>
       <City Name="Dammam" Code="DAM"/>
       <City Name="Hafar al-Batin" Code="HBT"/>
@@ -3379,7 +3379,7 @@
       <City Name="Beograd" Code="BEG"/>
       <City Name="Kragujevac" Code="KGV"/>
       <City Name="Nis" Code="INI"/>
-      <City Name="Novi Sad" Code="NVS"/>
+      <City Name="Novi Sad" Code="NVS"/>
       <City Name="Podgorica" Code="POD"/>
       <City Name="Pristina" Code="PRN"/>
       <City Name="Subotica" Code="SUB"/>
@@ -3387,7 +3387,7 @@
     </State>
   </CountryRegion>
   <CountryRegion Name="Seychelles" Code="SYC" />
-  <CountryRegion Name="Sierra Leone" Code="SLE">
+  <CountryRegion Name="Sierra Leone" Code="SLE">
     <State >
       <City Name="Eastern" Code="E"/>
       <City Name="Northern" Code="N"/>
@@ -3424,22 +3424,22 @@
       <City Name="Zasavska" Code="ZAS"/>
     </State>
   </CountryRegion>
-  <CountryRegion Name="Solomon Islands" Code="SLB">
+  <CountryRegion Name="Solomon Islands" Code="SLB">
     <State >
-      <City Name="Central Islands" Code="CE"/>
+      <City Name="Central Islands" Code="CE"/>
       <City Name="Choiseul" Code="CH"/>
       <City Name="Guadalcanal" Code="GC"/>
       <City Name="Honiara" Code="HO"/>
       <City Name="Isabel" Code="IS"/>
       <City Name="Makira" Code="MK"/>
       <City Name="Malaita" Code="ML"/>
-      <City Name="Rennell and Bellona" Code="RB"/>
+      <City Name="Rennell and Bellona" Code="RB"/>
       <City Name="Temotu" Code="TM"/>
       <City Name="Western" Code="WE"/>
     </State>
   </CountryRegion>
   <CountryRegion Name="Somalia" Code="SOM" />
-  <CountryRegion Name="South Africa" Code="ZAF">
+  <CountryRegion Name="South Africa" Code="ZAF">
     <State >
       <City Name="Barkley East" Code="BAE"/>
       <City Name="Beaufort West" Code="BEW"/>
@@ -3493,7 +3493,7 @@
       <City Name="Worcester" Code="WOR"/>
     </State>
   </CountryRegion>
-  <CountryRegion Name="South Georgia and South Sandwich Islands" Code="SGS" />
+  <CountryRegion Name="South Georgia and South Sandwich Islands" Code="SGS" />
   <CountryRegion Name="Spain" Code="ESP">
     <State >
       <City Name="Alava" Code="ALA"/>
@@ -3509,7 +3509,7 @@
       <City Name="Caceres" Code="CCS"/>
       <City Name="Cadiz" Code="CAD"/>
       <City Name="Castellon" Code="CAS"/>
-      <City Name="Cludad Real" Code="CIR"/>
+      <City Name="Cludad Real" Code="CIR"/>
       <City Name="Cordoba" Code="ODB"/>
       <City Name="Cuenca" Code="CUE"/>
       <City Name="Gerona" Code="GRO"/>
@@ -3519,9 +3519,9 @@
       <City Name="Huelva" Code="HUV"/>
       <City Name="Huesca" Code="HUC"/>
       <City Name="Jaen" Code="JAE"/>
-      <City Name="La Coruna" Code="LCG"/>
-      <City Name="La Rioja" Code="ARL"/>
-      <City Name="Las Palmas" Code="LPA"/>
+      <City Name="La Coruna" Code="LCG"/>
+      <City Name="La Rioja" Code="ARL"/>
+      <City Name="Las Palmas" Code="LPA"/>
       <City Name="Leon" Code="LEN"/>
       <City Name="Lleida" Code="LLE"/>
       <City Name="Madrid" Code="MAD"/>
@@ -3530,10 +3530,10 @@
       <City Name="Navarra" Code="NVV"/>
       <City Name="Orense" Code="ORE"/>
       <City Name="Palencia" Code="PAC"/>
-      <City Name="Provincia de Lugo" Code="LGO"/>
-      <City Name="Provincia de Pontevedra" Code="PEV"/>
+      <City Name="Provincia de Lugo" Code="LGO"/>
+      <City Name="Provincia de Pontevedra" Code="PEV"/>
       <City Name="Salamanca" Code="SLM"/>
-      <City Name="Santa Cruz de Tenerife" Code="SCT"/>
+      <City Name="Santa Cruz de Tenerife" Code="SCT"/>
       <City Name="Santander" Code="SDR"/>
       <City Name="Segovia" Code="SEG"/>
       <City Name="Sevilla" Code="SVQ"/>
@@ -3548,7 +3548,7 @@
       <City Name="Zaragoza" Code="ZAZ"/>
     </State>
   </CountryRegion>
-  <CountryRegion Name="Sri Lanka" Code="LKA">
+  <CountryRegion Name="Sri Lanka" Code="LKA">
     <State >
       <City Name="Ampara" Code="AMP"/>
       <City Name="Anuradhapura" Code="ADP"/>
@@ -3578,19 +3578,19 @@
     </State>
   </CountryRegion>
   <CountryRegion Name="St.Helena" Code="SHN" />
-  <CountryRegion Name="St.Kitts and Nevis" Code="KNA" />
+  <CountryRegion Name="St.Kitts and Nevis" Code="KNA" />
   <CountryRegion Name="St.Lucia" Code="LCA" />
-  <CountryRegion Name="St.Pierre and Miquelon" Code="SPM" />
-  <CountryRegion Name="St.Vincent and the Grenadines" Code="VCT" />
+  <CountryRegion Name="St.Pierre and Miquelon" Code="SPM" />
+  <CountryRegion Name="St.Vincent and the Grenadines" Code="VCT" />
   <CountryRegion Name="Sudan" Code="SDN">
     <State >
-      <City Name="Aali an-Nil" Code="ANB"/>
-      <City Name="Al Wasta" Code="WDH"/>
+      <City Name="Aali an-Nil" Code="ANB"/>
+      <City Name="Al Wasta" Code="WDH"/>
       <City Name="Al-Istiwaiyah" Code="SIS"/>
       <City Name="Al-Khartum" Code="KRT"/>
       <City Name="Ash-Shamaliyah" Code="ASH"/>
       <City Name="Ash-Sharqiyah" Code="SHA"/>
-      <City Name="Bahr al-Ghazal" Code="SBG"/>
+      <City Name="Bahr al-Ghazal" Code="SBG"/>
       <City Name="Darfur" Code="SDA"/>
       <City Name="Kurdufan" Code="GKU"/>
     </State>
@@ -3609,7 +3609,7 @@
       <City Name="Wanica" Code="WA"/>
     </State>
   </CountryRegion>
-  <CountryRegion Name="Svalbard and Jan Mayen" Code="SJM" />
+  <CountryRegion Name="Svalbard and Jan Mayen" Code="SJM" />
   <CountryRegion Name="Swaziland" Code="SWZ" />
   <CountryRegion Name="Sweden" Code="SWE">
     <State >
@@ -3633,15 +3633,15 @@
       <City Name="Vasterbottens" Code="AC"/>
       <City Name="Vasternorrlands" Code="Y"/>
       <City Name="Vastmanlands" Code="U"/>
-      <City Name="Vastra Gotalands" Code="O"/>
+      <City Name="Vastra Gotalands" Code="O"/>
     </State>
   </CountryRegion>
   <CountryRegion Name="Switzerland" Code="CHE">
     <State >
       <City Name="Aargau" Code="AG"/>
-      <City Name="Appenzell Ausserrhon" Code="AR"/>
-      <City Name="Appenzell Innerrhodn" Code="AI"/>
-      <City Name="Basel Landschaft" Code="BL"/>
+      <City Name="Appenzell Ausserrhon" Code="AR"/>
+      <City Name="Appenzell Innerrhodn" Code="AI"/>
+      <City Name="Basel Landschaft" Code="BL"/>
       <City Name="Basel－Sstadt" Code="BS"/>
       <City Name="Bern" Code="BE"/>
       <City Name="Freiburg" Code="FR"/>
@@ -3669,21 +3669,21 @@
   </CountryRegion>
   <CountryRegion Name="Syria" Code="SYR">
     <State >
-      <City Name="Al Ghab" Code="GH"/>
-      <City Name="Al Hasakah" Code="HA"/>
-      <City Name="Al Ladhiqiyah" Code="LA"/>
-      <City Name="Al Qunaytirah" Code="QU"/>
+      <City Name="Al Ghab" Code="GH"/>
+      <City Name="Al Hasakah" Code="HA"/>
+      <City Name="Al Ladhiqiyah" Code="LA"/>
+      <City Name="Al Qunaytirah" Code="QU"/>
       <City Name="Al-Qamishli" Code="QA"/>
-      <City Name="Ar Raqqah" Code="RQ"/>
-      <City Name="As Suwayda" Code="SU"/>
+      <City Name="Ar Raqqah" Code="RQ"/>
+      <City Name="As Suwayda" Code="SU"/>
       <City Name="Dara" Code="DA"/>
-      <City Name="Dayr az Zawr" Code="DZ"/>
+      <City Name="Dayr az Zawr" Code="DZ"/>
       <City Name="Halab" Code="HL"/>
       <City Name="Hamah" Code="HM"/>
       <City Name="Hims" Code="HI"/>
       <City Name="Idlib" Code="ID"/>
-      <City Name="Madinat Dimashq" Code="DI"/>
-      <City Name="Rif Dimashq" Code="RD"/>
+      <City Name="Madinat Dimashq" Code="DI"/>
+      <City Name="Rif Dimashq" Code="RD"/>
       <City Name="Tartus" Code="TA"/>
     </State>
   </CountryRegion>
@@ -3709,21 +3709,21 @@
   <CountryRegion Name="Tanzania" Code="TZA">
     <State >
       <City Name="Arusha" Code="AR"/>
-      <City Name="Dar es Salaam" Code="DS"/>
+      <City Name="Dar es Salaam" Code="DS"/>
       <City Name="Dodoma" Code="DO"/>
       <City Name="Iringa" Code="IR"/>
       <City Name="Kagera" Code="KA"/>
-      <City Name="Kaskazini Pemba" Code="PN"/>
-      <City Name="Kaskazini Unguja" Code="UN"/>
+      <City Name="Kaskazini Pemba" Code="PN"/>
+      <City Name="Kaskazini Unguja" Code="UN"/>
       <City Name="Kigoma" Code="KI"/>
       <City Name="Kilimanjaro" Code="KJ"/>
-      <City Name="Kusini Pemba" Code="PS"/>
-      <City Name="Kusini Unguja" Code="US"/>
+      <City Name="Kusini Pemba" Code="PS"/>
+      <City Name="Kusini Unguja" Code="US"/>
       <City Name="Lindi" Code="LN"/>
       <City Name="Manyara" Code="MY"/>
       <City Name="Mara" Code="MR"/>
       <City Name="Mbeya" Code="MB"/>
-      <City Name="Mjini Magharibi" Code="MM"/>
+      <City Name="Mjini Magharibi" Code="MM"/>
       <City Name="Morogoro" Code="MO"/>
       <City Name="Mtwara" Code="MT"/>
       <City Name="Mwanza" Code="MW"/>
@@ -3744,35 +3744,35 @@
       <City Name="Bangkok" Code="10"/>
       <City Name="Buri Ram" Code="31"/>
       <City Name="Chachoengsao" Code="24"/>
-      <City Name="Chai Nat" Code="18"/>
+      <City Name="Chai Nat" Code="18"/>
       <City Name="Chaiyaphum" Code="36"/>
       <City Name="Chanthaburi" Code="22"/>
-      <City Name="Chiang Mai" Code="50"/>
-      <City Name="Chiang Rai" Code="57"/>
-      <City Name="Chon Buri" Code="20"/>
+      <City Name="Chiang Mai" Code="50"/>
+      <City Name="Chiang Rai" Code="57"/>
+      <City Name="Chon Buri" Code="20"/>
       <City Name="Chumphon" Code="86"/>
       <City Name="Kalasin" Code="46"/>
-      <City Name="Kamphaeng Phet" Code="62"/>
+      <City Name="Kamphaeng Phet" Code="62"/>
       <City Name="Kanchanaburi" Code="71"/>
-      <City Name="Khon Kaen" Code="40"/>
+      <City Name="Khon Kaen" Code="40"/>
       <City Name="Krabi" Code="81"/>
       <City Name="Lamphun" Code="51"/>
       <City Name="Loei" Code="42"/>
-      <City Name="Lop Buri" Code="16"/>
-      <City Name="Mae Hong Son" Code="58"/>
-      <City Name="Maha Sarakham" Code="44"/>
+      <City Name="Lop Buri" Code="16"/>
+      <City Name="Mae Hong Son" Code="58"/>
+      <City Name="Maha Sarakham" Code="44"/>
       <City Name="Mukdahan" Code="49"/>
-      <City Name="Nakhon Nayok" Code="26"/>
-      <City Name="Nakhon Pathom" Code="73"/>
-      <City Name="Nakhon Phanom" Code="48"/>
-      <City Name="Nakhon Sawan" Code="60"/>
-      <City Name="Nakhon Si Thammarat" Code="80"/>
+      <City Name="Nakhon Nayok" Code="26"/>
+      <City Name="Nakhon Pathom" Code="73"/>
+      <City Name="Nakhon Phanom" Code="48"/>
+      <City Name="Nakhon Sawan" Code="60"/>
+      <City Name="Nakhon Si Thammarat" Code="80"/>
       <City Name="Nan" Code="55"/>
       <City Name="Narathiwat" Code="96"/>
-      <City Name="Nong Bua Lamphu" Code="39"/>
-      <City Name="Nong Khai" Code="43"/>
+      <City Name="Nong Bua Lamphu" Code="39"/>
+      <City Name="Nong Khai" Code="43"/>
       <City Name="Nonthaburi" Code="12"/>
-      <City Name="Pathum Thani" Code="13"/>
+      <City Name="Pathum Thani" Code="13"/>
       <City Name="Pattani" Code="94"/>
       <City Name="Phangnga" Code="82"/>
       <City Name="Phatthalung" Code="93"/>
@@ -3781,35 +3781,35 @@
       <City Name="Phetchaburi" Code="78"/>
       <City Name="Phichit" Code="66"/>
       <City Name="Phitsanulok" Code="65"/>
-      <City Name="Phra Nakhon Si Ayutthaya" Code="14"/>
+      <City Name="Phra Nakhon Si Ayutthaya" Code="14"/>
       <City Name="Phrae" Code="54"/>
       <City Name="Phuket" Code="83"/>
-      <City Name="Prachin Buri" Code="25"/>
-      <City Name="Prachuap Khiri Khan" Code="77"/>
+      <City Name="Prachin Buri" Code="25"/>
+      <City Name="Prachuap Khiri Khan" Code="77"/>
       <City Name="Ranong" Code="85"/>
       <City Name="Ratchaburi" Code="70"/>
       <City Name="Rayong" Code="21"/>
-      <City Name="Roi Et" Code="45"/>
-      <City Name="Sa Kaeo" Code="27"/>
-      <City Name="Sakon Nakhon" Code="47"/>
-      <City Name="Samut Prakan" Code="11"/>
-      <City Name="Samut Sakhon" Code="74"/>
-      <City Name="Samut Songkhram" Code="75"/>
+      <City Name="Roi Et" Code="45"/>
+      <City Name="Sa Kaeo" Code="27"/>
+      <City Name="Sakon Nakhon" Code="47"/>
+      <City Name="Samut Prakan" Code="11"/>
+      <City Name="Samut Sakhon" Code="74"/>
+      <City Name="Samut Songkhram" Code="75"/>
       <City Name="Saraburi" Code="19"/>
       <City Name="Satun" Code="91"/>
-      <City Name="Si sa ket" Code="33"/>
-      <City Name="Sing Buri" Code="17"/>
+      <City Name="Si sa ket" Code="33"/>
+      <City Name="Sing Buri" Code="17"/>
       <City Name="Songkhla" Code="90"/>
       <City Name="Sukhothai" Code="64"/>
-      <City Name="Suphan Buri" Code="72"/>
-      <City Name="Surat Thani" Code="84"/>
+      <City Name="Suphan Buri" Code="72"/>
+      <City Name="Surat Thani" Code="84"/>
       <City Name="Surin" Code="32"/>
       <City Name="Tak" Code="63"/>
       <City Name="Trang" Code="92"/>
       <City Name="Trat" Code="23"/>
-      <City Name="Ubon Ratchathani" Code="34"/>
-      <City Name="Udon Thani" Code="41"/>
-      <City Name="Uthai Thani" Code="61"/>
+      <City Name="Ubon Ratchathani" Code="34"/>
+      <City Name="Udon Thani" Code="41"/>
+      <City Name="Uthai Thani" Code="61"/>
       <City Name="Uttaradit" Code="53"/>
       <City Name="Yala" Code="95"/>
       <City Name="Yasothon" Code="35"/>
@@ -3851,13 +3851,13 @@
       <City Name="Vavau" Code="V"/>
     </State>
   </CountryRegion>
-  <CountryRegion Name="Trinidad and Tobago" Code="TTO" />
-  <CountryRegion Name="Tristan da Cunha" Code="TAA" />
+  <CountryRegion Name="Trinidad and Tobago" Code="TTO" />
+  <CountryRegion Name="Tristan da Cunha" Code="TAA" />
   <CountryRegion Name="Tunisia" Code="TUN">
     <State >
       <City Name="Ariana" Code="AR"/>
       <City Name="Beja" Code="BJ"/>
-      <City Name="Ben Arous" Code="BA"/>
+      <City Name="Ben Arous" Code="BA"/>
       <City Name="Bizerte" Code="BI"/>
       <City Name="Gabes" Code="GB"/>
       <City Name="Gafsa" Code="GF"/>
@@ -3865,14 +3865,14 @@
       <City Name="Kairouan" Code="KR"/>
       <City Name="Kasserine" Code="KS"/>
       <City Name="Kebili" Code="KB"/>
-      <City Name="Le Kef" Code="LK"/>
+      <City Name="Le Kef" Code="LK"/>
       <City Name="Mahdia" Code="MH"/>
       <City Name="Manouba" Code="MN"/>
       <City Name="Medenine" Code="ME"/>
       <City Name="Monastir" Code="MO"/>
       <City Name="Nabeul" Code="NA"/>
       <City Name="Sfax" Code="SF"/>
-      <City Name="Sidi Bouzid" Code="SD"/>
+      <City Name="Sidi Bouzid" Code="SD"/>
       <City Name="Siliana" Code="SL"/>
       <City Name="Sousse" Code="SO"/>
       <City Name="Tataouine" Code="TA"/>
@@ -3924,7 +3924,7 @@
       <City Name="Isparta" Code="ISP"/>
       <City Name="Istanbul" Code="IST"/>
       <City Name="Izmir" Code="IZM"/>
-      <City Name="Kahraman Maras" Code="KAH"/>
+      <City Name="Kahraman Maras" Code="KAH"/>
       <City Name="Karabuk" Code="KRB"/>
       <City Name="Karaman" Code="KRM"/>
       <City Name="Kars" Code="KRS"/>
@@ -3974,7 +3974,7 @@
       <City Name="Nebitdag" Code="NEB"/>
     </State>
   </CountryRegion>
-  <CountryRegion Name="Turks and Caicos Islands" Code="TCA" />
+  <CountryRegion Name="Turks and Caicos Islands" Code="TCA" />
   <CountryRegion Name="Tuvalu" Code="TUV" />
   <CountryRegion Name="Uganda" Code="UGA">
     <State >
@@ -4054,7 +4054,7 @@
       <City Name="Mykolayiv" Code="48"/>
       <City Name="Odessa" Code="51"/>
       <City Name="Poltava" Code="53"/>
-      <City Name="Respublika Krym" Code="43"/>
+      <City Name="Respublika Krym" Code="43"/>
       <City Name="Rivne" Code="56"/>
       <City Name="Sumy" Code="59"/>
       <City Name="Ternopil" Code="61"/>
@@ -4065,15 +4065,15 @@
       <City Name="Zhytomyr" Code="18"/>
     </State>
   </CountryRegion>
-  <CountryRegion Name="United Arab Emirates" Code="ARE">
+  <CountryRegion Name="United Arab Emirates" Code="ARE">
     <State >
-      <City Name="Abu Dhabi" Code="AZ"/>
-      <City Name="Al l&apos;Ayn" Code="AL"/>
-      <City Name="Ash Shariqah" Code="SH"/>
+      <City Name="Abu Dhabi" Code="AZ"/>
+      <City Name="Al l&apos;Ayn" Code="AL"/>
+      <City Name="Ash Shariqah" Code="SH"/>
       <City Name="Dubayy" Code="DU"/>
     </State>
   </CountryRegion>
-  <CountryRegion Name="United Kingdom" Code="GBR">
+  <CountryRegion Name="United Kingdom" Code="GBR">
     <State Name="England" Code="ENG">
       <City Name="Bath" Code="BAS"/>
       <City Name="Birmingham" Code="BIR"/>
@@ -4125,7 +4125,7 @@
       <City Name="Worcester" Code="WOR"/>
       <City Name="York" Code="YOR"/>
     </State>
-    <State Name="Northern Ireland" Code="NIR">
+    <State Name="Northern Ireland" Code="NIR">
       <City Name="Belfast" Code="BFS"/>
       <City Name="Derry" Code="DRY"/>
       <City Name="Lisburn" Code="LSB"/>
@@ -4146,7 +4146,7 @@
       <City Name="Swansea" Code="SWA"/>
     </State>
   </CountryRegion>
-  <CountryRegion Name="United States" Code="USA">
+  <CountryRegion Name="United States" Code="USA">
     <State Name="Alabama" Code="AL">
       <City Name="Birmingham" Code="BHM"/>
       <City Name="Mobile" Code="MOB"/>
@@ -4203,7 +4203,7 @@
       <City Name="Newark" Code="NWK"/>
       <City Name="Wilmington" Code="ILG"/>
     </State>
-    <State Name="District of Columbia" Code="DC">
+    <State Name="District of Columbia" Code="DC">
       <City Name="Washington D.C." Code="WAS"/>
     </State>
     <State Name="Florida" Code="FL">
@@ -4368,28 +4368,28 @@
       <City Name="Sparks" Code="SPK"/>
       <City Name="Virginia City" Code="VGI"/>
     </State>
-    <State Name="New Hampshire" Code="NH">
+    <State Name="New Hampshire" Code="NH">
       <City Name="Concord" Code="CON"/>
       <City Name="Manchester" Code="MHT"/>
       <City Name="Nashua" Code="ASH"/>
     </State>
-    <State Name="New Jersey" Code="NJ">
+    <State Name="New Jersey" Code="NJ">
       <City Name="Jersey City" Code="JEC"/>
       <City Name="Newark" Code="NRK"/>
       <City Name="Paterson" Code="PAT"/>
     </State>
-    <State Name="New Mexico" Code="NM">
+    <State Name="New Mexico" Code="NM">
       <City Name="Albuquerque" Code="ABQ"/>
       <City Name="Las Cruces" Code="LRU"/>
       <City Name="Roswell" Code="ROW"/>
       <City Name="Santa Fe" Code="SAF"/>
     </State>
-    <State Name="New York" Code="NY">
+    <State Name="New York" Code="NY">
       <City Name="Buffalo" Code="FFO"/>
       <City Name="New York" Code="QEE"/>
       <City Name="Rochester" Code="ROC"/>
     </State>
-    <State Name="North Carolina" Code="NC">
+    <State Name="North Carolina" Code="NC">
       <City Name="Asheville" Code="AEV"/>
       <City Name="Chapel Hill" Code="CHE"/>
       <City Name="Charlotte" Code="CRQ"/>
@@ -4398,7 +4398,7 @@
       <City Name="Raleigh" Code="RAG"/>
       <City Name="Raleigh-Durham" Code="RDU"/>
     </State>
-    <State Name="North Dakota" Code="ND">
+    <State Name="North Dakota" Code="ND">
       <City Name="Bismarck" Code="BIS"/>
       <City Name="Fargo" Code="FAR"/>
       <City Name="Grand Forks" Code="GFK"/>
@@ -4438,7 +4438,7 @@
       <City Name="Philadephia" Code="PHL"/>
       <City Name="Pittsburgh" Code="PIT"/>
     </State>
-    <State Name="Rhode Island" Code="RI">
+    <State Name="Rhode Island" Code="RI">
       <City Name="Cranston" Code="CQH"/>
       <City Name="Newport" Code="NPO"/>
       <City Name="Pawtucket" Code="PAW"/>
@@ -4447,12 +4447,12 @@
       <City Name="Westerly" Code="WST"/>
       <City Name="Woonsocket" Code="SFN"/>
     </State>
-    <State Name="South Carolina" Code="SC">
+    <State Name="South Carolina" Code="SC">
       <City Name="Charleston" Code="CHS"/>
       <City Name="Columbia" Code="COV"/>
       <City Name="North Charleston" Code="NTS"/>
     </State>
-    <State Name="South Dakota" Code="SD">
+    <State Name="South Dakota" Code="SD">
       <City Name="Aberdeen" Code="ABK"/>
       <City Name="Rapid City" Code="RAP"/>
       <City Name="Sioux Falls" Code="FSD"/>
@@ -4505,7 +4505,7 @@
       <City Name="Spokane" Code="GEG"/>
       <City Name="Tacoma" Code="TTW"/>
     </State>
-    <State Name="West Virginia" Code="WV">
+    <State Name="West Virginia" Code="WV">
       <City Name="Charleston" Code="CRW"/>
       <City Name="Huntington" Code="HNU"/>
       <City Name="Parkersburg" Code="PKB"/>
@@ -4533,12 +4533,12 @@
       <City Name="Sheridan" Code="SHR"/>
     </State>
   </CountryRegion>
-  <CountryRegion Name="United States Minor Outlying Islands" Code="UMI" />
+  <CountryRegion Name="United States Minor Outlying Islands" Code="UMI" />
   <CountryRegion Name="Uruguay" Code="URY">
     <State >
       <City Name="Artigas" Code="AR"/>
       <City Name="Canelones" Code="CA"/>
-      <City Name="Cerro Largo" Code="CL"/>
+      <City Name="Cerro Largo" Code="CL"/>
       <City Name="Colonia" Code="CO"/>
       <City Name="Durazno" Code="DU"/>
       <City Name="Flores" Code="FS"/>
@@ -4547,14 +4547,14 @@
       <City Name="Maldonado" Code="MA"/>
       <City Name="Montevideo" Code="MO"/>
       <City Name="Paysandu" Code="PA"/>
-      <City Name="Rio Negro" Code="RN"/>
+      <City Name="Rio Negro" Code="RN"/>
       <City Name="Rivera" Code="RV"/>
       <City Name="Rocha" Code="RO"/>
       <City Name="Salto" Code="SL"/>
-      <City Name="San Jose" Code="SJ"/>
+      <City Name="San Jose" Code="SJ"/>
       <City Name="Soriano" Code="SO"/>
       <City Name="Tacuarembo" Code="TAW"/>
-      <City Name="Treinta y Tres" Code="TT"/>
+      <City Name="Treinta y Tres" Code="TT"/>
     </State>
   </CountryRegion>
   <CountryRegion Name="Uzbekistan" Code="UZB">
@@ -4571,7 +4571,7 @@
       <City Name="Sirdaryo" Code="SI"/>
       <City Name="Surxondaryo" Code="SU"/>
       <City Name="Toshkent" Code="TK"/>
-      <City Name="Toshkent Shahri" Code="TO"/>
+      <City Name="Toshkent Shahri" Code="TO"/>
       <City Name="Xorazm" Code="XO"/>
     </State>
   </CountryRegion>
@@ -4585,7 +4585,7 @@
       <City Name="Torba" Code="TO"/>
     </State>
   </CountryRegion>
-  <CountryRegion Name="Vatican City" Code="VAT" />
+  <CountryRegion Name="Vatican City" Code="VAT" />
   <CountryRegion Name="Venezuela" Code="VEN">
     <State >
       <City Name="Amazonas" Code="Z"/>
@@ -4597,9 +4597,9 @@
       <City Name="Carabobo" Code="G"/>
       <City Name="Caracas" Code="A"/>
       <City Name="Cojedes" Code="H"/>
-      <City Name="Delta Amacuro" Code="Y"/>
-      <City Name="Dependencias Federales" Code="W"/>
-      <City Name="Estado Nueva Esparta" Code="O"/>
+      <City Name="Delta Amacuro" Code="Y"/>
+      <City Name="Dependencias Federales" Code="W"/>
+      <City Name="Estado Nueva Esparta" Code="O"/>
       <City Name="Falcon" Code="I"/>
       <City Name="Guarico" Code="J"/>
       <City Name="Lara" Code="K"/>
@@ -4618,13 +4618,13 @@
     <State >
       <City Name="Haiphong" Code="HP"/>
       <City Name="Hanoi" Code="HI"/>
-      <City Name="Ho Chi Minh City" Code="HC"/>
+      <City Name="Ho Chi Minh City" Code="HC"/>
     </State>
   </CountryRegion>
-  <CountryRegion Name="Virgin Islands" Code="VIR" />
-  <CountryRegion Name="Virgin Islands,British" Code="VGB" />
-  <CountryRegion Name="Wallis and Futuna" Code="WLF" />
-  <CountryRegion Name="White Russia" Code="BLR">
+  <CountryRegion Name="Virgin Islands" Code="VIR" />
+  <CountryRegion Name="Virgin Islands,British" Code="VGB" />
+  <CountryRegion Name="Wallis and Futuna" Code="WLF" />
+  <CountryRegion Name="White Russia" Code="BLR">
     <State >
       <City Name="Bresckaja" Code="BR"/>
       <City Name="Homelskaja" Code="HO"/>
@@ -4644,7 +4644,7 @@
       <City Name="Al-Jawf" Code="JA"/>
       <City Name="Al-Mahrah" Code="MR"/>
       <City Name="Al-Mahwit" Code="MW"/>
-      <City Name="Amran Sana" Code="AM"/>
+      <City Name="Amran Sana" Code="AM"/>
       <City Name="Ash-Shihr" Code="ASR"/>
       <City Name="Dhamar" Code="DH"/>
       <City Name="Hadramawt" Code="HD"/>
@@ -4677,12 +4677,12 @@
       <City Name="Bulawayo" Code="BU"/>
       <City Name="Harare" Code="HA"/>
       <City Name="Manicaland" Code="ML"/>
-      <City Name="Mashonaland Central" Code="MC"/>
-      <City Name="Mashonaland East" Code="ME"/>
-      <City Name="Mashonaland West" Code="MW"/>
+      <City Name="Mashonaland Central" Code="MC"/>
+      <City Name="Mashonaland East" Code="ME"/>
+      <City Name="Mashonaland West" Code="MW"/>
       <City Name="Masvingo" Code="MV"/>
-      <City Name="Matabeleland North" Code="MN"/>
-      <City Name="Matabeleland South" Code="MS"/>
+      <City Name="Matabeleland North" Code="MN"/>
+      <City Name="Matabeleland South" Code="MS"/>
       <City Name="Midlands" Code="MD"/>
     </State>
   </CountryRegion>
