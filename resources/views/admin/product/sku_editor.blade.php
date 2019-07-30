@@ -11,42 +11,49 @@
         @endforeach
     </div>
 @endif
+
 <div class="box">
-    <form id="sku_editor_form" role="form" method="POST" enctype="multipart/form-data"
-          action="{{ route('admin.products.sku_editor_store', ['product' => $product->id]) }}">
-        {{ csrf_field() }}
-        <div class="box-body">
-            <div class="container-fluid">
+    <div class="box-body table-responsive no-padding">
+        <form id="sku_editor_form" role="form" method="POST" enctype="multipart/form-data"
+              action="{{ route('admin.products.sku_editor_store', ['product' => $product->id]) }}">
+            {{ csrf_field() }}
+            <table class="table table-hover">
+
+                <tr>
+                    @if($product->skus->first())
+                        <th>Photo</th>
+                        @foreach($product->skus->first()->attr_value_options as $option)
+                            <th>{{$option['attr']['name']}}</th>
+                        @endforeach
+                        <th>Price</th>
+                        <th>Stock</th>
+                        <th>Stock Increment</th>
+                        <th>Stock Decrement</th>
+                    @endif
+                </tr>
+
+
                 @foreach($product->skus as $sku)
-                    <div class="row">
-                        <label>ID</label>
-                        <span>{{ $sku->id }}</span>
-                        {{--<input type="hidden" name="skus[{{ $sku->id }}][id]" value="{{ $sku->id }}">--}}
-                        <label>Attributes</label>
-                        <span>{{ $sku->attr_value_string }}</span>
-                        {{--<label for="skus[{{ $sku->id }}][photo]">Photo</label>
-                        <input type="file" id="skus[{{ $sku->id }}][photo]" name="skus[{{ $sku->id }}][photo]"
-                               value="{{ $sku->photo }}">
-                        <img src="{{ $sku->photo_url }}"/>--}}
-                        <label for="skus[{{ $sku->id }}][price]">Price</label>
-                        <input type="text" id="skus[{{ $sku->id }}][price]" name="skus[{{ $sku->id }}][price]"
-                               value="{{ $sku->price }}">
-                        <label for="skus[{{ $sku->id }}][stock]">Stock</label>
-                        <input type="text" id="skus[{{ $sku->id }}][stock]" name="skus[{{ $sku->id }}][stock]"
-                               value="{{ $sku->stock }}">
-                        {{--<label for="skus[{{ $sku->id }}][sales]">Sales</label>
-                        <input type="text" id="skus[{{ $sku->id }}][sales]" name="skus[{{ $sku->id }}][sales]"
-                               value="{{ $sku->sales }}">--}}
-                        <label for="skus[{{ $sku->id }}][stock_increment]">Stock Increment</label>
-                        <input type="text" id="skus[{{ $sku->id }}][stock_increment]" name="skus[{{ $sku->id }}][stock_increment]">
-                        <label for="skus[{{ $sku->id }}][stock_decrement]">Stock Decrement</label>
-                        <input type="text" id="skus[{{ $sku->id }}][stock_decrement]" name="skus[{{ $sku->id }}][stock_decrement]">
-                    </div>
+                    <tr>
+                        <td>
+                            {{--<input type="file" id="skus[{{ $sku->id }}][photo]" name="skus[{{ $sku->id }}][photo]" value="{{ $sku->photo }}">--}}
+                            <img src="{{ $sku->photo_url }}" style="max-width:60px;max-height:200px" class="img img-thumbnail">
+                        </td>
+                        @foreach($sku->attr_values as $value)
+                            <td>{{$value['value']}}</td>
+                        @endforeach
+                        <td><input class="form-control" type="text" id="skus[{{ $sku->id }}][price]" name="skus[{{ $sku->id }}][price]" value="{{ $sku->price }}"></td>
+                        <td><input class="form-control" type="text" id="skus[{{ $sku->id }}][stock]" name="skus[{{ $sku->id }}][stock]" value="{{ $sku->stock }}"></td>
+                        <td><input class="form-control" type="text" id="skus[{{ $sku->id }}][stock_increment]" name="skus[{{ $sku->id }}][stock_increment]" value=""></td>
+                        <td><input class="form-control" type="text" id="skus[{{ $sku->id }}][stock_decrement]" name="skus[{{ $sku->id }}][stock_decrement]" value=""></td>
+                    </tr>
                 @endforeach
-            </div>
-        </div>
-        <button type="submit">提交</button>
-    </form>
+
+
+            </table>
+            <button type="submit" class="btn btn-primary btn-lg btn-block"> 提交</button>
+        </form>
+    </div>
 </div>
 <script type="text/javascript">
     //
