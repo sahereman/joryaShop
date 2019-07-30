@@ -268,6 +268,8 @@
     <div class="changeAddress dis_n">
         <ul></ul>
     </div>
+    <span class="dis_ni" id="countries" data-json="{{ $countries }}"></span>
+    <span class="dis_ni" id="provinces" data-json="{{ $provinces }}"></span>
 @endsection
 @section('scriptsAfterJs')
     <script type="text/javascript">
@@ -585,41 +587,55 @@
             // 省份二级联动
             // 省份假数据
             // 设置二级联动中的选项数组
-            var province_array = ['请选择省份', '北京市', '上海市', '天津市', '河北省', '山西省', '内蒙古省', '辽宁省', '吉林省', '黑龙江省'];
-            var city_array = [
-                ['请选择城市'],
-                ["东城区", "西城区", "崇文区", "宣武区", "朝阳区", "丰台区", "石景山区", "海淀区", "门头沟区", "房山区", "通州区", "顺义区", "昌平区", "大兴区", "怀柔区", "平谷区", "密云县", "延庆县"],
-                ["黄浦区", "卢湾区", "徐汇区", "长宁区", "静安区", "普陀区", "虹口区", "杨浦区", "闵行区", "宝山区", "嘉定区", "浦东新区", "金山区", "松江区", "青浦区", "南汇区", "奉贤区", "崇明县"],
-                ["和平区", "河东区", "河西区", "南开区", "河北区", "红桥区", "塘沽区", "汉沽区", "大港区", "东丽区", "西青区", "津南区", "北辰区", "武清区", "宝坻区", "宁河县", "静海县", "蓟县"],
-                ["石家庄市", "张家口市", "承德市", "秦皇岛市", "唐山市", "廊坊市", "保定市", "衡水市", "沧州市", "邢台市", "邯郸市"],
-                ["太原市", "朔州市", "大同市", "阳泉市", "长治市", "晋城市", "忻州市", "晋中市", "临汾市", "吕梁市", "运城市"],
-                ["呼和浩特市", "包头市", "乌海市", "赤峰市", "通辽市", "呼伦贝尔市", "鄂尔多斯市", "乌兰察布市", "巴彦淖尔市", "兴安盟", "锡林郭勒盟", "阿拉善盟"],
-                ["沈阳市", "朝阳市", "阜新市", "铁岭市", "抚顺市", "本溪市", "辽阳市", "鞍山市", "丹东市", "大连市", "营口市", "盘锦市", "锦州市", "葫芦岛市"],
-                ["长春市", "白城市", "松原市", "吉林市", "四平市", "辽源市", "通化市", "白山市", "延边州"],
-                ["哈尔滨市", "齐齐哈尔市", "七台河市", "黑河市", "大庆市", "鹤岗市", "伊春市", "佳木斯市", "双鸭山市", "鸡西市", "牡丹江市", "绥化市", "大兴安岭地区"]
-            ];
+            var countries = Array.from(JSON.parse($('#countries').attr('data-json')));
+            countries.unshift('Please select a country');
+            // console.log(countries);
+            // var provinces = JSON.parse($('#provinces').attr('data-json'));
+            var country_provinces = JSON.parse($('#provinces').attr('data-json'));
+            var provinces = [];
+            for (var index in country_provinces) {
+                provinces[index] = country_provinces[index];
+                // provinces[index].unshift('Please select a state/province/region');
+            }
+            provinces['0'] = ['Please select a state/province/region'];
             // 获取页面中的选项卡
-            var province = document.getElementById('new_address_country');
-            var city = document.getElementById('new_address_province');
+            var country = document.getElementById('user_country');
+            var province = document.getElementById('user_province');
 
             // 给第一个选项卡中的option赋值
-            province.options.length = province_array.length;
-            for (var i = 0; i < province.options.length; i++) {
-                province.options[i].text = province_array[i];
-                province.options[i].value = province_array[i];
+            country.options.length = countries.length;
+            country.options[0].text = 'Please select a country';
+            country.options[0].value = 0;
+            for (var i = 0; i < country.options.length; i++) {
+                //key = i + 1;
+                country.options[i].text = countries[i];
+                country.options[i].value = countries[i];
             }
 
             // 初始化第二个选项卡，默认显示"请选择城市"
-            city.options.length = 1;
-            city.options[0].text = city_array[0][0];
-            city.options[0].value = city_array[0][0];
+            province.options.length = 1;
+            // province.options.length = provinces[countries['0']].length;
+            province.options[0].text = 'Please select a state/province/region';
+            province.options[0].value = 0;
+            /*for (var i = 0; i < provinces[countries['0']].length; i++) {
+                // key = i + 1;
+                province.options[i].text = provinces[countries['0']][i];
+                province.options[i].value = provinces[countries['0']][i];
+            }*/
 
             // 通过onchange监视函数，一旦第一个选项卡发生变化，第二个选项卡中的内容也跟着变化
-            province.onchange = function () {
-                city.options.length = city_array[this.selectedIndex].length;
-                for (var j = 0; j < city.options.length; j++) {
-                    city.options[j].text = city_array[this.selectedIndex][j];
-                    city.options[j].value = city_array[this.selectedIndex][j];
+            country.onchange = function () {
+                country_name = this.value;
+                if (country_name != 0) {
+                    province_set = provinces[country_name];
+                    province.options.length = province_set.length;
+                    // province.options[0].text = 'Please select a state/province/region';
+                    // province.options[0].value = 0;
+                    for (var j = 0; j < province.options.length; j++) {
+                        //key = j + 1;
+                        province.options[j].text = provinces[country_name][j];
+                        province.options[j].value = provinces[country_name][j];
+                    }
                 }
             }
         });

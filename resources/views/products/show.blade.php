@@ -72,7 +72,7 @@
                     {{-- 商品小标题介绍 --}}
                     <p class="small_title">{!! App::isLocale('zh-CN') ? $product->description_zh : $product->description_en !!}</p>
                     {{-- 价格服务模块 --}}
-                    <div class="price_service">
+                    <div class="price_service dis_ni">
                         <p class="original_price">
                             <span>@lang('product.product_details.the original price')</span>
                             {{--<span id="sku_original_price_in_usd"><i>@lang('basic.currency.symbol') </i>{{ App::isLocale('en') ? bcmul($product->price_in_usd, 1.2, 2) : bcmul($product->price, 1.2, 2) }}</span>--}}
@@ -101,132 +101,95 @@
                             {{--<span class="service-kind"><i>•</i>@lang('product.product_details.Quick refund in 48 hours')</span>--}}
                         </p>
                     </div>
-                    {{-- 商品SKU参数部分 --}}
-                    {{-- <div class="priceOfpro">
-                        <span>@lang('product.product_details.freight')</span>
-                        <span><i>@lang('basic.currency.symbol') </i>{{ App::isLocale('en') ? $product->shipping_fee_in_usd : $product->shipping_fee }}</span>
-                        <span><i>{{ get_global_symbol() }} </i>{{ get_current_price($product->shipping_fee) }}</span>
-                    </div> --}}
+                    {{-- 评价 --}}
+                    <div class="ratings">
+                        <div class="rating-box">
+                            <div class="rating"></div>
+                        </div>
+                        <p class="rating-links">
+                            <a id="goto-reviews" href="#customer-reviews">1 Review(s)</a>
+                            <span class="separator">|</span>
+                            <a id="goto-reviews-form" href="#customer-reviews">Add Your Review</a>
+                        </p>
+                    </div>
+                    {{-- 简介 --}}
+                    <div class="short-description">
+                        <div class="std">
+                            <p>This is a silk top hairpiece for women with a base size of 5" x 5". It's 100% Remy human hair is medium density and is a
+                                natural hair color. The natural straight hair is 10" in length. Immediate shipment available.</p>
+                        </div>
+                        <a href="javascript:void (0)" class="down-more">
+                            <img src=" {{ asset('img/down-more.png') }}" alt="">
+                        </a>
+                    </div>
+                    {{-- 新版价格存放位置 --}}
+                    <div class="product-price">
+                        <p class="old-price">
+                            <span class="price" id="old-price-695"><i>{{ get_global_symbol() }} </i>{{ bcmul(get_current_price($product->price), 1.2, 2) }}</span>
+                        </p>
+                        <p class="special-price">
+                            <span class="price" id="product-price-695"><i>{{ get_global_symbol() }} </i>{{ get_current_price($product->price) }}</span>
+                        </p>
+                        <div class="clear"></div>
+                        <div class="free-shipping">FREE SHIPPING</div>
+                    </div>
+                    {{-- 商品价格优惠 --}}
+                    <ul class="tier-prices product-pricing">
+                        <li class="tier-price tier-0">
+                            Buy<strong class="benefit"> 2 for <span class="price">US$145.00</span> each</strong>
+                            and&nbsp;<span>save&nbsp;<span class="percent tier-0">9</span>%</span>
+                            <span class="msrp-price-hide-message"></span>
+                        </li>
+                        <li class="tier-price tier-1">
+                            Buy<strong class="benefit"> 3 for <span class="price">US$133.00</span> each</strong>
+                            and&nbsp;<span>save&nbsp;<span class="percent tier-1">17</span>%</span>
+                            <span class="msrp-price-hide-message"></span>
+                        </li>
+                        <li class="tier-price tier-2">
+                            Buy<strong class="benefit"> 6 for <span class="price">US$116.50</span> each</strong>
+                            and&nbsp;<span>save&nbsp;<span class="percent tier-2">27</span>%</span>
+                            <span class="msrp-price-hide-message"></span>
+                        </li>
+                    </ul>
                     {{-- 动态渲染的skus选择器存放位置 --}}
                     <div class="sku-choose-store"></div>
                     {{-- skus参数数组 --}}
                     <input type="hidden" class="parameter-data" value="{{ json_encode($attributes) }}"/>
                     {{-- 商品数量相关 --}}
                     <div class="priceOfpro">
-                        <span class="buy_numbers">@lang('product.product_details.Quantity')</span>
+                        <span class="buy_numbers">@lang('product.product_details.Quantity'):</span>
                         <div class="quantity_control">
                             <span class="reduce no_allow"><i>-</i></span>
                             <input type="number" name="number" id="pro_num" value="1" min="1" max="99">
                             <span class="add"><i>+</i></span>
                         </div>
-                        <div class="availableSold">
-                            {{-- <span class="defalutavailableSold" data-stock='{{ $skus->first()->stock }}'
-                                  data-sales='{{ $skus->first()->sales }}'>
-                                {{ $skus->first()->stock }} Available / <i>{{ $skus->first()->sales }} Sold</i>
-                            </span>--}}
-                        </div>
+                        <div class="availableSold"></div>
                     </div>
                     <!--添加购物车与立即购买-->
                     <div class="addCart_buyNow">
                         @guest
-                        <a class="buy_now for_show_login">
-                            @lang('product.product_details.Buy now')
-                        </a>
-                        <a class="add_carts for_show_login">
+                        <a class="add_carts for_show_login" href="{{ route('login') }}}">
                             @lang('app.Add to Shopping Cart')
                         </a>
                         @else
-                            <a class="buy_now" data-url="{{ route('orders.pre_payment') }}">
-                                @lang('product.product_details.Buy now')
-                            </a>
-                            <a class="add_carts" data-url="{{ route('carts.store') }}">
-                                @lang('app.Add to Shopping Cart')
-                            </a>
-                            @endguest
-                            <a class="add_favourites {{ $favourite ? 'active' : '' }}" code="{{ $product->id }}"
-                               data-url="{{ route('user_favourites.store') }}"
-                               data-url_2="{{ $favourite ? route('user_favourites.destroy', ['favourite' => $favourite->id]) : '' }}">
-                                <span class="favourites_img"></span>
-                                <span>@lang('product.product_details.Collection')</span>
-                            </a>
+                           <a class="add_carts" data-url="{{ route('carts.store') }}">
+                               @lang('app.Add to Shopping Cart')
+                           </a>
+                           @endguest
                     </div>
-                </div>
-                <!--猜你喜欢-->
-                <div class="guess_like">
-                    <p>
-                        <span class="line"></span>
-                        <span>&bull;</span>
-                        <span>@lang('app.you may also like')</span>
-                        <span>&bull;</span>
-                        <span class="line"></span>
-                    </p>
-                    <ul>
-                        @foreach($guesses as $guess)
-                            <li>
-                                <a href="{{ route('products.show', ['product' => $guess->id,'slug'=>$guess->slug]) }}">
-                                    <div>
-                                        <img class="lazy" data-src="{{ $guess->thumb_url }}">
-                                    </div>
-                                    <p>
-                                        {{--<span class="present_price"><i>@lang('basic.currency.symbol')</i>{{ App::isLocale('en') ? $guess->price_in_usd : $guess->price }}</span>--}}
-                                        <span class="present_price"><i>{{ get_global_symbol() }} </i>{{ get_current_price($guess->price) }}</span>
-                                        {{--<span class="original_price"><i>@lang('basic.currency.symbol')</i>{{ App::isLocale('en') ? bcmul($guess->price_in_usd, 1.2, 2) : bcmul($guess->price, 1.2, 2) }}</span>--}}
-                                        <span class="original_price"><i>{{ get_global_symbol() }} </i>{{ bcmul(get_current_price($guess->price), 1.2, 2) }}</span>
-                                    </p>
-                                </a>
-                            </li>
-                        @endforeach
-                    </ul>
+                    {{-- 社会化分享 --}}
+                    <div class="addthis_inline_share_toolbox"></div>
                 </div>
             </div>
             <!--详情下半部分-->
             <div class="comments_details">
-                <div class="comments_details_left pull-left" id="list">
-                    <ul class="tab">
-                        <li onclick="tabs('#list',0)" class="curr">Browsing History</li>
-                        <!--<li onclick="tabs('#list',1)">@lang('product.product_details.Popular sales')</li>-->
-                    </ul>
-                    <div class="mc tabcon">
-                        <ul class="pro-lists">
-                            {{--@foreach($hot_sales as $hot_sale)
-                                <li>
-                                    <a href="{{ route('products.show', ['product' => $product->id,'slug'=>$product->slug]) }}">
-                                        <div>
-                                            <img class="lazy" data-src="{{ $hot_sale->thumb_url }}">
-                                        </div>
-                                        <p>
-                                            <span class="present_price"><i>{{ get_global_symbol() }} </i>{{ get_current_price($hot_sale->price) }}</span>
-                                        </p>
-                                    </a>
-                                </li>
-                            @endforeach--}}
-                        </ul>
-                    </div>
-                    <div class="mc tabcon dis_n">
-                        <ul class="pro-lists">
-                            @foreach($best_sellers as $best_seller)
-                                <li>
-                                    <a href="{{ route('products.show', ['product' => $product->id,'slug'=>$product->slug]) }}">
-                                        <div>
-                                            <img class="lazy" data-src="{{ $best_seller->thumb_url }}">
-                                        </div>
-                                        <p>
-                                            {{--<span class="present_price"><i>@lang('basic.currency.symbol') </i>{{ App::isLocale('en') ? $best_seller->price_in_usd : $best_seller->price }}</span>--}}
-                                            <span class="present_price"><i>{{ get_global_symbol() }} </i>{{ get_current_price($best_seller->price) }}</span>
-                                        </p>
-                                    </a>
-                                </li>
-                            @endforeach
-                        </ul>
-                    </div>
-                </div>
                 <div class="comments_details_right pull-left" id="comments_details">
-                    <ul class="tab">
+                    <ul class="tab nav nav-tabs" role="tablist">
                         <li onclick="tabs('#comments_details',0)"
-                            class="curr">@lang('product.product_details.Commodity details')</li>
+                            class="active curr">@lang('product.product_details.Commodity details')</li>
                         <li onclick="tabs('#comments_details',1)" class="shopping_eva"
                             data-url="{{ route('products.comment', ['product' => $product->id]) }}">@lang('product.product_details.Commodity feedback')
-                            <strong>({{ $comment_count }})</strong></li>
+                        </li>
                     </ul>
                     <div class="mc tabcon product_info">
                         {{--商品参数部分--}}
@@ -262,7 +225,7 @@
                         {{-- 页面实际展示的部分，用js进行页面渲染 --}}
                         <iframe name="cmsCon" id="cmsCon" class="cmsCon" frameborder="0" width="100%" scrolling="no" height="auto"></iframe>
                     </div>
-                    <div class="mc tabcon dis_n">
+                    <div class="mc tabcon dis_n" id="customer-reviews">
                         <ul class="comment-score">
                             <li>
                                 <span>@lang('product.product_details.Overall rating')</span>
@@ -309,6 +272,7 @@
     </div>
 @endsection
 @section('scriptsAfterJs')
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5d3faaaad4206199"></script>
     <script type="text/javascript">
         var loading_animation;  // loading动画的全局name
         var current_page;  // 评价的当前页
@@ -1097,5 +1061,20 @@
             }
 
         }
+    //    简介查看更多
+        $(".down-more").on("click",function () {
+            var _taht = $(this),
+                isHasClass = $(this).hasClass("active");
+            if (isHasClass){
+                _taht.removeClass("active");
+                $(".std").find("p").removeClass("active");
+            } else {
+                _taht.addClass("active");
+                $(".std").find("p").addClass("active");
+            }
+        })
+
+
+
     </script>
 @endsection

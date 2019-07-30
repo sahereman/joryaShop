@@ -145,23 +145,24 @@ $(function () {
 
 $(function () {
     // 获取导航栏到屏幕顶部的距离
-    var oTop = $(".navbar-bottom").offset().top;
+    // var oTop = $(".header-top-container").offset().top;
+    var oTop = 0;
     //获取导航栏的高度，此高度用于保证内容的平滑过渡
-    var martop = $('.navbar-bottom').outerHeight();
-
+    var martop = $('.header-top-container').outerHeight();
+    $(".navbar").css("margin-top",martop);
     var sTop = 0;
     // 监听页面的滚动
     $(window).scroll(function () {
         // 获取页面向上滚动的距离
         sTop = $(this).scrollTop();
         // 当导航栏到达屏幕顶端
-        if (sTop >= oTop) {
+        if (sTop > oTop) {
             // 修改导航栏position属性，使之固定在屏幕顶端
-            $(".navbar-bottom").addClass("fixed-header");
+            $(".header-top-container").addClass("fixed-header");
             // 修改内容的margin-top值，保证平滑过渡
         } else {
             // 当导航栏脱离屏幕顶端时，回复原来的属性
-            $(".navbar-bottom").removeClass("fixed-header");
+            $(".header-top-container").removeClass("fixed-header");
         }
     });
     $(window).on("scroll", function () {
@@ -306,32 +307,32 @@ $(function () {
         $(".register_form").addClass("dis_n");
         $(".common_login").click();
     });
-    $(".register").on("click", function () {
-        enter_event = "register";
-        $(".dialog_iframe").removeClass("dis_n");
-        $(".login_form").addClass("dis_n");
-        $(".register_form").removeClass("dis_n");
-    });
+    // $(".register").on("click", function () {
+    //     enter_event = "register";
+    //     $(".dialog_iframe").removeClass("dis_n");
+    //     $(".login_form").addClass("dis_n");
+    //     $(".register_form").removeClass("dis_n");
+    // });
 
     // 切换登录方式
-    $(".common_login").on("click", function () {
-        enter_event = "common_login";
-        $(".login_type ul li").removeClass('active');
-        $(this).addClass("active");
-        $(".login_form form").removeClass("active");
-        $("#login-form").addClass("active");
-        $(".login_form .btn_dialog").removeClass("active");
-        $(".commo_btn").addClass("active");
-    });
-    $(".mailbox_login").on("click", function () {
-        enter_event = "mailbox_login";
-        $(".login_type ul li").removeClass('active');
-        $(this).addClass("active");
-        $(".login_form form").removeClass("active");
-        $("#mailbox_login").addClass("active");
-        $(".login_form .btn_dialog").removeClass("active");
-        $(".mailbox_btn").addClass("active");
-    });
+    // $(".common_login").on("click", function () {
+    //     enter_event = "common_login";
+    //     $(".login_type ul li").removeClass('active');
+    //     $(this).addClass("active");
+    //     $(".login_form form").removeClass("active");
+    //     $("#login-form").addClass("active");
+    //     $(".login_form .btn_dialog").removeClass("active");
+    //     $(".commo_btn").addClass("active");
+    // });
+    // $(".mailbox_login").on("click", function () {
+    //     enter_event = "mailbox_login";
+    //     $(".login_type ul li").removeClass('active');
+    //     $(this).addClass("active");
+    //     $(".login_form form").removeClass("active");
+    //     $("#mailbox_login").addClass("active");
+    //     $(".login_form .btn_dialog").removeClass("active");
+    //     $(".mailbox_btn").addClass("active");
+    // });
 
     // 获取验证码倒计时
     var countdown = 60;
@@ -567,10 +568,10 @@ $(function () {
         },
         messages: {
             username: {
-                required: (COUNTRY == "中文") ? '请输入用户名或邮箱' : 'Please enter a username or email box',
+                required: '',
             },
             password: {
-                required: (COUNTRY == "中文") ? '请输入密码' : 'Please input a password',
+                required: '',
             }
         }
     });
@@ -646,6 +647,8 @@ $(function () {
 
                 }
             });
+        }else {
+            window.location.href=clickDome.attr('data-url');
         }
     });
     // 注册
@@ -850,8 +853,15 @@ $(function () {
     });
     //header search change
     $(".for_show_search").on("click", function () {
-        $(this).addClass("active");
-        $(".show_search").addClass("active");
+        var isactive =  $(this).hasClass("active"),
+            _that = $(this);
+        if(isactive) {
+            _that.removeClass("active");
+            $(".search-wrapper-regular").removeClass("active");
+        }else {
+            _that.addClass("active");
+            $(".search-wrapper-regular").addClass("active");
+        }
     });
     // 判断订阅邮箱输入框焦点
     $("#footemail").bind("focus", function (event) {
@@ -897,4 +907,15 @@ $(function () {
             }
         });
     })
+});
+
+// 新版方法
+$(function () {
+    // $(".quick-login").mouseenter(function () {
+    //     $(this).addClass("dropdown");
+    //     $(".quick-login-dropdown").addClass("open")
+    // }).mouseleave(function () {
+    //     $(this).removeClass("dropdown");
+    //     $(".quick-login-dropdown").removeClass("open")
+    // })
 });
