@@ -35,7 +35,7 @@ class Kernel extends HttpKernel
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
 
             \App\Http\Middleware\SetGlobalLocale::class,
-            \App\Http\Middleware\RedirectIfMobileBrowser::class,
+//            \App\Http\Middleware\RedirectIfMobileBrowser::class,
         ],
 
         'api' => [
