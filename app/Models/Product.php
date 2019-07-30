@@ -5,6 +5,7 @@ namespace App\Models;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Cviebrock\EloquentSluggable\SluggableScopeHelpers;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -115,7 +116,8 @@ class Product extends Model
     /* Accessors */
     public function getThumbUrlAttribute()
     {
-        if ($this->attributes['thumb']) {
+        if ($this->attributes['thumb'])
+        {
             // 如果 thumb 字段本身就已经是完整的 url 就直接返回
             /*if (Str::startsWith($this->attributes['thumb'], ['http://', 'https://'])) {
                 return $this->attributes['thumb'];
@@ -129,10 +131,13 @@ class Product extends Model
     public function getPhotoUrlsAttribute()
     {
         $photo_urls = [];
-        if ($this->attributes['photos']) {
+        if ($this->attributes['photos'])
+        {
             $photos = json_decode($this->attributes['photos'], true);
-            if (count($photos) > 0) {
-                foreach ($photos as $photo) {
+            if (count($photos) > 0)
+            {
+                foreach ($photos as $photo)
+                {
                     /*if (Str::startsWith($photo, ['http://', 'https://'])) {
                         $photo_urls[] = $photo;
                     }
@@ -172,13 +177,69 @@ class Product extends Model
     {
         $grouped_param_value_string = [];
         $this->params()->get(['name', 'value'])->each(function (ProductParam $param) use (&$grouped_param_value_string) {
-            if (isset($grouped_param_value_string[$param->name])) {
+            if (isset($grouped_param_value_string[$param->name]))
+            {
                 $grouped_param_value_string[$param->name] .= ' . ' . $param->value;
-            } else {
+            } else
+            {
                 $grouped_param_value_string[$param->name] = $param->value;
             }
         });
         return $grouped_param_value_string;
+    }
+
+
+    /**
+     * 获取当前地区可用的运费模板 集合
+     * 获取商品运费步骤 : 1.调用此函数获取运费模板集合  2.调用模板集合下的calc_unit_shipping_fee方法,获取具体运费
+     * @param $to_province
+     * @return \Illuminate\Support\Collection|null
+     * @throws \Exception
+     */
+    public function get_allow_shipment_templates($to_province)
+    {
+        if (!$this->exists)
+        {
+            throw new \Exception('Product Not Find');
+        }
+
+        $temps = $this->shipment_templates()->with(['free_provinces', 'plans', 'plans.country_provinces'])->get();
+
+        if ($temps->isEmpty())
+        {
+            return null;
+        }
+
+        $allow_temps = collect();
+        foreach ($temps as $temp)
+        {
+            $en_free_province = $temp->free_provinces->where('name_en', $to_province);
+            $zh_free_province = $temp->free_provinces->where('name_zh', $to_province);
+
+            if ($en_free_province->isNotEmpty() || $zh_free_province->isNotEmpty())
+            {
+                $allow_temps->prepend($temp);
+            }
+
+            foreach ($temp->plans as $plan)
+            {
+                $en_plan_province = $plan->country_provinces->where('name_en', $to_province);
+                $zh_plan_province = $plan->country_provinces->where('name_zh', $to_province);
+
+                if ($en_plan_province->isNotEmpty() || $zh_plan_province->isNotEmpty())
+                {
+                    $allow_temps->push($temp);
+                }
+            }
+
+        };
+
+        if ($allow_temps->isEmpty())
+        {
+            return null;
+        }
+
+        return $allow_temps;
     }
 
     /* Mutators */
@@ -241,5 +302,10 @@ class Product extends Model
     public function auction()
     {
         return $this->hasOne(AuctionProduct::class);
+    }
+
+    public function shipment_templates()
+    {
+        return $this->belongsToMany(ShipmentTemplate::class, 'product_shipment_templates');
     }
 }

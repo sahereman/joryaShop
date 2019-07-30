@@ -84,5 +84,8 @@ class DatabaseSeeder extends Seeder
         //分销级别
         $this->call(DistributionLevelsSeeder::class);
 
+        //运费模板
+        $this->call(ShipmentTemplatesSeeder::class);
+
     }
 }

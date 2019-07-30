@@ -57,18 +57,21 @@ class CountryProvince extends Model
 
         if ($template_id && $plan_id) {
             $template = ShipmentTemplate::find($template_id);
+            $country_ids = $country_ids->merge($template->free_provinces->pluck('id'));
 
             foreach ($template->plans as $item) {
                 if ($item->id != $plan_id) {
                     $country_ids = $country_ids->merge($item->country_provinces->pluck('id'));
                 }
             }
+
             $country_ids = $country_ids->unique();
 
             $province = $this->with('parent')->where('type', 'province')->whereNotIn('id', $country_ids)->get();
 
         } else if ($template_id) {
             $template = ShipmentTemplate::find($template_id);
+            $country_ids = $country_ids->merge($template->free_provinces->pluck('id'));
 
             foreach ($template->plans as $item) {
                 $country_ids = $country_ids->merge($item->country_provinces->pluck('id'));

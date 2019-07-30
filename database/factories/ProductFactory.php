@@ -21,7 +21,6 @@ $factory->define(Product::class, function (Faker $faker) {
         'thumb' => asset('demo/product-' . random_int(1, 46) . '.jpg'),
         'photos' => array(asset('demo/product-' . random_int(1, 46) . '.jpg'), asset('demo/product-' . random_int(1, 46) . '.jpg'), asset('demo/product-' . random_int(1, 46) . '.jpg')),
 
-        'shipping_fee' => $faker->randomFloat(2, 0, 20),
         'stock' => $faker->randomNumber(5, true),
         'price' => $faker->randomFloat(2, 10, 20),
         'is_index' => true,

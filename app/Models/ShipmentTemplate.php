@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class ShipmentTemplate extends Model
 {
@@ -45,6 +46,54 @@ class ShipmentTemplate extends Model
 
     public $timestamps = false;
 
+    /*计算运费*/
+    public function calc_unit_shipping_fee($unit, $to_province)
+    {
+        if (!$this->exists)
+        {
+            throw new \Exception('Template Not Find');
+        }
+
+        $fee = 0;
+
+        $en_free_province = $this->free_provinces->where('name_en', $to_province);
+        $zh_free_province = $this->free_provinces->where('name_zh', $to_province);
+
+        if ($en_free_province->isNotEmpty() || $zh_free_province->isNotEmpty())
+        {
+            return $fee;
+        }
+
+
+        foreach ($this->plans as $plan)
+        {
+            $en_plan_province = $plan->country_provinces->where('name_en', $to_province);
+            $zh_plan_province = $plan->country_provinces->where('name_zh', $to_province);
+
+            if ($en_plan_province->isNotEmpty() || $zh_plan_province->isNotEmpty())
+            {
+
+                if ($unit <= $plan->base_unit)
+                {
+                    $fee = $plan->base_price;
+                } else
+                {
+                    $num = $unit - $plan->base_unit;
+                    $fee = bcadd($plan->base_price, bcmul($num, $plan->join_price, 2), 2);
+                }
+
+                break;
+            }
+        }
+
+        return $fee;
+    }
+
+
+    public function getAllNameAttribute($value)
+    {
+        return $this->attributes['name'] . ' - ' . $this->attributes['sub_name'];
+    }
 
     public function from_country()
     {

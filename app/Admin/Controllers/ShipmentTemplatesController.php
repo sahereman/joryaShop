@@ -125,18 +125,6 @@ class ShipmentTemplatesController extends Controller
 
         $form->listbox('free_provinces', 'Free Provinces')->options($country->province_pluck())->rules('required');;
 
-        //        $form->hasMany('plans', function (Form\NestedForm $form) use ($country) {
-        //
-        //            $form->multipleSelect('aaa','To countrys')->options($country->country_pluck());
-        //
-        //            $form->text('base_unit', '首件(/包)以内')->setWidth(2)->default(1);
-        //            $form->currency('base_price', '首件(/包)以内费用')->symbol('$')->default(1.00);
-        //            $form->currency('join_price', '续件(/包)费用')->symbol('$')->default(1.00);
-        //            //            $form->text('title');
-        //            //            $form->image('body');
-        //            //            $form->datetime('completed_at');
-        //        });
-
 
         return $form;
     }
