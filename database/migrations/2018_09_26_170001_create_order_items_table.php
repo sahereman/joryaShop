@@ -21,7 +21,7 @@ class CreateOrderItemsTable extends Migration
             $table->unsignedInteger('product_sku_id')->nullable(false)->comment('product-sku-id');
             $table->foreign('product_sku_id')->references('id')->on('product_skus')->onDelete('cascade');
 
-            $table->unsignedDecimal('price', 8, 2)->nullable(false)->comment('商品价格[沿用父订单表中的币种换算表示]');
+            $table->unsignedDecimal('price', 8, 2)->nullable(false)->comment('商品价格/USD');
             $table->unsignedInteger('number')->nullable(false)->comment('购买数量');
         });
     }

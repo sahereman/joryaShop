@@ -116,8 +116,7 @@ class ProductsController extends Controller
         $grid = new Grid(new \App\Models\Product);
         $grid->model()->with(['comments', 'skus', 'category', 'category.parent'])->orderBy('created_at', 'desc'); // 设置初始排序条件
 
-        if ($category)
-        {
+        if ($category) {
             $grid->model()->where('product_category_id', $category->id);
         }
 
@@ -139,11 +138,9 @@ class ProductsController extends Controller
             return "<a href='" . route('admin.products.index', ['cid' => $this->product_category_id]) . "'>$data</a>";
         });*/
         $grid->category()->name_en('分类')->display(function ($data) {
-            if (empty($this->category['parent']))
-            {
+            if (empty($this->category['parent'])) {
                 $str = "</s><a href='" . route('admin.products.index', ['cid' => $this->product_category_id]) . "'>$data</a>";
-            } else
-            {
+            } else {
                 $str = "<a href='" . route('admin.products.index', ['cid' => $this->category['parent']['id']]) . "'>" . $this->category['parent']['name_en'] . "</a>" .
                     "<br /><span> - </span><br /></s><a href='" . route('admin.products.index', ['cid' => $this->product_category_id]) . "'>$data</a>";
             }
@@ -197,8 +194,7 @@ class ProductsController extends Controller
             // $tools->disableList();
             // $tools->disableDelete();
 
-            if ($product->type != Product::PRODUCT_TYPE_CUSTOM)
-            {
+            if ($product->type != Product::PRODUCT_TYPE_CUSTOM) {
                 $tools->append('<div class="btn-group pull-right" style="margin-right: 5px">'
                     . '<a href="' . route('admin.products.sku_editor_show', ['product' => $id]) . '" class="btn btn-sm btn-success">'
                     . '<i class="fa fa-archive"></i>&nbsp;SKU 编辑器'
@@ -210,17 +206,14 @@ class ProductsController extends Controller
                     . '</a>'
                     . '</div>');
             }
-            if ($product->type == Product::PRODUCT_TYPE_PERIOD)
-            {
-                if ($period_product = $product->period)
-                {
+            if ($product->type == Product::PRODUCT_TYPE_PERIOD) {
+                if ($period_product = $product->period) {
                     $tools->append('<div class="btn-group pull-right" style="margin-right: 5px">'
                         . '<a href="' . route('admin.period_products.edit', ['period_product' => $period_product->id, 'product_id' => $id]) . '" class="btn btn-sm btn-success">'
                         . '<i class="fa fa-list"></i>&nbsp;限时 - 详情'
                         . '</a>'
                         . '</div>');
-                } else
-                {
+                } else {
                     $tools->append('<div class="btn-group pull-right" style="margin-right: 5px">'
                         . '<a href="' . route('admin.period_products.create', ['product_id' => $id]) . '" class="btn btn-sm btn-success">'
                         . '<i class="fa fa-list"></i>&nbsp;限时 - 详情'
@@ -228,17 +221,14 @@ class ProductsController extends Controller
                         . '</div>');
                 }
             }
-            if ($product->type == Product::PRODUCT_TYPE_AUCTION)
-            {
-                if ($auction_product = $product->auction)
-                {
+            if ($product->type == Product::PRODUCT_TYPE_AUCTION) {
+                if ($auction_product = $product->auction) {
                     $tools->append('<div class="btn-group pull-right" style="margin-right: 5px">'
                         . '<a href="' . route('admin.auction_products.edit', ['auction_product' => $auction_product->id, 'product_id' => $id]) . '" class="btn btn-sm btn-success">'
                         . '<i class="fa fa-list"></i>&nbsp;拍卖 - 详情'
                         . '</a>'
                         . '</div>');
-                } else
-                {
+                } else {
                     $tools->append('<div class="btn-group pull-right" style="margin-right: 5px">'
                         . '<a href="' . route('admin.auction_products.create', ['product_id' => $id]) . '" class="btn btn-sm btn-success">'
                         . '<i class="fa fa-list"></i>&nbsp;拍卖 - 详情'
@@ -256,8 +246,7 @@ class ProductsController extends Controller
         $show->thumb('缩略图')->image();
         $show->photos('相册')->as(function ($photos) {
             $text = '';
-            foreach ($photos as $photo)
-            {
+            foreach ($photos as $photo) {
                 $url = starts_with($photo, ['http://', 'https://']) ? $photo : Storage::disk('public')->url($photo);
                 $text .= '<img src="' . $url . '" style="margin:0 12px 12px 0;max-width:120px;max-height:200px" class="img">';
             }
@@ -322,8 +311,7 @@ class ProductsController extends Controller
             $param->value('商品参数值');
         });
 
-        if ($product->type != Product::PRODUCT_TYPE_CUSTOM)
-        {
+        if ($product->type != Product::PRODUCT_TYPE_CUSTOM) {
             $show->skus('SKU 列表', function ($sku) {
                 /*禁用*/
                 // $sku->disableActions();
@@ -370,8 +358,7 @@ class ProductsController extends Controller
             $comment->user()->name('买家');
             $comment->photo_urls('图片')->display(function ($urls) {
                 $text = '';
-                foreach ($urls as $url)
-                {
+                foreach ($urls as $url) {
                     $text .= '<img src="' . $url . '" style="margin:0 8px 8px 0;max-width:80px;max-height:80px" class="img">';
                 }
                 return $text;
@@ -398,13 +385,11 @@ class ProductsController extends Controller
         $form = new Form(new Product());
         $form->html('<button class="btn btn-primary"><i class="fa fa-send"></i>&nbsp;提交</button>');
 
-        if ($this->mode == Builder::MODE_CREATE)
-        {
+        if ($this->mode == Builder::MODE_CREATE) {
             $form->hidden('_from_')->default(Builder::MODE_CREATE);
         }
 
-        if ($this->mode == Builder::MODE_EDIT && $this->product_id)
-        {
+        if ($this->mode == Builder::MODE_EDIT && $this->product_id) {
             $form->hidden('_from_')->default(Builder::MODE_EDIT);
             $product_id = $this->product_id;
             $form->tools(function (Form\Tools $tools) use ($product_id) {
@@ -424,17 +409,14 @@ class ProductsController extends Controller
                     . '</a>'
                     . '</div>');
                 $product = Product::find($product_id);
-                if ($product->type == Product::PRODUCT_TYPE_PERIOD)
-                {
-                    if ($period_product = $product->period)
-                    {
+                if ($product->type == Product::PRODUCT_TYPE_PERIOD) {
+                    if ($period_product = $product->period) {
                         $tools->append('<div class="btn-group pull-right" style="margin-right: 5px">'
                             . '<a href="' . route('admin.period_products.edit', ['period_product' => $period_product->id, 'product_id' => $product_id]) . '" class="btn btn-sm btn-success">'
                             . '<i class="fa fa-list"></i>&nbsp;限时 - 详情'
                             . '</a>'
                             . '</div>');
-                    } else
-                    {
+                    } else {
                         $tools->append('<div class="btn-group pull-right" style="margin-right: 5px">'
                             . '<a href="' . route('admin.period_products.create', ['product_id' => $product_id]) . '" class="btn btn-sm btn-success">'
                             . '<i class="fa fa-list"></i>&nbsp;限时 - 详情'
@@ -442,17 +424,14 @@ class ProductsController extends Controller
                             . '</div>');
                     }
                 }
-                if ($product->type == Product::PRODUCT_TYPE_AUCTION)
-                {
-                    if ($auction_product = $product->auction)
-                    {
+                if ($product->type == Product::PRODUCT_TYPE_AUCTION) {
+                    if ($auction_product = $product->auction) {
                         $tools->append('<div class="btn-group pull-right" style="margin-right: 5px">'
                             . '<a href="' . route('admin.auction_products.edit', ['auction_product' => $auction_product->id, 'product_id' => $product_id]) . '" class="btn btn-sm btn-success">'
                             . '<i class="fa fa-list"></i>&nbsp;拍卖 - 详情'
                             . '</a>'
                             . '</div>');
-                    } else
-                    {
+                    } else {
                         $tools->append('<div class="btn-group pull-right" style="margin-right: 5px">'
                             . '<a href="' . route('admin.auction_products.create', ['product_id' => $product_id]) . '" class="btn btn-sm btn-success">'
                             . '<i class="fa fa-list"></i>&nbsp;拍卖 - 详情'
@@ -497,12 +476,14 @@ class ProductsController extends Controller
 
         // })->tab('价格与库存', function (Form $form) {
 
-        $form->display('price', '展示价格')->setWidth(2);
+        // $form->display('price', '展示价格')->setWidth(2);
+        // $form->decimal('price', '展示价格')->setWidth(2)->default(0.01)->rules('required|numeric|min:0.01');
+        $form->currency('price', '展示价格')->setWidth(2)->symbol('$')->default(0.01)->rules('required|numeric|min:0.01');
         $form->display('stock', '总库存')->setWidth(2);
         $form->display('sales', '总销量')->setWidth(2);
         // $form->currency('shipping_fee', '运费')->symbol('￥')->rules('required');
-        //        $form->currency('shipping_fee', '运费')->symbol('$')->default(0);
-        $form->multipleSelect('shipment_templates', '运费模板')->options(ShipmentTemplate::all()->pluck('all_name', 'id'))->help('不选择运费模板 : 免邮费');
+        // $form->currency('shipping_fee', '运费')->symbol('$')->default(0);
+        $form->multipleSelect('shipment_templates', '运费模板')->options(ShipmentTemplate::all()->pluck('full_name', 'id'))->help('不选择运费模板 : 免邮费');
 
         $form->number('index', '综合指数')->min(0)->rules('required|integer|min:0');
         $form->number('heat', '人气')->min(0)->rules('required|integer|min:0');
@@ -519,10 +500,8 @@ class ProductsController extends Controller
         $form->divider();
         $param_options = [];
         $params = Param::all();
-        foreach ($params as $param)
-        {
-            foreach ($param->values as $value)
-            {
+        foreach ($params as $param) {
+            foreach ($param->values as $value) {
                 $param_options[$param->name][$value->value] = $value->value;
             }
             $form->checkbox("grouped_param_values.{$param->name}", "商品参数 {$param->name} :")->options($param_options[$param->name]);
@@ -543,15 +522,13 @@ class ProductsController extends Controller
 
         // 定义事件回调，当模型即将保存时会触发这个回调
         $form->saving(function (Form $form) {
-            if ((request()->has('is_index') || request()->has('on_sale')) && count(request()->all()) == 3)
-            {
+            if ((request()->has('is_index') || request()->has('on_sale')) && count(request()->all()) == 3) {
                 return $form;
             }
         });
 
         $form->saved(function (Form $form) {
-            if ((request()->has('is_index') || request()->has('on_sale')) && count(request()->all()) == 3)
-            {
+            if ((request()->has('is_index') || request()->has('on_sale')) && count(request()->all()) == 3) {
                 return $form;
             }
             $product_id = $form->model()->id;
@@ -560,15 +537,12 @@ class ProductsController extends Controller
             /* SKU 属性 */
             $attr_names = request()->input('attr_names', []);
             $product->attrs->each(function (ProductAttr $attr) use ($attr_names) {
-                if (!in_array($attr->name, $attr_names))
-                {
+                if (!in_array($attr->name, $attr_names)) {
                     $attr->delete();
                 }
             });
-            foreach ($attr_names as $attr_name)
-            {
-                if (!in_array($attr_name, $product->attr_names) && !is_null($attr_name))
-                {
+            foreach ($attr_names as $attr_name) {
+                if (!in_array($attr_name, $product->attr_names) && !is_null($attr_name)) {
                     $attr = Attr::where('name', $attr_name)->first();
                     ProductAttr::create([
                         'product_id' => $product_id,
@@ -582,17 +556,13 @@ class ProductsController extends Controller
             /* 商品参数 */
             $grouped_param_values = request()->input('grouped_param_values', []);
             $product->params->each(function (ProductParam $param) use ($grouped_param_values) {
-                if (!in_array($param->name, $grouped_param_values) || !in_array($param->value, $grouped_param_values[$param->name]))
-                {
+                if (!in_array($param->name, $grouped_param_values) || !in_array($param->value, $grouped_param_values[$param->name])) {
                     $param->delete();
                 }
             });
-            foreach ($grouped_param_values as $name => $values)
-            {
-                foreach ($values as $value)
-                {
-                    if ((!in_array($name, $grouped_param_values) || !in_array($value, $grouped_param_values[$name])) && !is_null($value))
-                    {
+            foreach ($grouped_param_values as $name => $values) {
+                foreach ($values as $value) {
+                    if ((!in_array($name, $grouped_param_values) || !in_array($value, $grouped_param_values[$name])) && !is_null($value)) {
                         ProductParam::create([
                             'product_id' => $product_id,
                             'name' => $name,
@@ -602,13 +572,11 @@ class ProductsController extends Controller
                 }
             }
 
-            if (request()->input('_from_') == Builder::MODE_EDIT)
-            {
+            if (request()->input('_from_') == Builder::MODE_EDIT) {
                 return redirect()->route('admin.products.index');
             }
 
-            if (request()->input('_from_') == Builder::MODE_CREATE && $product->type != Product::PRODUCT_TYPE_CUSTOM)
-            {
+            if (request()->input('_from_') == Builder::MODE_CREATE && $product->type != Product::PRODUCT_TYPE_CUSTOM) {
                 return redirect()->route('admin.products.sku_generator_show', ['product' => $product_id]);
             }
         });
@@ -631,26 +599,22 @@ class ProductsController extends Controller
 
     public function sortPhotos(Request $request, Product $product)
     {
-        if ($request->ajax())
-        {
+        if ($request->ajax()) {
             $photos = $request->input('photos');
             $product->photos = $photos;
             $result = $product->save();
-            if ($result)
-            {
+            if ($result) {
                 return response()->json([
                     'code' => 200,
                     'message' => 'success',
                 ], 200);
-            } else
-            {
+            } else {
                 return response()->json([
                     'code' => 422,
                     'message' => 'Unprocessable Entity',
                 ], 422);
             }
-        } else
-        {
+        } else {
             return redirect()->back(302);
         }
     }
@@ -667,13 +631,10 @@ class ProductsController extends Controller
      */
     protected function getAttrCombo($attrs)
     {
-        foreach ($attrs as $product_attr_id => $options)
-        {
-            if ($this->flag)
-            {
+        foreach ($attrs as $product_attr_id => $options) {
+            if ($this->flag) {
                 $this->flag = false;
-                foreach ($options as $option)
-                {
+                foreach ($options as $option) {
                     /*if (isset($option['photo']) && $option['photo'] != '') {
                         $this->tempo[] = [
                             $product_attr_id => $option['data'],
@@ -684,23 +645,18 @@ class ProductsController extends Controller
                             $product_attr_id => $option['data']
                         ];
                     }*/
-                    if (isset($option['photo']) && $option['photo'] == '')
-                    {
+                    if (isset($option['photo']) && $option['photo'] == '') {
                         unset($option['photo']);
                     }
                     $option[$product_attr_id] = $option['data'];
                     unset($option['data']);
                     $this->tempo[] = $option;
                 }
-            } else
-            {
+            } else {
                 $this->attr_combo = [];
-                foreach ($options as $option)
-                {
-                    foreach ($this->tempo as $item)
-                    {
-                        if (isset($option['photo']) && $option['photo'] != '')
-                        {
+                foreach ($options as $option) {
+                    foreach ($this->tempo as $item) {
+                        if (isset($option['photo']) && $option['photo'] != '') {
                             $item['photo'] = $option['photo'];
                         }
                         $item[$product_attr_id] = $option['data'];
@@ -718,8 +674,7 @@ class ProductsController extends Controller
     {
         $errors = $request->session()->get('errors');
         $messages = [];
-        if ($errors instanceof ViewErrorBag)
-        {
+        if ($errors instanceof ViewErrorBag) {
             $messages = $errors->getMessages();
         }
         return $content
@@ -748,19 +703,17 @@ class ProductsController extends Controller
         $attr_combo = $this->getAttrCombo($attrs);
         $sku_count = count($attr_combo);
         $product->skus()->delete();
-        foreach ($attr_combo as $option)
-        {
+        foreach ($attr_combo as $option) {
             $sku_data = [];
             $sku_data['product_id'] = $product->id;
             $sku_data['name_en'] = 'lyrical';
             $sku_data['name_zh'] = 'lyrical';
             $sku_data['photo'] = isset($option['photo']) ? $option['photo'] : '';
-            $sku_data['price'] = $request->input('price', $product->price);
+            $sku_data['delta_price'] = $request->input('delta_price', 0.00);
             $sku_data['stock'] = $request->input('stock', $product->stock);
             $sku = ProductSku::create($sku_data);
             unset($option['photo']);
-            foreach ($option as $product_attr_id => $attr_value)
-            {
+            foreach ($option as $product_attr_id => $attr_value) {
                 $product_attr = ProductAttr::find($product_attr_id);
                 ProductSkuAttrValue::create([
                     'product_sku_id' => $sku->id,
@@ -771,29 +724,24 @@ class ProductsController extends Controller
             }
         }
         $product->update([
-            'price' => $request->input('price', $product->price),
+            // 'price' => $request->input('price', $product->price),
             'stock' => $request->input('stock') ? $request->input('stock') * $sku_count : 0,
         ]);
-        switch ($product->type)
-        {
+        switch ($product->type) {
             case Product::PRODUCT_TYPE_COMMON:
                 return redirect()->route('admin.products.show', ['product' => $product->id]);
                 break;
             case Product::PRODUCT_TYPE_PERIOD:
-                if ($period_product = $product->period)
-                {
+                if ($period_product = $product->period) {
                     return redirect()->route('admin.period_products.edit', ['period_product' => $period_product->id, 'product_id' => $product->id]);
-                } else
-                {
+                } else {
                     return redirect()->route('admin.period_products.create', ['product_id' => $product->id]);
                 }
                 break;
             case Product::PRODUCT_TYPE_AUCTION:
-                if ($auction_product = $product->auction)
-                {
+                if ($auction_product = $product->auction) {
                     return redirect()->route('admin.auction_products.edit', ['auction_product' => $auction_product->id, 'product_id' => $product->id]);
-                } else
-                {
+                } else {
                     return redirect()->route('admin.auction_products.create', ['product_id' => $product->id]);
                 }
                 break;
@@ -806,8 +754,7 @@ class ProductsController extends Controller
     {
         $errors = $request->session()->get('errors');
         $messages = [];
-        if ($errors instanceof ViewErrorBag)
-        {
+        if ($errors instanceof ViewErrorBag) {
             $messages = $errors->getMessages();
         }
         return $content
@@ -821,21 +768,23 @@ class ProductsController extends Controller
 
     public function skuEditorStore(SkuEditorRequest $request, Product $product)
     {
+        $stock = 0;
         $skus = $request->input('skus');
-        foreach ($skus as $sku_id => $sku)
-        {
-            if ($sku['stock_increment'])
-            {
+        foreach ($skus as $sku_id => $sku) {
+            if ($sku['stock_increment']) {
                 $sku['stock'] += $sku['stock_increment'];
             }
-            if ($sku['stock_decrement'])
-            {
+            if ($sku['stock_decrement']) {
                 $sku['stock'] -= $sku['stock_decrement'];
             }
             unset($sku['stock_increment']);
             unset($sku['stock_decrement']);
             ProductSku::find($sku_id)->update($sku);
+            $stock += $sku['stock'];
         }
+
+        $product->update(['stock' => $stock]);
+
         return redirect()->route('admin.products.show', ['product' => $product->id]);
     }
 }

@@ -11,7 +11,7 @@ class ShipmentTemplatesSeeder extends Seeder
     public function run()
     {
         $china = \App\Models\CountryProvince::where('name_en', 'China')->first();
-        $usa = \App\Models\CountryProvince::where('name_en', 'United States')->first();
+        $usa = \App\Models\CountryProvince::where('name_en', 'United States')->first();
         $aus = \App\Models\CountryProvince::where('name_en', 'Australia')->first();
 
         $other_provinces = \App\Models\CountryProvince::whereNotIn('parent_id', [$china->id, $usa->id, $aus->id])->where('type', 'province')->get();

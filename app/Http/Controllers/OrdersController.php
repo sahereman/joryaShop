@@ -11,21 +11,16 @@ use App\Http\Requests\PostOrderRequest;
 use App\Http\Requests\RefundOrderRequest;
 use App\Http\Requests\RefundOrderWithShipmentRequest;
 use App\Jobs\AutoCloseOrderJob;
-// use App\Jobs\AutoCompleteOrderJob;
 use App\Models\Cart;
-// use App\Models\Config;
-// use App\Models\ExchangeRate;
 use App\Models\Coupon;
-// use App\Models\ExchangeRate;
+use App\Models\ExchangeRate;
 use App\Models\Order;
-// use App\Models\OrderItem;
 use App\Models\OrderRefund;
 use App\Models\Payment;
 use App\Models\Product;
 use App\Models\ProductComment;
 use App\Models\ProductSku;
 use App\Models\ShipmentCompany;
-// use App\Models\User;
 use App\Models\UserAddress;
 use App\Models\UserCoupon;
 use Illuminate\Http\Request;
@@ -453,11 +448,11 @@ class OrdersController extends Controller
                 $number = $request->input('number');
                 $sku = ProductSku::find($sku_id);
                 $product = $sku->product;
-                $price = exchange_price($sku->price, $currency);
+                $price = $sku->price;
                 $snapshot[0]['sku_id'] = $sku_id;
                 $snapshot[0]['price'] = $price;
                 $snapshot[0]['number'] = $number;
-                $total_shipping_fee = bcmul(exchange_price($product->shipping_fee, $currency), $number, 2);
+                $total_shipping_fee = bcmul($product->shipping_fee, $number, 2);
                 $total_amount = bcmul($price, $number, 2);
                 $is_nil = false;
 
@@ -493,11 +488,11 @@ class OrdersController extends Controller
                         throw new InvalidRequestException(trans('basic.orders.Insufficient_sku_stock'));
                     }
                     $product = $sku->product;
-                    $price = exchange_price($sku->price, $currency);
+                    $price = $sku->price;
                     $snapshot[$key]['sku_id'] = $sku->id;
                     $snapshot[$key]['price'] = $price;
                     $snapshot[$key]['number'] = $cart->number;
-                    $total_shipping_fee = bcmul(exchange_price($product->shipping_fee, $currency), $number, 2);
+                    $total_shipping_fee += bcmul($product->shipping_fee, $number, 2);
                     $total_amount += bcmul($price, $number, 2);
                     $is_nil = false;
 
@@ -540,11 +535,14 @@ class OrdersController extends Controller
                 $user_info = $request->only('name', 'phone', 'address');
             }
 
+            $rate = ExchangeRate::where('currency', $currency)->first()->rate;
+
             // 创建一条支付记录
             $payment = Payment::create([
                 'user_id' => $user ? $user->id : null,
                 'currency' => $currency,
-                'amount' => bcsub(bcadd($total_amount, $total_shipping_fee, 2), $saved_fee, 2)
+                'amount' => bcsub(bcadd($total_amount, $total_shipping_fee, 2), $saved_fee, 2),
+                'rate' => $rate
             ]);
 
             // 创建一条订单记录
@@ -558,6 +556,7 @@ class OrdersController extends Controller
                 'total_shipping_fee' => $total_shipping_fee,
                 'total_amount' => $total_amount,
                 'saved_fee' => $saved_fee,
+                'rate' => $rate,
                 'remark' => $request->has('remark') ? $request->input('remark') : '',
                 'to_be_closed_at' => Carbon::now()->addSeconds(Order::getSecondsToCloseOrder())->toDateTimeString(),
             ]);
@@ -614,13 +613,24 @@ class OrdersController extends Controller
             if ($orders->isNotEmpty()) {
                 $amount = 0;
                 $currency = $orders->first()->currency;
-                $orders->each(function (Order $order) use (&$amount) {
-                    $amount += $order->payment_amount;
+                $is_currency_consistent = true;
+                $orders->each(function (Order $order) use (&$amount, $currency, &$is_currency_consistent) {
+                    $amount += bcsub(bcadd($order->total_amount, $order->total_shipping_fee, 2), $order->saved_fee, 2);
+                    if ($order->currency != $currency) {
+                        $is_currency_consistent = false;
+                    }
                 });
+                if ($is_currency_consistent == false) {
+                    return redirect()->back()->withErrors([
+                        'orders' => ['Please make sure that the orders are paid at the same currency']
+                    ]);
+                }
+                $rate = ExchangeRate::where('currency', $currency)->first()->rate;
                 $payment = Payment::create([
                     'user_id' => $user ? $user->id : null,
                     'currency' => $currency,
-                    'amount' => $amount
+                    'amount' => $amount,
+                    'rate' => $rate
                 ]);
                 $payment_id = $payment->id;
                 $orders->each(function (Order $order) use ($payment_id) {

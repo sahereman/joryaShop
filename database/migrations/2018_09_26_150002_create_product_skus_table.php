@@ -32,7 +32,7 @@ class CreateProductSkusTable extends Migration
 
             $table->string('photo')->nullable()->comment('单一图片'); // 备用字段
 
-            $table->unsignedDecimal('price', 8, 2)->nullable(false)->comment('价格');
+            $table->unsignedDecimal('price', 8, 2)->nullable(false)->default(0.01)->comment('价格');
             $table->unsignedInteger('stock')->nullable(false)->default(0)->comment('库存');
             $table->unsignedInteger('sales')->nullable(false)->default(0)->comment('销量');
 

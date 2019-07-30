@@ -222,13 +222,15 @@ class CouponsController extends Controller
             $form->hidden('_from_')->default(Builder::MODE_EDIT);
         }
 
-        $form->text('name', 'Name');
+        $form->text('name', 'Name')->setWidth(2);
 
         if ($this->mode == Builder::MODE_CREATE) {
             $form->select('type', '类型')->options(Coupon::$couponTypeMap)->default('discount');
-            $form->decimal('discount', '折扣')->default(0.00)->rules('numeric|between:0,1');
-            $form->decimal('reduction', '满减($)')->default(0.00)->rules('numeric|min:0');
-            $form->decimal('threshold', '消费金额阈值($)')->default(0.00)->rules('numeric|min:0');
+            $form->decimal('discount', '折扣')->setWidth(2)->default(0.00)->rules('numeric|between:0,1');
+            // $form->decimal('reduction', '满减($)')->default(0.00)->rules('numeric|min:0');
+            $form->currency('reduction', '满减($)')->symbol('$')->default(0.00)->rules('numeric|min:0');
+            // $form->decimal('threshold', '消费金额阈值($)')->default(0.00)->rules('numeric|min:0');
+            $form->currency('threshold', '消费金额阈值($)')->symbol('$')->default(0.00)->rules('numeric|min:0');
 
             $states = [
                 'on' => ['value' => 1, 'text' => '是', 'color' => 'success'],
@@ -238,21 +240,21 @@ class CouponsController extends Controller
             $form->number('number', '数量')->default(null)->rules('integer')->help('默认：不限量');
         }
         if ($this->mode == Builder::MODE_EDIT) {
-            $form->display('type', '类型')->with(function ($value) {
+            $form->display('type', '类型')->setWidth(2)->with(function ($value) {
                 return Coupon::$couponTypeMap[$value];
             });
-            $form->display('discount', '折扣')->default(0.00);
-            $form->display('reduction', '满减($)')->default(0.00);
-            $form->display('threshold', '消费金额阈值($)')->default(0.00);
+            $form->display('discount', '折扣')->setWidth(2)->default(0.00);
+            $form->display('reduction', '满减($)')->setWidth(2)->default(0.00);
+            $form->display('threshold', '消费金额阈值($)')->setWidth(2)->default(0.00);
 
-            $form->display('is_limited', '是否限量')->with(function ($value) {
+            $form->display('is_limited', '是否限量')->setWidth(2)->with(function ($value) {
                 return $value ? '是' : '否';
             });
             $coupon = Coupon::find($this->coupon_id);
             if ($coupon->is_limited) {
                 $form->number('number', '数量')->default(null)->rules('integer');
             } else {
-                $form->display('number', '数量')->with(function ($value) {
+                $form->display('number', '数量')->setWidth(2)->with(function ($value) {
                     return is_null($value) ? '不限量' : $value;
                 });
             }

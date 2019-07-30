@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\DB;
 class ShipmentTemplate extends Model
 {
     protected $fillable = [
-
         'name', 'sub_name', 'description', 'from_country_id', 'min_days', 'max_days'
     ];
 
@@ -49,8 +48,7 @@ class ShipmentTemplate extends Model
     /*计算运费*/
     public function calc_unit_shipping_fee($unit, $to_province)
     {
-        if (!$this->exists)
-        {
+        if (!$this->exists) {
             throw new \Exception('Template Not Find');
         }
 
@@ -59,29 +57,21 @@ class ShipmentTemplate extends Model
         $en_free_province = $this->free_provinces->where('name_en', $to_province);
         $zh_free_province = $this->free_provinces->where('name_zh', $to_province);
 
-        if ($en_free_province->isNotEmpty() || $zh_free_province->isNotEmpty())
-        {
+        if ($en_free_province->isNotEmpty() || $zh_free_province->isNotEmpty()) {
             return $fee;
         }
 
-
-        foreach ($this->plans as $plan)
-        {
+        foreach ($this->plans as $plan) {
             $en_plan_province = $plan->country_provinces->where('name_en', $to_province);
             $zh_plan_province = $plan->country_provinces->where('name_zh', $to_province);
 
-            if ($en_plan_province->isNotEmpty() || $zh_plan_province->isNotEmpty())
-            {
-
-                if ($unit <= $plan->base_unit)
-                {
+            if ($en_plan_province->isNotEmpty() || $zh_plan_province->isNotEmpty()) {
+                if ($unit <= $plan->base_unit) {
                     $fee = $plan->base_price;
-                } else
-                {
+                } else {
                     $num = $unit - $plan->base_unit;
                     $fee = bcadd($plan->base_price, bcmul($num, $plan->join_price, 2), 2);
                 }
-
                 break;
             }
         }
@@ -89,17 +79,23 @@ class ShipmentTemplate extends Model
         return $fee;
     }
 
-
-    public function getAllNameAttribute($value)
+    /* Accessors */
+    public function getFullNameAttribute()
     {
         return $this->attributes['name'] . ' - ' . $this->attributes['sub_name'];
     }
 
+    /* Mutators */
+    public function setFullNameAttribute($value)
+    {
+        unset($this->attributes['full_name']);
+    }
+
+    /* Eloquent Relationships */
     public function from_country()
     {
         return $this->belongsTo(CountryProvince::class);
     }
-
 
     public function plans()
     {

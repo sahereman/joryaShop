@@ -44,25 +44,7 @@ class ShipmentTemplatePlan extends Model
 
     public $timestamps = false;
 
-
-    //    public function getAaaAttribute($value)
-    //    {
-    //        return [1,21,32];
-    ////        $attr_value_options = [];
-    ////        /*ProductSkuAttrValue::where('product_sku_id', $this->attributes['id'])->orderByDesc('sort')->each(function (ProductSkuAttrValue $attrValue) use (&$attr_value_options) {
-    ////            $attr_value_options[$attrValue->product_attr_id] = $attrValue->toArray();
-    ////        });*/
-    ////        $this->attr_values()->each(function (ProductSkuAttrValue $attrValue) use (&$attr_value_options) {
-    ////            $attr_value_options[$attrValue->product_attr_id] = $attrValue->toArray();
-    ////        });
-    ////        return $attr_value_options;
-    //    }
-    //
-    //    public function setAaaAttribute($value)
-    //    {
-    //        unset($this->attributes['aaa']);
-    //    }
-
+    /* Eloquent Relationships */
     public function shipment_template()
     {
         return $this->belongsTo(ShipmentTemplate::class);

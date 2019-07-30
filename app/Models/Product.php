@@ -63,7 +63,7 @@ class Product extends Model
         'thumb',
         'photos',
 
-        'shipping_fee',
+        // 'shipping_fee',
         'stock',
         'sales',
         'index',
@@ -116,8 +116,7 @@ class Product extends Model
     /* Accessors */
     public function getThumbUrlAttribute()
     {
-        if ($this->attributes['thumb'])
-        {
+        if ($this->attributes['thumb']) {
             // 如果 thumb 字段本身就已经是完整的 url 就直接返回
             /*if (Str::startsWith($this->attributes['thumb'], ['http://', 'https://'])) {
                 return $this->attributes['thumb'];
@@ -131,13 +130,10 @@ class Product extends Model
     public function getPhotoUrlsAttribute()
     {
         $photo_urls = [];
-        if ($this->attributes['photos'])
-        {
+        if ($this->attributes['photos']) {
             $photos = json_decode($this->attributes['photos'], true);
-            if (count($photos) > 0)
-            {
-                foreach ($photos as $photo)
-                {
+            if (count($photos) > 0) {
+                foreach ($photos as $photo) {
                     /*if (Str::startsWith($photo, ['http://', 'https://'])) {
                         $photo_urls[] = $photo;
                     }
@@ -177,11 +173,9 @@ class Product extends Model
     {
         $grouped_param_value_string = [];
         $this->params()->get(['name', 'value'])->each(function (ProductParam $param) use (&$grouped_param_value_string) {
-            if (isset($grouped_param_value_string[$param->name]))
-            {
+            if (isset($grouped_param_value_string[$param->name])) {
                 $grouped_param_value_string[$param->name] .= ' . ' . $param->value;
-            } else
-            {
+            } else {
                 $grouped_param_value_string[$param->name] = $param->value;
             }
         });
@@ -198,44 +192,36 @@ class Product extends Model
      */
     public function get_allow_shipment_templates($to_province)
     {
-        if (!$this->exists)
-        {
+        if (!$this->exists) {
             throw new \Exception('Product Not Find');
         }
 
         $temps = $this->shipment_templates()->with(['free_provinces', 'plans', 'plans.country_provinces'])->get();
 
-        if ($temps->isEmpty())
-        {
+        if ($temps->isEmpty()) {
             return null;
         }
 
         $allow_temps = collect();
-        foreach ($temps as $temp)
-        {
+        foreach ($temps as $temp) {
             $en_free_province = $temp->free_provinces->where('name_en', $to_province);
             $zh_free_province = $temp->free_provinces->where('name_zh', $to_province);
 
-            if ($en_free_province->isNotEmpty() || $zh_free_province->isNotEmpty())
-            {
+            if ($en_free_province->isNotEmpty() || $zh_free_province->isNotEmpty()) {
                 $allow_temps->prepend($temp);
             }
 
-            foreach ($temp->plans as $plan)
-            {
+            foreach ($temp->plans as $plan) {
                 $en_plan_province = $plan->country_provinces->where('name_en', $to_province);
                 $zh_plan_province = $plan->country_provinces->where('name_zh', $to_province);
 
-                if ($en_plan_province->isNotEmpty() || $zh_plan_province->isNotEmpty())
-                {
+                if ($en_plan_province->isNotEmpty() || $zh_plan_province->isNotEmpty()) {
                     $allow_temps->push($temp);
                 }
             }
-
         };
 
-        if ($allow_temps->isEmpty())
-        {
+        if ($allow_temps->isEmpty()) {
             return null;
         }
 

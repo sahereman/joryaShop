@@ -29,14 +29,14 @@ class SkuEditorRequest extends FormRequest
                 }
                 Validator::validate($value, [
                     '*.photo' => 'sometimes|image',
-                    '*.price' => 'sometimes|numeric|min:0.01',
+                    '*.delta_price' => 'sometimes|numeric',
                     '*.stock' => 'sometimes|integer|min:0',
                     '*.sales' => 'sometimes|integer|min:0',
                     '*.stock_increment' => 'sometimes|nullable|integer|min:0',
                     '*.stock_decrement' => 'sometimes|nullable|integer|min:0'
                 ], [], [
                     '*.photo' => 'SKU-Photo',
-                    '*.price' => 'SKU-Price',
+                    '*.delta_price' => 'SKU-Delta-Price',
                     '*.stock' => 'SKU-Stock',
                     '*.sales' => 'SKU-Sales',
                     '*.stock_increment' => 'SKU-Stock-Increment',

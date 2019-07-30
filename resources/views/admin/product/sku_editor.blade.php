@@ -14,8 +14,7 @@
 
 <div class="box">
     <div class="box-body table-responsive no-padding">
-        <form id="sku_editor_form" role="form" method="POST" enctype="multipart/form-data"
-              action="{{ route('admin.products.sku_editor_store', ['product' => $product->id]) }}">
+        <form id="sku_editor_form" role="form" method="POST" enctype="multipart/form-data" action="{{ route('admin.products.sku_editor_store', ['product' => $product->id]) }}">
             {{ csrf_field() }}
             <table class="table table-hover">
 
@@ -25,13 +24,12 @@
                         @foreach($product->skus->first()->attr_value_options as $option)
                             <th>{{$option['attr']['name']}}</th>
                         @endforeach
-                        <th>Price</th>
+                        <th>Delta Price</th>
                         <th>Stock</th>
                         <th>Stock Increment</th>
                         <th>Stock Decrement</th>
                     @endif
                 </tr>
-
 
                 @foreach($product->skus as $sku)
                     <tr>
@@ -42,19 +40,27 @@
                         @foreach($sku->attr_values as $value)
                             <td>{{$value['value']}}</td>
                         @endforeach
-                        <td><input class="form-control" type="text" id="skus[{{ $sku->id }}][price]" name="skus[{{ $sku->id }}][price]" value="{{ $sku->price }}"></td>
-                        <td><input class="form-control" type="text" id="skus[{{ $sku->id }}][stock]" name="skus[{{ $sku->id }}][stock]" value="{{ $sku->stock }}"></td>
-                        <td><input class="form-control" type="text" id="skus[{{ $sku->id }}][stock_increment]" name="skus[{{ $sku->id }}][stock_increment]" value=""></td>
-                        <td><input class="form-control" type="text" id="skus[{{ $sku->id }}][stock_decrement]" name="skus[{{ $sku->id }}][stock_decrement]" value=""></td>
+                        <td>
+                            <input class="form-control" type="text" id="skus[{{ $sku->id }}][delta_price]" name="skus[{{ $sku->id }}][delta_price]" value="{{ $sku->delta_price }}">
+                        </td>
+                        <td>
+                            <input class="form-control" type="text" id="skus[{{ $sku->id }}][stock]" name="skus[{{ $sku->id }}][stock]" value="{{ $sku->stock }}">
+                        </td>
+                        <td>
+                            <input class="form-control" type="text" id="skus[{{ $sku->id }}][stock_increment]" name="skus[{{ $sku->id }}][stock_increment]" value="0">
+                        </td>
+                        <td>
+                            <input class="form-control" type="text" id="skus[{{ $sku->id }}][stock_decrement]" name="skus[{{ $sku->id }}][stock_decrement]" value="0">
+                        </td>
                     </tr>
                 @endforeach
 
-
             </table>
-            <button type="submit" class="btn btn-primary btn-lg btn-block"> 提交</button>
+            <button type="submit" class="btn btn-primary btn-lg btn-block">提交</button>
         </form>
     </div>
 </div>
+
 <script type="text/javascript">
     //
 </script>

@@ -178,7 +178,7 @@ class ProductSkusController extends Controller
 
         $grid->attr_value_string('SKU 属性概况');
 
-        $grid->price('单价');
+        $grid->delta_price('差价');
         $grid->stock('库存');
         $grid->sales('销量');
 
@@ -232,7 +232,7 @@ class ProductSkusController extends Controller
             $show->photo('Photo');
         }
 
-        $show->price('单价');
+        $show->delta_price('差价');
         $show->stock('库存');
         $show->sales('销量');
 
@@ -326,7 +326,8 @@ class ProductSkusController extends Controller
             // ->removable()
             ->move('original/' . date('Ym', now()->timestamp));
 
-        $form->decimal('price', '单价')->default(0.01);
+        // $form->decimal('delta_price', '差价')->default(0.00);
+        $form->currency('delta_price', '差价')->symbol('$')->default(0.00);
         $form->number('stock', '库存');
         $form->number('sales', '销量');
 
@@ -349,8 +350,19 @@ class ProductSkusController extends Controller
 
         $form->saved(function (Form $form) {
             $this->product_sku_id = $form->model()->id;
-            // $product = Product::with('skus.attr_values')->find($this->product_id);
+            $product = Product::with('skus.attr_values')->find($this->product_id);
             $product_sku = ProductSku::with('attr_values')->find($this->product_sku_id);
+
+            $stock = 0;
+            $sales = 0;
+            $product->skus->each(function (\App\Models\ProductSku $productSku) use (&$stock, &$sales) {
+                $stock += $productSku->stock;
+                $sales += $productSku->sales;
+            });
+            $product->update([
+                'stock' => $stock,
+                'sales' => $sales
+            ]);
 
             $attr_value_options = request()->input('attr_value_options');
             $attr_value_count = count($attr_value_options);

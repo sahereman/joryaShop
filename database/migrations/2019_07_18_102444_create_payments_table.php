@@ -23,7 +23,7 @@ class CreatePaymentsTable extends Migration
             $table->foreign('user_id')->references('id')->on('users');
 
             $table->string('currency')->nullable(false)->default('USD')->comment('currency[支付币种]:USD|CNY|etc');
-            $table->unsignedDecimal('amount', 8, 2)->nullable(false)->comment('amount:支付金额[采用当前币种换算表示]');
+            $table->unsignedDecimal('amount', 8, 2)->nullable(false)->comment('amount:支付金额/USD');
             $table->string('method')->nullable()->comment('method:alipay|wechat|paypal');
             $table->string('payment_sn')->nullable()->comment('payment-sn');
             $table->timestamp('paid_at')->nullable()->comment('支付订单时间');

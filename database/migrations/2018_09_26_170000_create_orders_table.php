@@ -54,8 +54,8 @@ class CreateOrdersTable extends Migration
 
             $table->json('snapshot')->nullable(false)->comment('snapshot-of-order-item-data-in-json-format[data:sku_id&price&number]');
 
-            $table->unsignedDecimal('total_shipping_fee', 8, 2)->nullable(false)->default(0)->comment('total-shipping-fee:运费[采用当前币种换算表示]');
-            $table->unsignedDecimal('total_amount', 8, 2)->nullable(false)->comment('total-amount:商品合计金额[采用当前币种换算表示]');
+            $table->unsignedDecimal('total_shipping_fee', 8, 2)->nullable(false)->default(0)->comment('total-shipping-fee:运费/USD');
+            $table->unsignedDecimal('total_amount', 8, 2)->nullable(false)->comment('total-amount:商品合计金额/USD');
             $table->string('remark')->nullable()->comment('订单备注');
 
             $table->softDeletes(); // timestamp deleted_at used for soft deletes.

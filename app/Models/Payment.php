@@ -35,6 +35,7 @@ class Payment extends Model
         'user_id',
         'currency',
         'amount',
+        'rate',
         'method',
         'payment_sn',
         'paid_at',
@@ -94,8 +95,16 @@ class Payment extends Model
     }
 
     /* Accessors */
+    public function getPaymentAmountAttribute()
+    {
+        return bcmul($this->attributes['amount'], $this->attributes['rate'], 2);
+    }
 
     /* Mutators */
+    public function setPaymentAmountAttribute($value)
+    {
+        unset($this->attributes['payment_amount']);
+    }
 
     /* Eloquent Relationships */
     public function user()

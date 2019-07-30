@@ -82,7 +82,7 @@ class PaymentsController extends Controller
             // 调用Alipay的电脑支付(网页支付)
             return Pay::alipay($this->getAlipayConfig($payment))->web([
                 'out_trade_no' => $payment->sn, // 支付序列号，需保证在商户端不重复
-                'total_amount' => $payment->amount, // 支付金额，单位元，支持小数点后两位
+                'total_amount' => $payment->payment_amount, // 支付金额，单位元，支持小数点后两位
                 'subject' => '请支付来自 Lyrical Hair 的订单：' . $payment->sn, // 支付页标题
             ]);
         } catch (\Exception $e) {
@@ -154,7 +154,7 @@ class PaymentsController extends Controller
             }
 
             // 支付通知数据校验 [谨慎起见]
-            if ($data->trade_status == 'TRADE_SUCCESS' && $data->total_amount == $payment->amount) {
+            if ($data->trade_status == 'TRADE_SUCCESS' && $data->total_amount == $payment->payment_amount) {
                 $payment->update([
                     'paid_at' => Carbon::now()->toDateTimeString(), // 支付时间
                     'method' => LocalPayment::PAYMENT_METHOD_ALIPAY, // 支付方式
@@ -346,7 +346,7 @@ class PaymentsController extends Controller
             $response = Pay::wechat($this->getWechatConfig($payment))->scan([
                 'out_trade_no' => $payment->sn, // 支付序列号，需保证在商户端不重复
                 'body' => '请支付来自 Lyrical Hair 的订单：' . $payment->sn, // 支付页标题
-                'total_fee' => bcmul($payment->amount, 100, 0), // 订单金额，单位分，参数值不能带小数点
+                'total_fee' => bcmul($payment->payment_amount, 100, 0), // 订单金额，单位分，参数值不能带小数点
             ]);
 
             if ($response->return_code == 'SUCCESS' && $response->result_code == 'SUCCESS' && $response->return_msg == 'OK' && $response->code_url) {
@@ -428,7 +428,7 @@ class PaymentsController extends Controller
             }
 
             // 支付通知数据校验 [谨慎起见]
-            if ($data->result_code == 'SUCCESS' && $data->return_code == 'SUCCESS' && $data->total_fee == bcmul($payment->amount, 100, 0)) {
+            if ($data->result_code == 'SUCCESS' && $data->return_code == 'SUCCESS' && $data->total_fee == bcmul($payment->payment_amount, 100, 0)) {
                 $payment->update([
                     'status' => Order::ORDER_STATUS_SHIPPING,
                     'paid_at' => Carbon::now()->toDateTimeString(), // 支付时间
@@ -505,7 +505,7 @@ class PaymentsController extends Controller
             $response = Pay::wechat($this->getWechatConfig($payment))->refund([
                 'out_trade_no' => $payment->sn, // 之前的支付序列号
                 'out_refund_no' => $order->refund->refund_sn, // 退款订单流水号
-                'total_fee' => bcmul($payment->amount, 100, 0), // 订单金额，单位分，只能为整数
+                'total_fee' => bcmul($payment->payment_amount, 100, 0), // 订单金额，单位分，只能为整数
                 'refund_fee' => bcmul($order->payment_amount, 100, 0), // 退款金额，单位分，只能为整数
                 'refund_desc' => '这是来自 Lyrical Hair 的退款订单' . $order->refund->refund_sn,
             ]);
@@ -627,8 +627,8 @@ class PaymentsController extends Controller
         $payer->setPaymentMethod(LocalPayment::PAYMENT_METHOD_PAYPAL); // paypal
 
         $amount = new Amount();
-        $amount->setTotal($localPayment->amount)
-            ->setCurrency($localPayment->currency);
+        $amount->setCurrency($localPayment->currency)
+            ->setTotal($localPayment->payment_amount);
 
         $transaction = new Transaction($apiContext);
         $transaction->setAmount($amount);
@@ -793,8 +793,8 @@ class PaymentsController extends Controller
             $paypalPayment = PayPalPayment::get($paymentId, $apiContext, $restCall);
 
             $amount = new Amount();
-            $amount->setTotal($localPayment->amount)
-                ->setCurrency($localPayment->currency);
+            $amount->setCurrency($localPayment->currency)
+                ->setTotal($localPayment->payment_amount);
 
             $transaction = new Transaction();
             $transaction->setAmount($amount);

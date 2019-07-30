@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\PostOrderRequest;
 use App\Models\Cart;
 use App\Models\Coupon;
+use App\Models\ExchangeRate;
 use App\Models\Order;
 use App\Models\Payment;
 use App\Models\ProductSku;
@@ -311,7 +312,7 @@ class OrdersController extends Controller
                 $currency = $orders->first()->currency;
                 $is_currency_consistent = true;
                 $orders->each(function (Order $order) use (&$amount, $currency, &$is_currency_consistent) {
-                    $amount += $order->payment_amount;
+                    $amount += bcsub(bcadd($order->total_amount, $order->total_shipping_fee, 2), $order->saved_fee, 2);
                     if ($order->currency != $currency) {
                         $is_currency_consistent = false;
                     }
@@ -321,10 +322,12 @@ class OrdersController extends Controller
                         'orders' => ['Please make sure that the orders are paid at the same currency']
                     ]);
                 }
+                $rate = ExchangeRate::where('currency', $currency)->first()->rate;
                 $payment = Payment::create([
                     'user_id' => $user ? $user->id : null,
                     'currency' => $currency,
-                    'amount' => $amount
+                    'amount' => $amount,
+                    'rate' => $rate
                 ]);
                 $payment_id = $payment->id;
                 $orders->each(function (Order $order) use ($payment_id) {

@@ -20,8 +20,8 @@
             <div class="pull-left col-lg-5">
                 <div class="col-lg-6">
                     <div class="input-group">
-                        <span class="input-group-addon">价格</span>
-                        <input type="number" step="0.01" min="0.01" class="form-control" name="price">
+                        <span class="input-group-addon">差价</span>
+                        <input type="number" step="0.01" class="form-control" name="delta_price">
                     </div>
                 </div>
                 <div class="col-lg-6">
@@ -48,11 +48,8 @@
                                         <div class="input-group">
                                             @if($attr->has_photo)
                                                 <span class="input-group-btn pic_btn" style="overflow: hidden;">
-                                                <img src="{{ asset('img/pic_upload.png') }}"
-                                                     style="height: 34px;border: 1px solid #ccc;padding: 2px;">
-                                                <input type="file" name="image" data-url="{{ route('image.upload') }}"
-                                                       style="opacity: 0;position: absolute;top: 0;width: 100%;height: 100%;"
-                                                       onchange="imgChange(this)">
+                                                <img src="{{ asset('img/pic_upload.png') }}" style="height: 34px;border: 1px solid #ccc;padding: 2px;">
+                                                <input type="file" name="image" data-url="{{ route('image.upload') }}" style="opacity: 0;position: absolute;top: 0;width: 100%;height: 100%;" onchange="imgChange(this)">
                                             </span>
                                             @endif
                                             <input type="text" name="{{ $attr->id }}" data_path='' class="form-control">
@@ -66,8 +63,7 @@
                                 </tr>
                                 <tr>
                                     <td>
-                                        <button type="button" attr_name="{{ $attr->id }}"
-                                                class="btn-group btn btn-primary" onclick="addCol()">
+                                        <button type="button" attr_name="{{ $attr->id }}" class="btn-group btn btn-primary" onclick="addCol()">
                                             增加
                                         </button>
                                     </td>
@@ -80,6 +76,7 @@
         </div>
     </form>
 </div>
+
 <script type="text/javascript">
     function addCol() {
         var _$this = $(event.target);
@@ -89,12 +86,14 @@
         _$this.parents("tr").prev().find("input").val("");
         _$this.parents("tr").prev().find("input[type='text']").attr("data_path", "");
     }
+
     function delCol() {
         var _$this = $(event.target);
         if (_$this.parents("table").find("tr").length != 3) {
             _$this.parents("tr").remove();
         }
     }
+
     // 图片上传
     function imgChange(obj) {
         var filePath = $(obj).val();
@@ -105,6 +104,7 @@
         UpLoadImg(obj, url);
         // }
     }
+
     function UpLoadImg(obj, url) {
         var formData = new FormData();
         formData.append('image', $(obj)[0].files[0]);

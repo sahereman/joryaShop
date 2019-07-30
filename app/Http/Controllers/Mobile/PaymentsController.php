@@ -83,7 +83,7 @@ class PaymentsController extends Controller
         // 调用Alipay的手机网站支付
         return Pay::alipay($this->getAlipayConfig($payment))->wap([
             'out_trade_no' => $payment->sn, // 支付序列号，需保证在商户端不重复
-            'total_amount' => $payment->amount, // 支付金额，单位元，支持小数点后两位
+            'total_amount' => $payment->payment_amount, // 支付金额，单位元，支持小数点后两位
             'subject' => '请支付来自 Lyrical Hair 的订单：' . $payment->sn, // 订单标题
         ]);
     }
@@ -184,7 +184,7 @@ class PaymentsController extends Controller
             $response = Pay::wechat($this->getWechatConfig($payment))->mp([
                 'out_trade_no' => $payment->sn, // 支付序列号，需保证在商户端不重复
                 'body' => '请支付来自 Lyrical Hair 的订单：' . $payment->sn, // 订单标题
-                'total_fee' => bcmul($payment->amount, 100, 0), // 支付金额，单位分，参数值不能带小数点
+                'total_fee' => bcmul($payment->payment_amount, 100, 0), // 支付金额，单位分，参数值不能带小数点
                 'openid' => $basic_user_info['openid'],
             ]);
 
@@ -261,7 +261,7 @@ class PaymentsController extends Controller
             return Pay::wechat($this->getWechatConfig($payment))->wap([
                 'out_trade_no' => $payment->sn, // 支付序列号，需保证在商户端不重复
                 'body' => '请支付来自 Lyrical Hair 的订单：' . $payment->sn, // 订单标题
-                'total_fee' => bcmul($payment->amount, 100, 0), // 支付金额，单位分，参数值不能带小数点
+                'total_fee' => bcmul($payment->payment_amount, 100, 0), // 支付金额，单位分，参数值不能带小数点
             ]);
         } catch (\Exception $e) {
             // error_log($e->getMessage());
@@ -362,8 +362,8 @@ class PaymentsController extends Controller
         $payer->setPaymentMethod(LocalPayment::PAYMENT_METHOD_PAYPAL); // paypal
 
         $amount = new Amount();
-        $amount->setTotal($localPayment->amount)
-            ->setCurrency($localPayment->currency);
+        $amount->setCurrency($localPayment->currency)
+            ->setTotal($localPayment->payment_amount);
 
         $transaction = new Transaction($apiContext);
         $transaction->setAmount($amount);
@@ -528,8 +528,8 @@ class PaymentsController extends Controller
             $paypalPayment = PayPalPayment::get($paymentId, $apiContext, $restCall);
 
             $amount = new Amount();
-            $amount->setTotal($localPayment->amount)
-                ->setCurrency($localPayment->currency);
+            $amount->setCurrency($localPayment->currency)
+                ->setTotal($localPayment->payment_amount);
 
             $transaction = new Transaction();
             $transaction->setAmount($amount);

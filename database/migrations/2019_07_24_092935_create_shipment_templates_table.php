@@ -25,8 +25,6 @@ class CreateShipmentTemplatesTable extends Migration
 
             $table->unsignedTinyInteger('min_days')->comment('最快到达天数');
             $table->unsignedTinyInteger('max_days')->comment('最晚到达天数');
-
-
         });
     }
 

@@ -21,7 +21,6 @@ class CreateShipmentTemplatePlanProvincesTable extends Migration
 
             $table->unsignedInteger('country_province_id');
             $table->foreign('country_province_id')->references('id')->on('country_provinces')->onDelete('cascade');
-
         });
     }
 

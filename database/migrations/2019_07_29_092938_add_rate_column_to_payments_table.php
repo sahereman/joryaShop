@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class DeleteShippingFeeColumnToUsersTable extends Migration
+class AddRateColumnToPaymentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class DeleteShippingFeeColumnToUsersTable extends Migration
      */
     public function up()
     {
-        Schema::table('products', function (Blueprint $table) {
-            $table->dropColumn('shipping_fee');
+        Schema::table('payments', function (Blueprint $table) {
+            $table->unsignedDecimal('rate', 8, 2)->nullable(false)->default(1.00)->comment('exchange-rate-of-USD')->after('amount');
         });
     }
 
@@ -25,8 +25,8 @@ class DeleteShippingFeeColumnToUsersTable extends Migration
      */
     public function down()
     {
-        Schema::table('products', function (Blueprint $table) {
-            $table->unsignedDecimal('shipping_fee', 8, 2)->nullable()->comment('运费');
+        Schema::table('payments', function (Blueprint $table) {
+            $table->dropColumn('rate');
         });
     }
 }

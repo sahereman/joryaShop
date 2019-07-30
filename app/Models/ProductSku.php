@@ -18,7 +18,8 @@ class ProductSku extends Model
         'name_zh', // 备用字段
 
         'photo',
-        'price',
+        // 'price',
+        'delta_price',
         'stock',
         'sales',
     ];
@@ -73,6 +74,12 @@ class ProductSku extends Model
         return '';
     }
 
+    public function getPriceAttribute()
+    {
+        $price = bcadd($this->product->price, $this->attributes['delta_price'], 2);
+        return $price;
+    }
+
     /*public function getProductNameAttribute()
     {
         return Product::find($this->attributes['product_id'])->name_en;
@@ -115,6 +122,12 @@ class ProductSku extends Model
     public function setPhotoUrlAttribute($value)
     {
         unset($this->attributes['photo_url']);
+    }
+
+    public function setPriceAttribute($value)
+    {
+        $this->attributes['delta_price'] = bcsub($this->attributes['price'], $this->product->price, 2);
+        unset($this->attributes['price']);
     }
 
     /*public function setProductNameAttribute($value)
