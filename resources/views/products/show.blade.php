@@ -318,22 +318,28 @@
                 <div class="carousel-content">
                     <div class="swiper-container banner" id="carousel">
                         <div class="swiper-wrapper">
-                            @foreach($guesses as $guess)
-                                <div class="swiper-slide">
-                                        <div class="product-image">
-                                            <a href="{{ route('products.show', ['product' => $guess->id,'slug'=>$guess->slug]) }}">
-                                                <img src="{{ $guess->thumb_url }}">
-                                            </a>
-                                        </div>
-                                        <div class="product-details">
-                                            <h3 class="product-name">S22: Ultra Thin Skin Base with V-looped Human Hair Wigs for Men</h3>
-                                            <div class="price-box">
-                                                <span class="original_price"><i>{{ get_global_symbol() }} </i>{{ bcmul(get_current_price($guess->price), 1.2, 2) }}</span>
-                                                <span class="present_price"><i>{{ get_global_symbol() }} </i>{{ get_current_price($guess->price) }}</span>
+                            @foreach($guesses as $key => $guess)
+                                @if($key % 3 == 0)
+                                    <div class="swiper-slide">
+                                @endif
+                                        <div class="swiper-slide-item">
+                                            <div class="product-image">
+                                                <a href="{{ route('products.show', ['product' => $guess->id,'slug'=>$guess->slug]) }}">
+                                                    <img src="{{ $guess->thumb_url }}">
+                                                </a>
                                             </div>
-                                            <a class="related-add-to-wishlist" href="#">Add to Wishlist</a>
+                                            <div class="product-details">
+                                                <h3 class="product-name">S22: Ultra Thin Skin Base with V-looped Human Hair Wigs for Men</h3>
+                                                <div class="price-box">
+                                                    <span class="original_price"><i>{{ get_global_symbol() }} </i>{{ bcmul(get_current_price($guess->price), 1.2, 2) }}</span>
+                                                    <span class="present_price"><i>{{ get_global_symbol() }} </i>{{ get_current_price($guess->price) }}</span>
+                                                </div>
+                                                <a class="related-add-to-wishlist" href="#">Add to Wishlist</a>
+                                            </div>
                                         </div>
-                                </div>
+                                @if($key % 3 == 2 || $key == count($guesses))
+                                    </div>
+                                @endif
                             @endforeach
                         </div>
                     </div>
@@ -1195,7 +1201,7 @@
                 crossFade: true,
             },
             autoplay: {
-                delay: 6000,
+                delay: 6000000000000000000000,
                 disableOnInteraction: false,
             },
             navigation: {

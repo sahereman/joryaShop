@@ -1161,50 +1161,55 @@
       #carousel {
         .swiper-slide {
           padding: 20px 10px;
-          >div {
-            float: left;
-            &.product-image {
-              width: 100px;
-              height: 145px;
-              img {
-                width: 100%;
-                height: 100%;
-              }
-            }
-            &.product-details {
-              margin-left: 10px;
-              h3 {
-                margin-top: 0;
-                margin-bottom: 5px;
-                font-size: 1em;
-                line-height: 1.25em;
-                font-family: inherit;
-                font-weight: inherit;
-                display: inline-block;
-              }
-              .price-box {
-                margin-bottom: 5px;
-                i {
-                  font-style: normal;
+          .swiper-slide-item {
+            width: 100%;
+            overflow: hidden;
+            margin-bottom: 10px;
+            >div {
+              float: left;
+              &.product-image {
+                width: 100px;
+                height: 145px;
+                img {
+                  width: 100%;
+                  height: 100%;
                 }
-                .present_price {
-                  color: #ee001c !important;
-                }
-                .original_price {
-                  margin-right: 15px;
+              }
+              &.product-details {
+                margin-left: 10px;
+                h3 {
+                  margin-top: 0;
+                  margin-bottom: 5px;
                   font-size: 1em;
                   line-height: 1.25em;
-                  color: #aaa;
-                  text-decoration: line-through;
+                  font-family: inherit;
+                  font-weight: inherit;
+                  display: inline-block;
                 }
-              }
-              .related-add-to-wishlist {
-                font-size: 1em;
-                line-height: 1.25em;
-                font-family: inherit;
-                font-weight: inherit;
-                display: inline-block;
-                color: #aaa;
+                .price-box {
+                  margin-bottom: 5px;
+                  i {
+                    font-style: normal;
+                  }
+                  .present_price {
+                    color: #ee001c !important;
+                  }
+                  .original_price {
+                    margin-right: 15px;
+                    font-size: 1em;
+                    line-height: 1.25em;
+                    color: #aaa;
+                    text-decoration: line-through;
+                  }
+                }
+                .related-add-to-wishlist {
+                  font-size: 1em;
+                  line-height: 1.25em;
+                  font-family: inherit;
+                  font-weight: inherit;
+                  display: inline-block;
+                  color: #aaa;
+                }
               }
             }
           }
