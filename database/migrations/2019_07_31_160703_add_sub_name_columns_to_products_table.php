@@ -13,8 +13,8 @@ class AddSubNameColumnsToProductsTable extends Migration
     public function up()
     {
         Schema::table('products', function (Blueprint $table) {
-            $table->string('sub_name_zh')->nullable()->comment('副标题');
-            $table->string('sub_name_en')->nullable()->comment('副标题');
+            $table->string('sub_name_en')->nullable()->comment('副标题')->after('name_zh');
+            $table->string('sub_name_zh')->nullable()->comment('副标题')->after('sub_name_en');
         });
     }
 
@@ -25,8 +25,8 @@ class AddSubNameColumnsToProductsTable extends Migration
     public function down()
     {
         Schema::table('products', function (Blueprint $table) {
-            $table->dropColumn('sub_name_zh');
             $table->dropColumn('sub_name_en');
+            $table->dropColumn('sub_name_zh');
         });
     }
 }

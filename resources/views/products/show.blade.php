@@ -134,21 +134,15 @@
                     </div>
                     {{-- 商品价格优惠 --}}
                     <ul class="tier-prices product-pricing">
-                        <li class="tier-price tier-0">
-                            Buy<strong class="benefit"> 2 for <span class="price">US$145.00</span> each</strong>
-                            and&nbsp;<span>save&nbsp;<span class="percent tier-0">9</span>%</span>
-                            <span class="msrp-price-hide-message"></span>
-                        </li>
-                        <li class="tier-price tier-1">
-                            Buy<strong class="benefit"> 3 for <span class="price">US$133.00</span> each</strong>
-                            and&nbsp;<span>save&nbsp;<span class="percent tier-1">17</span>%</span>
-                            <span class="msrp-price-hide-message"></span>
-                        </li>
-                        <li class="tier-price tier-2">
-                            Buy<strong class="benefit"> 6 for <span class="price">US$116.50</span> each</strong>
-                            and&nbsp;<span>save&nbsp;<span class="percent tier-2">27</span>%</span>
-                            <span class="msrp-price-hide-message"></span>
-                        </li>
+                        @if($product->discounts->isNotEmpty())
+                            @foreach($product->discounts as $discount)
+                                <li class="tier-price tier-0">
+                                    Buy<strong class="benefit"> {{ $discount->number }} for <span class="price">{{ get_global_symbol() . ' ' . get_current_price($discount->price) }}</span> each</strong>
+                                    and&nbsp;<span>save&nbsp;<span class="percent tier-0">{{ $discount->discount }}</span>%</span>
+                                    <span class="msrp-price-hide-message"></span>
+                                </li>
+                            @endforeach
+                        @endif
                     </ul>
                     {{-- 动态渲染的skus选择器存放位置 --}}
                     <div class="sku-choose-store"></div>

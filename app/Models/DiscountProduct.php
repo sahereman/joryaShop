@@ -42,7 +42,8 @@ class DiscountProduct extends Model
      * @var array
      */
     protected $appends = [
-        // 'product_name'
+        // 'product_name',
+        'discount'
     ];
 
     /* Accessors */
@@ -54,7 +55,7 @@ class DiscountProduct extends Model
     public function getDiscountAttribute()
     {
         $product_price = $this->product->price;
-        $discount_percentage = bcsub(100, bcdiv(bcmul($this->attributes['price'], 100), $product_price));
+        $discount_percentage = bcsub(100, bcdiv(bcmul($this->attributes['price'], 100, 0), $product_price, 0), 0);
         return $discount_percentage;
     }
 

@@ -7,6 +7,7 @@ use App\Handlers\ImageUploadHandler;
 use App\Http\Requests\ImageUploadRequest;
 use App\Models\Banner;
 use App\Models\CountryProvince;
+use App\Models\DiscountProduct;
 use App\Models\ExchangeRate;
 use App\Models\Order;
 use App\Models\Payment;
@@ -24,28 +25,7 @@ class IndexController extends Controller
 
     public function test()
     {
-//        $order = Order::where('status',Order::ORDER_STATUS_SHIPPING)->first();
-//
-//        dump($order->id);
-//
-//        event(new OrderCompletedEvent($order));
-
-
-//        $aa = UserMoneyBill::find(2);
-//
-//        dd($aa->related);
-//        dd($aa);
-
-//        $umBill = new UserMoneyBill();
-//
-//        $umBill->change(
-//            User::find(1),
-//            $umBill::TYPE_ORDER_PAYMENT,
-//            ExchangeRate::USD,
-//            20.22,
-//            Order::find(1));
-//        User::find(1));
-//        new Order());
+        dd('test');
     }
 
     public function root(Request $request)

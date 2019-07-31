@@ -48,6 +48,8 @@ class Product extends Model
         'type',
         'name_en',
         'name_zh',
+        'sub_name_en',
+        'sub_name_zh',
         'description_en',
         'description_zh',
         'content_en',
