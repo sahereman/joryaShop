@@ -79,6 +79,13 @@ Auth::routes();
 /*重写原生登录接口*/
 Route::post('login', 'Auth\LoginController@login')->name('login.post'); // form表单提交数据，执行登录
 
+/*订单*/
+Route::get('orders/pre_payment', 'OrdersController@prePayment')->name('orders.pre_payment'); // 订单预支付页面：选择地址+币种页面
+Route::get('orders/search_by_sn/{sn}', 'OrdersController@searchBySn')->name('orders.search_by_sn'); // 根据订单序列号查看订单详情
+Route::post('orders', 'OrdersController@store')->name('orders.store'); // 提交订单
+// Route::get('orders/{order}/payment_method', 'OrdersController@paymentMethod')->name('orders.payment_method'); // 选择支付方式页面
+Route::post('orders/integrate', 'OrdersController@integrate')->name('orders.integrate'); // 多个订单聚合支付
+
 /*需要登录的路由*/
 Route::group(['middleware' => 'auth'], function () {
 
@@ -204,13 +211,6 @@ Route::get('products/{product}/comment', 'ProductsController@comment')->name('pr
 /*收货地址*/
 Route::get('user_addresses/list_all', 'UserAddressesController@listAll')->name('user_addresses.list_all'); // 获取当前用户收货地址列表 [for Ajax request]
 Route::post('user_addresses/store_for_ajax', 'UserAddressesController@storeForAjax')->name('user_addresses.store_for_ajax'); // 创建用户收货地址 [for Ajax request]
-
-/*订单*/
-Route::get('orders/pre_payment', 'OrdersController@prePayment')->name('orders.pre_payment'); // 订单预支付页面：选择地址+币种页面
-Route::get('orders/search_by_sn/{sn}', 'OrdersController@searchBySn')->name('orders.search_by_sn'); // 根据订单序列号查看订单详情
-Route::post('orders', 'OrdersController@store')->name('orders.store'); // 提交订单
-// Route::get('orders/{order}/payment_method', 'OrdersController@paymentMethod')->name('orders.payment_method'); // 选择支付方式页面
-Route::post('orders/integrate', 'OrdersController@integrate')->name('orders.integrate'); // 多个订单聚合支付
 
 /*支付*/
 Route::get('payments/{payment}/method', 'PaymentsController@method')->name('payments.method'); // 选择支付方式页面

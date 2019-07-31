@@ -99,7 +99,7 @@ class PostOrderRequest extends Request
                 'address' => 'bail|sometimes|nullable|string',
                 'remark' => 'bail|sometimes|nullable|string',
             ];
-        } elseif ($this->routeIs('orders.get_available_coupons') || $this->routeIs('orders.pre_payment') || $this->routeIs('mobile.orders.pre_payment')) {
+        } elseif ($this->routeIs('orders.get_available_coupons') || $this->routeIs('orders.pre_payment')) {
             return [
                 'sku_id' => [
                     'bail',
@@ -140,7 +140,7 @@ class PostOrderRequest extends Request
                     'regex:/^\d+(\,\d+)*$/',
                 ],
             ];
-        } elseif ($this->routeIs('orders.integrate') || $this->routeIs('mobile.orders.integrate')) {
+        } elseif ($this->routeIs('orders.integrate')) {
             return [
                 'order_ids' => [
                     'bail',

@@ -46,11 +46,11 @@ class PaymentsController extends Controller
     {
         $this->isAuthorized($request, $payment);
         if ($payment->paid_at != null && $payment->payment_method != null && $payment->payment_sn != null) {
-            return redirect()->route('mobile.payments.success', [
+            return redirect()->route('payments.success', [
                 'payment' => $payment->id,
             ]);
         }
-        return view('mobile.payments.payment_method', [
+        return view('payments.method', [
             'payment' => $payment,
         ]);
     }

@@ -585,7 +585,7 @@ class OrdersController extends Controller
                 $user_info = $request->only('name', 'phone', 'address');
             }
 
-            $rate = ExchangeRate::where('currency', $currency)->first()->rate;
+            $rate = $currency == ExchangeRate::USD ? 1 : ExchangeRate::where('currency', $currency)->first()->rate;
 
             // 创建一条支付记录
             $payment = Payment::create([
@@ -634,12 +634,12 @@ class OrdersController extends Controller
             'message' => 'success',
             'data' => [
                 'order' => $order,
-                'request_url' => route('orders.payment_method', [
-                    'order' => $order->id,
+                'request_url' => route('payments.method', [
+                    'payment' => $order->payment_id,
                 ]),
-                'mobile_request_url' => route('mobile.orders.payment_method', [
+                /*'mobile_request_url' => route('mobile.orders.payment_method', [
                     'order' => $order->id,
-                ]),
+                ]),*/
             ],
         ]);
     }
