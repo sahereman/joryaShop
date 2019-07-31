@@ -4,31 +4,8 @@
 @section('title', $category->seo_title ? : (App::isLocale('zh-CN') ? $category->name_zh : $category->name_en) . ' - ' . \App\Models\Config::config('title'))
 @section('content')
     <div class="productCate my_orders">
-        <div class="m-wrapper">
-            <div class="categories-left">
-                <div class="block block-layered-nav">
-
-                </div>
-                <div class="block block-layered-nav">
-
-                </div>
-            </div>
-            <div class="categories-right">
-
-            </div>
-        </div>
-    </div>
-
-
-
-
-
-
-
-
-
         <!--商品分类导图-->
-        {{--<div class="swiper-container Taxonomy" id="Taxonomy">
+        <div class="swiper-container Taxonomy" id="Taxonomy">
             <div class="swiper-wrapper">
                 <div class="swiper-slide">
                     @if(!empty($category->banner))
@@ -88,19 +65,10 @@
                                                 <p title="{{ App::isLocale('zh-CN') ? $product->name_zh : $product->name_en }}" class="list-info-title">
                                                     {{ App::isLocale('zh-CN') ? $product->name_zh : $product->name_en }}
                                                 </p>
-                                                <p>--}}
-
-
-
-
+                                                <p>
                                                     {{--<span class="old-price"><i>@lang('basic.currency.symbol') </i>{{ App::isLocale('en') ? bcmul($product->price_in_usd, 1.2, 2) : bcmul($product->price, 1.2, 2) }}</span>--}}
                                                     {{--<span class="new-price"><i>@lang('basic.currency.symbol') </i>{{ App::isLocale('en') ? $product->price_in_usd : $product->price }}</span>--}}
-
-
-
-
-
-                                                    {{--<span class="old-price"><i>{{ get_global_symbol() }} </i>{{ bcmul(get_current_price($product->price), 1.2, 2) }}</span>
+                                                    <span class="old-price"><i>{{ get_global_symbol() }} </i>{{ bcmul(get_current_price($product->price), 1.2, 2) }}</span>
                                                     <span class="new-price"><i>{{ get_global_symbol() }} </i>{{ get_current_price($product->price) }}</span>
                                                 </p>
                                             </div>
@@ -118,18 +86,10 @@
                                                 <p title="{{ App::isLocale('zh-CN') ? $product->name_zh : $product->name_en }}" class="list-info-title">
                                                     {{ App::isLocale('zh-CN') ? $product->name_zh : $product->name_en }}
                                                 </p>
-                                                <p>--}}
-
-
-
+                                                <p>
                                                     {{--<span class="old-price"><i>@lang('basic.currency.symbol') </i>{{ App::isLocale('en') ? bcmul($product->price_in_usd, 1.2, 2) : bcmul($product->price, 1.2, 2) }}</span>--}}
                                                     {{--<span class="new-price"><i>@lang('basic.currency.symbol') </i>{{ App::isLocale('en') ? $product->price_in_usd : $product->price }}</span>--}}
-
-
-
-
-
-                                                    {{--<span class="old-price"><i>{{ get_global_symbol() }} </i>{{ bcmul(get_current_price($product->price), 1.2, 2) }}</span>
+                                                    <span class="old-price"><i>{{ get_global_symbol() }} </i>{{ bcmul(get_current_price($product->price), 1.2, 2) }}</span>
                                                     <span class="new-price"><i>{{ get_global_symbol() }} </i>{{ get_current_price($product->price) }}</span>
                                                 </p>
                                             </div>
@@ -143,10 +103,9 @@
                 </div>
             @endforeach
         </div>
-    </div>--}}
+    </div>
 @endsection
 @section('scriptsAfterJs')
     <script type="text/javascript">
-
     </script>
 @endsection
