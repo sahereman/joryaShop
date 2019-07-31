@@ -475,6 +475,8 @@
                 $(".edit_harvest_address").find(".user_detailed").val($(this).parents("tr").find(".address_detail").html());
                 //address_country
                 $(".edit_harvest_address").find(".user_country").val($(this).parents("tr").find(".address_country").html());
+                // 修改时获取省份列表
+                $("#edit_user_country").trigger("change")
                 $(".edit_harvest_address").find(".user_city").val($(this).parents("tr").find(".address_city").html());
                 $(".edit_harvest_address").find(".user_province").val($(this).parents("tr").find(".address_province").html());
                 $(".edit_harvest_address").find(".user_zip").val($(this).parents("tr").find(".address_zip").html());
