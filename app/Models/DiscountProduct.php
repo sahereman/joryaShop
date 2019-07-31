@@ -54,7 +54,7 @@ class DiscountProduct extends Model
     public function getDiscountAttribute()
     {
         $product_price = $this->product->price;
-        $discount_percentage = bcdiv(bcmul($this->attributes['price'], 100), $product_price);
+        $discount_percentage = bcsub(100, bcdiv(bcmul($this->attributes['price'], 100), $product_price));
         return $discount_percentage;
     }
 

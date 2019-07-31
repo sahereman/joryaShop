@@ -288,6 +288,9 @@
                         {{-- 国家选择 --}}
                         <select name="country" class="user_country" id="user_country">
                             <option value=0>Please select a country</option>
+                            @foreach($countries as $country)
+                                <option value="{{ $country }}">{{ $country }}</option>
+                            @endforeach
                         </select>
                     </p>
                 </li>
@@ -300,8 +303,7 @@
                 <li>
                     <p>
                         <span class="input_name"><i>*</i>@lang('basic.address.Detailed address')：</span>
-                        <input name="address" class="user_detailed"
-                               placeholder="@lang('basic.address.Detailed_address')">
+                        <input name="address" class="user_detailed" placeholder="@lang('basic.address.Detailed_address')">
                     </p>
                 </li>
                 <li class="city-state-zip">
@@ -352,6 +354,9 @@
                         {{--<input class="user_country" name="country" type="text">--}}
                         <select name="country" class="user_country" id="edit_user_country">
                             <option value=0>Please select a country</option>
+                            @foreach($countries as $country)
+                                <option value="{{ $country }}">{{ $country }}</option>
+                            @endforeach
                         </select>
                     </p>
                 </li>
@@ -364,8 +369,7 @@
                 <li>
                     <p>
                         <span class="input_name"><i>*</i>@lang('basic.address.Detailed address')：</span>
-                        <input class="user_detailed" name="address"
-                               placeholder="@lang('basic.address.Detailed_address')">
+                        <input class="user_detailed" name="address" placeholder="@lang('basic.address.Detailed_address')">
                     </p>
                 </li>
                 <li class="city-state-zip">
@@ -402,9 +406,10 @@
             </ul>
         </form>
     </div>
-    <span class="dis_ni" id="countries" data-json="{{ $countries }}"></span>
+    {{--<span class="dis_ni" id="countries" data-json="{{ $countries }}"></span>--}}
     <span class="dis_ni" id="provinces" data-json="{{ $provinces }}"></span>
 @endsection
+
 @section('scriptsAfterJs')
     <script type="text/javascript">
         $(function () {
@@ -572,8 +577,8 @@
             });
             // 国家省份二级联动
             // var countries = ['请选择省份', '北京市', '上海市', '天津市', '河北省', '山西省', '内蒙古省', '辽宁省', '吉林省', '黑龙江省'];
-            var countries = Array.from(JSON.parse($('#countries').attr('data-json')));
-            countries.unshift('Please select a country');
+            /*var countries = Array.from(JSON.parse($('#countries').attr('data-json')));
+            countries.unshift('Please select a country');*/
             // console.log(countries);
             // var provinces = JSON.parse($('#provinces').attr('data-json'));
             var country_provinces = JSON.parse($('#provinces').attr('data-json'));
@@ -588,14 +593,14 @@
             var province = document.getElementById('user_province');
 
             // 给第一个选项卡中的option赋值
-            country.options.length = countries.length;
+            /*country.options.length = countries.length;
             country.options[0].text = 'Please select a country';
             country.options[0].value = 0;
             for (var i = 0; i < country.options.length; i++) {
                 //key = i + 1;
                 country.options[i].text = countries[i];
                 country.options[i].value = countries[i];
-            }
+            }*/
 
             // 初始化第二个选项卡，默认显示"请选择城市"
             province.options.length = 1;
@@ -622,8 +627,8 @@
                         province.options[j].value = provinces[country_name][j];
                     }
                 }
-            }
-        //    修改地址
+            };
+            // 修改地址
             // 获取页面中的选项卡
             var edit_country = document.getElementById('edit_user_country');
             var edit_province = document.getElementById('edit_user_province');

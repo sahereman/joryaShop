@@ -12,6 +12,7 @@ use App\Http\Requests\RefundOrderRequest;
 use App\Http\Requests\RefundOrderWithShipmentRequest;
 use App\Jobs\AutoCloseOrderJob;
 use App\Models\Cart;
+use App\Models\CountryProvince;
 use App\Models\Coupon;
 use App\Models\ExchangeRate;
 use App\Models\Order;
@@ -305,6 +306,22 @@ class OrdersController extends Controller
         $is_nil = true;
         $product_types = [];
 
+        $countries = [];
+        $provinces = [];
+        CountryProvince::with('children')->where(['parent_id' => 0, 'type' => 'country'])->get()->each(function (CountryProvince $countryProvince) use (&$countries, &$provinces) {
+            if (!in_array($countryProvince->name_en, $countries)) {
+                $countries[] = $countryProvince->name_en;
+            }
+            if (!isset($provinces[$countryProvince->name_en])) {
+                $provinces[$countryProvince->name_en] = [];
+            }
+            $countryProvince->children()->get()->each(function (CountryProvince $province) use ($countryProvince, &$provinces) {
+                if (!in_array($province->name_en, $provinces[$countryProvince->name_en])) {
+                    $provinces[$countryProvince->name_en][] = $province->name_en;
+                }
+            });
+        });
+
         if ($request->has('sku_id') && $request->has('number')) {
             $sku = ProductSku::find($request->query('sku_id'));
             $product = $sku->product;
@@ -405,7 +422,10 @@ class OrdersController extends Controller
             'total_shipping_fee' => $total_shipping_fee,
             'total_fee' => $total_fee,
             'available_coupons' => $available_coupons,
-            'saved_fees' => $saved_fees
+            'saved_fees' => $saved_fees,
+            // 'countries' => json_encode($countries),
+            'countries' => $countries,
+            'provinces' => json_encode($provinces)
         ]);
     }
 

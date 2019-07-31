@@ -30,14 +30,14 @@ class UserAddressesController extends Controller
                     $provinces[$countryProvince->name_en][] = $province->name_en;
                 }
             });
-
         });
 
         return view('user_addresses.index', [
             'addresses' => $request->user()->addresses,
             'max' => Config::config('max_user_address_count'),
             'count' => $request->user()->addresses->count(),
-            'countries' => json_encode($countries),
+            // 'countries' => json_encode($countries),
+            'countries' => $countries,
             'provinces' => json_encode($provinces)
         ]);
     }

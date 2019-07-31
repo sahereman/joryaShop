@@ -216,7 +216,12 @@
                     <p>
                         <span class="input_name"><i>*</i>Country：</span>
                         {{--<input class="user_country" name="country" type="text">--}}
-                        <select name="country" id="new_address_country" class="user_country"></select>
+                        <select name="country" id="new_address_country" class="user_country">
+                            <option value=0>Please select a country</option>
+                            @foreach($countries as $country)
+                                <option value="{{ $country }}">{{ $country }}</option>
+                            @endforeach
+                        </select>
                     </p>
                 </li>
                 <li>
@@ -239,7 +244,9 @@
                     <p>
                         <span class="input_name"><i>*</i>State/Province/Region：</span>
                         {{--<input class="user_province" name="province" type="text">--}}
-                        <select name="province" id="new_address_province" class="user_province"></select>
+                        <select name="province" id="new_address_province" class="user_province">
+                            <option value=0>Please select a state/province/region</option>
+                        </select>
                     </p>
                     <p>
                         <span class="input_name"><i>*</i>Zipcode：</span>
@@ -268,7 +275,7 @@
     <div class="changeAddress dis_n">
         <ul></ul>
     </div>
-    <span class="dis_ni" id="countries" data-json="{{ $countries }}"></span>
+    {{--<span class="dis_ni" id="countries" data-json="{{ $countries }}"></span>--}}
     <span class="dis_ni" id="provinces" data-json="{{ $provinces }}"></span>
 @endsection
 @section('scriptsAfterJs')
@@ -295,7 +302,7 @@
                         break;
                 }
             });
-            
+
             $("#creat-form").validate({
                 rules: {
                     name: {
@@ -320,93 +327,94 @@
                     },
                 },
             });
-            
-            
+
             // 新建收货地址
             $(".add_new_address").on("click", function () {
                 layer.open({
-                  title: ["The new address","font-size: 18px;"],
-                  type: 1,
-                  btn: ['Confirm', 'Cancel'],
-                  area: ['900px', '500px'],
-                  content: $('#addNewAddress'),
-                  yes: function(index, layero){
-                    if ($("#creat-form").valid()) {
-                        var data = {
-                            _token: "{{ csrf_token() }}",
-                            name:$(".new_receipt_address .user_name").val(),
-                            phone:$(".new_receipt_address .user_tel").val(),
-                            address:$(".new_receipt_address .user_detailed").val(),
-                            country:$(".new_receipt_address .user_country").val(),
-                            city:$(".new_receipt_address .user_city").val(),
-                            province:$(".new_receipt_address .user_province").val(),
-                            zip:$(".new_receipt_address .user_zip").val(),
-                            is_default: "0"
-                        };
-                        $.ajax({
-                            type:"post",
-                            url:$("#creat-form").attr("data-url"),
-                            data: data,
-                            beforeSend: function () {},
-                            success: function (json) {
-                                $(".address_name").html(json.data.address.name);
-                                $(".address_phone").html(json.data.address.phone);
-                                $(".address_location").html(json.data.address.full_address);
-                                $(".pre_payment_header").attr("code",json.data.address.id);
-                                $(".new_receipt_address").hide();
-                                layer.close(index);
-                            },
-                            error: function (err) {
-                                var arr = [];
-                                var dataobj = err.responseJSON.errors;
-                                for (let i in dataobj) {
-                                    arr.push(dataobj[i]); //属性
-                                }
-                                layer.msg(arr[0][0]);
-                            },
-                            complete: function () {
-                            },
-                        });
+                    title: ["The new address", "font-size: 18px;"],
+                    type: 1,
+                    btn: ['Confirm', 'Cancel'],
+                    area: ['900px', '500px'],
+                    content: $('#addNewAddress'),
+                    yes: function (index, layero) {
+                        if ($("#creat-form").valid()) {
+                            var data = {
+                                _token: "{{ csrf_token() }}",
+                                name: $(".new_receipt_address .user_name").val(),
+                                phone: $(".new_receipt_address .user_tel").val(),
+                                address: $(".new_receipt_address .user_detailed").val(),
+                                country: $(".new_receipt_address .user_country").val(),
+                                city: $(".new_receipt_address .user_city").val(),
+                                province: $(".new_receipt_address .user_province").val(),
+                                zip: $(".new_receipt_address .user_zip").val(),
+                                is_default: "0"
+                            };
+                            $.ajax({
+                                type: "post",
+                                url: $("#creat-form").attr("data-url"),
+                                data: data,
+                                beforeSend: function () {
+                                },
+                                success: function (json) {
+                                    $(".address_name").html(json.data.address.name);
+                                    $(".address_phone").html(json.data.address.phone);
+                                    $(".address_location").html(json.data.address.full_address);
+                                    $(".pre_payment_header").attr("code", json.data.address.id);
+                                    $(".new_receipt_address").hide();
+                                    layer.close(index);
+                                },
+                                error: function (err) {
+                                    var arr = [];
+                                    var dataobj = err.responseJSON.errors;
+                                    for (let i in dataobj) {
+                                        arr.push(dataobj[i]); //属性
+                                    }
+                                    layer.msg(arr[0][0]);
+                                },
+                                complete: function () {
+                                },
+                            });
+                        }
                     }
-                  }
                 });
-//              $(".new_receipt_address").show();
+                // $(".new_receipt_address").show();
             });
-//          $(".new_receipt_address").on("click", ".success", function () {
-//              if($(".new_receipt_address .user_name").val()==""||$(".new_receipt_address .user_tel").val()==""||$(".new_receipt_address textarea").val()==""){
-//                  layer.msg("@lang('order.Please complete the information')");
-//                  return false
-//              }
-//              var data = {
-//                  _token: "{{ csrf_token() }}",
-//                  name:$(".new_receipt_address .user_name").val(),
-//                  phone:$(".new_receipt_address .user_tel").val(),
-//                  address:$(".new_receipt_address textarea").val(),
-//                  country:$(".new_receipt_address .user_country").val(),
-//                  city:$(".new_receipt_address .user_city").val(),
-//                  province:$(".new_receipt_address .user_province").val(),
-//                  is_default: "0"
-//              };
-//              $.ajax({
-//                  type:"post",
-//                  url:$(this).attr("data-url"),
-//                  data: data,
-//                  beforeSend: function () {},
-//                  success: function (json) {
-//                      $(".address_name").html(json.data.address.name);
-//                      $(".address_phone").html(json.data.address.phone);
-//                      $(".address_location").html(json.data.address.full_address);
-//                      $(".pre_payment_header").attr("code",json.data.address.id);
-//                      $(".new_receipt_address").hide();
-//                  },
-//                  error: function (err) {
-//                      console.log(err);
-//                      layer.msg($.parseJSON(err.responseText).errors.address[0]||$.parseJSON(err.responseText).errors.name[0]||$.parseJSON(err.responseText).errors.phone[0])
-//                  },
-//                  complete: function () {
-//                  },
-//              });
-//          });
+            /*$(".new_receipt_address").on("click", ".success", function () {
+                if ($(".new_receipt_address .user_name").val() == "" || $(".new_receipt_address .user_tel").val() == "" || $(".new_receipt_address textarea").val() == "") {
+                    layer.msg("@lang('order.Please complete the information')");
+                    return false
+                }
+                var data = {
+                    _token: "{{ csrf_token() }}",
+                    name: $(".new_receipt_address .user_name").val(),
+                    phone: $(".new_receipt_address .user_tel").val(),
+                    address: $(".new_receipt_address textarea").val(),
+                    country: $(".new_receipt_address .user_country").val(),
+                    city: $(".new_receipt_address .user_city").val(),
+                    province: $(".new_receipt_address .user_province").val(),
+                    is_default: "0"
+                };
+                $.ajax({
+                    type: "post",
+                    url: $(this).attr("data-url"),
+                    data: data,
+                    beforeSend: function () {
+                    },
+                    success: function (json) {
+                        $(".address_name").html(json.data.address.name);
+                        $(".address_phone").html(json.data.address.phone);
+                        $(".address_location").html(json.data.address.full_address);
+                        $(".pre_payment_header").attr("code", json.data.address.id);
+                        $(".new_receipt_address").hide();
+                    },
+                    error: function (err) {
+                        console.log(err);
+                        layer.msg($.parseJSON(err.responseText).errors.address[0] || $.parseJSON(err.responseText).errors.name[0] || $.parseJSON(err.responseText).errors.phone[0])
+                    },
+                    complete: function () {
+                    },
+                });
+            });*/
             // 切换地址
             $(".change_address").on("click", function () {
                 var url = $(this).attr("data-url");
@@ -587,8 +595,8 @@
             // 省份二级联动
             // 省份假数据
             // 设置二级联动中的选项数组
-            var countries = Array.from(JSON.parse($('#countries').attr('data-json')));
-            countries.unshift('Please select a country');
+            /*var countries = Array.from(JSON.parse($('#countries').attr('data-json')));
+             countries.unshift('Please select a country');*/
             // console.log(countries);
             // var provinces = JSON.parse($('#provinces').attr('data-json'));
             var country_provinces = JSON.parse($('#provinces').attr('data-json'));
@@ -603,14 +611,14 @@
             var province = document.getElementById('user_province');
 
             // 给第一个选项卡中的option赋值
-            country.options.length = countries.length;
+            /*country.options.length = countries.length;
             country.options[0].text = 'Please select a country';
             country.options[0].value = 0;
             for (var i = 0; i < country.options.length; i++) {
                 //key = i + 1;
                 country.options[i].text = countries[i];
                 country.options[i].value = countries[i];
-            }
+            }*/
 
             // 初始化第二个选项卡，默认显示"请选择城市"
             province.options.length = 1;
@@ -637,7 +645,7 @@
                         province.options[j].value = provinces[country_name][j];
                     }
                 }
-            }
+            };
         });
     </script>
 @endsection
