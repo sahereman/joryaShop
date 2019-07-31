@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\ExchangeRate;
 use Faker\Generator as Faker;
 
 $factory->define(App\Models\Order::class, function (Faker $faker) {
@@ -12,10 +13,12 @@ $factory->define(App\Models\Order::class, function (Faker $faker) {
         'user_id' => 1,
         'user_info' => ["name"=>"aaa","phone"=>"18888888888","address"=>"somewhere"],
         'status' => \App\Models\Order::ORDER_STATUS_PAYING,
-        'currency' => 'USD',
+        'currency' => ExchangeRate::all()->random()->currency,
         'snapshot' => ["sku_id"=>1,"price"=>1.00,"number"=>1],
         'total_shipping_fee' => 1.00,
         'total_amount' => 1.00,
+        'saved_fee' => $faker->randomFloat(2, 10, 20),
+        'rate' => ExchangeRate::all()->random()->rate,
         'remark' => 'remark content ...',
         'created_at' => $created_at,
         'updated_at' => $updated_at,
