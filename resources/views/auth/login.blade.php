@@ -87,6 +87,15 @@
                 <a class="btn_dialog mailbox_btn" data-url="{{ route('login.verify_sms_code') }}">@lang('app.Log_In')</a>
             </div>
         </div>
+        {{-- facebook登陆 --}}
+        <div class="fb-login">
+            {{--<button class="fb-login-btn">Facebook Login</button>--}}
+            <button class="fb_button fb_button_medium" onclick="login();return false;">
+                <span class="border-line">
+                    <span class="fb_button_text">Facebook Login</span>
+                </span>
+            </button>
+        </div>
     </div>
 </div>
 @endsection

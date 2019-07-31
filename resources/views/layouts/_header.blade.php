@@ -3,7 +3,7 @@
         <div class="inner-container">
             <div class="left-column">
                 <div id="currency-switcher-wrapper-regular" class="item item-left">
-                    <div class="currency-switcher dropdown">
+                    <div class="currency-switcher dropdown active">
                         <a href="#" class="dropdown-heading cover" type="button" data-toggle="dropdown" aria-haspopup="true"
                                aria-expanded="false">
                             <span>
@@ -108,6 +108,7 @@
                                 </ul>
                             </form>
                             <a class="btn_dialog commo_btn active" data-url="{{ route('login') }}">@lang('app.Log_In')</a>
+                            <a class="btn_dialog fb_btn">@lang('app.Log_In')</a>
                             <p class="greetings-word"> Want to join the family?</p>
                             <a href="{{ route('register') }}" class="to-register">
                                 <span>Create an Account</span>
