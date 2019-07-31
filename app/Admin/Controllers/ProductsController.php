@@ -22,7 +22,7 @@ use App\Models\ShipmentTemplate;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
 use Encore\Admin\Form\Builder;
-// use Encore\Admin\Form\NestedForm;
+use Encore\Admin\Form\NestedForm;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
@@ -204,7 +204,12 @@ class ProductsController extends Controller
                     . '<a href="' . route('admin.product_skus.index', ['product_id' => $id]) . '" class="btn btn-sm btn-success">'
                     . '<i class="fa fa-list"></i>&nbsp;SKU - 列表'
                     . '</a>'
-                    . '</div>');
+                    . '</div>&nbsp;');
+                /*. '<div class="btn-group pull-right" style="margin-right: 5px">'
+                . '<a href="' . route('admin.discount_products.index', ['product_id' => $id]) . '" class="btn btn-sm btn-success">'
+                . '<i class="fa fa-list"></i>&nbsp;优惠策略 - 列表'
+                . '</a>'
+                . '</div>&nbsp;');*/
             }
             if ($product->type == Product::PRODUCT_TYPE_PERIOD) {
                 if ($period_product = $product->period) {
@@ -311,6 +316,12 @@ class ProductsController extends Controller
             $param->value('商品参数值');
         });
 
+        $show->discounts('优惠策略 - 列表', function ($discount) {
+            $discount->resource('/admin/discount_products');
+            $discount->number('购买数量');
+            $discount->price('商品价格');
+        });
+
         if ($product->type != Product::PRODUCT_TYPE_CUSTOM) {
             $show->skus('SKU 列表', function ($sku) {
                 /*禁用*/
@@ -407,7 +418,12 @@ class ProductsController extends Controller
                     . '<a href="' . route('admin.product_skus.index', ['product_id' => $product_id]) . '" class="btn btn-sm btn-success">'
                     . '<i class="fa fa-list"></i>&nbsp;SKU - 列表'
                     . '</a>'
-                    . '</div>');
+                    . '</div>&nbsp;');
+                /*. '<div class="btn-group pull-right" style="margin-right: 5px">'
+                . '<a href="' . route('admin.discount_products.index', ['product_id' => $product_id]) . '" class="btn btn-sm btn-success">'
+                . '<i class="fa fa-list"></i>&nbsp;优惠策略 - 列表'
+                . '</a>'
+                . '</div>&nbsp;');*/
                 $product = Product::find($product_id);
                 if ($product->type == Product::PRODUCT_TYPE_PERIOD) {
                     if ($period_product = $product->period) {
@@ -508,6 +524,12 @@ class ProductsController extends Controller
         }
 
         // })->tab('商品详细', function (Form $form) {
+
+        $form->divider();
+        $form->hasMany('discounts', '优惠策略 - 列表', function (NestedForm $form) {
+            $form->number('number', '购买数量')->rules('required|integer|min:1');
+            $form->currency('price', '商品价格')->setWidth(2)->symbol('$')->default(0.01)->rules('required|numeric|min:0.01');
+        });
 
         $form->divider();
         // $form->editor('content_zh', '详情介绍(中文)');

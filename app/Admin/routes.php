@@ -80,6 +80,9 @@ Route::group([
     /*拍卖商品*/
     $router->resource('auction_products', AuctionProductsController::class)->names('admin.auction_products');
 
+    /*优惠商品*/
+    $router->resource('discount_products', DiscountProductsController::class)->names('admin.discount_products');
+
     /*定制商品 SKU 属性*/
     $router->resource('custom_attrs', CustomAttrsController::class)->names('admin.custom_attrs');
 

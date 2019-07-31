@@ -26,7 +26,7 @@ class AlterDeltaPriceColumnOfProductSkusTable extends Migration
     public function down()
     {
         Schema::table('product_skus', function (Blueprint $table) {
-            $table->unsignedDecimal('delta_price', 8, 2)->nullable(false)->default(0.01)->comment('价格')->change();
+            $table->decimal('delta_price', 8, 2)->nullable(false)->default(0.01)->comment('价格')->change();
         });
     }
 }
