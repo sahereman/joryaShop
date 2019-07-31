@@ -70,7 +70,7 @@
                         {{ App::isLocale('zh-CN') ? $product->name_zh : $product->name_en }}
                     </h4>
                     {{-- 商品小标题介绍 --}}
-                    <p class="small_title">{!! App::isLocale('zh-CN') ? $product->description_zh : $product->description_en !!}</p>
+                    <p class="small_title">{!! App::isLocale('zh-CN') ? $product->sub_name_zh : $product->sub_name_en !!}</p>
                     {{-- 价格服务模块 --}}
                     <div class="price_service dis_ni">
                         <p class="original_price">
@@ -115,8 +115,7 @@
                     {{-- 简介 --}}
                     <div class="short-description">
                         <div class="std">
-                            <p>This is a silk top hairpiece for women with a base size of 5" x 5". It's 100% Remy human hair is medium density and is a
-                                natural hair color. The natural straight hair is 10" in length. Immediate shipment available.</p>
+                            <p>{!! App::isLocale('zh-CN') ? $product->description_zh : $product->description_en !!}</p>
                         </div>
                         <a href="javascript:void (0)" class="down-more">
                             <img src=" {{ asset('img/down-more.png') }}" alt="">
