@@ -191,24 +191,8 @@
                             <div class="parameters-iframe dis_ni">
                                 {{-- 占位假数据需替换为后台接口 --}}
                                 {{-- {!! App::isLocale('zh-CN') ? $product->content_zh : $product->content_en !!} --}}
-                                <ul class="parameter2 p-parameter-list">
-                                    <li title="AppleApple Watch">商品名称：AppleApple Watch</li>
-                                    <li title="100003047541">商品编号：100003047541</li>
-                                    <li title="0.52kg">商品毛重：0.52kg</li>
-                                    <li title="中国大陆">商品产地：中国大陆</li>
-                                    <li title="10-12mm">机身厚度：10-12mm</li>
-                                    <li title="40mm以上">屏幕大小：40mm以上</li>
-                                    <li title="彩色触屏">屏幕显示：彩色触屏</li>
-                                    <li title="50米防水">防水等级：50米防水</li>
-                                    <li title="3天以下">续航时间：3天以下</li>
-                                    <li title="蓝牙通话">通话功能：蓝牙通话</li>
-                                    <li title="10-15种">运动模式识别：10-15种</li>
-                                    <li title="自定义表盘，睡眠监测，消息提醒，心率监测，NFC支付，久坐提醒，GPS定位，气压高度测量，多重定位，社交娱乐">功能用途：自定义表盘，睡眠监测，消息提醒，心率监测，NFC支付，久坐提醒，GPS定位，气压高度测量，多重定位，社交娱乐</li>
-                                    <li title="男士，女士，老人，儿童，通用">适用人群：男士，女士，老人，儿童，通用</li>
-                                    <li title="织布">腕带材质：织布</li>
-                                </ul>
                             </div>
-                            <iframe name="parameters-cmsCon" id="parameters-cmsCon" class="parameters-cmsCon" frameborder="0" width="100%" scrolling="no" height="auto"></iframe>
+                            {{--<iframe name="parameters-cmsCon" id="parameters-cmsCon" class="parameters-cmsCon" frameborder="0" width="100%" scrolling="no" height="auto"></iframe>--}}
                         </div>
                         {{--商品详情部分iframe--}}
                         <div class="iframe_content dis_ni">
