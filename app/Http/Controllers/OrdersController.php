@@ -300,6 +300,7 @@ class OrdersController extends Controller
     public function prePayment(PostOrderRequest $request)
     {
         $user = $request->user();
+        $saved_fee = 0;
         $total_amount = 0;
         $total_shipping_fee = 0;
         $items = [];
@@ -328,18 +329,22 @@ class OrdersController extends Controller
             $product_types[] = $product->type;
             $number = $request->query('number');
             $price = $sku->price;
+            $discounted_fee = 0;
             $discounts = $product->discounts()->orderBy('number', 'desc')->get();
             foreach ($discounts as $discount) {
                 if ($number >= $discount->number) {
                     $price = $discount->price;
+                    $discounted_fee = bcsub($sku->price, $discount->price, 2);
                     break;
                 }
             }
             $items[0]['sku'] = $sku;
             $items[0]['product'] = $product;
             $items[0]['number'] = $number;
+            $items[0]['price'] = $price;
             $items[0]['amount'] = bcmul($price, $number, 2);
             $items[0]['shipping_fee'] = bcmul($product->shipping_fee, $number, 2);
+            $saved_fee = bcmul($discounted_fee, $number, 2);
             $total_amount = bcmul($price, $number, 2);
             $total_shipping_fee = bcmul($product->shipping_fee, $number, 2);
             $is_nil = false;
@@ -361,18 +366,22 @@ class OrdersController extends Controller
                     $product_types[] = $product->type;
                 }
                 $price = $sku->price;
+                $discounted_fee = 0;
                 $discounts = $product->discounts()->orderBy('number', 'desc')->get();
                 foreach ($discounts as $discount) {
                     if ($number >= $discount->number) {
                         $price = $discount->price;
+                        $discounted_fee = bcsub($sku->price, $discount->price, 2);
                         break;
                     }
                 }
                 $items[$key]['sku'] = $sku;
                 $items[$key]['product'] = $product;
                 $items[$key]['number'] = $number;
+                $items[$key]['price'] = $price;
                 $items[$key]['amount'] = bcmul($price, $number, 2);
                 $items[$key]['shipping_fee'] = bcmul($product->shipping_fee, $number, 2);
+                $saved_fee += bcmul($discounted_fee, $number, 2);
                 $total_amount += bcmul($price, $number, 2);
                 $total_shipping_fee += bcmul($product->shipping_fee, $number, 2);
                 $is_nil = false;
@@ -437,6 +446,7 @@ class OrdersController extends Controller
             'total_amount' => $total_amount,
             'total_shipping_fee' => $total_shipping_fee,
             'total_fee' => $total_fee,
+            'saved_fee' => $saved_fee,
             'available_coupons' => $available_coupons,
             'saved_fees' => $saved_fees,
             // 'countries' => json_encode($countries),
@@ -460,7 +470,9 @@ class OrdersController extends Controller
             $total_shipping_fee = 0;
             $total_amount = 0;
             $saved_fee = 0;
+            $discount_saved_fee = 0;
             $is_nil = true;
+            $is_coupon_used = false;
 
             /* usage of coupon */
             $user_coupon = null;
@@ -485,10 +497,12 @@ class OrdersController extends Controller
                 $sku = ProductSku::find($sku_id);
                 $product = $sku->product;
                 $price = $sku->price;
+                $discounted_fee = 0;
                 $discounts = $product->discounts()->orderBy('number', 'desc')->get();
                 foreach ($discounts as $discount) {
                     if ($number >= $discount->number) {
                         $price = $discount->price;
+                        $discounted_fee = bcsub($sku->price, $discount->price, 2);
                         break;
                     }
                 }
@@ -498,15 +512,19 @@ class OrdersController extends Controller
                 $total_shipping_fee = bcmul($product->shipping_fee, $number, 2);
                 $total_amount = bcmul($price, $number, 2);
                 $is_nil = false;
+                $discount_saved_fee += bcmul($discounted_fee, $number, 2);
 
                 /* usage of coupon */
                 if ($coupon && $coupon->status == Coupon::COUPON_STATUS_USING && $coupon->type == Coupon::COUPON_TYPE_REDUCTION && in_array($product->type, $coupon->supported_product_types) && $coupon->threshold <= bcadd($total_amount, $total_shipping_fee, 2)) {
-                    $saved_fee = $coupon->reduction;
+                    $saved_fee += $coupon->reduction;
+                    $is_coupon_used = true;
                 }
                 if ($coupon && $coupon->status == Coupon::COUPON_STATUS_USING && $coupon->type == Coupon::COUPON_TYPE_DISCOUNT && in_array($product->type, $coupon->supported_product_types) && $coupon->threshold <= bcadd($total_amount, $total_shipping_fee, 2)) {
-                    $saved_fee = bcmul(bcadd($total_amount, $total_shipping_fee, 2), $coupon->discount, 2);
+                    $saved_fee += bcmul(bcadd($total_amount, $total_shipping_fee, 2), $coupon->discount, 2);
+                    $is_coupon_used = true;
                 }
                 /* usage of coupon */
+                $saved_fee += $discount_saved_fee;
             } elseif ($user && $request->has('cart_ids')) {
                 // 来自购物车的订单
                 $cart_ids = explode(',', $request->input('cart_ids'));
@@ -516,6 +534,7 @@ class OrdersController extends Controller
                 if ($coupon && $coupon->status == Coupon::COUPON_STATUS_USING && $coupon->type == Coupon::COUPON_TYPE_REDUCTION) {
                     $saved_fee = $coupon->reduction;
                     $is_product_type_supported = true;
+                    $is_coupon_used = true;
                 }
                 /* usage of coupon */
 
@@ -532,10 +551,12 @@ class OrdersController extends Controller
                     }
                     $product = $sku->product;
                     $price = $sku->price;
+                    $discounted_fee = 0;
                     $discounts = $product->discounts()->orderBy('number', 'desc')->get();
                     foreach ($discounts as $discount) {
                         if ($number >= $discount->number) {
                             $price = $discount->price;
+                            $discounted_fee = bcsub($sku->price, $discount->price, 2);
                             break;
                         }
                     }
@@ -545,14 +566,17 @@ class OrdersController extends Controller
                     $total_shipping_fee += bcmul($product->shipping_fee, $number, 2);
                     $total_amount += bcmul($price, $number, 2);
                     $is_nil = false;
+                    $discount_saved_fee += bcmul($discounted_fee, $number, 2);
 
                     /* usage of coupon */
                     if ($coupon && $coupon->status == Coupon::COUPON_STATUS_USING && $coupon->type == Coupon::COUPON_TYPE_DISCOUNT && in_array($product->type, $coupon->supported_product_types)) {
-                        $saved_fee = bcmul(bcadd($total_amount, $total_shipping_fee, 2), $coupon->discount, 2);
+                        $saved_fee += bcmul(bcadd($total_amount, $total_shipping_fee, 2), $coupon->discount, 2);
                         $is_product_type_supported = true;
+                        $is_coupon_used = true;
                     }
                     /* usage of coupon */
                 }
+
                 if ($is_nil == false) {
                     // 删除相关购物车记录
                     Cart::destroy($cart_ids);
@@ -560,7 +584,8 @@ class OrdersController extends Controller
 
                 /* usage of coupon */
                 if (!$is_product_type_supported || ($coupon && $coupon->threshold > bcadd($total_amount, $total_shipping_fee, 2))) {
-                    $saved_fee = 0;
+                    $saved_fee = $discount_saved_fee;
+                    $is_coupon_used = false;
                 }
                 /* usage of coupon */
             }
@@ -614,7 +639,7 @@ class OrdersController extends Controller
             $order->save();
 
             /* usage of coupon */
-            if (!is_null($user_coupon) && $saved_fee > 0) {
+            if (!is_null($user_coupon) && $is_coupon_used) {
                 $user_coupon->update([
                     'order_id' => $order->id,
                     'used_at' => Carbon::now()->toDateTimeString()

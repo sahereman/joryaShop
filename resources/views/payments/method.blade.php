@@ -40,7 +40,7 @@
                         <p>
                             @lang('order.Actually paid')：
                             {{--<span id="needToPay">{{ ($payment->currency == 'USD') ? '&#36;' : '&#165;' }} {{ bcadd($payment->total_amount, $payment->total_shipping_fee, 2) }}</span>--}}
-                            <span id="needToPay">{{ get_symbol_by_currency($payment->currency) }} {{ exchange_price($payment->amount, $payment->currency) }}</span>
+                            <span id="needToPay">{{ get_symbol_by_currency($payment->currency) }} {{ $payment->payment_amount }}</span>
                         </p>
                     </div>
                     <div class="right">

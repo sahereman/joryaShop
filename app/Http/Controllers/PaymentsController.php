@@ -33,7 +33,7 @@ class PaymentsController extends Controller
     protected function isAuthorized(Request $request, LocalPayment $payment)
     {
         $user = $request->user();
-        if (($user && $payment->user_id && $payment->user_id = $user->id) || ($user == null && $payment->user_id == null)) {
+        if (($user && $payment->user_id && $payment->user_id == $user->id) || ($user == null && $payment->user_id == null)) {
             return true;
         }
 
@@ -599,8 +599,9 @@ class PaymentsController extends Controller
             }
         ]
     }*/
-    public function paypalCreate(Request $request, LocalPayment $localPayment)
+    public function paypalCreate(Request $request, LocalPayment $payment)
     {
+        $localPayment = $payment;
         $this->isAuthorized($request, $localPayment);
         // 判断订单是否属于当前用户
         /*if ($request->user()->id !== $localPayment->user_id) {
@@ -691,8 +692,9 @@ class PaymentsController extends Controller
     }
 
     // GET Paypal: get the info of a payment [Test API]
-    public function paypalGet(Request $request, LocalPayment $localPayment)
+    public function paypalGet(Request $request, LocalPayment $payment)
     {
+        $localPayment = $payment;
         $this->isAuthorized($request, $localPayment);
         // 判断订单是否属于当前用户
         /*if ($request->user()->id !== $localPayment->user_id) {
@@ -737,8 +739,10 @@ class PaymentsController extends Controller
     }
 
     // GET Paypal: synchronously execute[approve|cancel] an approved|cancelled PayPal payment. 支付同步通知
-    public function paypalExecute(Request $request, LocalPayment $localPayment)
+    public function paypalExecute(Request $request, LocalPayment $payment)
     {
+        $localPayment = $payment;
+
         Log::info('Paypal Payment Synchronous Redirection Url: ' . $request->getUri());
         Log::info('An Approved|Cancelled Payment Redirection From Paypal - Synchronously: ' . collect($request->all())->toJson());
 
@@ -931,8 +935,10 @@ class PaymentsController extends Controller
     }
 
     // POST Paypal 支付异步通知 [notify_url]
-    public function paypalNotify(Request $request, LocalPayment $localPayment)
+    public function paypalNotify(Request $request, LocalPayment $payment)
     {
+        $localPayment = $payment;
+
         Log::info('Paypal Payment Asynchronous Notification Url: ' . $request->getUri());
         Log::info('An Approved|Cancelled Payment Notification From Paypal - Asynchronously: ' . collect($request->all())->toJson());
 

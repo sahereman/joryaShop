@@ -77,10 +77,10 @@
                                         <span>{{ $item['sku']->attr_value_string }}</span>
                                     </div>
                                     <div class="left w150 dis_ni center RMB_num">
-                                        <span>&#165; {{ exchange_price($item['sku']->price, 'CNY') }}</span>
+                                        <span>&#165; {{ exchange_price($item['price'], 'CNY') }}</span>
                                     </div>
                                     <div class="left w150  center dollar_num">
-                                        <span>&#36; {{ $item['sku']->price }}</span>
+                                        <span>&#36; {{ $item['price'] }}</span>
                                     </div>
                                     <div class="left w150 center counter">
                                         <span>{{ $item['number'] }}</span>
@@ -124,6 +124,7 @@
                                 <span>@lang('order.Amount payable')：</span>
                                 <span class="red dis_ni  RMB_num amount_of_money">&#165; <span>{{ exchange_price($total_fee, 'CNY') }}</span></span>
                                 <span class="red dollar_num amount_of_money">&#36; <span>{{ $total_fee }}</span></span>
+                                <span>(Saved fee: &#36; {{ $saved_fee }} )</span>
                             </p>
                             <p>
                                 <a href="javascript:void(0);" class="payment_btn"
@@ -278,6 +279,7 @@
     {{--<span class="dis_ni" id="countries" data-json="{{ $countries }}"></span>--}}
     <span class="dis_ni" id="provinces" data-json="{{ $provinces }}"></span>
 @endsection
+
 @section('scriptsAfterJs')
     <script type="text/javascript">
         $(function () {
