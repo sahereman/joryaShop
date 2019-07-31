@@ -41,7 +41,7 @@
                             </p>
                             <p class="operation_area">
                                 <a class="main_operation"
-                                   href="{{ route('orders.payment_method', ['order' => $order->id]) }}">
+                                   href="{{ route('payments.method', ['payment' => $order->payment_id]) }}">
                                     @lang('order.Immediate payment')
                                 </a>
                                 <a data-url="{{ route('orders.close', ['order' => $order->id]) }}">

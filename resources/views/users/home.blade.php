@@ -200,7 +200,7 @@
                                                         {{ generate_order_ttl_message($order->create_at, \App\Models\Order::ORDER_STATUS_PAYING) }}
                                                     </span>
                                                     <a class="payment"
-                                                       href="{{ route('orders.payment_method', ['order' => $order->id]) }}">@lang('basic.orders.payment')</a>
+                                                       href="{{ route('payments.method', ['payment' => $order->payment_id]) }}">@lang('basic.orders.payment')</a>
                                                     <a class="cancellation"
                                                        code="{{ route('orders.close', ['order' => $order->id]) }}">@lang('basic.orders.cancel order')</a>
                                                     @elseif($order->status == \App\Models\Order::ORDER_STATUS_CLOSED)

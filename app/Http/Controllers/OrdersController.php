@@ -675,7 +675,7 @@ class OrdersController extends Controller
                         'orders' => ['Please make sure that the orders are paid at the same currency']
                     ]);
                 }
-                $rate = ExchangeRate::where('currency', $currency)->first()->rate;
+                $rate = $currency == ExchangeRate::USD ? 1 : ExchangeRate::where('currency', $currency)->first()->rate;
                 $payment = Payment::create([
                     'user_id' => $user ? $user->id : null,
                     'currency' => $currency,
@@ -699,7 +699,7 @@ class OrdersController extends Controller
     }
 
     // GET 选择支付方式页面
-    public function paymentMethod(Request $request, Order $order)
+    /*public function paymentMethod(Request $request, Order $order)
     {
         $user = $request->user();
         if ($user && $order->user_id) {
@@ -715,7 +715,7 @@ class OrdersController extends Controller
         return view('orders.payment_method', [
             'order' => $order,
         ]);
-    }
+    }*/
 
     // GET 判断订单是否已经支付 [for Ajax request]
     public function isPaid(Request $request, Order $order)

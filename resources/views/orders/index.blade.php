@@ -81,12 +81,12 @@
                                     <div class="col-info pull-left">
                                      <span class="o-no">
                                          @lang('basic.users.Order_number')：
-                                         <a href="{{ route('orders.show', $order->id) }}">{{ $order->order_sn }}</a>
+                                         <a href="{{ route('orders.show', ['order' => $order->id]) }}">{{ $order->order_sn }}</a>
                                      </span>
                                     </div>
                                     @if(in_array($order->status, [\App\Models\Order::ORDER_STATUS_CLOSED, \App\Models\Order::ORDER_STATUS_COMPLETED]))
                                         <div class="col-delete pull-right"
-                                             code="{{ route('orders.destroy', $order->id) }}">
+                                             code="{{ route('orders.destroy', ['order' => $order->id]) }}">
                                             <a>
                                                 <img src="{{ asset('img/delete.png') }}">
                                             </a>
@@ -152,7 +152,7 @@
                                                     <p>@lang('basic.orders.After-sale order')</p>
                                                 @endif
                                                 <p>
-                                                    <a href="{{ route('orders.show', $order->id) }}">@lang('app.see details')</a>
+                                                    <a href="{{ route('orders.show', ['order' => $order->id]) }}">@lang('app.see details')</a>
                                                 </p>
                                             </td>
                                             <td rowspan="{{ count($order->snapshot) }}" class="col-operate">
@@ -170,9 +170,9 @@
                                                         {{ generate_order_ttl_message($order->create_at, \App\Models\Order::ORDER_STATUS_PAYING) }}
                                                     </span>
                                                     <a class="payment"
-                                                       href="{{ route('orders.payment_method', $order->id) }}">@lang('basic.orders.payment')</a>
+                                                       href="{{ route('payments.method', ['payment' => $order->payment_id]) }}">@lang('basic.orders.payment')</a>
                                                     <a class="cancellation"
-                                                       code="{{ route('orders.close', $order->id) }}">@lang('basic.orders.cancel order')</a>
+                                                       code="{{ route('orders.close', ['order' => $order->id]) }}">@lang('basic.orders.cancel order')</a>
                                                     @elseif($order->status == \App\Models\Order::ORDER_STATUS_CLOSED)
                                                             <!--再次购买-->
                                                     <a class="Buy_again"
