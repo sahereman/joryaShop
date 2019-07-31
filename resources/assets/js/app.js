@@ -911,11 +911,11 @@ $(function () {
 
 // 新版方法
 $(function () {
-    // $(".quick-login").mouseenter(function () {
-    //     $(this).addClass("dropdown");
-    //     $(".quick-login-dropdown").addClass("open")
-    // }).mouseleave(function () {
-    //     $(this).removeClass("dropdown");
-    //     $(".quick-login-dropdown").removeClass("open")
-    // })
+    $(".quick-login").mouseenter(function () {
+        $(this).addClass("dropdown");
+        $(".quick-login-dropdown").addClass("open")
+    }).mouseleave(function () {
+        $(this).removeClass("dropdown");
+        $(".quick-login-dropdown").removeClass("open")
+    })
 });

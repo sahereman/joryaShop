@@ -10,12 +10,12 @@
                 <p class="Crumbs">
                     <a href="{{ route('root') }}">@lang('basic.home')</a>
                     @if($category->parent)
-                        <span>></span>
+                        <span>/&nbsp;</span>
                         <a href="{{ route('product_categories.index', ['category' => $category->parent->id,'slug'=>$category->parent->slug]) }}">
                             {{ App::isLocale('zh-CN') ? $category->parent->name_zh : $category->parent->name_en }}
                         </a>
                     @endif
-                    <span>></span>
+                    <span>/&nbsp;</span>
                     <a href="{{ route('product_categories.index', ['category' => $category->id,'slug'=>$category->slug]) }}">{{ App::isLocale('zh-CN') ? $category->name_zh : $category->name_en }}</a>
                     <span>></span>
                     <a href="javascript:void(0);">{{ App::isLocale('zh-CN') ? $product->name_zh : $product->name_en }}</a>
@@ -226,30 +226,75 @@
                         <iframe name="cmsCon" id="cmsCon" class="cmsCon" frameborder="0" width="100%" scrolling="no" height="auto"></iframe>
                     </div>
                     <div class="mc tabcon dis_n" id="customer-reviews">
-                        <ul class="comment-score">
-                            <li>
-                                <span>@lang('product.product_details.Overall rating')</span>
-                                <h3 class="composite_index">4</h3>
-                            </li>
-                            <li>
-                                <span>@lang('product.product_details.Description match')</span>
-                                <h3 class="description_index">4</h3>
-                            </li>
-                            <li>
-                                <span>@lang('product.product_details.Logistics Services')</span>
-                                <h3 class="shipment_index">4</h3>
-                            </li>
-                        </ul>
+                        {{--<ul class="comment-score">--}}
+                            {{--<li>--}}
+                                {{--<span>@lang('product.product_details.Overall rating')</span>--}}
+                                {{--<h3 class="composite_index">4</h3>--}}
+                            {{--</li>--}}
+                            {{--<li>--}}
+                                {{--<span>@lang('product.product_details.Description match')</span>--}}
+                                {{--<h3 class="description_index">4</h3>--}}
+                            {{--</li>--}}
+                            {{--<li>--}}
+                                {{--<span>@lang('product.product_details.Logistics Services')</span>--}}
+                                {{--<h3 class="shipment_index">4</h3>--}}
+                            {{--</li>--}}
+                        {{--</ul>--}}
                         <div class="comment-items">
-                            <div class="items-title">
-                                <a class="active">@lang('product.product_details.Commodity feedback')
-                                    <strong>({{ $comment_count }})</strong></a>
-                                <!--<a>图片评价</a>-->
-                            </div>
                             <!--暂无评价-->
                             <div class="no_eva dis_n">
                                 <p>@lang('product.product_details.No evaluation information yet')</p>
                             </div>
+                            <dl>
+                                <dt>
+                                    <span class="heading">I am happy.</span>Review by <span>Tony</span>
+                                </dt>
+                                <dd>
+                                    <table class="ratings-table">
+                                        <colgroup><col width="1">
+                                            <col>
+                                        </colgroup><tbody>
+                                        <tr>
+                                            <th>Product Rating</th>
+                                            <td>
+                                                <div class="rating-box">
+                                                    <div class="rating" style="width:80%;"></div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    <p>thank you.... I was concerned about doing business like this.... you are a honest person.... I had other friends that used Apollo....
+                                        they will definitely be using you.... I intend to show them my hair that I received from you... I am sure they're going to feel the
+                                        same way I do.... I will be using you as long as I used these things... I have been using them now for over 12 years.... probably
+                                        another 20...... thank you for the quality.... thank you again for being honest and not one of those horror stories we hear at times
+                                        doing business over the Internet.</p>
+                                    <small class="date">(Posted on 3/27/2014)</small>
+                                </dd>
+                                <dt>
+                                    <span class="heading">Thank you for all your help.</span>Review by <span>Tarek</span>
+                                </dt>
+                                <dd>
+                                    <table class="ratings-table">
+                                        <colgroup><col width="1">
+                                            <col>
+                                        </colgroup><tbody>
+                                        <tr>
+                                            <th>Product Rating</th>
+                                            <td>
+                                                <div class="rating-box">
+                                                    <div class="rating" style="width:100%;"></div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    <p>Just wanted to thank you for all your help in ordering my first unit from you. The second unit came through just as ordered.
+                                        The quality of the hair and the piece is excellent - much better than what I was getting here in the US. I'm recommending
+                                        your company to my other friends that wear hair - I'm sure that they will be equally satisfied.</p>
+                                    <small class="date">(Posted on 6/29/2013)</small>
+                                </dd>
+                            </dl>
                         </div>
                         <!--分页-->
                         <div class="paging_box">
@@ -268,11 +313,45 @@
                     </div>-->
                 </div>
             </div>
+            {{-- 友情推荐 --}}
+            <div class="box-additional">
+                <div class="box-additional-title">
+                    <h2>Related Products</h2>
+                    <div class="swiper-butrton-box">
+                        <div class="swiper-button-prev swiper-button-black"></div>
+                        <div class="swiper-button-next swiper-button-black"></div>
+                    </div>
+                </div>
+                <div class="carousel-content">
+                    <div class="swiper-container banner" id="carousel">
+                        <div class="swiper-wrapper">
+                            @foreach($guesses as $guess)
+                                <div class="swiper-slide">
+                                        <div class="product-image">
+                                            <a href="{{ route('products.show', ['product' => $guess->id,'slug'=>$guess->slug]) }}">
+                                                <img src="{{ $guess->thumb_url }}">
+                                            </a>
+                                        </div>
+                                        <div class="product-details">
+                                            <h3 class="product-name">S22: Ultra Thin Skin Base with V-looped Human Hair Wigs for Men</h3>
+                                            <div class="price-box">
+                                                <span class="original_price"><i>{{ get_global_symbol() }} </i>{{ bcmul(get_current_price($guess->price), 1.2, 2) }}</span>
+                                                <span class="present_price"><i>{{ get_global_symbol() }} </i>{{ get_current_price($guess->price) }}</span>
+                                            </div>
+                                            <a class="related-add-to-wishlist" href="#">Add to Wishlist</a>
+                                        </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 @endsection
 @section('scriptsAfterJs')
     <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5d3faaaad4206199"></script>
+    <script src="{{ asset('js/swiper/js/swiper.js') }}"></script>
     <script type="text/javascript">
         var loading_animation;  // loading动画的全局name
         var current_page;  // 评价的当前页
@@ -404,7 +483,7 @@
             $(tabId + " .tabcon").hide();
             $(tabId + " .tabcon").eq(tabNum).show();
             if (tabNum == 1) {
-                getComments(1);
+                // getComments(1);
             }
         }
         //切换
@@ -468,13 +547,14 @@
                 type: "GET",
                 url: url,
                 beforeSend: function () {
-                    loading_animation = layer.msg("@lang('app.Please wait')", {
-                        icon: 16,
-                        shade: 0.4,
-                        time: false, // 取消自动关闭
-                    });
+                    {{--loading_animation = layer.msg("@lang('app.Please wait')", {--}}
+                        {{--icon: 16,--}}
+                        {{--shade: 0.4,--}}
+                        {{--time: false, // 取消自动关闭--}}
+                    {{--});--}}
                 },
                 success: function (json) {
+                    console.log(json)
                     var dataObj = json.data.comments.data;
                     var dataObj_photo;
                     if (dataObj.length <= 0) {
@@ -488,42 +568,80 @@
                         var html = "";
                         // var name;
                         var attributes;
-                        $(".composite_index").text((json.data.composite_index).toFixed(1));
-                        $(".description_index").text((json.data.description_index).toFixed(1));
-                        $(".shipment_index").text((json.data.shipment_index).toFixed(1));
+                        // $(".composite_index").text((json.data.composite_index).toFixed(1));
+                        // $(".description_index").text((json.data.description_index).toFixed(1));
+                        // $(".shipment_index").text((json.data.shipment_index).toFixed(1));
                         $.each(dataObj, function (i, n) {
                             // name = (country == "中文") ? n.order_item.sku.name_zh : n.order_item.sku.name_en;
                             attributes = (country == "中文") ? n.order_item.sku.attributes_zh : n.order_item.sku.attributes_en;
                             dataObj_photo = n.photo_urls;
-                            html += "<div class='item'>";
-                            html += "<div class='evaluation_results_left'>";
-                            html += "<div class='eva_user_img'>";
-                            html += "<img src='" + n.user.avatar_url + "'>";
-                            html += "</div>";
-                            html += "<span>" + n.user.name + "</span>";
-                            html += "</div>";
-                            html += "<div class='evaluation_results_right'>";
-                            html += "<div class='five_star_evaluation'>";
-                            html += "<img src='" + "{{ config('app.url') }}" + "/img/star-" + n.composite_index + ".png' />";
-                            html += "</div>";
-                            html += "<p class='product_attributes'>";
-                            // html += "<span>" + name + "</span>";
-                            html += "<span>" + attributes + "</span>";
-                            html += "</p>";
-                            html += "<p class='eva_text'>" + n.content + "</p>";
-                            html += "<ul class='evaluation_img'>";
-                            $.each(dataObj_photo, function (a, b) {
-                                html += "<li class='eva_img'>";
-                                html += "<img src='" + b + "'>";
-                                html += "</li>";
-                            });
-                            html += "</ul>";
-                            html += "<p class='eva_date'>" + n.created_at + "</p>";
-                            html += "</div>";
-                            html += "</div>";
+                            html+="<dt>"
+                            html+="<span class='heading'>I am happy.</span>Review by <span>"+ n.user.name  +"</span>"
+                            html+="</dt>"
+                            html+="<dd>"
+                            html+="<table class='ratings-table'>"
+                            html+="<colgroup><col width='1'>"
+                            html+="<col>"
+                            html+="</colgroup><tbody>"
+                            html+="<tr>"
+                            html+="<th>Product Rating</th>"
+                            html+="<td>"
+                            html+="<div class='rating-box'>"
+                            switch (n.composite_index) {
+                                case 1:
+                                    html+="<div class='rating' style='width:20%;'></div>"
+                                    break;
+                                case 2:
+                                    html+="<div class='rating' style='width:40%;'></div>"
+                                    break;
+                                case 3:
+                                    html+="<div class='rating' style='width:60%;'></div>"
+                                    break;
+                                case 4:
+                                    html+="<div class='rating' style='width:80%;'></div>"
+                                    break;
+                                case 5:
+                                    html+="<div class='rating' style='width:100%;'></div>"
+                                    break;
+                            }
+                            html+="</div>"
+                            html+="</td>"
+                            html+="</tr>"
+                            html+="</tbody>"
+                            html+="</table>"
+                            html+="<p>"+ n.content +"</p>"
+                            html+="<small class='date'>(Posted on "+ n.created_at +")</small>"
+                            html+="</dd>"
+
+                            {{--html += "<div class='item'>";--}}
+                            {{--html += "<div class='evaluation_results_left'>";--}}
+                            {{--html += "<div class='eva_user_img'>";--}}
+                            {{--html += "<img src='" + n.user.avatar_url + "'>";--}}
+                            {{--html += "</div>";--}}
+                            {{--html += "<span>" + n.user.name + "</span>";--}}
+                            {{--html += "</div>";--}}
+                            {{--html += "<div class='evaluation_results_right'>";--}}
+                            {{--html += "<div class='five_star_evaluation'>";--}}
+                            {{--html += "<img src='" + "{{ config('app.url') }}" + "/img/star-" + n.composite_index + ".png' />";--}}
+                            {{--html += "</div>";--}}
+                            {{--html += "<p class='product_attributes'>";--}}
+                            {{--// html += "<span>" + name + "</span>";--}}
+                            {{--html += "<span>" + attributes + "</span>";--}}
+                            {{--html += "</p>";--}}
+                            {{--html += "<p class='eva_text'>" + n.content + "</p>";--}}
+                            {{--html += "<ul class='evaluation_img'>";--}}
+                            {{--$.each(dataObj_photo, function (a, b) {--}}
+                                {{--html += "<li class='eva_img'>";--}}
+                                {{--html += "<img src='" + b + "'>";--}}
+                                {{--html += "</li>";--}}
+                            {{--});--}}
+                            {{--html += "</ul>";--}}
+                            {{--html += "<p class='eva_date'>" + n.created_at + "</p>";--}}
+                            {{--html += "</div>";--}}
+                            {{--html += "</div>";--}}
                         });
-                        $(".comment-items .no_eva").nextAll().remove();
-                        $(".comment-items").append(html);
+                        $(".comment-items dl").html("");
+                        $(".comment-items dl").append(html);
                         $(".pre_page").attr("data-url", json.data.comments.prev_page_url);
                         $(".next_page").attr("data-url", json.data.comments.next_page_url);
                         $(".pre_page").attr("code", json.data.comments.from);
@@ -549,7 +667,7 @@
                     }
                 },
                 complete: function () {
-                    layer.close(loading_animation);
+                    // layer.close(loading_animation);
                 }
             });
             // 放大镜的缩略图的上一页与下一页
@@ -1073,8 +1191,24 @@
                 $(".std").find("p").addClass("active");
             }
         })
-
-
-
+    //    友情链接
+        var swiper = new Swiper('#carousel', {
+            centeredSlides: true,
+            loop: true,
+            speed: 200,
+            effect : 'slide',
+            preventLinksPropagation: true,
+            fadeEffect: {
+                crossFade: true,
+            },
+            autoplay: {
+                delay: 6000,
+                disableOnInteraction: false,
+            },
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+        });
     </script>
 @endsection

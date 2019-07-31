@@ -634,14 +634,14 @@
             var edit_province = document.getElementById('edit_user_province');
 
             // 给第一个选项卡中的option赋值
-            edit_country.options.length = edit_country.length;
-            edit_country.options[0].text = 'Please select a country';
-            edit_country.options[0].value = 0;
-            for (var i = 0; i < edit_country.options.length; i++) {
-                //key = i + 1;
-                edit_country.options[i].text = edit_country[i];
-                edit_country.options[i].value = edit_country[i];
-            }
+            // edit_country.options.length = edit_country.length;
+            // edit_country.options[0].text = 'Please select a country';
+            // edit_country.options[0].value = 0;
+            // for (var i = 0; i < edit_country.options.length; i++) {
+            //     //key = i + 1;
+            //     edit_country.options[i].text = edit_country[i];
+            //     edit_country.options[i].value = edit_country[i];
+            // }
 
             // 初始化第二个选项卡，默认显示"请选择城市"
             edit_province.options.length = 1;

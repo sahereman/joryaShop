@@ -30,8 +30,12 @@
 
 
 // 通用样式
-body {
-font-family: "Microsoft YaHei",Hiragino Sans GB, "Hiragino Sans GB", Helvetica,  Arial, sans-serif;
+body,
+html{
+  color: #333;
+  font: 75%/150% Verdana,Lucida Grande,sans-serif;
+  font-size: 14px;
+//font-family: "Microsoft YaHei",Hiragino Sans GB, "Hiragino Sans GB", Helvetica,  Arial, sans-serif;
 }
 
 li,
@@ -107,12 +111,13 @@ img {
 
 //面包屑
 .Crumbs {
-    font-size: 12px;
-    color: #999;
-    margin: 10px 0;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+  font-size: 14px;
+  color: #999;
+  margin: 25px 0;
+  overflow: hidden;
+  line-height: 24px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 //通用属性
 .error {

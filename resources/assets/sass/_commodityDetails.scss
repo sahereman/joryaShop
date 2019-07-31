@@ -468,6 +468,7 @@
         line-height: 17.5px;
         border-bottom: 2px solid #000;
         p {
+          font-size: 1rem;
           margin-bottom: 25px;
           height: 35px;
           overflow-y: hidden;
@@ -1140,4 +1141,148 @@
             }
         }
     }
+//  友情推荐
+  .box-additional {
+    width: 100%;
+    .box-additional-title {
+      position: relative;
+      width: 100%;
+      padding: 7px 0;
+      //margin-bottom: 20px;
+      border-bottom: 1px solid #e5e5e5;
+      h2 {
+        font-size: 21px;
+        padding-right: 80px;
+        font-weight: 400;
+      }
+    }
+    .carousel-content {
+      position: relative;
+      #carousel {
+        .swiper-slide {
+          padding: 20px 10px;
+          >div {
+            float: left;
+            &.product-image {
+              width: 100px;
+              height: 145px;
+              img {
+                width: 100%;
+                height: 100%;
+              }
+            }
+            &.product-details {
+              margin-left: 10px;
+              h3 {
+                margin-top: 0;
+                margin-bottom: 5px;
+                font-size: 1em;
+                line-height: 1.25em;
+                font-family: inherit;
+                font-weight: inherit;
+                display: inline-block;
+              }
+              .price-box {
+                margin-bottom: 5px;
+                i {
+                  font-style: normal;
+                }
+                .present_price {
+                  color: #ee001c !important;
+                }
+                .original_price {
+                  margin-right: 15px;
+                  font-size: 1em;
+                  line-height: 1.25em;
+                  color: #aaa;
+                  text-decoration: line-through;
+                }
+              }
+              .related-add-to-wishlist {
+                font-size: 1em;
+                line-height: 1.25em;
+                font-family: inherit;
+                font-weight: inherit;
+                display: inline-block;
+                color: #aaa;
+              }
+            }
+          }
+        }
+      }
+    }
+    .swiper-butrton-box {
+      position: absolute;
+      right: 0;
+      bottom: 5px;
+      width: 61px;
+      height: 30px;
+      overflow: hidden;
+      div {
+        top: 0;
+        margin-top: 0;
+        width: 30px;
+        height: 30px;
+        line-height: 30px;
+        text-align: center;
+        cursor: pointer;
+        text-decoration: none;
+        overflow: hidden;
+        background-color: #eeeeee;
+        background-size: 30%;
+      }
+      .swiper-button-prev {
+        left: 0;
+      }
+      .swiper-button-next {
+        right: 0;
+      }
+    }
+  }
+//  评价新格式
+  .comment-items {
+    font-size: 1rem;
+    .heading {
+      font-weight: 400;
+      font-size: 1.5em;
+      margin-right: 10px;
+    }
+    dd {
+      margin: 0 0 15px 15px;
+      padding-bottom: 15px;
+      border-bottom: 1px dashed #e5e5e5;
+    }
+    .ratings-table {
+      margin: 5px 0;
+      th,
+      td {
+        line-height: 1.1666em;
+        padding: 3px 0;
+      }
+      th {
+        padding-right: 8px;
+      }
+      .rating-box {
+        width: 69px;
+        height: 13px;
+        font-size: 0;
+        line-height: 0;
+        background: url(../img/rating.png) 0 0 repeat-x;
+        text-indent: -999em;
+        overflow: hidden;
+        .rating {
+          float: left;
+          height: 13px;
+          background: url(../img/rating.png) 0 100% repeat-x;
+        }
+      }
+    }
+    .date {
+      display: block;
+      margin-top: 3px;
+      font-style: italic;
+      color: #aaa;
+      font-size: 1rem;
+    }
+  }
 }
