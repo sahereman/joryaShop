@@ -65,7 +65,7 @@ class Menu extends Model
             $pc_menus = self::where([
                 'slug' => 'pc',
                 'parent_id' => 0,
-            ])->orderByDesc('sort')->with('children.children')->get();
+            ])->orderBy('sort')->with('children.children')->get();
             return $pc_menus;
         });
     }
@@ -90,7 +90,7 @@ class Menu extends Model
             $pc_menus = self::where([
                 'slug' => 'sub_pc',
                 'parent_id' => 0,
-            ])->orderByDesc('sort')->get();
+            ])->orderBy('sort')->get();
             return $pc_menus;
         });
     }
