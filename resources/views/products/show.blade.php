@@ -4,7 +4,7 @@
 @section('title', $product->seo_title ? : (App::isLocale('zh-CN') ? $product->name_zh : $product->name_en) . ' - ' . \App\Models\Config::config('title'))
 @section('content')
     <div class="commodity-details">
-        <div class="m-wrapper">
+        <div class="m-wrapper container">
             <!--面包屑-->
             <div>
                 <p class="Crumbs">
@@ -400,12 +400,12 @@
             // layer.msg("@lang('product.product_details.Please select specifications')");
             // } else {
             $(".reduce").removeClass('no_allow');
-            if (parseInt($("#pro_num").val()) < sku_stock) {
+            // if (parseInt($("#pro_num").val()) < sku_stock) {
                 var num = parseInt($("#pro_num").val()) + 1;
                 $("#pro_num").val(num);
-            } else {
-                layer.msg("@lang('order.Cannot add more quantities')");
-            }
+            // } else {
+                {{--layer.msg("@lang('order.Cannot add more quantities')");--}}
+            // }
             // }
         });
         $(".reduce").on("click", function () {
@@ -963,13 +963,13 @@
                             sku_parameter.optionHtml += "<option value='" + storage_value_content.value + "'>"+ storage_value_content.value +"</option>"
                         });
                         aimSelect = $(".sku-choose-store").find("select[name='"+ storage_value.name +"']");
+                        $(aimSelect).find("option").remove();
+                        $(aimSelect).append(sku_parameter.optionHtml);
                         $.each(already_selected,function (already_selected_key,already_selected_value) {
                             if(aimSelect.attr("data-index") == already_selected_value.select_index) {
                                 $(aimSelect).find("option[value='"+ already_selected_value.value +"']").attr("selected",true);
                             }
                         });
-                        $(aimSelect).find("option").remove();
-                        $(aimSelect).append(sku_parameter.optionHtml);
                         // $(aimSelect).find("option[value='"+ selected_val +"']").attr("selected",true);
                     })
                 // }else {
