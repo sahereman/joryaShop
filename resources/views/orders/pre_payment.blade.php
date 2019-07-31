@@ -74,7 +74,7 @@
                                         <span>{{ App::isLocale('zh-CN') ? $item['product']->name_zh : $item['product']->name_en }}</span>
                                     </div>
                                     <div class="left w150 Specifications_info center">
-                                        <span>{{ App::isLocale('zh-CN') ? $item['sku']->parameters_zh : $item['sku']->parameters_en }}</span>
+                                        <span>{{ $item['sku']->attr_value_string }}</span>
                                     </div>
                                     <div class="left w150 dis_ni center RMB_num">
                                         <span>&#165; {{ exchange_price($item['sku']->price, 'CNY') }}</span>

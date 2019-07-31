@@ -189,7 +189,7 @@
                                 {{ App::isLocale('zh-CN') ? $item['product']->name_zh : $item['product']->name_en }}
                             </div>
                             <div class="goodsSpec">
-                                <span>{{ App::isLocale('zh-CN') ? $item['sku']->parameters_zh : $item['sku']->parameters_en }}</span>
+                                <span>{{ $item['sku']->attr_value_string }}</span>
                             </div>
                             <div class="goodsPri">
                                 <div>

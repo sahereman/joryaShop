@@ -531,7 +531,8 @@
                                 $(".description_index").text((data.data.description_index).toFixed(1));
                                 $(".shipment_index").text((data.data.shipment_index).toFixed(1));
                                 $.each(dataObj, function (i, n) {
-                                    parameters = ($(".gIntroConEvaluate").attr("code") == "zh") ? n.order_item.sku.parameters_zh : n.order_item.sku.parameters_en;
+                                    // parameters = ($(".gIntroConEvaluate").attr("code") == "zh") ? n.order_item.sku.parameters_zh : n.order_item.sku.parameters_en;
+                                    parameters = n.order_item.sku.attr_value_string;
                                     dataObj_photo = n.photo_urls;
                                     html += "<div class='commentDetail'>";
                                     html += "<div class='comUser'>";

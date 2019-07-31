@@ -243,7 +243,7 @@
                                             </p>
                                             <p>
                                                 {{--{{ App::isLocale('en') ? $order_item['sku']['name_en'] : $order_item['sku']['name_zh'] }}--}}
-                                                {{ App::isLocale('zh-CN') ? $order_item['sku']['parameters_zh'] : $order_item['sku']['parameters_en'] }}
+                                                {{ $order_item['sku']['attr_value_string'] }}
                                             </p>
                                             <p>
                                                 @lang('order.Unit Price')

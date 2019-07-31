@@ -819,11 +819,11 @@ class OrdersController extends Controller
         $order->commented_at = Carbon::now()->toDateTimeString();
         $order->save();
 
-        if (\Browser::isMobile()) {
+        /*if (\Browser::isMobile()) {
             return redirect()->route('mobile.orders.show_comment', [
                 'order' => $order->id,
             ]);
-        }
+        }*/
         return redirect()->route('orders.show_comment', [
             'order' => $order->id,
         ]);

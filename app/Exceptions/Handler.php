@@ -47,19 +47,16 @@ class Handler extends ExceptionHandler
         return parent::render($request, $exception);
     }
 
-    protected function unauthenticated($request, AuthenticationException $exception)
+    /*protected function unauthenticated($request, AuthenticationException $exception)
     {
-        if (\Browser::isMobile())
-        {
+        if (\Browser::isMobile()) {
             return $request->expectsJson()
                 ? response()->json(['message' => $exception->getMessage()], 401)
                 : redirect()->guest(route('mobile.login.show'));
-        } else
-        {
+        } else {
             $parsedUrl = parse_url(redirect()->back()->getTargetUrl());
             $urlArray = [];
-            if (isset($parsedUrl['query']))
-            {
+            if (isset($parsedUrl['query'])) {
                 parse_str($parsedUrl['query'], $urlArray);
             }
             $urlArray['action'] = 'login';
@@ -77,6 +74,5 @@ class Handler extends ExceptionHandler
                 ], 401)
                 : redirect()->intended($redirectUrl);
         }
-
-    }
+    }*/
 }

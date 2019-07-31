@@ -55,7 +55,7 @@
                                             <a class="specifications"
                                                href="{{ route('products.show', ['product' =>  $order_item['sku']['product']['id'],'slug'=> $order_item['sku']['product']['slug']]) }}">
                                                 {{--{{ App::isLocale('en') ? $order_item['sku']['name_en'] : $order_item['sku']['name_zh'] }}--}}
-                                                {{ App::isLocale('zh-CN') ? $order_item['sku']['parameters_zh'] : $order_item['sku']['parameters_en'] }}
+                                                {{ $order_item['sku']['attr_value_string'] }}
                                             </a>
                                         </p>
                                     </td>

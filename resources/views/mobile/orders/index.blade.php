@@ -160,7 +160,8 @@
                                         $.each(order.snapshot, function (i, order_item) {
                                             name = ($(".orderMain").attr("code") == "en") ? order_item.sku.product.name_en : order_item.sku.product.name_zh;
                                             // sku_name = ($(".orderMain").attr("code") == "en") ? order_item.sku.name_en : order_item.sku.name_zh;
-                                            sku_parameters = ($(".orderMain").attr("code") == "en") ? order_item.sku.parameters_en : order_item.sku.parameters_zh;
+                                            // sku_parameters = ($(".orderMain").attr("code") == "en") ? order_item.sku.parameters_en : order_item.sku.parameters_zh;
+                                            sku_parameters = order_item.sku.attr_value_string;
                                             // price = (order.currency == "CNY") ? order_item.sku.product.price : order_item.sku.product.price_in_usd;
                                             price = order_item.sku.price;
                                             total_price1 = float_multiply_by_100(order.total_amount) + float_multiply_by_100(order.total_shipping_fee);
