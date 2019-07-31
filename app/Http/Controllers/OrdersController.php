@@ -327,12 +327,20 @@ class OrdersController extends Controller
             $product = $sku->product;
             $product_types[] = $product->type;
             $number = $request->query('number');
+            $price = $sku->price;
+            $discounts = $product->discounts()->orderBy('number', 'desc')->get();
+            foreach ($discounts as $discount) {
+                if ($number >= $discount->number) {
+                    $price = $discount->price;
+                    break;
+                }
+            }
             $items[0]['sku'] = $sku;
             $items[0]['product'] = $product;
             $items[0]['number'] = $number;
-            $items[0]['amount'] = bcmul($sku->price, $number, 2);
+            $items[0]['amount'] = bcmul($price, $number, 2);
             $items[0]['shipping_fee'] = bcmul($product->shipping_fee, $number, 2);
-            $total_amount = bcmul($sku->price, $number, 2);
+            $total_amount = bcmul($price, $number, 2);
             $total_shipping_fee = bcmul($product->shipping_fee, $number, 2);
             $is_nil = false;
         } elseif ($user && $request->has('cart_ids')) {
@@ -352,12 +360,20 @@ class OrdersController extends Controller
                 if (!in_array($product->type, $product_types)) {
                     $product_types[] = $product->type;
                 }
+                $price = $sku->price;
+                $discounts = $product->discounts()->orderBy('number', 'desc')->get();
+                foreach ($discounts as $discount) {
+                    if ($number >= $discount->number) {
+                        $price = $discount->price;
+                        break;
+                    }
+                }
                 $items[$key]['sku'] = $sku;
                 $items[$key]['product'] = $product;
                 $items[$key]['number'] = $number;
-                $items[$key]['amount'] = bcmul($sku->price, $number, 2);
+                $items[$key]['amount'] = bcmul($price, $number, 2);
                 $items[$key]['shipping_fee'] = bcmul($product->shipping_fee, $number, 2);
-                $total_amount += bcmul($sku->price, $number, 2);
+                $total_amount += bcmul($price, $number, 2);
                 $total_shipping_fee += bcmul($product->shipping_fee, $number, 2);
                 $is_nil = false;
             }
@@ -469,6 +485,13 @@ class OrdersController extends Controller
                 $sku = ProductSku::find($sku_id);
                 $product = $sku->product;
                 $price = $sku->price;
+                $discounts = $product->discounts()->orderBy('number', 'desc')->get();
+                foreach ($discounts as $discount) {
+                    if ($number >= $discount->number) {
+                        $price = $discount->price;
+                        break;
+                    }
+                }
                 $snapshot[0]['sku_id'] = $sku_id;
                 $snapshot[0]['price'] = $price;
                 $snapshot[0]['number'] = $number;
@@ -509,6 +532,13 @@ class OrdersController extends Controller
                     }
                     $product = $sku->product;
                     $price = $sku->price;
+                    $discounts = $product->discounts()->orderBy('number', 'desc')->get();
+                    foreach ($discounts as $discount) {
+                        if ($number >= $discount->number) {
+                            $price = $discount->price;
+                            break;
+                        }
+                    }
                     $snapshot[$key]['sku_id'] = $sku->id;
                     $snapshot[$key]['price'] = $price;
                     $snapshot[$key]['number'] = $cart->number;
