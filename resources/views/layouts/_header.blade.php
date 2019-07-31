@@ -57,7 +57,7 @@
                     </div>
                 </div>
                 <div class="item item-left" id="why-lordhair">
-                    <a href="javascript:void(0)">Why Lyricalhair?</a>
+                    <a href="{{ route('articles.show', ['slug' => 'why_lyricalhair']) }}">Why Lyricalhair?</a>
                 </div>
             </div>
             <div class="right-column">
