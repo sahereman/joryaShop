@@ -48,9 +48,11 @@
                                     </a>
                                 </div>
                                 <div class="left w120 center kindofpro">
-                                    <span>{{ App::isLocale('zh-CN') ? $cart->sku->base_size_zh : $cart->sku->base_size_en }}</span>
-                                    <span>{{ App::isLocale('zh-CN') ? $cart->sku->hair_colour_zh : $cart->sku->hair_colour_en }}</span>
-                                    <span>{{ App::isLocale('zh-CN') ? $cart->sku->hair_density_zh : $cart->sku->hair_density_en }}</span>
+                                    <span>{{ $cart->sku->attr_value_string }}</span>
+
+                                    {{--<span>{{ App::isLocale('zh-CN') ? $cart->sku->base_size_zh : $cart->sku->base_size_en }}</span>--}}
+                                    {{--<span>{{ App::isLocale('zh-CN') ? $cart->sku->hair_colour_zh : $cart->sku->hair_colour_en }}</span>--}}
+                                    {{--<span>{{ App::isLocale('zh-CN') ? $cart->sku->hair_density_zh : $cart->sku->hair_density_en }}</span>--}}
                                 </div>
                                 <div class="left w100 center">
                                     {{--<span>{{ App::isLocale('en') ? '&#36;' : '&#165;' }}</span>--}}
