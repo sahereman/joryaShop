@@ -16,35 +16,35 @@ class ExchangeRatesSeeder extends Seeder
         /*汇率基准: 美元(USD) $1.00*/
         // 澳元
         ExchangeRate::create([
-            'name' => 'USD to AUD',
+            'name' => 'Australian Dollar',
             'currency' => 'AUD',
             'rate' => 1.40,
         ]);
 
         // 英镑
         ExchangeRate::create([
-            'name' => 'USD to GBP',
+            'name' => 'British Pound Sterling',
             'currency' => 'GBP',
             'rate' => 0.77,
         ]);
 
         // 加元
         ExchangeRate::create([
-            'name' => 'USD to CAD',
+            'name' => 'Canadian Dollar',
             'currency' => 'CAD',
             'rate' => 1.32,
         ]);
 
         // 欧元
         ExchangeRate::create([
-            'name' => 'USD to EUR',
+            'name' => 'Euro',
             'currency' => 'EUR',
             'rate' => 0.88,
         ]);
 
         // 卢布
         ExchangeRate::create([
-            'name' => 'USD to RUB',
+            'name' => 'Russian Ruble',
             'currency' => 'RUB',
             'rate' => 62.75,
         ]);

@@ -25,12 +25,12 @@ class ExchangeRate extends Model
      * Reference: http://www.runoob.com/charsets/ref-utf-currency.html
      */
     public static $symbolMap = [
-        self::USD => '&#36;', // '&dollar;'
-        self::AUD => '&#36;', // '&dollar;'
+        self::USD => 'US&#36;', // '&dollar;'
+        self::AUD => 'AU&#36;', // '&dollar;'
         self::GBP => '&#163;', // '&pound;'
-        self::CAD => '&#36;', // '&dollar;'
+        self::CAD => 'CA&#36;', // '&dollar;'
         self::EUR => '&#8364;', // '&euro;'
-        self::RUB => '&#8381;' ,
+        self::RUB => '&#8381;' , //&#8381;
         // self::CNY => '&#165;', // '&yen;'
         // self::HKD => '&#36;', // '&dollar;'
         // self::JPY => '&#20870;', // '&#165;' or '&yen;'
