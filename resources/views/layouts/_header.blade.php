@@ -5,9 +5,9 @@
                 <div id="currency-switcher-wrapper-regular" class="item item-left">
                     <div class="currency-switcher dropdown active">
                         <a href="#" class="dropdown-heading cover" type="button" data-toggle="dropdown" aria-haspopup="true"
-                               aria-expanded="false">
+                           aria-expanded="false">
                             <span>
-                               <span class="value">@lang('app.switch currency')</span>
+                               <span class="value">{{session('GlobalCurrency') ? session('GlobalCurrency') : 'USD'}}</span>
                                 <span class="caret">&nbsp;</span>
                             </span>
                         </a>
@@ -15,16 +15,16 @@
                             <li>
                                 <a href="{{ route('currency.update', ['currency' => 'USD']) }}">
                                     {{--<img src="{{ asset('img/header/en_flag.png') }}">--}}
-                                    <span>&#36;</span>
-                                    <span>USD</span>
+                                    {{--<span>&#36;</span>--}}
+                                    <span>USD - US Doller</span>
                                 </a>
                             </li>
                             @foreach(\App\Models\ExchangeRate::all() as $exchangeRate)
                                 <li>
                                     <a href="{{ route('currency.update', ['currency' => $exchangeRate->currency]) }}">
                                         {{--<img src="{{ asset('img/header/en_flag.png') }}">--}}
-                                        <span>{{ \App\Models\ExchangeRate::$symbolMap[$exchangeRate->currency] }}</span>
-                                        <span>{{ $exchangeRate->currency }}</span>
+                                        {{--<span>{{ \App\Models\ExchangeRate::$symbolMap[$exchangeRate->currency] }}</span>--}}
+                                        <span>{{ $exchangeRate->currency }} - {{$exchangeRate->name}}</span>
                                     </a>
                                 </li>
                             @endforeach
@@ -41,18 +41,18 @@
                             </span>
                         </a>
                         {{--<ul class="dropdown-menu" aria-labelledby="dLabel">--}}
-                            {{--<li>--}}
-                                {{--<a href="{{ route('locale.update', ['locale' => 'zh-CN']) }}">--}}
-                                    {{--<img src="{{ asset('img/header/cn_flag.png') }}">--}}
-                                    {{--<span>中文</span>--}}
-                                {{--</a>--}}
-                            {{--</li>--}}
-                            {{--<li>--}}
-                                {{--<a href="{{ route('locale.update', ['locale' => 'en']) }}">--}}
-                                    {{--<img src="{{ asset('img/header/en_flag.png') }}">--}}
-                                    {{--<span>English</span>--}}
-                                {{--</a>--}}
-                            {{--</li>--}}
+                        {{--<li>--}}
+                        {{--<a href="{{ route('locale.update', ['locale' => 'zh-CN']) }}">--}}
+                        {{--<img src="{{ asset('img/header/cn_flag.png') }}">--}}
+                        {{--<span>中文</span>--}}
+                        {{--</a>--}}
+                        {{--</li>--}}
+                        {{--<li>--}}
+                        {{--<a href="{{ route('locale.update', ['locale' => 'en']) }}">--}}
+                        {{--<img src="{{ asset('img/header/en_flag.png') }}">--}}
+                        {{--<span>English</span>--}}
+                        {{--</a>--}}
+                        {{--</li>--}}
                         {{--</ul>--}}
                     </div>
                 </div>
