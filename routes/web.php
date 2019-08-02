@@ -239,6 +239,6 @@ Route::post('feedbacks', 'FeedbacksController@store')->name('feedbacks.store'); 
 
 /*Socialites*/
 Route::get('socialites/login/{socialite}', 'SocialitesController@login')->name('socialites.login'); // Socialite Login Url
-Route::post('socialites/callback/{socialite}', 'SocialitesController@callback')->name('socialites.callback'); // Socialite Callback Url
-Route::post('socialites/deauthorize/{socialite}', 'SocialitesController@deauthorize')->name('socialites.deauthorize'); // Socialite Deauthorize Url
-Route::post('socialites/delete/{socialite}', 'SocialitesController@delete')->name('socialites.delete'); // Socialite Delete Url
+Route::get('socialites/callback/{socialite}', 'SocialitesController@callback')->name('socialites.callback'); // Socialite Callback Url
+Route::get('socialites/deauthorize/{socialite}', 'SocialitesController@deauthorize')->name('socialites.deauthorize'); // Socialite Deauthorize Url
+Route::get('socialites/delete/{socialite}', 'SocialitesController@delete')->name('socialites.delete'); // Socialite Delete Url
