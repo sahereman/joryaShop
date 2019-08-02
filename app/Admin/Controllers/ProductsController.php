@@ -805,7 +805,7 @@ class ProductsController extends Controller
         switch ($product->type)
         {
             case Product::PRODUCT_TYPE_COMMON:
-                return redirect()->route('admin.products.show', ['product' => $product->id]);
+                return redirect()->route('admin.product_skus.index', ['product_id' => $product->id]);
                 break;
             case Product::PRODUCT_TYPE_PERIOD:
                 if ($period_product = $product->period)
@@ -826,7 +826,8 @@ class ProductsController extends Controller
                 }
                 break;
             default:
-                return redirect()->route('admin.products.show', ['product' => $product->id]);
+                return redirect()->route('admin.product_skus.index', ['product_id' => $product->id]);
+//                return redirect()->route('admin.products.show', ['product' => $product->id]);
         }
     }
 
