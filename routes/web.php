@@ -236,3 +236,7 @@ Route::get('payments/get_wechat_open_id', 'PaymentsController@getWechatOpenId')-
 
 /*留言板*/
 Route::post('feedbacks', 'FeedbacksController@store')->name('feedbacks.store'); // 提交订阅|发布留言
+
+/*Socialites*/
+Route::get('socialites/login/{socialite}', 'SocialitesController@login')->name('socialites.login'); // Socialite Login Url
+Route::post('socialites/callback/{socialite}', 'SocialitesController@callback')->name('socialites.callback'); // Socialite Callback Url
