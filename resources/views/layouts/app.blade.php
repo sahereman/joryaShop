@@ -19,6 +19,9 @@
     <link href="{{ asset('js/swiper/css/swiper.css') }}" rel="stylesheet">
     <link href="{{ asset('js/shareJS/css/share.min.css') }}" rel="stylesheet">
     {{--@if(App::isLocale('en'))--}}
+    <link rel="stylesheet" href="{{ asset('js/lord/colorbox.css') }}">
+    <link rel="stylesheet" href="{{ asset('js/lord/cloudzoom.css') }}">
+    <link rel="stylesheet" href="{{ asset('js/lord/thumbelina.css') }}">
 </head>
 <body>
 <div id="app" class="{{ route_class() }}-page"

@@ -21,46 +21,45 @@
                     <a href="javascript:void(0);">{{ App::isLocale('zh-CN') ? $product->name_zh : $product->name_en }}</a>
                 </p>
             </div>
+            {{-- 社会化分享 --}}
+            <div class="addthis_inline_share_toolbox"></div>
             <!--详情上半部分-->
             <div class="commodity_parameters">
-                <!--商品放大镜效果-->
+                <!--商品放大镜效果新版-->
                 <div class="magnifierContainer">
-                    @if($product->photo_urls)
-                        <div class="imgLeft">
-                            <!-- 中号图片 -->
-                            <div class="imgMedium" id="imgMedium">
-                                <!-- 放大镜 -->
-                                <div class="magnifier" id="magnifier">
-                                    <img src="{{ asset('img/zoom_pup.png') }}">
+                    <div class="product-img-column">
+                        <div class="img-box img-box-style1">
+                            @if($product->photo_urls)
+                                <div id="surround">
+                                    <div class="big-img-box">
+                                        <img class="cloudzoom" alt ="Cloud Zoom small image" id ="zoom1" src="{{ $product->photo_urls[0] }}"
+                                             data-cloudzoom='zoomSizeMode:"image",autoInside: true,tintOpacity:0,lensOpacity:0,zoomPosition:"inside",zoomMatchSize:true,zoomFullSize:true'>
+                                        <a id="zoom-btn" class="lightbox-group  zoomColorBoxs zoom-btn-small"
+                                            href="{{ $product->photo_urls[0] }}"
+                                            title="">Zoom</a>
+                                    </div>
+                                    <div id="slider1">
+                                        <div class="thumbelina-but horiz left">&#706;</div>
+                                        <ul>
+                                            @foreach($product->photo_urls as $key => $photo_url)
+                                                <li>
+                                                    @if ($key == 0)
+                                                        <a href="{{ $photo_url }}">
+                                                    @else
+                                                        <a class="zoomColorBoxs" href="{{ $photo_url }}">
+                                                    @endif
+                                                        <img class='cloudzoom-gallery' src="{{ $photo_url }}"
+                                                             data-cloudzoom ="useZoom:'.cloudzoom', image:'{{ $photo_url }}' ">
+                                                    </a>
+                                                </li>
+                                            @endforeach
+                                        </ul>
+                                        <div class="thumbelina-but horiz right">&#707;</div>
+                                    </div>
                                 </div>
-                                <!-- 图片 -->
-                                <div class="mediumContainer" id="mediumContainer">
-                                    <img class="lazy" data-src="{{ $product->photo_urls[0] }}">
-                                </div>
-                                <div id="zhezhao"></div>
-                            </div>
-                            <!-- 缩略图 -->
-                            <div class="spec-scroll">
-                                <a class="prev">&lt;</a>
-                                <a class="next">&gt;</a>
-                                <div class="img_items">
-                                    <ul class="img_x" id="img_x">
-                                        @foreach($product->photo_urls as $photo_url)
-                                            <li code="{{ $photo_url }}">
-                                                <img code="{{ $photo_url }}" src="{{ $photo_url }}">
-                                            </li>
-                                        @endforeach
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="imgRight">
-                            <!-- 大图 -->
-                            <div class="img_u" id="img_u">
-                                <img src="{{ $product->photo_urls[0] }}">
-                            </div>
-                        </div>
-                    @endif
+                            @endif
+                        </div><!-- end: img-box -->
+                    </div>
                 </div>
                 <!--商品参数-->
                 <div class="parameters_content">
@@ -161,17 +160,67 @@
                     <!--添加购物车与立即购买-->
                     <div class="addCart_buyNow">
                         @guest
-                        <a class="add_carts for_show_login" href="{{ route('login') }}}">
-                            @lang('app.Add to Shopping Cart')
-                        </a>
+                            <a class="buy_now for_show_login">
+                                @lang('product.product_details.Buy now')
+                            </a>
+                            <a class="add_carts for_show_login" href="{{ route('login') }}}">
+                                @lang('app.Add to Shopping Cart')
+                            </a>
                         @else
-                           <a class="add_carts" data-url="{{ route('carts.store') }}">
-                               @lang('app.Add to Shopping Cart')
-                           </a>
-                           @endguest
+                            <a class="buy_now" data-url="{{ route('orders.pre_payment') }}">
+                                @lang('product.product_details.Buy now')
+                            </a>
+                            <a class="add_carts" data-url="{{ route('carts.store') }}">
+                                @lang('app.Add to Shopping Cart')
+                            </a>
+                        @endguest
+                        <a class="add_favourites {{ $favourite ? 'active' : '' }}" code="{{ $product->id }}"
+                           data-url="{{ route('user_favourites.store') }}"
+                           data-url_2="{{ $favourite ? route('user_favourites.destroy', ['favourite' => $favourite->id]) : '' }}">
+                            {{--<span class="favourites_img"></span>--}}
+                            <img src="{{ asset('img/favorite-eye.png') }}" alt="">
+                            <span>Add to watch list</span>
+                        </a>
                     </div>
-                    {{-- 社会化分享 --}}
-                    <div class="addthis_inline_share_toolbox"></div>
+                    {{-- 运费等介绍 --}}
+                    <div class="shipping-detail">
+                        <div class="content-box shipping-info">
+                            <div class="info-title">
+                                <span>Shipping:</span>
+                            </div>
+                            <div class="info-content">
+                                <p> <span class="info-content-price">$50.55 (approx. RMB 348.06)</span>USPS Priority Mail International | <a class="info-content-details" href="#">See details</a></p>
+                            </div>
+                        </div>
+                        <div class="content-box">
+                            <div class="info-content">
+                                <p>International items may be subject to customs processing and additional charges.<a href=""></a></p>
+                            </div>
+                        </div>
+                        <div class="content-box">
+                            <div class="info-content">
+                                <p>tem location:</p>
+                                <p>Monterey Park, California, United States</p>
+                                <p>Ships to: <span>Worldwide</span></p>
+                            </div>
+                        </div>
+                        <div class="content-box payment-info">
+                            <div class="info-title">
+                                <span>Payments:</span>
+                            </div>
+                            <div class="info-content">
+                                <img src="{{ asset('img/payment-all.png') }}" alt="">
+                            </div>
+                        </div>
+                        <div class="content-box return-info">
+                            <div class="info-title">
+                                <span>Return:</span>
+                            </div>
+                            <div class="info-content">
+                                <p><span class="info-content-price">Free 30 day returns| </span><a class="info-content-details" href="">See details</a></p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <!--详情下半部分-->
@@ -335,7 +384,34 @@
 @section('scriptsAfterJs')
     <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5d3faaaad4206199"></script>
     <script src="{{ asset('js/swiper/js/swiper.js') }}"></script>
+    {{--<script src="{{ asset('js/promagnifying/js/smoothproducts.min.js') }}"></script>--}}
+    <script src="{{ asset('js/lord/jquery.colorbox.min.js') }}"></script>
+    <script src="{{ asset('js/lord/jquery.owlcarousel.min.js') }}"></script>
+    <script src="{{ asset('js/lord/cloudzoom.js') }}"></script>
+    <script src="{{ asset('js/lord/thumbelina.js') }}"></script>
     <script type="text/javascript">
+        {{-- 初始化zoom --}}
+        CloudZoom.quickStart();
+        // 初始化slider
+        $(function(){
+            $('#slider1').Thumbelina({
+                $bwdBut:$('#slider1 .left'),
+                $fwdBut:$('#slider1 .right')
+            });
+        });
+        //Init lightbox  图片弹窗
+        $(".zoomColorBoxs").colorbox({
+            rel:		'zoomColorBoxs',
+            opacity:	0.5,
+            speed:		300,
+            current:	'{current} / {total}',
+            previous: '',
+            next: '',
+            close: '',  //No comma here
+            maxWidth:'95%',
+            maxHeight:'95%'
+        });
+
         var loading_animation;  // loading动画的全局name
         var current_page;  // 评价的当前页
         var next_page;   // 下一页的页码
@@ -482,7 +558,7 @@
             if ($(this).hasClass('for_show_login') == true) {
                 $(".login").click();
             } else {
-                getSkuId()
+                getSkuId();
                 var data = {
                     _token: "{{ csrf_token() }}",
                     sku_id: sku_id,
@@ -516,7 +592,7 @@
             } else {
                 var url = clickDom.attr('data-url');
                 // 获取sku_id
-                getSkuId()
+                getSkuId();
                 window.location.href = url + "?sku_id=" + sku_id + "&number=" + $("#pro_num").val() + "&sendWay=1";
             }
         });
@@ -803,7 +879,7 @@
         // </div>
         $.each(skus_map,function (sku_map_i,sku_map_n) {
             sku_parameter.html += "<div class='priceOfpro forgetSel'>"
-            sku_parameter.html += "<span class='dynamic_name'>"+ sku_map_n.name +"</span>"
+            sku_parameter.html += "<span class='dynamic_name'>"+ sku_map_n.name +" <a href='#'><img src='{{ asset('img/photo-choose.png') }}'></a></span>"
             sku_parameter.html += "<select data-index='"+ sku_map_i +"' name='"+ sku_map_n.name +"'>"
             var sku_map_item =arrayUnique2(sku_map_n.data,'value');
             $.each(sku_map_item,function (sku_map_data_i,sku_map_data_n) {
@@ -1185,7 +1261,7 @@
                 crossFade: true,
             },
             autoplay: {
-                delay: 6000000000000000000000,
+                delay: 6000,
                 disableOnInteraction: false,
             },
             navigation: {
