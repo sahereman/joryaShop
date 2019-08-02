@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ParamValue extends Model
+class AttrValue extends Model
 {
     /**
      * The attributes that are mass assignable.
@@ -12,14 +12,14 @@ class ParamValue extends Model
      * @var array
      */
     protected $fillable = [
-        'param_id',
+        'attr_id',
         'value',
         'sort'
     ];
 
     /* Eloquent Relationships */
-    public function param()
+    public function attr()
     {
-        return $this->belongsTo(Param::class);
+        return $this->belongsTo(Attr::class);
     }
 }

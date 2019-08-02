@@ -97,6 +97,8 @@ class AttrsController extends Controller
         ];
         $grid->column('has_photo', '是否有对应图片')->switch($states);*/
 
+        $grid->values('SKU 属性值 总数')->count();
+
         $grid->sort('排序值')->sortable();
         // $grid->created_at('Created at');
         // $grid->updated_at('Updated at');
@@ -119,6 +121,20 @@ class AttrsController extends Controller
         $show->has_photo('是否有对应图片')->as(function ($has_photo) {
             return $has_photo ? '是' : '否';
         });
+
+        $show->values('SKU 属性值 - 列表', function ($value) {
+            /*禁用*/
+            $value->disableActions();
+            $value->disableRowSelector();
+            $value->disableExport();
+            $value->disableFilter();
+            $value->disableCreateButton();
+            $value->disablePagination();
+
+            $value->value('SKU 属性值');
+            $value->sort('排序值');
+        });
+
         $show->sort('排序值');
         // $show->created_at('Created at');
         // $show->updated_at('Updated at');
@@ -137,6 +153,12 @@ class AttrsController extends Controller
 
         $form->text('name', 'SKU 属性名称');
         $form->switch('has_photo', '是否有对应图片');
+
+        $form->hasMany('values', 'SKU 属性值 - 列表', function (NestedForm $form) {
+            $form->text('value', 'SKU 属性值');
+            $form->number('sort', '排序值')->help('默认倒序排列：数值越大越靠前');
+        });
+
         $form->number('sort', '排序值');
 
         $form->saved(function (Form $form) {

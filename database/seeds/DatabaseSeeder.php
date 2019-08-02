@@ -65,6 +65,7 @@ class DatabaseSeeder extends Seeder
 
         // SKU 属性
         $this->call(AttrsSeeder::class);
+        $this->call(AttrValuesSeeder::class);
         $this->call(ProductAttrsSeeder::class);
         $this->call(ProductSkuAttrValuesSeeder::class);
 

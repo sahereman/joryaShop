@@ -25,4 +25,10 @@ class Attr extends Model
     protected $casts = [
         'has_photo' => 'boolean'
     ];
+
+    /* Eloquent Relationships */
+    public function values()
+    {
+        return $this->hasMany(AttrValue::class)->orderByDesc('sort');
+    }
 }

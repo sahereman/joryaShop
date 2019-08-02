@@ -7,13 +7,15 @@ namespace App\Admin\Controllers;
 use App\Admin\Models\ProductSku;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Request;
+use App\Models\Attr;
+use App\Models\AttrValue;
 use App\Models\Product;
 use App\Models\ProductAttr;
 use App\Models\ProductSkuAttrValue;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
 use Encore\Admin\Form\Builder;
-// use Encore\Admin\Form\NestedForm;
+use Encore\Admin\Form\NestedForm;
 use Encore\Admin\Form\Tools;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
@@ -331,11 +333,18 @@ class ProductSkusController extends Controller
         $form->number('stock', '库存');
         $form->number('sales', '销量');
 
-        $product->attrs->each(function (ProductAttr $productAttr) use ($form) {
+        $product_sku_attr_values = [];
+        Attr::all()->each(function (Attr $attr) use (&$product_sku_attr_values) {
+            $attr->values->each(function (AttrValue $attrValue) use ($attr, &$product_sku_attr_values) {
+                $product_sku_attr_values[$attr->name][$attrValue->value] = $attrValue->value;
+            });
+        });
+        $product->attrs->each(function (ProductAttr $productAttr) use ($form, $product_sku_attr_values) {
             $form->divider();
             $form->hidden("attr_value_options.{$productAttr->id}.name")->default($productAttr->name);
             $form->display("attr_value_options.{$productAttr->id}.name", 'SKU 属性名称')->default($productAttr->name);
-            $form->text("attr_value_options.{$productAttr->id}.value", 'SKU 属性值')->rules('required');
+            // $form->text("attr_value_options.{$productAttr->id}.value", 'SKU 属性值')->rules('required');
+            $form->select("attr_value_options.{$productAttr->id}.value", 'SKU 属性值')->options($product_sku_attr_values[$productAttr->name])->rules('required');
             $form->number("attr_value_options.{$productAttr->id}.sort", '排序值')->default($productAttr->sort);
         });
 
