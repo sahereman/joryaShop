@@ -6,6 +6,7 @@ use App\Exceptions\InvalidRequestException;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Overtrue\LaravelSocialite\Socialite;
 
 class SocialitesController extends Controller
@@ -34,10 +35,59 @@ class SocialitesController extends Controller
         try {
             $user_info = Socialite::driver($socialite)->user();
         } catch (\Exception $e) {
-            return redirect()->route('socialites.login', ['socialite' => $socialite]);
+            // return redirect()->route('root');
+            throw new InvalidRequestException($e->getMessage());
         }
         $user = $this->findOrCreateUser($user_info, $socialite);
         Auth::login($user);
+        return redirect()->route('root');
+    }
+
+    // POST: Socialite Deauthorize Url
+    public function deauthorize(Request $request, string $socialite)
+    {
+        try {
+            $user_info = Socialite::driver($socialite)->user();
+        } catch (\Exception $e) {
+            // return redirect()->route('root');
+            throw new InvalidRequestException($e->getMessage());
+        }
+        if (!in_array($socialite, $this->supportedSocialites) && $socialite == 'facebook') {
+            $user = User::where([
+                'facebook' => $user_info->id
+            ])->first();
+
+            if ($user) {
+                $user->update([
+                    'facebook' => null
+                ]);
+            }
+        } else {
+            throw new InvalidRequestException("Socialite {$socialite} is not supported yet");
+        }
+        return redirect()->route('root');
+    }
+
+    // POST: Socialite Delete Url
+    public function delete(Request $request, string $socialite)
+    {
+        try {
+            $user_info = Socialite::driver($socialite)->user();
+        } catch (\Exception $e) {
+            // return redirect()->route('root');
+            throw new InvalidRequestException($e->getMessage());
+        }
+        if (!in_array($socialite, $this->supportedSocialites) && $socialite == 'facebook') {
+            $user = User::where([
+                'facebook' => $user_info->id
+            ])->first();
+
+            if ($user) {
+                $user->delete();
+            }
+        } else {
+            throw new InvalidRequestException("Socialite {$socialite} is not supported yet");
+        }
         return redirect()->route('root');
     }
 
