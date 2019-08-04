@@ -168,16 +168,16 @@
                             <td>{{$value['value']}}</td>
                         @endforeach
                         <td>
-                            <input class="form-control" type="text" id="skus[{{ $sku->id }}][delta_price]" name="skus[{{ $sku->id }}][delta_price]" value="{{ $sku->delta_price }}">
+                            <input style="width: 80px" class="form-control" type="text" id="skus[{{ $sku->id }}][delta_price]" name="skus[{{ $sku->id }}][delta_price]" value="{{ $sku->delta_price }}">
                         </td>
                         <td>
-                            <input class="form-control" type="text" id="skus[{{ $sku->id }}][stock]" name="skus[{{ $sku->id }}][stock]" value="{{ $sku->stock }}">
+                            <input style="width: 60px" class="form-control" type="text" id="skus[{{ $sku->id }}][stock]" name="skus[{{ $sku->id }}][stock]" value="{{ $sku->stock }}">
                         </td>
                         <td>
-                            <input class="form-control" type="text" id="skus[{{ $sku->id }}][stock_increment]" name="skus[{{ $sku->id }}][stock_increment]" value="0">
+                            <input style="width: 60px" class="form-control" type="text" id="skus[{{ $sku->id }}][stock_increment]" name="skus[{{ $sku->id }}][stock_increment]" value="0">
                         </td>
                         <td>
-                            <input class="form-control" type="text" id="skus[{{ $sku->id }}][stock_decrement]" name="skus[{{ $sku->id }}][stock_decrement]" value="0">
+                            <input style="width: 60px" class="form-control" type="text" id="skus[{{ $sku->id }}][stock_decrement]" name="skus[{{ $sku->id }}][stock_decrement]" value="0">
                         </td>
                         <td><a class="btn btn-default" onclick="RemoveSku(this)" remove_url="{{route('admin.product_skus.destroy',$sku->id)}}">Remove</a></td>
                     </tr>
