@@ -1,0 +1,31 @@
+{
+  "name": "jquery-table-sort",
+  "version": "0.1.2",
+  "description": "Table sort plugin for jQuery.",
+  "main": "lib/jquery.table_sort.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/i2bskn/jquery-table-sort.git"
+  },
+  "keywords": [
+    "jquery-plugin",
+    "ecosystem:jquery"
+  ],
+  "author": "i2bskn",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/i2bskn/jquery-table-sort/issues"
+  },
+  "homepage": "http://i2bskn.github.io/jquery-table-sort/",
+  "devDependencies": {
+    "gulp": "^3.8.11",
+    "gulp-jsmin": "^0.1.5",
+    "gulp-rename": "^1.2.2"
+  },
+  "dependencies": {
+    "jquery": ">=1.7"
+  }
+}

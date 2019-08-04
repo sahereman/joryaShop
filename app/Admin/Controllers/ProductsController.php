@@ -204,11 +204,12 @@ class ProductsController extends Controller
                     . '<i class="fa fa-archive"></i>&nbsp;SKU 编辑器'
                     . '</a>'
                     . '</div>&nbsp;'
-                    . '<div class="btn-group pull-right" style="margin-right: 5px">'
-                    . '<a href="' . route('admin.product_skus.index', ['product_id' => $id]) . '" class="btn btn-sm btn-success">'
-                    . '<i class="fa fa-list"></i>&nbsp;SKU - 列表'
-                    . '</a>'
-                    . '</div>&nbsp;');
+//                    . '<div class="btn-group pull-right" style="margin-right: 5px">'
+//                    . '<a href="' . route('admin.product_skus.index', ['product_id' => $id]) . '" class="btn btn-sm btn-success">'
+//                    . '<i class="fa fa-list"></i>&nbsp;SKU - 列表'
+//                    . '</a>'
+//                    . '</div>&nbsp;'
+                );
                 /*. '<div class="btn-group pull-right" style="margin-right: 5px">'
                 . '<a href="' . route('admin.discount_products.index', ['product_id' => $id]) . '" class="btn btn-sm btn-success">'
                 . '<i class="fa fa-list"></i>&nbsp;优惠策略 - 列表'
@@ -420,21 +421,23 @@ class ProductsController extends Controller
             $form->hidden('_from_')->default(Builder::MODE_EDIT);
             $product_id = $this->product_id;
             $form->tools(function (Form\Tools $tools) use ($product_id) {
-                $tools->append('<div class="btn-group pull-right" style="margin-right: 5px">'
-                    . '<a href="' . route('admin.products.sku_generator_show', ['product' => $product_id]) . '" class="btn btn-sm btn-success">'
-                    . '<i class="fa fa-archive"></i>&nbsp;SKU 生成器'
-                    . '</a>'
-                    . '</div>&nbsp;'
-                    . '<div class="btn-group pull-right" style="margin-right: 5px">'
+                $tools->append(
+//                    '<div class="btn-group pull-right" style="margin-right: 5px">'
+//                    . '<a href="' . route('admin.products.sku_generator_show', ['product' => $product_id]) . '" class="btn btn-sm btn-success">'
+//                    . '<i class="fa fa-archive"></i>&nbsp;SKU 生成器'
+//                    . '</a>'
+//                    . '</div>&nbsp;'
+                    '<div class="btn-group pull-right" style="margin-right: 5px">'
                     . '<a href="' . route('admin.products.sku_editor_show', ['product' => $product_id]) . '" class="btn btn-sm btn-success">'
                     . '<i class="fa fa-archive"></i>&nbsp;SKU 编辑器'
                     . '</a>'
                     . '</div>&nbsp;'
-                    . '<div class="btn-group pull-right" style="margin-right: 5px">'
-                    . '<a href="' . route('admin.product_skus.index', ['product_id' => $product_id]) . '" class="btn btn-sm btn-success">'
-                    . '<i class="fa fa-list"></i>&nbsp;SKU - 列表'
-                    . '</a>'
-                    . '</div>&nbsp;');
+//                    . '<div class="btn-group pull-right" style="margin-right: 5px">'
+//                    . '<a href="' . route('admin.product_skus.index', ['product_id' => $product_id]) . '" class="btn btn-sm btn-success">'
+//                    . '<i class="fa fa-list"></i>&nbsp;SKU - 列表'
+//                    . '</a>'
+//                    . '</div>&nbsp;'
+                );
                 /*. '<div class="btn-group pull-right" style="margin-right: 5px">'
                 . '<a href="' . route('admin.discount_products.index', ['product_id' => $product_id]) . '" class="btn btn-sm btn-success">'
                 . '<i class="fa fa-list"></i>&nbsp;优惠策略 - 列表'
@@ -637,7 +640,7 @@ class ProductsController extends Controller
 
             if (request()->input('_from_') == Builder::MODE_CREATE && $product->type != Product::PRODUCT_TYPE_CUSTOM)
             {
-                return redirect()->route('admin.products.sku_generator_show', ['product' => $product_id]);
+                return redirect()->route('admin.products.sku_editor_show', ['product' => $product_id]);
             }
         });
 
@@ -802,10 +805,14 @@ class ProductsController extends Controller
             // 'price' => $request->input('price', $product->price),
             'stock' => $request->input('stock') ? $request->input('stock') * $sku_count : 0,
         ]);
+
+        return redirect()->route('admin.products.sku_editor_show', ['product' => $product->id]);
+
+
         switch ($product->type)
         {
             case Product::PRODUCT_TYPE_COMMON:
-                return redirect()->route('admin.product_skus.index', ['product_id' => $product->id]);
+                return redirect()->route('admin.products.sku_editor_show', ['product' => $product->id]);
                 break;
             case Product::PRODUCT_TYPE_PERIOD:
                 if ($period_product = $product->period)
@@ -826,13 +833,16 @@ class ProductsController extends Controller
                 }
                 break;
             default:
-                return redirect()->route('admin.product_skus.index', ['product_id' => $product->id]);
+                return redirect()->route('admin.products.sku_editor_show', ['product' => $product->id]);
+//                return redirect()->route('admin.product_skus.index', ['product_id' => $product->id]);
 //                return redirect()->route('admin.products.show', ['product' => $product->id]);
         }
     }
 
     public function skuEditorShow(Request $request, Product $product, Content $content)
     {
+        $product = Product::with(['skus','skus.attr_values'])->find($product->id);
+        $skus = $product->skus;
         $errors = $request->session()->get('errors');
         $messages = [];
         if ($errors instanceof ViewErrorBag)
@@ -844,6 +854,7 @@ class ProductsController extends Controller
             ->description('商品 - SKU 编辑器')
             ->body(view('admin.product.sku_editor', [
                 'product' => $product,
+                'skus' =>$skus,
                 'messages' => $messages,
             ]));
     }
@@ -870,6 +881,6 @@ class ProductsController extends Controller
 
         $product->update(['stock' => $stock]);
 
-        return redirect()->route('admin.products.show', ['product' => $product->id]);
+        return redirect()->route('admin.products.edit', ['product' => $product->id]);
     }
 }
