@@ -21,6 +21,7 @@ app('view')->prependNamespace('admin', resource_path('views/admin'));
 Admin::js('vendor/laravel-admin/bootstrap-fileinput/js/plugins/purify.js');
 Admin::js('vendor/laravel-admin/bootstrap-fileinput/js/plugins/sortable.js');
 Admin::js('vendor/laravel-admin/laravel-admin-ext-chart/Chart.bundle.min.js');
+Admin::js('vendor/laravel-admin/jquery-table-sort-master/jquery.table_sort.min.js');
 
 // 2019-01-22
 // Admin::js(asset('js/admin/product.js'));
