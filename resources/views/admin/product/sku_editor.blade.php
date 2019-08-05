@@ -102,7 +102,7 @@
                                                         <span class="input-group-btn pic_btn" style="overflow: hidden;">
                                                             <img src="{{ $value->sku->photo != '' ?  $value->sku->photo_url :  asset('img/pic_upload.png') }}"
                                                                  style="height: 34px;border: 1px solid #ccc;padding: 2px;">
-                                                            <input type="file" name="image" data-url="{{ route('image.upload') }}"
+                                                            <input type="file" name="image" data-url="{{ route('image.upload') }}" onchange="imgChange(this)"
                                                                    style="opacity: 0;position: absolute;top: 0;width: 100%;height: 100%;">
                                                         </span>
                                                         <input type="text" name="{{ $attr->id }}" data_path='{{ $value->sku->photo != '' ?  $value->sku->photo : ''}}'
@@ -246,6 +246,7 @@
         inputBox = tableName.find(".input-group");
     selectDom.hide();
     tableName.on("focus",".table_value",function () { // input绑定焦点事件，触发时打开焦点开关
+        selectDom.hide();
         $(this).siblings(".skus-select-dropdown").show();
         isBox = true;
     });

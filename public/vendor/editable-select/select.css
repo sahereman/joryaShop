@@ -2,7 +2,7 @@
     position: absolute;
     top: 34px;
     left: 0px;
-    width: 300px;
+    width: calc(100% - 40px);
     background-color: #FFF;
     border: 1px solid #d2d6de;
     border-top: 0;
