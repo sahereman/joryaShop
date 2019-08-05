@@ -182,8 +182,14 @@
                 @foreach($skus as $sku)
                     <tr>
                         <td>
-                            {{--<input type="file" id="skus[{{ $sku->id }}][photo]" name="skus[{{ $sku->id }}][photo]" value="{{ $sku->photo }}">--}}
-                            <img src="{{ $sku->photo_url }}" style="max-width:60px;max-height:200px" class="img img-thumbnail">
+                            <img src="{{ $sku->photo_url }}" style="min-width:60px;min-height:60px;max-width:60px;max-height:200px" class="img img-thumbnail">
+                            <div class="changeImgArea" style="position: relative;width: 40px;height:40px;overflow: hidden;margin-top: 5px;">
+                                <input type="file" id="skus[{{ $sku->id }}][photo]" name="skus[{{ $sku->id }}][photo]" value="{{ $sku->photo }}"
+                                       style="width: 75px;position: absolute;top: 0;z-index: 5;opacity: 0">
+                                <button type="button" class="btn-group btn btn-primary" aria-label="Left Align" style="position: absolute;top: 0;">
+                                    <span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span>
+                                </button>
+                            </div>
                         </td>
                         @foreach($sku->attr_values as $value)
                             <td>{{$value['value']}}</td>
