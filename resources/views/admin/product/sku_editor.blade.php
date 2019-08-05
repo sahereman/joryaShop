@@ -83,8 +83,7 @@
                                 @endif
 
                                 @foreach($attr->values->unique('value') as $value)
-                                    {{--{{dd($value,$attr)}}--}}
-                                    @if($value->product_attr_id == $attr->product_id)
+                                    @if($value->name == $attr->name)
                                         <tr>
                                             <td>
                                                 <div class="input-group">
