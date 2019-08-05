@@ -1,5 +1,4 @@
 <script type="text/javascript" src="{{asset('vendor/laravel-admin/jquery-table-sort-master/jquery.table_sort.min.js')}}"></script>
-
 @if ($messages)
     <div class="alert alert-danger alert-dismissable">
         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
@@ -67,10 +66,22 @@
                                                                    style="opacity: 0;position: absolute;top: 0;width: 100%;height: 100%;" onchange="imgChange(this)">
                                                         </span>
                                                     <input type="text" name="{{ $attr->id }}" data_path=''
-                                                           class="form-control table_value" value="">
+                                                           class="form-control table_value" value="" autocomplete="off">
+                                                    <span class="tip-l"></span>
+                                                    <ul class="skus-select-dropdown">
+                                                        <li>Holle Word</li>
+                                                        <li>这是一个测试</li>
+                                                        <li>简单的dome</li>
+                                                    </ul>
                                                 @else
                                                     <input type="text" name="{{ $attr->id }}" data_path=''
-                                                           class="form-control table_value" value="">
+                                                           class="form-control table_value" value="" autocomplete="off">
+                                                    <span class="tip-l"></span>
+                                                    <ul class="skus-select-dropdown">
+                                                        <li>Holle Word</li>
+                                                        <li>这是一个测试</li>
+                                                        <li>简单的dome</li>
+                                                    </ul>
                                                 @endif
                                                 <span class="input-group-btn">
                                                         <button class="btn btn-danger" type="button" onclick="delCol()">
@@ -92,13 +103,25 @@
                                                             <img src="{{ $value->sku->photo != '' ?  $value->sku->photo_url :  asset('img/pic_upload.png') }}"
                                                                  style="height: 34px;border: 1px solid #ccc;padding: 2px;">
                                                             <input type="file" name="image" data-url="{{ route('image.upload') }}"
-                                                                   style="opacity: 0;position: absolute;top: 0;width: 100%;height: 100%;" onchange="imgChange(this)">
+                                                                   style="opacity: 0;position: absolute;top: 0;width: 100%;height: 100%;">
                                                         </span>
                                                         <input type="text" name="{{ $attr->id }}" data_path='{{ $value->sku->photo != '' ?  $value->sku->photo : ''}}'
-                                                               class="form-control table_value" value="{{$value->value}}">
+                                                               class="form-control table_value" value="{{$value->value}}" autocomplete="off">
+                                                        <span class="tip-l"></span>
+                                                        <ul class="skus-select-dropdown">
+                                                            <li>Holle Word</li>
+                                                            <li>这是一个测试</li>
+                                                            <li>简单的dome</li>
+                                                        </ul>
                                                     @else
                                                         <input type="text" name="{{ $attr->id }}" data_path=''
-                                                               class="form-control table_value" value="{{$value->value}}">
+                                                               class="form-control table_value" value="{{$value->value}}" autocomplete="off">
+                                                        <span class="tip-l"></span>
+                                                        <ul class="skus-select-dropdown">
+                                                            <li>Holle Word</li>
+                                                            <li>这是一个测试</li>
+                                                            <li>简单的dome</li>
+                                                        </ul>
                                                     @endif
 
 
@@ -212,10 +235,44 @@
     //     return obj;
     // }
 
+    // $('.editable-select').editableSelect({
+    //     effects: 'slide',
+    // });
+    // 表格中的input输入框select的选择事件
+    var isBox = false; // 定义一个触发焦点事件的开关，默认为不开启状态 || 也可以给input设置一个属性，来判断
+    var tableName = $(".attr_table")
+        selectDom = tableName.find(".skus-select-dropdown"),
+        inputDom = tableName.find(".table_value"),
+        inputBox = tableName.find(".input-group");
+    selectDom.hide();
+    tableName.on("focus",".table_value",function () { // input绑定焦点事件，触发时打开焦点开关
+        $(this).siblings(".skus-select-dropdown").show();
+        isBox = true;
+    });
+    tableName.on("mousemove",".input-group",function () { // 鼠标进入input-box区域内打开焦点开关
+        isBox = true;
+    });
+    tableName.on("mouseout",".input-group",function () { // 鼠标离开input-box区域内关闭焦点开关
+        isBox = false;
+    });
+    tableName.on("blur",".table_value",function () { // input失去焦点时通过焦点开关状态判断鼠标所在区域
+        if (isBox == true) return false;
+        $(this).siblings(".skus-select-dropdown").hide();
+    });
+    tableName.on("click","li",function () {
+        isBox = false;
+        var text = $(this).text();
+        $(this).parent().siblings(".table_value").val(text);
+        $(this).parents(".skus-select-dropdown").hide();
+    });;
 
     function addCol() {
         var _$this = $(event.target);
         var addRowCom = "<tr>" + _$this.parents("table").find("tr")[1].innerHTML + "</tr>";
+        var newSelect = _$this.parents("tr").find(".editable-select");
+        newSelect.on("focus",function () {
+            _$this.parents("tr").find("ul").css("display","block")
+        });
         _$this.parents("tr").before(addRowCom);
         _$this.parents("tr").prev().find("img").attr('src', "{{ asset('img/pic_upload.png') }}");
         _$this.parents("tr").prev().find("input").val("");

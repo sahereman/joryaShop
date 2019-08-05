@@ -1,0 +1,37 @@
+.skus-select-dropdown {
+    position: absolute;
+    top: 34px;
+    left: 0px;
+    width: 300px;
+    background-color: #FFF;
+    border: 1px solid #d2d6de;
+    border-top: 0;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+    z-index: 999;
+    padding: 0;
+    margin: 0;
+}
+.tip-l {
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 10px solid #555;
+    display: inline-block;
+    right: 45px;
+    z-index: 2;
+    position: absolute;
+    top: 12px;
+}
+.skus-select-dropdown li {
+    display: block;
+    line-height: 34px;
+    padding: 0 6px;
+    min-height: 34px;
+    cursor: pointer;
+}
+
+.skus-select-dropdown li:hover {
+    background-color: #367fa9;
+    color: #FFF;
+}
