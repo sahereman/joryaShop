@@ -83,7 +83,8 @@
                                 @endif
 
                                 @foreach($attr->values->unique('value') as $value)
-                                    @if($value->name == $attr->name)
+                                    {{--{{dd($value,$attr)}}--}}
+                                    @if($value->product_attr_id == $attr->product_id)
                                         <tr>
                                             <td>
                                                 <div class="input-group">
@@ -122,8 +123,6 @@
                                 </tr>
                             </table>
                         </div>
-
-
                     @endforeach
                 </div>
             </div>
@@ -142,9 +141,9 @@
             <table class="table table-hover table-sort">
                 <thead>
                 <tr>
-                    @if($product->skus->first())
+                    @if($skus->first())
                         <th>Photo</th>
-                        @foreach($product->skus->first()->attr_value_options as $option)
+                        @foreach($skus->first()->attr_value_options as $option)
                             <th>{{$option['attr']['name']}} <i class="fa fa-sort"></i></th>
                         @endforeach
                         <th>Delta Price</th>

@@ -841,7 +841,7 @@ class ProductsController extends Controller
 
     public function skuEditorShow(Request $request, Product $product, Content $content)
     {
-        $product = Product::with(['skus','skus.attr_values'])->find($product->id);
+        $product = Product::with(['attrs.values','skus','skus.attr_values'])->find($product->id);
         $skus = $product->skus;
         $errors = $request->session()->get('errors');
         $messages = [];
