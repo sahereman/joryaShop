@@ -252,7 +252,7 @@
         inputBox = tableName.find(".input-group");
     selectDom.hide();
     tableName.on("focus",".table_value",function () { // input绑定焦点事件，触发时打开焦点开关
-        selectDom.hide();
+        $(".container-fluid").find(".skus-select-dropdown").hide();
         $(this).siblings(".skus-select-dropdown").show();
         isBox = true;
     });
@@ -380,9 +380,12 @@
             var totalAttrs = [];
             var totalTabs = $(".box-body").find(".attr_table");
             var photo_tab = $(".photo_tab").find("tr");
-            if ($(".attr_table").find("input[type=text]").val() == "") {
-                alert("请完善信息!");
-                return;
+            var allSkuInp = $(".attr_table").find("input[type=text]");
+            for (var i = 0;i<allSkuInp.length;i++) {
+                if ($(allSkuInp[i]).val() == "") {
+                    alert("请完善信息!");
+                    return;
+                }
             }
             for (var i = 0; i <= totalTabs.length - 1; i++) {
                 var keyName = $(totalTabs[i]).attr("attr_name");
