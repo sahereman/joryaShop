@@ -83,6 +83,12 @@ class User extends Authenticatable
         unset($this->attributes['available_coupons']);
     }
 
+    /*Default Address */
+    public function getDefaultAddressAttribute()
+    {
+        return $this->addresses->where('is_default',true)->first();
+    }
+
     /* Eloquent Relationships */
     public function favourites()
     {

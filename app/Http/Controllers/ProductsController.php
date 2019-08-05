@@ -149,6 +149,7 @@ class ProductsController extends Controller
             throw new InvalidRequestException('该商品尚未上架');
         }
 
+        $shipment_template = null;
         $category = $product->category()->with('parent')->first();
         $comment_count = $product->comments->count();
         $guesses = Product::where(['is_index' => 1, 'on_sale' => 1])->orderByDesc('index')->limit(8)->get();
@@ -173,6 +174,17 @@ class ProductsController extends Controller
             ];
         })->groupBy('product_sku_id')->toArray();
 
+
+        // shipment_template
+        if($request->user() && $request->user()->default_address)
+        {
+            $shipment_template = $product->get_allow_shipment_templates($request->user()->default_address->province);
+            if($shipment_template)
+            {
+                $shipment_template = $shipment_template->first();
+            }
+        }
+
         return view('products.show', [
             'category' => $category,
             'product' => $product->makeVisible(['content_en', 'content_zh']),
@@ -182,7 +194,8 @@ class ProductsController extends Controller
             'guesses' => $guesses,
             'hot_sales' => $hot_sales,
             'best_sellers' => $best_sellers,
-            'favourite' => $favourite
+            'favourite' => $favourite,
+            'shipment_template' => $shipment_template,
         ]);
     }
 

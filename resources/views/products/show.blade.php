@@ -129,7 +129,10 @@
                             <span class="price" id="product-price-695"><i>{{ get_global_symbol() }} </i>{{ get_current_price($product->price) }}</span>
                         </p>
                         <div class="clear"></div>
-                        <div class="free-shipping">FREE SHIPPING</div>
+                        @if($shipment_template == null)
+                            <div class="free-shipping">FREE SHIPPING</div>
+                        @endif
+
                     </div>
                     {{-- 商品价格优惠 --}}
                     <ul class="tier-prices product-pricing">
@@ -184,26 +187,34 @@
                     </div>
                     {{-- 运费等介绍 --}}
                     <div class="shipping-detail">
-                        <div class="content-box shipping-info">
-                            <div class="info-title">
-                                <span>Shipping:</span>
+
+                        {{--Shipping--}}
+                        @if($shipment_template)
+                            <div class="content-box shipping-info">
+                                <div class="info-title">
+                                    <span>Shipping:</span>
+                                </div>
+                                <div class="info-content">
+                                    {{--{{dd()}}--}}
+                                    <p> <span class="info-content-price">{{$shipment_template->calc_unit_shipping_fee(1,Auth::user()->default_address->province)}}
+                                        </span>{{$shipment_template->name}}  {{$shipment_template->sub_name}} | <a class="info-content-details" href="javascrpt:void(0)">See details</a></p>
+                                </div>
                             </div>
-                            <div class="info-content">
-                                <p> <span class="info-content-price">$50.55 (approx. RMB 348.06)</span>USPS Priority Mail International | <a class="info-content-details" href="#">See details</a></p>
+                            <div class="content-box">
+                                <div class="info-content">
+                                    <p>{{$shipment_template->description}}</p>
+                                </div>
                             </div>
-                        </div>
-                        <div class="content-box">
-                            <div class="info-content">
-                                <p>International items may be subject to customs processing and additional charges.<a href=""></a></p>
+                            <div class="content-box">
+                                <div class="info-content">
+                                    <p>tem location:</p>
+                                    <p>{{$product->location}}</p>
+                                    <p>Ships to: <span>{{Auth::user()->default_address->province}}</span></p>
+                                </div>
                             </div>
-                        </div>
-                        <div class="content-box">
-                            <div class="info-content">
-                                <p>tem location:</p>
-                                <p>Monterey Park, California, United States</p>
-                                <p>Ships to: <span>Worldwide</span></p>
-                            </div>
-                        </div>
+                        @endif
+
+                        {{--Payments--}}
                         <div class="content-box payment-info">
                             <div class="info-title">
                                 <span>Payments:</span>
@@ -212,12 +223,14 @@
                                 <img src="{{ asset('img/payment-all.png') }}" alt="">
                             </div>
                         </div>
+
+                        {{--Return--}}
                         <div class="content-box return-info">
                             <div class="info-title">
                                 <span>Return:</span>
                             </div>
                             <div class="info-content">
-                                <p><span class="info-content-price">Free 30 day returns| </span><a class="info-content-details" href="">See details</a></p>
+                                <p><span class="info-content-price">Free 30 day returns| </span><a class="info-content-details" href="javascrpt:void(0)">See details</a></p>
                             </div>
                         </div>
                     </div>
@@ -362,7 +375,7 @@
                                                 </a>
                                             </div>
                                             <div class="product-details">
-                                                <h3 class="product-name">S22: Ultra Thin Skin Base with V-looped Human Hair Wigs for Men</h3>
+                                                <h3 class="product-name">{{$guess->name_en}}</h3>
                                                 <div class="price-box">
                                                     <span class="original_price"><i>{{ get_global_symbol() }} </i>{{ bcmul(get_current_price($guess->price), 1.2, 2) }}</span>
                                                     <span class="present_price"><i>{{ get_global_symbol() }} </i>{{ get_current_price($guess->price) }}</span>
@@ -798,7 +811,7 @@
         };
         // 数组选择器
         // 定义skus数组内容
-        
+
      //   数据融合公用方法
         function  dataFusion(intArray,outArray) {
             $.each(intArray, function (sku_arr_i,sku_arr_n) {
@@ -1190,13 +1203,13 @@
                 $(".browseFootprints").addClass("dis_n");
             }
         }
-        
+
         //商品详情iframe
         var iframe_content = $('.iframe_content').html();
         $('.iframe_content').html("");
         $('#cmsCon').contents().find('body').html(iframe_content);
-        var x = document.getElementById('cmsCon').contentWindow.document.getElementsByTagName('table');    
-        x.border = "1";    
+        var x = document.getElementById('cmsCon').contentWindow.document.getElementsByTagName('table');   
+        x.border = "1";   
         autoHeight();  //动态调整高度
         var count = 0;
         var autoSet = window.setInterval('autoHeight()',500);
@@ -1212,7 +1225,7 @@
             if(count == 5){
                 window.clearInterval(autoSet);
             }
-            
+
         }
 
     //    商品参数iframe
