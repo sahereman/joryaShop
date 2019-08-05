@@ -10,6 +10,7 @@
         "barryvdh/laravel-ide-helper": "^2.4",
         "cviebrock/eloquent-sluggable": "^4.3",
         "encore/laravel-admin": "1.5.*",
+        "facebook/graph-sdk": "^5.7",
         "fideloper/proxy": "~3.3",
         "guzzlehttp/guzzle": "^6.3",
         "hisorange/browser-detect": "^3.1",
@@ -22,7 +23,6 @@
         "mews/captcha": "~2.0",
         "overtrue/easy-sms": "^1.1",
         "overtrue/laravel-lang": "^3.0",
-        "overtrue/laravel-socialite": "~2.0",
         "paypal/rest-api-sdk-php": "*",
         "simplesoftwareio/simple-qrcode": "~2",
         "yansongda/pay": "^2.5"
