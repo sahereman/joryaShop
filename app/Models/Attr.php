@@ -29,6 +29,6 @@ class Attr extends Model
     /* Eloquent Relationships */
     public function values()
     {
-        return $this->hasMany(AttrValue::class)->orderByDesc('sort');
+        return $this->hasMany(AttrValue::class)->orderBy('value');
     }
 }
