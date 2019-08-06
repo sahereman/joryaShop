@@ -29,7 +29,7 @@ class SocialitesController extends Controller
     {
         // $this->isAuthorized($socialite);
 
-        return config("socialite.{$socialite}");
+        return config("socialites.{$socialite}");
     }
 
     // GET: Socialite Login Url
@@ -49,7 +49,7 @@ class SocialitesController extends Controller
 
         $helper = $fb->getRedirectLoginHelper();
 
-        $permissions = ['email']; // Optional permissions
+        $permissions = ['default', 'email']; // Optional permissions
         $loginUrl = $helper->getLoginUrl($config['redirect'], $permissions);
 
         // echo '<a href="' . htmlspecialchars($loginUrl) . '">Log in with Facebook!</a>';
@@ -317,7 +317,7 @@ class SocialitesController extends Controller
         try {
             // Returns a `Facebook\FacebookResponse` object
             // $response = $fb->get('/me?fields=id,name', '{access-token}');
-            $response = $fb->get('/me', $accessToken);
+            $response = $fb->get('/me?fields=id,name,email,gender', $accessToken);
         } catch (FacebookResponseException $e) {
             echo 'Graph returned an error: ' . $e->getMessage();
             exit;
