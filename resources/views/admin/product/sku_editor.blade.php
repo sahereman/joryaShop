@@ -324,11 +324,6 @@
         //表格排序
         $(".table-sort").tableSort({
             indexes: [1, 2, 3, 4, 5], // Target columns. Default is all.
-            compare: function (a, b) { // If you want to custom sort.
-                a = a.replace("%", "") * 1;
-                b = b.replace("%", "") * 1;
-                return a - b;
-            },
             after: function (th) { // The process to hook into sort after execution.
                 console.log($(th).text() + " sorted!");
                 // If use when combined with tableMove.
@@ -336,6 +331,8 @@
             },
         });
 
+        $(".table-sort").find('th').eq(4).trigger('click');
+        $(".table-sort").find('th').eq(3).trigger('click');
         $(".table-sort").find('th').eq(2).trigger('click');
 
 
