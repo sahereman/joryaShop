@@ -650,8 +650,8 @@ class ProductsController extends Controller
 
     public function duplicate(Request $request, Product $product)
     {
-        $product_id = Product::create($product->toArray())->id;
-
+//        $product_id = Product::create($product->toArray())->id;
+//
 //        $product->attrs->each(function ($attr) use ($product, $product_id) {
 //            $attr->product_id = $product_id;
 //            $attr_id = ProductAttr::create($attr->toArray())->id;
@@ -930,6 +930,7 @@ class ProductsController extends Controller
 
         $product->update(['stock' => $stock]);
 
-        return redirect()->route('admin.products.edit', ['product' => $product->id]);
+        return redirect()->route('admin.products.sku_editor_show', ['product' => $product->id]);
+//        return redirect()->route('admin.products.edit', ['product' => $product->id]);
     }
 }
