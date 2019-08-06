@@ -142,7 +142,7 @@
                     <tr>
                         <td style="position: relative">
                             <img src="{{ $sku->photo_url }}" style="min-width:40px;min-height:40px;max-width:40px;max-height:40px" class="img img-thumbnail">
-                            <div class="changeImgArea" style="position: absolute;width: 60px;height:30px;overflow: hidden;top: 16px;right: -32px;">
+                            <div class="changeImgArea" style="position: absolute;width: 60px;height:30px;overflow: hidden;top: 16px;left: 50px;">
                                 <input type="file" id="skus[{{ $sku->id }}][photo]" name="skus[{{ $sku->id }}][photo]" value=""
                                        style="width: 75px;position: absolute;top: 0;z-index: 5;opacity: 0">
                                 <button type="button" class="btn-group btn btn-primary btn-xs" aria-label="Left Align" style="width:30px;;position: absolute;top: 0;">
