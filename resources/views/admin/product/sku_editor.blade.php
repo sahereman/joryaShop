@@ -50,92 +50,50 @@
 
                         <div class="col-md-4">
                             <table class="table photo_tab attr_table" name="{{ $attr->name }}" attr_name="{{ $attr->id }}">
+                                {{--Head--}}
                                 <tr>
                                     <th>{{ $attr->name }}</th>
                                 </tr>
 
-                                @if($attr->values->isEmpty())
-                                    <tr>
-                                        <td>
-                                            <div class="input-group">
-                                                @if($attr->has_photo)
-                                                    <span class="input-group-btn pic_btn" style="overflow: hidden;">
+                                {{--Data--}}
+                                <tr>
+                                    <td>
+                                        <div class="input-group">
+                                            @if($attr->has_photo)
+                                                <span class="input-group-btn pic_btn" style="overflow: hidden;">
                                                             <img src="{{asset('img/pic_upload.png') }}"
                                                                  style="height: 34px;border: 1px solid #ccc;padding: 2px;">
                                                             <input type="file" name="image" data-url="{{ route('image.upload') }}"
                                                                    style="opacity: 0;position: absolute;top: 0;width: 100%;height: 100%;" onchange="imgChange(this)">
                                                         </span>
-                                                    <input type="text" name="{{ $attr->id }}" data_path=''
-                                                           class="form-control table_value" value="" autocomplete="off">
-                                                    <span class="tip-l"></span>
-                                                    <ul class="skus-select-dropdown">
-                                                        <li>Holle Word</li>
-                                                        <li>这是一个测试</li>
-                                                        <li>简单的dome</li>
-                                                    </ul>
-                                                @else
-                                                    <input type="text" name="{{ $attr->id }}" data_path=''
-                                                           class="form-control table_value" value="" autocomplete="off">
-                                                    <span class="tip-l"></span>
-                                                    <ul class="skus-select-dropdown">
-                                                        <li>Holle Word</li>
-                                                        <li>这是一个测试</li>
-                                                        <li>简单的dome</li>
-                                                    </ul>
-                                                @endif
-                                                <span class="input-group-btn">
+                                                <input type="text" name="{{ $attr->id }}" data_path=''
+                                                       class="form-control table_value" value="" autocomplete="off">
+                                                <span class="tip-l"></span>
+                                                <ul class="skus-select-dropdown" style="display: none;">
+                                                    @foreach($attr->basic_attr->values as $value)
+                                                        <li>{{$value->value}}</li>
+                                                    @endforeach
+                                                </ul>
+                                            @else
+                                                <input type="text" name="{{ $attr->id }}" data_path=''
+                                                       class="form-control table_value" value="" autocomplete="off">
+                                                <span class="tip-l"></span>
+                                                <ul class="skus-select-dropdown" style="display: none;">
+                                                    @foreach($attr->basic_attr->values as $value)
+                                                        <li>{{$value->value}}</li>
+                                                    @endforeach
+                                                </ul>
+                                            @endif
+                                            <span class="input-group-btn">
                                                         <button class="btn btn-danger" type="button" onclick="delCol()">
                                                             <span class="glyphicon glyphicon-remove"></span>
                                                         </button>
                                                     </span>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                @endif
+                                        </div>
+                                    </td>
+                                </tr>
 
-                                @foreach($attr->values->unique('value') as $value)
-                                    @if($value->name == $attr->name)
-                                        <tr>
-                                            <td>
-                                                <div class="input-group">
-                                                    @if($attr->has_photo)
-                                                        <span class="input-group-btn pic_btn" style="overflow: hidden;">
-                                                            <img src="{{ $value->sku->photo != '' ?  $value->sku->photo_url :  asset('img/pic_upload.png') }}"
-                                                                 style="height: 34px;border: 1px solid #ccc;padding: 2px;">
-                                                            <input type="file" name="image" data-url="{{ route('image.upload') }}" onchange="imgChange(this)"
-                                                                   style="opacity: 0;position: absolute;top: 0;width: 100%;height: 100%;">
-                                                        </span>
-                                                        <input type="text" name="{{ $attr->id }}" data_path='{{ $value->sku->photo != '' ?  $value->sku->photo : ''}}'
-                                                               class="form-control table_value" value="{{$value->value}}" autocomplete="off">
-                                                        <span class="tip-l"></span>
-                                                        <ul class="skus-select-dropdown">
-                                                            <li>Holle Word</li>
-                                                            <li>这是一个测试</li>
-                                                            <li>简单的dome</li>
-                                                        </ul>
-                                                    @else
-                                                        <input type="text" name="{{ $attr->id }}" data_path=''
-                                                               class="form-control table_value" value="{{$value->value}}" autocomplete="off">
-                                                        <span class="tip-l"></span>
-                                                        <ul class="skus-select-dropdown">
-                                                            <li>Holle Word</li>
-                                                            <li>这是一个测试</li>
-                                                            <li>简单的dome</li>
-                                                        </ul>
-                                                    @endif
-
-
-                                                    <span class="input-group-btn">
-                                                        <button class="btn btn-danger" type="button" onclick="delCol()">
-                                                            <span class="glyphicon glyphicon-remove"></span>
-                                                        </button>
-                                                    </span>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    @endif()
-                                @endforeach
-
+                                {{--Button--}}
                                 <tr>
                                     <td>
                                         <button type="button" attr_name="{{ $attr->id }}" class="btn-group btn btn-primary" onclick="addCol()">
@@ -165,13 +123,14 @@
                 <tr>
                     @if($skus->first())
                         <th>Photo</th>
-                        @foreach($skus->first()->attr_value_options as $option)
-                            <th>{{$option['attr']['name']}} <i class="fa fa-sort"></i></th>
+                        <th>Created at <i class="fa fa-sort"></i></th>
+                        @foreach($product->attrs as $attr)
+                            <th>{{ $attr->name }} <i class="fa fa-sort"></i></th>
                         @endforeach
                         <th>Delta Price</th>
                         <th>Stock</th>
-                        <th>Stock Increment</th>
-                        <th>Stock Decrement</th>
+                        <th>Stock +</th>
+                        <th>Stock -</th>
                         <th>Action</th>
                     @endif
                 </tr>
@@ -183,28 +142,33 @@
                     <tr>
                         <td>
                             <img src="{{ $sku->photo_url }}" style="min-width:60px;min-height:60px;max-width:60px;max-height:200px" class="img img-thumbnail">
-                            <div class="changeImgArea" style="position: relative;width: 40px;height:25px;overflow: hidden;margin-top: 5px;">
-                                <input type="file" id="skus[{{ $sku->id }}][photo]" name="skus[{{ $sku->id }}][photo]" value="{{ $sku->photo }}"
+                            <div class="changeImgArea" style="position: relative;width: 60px;height:25px;overflow: hidden;margin-top: 5px;">
+                                <input type="file" id="skus[{{ $sku->id }}][photo]" name="skus[{{ $sku->id }}][photo]" value=""
                                        style="width: 75px;position: absolute;top: 0;z-index: 5;opacity: 0">
-                                <button type="button" class="btn-group btn btn-primary btn-xs" aria-label="Left Align" style="position: absolute;top: 0;">
+                                <button type="button" class="btn-group btn btn-primary btn-xs" aria-label="Left Align" style="width:60px;position: absolute;top: 0;">
                                     <span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span>
                                 </button>
                             </div>
                         </td>
+                        <td>{{$sku['created_at']}}</td>
                         @foreach($sku->attr_values as $value)
                             <td>{{$value['value']}}</td>
                         @endforeach
                         <td>
-                            <input style="width: 80px" class="form-control" type="text" id="skus[{{ $sku->id }}][delta_price]" name="skus[{{ $sku->id }}][delta_price]" value="{{ $sku->delta_price }}">
+                            <input style="width: 80px" class="form-control" type="text" id="skus[{{ $sku->id }}][delta_price]" name="skus[{{ $sku->id }}][delta_price]"
+                                   value="{{ $sku->delta_price }}">
                         </td>
                         <td>
-                            <input style="width: 60px" class="form-control" type="text" id="skus[{{ $sku->id }}][stock]" name="skus[{{ $sku->id }}][stock]" value="{{ $sku->stock }}">
+                            <input style="width: 60px" class="form-control" type="text" id="skus[{{ $sku->id }}][stock]" name="skus[{{ $sku->id }}][stock]"
+                                   value="{{ $sku->stock }}">
                         </td>
                         <td>
-                            <input style="width: 60px" class="form-control" type="text" id="skus[{{ $sku->id }}][stock_increment]" name="skus[{{ $sku->id }}][stock_increment]" value="0">
+                            <input style="width: 60px" class="form-control" type="text" id="skus[{{ $sku->id }}][stock_increment]" name="skus[{{ $sku->id }}][stock_increment]"
+                                   value="0">
                         </td>
                         <td>
-                            <input style="width: 60px" class="form-control" type="text" id="skus[{{ $sku->id }}][stock_decrement]" name="skus[{{ $sku->id }}][stock_decrement]" value="0">
+                            <input style="width: 60px" class="form-control" type="text" id="skus[{{ $sku->id }}][stock_decrement]" name="skus[{{ $sku->id }}][stock_decrement]"
+                                   value="0">
                         </td>
                         <td><a class="btn btn-default" onclick="RemoveSku(this)" remove_url="{{route('admin.product_skus.destroy',$sku->id)}}">Remove</a></td>
                     </tr>
@@ -247,38 +211,39 @@
     // 表格中的input输入框select的选择事件
     var isBox = false; // 定义一个触发焦点事件的开关，默认为不开启状态 || 也可以给input设置一个属性，来判断
     var tableName = $(".attr_table")
-        selectDom = tableName.find(".skus-select-dropdown"),
+    selectDom = tableName.find(".skus-select-dropdown"),
         inputDom = tableName.find(".table_value"),
         inputBox = tableName.find(".input-group");
     selectDom.hide();
-    tableName.on("focus",".table_value",function () { // input绑定焦点事件，触发时打开焦点开关
+    tableName.on("focus", ".table_value", function () { // input绑定焦点事件，触发时打开焦点开关
         $(".container-fluid").find(".skus-select-dropdown").hide();
         $(this).siblings(".skus-select-dropdown").show();
         isBox = true;
     });
-    tableName.on("mousemove",".input-group",function () { // 鼠标进入input-box区域内打开焦点开关
+    tableName.on("mousemove", ".input-group", function () { // 鼠标进入input-box区域内打开焦点开关
         isBox = true;
     });
-    tableName.on("mouseout",".input-group",function () { // 鼠标离开input-box区域内关闭焦点开关
+    tableName.on("mouseout", ".input-group", function () { // 鼠标离开input-box区域内关闭焦点开关
         isBox = false;
     });
-    tableName.on("blur",".table_value",function () { // input失去焦点时通过焦点开关状态判断鼠标所在区域
+    tableName.on("blur", ".table_value", function () { // input失去焦点时通过焦点开关状态判断鼠标所在区域
         if (isBox == true) return false;
         $(this).siblings(".skus-select-dropdown").hide();
     });
-    tableName.on("click","li",function () {
+    tableName.on("click", "li", function () {
         isBox = false;
         var text = $(this).text();
         $(this).parent().siblings(".table_value").val(text);
         $(this).parents(".skus-select-dropdown").hide();
-    });;
+    });
+    ;
 
     function addCol() {
         var _$this = $(event.target);
         var addRowCom = "<tr>" + _$this.parents("table").find("tr")[1].innerHTML + "</tr>";
         var newSelect = _$this.parents("tr").find(".editable-select");
-        newSelect.on("focus",function () {
-            _$this.parents("tr").find("ul").css("display","block")
+        newSelect.on("focus", function () {
+            _$this.parents("tr").find("ul").css("display", "block")
         });
         _$this.parents("tr").before(addRowCom);
         _$this.parents("tr").prev().find("img").attr('src', "{{ asset('img/pic_upload.png') }}");
@@ -371,7 +336,7 @@
             },
         });
 
-        $(".table-sort").find('th').eq(1).trigger('click');
+        $(".table-sort").find('th').eq(2).trigger('click');
 
 
         // 表单提交
@@ -381,7 +346,7 @@
             var totalTabs = $(".box-body").find(".attr_table");
             var photo_tab = $(".photo_tab").find("tr");
             var allSkuInp = $(".attr_table").find("input[type=text]");
-            for (var i = 0;i<allSkuInp.length;i++) {
+            for (var i = 0; i < allSkuInp.length; i++) {
                 if ($(allSkuInp[i]).val() == "") {
                     alert("请完善信息!");
                     return;

@@ -6,6 +6,7 @@ use App\Admin\Extensions\Ajax\Ajax_Delete;
 use App\Admin\Extensions\Ajax\Ajax_Icon;
 use App\Admin\Models\Product;
 use App\Admin\Models\ProductSku;
+use App\Handlers\ImageUploadHandler;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\SkuEditorRequest;
 use App\Http\Requests\Admin\SkuGeneratorRequest;
@@ -204,11 +205,11 @@ class ProductsController extends Controller
                     . '<i class="fa fa-archive"></i>&nbsp;SKU 编辑器'
                     . '</a>'
                     . '</div>&nbsp;'
-//                    . '<div class="btn-group pull-right" style="margin-right: 5px">'
-//                    . '<a href="' . route('admin.product_skus.index', ['product_id' => $id]) . '" class="btn btn-sm btn-success">'
-//                    . '<i class="fa fa-list"></i>&nbsp;SKU - 列表'
-//                    . '</a>'
-//                    . '</div>&nbsp;'
+                //                    . '<div class="btn-group pull-right" style="margin-right: 5px">'
+                //                    . '<a href="' . route('admin.product_skus.index', ['product_id' => $id]) . '" class="btn btn-sm btn-success">'
+                //                    . '<i class="fa fa-list"></i>&nbsp;SKU - 列表'
+                //                    . '</a>'
+                //                    . '</div>&nbsp;'
                 );
                 /*. '<div class="btn-group pull-right" style="margin-right: 5px">'
                 . '<a href="' . route('admin.discount_products.index', ['product_id' => $id]) . '" class="btn btn-sm btn-success">'
@@ -422,21 +423,21 @@ class ProductsController extends Controller
             $product_id = $this->product_id;
             $form->tools(function (Form\Tools $tools) use ($product_id) {
                 $tools->append(
-//                    '<div class="btn-group pull-right" style="margin-right: 5px">'
-//                    . '<a href="' . route('admin.products.sku_generator_show', ['product' => $product_id]) . '" class="btn btn-sm btn-success">'
-//                    . '<i class="fa fa-archive"></i>&nbsp;SKU 生成器'
-//                    . '</a>'
-//                    . '</div>&nbsp;'
+                //                    '<div class="btn-group pull-right" style="margin-right: 5px">'
+                //                    . '<a href="' . route('admin.products.sku_generator_show', ['product' => $product_id]) . '" class="btn btn-sm btn-success">'
+                //                    . '<i class="fa fa-archive"></i>&nbsp;SKU 生成器'
+                //                    . '</a>'
+                //                    . '</div>&nbsp;'
                     '<div class="btn-group pull-right" style="margin-right: 5px">'
                     . '<a href="' . route('admin.products.sku_editor_show', ['product' => $product_id]) . '" class="btn btn-sm btn-success">'
                     . '<i class="fa fa-archive"></i>&nbsp;SKU 编辑器'
                     . '</a>'
                     . '</div>&nbsp;'
-//                    . '<div class="btn-group pull-right" style="margin-right: 5px">'
-//                    . '<a href="' . route('admin.product_skus.index', ['product_id' => $product_id]) . '" class="btn btn-sm btn-success">'
-//                    . '<i class="fa fa-list"></i>&nbsp;SKU - 列表'
-//                    . '</a>'
-//                    . '</div>&nbsp;'
+                //                    . '<div class="btn-group pull-right" style="margin-right: 5px">'
+                //                    . '<a href="' . route('admin.product_skus.index', ['product_id' => $product_id]) . '" class="btn btn-sm btn-success">'
+                //                    . '<i class="fa fa-list"></i>&nbsp;SKU - 列表'
+                //                    . '</a>'
+                //                    . '</div>&nbsp;'
                 );
                 /*. '<div class="btn-group pull-right" style="margin-right: 5px">'
                 . '<a href="' . route('admin.discount_products.index', ['product_id' => $product_id]) . '" class="btn btn-sm btn-success">'
@@ -772,13 +773,14 @@ class ProductsController extends Controller
      */
     public function skuGeneratorStore(SkuGeneratorRequest $request, Product $product)
     {
+        $now_date = now()->toDateTimeString();
         $attrs = json_decode($request->input('attrs'), true);
         $attrs = collect($attrs)->map(function ($item, $key) {
             return collect($item)->unique('data')->toArray();
         })->toArray();
         $attr_combo = $this->getAttrCombo($attrs);
         $sku_count = count($attr_combo);
-        $product->skus()->delete();
+        //$product->skus()->delete(); // 不删除原本数据
         foreach ($attr_combo as $option)
         {
             $sku_data = [];
@@ -788,6 +790,7 @@ class ProductsController extends Controller
             $sku_data['photo'] = isset($option['photo']) ? $option['photo'] : '';
             $sku_data['delta_price'] = $request->input('delta_price', 0.00);
             $sku_data['stock'] = $request->input('stock', $product->stock);
+            $sku_data['created_at'] = $now_date;
             $sku = ProductSku::create($sku_data);
             unset($option['photo']);
             foreach ($option as $product_attr_id => $attr_value)
@@ -797,19 +800,18 @@ class ProductsController extends Controller
                     'product_sku_id' => $sku->id,
                     'product_attr_id' => $product_attr_id,
                     'value' => $attr_value,
-                    'sort' => $product_attr->sort
+                    'sort' => $product_attr->sort,
                 ]);
             }
         }
         $product->update([
             // 'price' => $request->input('price', $product->price),
-            'stock' => $request->input('stock') ? $request->input('stock') * $sku_count : 0,
+            'stock' => $product->skus->sum('stock'),
         ]);
 
         return redirect()->route('admin.products.sku_editor_show', ['product' => $product->id]);
 
-
-        switch ($product->type)
+        /*switch ($product->type)
         {
             case Product::PRODUCT_TYPE_COMMON:
                 return redirect()->route('admin.products.sku_editor_show', ['product' => $product->id]);
@@ -834,14 +836,14 @@ class ProductsController extends Controller
                 break;
             default:
                 return redirect()->route('admin.products.sku_editor_show', ['product' => $product->id]);
-//                return redirect()->route('admin.product_skus.index', ['product_id' => $product->id]);
-//                return redirect()->route('admin.products.show', ['product' => $product->id]);
-        }
+                return redirect()->route('admin.product_skus.index', ['product_id' => $product->id]);
+                return redirect()->route('admin.products.show', ['product' => $product->id]);
+        }*/
     }
 
     public function skuEditorShow(Request $request, Product $product, Content $content)
     {
-        $product = Product::with(['attrs.values','skus','skus.attr_values'])->find($product->id);
+        $product = Product::with(['attrs.values', 'attrs.basic_attr.values', 'skus.attr_values'])->find($product->id);
         $skus = $product->skus;
         $errors = $request->session()->get('errors');
         $messages = [];
@@ -854,15 +856,21 @@ class ProductsController extends Controller
             ->description('商品 - SKU 编辑器')
             ->body(view('admin.product.sku_editor', [
                 'product' => $product,
-                'skus' =>$skus,
+                'skus' => $skus,
                 'messages' => $messages,
             ]));
     }
 
-    public function skuEditorStore(SkuEditorRequest $request, Product $product)
+    public function skuEditorStore(SkuEditorRequest $request, Product $product, ImageUploadHandler $handler)
     {
         $stock = 0;
         $skus = $request->input('skus');
+        $files = $request->file('skus');
+        if (!$files)
+        {
+            $files = [];
+        }
+
         foreach ($skus as $sku_id => $sku)
         {
             if ($sku['stock_increment'])
@@ -877,6 +885,16 @@ class ProductsController extends Controller
             unset($sku['stock_decrement']);
             ProductSku::find($sku_id)->update($sku);
             $stock += $sku['stock'];
+        }
+
+        //        dd($files);
+        foreach ($files as $sku_id => $file)
+        {
+            $path = $handler->uploadOriginal($file['photo']);
+            //$preview_url = Storage::disk('public')->url($path);
+            ProductSku::find($sku_id)->update([
+                'photo' => $path
+            ]);
         }
 
         $product->update(['stock' => $stock]);

@@ -22,6 +22,7 @@ class ProductSku extends Model
         'delta_price',
         'stock',
         'sales',
+        'created_at'
     ];
 
 

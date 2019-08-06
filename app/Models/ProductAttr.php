@@ -8,7 +8,6 @@ class ProductAttr extends Model
 {
     /**
      * The attributes that are mass assignable.
-     *
      * @var array
      */
     protected $fillable = [
@@ -20,7 +19,6 @@ class ProductAttr extends Model
 
     /**
      * The attributes that should be cast to native types.
-     *
      * @var array
      */
     protected $casts = [
@@ -30,9 +28,11 @@ class ProductAttr extends Model
     /* Accessors */
     public function getProtoAttrAttribute()
     {
-        if (Attr::where(['name' => $this->attributes['name']])->exists()) {
+        if (Attr::where(['name' => $this->attributes['name']])->exists())
+        {
             return Attr::where(['name' => $this->attributes['name']])->first();
-        } else {
+        } else
+        {
             return Attr::create([
                 'name' => $this->attributes['name'],
                 'has_photo' => false
@@ -43,7 +43,8 @@ class ProductAttr extends Model
     public function getValueOptionsAttribute()
     {
         $attr = Attr::where(['name' => $this->attributes['name']])->first();
-        if ($attr) {
+        if ($attr)
+        {
             return $attr->values;
         }
         return $this->values();
@@ -69,5 +70,10 @@ class ProductAttr extends Model
     public function values()
     {
         return $this->hasMany(ProductSkuAttrValue::class)->orderByDesc('sort');
+    }
+
+    public function basic_attr()
+    {
+        return $this->belongsTo(Attr::class, 'name', 'name');
     }
 }
