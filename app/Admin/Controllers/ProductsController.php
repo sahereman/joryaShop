@@ -652,10 +652,41 @@ class ProductsController extends Controller
     {
         $product_id = Product::create($product->toArray())->id;
 
-        $product->skus()->each(function ($item) use ($product_id) {
-            $item->product_id = $product_id;
-            ProductSku::create($item->toArray());
-        });
+//        $product->attrs->each(function ($attr) use ($product, $product_id) {
+//            $attr->product_id = $product_id;
+//            $attr_id = ProductAttr::create($attr->toArray())->id;
+//
+//
+////            dd(ProductSkuAttrValue::where('product_attr_id', $attr->id)->get());
+//
+//            $add_skus_array = [];
+//            $current_sku_id = null;
+//            ProductSkuAttrValue::where('product_attr_id', $attr->id)->get()->each(function ($attr_value) use ($product_id, $attr_id, &$add_skus_array,&$current_sku_id) {
+//
+//                if (!in_array($attr_value->product_sku_id, $add_skus_array))
+//                {
+//                    $sku = ProductSku::find($attr_value->product_sku_id);
+//                    $sku->product_id = $product_id;
+//                    $current_sku_id = ProductSku::create($sku->toArray())->id;
+//                    $add_skus_array[] = $attr_value->product_sku_id;
+//                    dump($add_skus_array);
+//                }
+//
+//                $attr_value->product_attr_id = $attr_id;
+//                $attr_value->product_sku_id = $current_sku_id;
+//                ProductSkuAttrValue::create($attr_value->toArray());
+//
+//            });
+//
+//
+//            //            $item->product_id = $product_id;
+//            //            ProductSku::create($item->toArray());
+//        });
+
+        //        $product->skus()->each(function ($item) use ($product_id) {
+        //            $item->product_id = $product_id;
+        //            ProductSku::create($item->toArray());
+        //        });
         return response()->json([
             'messages' => '产品复制成功'
         ], 200);
@@ -843,7 +874,7 @@ class ProductsController extends Controller
 
     public function skuEditorShow(Request $request, Product $product, Content $content)
     {
-        $product = Product::with(['attrs.values', 'attrs.basic_attr.values', 'skus.attr_values'])->find($product->id);
+        $product = Product::with(['attrs', 'attrs.values', 'attrs.basic_attr.values', 'skus.attr_values'])->find($product->id);
         $skus = $product->skus;
         $errors = $request->session()->get('errors');
         $messages = [];
