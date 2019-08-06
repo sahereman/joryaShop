@@ -44,7 +44,7 @@
         </div>
         <div class="box-body">
             <div class="container-fluid">
-                <div class="row">
+                <div class="row" style="display: flex;justify-content: flex-start;flex-wrap: wrap;">
                     <!--col-md-4这个class值不是固定的。要根据不同的数目的表格来进行区分，总数为12，现在有3类每一类占4分，-->
                     @foreach($product->attrs as $attr)
 
