@@ -10,6 +10,8 @@
     z-index: 999;
     padding: 0;
     margin: 0;
+    max-height: 300px;
+    overflow: auto;
 }
 .tip-l {
     width: 0;
