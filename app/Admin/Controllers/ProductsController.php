@@ -513,7 +513,7 @@ class ProductsController extends Controller
             ->uniqueName()->removable()
             // ->rules('required')
             ->move('original/' . date('Ym', now()->timestamp))
-            ->help('相册尺寸:420 * 380')->rules('image');
+            ->help('参考像素:500 * 700 宽高比 1:1.4 ')->rules('image');
 
         // $form->switch('on_sale', '售卖状态')->value(1);
         $form->switch('on_sale', '售卖状态')->default(1);
@@ -650,38 +650,39 @@ class ProductsController extends Controller
 
     public function duplicate(Request $request, Product $product)
     {
-//        $product_id = Product::create($product->toArray())->id;
-//
-//        $product->attrs->each(function ($attr) use ($product, $product_id) {
-//            $attr->product_id = $product_id;
-//            $attr_id = ProductAttr::create($attr->toArray())->id;
-//
-//
-////            dd(ProductSkuAttrValue::where('product_attr_id', $attr->id)->get());
-//
-//            $add_skus_array = [];
-//            $current_sku_id = null;
-//            ProductSkuAttrValue::where('product_attr_id', $attr->id)->get()->each(function ($attr_value) use ($product_id, $attr_id, &$add_skus_array,&$current_sku_id) {
-//
-//                if (!in_array($attr_value->product_sku_id, $add_skus_array))
-//                {
-//                    $sku = ProductSku::find($attr_value->product_sku_id);
-//                    $sku->product_id = $product_id;
-//                    $current_sku_id = ProductSku::create($sku->toArray())->id;
-//                    $add_skus_array[] = $attr_value->product_sku_id;
-//                    dump($add_skus_array);
-//                }
-//
-//                $attr_value->product_attr_id = $attr_id;
-//                $attr_value->product_sku_id = $current_sku_id;
-//                ProductSkuAttrValue::create($attr_value->toArray());
-//
-//            });
-//
-//
-//            //            $item->product_id = $product_id;
-//            //            ProductSku::create($item->toArray());
-//        });
+        dd($product->skus);
+        //        $product_id = Product::create($product->toArray())->id;
+        //
+        //        $product->attrs->each(function ($attr) use ($product, $product_id) {
+        //            $attr->product_id = $product_id;
+        //            $attr_id = ProductAttr::create($attr->toArray())->id;
+        //
+        //
+        ////            dd(ProductSkuAttrValue::where('product_attr_id', $attr->id)->get());
+        //
+        //            $add_skus_array = [];
+        //            $current_sku_id = null;
+        //            ProductSkuAttrValue::where('product_attr_id', $attr->id)->get()->each(function ($attr_value) use ($product_id, $attr_id, &$add_skus_array,&$current_sku_id) {
+        //
+        //                if (!in_array($attr_value->product_sku_id, $add_skus_array))
+        //                {
+        //                    $sku = ProductSku::find($attr_value->product_sku_id);
+        //                    $sku->product_id = $product_id;
+        //                    $current_sku_id = ProductSku::create($sku->toArray())->id;
+        //                    $add_skus_array[] = $attr_value->product_sku_id;
+        //                    dump($add_skus_array);
+        //                }
+        //
+        //                $attr_value->product_attr_id = $attr_id;
+        //                $attr_value->product_sku_id = $current_sku_id;
+        //                ProductSkuAttrValue::create($attr_value->toArray());
+        //
+        //            });
+        //
+        //
+        //            //            $item->product_id = $product_id;
+        //            //            ProductSku::create($item->toArray());
+        //        });
 
         //        $product->skus()->each(function ($item) use ($product_id) {
         //            $item->product_id = $product_id;
@@ -811,7 +812,7 @@ class ProductsController extends Controller
         })->toArray();
         $attr_combo = $this->getAttrCombo($attrs);
         $sku_count = count($attr_combo);
-        //$product->skus()->delete(); // 不删除原本数据
+        $product->skus()->update(['last_generated' => false]); // 不删除原本数据
         foreach ($attr_combo as $option)
         {
             $sku_data = [];
@@ -822,6 +823,7 @@ class ProductsController extends Controller
             $sku_data['delta_price'] = $request->input('delta_price', 0.00);
             $sku_data['stock'] = $request->input('stock', $product->stock);
             $sku_data['created_at'] = $now_date;
+            $sku_data['last_generated'] = true;
             $sku = ProductSku::create($sku_data);
             unset($option['photo']);
             foreach ($option as $product_attr_id => $attr_value)
@@ -931,6 +933,6 @@ class ProductsController extends Controller
         $product->update(['stock' => $stock]);
 
         return redirect()->route('admin.products.sku_editor_show', ['product' => $product->id]);
-//        return redirect()->route('admin.products.edit', ['product' => $product->id]);
+        //        return redirect()->route('admin.products.edit', ['product' => $product->id]);
     }
 }

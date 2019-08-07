@@ -22,7 +22,8 @@ class ProductSku extends Model
         'delta_price',
         'stock',
         'sales',
-        'created_at'
+        'created_at',
+        'last_generated'
     ];
 
 
@@ -39,7 +40,7 @@ class ProductSku extends Model
      * @var array
      */
     protected $casts = [
-        //
+        'last_generated' => 'boolean'
     ];
 
     /**

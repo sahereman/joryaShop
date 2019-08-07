@@ -114,9 +114,14 @@
 <div class="box">
     <div class="box-body table-responsive no-padding">
 
-        <div class="box-header"><h4> SKU 列表</h4></div>
-
         <form id="sku_editor_form" role="form" method="POST" enctype="multipart/form-data" action="{{ route('admin.products.sku_editor_store', ['product' => $product->id]) }}">
+            <div class="box-header">
+                <h4>
+                    <span class="pull-left">SKU 列表</span>
+                    <button type="submit" class="btn btn-primary  pull-right">提交并修改</button>
+                </h4>
+
+            </div>
             {{ csrf_field() }}
             <table class="table table-hover table-sort">
                 <thead>
@@ -150,9 +155,9 @@
                                 </button>
                             </div>
                         </td>
-                        <td>{{$sku['created_at']}}</td>
+                        <td style="@if($sku->last_generated) font-weight: bold; @endif">{{$sku['created_at']}}</td>
                         @foreach($sku->attr_values as $value)
-                            <td>{{$value['value']}}</td>
+                            <td style="@if($sku->last_generated) font-weight: bold; @endif">{{$value['value']}}</td>
                         @endforeach
                         <td>
                             <input style="width: 80px" class="form-control" type="text" id="skus[{{ $sku->id }}][delta_price]" name="skus[{{ $sku->id }}][delta_price]"
@@ -176,7 +181,6 @@
                 </tbody>
 
             </table>
-            <button type="submit" class="btn btn-primary btn-lg btn-block">提交并修改</button>
         </form>
     </div>
 </div>
@@ -330,10 +334,12 @@
                 // $(".sort").tableMove();
             },
         });
+        $(".table-sort").find('th').eq(1).trigger('click');
+        $(".table-sort").find('th').eq(1).trigger('click');
 
-        $(".table-sort").find('th').eq(4).trigger('click');
-        $(".table-sort").find('th').eq(3).trigger('click');
-        $(".table-sort").find('th').eq(2).trigger('click');
+        // $(".table-sort").find('th').eq(4).trigger('click');
+        // $(".table-sort").find('th').eq(3).trigger('click');
+        // $(".table-sort").find('th').eq(2).trigger('click');
 
 
         // 表单提交
