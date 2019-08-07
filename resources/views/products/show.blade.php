@@ -116,7 +116,7 @@
                         <div class="std">
                             <p>{!! App::isLocale('zh-CN') ? $product->description_zh : $product->description_en !!}</p>
                         </div>
-                        <a href="javascript:void (0)" class="down-more">
+                        <a href="javascript:void(0)" class="down-more" id="down-more">
                             <img src=" {{ asset('img/down-more.png') }}" alt="">
                         </a>
                     </div>
@@ -425,6 +425,18 @@
             maxHeight:'95%'
         });
 
+        //    简介查看更多
+        $("#down-more").on("click",function () {
+            var _taht = $(this),
+                isHasClass = $(this).hasClass("active");
+            if (isHasClass){
+                _taht.removeClass("active");
+                $(".std").find("p").removeClass("active");
+            } else {
+                _taht.addClass("active");
+                $(".std").find("p").addClass("active");
+            }
+        });
         var loading_animation;  // loading动画的全局name
         var current_page;  // 评价的当前页
         var next_page;   // 下一页的页码
@@ -872,6 +884,37 @@
         //         }
         //     })
         // });
+        /**数组根据数组对象中的某个属性值进行排序的方法
+         * 使用例子：newArray.sort(sortBy('number',false)) //表示根据number属性降序排列;若第二个参数不传递，默认表示升序排序
+         * @param attr 排序的属性 如number属性
+         * @param rev true表示升序排列，false降序排序
+         * */
+        function compare(attr,rev){
+            //第二个参数没有传递 默认升序排列
+            if(rev ==  undefined){
+                rev = 1;
+            }else{
+                rev = (rev) ? 1 : -1;
+            }
+            return function(a,b){
+                a = a[attr];
+                b = b[attr];
+                if(a < b){
+                    return rev * -1;
+                }
+                if(a > b){
+                    return rev * 1;
+                }
+                return 0;
+            }
+        }
+        // function compare(prop){
+        //     return function (a,b) {
+        //         var value1 = a[prop];
+        //         var value2 = b[prop]
+        //         return value1 - value2;
+        //     }
+        // }
         dataFusionClassif(skus_arr_coalesce,skus_map,map,'name');
         // console.log(skus_map);
          // 根据数组对象进行去重
@@ -892,9 +935,16 @@
         // </div>
         $.each(skus_map,function (sku_map_i,sku_map_n) {
             sku_parameter.html += "<div class='priceOfpro forgetSel'>"
-            sku_parameter.html += "<span class='dynamic_name'>"+ sku_map_n.name +" <a href='#'><img src='{{ asset('img/photo-choose.png') }}'></a></span>"
+            if(sku_map_n.name == "Hair Color"){
+                sku_parameter.html += "<span class='dynamic_name'>"+ sku_map_n.name +" <a target='_blank' href='{{ asset('img/HairColor.jpg') }}'><img src='{{ asset('img/photo-choose.png') }}'></a></span>"
+            }else if(sku_map_n.name == "Hair Density"){
+                sku_parameter.html += "<span class='dynamic_name'>"+ sku_map_n.name +" <a target='_blank' href='{{ asset('img/HairDensity.jpg') }}'><img src='{{ asset('img/photo-choose.png') }}'></a></span>"
+            }else{
+                sku_parameter.html += "<span class='dynamic_name'>"+ sku_map_n.name +" </span>"
+            }
             sku_parameter.html += "<select data-index='"+ sku_map_i +"' name='"+ sku_map_n.name +"'>"
             var sku_map_item =arrayUnique2(sku_map_n.data,'value');
+            sku_map_item.sort(compare("value"));
             $.each(sku_map_item,function (sku_map_data_i,sku_map_data_n) {
                 sku_parameter.html += "<option value='" + sku_map_data_n.value + "'>"+ sku_map_data_n.value +"</option>"
             });
@@ -1030,6 +1080,7 @@
                     // console.log(temporary_storage_change2);
                     $.each(temporary_storage_change2,function (storage_index,storage_value) {
                         var storage_value_item =arrayUnique2(storage_value.data,'value');
+                        storage_value_item.sort(compare("value"));
                         sku_parameter.optionHtml = "";
                         $.each(storage_value_item,function (storage_value_index,storage_value_content) {
                             sku_parameter.optionHtml += "<option value='" + storage_value_content.value + "'>"+ storage_value_content.value +"</option>"
@@ -1251,18 +1302,6 @@
             }
 
         }
-    //    简介查看更多
-        $(".down-more").on("click",function () {
-            var _taht = $(this),
-                isHasClass = $(this).hasClass("active");
-            if (isHasClass){
-                _taht.removeClass("active");
-                $(".std").find("p").removeClass("active");
-            } else {
-                _taht.addClass("active");
-                $(".std").find("p").addClass("active");
-            }
-        })
     //    友情链接
         var swiper = new Swiper('#carousel', {
             centeredSlides: true,
