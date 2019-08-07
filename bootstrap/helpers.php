@@ -521,7 +521,11 @@ function get_attr_combo($attrs)
 
 function get_facebook_login_url()
 {
-    session_start();
+    // if (session_id() == '') {
+    if (session_status() != PHP_SESSION_ACTIVE) { // 2
+        session_start();
+    }
+
     $config = config('socialites.facebook');
     $fb = new Facebook([
         'app_id' => $config['app_id'],

@@ -39,13 +39,17 @@ class SocialitesController extends Controller
         $this->isAuthorized($socialite);
 
         // Facebook Login
-        session_start();
+        // if (session_id() == '') {
+        if (session_status() != PHP_SESSION_ACTIVE) { // 2
+            session_start();
+        }
+
         $config = $this->getSocialiteConfig($socialite);
         $fb = new Facebook([
             'app_id' => $config['app_id'],
             'app_secret' => $config['app_secret'],
             'default_graph_version' => $config['graph_version'],
-            // 'http_client_handler' => new FacebookGuzzle6HttpClient()
+            'http_client_handler' => new FacebookGuzzle6HttpClient()
         ]);
 
         $helper = $fb->getRedirectLoginHelper();
@@ -66,16 +70,21 @@ class SocialitesController extends Controller
         $this->isAuthorized($socialite);
 
         // Facebook Login Callback
-        session_start();
+        // if (session_id() == '') {
+        if (session_status() != PHP_SESSION_ACTIVE) { // 2
+            session_start();
+        }
+
         $config = $this->getSocialiteConfig($socialite);
         $fb = new Facebook([
             'app_id' => $config['app_id'],
             'app_secret' => $config['app_secret'],
             'default_graph_version' => $config['graph_version'],
-            // 'http_client_handler' => new FacebookGuzzle6HttpClient()
+            'http_client_handler' => new FacebookGuzzle6HttpClient()
         ]);
 
         $helper = $fb->getRedirectLoginHelper();
+        $helper->getPersistentDataHandler()->set('state', $request->state);
 
         try {
             $accessToken = $helper->getAccessToken();
@@ -232,7 +241,11 @@ class SocialitesController extends Controller
     {
         // $this->isAuthorized($socialite);
 
-        session_start();
+        // if (session_id() == '') {
+        if (session_status() != PHP_SESSION_ACTIVE) { // 2
+            session_start();
+        }
+
         $config = $this->getSocialiteConfig($socialite);
         $fb = new Facebook([
             'app_id' => $config['app_id'],
@@ -289,7 +302,11 @@ class SocialitesController extends Controller
     {
         // $this->isAuthorized($socialite);
 
-        session_start();
+        // if (session_id() == '') {
+        if (session_status() != PHP_SESSION_ACTIVE) { // 2
+            session_start();
+        }
+
         $config = $this->getSocialiteConfig($socialite);
         $fb = new Facebook([
             'app_id' => $config['app_id'],
@@ -332,7 +349,13 @@ class SocialitesController extends Controller
 
         $_SESSION['fb_access_token'] = (string)$accessToken;// Retrieve User Profile via the Graph API*/
 
-        $accessToken = $this->getAccessToken($request, $socialite);
+        if ($_SESSION['fb_access_token']) {
+            $accessToken = $_SESSION['fb_access_token'];
+        } else if ($request->session()->get("{$socialite}_access_token")) {
+            $accessToken = $request->session()->get("{$socialite}_access_token");
+        } else {
+            $accessToken = $this->getAccessToken($request, $socialite);
+        }
 
         try {
             // Returns a `Facebook\FacebookResponse` object
