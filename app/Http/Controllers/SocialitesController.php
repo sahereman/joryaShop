@@ -108,21 +108,30 @@ class SocialitesController extends Controller
         }
 
         // Logged in
-        echo '<h3>Access Token</h3>';
-        var_dump($accessToken->getValue());
+        // echo '<h3>Access Token</h3>';
+        // var_dump($accessToken->getValue());
+        // $_SESSION['fb_access_token'] = (string)$accessToken;
+        $_SESSION['fb_access_token'] = $accessToken->getValue();
+
+        // session(['fb_access_token' => (string)$accessToken]);
+        // session()->pull('fb_access_token', (string)$accessToken);
+        // $request->session()->put('fb_access_token', (string)$accessToken);
+        // $request->session()->put("{$socialite}_access_token", (string)$accessToken);
+        $request->session()->put("{$socialite}_access_token", $accessToken->getValue());
 
         // The OAuth 2.0 client handler helps us manage access tokens
         $oAuth2Client = $fb->getOAuth2Client();
 
         // Get the access token metadata from /debug_token
         $tokenMetadata = $oAuth2Client->debugToken($accessToken);
-        echo '<h3>Metadata</h3>';
-        var_dump($tokenMetadata);
+        // echo '<h3>Metadata</h3>';
+        // var_dump($tokenMetadata);
 
         // Validation (these will throw FacebookSDKException's when they fail)
-        $tokenMetadata->validateAppId('{app-id}'); // Replace {app-id} with your app id
+        // $tokenMetadata->validateAppId('{app-id}'); // Replace {app-id} with your app id
+        $tokenMetadata->validateAppId($config['app_id']); // Replace {app-id} with your app id
         // If you know the user ID this access token belongs to, you can validate it here
-        //$tokenMetadata->validateUserId('123');
+        // $tokenMetadata->validateUserId('123');
         $tokenMetadata->validateExpiration();
 
         if (!$accessToken->isLongLived()) {
@@ -134,16 +143,18 @@ class SocialitesController extends Controller
                 exit;
             }
 
-            echo '<h3>Long-lived</h3>';
-            var_dump($accessToken->getValue());
+            // echo '<h3>Long-lived</h3>';
+            // var_dump($accessToken->getValue());
         }
 
-        $_SESSION['fb_access_token'] = (string)$accessToken;
+        // $_SESSION['fb_access_token'] = (string)$accessToken;
+        $_SESSION['fb_access_token'] = $accessToken->getValue();
 
         // session(['fb_access_token' => (string)$accessToken]);
         // session()->pull('fb_access_token', (string)$accessToken);
         // $request->session()->put('fb_access_token', (string)$accessToken);
-        $request->session()->put("{$socialite}_access_token", (string)$accessToken);
+        // $request->session()->put("{$socialite}_access_token", (string)$accessToken);
+        $request->session()->put("{$socialite}_access_token", $accessToken->getValue());
 
         // User is logged in with a long-lived access token.
         // You can redirect them to a members-only page.
@@ -169,10 +180,10 @@ class SocialitesController extends Controller
         // OR
         // echo 'Name: ' . $user->getName();
 
-        dd($user_profile->getId());
-        /*$user = $this->findOrCreateUser($user_profile, $socialite);
+        // dd($user_profile->getId());
+        $user = $this->findOrCreateUser($user_profile, $socialite);
         Auth::login($user);
-        return redirect()->route('root');*/
+        return redirect()->route('root');
     }
 
     // POST: Socialite Deauthorize Url
@@ -262,14 +273,16 @@ class SocialitesController extends Controller
             exit;
         }
 
-        $_SESSION['fb_access_token'] = (string)$accessToken;
+        // $_SESSION['fb_access_token'] = (string)$accessToken;
+        $_SESSION['fb_access_token'] = $accessToken->getValue();
 
         // session(['fb_access_token' => (string)$accessToken]);
         // session()->pull('fb_access_token', (string)$accessToken);
         // $request->session()->put('fb_access_token', (string)$accessToken);
-        $request->session()->put("{$socialite}_access_token", (string)$accessToken);
+        // $request->session()->put("{$socialite}_access_token", (string)$accessToken);
+        $request->session()->put("{$socialite}_access_token", $accessToken->getValue());
 
-        return (string)$accessToken;
+        return $accessToken;
     }
 
     protected function getUserProfile(Request $request, string $socialite)
