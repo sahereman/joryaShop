@@ -109,7 +109,8 @@
                             </form>
                             <a class="btn_dialog commo_btn active" data-url="{{ route('login') }}">@lang('app.Log_In')</a>
                             {{--<a class="btn_dialog fb_btn" href="{{ route('socialites.login', ['socialite' => 'facebook']) }}">@lang('app.Log_In')</a>--}}
-                            <a class="btn_dialog fb_btn" href="{{ get_facebook_login_url() }}">@lang('app.Log_In')</a>
+                            {{--<a class="btn_dialog fb_btn" href="{{ get_facebook_login_url() }}">@lang('app.Log_In')</a>--}}
+                            <a class="btn_dialog fb_btn" href="{{ route('login') }}">@lang('app.Log_In')</a>
                             <p class="greetings-word"> Want to join the family?</p>
                             <a href="{{ route('register') }}" class="to-register">
                                 <span>Create an Account</span>
