@@ -8,6 +8,7 @@ use App\Models\User;
 use Facebook\Exceptions\FacebookResponseException;
 use Facebook\Exceptions\FacebookSDKException;
 use Facebook\Facebook;
+use Facebook\GraphNodes\GraphUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -158,14 +159,15 @@ class SocialitesController extends Controller
             exit;
         }
 
-        $user = $response->getGraphUser();
-        $user_info = $response->getGraphUser();
+        // $user = $response->getGraphUser();
+        $user_profile = $response->getGraphUser();
 
-        echo 'Name: ' . $user['name'];
+        // echo 'Name: ' . $user['name'];
         // OR
         // echo 'Name: ' . $user->getName();
 
-        /*$user = $this->findOrCreateUser($user_info, $socialite);
+        dd($user_profile->getId());
+        /*$user = $this->findOrCreateUser($user_profile, $socialite);
         Auth::login($user);
         return redirect()->route('root');*/
     }
@@ -175,9 +177,10 @@ class SocialitesController extends Controller
     {
         $this->isAuthorized($socialite);
 
+        $user_profile = $this->getUserProfile($request, $socialite);
         if (!in_array($socialite, $this->supportedSocialites) && $socialite == 'facebook') {
             $user = User::where([
-                'facebook' => $user_info->id
+                'facebook' => $user_profile->getId()
             ])->first();
 
             if ($user) {
@@ -196,9 +199,10 @@ class SocialitesController extends Controller
     {
         $this->isAuthorized($socialite);
 
+        $user_profile = $this->getUserProfile($request, $socialite);
         if (!in_array($socialite, $this->supportedSocialites) && $socialite == 'facebook') {
             $user = User::where([
-                'facebook' => $user_info->id
+                'facebook' => $user_profile->getId()
             ])->first();
 
             if ($user) {
@@ -317,7 +321,8 @@ class SocialitesController extends Controller
         try {
             // Returns a `Facebook\FacebookResponse` object
             // $response = $fb->get('/me?fields=id,name', '{access-token}');
-            $response = $fb->get('/me?fields=id,name,email,gender', $accessToken);
+            // $response = $fb->get('/me?fields=id,name,first_name,middle_name,last_name,email,gender,picture,url', $accessToken);
+            $response = $fb->get('/me', $accessToken);
         } catch (FacebookResponseException $e) {
             echo 'Graph returned an error: ' . $e->getMessage();
             exit;
@@ -326,45 +331,33 @@ class SocialitesController extends Controller
             exit;
         }
 
-        $user = $response->getGraphUser();
-        $user_info = $response->getGraphUser();
+        // $user = $response->getGraphUser();
+        $user_profile = $response->getGraphUser();
 
-        echo 'Name: ' . $user['name'];
+        // echo 'Name: ' . $user['name'];
         // OR
         // echo 'Name: ' . $user->getName();
 
-        return $user_info;
+        return $user_profile;
     }
 
-    protected function findOrCreateUser($user_info, string $socialite)
+    protected function findOrCreateUser(GraphUser $user_profile, string $socialite)
     {
         // $this->isAuthorized($socialite);
 
-        /*$this->isAuthorized($socialite);
-        $user = User::where([
-            'socialite' => $socialite,
-            'socialite_id' => $user_info->id
-        ])->first();
-
-        if (!$user) {
-            $user = User::create([
-                'name' => $user_info->name,
-                'email' => $user_info->email,
-                'socialite' => $socialite,
-                'socialite_id' => $user_info->id
-            ]);
-        }*/
-
         if (!in_array($socialite, $this->supportedSocialites) && $socialite == 'facebook') {
             $user = User::where([
-                'facebook' => $user_info->id
+                'facebook' => $user_profile->getId()
             ])->first();
 
             if (!$user) {
                 $user = User::create([
-                    'name' => $user_info->name,
-                    'email' => $user_info->email,
-                    'facebook' => $user_info->id
+                    'name' => $user_profile->getName(),
+                    'avatar' => $user_profile->getPicture()->getUrl(),
+                    'email' => $user_profile->getEmail(),
+                    'real_name' => $user_profile->getFirstName() . $user_profile->getMiddleName() . $user_profile->getLastName(),
+                    'gender' => $user_profile->getGender(),
+                    'facebook' => $user_profile->getId()
                 ]);
             }
             return $user;

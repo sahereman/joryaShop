@@ -238,9 +238,9 @@ Route::get('payments/get_wechat_open_id', 'PaymentsController@getWechatOpenId')-
 Route::post('feedbacks', 'FeedbacksController@store')->name('feedbacks.store'); // 提交订阅|发布留言
 
 /*Socialites*/
-Route::get('socialites_login_{socialite}', 'SocialitesController@login')->name('socialites_login'); // Socialite Login Url
+// Route::get('socialites_login_{socialite}', 'SocialitesController@login')->name('socialites_login'); // Socialite Login Url
 Route::get('socialites/login/{socialite}', 'SocialitesController@login')->name('socialites.login'); // Socialite Login Url
-Route::get('socialites_callback_{socialite}', 'SocialitesController@callback')->name('socialites_callback'); // Socialite Callback Url
+// Route::get('socialites_callback_{socialite}', 'SocialitesController@callback')->name('socialites_callback'); // Socialite Callback Url
 Route::get('socialites/callback/{socialite}', 'SocialitesController@callback')->name('socialites.callback'); // Socialite Callback Url
 Route::get('socialites/deauthorize/{socialite}', 'SocialitesController@deauthorize')->name('socialites.deauthorize'); // Socialite Deauthorize Url
 Route::get('socialites/delete/{socialite}', 'SocialitesController@delete')->name('socialites.delete'); // Socialite Delete Url
