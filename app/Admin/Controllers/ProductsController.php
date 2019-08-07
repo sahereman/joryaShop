@@ -162,6 +162,7 @@ class ProductsController extends Controller
         $grid->name_en('标题')->display(function ($data) {
             return "<a target='_blank' href='" . route('products.show', ['product' => $this->id]) . "'><span style='width: 120px;display: inline-block;overflow: hidden'>$data</span></a>";
         });
+        $grid->sub_name_en('副标题');
         $grid->type('商品类型')->display(function ($type) {
             $type_names = Product::$productTypeMap;
             return "<span>{$type_names[$type]}</span>";
