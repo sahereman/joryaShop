@@ -45,7 +45,7 @@ class SocialitesController extends Controller
             'app_id' => $config['app_id'],
             'app_secret' => $config['app_secret'],
             'default_graph_version' => $config['graph_version'],
-            'http_client_handler' => new FacebookGuzzle6HttpClient()
+            // 'http_client_handler' => new FacebookGuzzle6HttpClient()
         ]);
 
         $helper = $fb->getRedirectLoginHelper();
@@ -72,7 +72,7 @@ class SocialitesController extends Controller
             'app_id' => $config['app_id'],
             'app_secret' => $config['app_secret'],
             'default_graph_version' => $config['graph_version'],
-            'http_client_handler' => new FacebookGuzzle6HttpClient()
+            // 'http_client_handler' => new FacebookGuzzle6HttpClient()
         ]);
 
         $helper = $fb->getRedirectLoginHelper();
