@@ -50,11 +50,14 @@ class SocialitesController extends Controller
 
         $helper = $fb->getRedirectLoginHelper();
 
-        $permissions = ['default', 'email']; // Optional permissions
+        // $permissions = ['email']; // Optional permissions
+        // $permissions = ['default', 'email']; // Optional permissions
+        $permissions = ['email', 'public_profile']; // Optional permissions
         $loginUrl = $helper->getLoginUrl($config['redirect'], $permissions);
 
-        // echo '<a href="' . htmlspecialchars($loginUrl) . '">Log in with Facebook!</a>';
-        return redirect()->to(htmlspecialchars($loginUrl));
+        echo '<a href="' . htmlspecialchars($loginUrl) . '">Log in with Facebook!</a>';
+        die;
+        // return redirect()->to(htmlspecialchars($loginUrl));
     }
 
     // POST: Socialite Callback Url

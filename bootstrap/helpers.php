@@ -1,6 +1,8 @@
 <?php
 
+use App\Clients\FacebookGuzzle6HttpClient;
 use App\Models\ExchangeRate;
+use Facebook\Facebook;
 use GuzzleHttp\Client as GuzzleHttpClient;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\RequestException;
@@ -515,4 +517,26 @@ function get_attr_combo($attrs)
         }
     }
     return $attr_combo;
+}
+
+function get_facebook_login_url()
+{
+    session_start();
+    $config = config('socialites.facebook');
+    $fb = new Facebook([
+        'app_id' => $config['app_id'],
+        'app_secret' => $config['app_secret'],
+        'default_graph_version' => $config['graph_version'],
+        'http_client_handler' => new FacebookGuzzle6HttpClient()
+    ]);
+
+    $helper = $fb->getRedirectLoginHelper();
+
+    // $permissions = ['email']; // Optional permissions
+    // $permissions = ['default', 'email']; // Optional permissions
+    $permissions = ['email', 'public_profile']; // Optional permissions
+    $loginUrl = $helper->getLoginUrl($config['redirect'], $permissions);
+
+    // echo '<a href="' . htmlspecialchars($loginUrl) . '">Log in with Facebook!</a>';
+    return htmlspecialchars($loginUrl);
 }
