@@ -9,7 +9,7 @@ return [
         'unit' => 'Dollar',
     ],
 
-    'home' => 'My Account',
+    'home' => 'Home',
 
     'lang_label' => 'en',
 

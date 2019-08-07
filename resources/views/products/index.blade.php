@@ -3,58 +3,174 @@
 @section('description', $category->seo_description ? : \App\Models\Config::config('description'))
 @section('title', $category->seo_title ? : (App::isLocale('zh-CN') ? $category->name_zh : $category->name_en) . ' - ' . \App\Models\Config::config('title'))
 @section('content')
-    <div class="products-search-level">
-        <div class="m-wrapper">
-            <!--面包屑-->
-            <div>
-                <p class="Crumbs">
-                    <a href="{{ route('root') }}">@lang('product.All results')</a>
-                    {!! $crumbs !!}
-                </p>
-            </div>
-            <div class="search-level">
-                <ul>
-                    <li class="dis_n more_load"
-                        data-url="{{ route('product_categories.more', ['category' => $category->id]) }}"></li>
-                    <li class="active default">
-                        <a code='index'>@lang('product.Comprehensive')</a>
-                    </li>
-                    <li>
-                        <a code='heat'>@lang('product.Popularity')</a>
-                    </li>
-                    <li>
-                        <a code='latest'>@lang('product.New product')</a>
-                    </li>
-                    <li>
-                        <a code='sales'>@lang('product.Sales volume')</a>
-                    </li>
-                    <li class="icon">
-                        <a code='0'>
-                            <span>@lang('product.price')</span>
-                            <div>
-                                <i code='price_asc' class="w-icon-arrow arrow-up"></i>
-                                <i code='price_desc' class="w-icon-arrow arrow-down"></i>
+    <div class="productCate my_orders">
+        <div class="container main productCate-content">
+            <div class="col-left">
+                <div class="block block-layered-nav">
+                    <div class="block-title">
+                        <strong><span>Categories</span></strong>
+                    </div>
+                    <div class="block-content">
+                        <div class="categories-lists-items categories-menu">
+                            <div class="categories-lists-item">
+                                <div class="lists-item-title"><a href="#"><span>Hair Systems</span></a></div>
                             </div>
-                        </a>
-                    </li>
-                </ul>
-                <div>
-                    {{--<input type="text" class="min_price" placeholder="{{ App::isLocale('en') ? '&#36;' : '&#165;' }}"/>--}}
-                    <input type="text" class="min_price" placeholder="{{ get_global_symbol() }}"/>
-                    <span></span>
-                    {{--<input type="text" class="max_price" placeholder="{{ App::isLocale('en') ? '&#36;' : '&#165;' }}"/>--}}
-                    <input type="text" class="max_price" placeholder="{{ get_global_symbol() }}"/>
-                    <button class="searchByPrice">@lang('app.determine')</button>
+                            <div class="categories-lists-item">
+                                <div class="lists-item-title"><a href="#"><span>Mens Hair Systems</span></a></div>
+                                <ul class="categories-lists-item-ul">
+                                    <li>
+                                        <a href="#"><span>Stock Hair Systems</span></a>
+                                    </li>
+                                    <li>
+                                        <a href="#"><span>Custom Hair Systems</span></a>
+                                    </li>
+                                    <li>
+                                        <a href="#"><span>Lace Hair Systems</span></a>
+                                    </li>
+                                    <li>
+                                        <a href="#"><span>Lace Front Hair Systems</span></a>
+                                    </li>
+                                    <li>
+                                        <a href="#"><span>Skin Hair Systems</span></a>
+                                    </li>
+                                    <li>
+                                        <a href="#"><span>Monofilament Systems</span></a>
+                                    </li>
+                                    <li>
+                                        <a href="#"><span>Men's Hair Toupees</span></a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="categories-lists-item">
+                                <div class="lists-item-title"><a href="#"><span>Womens Hair Systems</span></a></div>
+                                <ul class="categories-lists-item-ul">
+                                    <li>
+                                        <a href="#"><span>Womens Hair Systems</span></a>
+                                    </li>
+                                    <li>
+                                        <a href="#"><span>Full Cap Wigs</span></a>
+                                    </li>
+                                    <li>
+                                        <a href="#"><span>Hair Integration</span></a>
+                                    </li>
+                                    <li>
+                                        <a href="#"><span>Medical Wigs</span></a>
+                                    </li>
+                                    <li>
+                                        <a href="#"><span>Stock Wigs for Women</span></a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="categories-lists-item">
+                                <div class="lists-item-title"><a href="#"><span>Accessories</span></a></div>
+                                <ul class="categories-lists-item-ul">
+                                    <li>
+                                        <a href="#"><span>Ordering tools</span></a>
+                                    </li>
+                                    <li>
+                                        <a href="#"><span>Maintenance &amp; accessories</span></a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="categories-lists-item">
+                                <div class="lists-item-title"><a href="#"><span>Salon Collaboration</span></a></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="block block-layered-nav">
+                    <div class="block-title">
+                        <strong><span>Shop By</span></strong>
+                    </div>
+                    <div class="block-content">
+                        <div class="categories-lists-items subtitle-filter">
+                            <div class="categories-lists-item">
+                                <div class="lists-item-title">
+                                    <span>Base material</span>
+                                    <span class="opener">+</span>
+                                </div>
+                                <ul class="categories-lists-item-ul">
+                                    <li><a href="#">Full lace<span class="count">(11)</span></a></li>
+                                    <li><a href="#">Full lace<span class="count">(11)</span></a></li>
+                                    <li><a href="#">Full lace<span class="count">(11)</span></a></li>
+                                    <li><a href="#">Full lace<span class="count">(11)</span></a></li>
+                                    <li><a href="#">Full lace<span class="count">(11)</span></a></li>
+                                    <li><a href="#">Full lace<span class="count">(11)</span></a></li>
+                                </ul>
+                            </div>
+                            <div class="categories-lists-item">
+                                <div class="lists-item-title">
+                                    <span>Base material</span>
+                                    <span class="opener">+</span>
+                                </div>
+                                <ul class="categories-lists-item-ul">
+                                    <li><a href="#">Full lace<span class="count">(11)</span></a></li>
+                                    <li><a href="#">Full lace<span class="count">(11)</span></a></li>
+                                    <li><a href="#">Full lace<span class="count">(11)</span></a></li>
+                                    <li><a href="#">Full lace<span class="count">(11)</span></a></li>
+                                    <li><a href="#">Full lace<span class="count">(11)</span></a></li>
+                                    <li><a href="#">Full lace<span class="count">(11)</span></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <!--商品分类展示-->
-            <div class="classified-display">
-                <div class="classified-products">
-                    <ul class="classified-lists"></ul>
+            <div class="col-right">
+                <div class="Crumbs-box">
+                    {{-- 面包屑 --}}
+                    <p class="Crumbs">
+                        <a href="{{ route('root') }}">@lang('basic.home')</a>
+                        <span>/</span>
+                        <a  class="dynamic-path" href="javascript:void(0);"></a>
+                    </p>
+                    <div class="page-title category-title">
+                        {{-- 引号内添加用户搜索的关键词 --}}
+                    </div>
+                    <div class="category-products">
+                        <div class="toolbar">
+                            <div class="sorter">
+                                <div class="sort-by">
+                                    <label>SORT BY:</label>
+                                    <a class="active" href="#"><span>Position</span>/</a>
+                                    <a href="#"><span>Name</span>/</a>
+                                    <a href="#"><span>Price</span>/</a>
+                                    <a class="category-asc iconfont" href="#" title="">&#xe63b;</a>
+                                </div>
+                            </div> <!-- end: sorter -->
+                        </div>
+                        <input type="hidden" class="more_load" value="{{ route('products.search_more') }}">
+                        <ul class="products-grid category-products-grid"></ul>
+                        {{--end: Quick View--}}
+                        <div class="toolbar-bottom">
+                            <div class="toolbar">
+                                <div class="pager">
+                                    <div class="pages">
+                                        <strong>Page:</strong>
+                                        <ol>
+                                            {{-- 当前页不是第一页的时候显示 路径为当前页的前一页 --}}
+                                            <li class="previous">
+                                                <a class="next iconfont" href="https://www.lordhair.com/mens-hair-systems.html?p=2" title="Previous">&#xe603;</a>
+                                            </li>
+                                            {{-- 默认显示五个页码多余的不显示 --}}
+                                            <li class="current">1</li>
+                                            <li><a href="#">2</a></li>
+                                            <li><a href="#">3</a></li>
+                                            <li><a href="#">4</a></li>
+                                            <li><a href="#">5</a></li>
+                                            {{--当前页是最后一页时不显示 路径为当前页的前一页--}}
+                                            <li class="next">
+                                                <a class="next iconfont" href="https://www.lordhair.com/mens-hair-systems.html?p=2" title="Next">&#xe63a;</a>
+                                            </li>
+                                        </ol>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 @endsection
 @section('scriptsAfterJs')
     <script type="text/javascript">
@@ -73,7 +189,7 @@
                     sort: sort,
                     page: 1,
                 };
-                var url = $(".more_load").attr("data-url");
+                var url = $(".more_load").val();
                 getResults(dataoption_1, true, url);
             };
             //获取商品列表
@@ -103,24 +219,57 @@
                                 // price = (country == "中文") ? n.price : n.price_in_usd;
                                 symbol = global_symbol;
                                 price = get_current_price(n.price);
-                                html += "<li>" +
-                                        "<a href='/products/" + n.id + "'>" +
-                                        "<div class='list-img'>" +
-                                        "<img class='lazy' src='" + n.thumb_url + "'>" +
-                                        "</div>" +
-                                        "<div class='list-info'>" +
-                                        "<p class='list-info-title' title='" + name + "'>" + name + "</p>" +
-                                            // "<p class='list-info-title'>"+ n.name_en +"</p>"+
-                                        "<p>" +
-                                        "<span class='new-price'><i>" + symbol + "</i>" + price + "</span>" +
-                                        "<span class='old-price'><i>" + symbol + "</i>" + js_number_format(Math.imul(float_multiply_by_100(price), 12) / 1000) + "</span>" +
-                                        // "<span class='old-price'><i>" + symbol + "</i>" + js_number_format(Math.ceil(price * 120) / 100) + "</span>" +
-                                        // 以下方法实现js的number_format功能虽然简单，但是存在数字四舍五入不准确的问题，结果不可预知：
-                                        // "<span class='old-price'><i>" + symbol + "</i>" + (Math.ceil(price * 120) / 100).toFixed(2) + "</span>" +
-                                        "</p>" +
-                                        "</div>" +
-                                        "</a>" +
-                                        "</li>";
+                                html +="<li class='item'>"
+                                html +="<div class='product-image-wrapper'>"
+                                html +="<div class='products-item'>"
+                                html +="<div class='products-img'>"
+                                html +="<a href='/products/" + n.id + "' title='' class='product-image'>"
+                                html +="<img src='"+ n.thumb_url  +"' alt=''>"
+                                html +="</a>"
+                                html +="</div>"
+                                html +="<div class='products-info visible-lg'>"
+                                html +="<button type='button' class='button btn-cart quick-view'>"
+                                html +="<a href='/products/" + n.id + "'>QUICK VIEW</a>"
+                                html +="</button>"
+                                {{-- 需判断商品是否已经添加收藏列表如果没有显示 --}}
+                                if(1===1) {
+                                    html +="<a class='wishlist-icon' data-product=''><img alt='' src='{{ asset('img/lordImg/w-icon.png') }}'>WISHLIST</a>"
+                                }else {
+                                    html +="<a class='wishlist-icon inwish' data-product=''><img alt='' src='{{ asset('img/lordImg/w-icon-hover.png') }}'>WISHLIST</a>"
+                                }
+                                html +="<div class='clear'></div>"
+                                html +="</div>"
+                                html +="</div>"
+                                html +="</div>"
+                                html +="<h2 class='product-name'>"
+                                html +="<a href='/products/" + n.id + "'>"+ name +"</a>"
+                                html +="</h2>"
+                                html +="<h5 class='product-name'>Product Code: S22 Stock (UTS)</h5>"
+                                html +="<div class=''>"
+                                html +="<div class='ratings'>"
+                                html +="<div class='rating-box'>"
+                                {{-- 商品星级评价，按照之前的设定分为：
+                                         1星：width:20%
+                                         2星：width:40%
+                                         3星：width:60%
+                                         4星：width:80%
+                                         5星：width:100%--}}
+                                    html +="<div class='rating' style='width:98%'></div>"
+                                html +="</div>"
+                                html +="<span class='amount'>50 Review(s)</span>"
+                                html +="</div>"
+                                html +="</div>"
+                                html +="<div class='price-box'>"
+                                html +="<p class='old-price'>"
+                                html +="<span class='price'><i>" + symbol + "</i>" + js_number_format(Math.imul(float_multiply_by_100(price), 12) / 1000) + "</span>"
+                                html +="</p>"
+                                html +="<p class='special-price'>"
+                                html +="<span class='price-label'>Special Price</span>"
+                                html +="<span class='price'><i>" + symbol + "</i>" + price + "</span>"
+                                html +="</p>"
+                                html +="</div>"
+                                html +="<div class='actions clearer' style='padding-left: 20%; bottom: 25px;'></div>"
+                                html +="</li>"
                             });
                             loading = false;
                         } else {
@@ -133,13 +282,14 @@
                                         "</p>" +
                                         "</li>";
                             } else {
-                                html = "<li class='ending_empty_tips'>" +
-                                        "<p>@lang('product.All content has been loaded')</p>" +
-                                        "</li>";
+                                {{--html = "<li class='ending_empty_tips'>" +--}}
+                                        {{--"<p>@lang('product.All content has been loaded')</p>" +--}}
+                                        {{--"</li>";--}}
                             }
                             loading = true; // 当返回数组内容为空时阻止滚动条滚动
                         }
-                        $(".classified-lists").append(html);
+                        $(".products-grid").append(html)
+                        // $(".classified-lists").append(html);
                     },
                     error: function (e) {
                         console.log(e);
@@ -197,31 +347,31 @@
                 return number;
             }
 
-            $(window).scroll(function () {
-                // 通过判断滚动条的top位置与可视网页之和与整个网页的高度是否相等来决定是否加载内容；
-                if ((($(window).scrollTop() + $(window).height()) + 300) >= $(document).height()) {
-                    if (loading == false) {
-                        loading = true;
-                        if (requestType == 0) {
-                            dataoption_3 = {
-                                // query: getQueryString("query"),
-                                page: page_num,
-                                sort: sort,
-                            }
-                        } else {
-                            dataoption_3 = {
-                                // query: getQueryString("query"),
-                                page: page_num,
-                                min_price: $(".min_price").val(),
-                                max_price: $(".max_price").val(),
-                            }
-                        }
-                        var url = $(".more_load").attr("data-url");
-                        getResults(dataoption_3, false, url);
-                        page_num++;
-                    }
-                }
-            });
+            // $(window).scroll(function () {
+            //     // 通过判断滚动条的top位置与可视网页之和与整个网页的高度是否相等来决定是否加载内容；
+            //     if ((($(window).scrollTop() + $(window).height()) + 300) >= $(document).height()) {
+            //         if (loading == false) {
+            //             loading = true;
+            //             if (requestType == 0) {
+            //                 dataoption_3 = {
+            //                     // query: getQueryString("query"),
+            //                     page: page_num,
+            //                     sort: sort,
+            //                 }
+            //             } else {
+            //                 dataoption_3 = {
+            //                     // query: getQueryString("query"),
+            //                     page: page_num,
+            //                     min_price: $(".min_price").val(),
+            //                     max_price: $(".max_price").val(),
+            //                 }
+            //             }
+            //             var url = $(".more_load").val();
+            //             getResults(dataoption_3, false, url);
+            //             page_num++;
+            //         }
+            //     }
+            // });
             // 点击商品分类获取不同的信息
             $(".search-level ul").on('click', 'li', function () {
                 requestType = 0;
@@ -251,7 +401,7 @@
                     sort: sort,
                 };
                 $(".classified-lists").html("");
-                var url = $(".more_load").attr("data-url");
+                var url = $(".more_load").val();
                 getResults(dataoption_1, true, url);
             });
             // 根据价格区间来获取排序
@@ -271,7 +421,7 @@
                             max_price: $(".max_price").val(),
                         };
                         $(".classified-lists").html("");
-                        var url = $(".more_load").attr("data-url");
+                        var url = $(".more_load").val();
                         getResults(dataoption_2, true, url);
                     } else {
                         layer.msg("@lang('product.Please enter the correct price range')");

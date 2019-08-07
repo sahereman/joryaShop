@@ -2,6 +2,11 @@
 footer {
   min-height: 355px;
   min-width: 1250px;
+  @media only screen and (max-width: 767px){
+    min-width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+  }
   .inner-container {
     background-color: #ececec;
     .m-wrapper {
@@ -124,10 +129,32 @@ footer {
           margin: auto 20px;
           min-width: 131px;
           line-height: 30px;
+          @media only screen and (max-width: 767px){
+            width: 100%;
+            margin: 0;
+            padding: 0 15px;
+          }
           p {
             font-size: 18px;
             color: #aaa;
             margin-bottom: 15px;
+            @media only screen and (max-width: 767px){
+              width: 100%;
+              display: flex;
+              flex-direction: row;
+              justify-content: space-between;
+            }
+            .dropdown-menu {
+              display: none;
+              @media only screen and (max-width: 767px){
+                display: contents;
+              }
+            }
+          }
+          .footer-block-content {
+            @media only screen and (max-width: 767px){
+              display: none;
+            }
           }
           a {
             display: block;
@@ -173,6 +200,9 @@ footer {
     color: #999;
     font-size: 12px;
     display: flex;
+    @media only screen and (max-width: 767px){
+      width: 100%;
+    }
     .web_info {
       overflow: hidden;
       margin-top: 15px;
@@ -188,13 +218,24 @@ footer {
       li {
         display: inline-block;
         margin: 0 5px;
+        img {
+          @media only screen and (max-width: 767px){
+            width: 100%;
+          }
+        }
       }
     }
     .pageurl_zb {
       font-size: 14px;
+      @media only screen and (max-width: 767px){
+        width: 100%;
+      }
     }
     .friendship_cop {
       font-size: 14px;
+      @media only screen and (max-width: 767px){
+        width: 100%;
+      }
       span{
         margin-left: 10px;
         color: #b7b6b6;

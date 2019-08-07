@@ -6,6 +6,10 @@
   margin-bottom: 0;
   border: 0;
   border-bottom: 1px solid #e5e5e5;
+  @media only screen and (max-width: 767px){
+    width: 100%;
+    min-width: 100%;
+  }
   //z-index: 100;
   .navbar-top {
     height: 40px;
@@ -175,10 +179,19 @@
           display: flex;
           flex-direction: row;
           justify-content: space-between;
+          @media only screen and (max-width: 767px){
+            width: 100%;
+          }
+          //@media (max-width: 991px) and (min-width: 768px) {
+          //  display: none;
+          //}
           .header_logo {
             margin: auto;
             margin-left: 15px;
             text-align: center;
+            @media only screen and (max-width: 767px){
+              width: 40%;
+            }
             a {
               img {
                 width: 100%;
@@ -191,6 +204,9 @@
           .navbar-bottom-top-left-right {
             margin: auto;
             margin-left: 30px;
+            @media only screen and (max-width: 767px){
+              display: none;
+            }
             p {
               color: #bc8c61;
               font-size: 14px;
@@ -209,6 +225,9 @@
           margin-right: 0;
           display: flex;
           flex-direction: row;
+          @media only screen and (max-width: 767px){
+           display: none;
+          }
           a {
             display: block;
             height: 35px;
@@ -240,6 +259,9 @@
           flex-direction: row;
           justify-content: flex-start;
           flex-wrap: wrap;
+          @media only screen and (max-width: 767px){
+            display: none;
+          }
           >li {
             height: 50px;
             height: 100%;
@@ -470,7 +492,7 @@
 
     }
     .links {
-      >li {
+      > li {
         line-height: 36px;
       }
     }
@@ -479,6 +501,33 @@
     }
     .right-column {
       text-align: right;
+      @media only screen and (max-width: 767px){
+        display: none;
+      }
+    }
+    .mobile-header-menu {
+      //position: relative;
+      float: right;
+      .mobile-nav-list {
+        position: absolute;
+        right: 0;
+        top: 36px;
+        background: #333;
+        display: none;
+        width: 100px;
+        z-index: 9999;
+        text-align: center;
+      }
+    }
+  }
+  #why-lordhair {
+    @media only screen and (max-width: 767px){
+      display: none;
+    }
+  }
+  #head-contact-wrapper {
+    @media only screen and (max-width: 767px){
+      display: none;
     }
   }
   .header {
@@ -635,10 +684,6 @@
   &:after {
     clear: both;
   }
-}
-.container {
-  width: 96%;
-  max-width: 1200px;
 }
 .dropdown .caret {
   opacity: 0.3;

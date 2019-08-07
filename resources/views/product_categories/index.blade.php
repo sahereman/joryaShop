@@ -4,108 +4,316 @@
 @section('title', $category->seo_title ? : (App::isLocale('zh-CN') ? $category->name_zh : $category->name_en) . ' - ' . \App\Models\Config::config('title'))
 @section('content')
     <div class="productCate my_orders">
-        <!--商品分类导图-->
-        <div class="swiper-container Taxonomy" id="Taxonomy">
-            <div class="swiper-wrapper">
-                <div class="swiper-slide">
+        <div class="container main productCate-content">
+            <div class="col-left">
+                {{-- 搜索页不显示 --}}
+                <div class="block block-layered-nav">
+                    <div class="block-title">
+                        <strong><span>Categories</span></strong>
+                    </div>
+                    <div class="block-content">
+                        <div class="categories-lists-items categories-menu">
+                            <div class="categories-lists-item">
+                                <div class="lists-item-title"><a href="#"><span>Hair Systems</span></a></div>
+                            </div>
+                            <div class="categories-lists-item">
+                                <div class="lists-item-title"><a href="#"><span>Mens Hair Systems</span></a></div>
+                                <ul class="categories-lists-item-ul">
+                                    <li>
+                                        <a href="#"><span>Stock Hair Systems</span></a>
+                                    </li>
+                                    <li>
+                                        <a href="#"><span>Custom Hair Systems</span></a>
+                                    </li>
+                                    <li>
+                                        <a href="#"><span>Lace Hair Systems</span></a>
+                                    </li>
+                                    <li>
+                                        <a href="#"><span>Lace Front Hair Systems</span></a>
+                                    </li>
+                                    <li>
+                                        <a href="#"><span>Skin Hair Systems</span></a>
+                                    </li>
+                                    <li>
+                                        <a href="#"><span>Monofilament Systems</span></a>
+                                    </li>
+                                    <li>
+                                        <a href="#"><span>Men's Hair Toupees</span></a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="categories-lists-item">
+                                <div class="lists-item-title"><a href="#"><span>Womens Hair Systems</span></a></div>
+                                <ul class="categories-lists-item-ul">
+                                    <li>
+                                        <a href="#"><span>Womens Hair Systems</span></a>
+                                    </li>
+                                    <li>
+                                        <a href="#"><span>Full Cap Wigs</span></a>
+                                    </li>
+                                    <li>
+                                        <a href="#"><span>Hair Integration</span></a>
+                                    </li>
+                                    <li>
+                                        <a href="#"><span>Medical Wigs</span></a>
+                                    </li>
+                                    <li>
+                                        <a href="#"><span>Stock Wigs for Women</span></a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="categories-lists-item">
+                                <div class="lists-item-title"><a href="#"><span>Accessories</span></a></div>
+                                <ul class="categories-lists-item-ul">
+                                    <li>
+                                        <a href="#"><span>Ordering tools</span></a>
+                                    </li>
+                                    <li>
+                                        <a href="#"><span>Maintenance &amp; accessories</span></a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="categories-lists-item">
+                                <div class="lists-item-title"><a href="#"><span>Salon Collaboration</span></a></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="block block-layered-nav">
+                    <div class="block-title">
+                        <strong><span>Shop By</span></strong>
+                    </div>
+                    <div class="block-content">
+                        <div class="categories-lists-items subtitle-filter">
+                            <div class="categories-lists-item">
+                                <div class="lists-item-title">
+                                    <span>Base material</span>
+                                    <span class="opener">+</span>
+                                </div>
+                                <ul class="categories-lists-item-ul">
+                                    <li><a href="#">Full lace<span class="count">(11)</span></a></li>
+                                    <li><a href="#">Full lace<span class="count">(11)</span></a></li>
+                                    <li><a href="#">Full lace<span class="count">(11)</span></a></li>
+                                    <li><a href="#">Full lace<span class="count">(11)</span></a></li>
+                                    <li><a href="#">Full lace<span class="count">(11)</span></a></li>
+                                    <li><a href="#">Full lace<span class="count">(11)</span></a></li>
+                                </ul>
+                            </div>
+                            <div class="categories-lists-item">
+                                <div class="lists-item-title">
+                                    <span>Base material</span>
+                                    <span class="opener">+</span>
+                                </div>
+                                <ul class="categories-lists-item-ul">
+                                    <li><a href="#">Full lace<span class="count">(11)</span></a></li>
+                                    <li><a href="#">Full lace<span class="count">(11)</span></a></li>
+                                    <li><a href="#">Full lace<span class="count">(11)</span></a></li>
+                                    <li><a href="#">Full lace<span class="count">(11)</span></a></li>
+                                    <li><a href="#">Full lace<span class="count">(11)</span></a></li>
+                                    <li><a href="#">Full lace<span class="count">(11)</span></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-right">
+                <div class="Crumbs-box">
+                    <p class="Crumbs">
+                        <a href="{{ route('root') }}">@lang('basic.home')</a>
+                        {!! $crumbs !!}
+                    </p>
+                </div>
+                <div class="category-image">
+                    {{----}}
                     @if(!empty($category->banner))
                         <img class="lazy" data-src="{{ $category->banner_url }}">
                     @else
-                        <div class="text_intru">
-                            <p>{{ App::isLocale('zh-CN') ? $category->name_zh : $category->name_en }}</p>
-                            <p>{{ App::isLocale('zh-CN') ? $category->description_zh : $category->description_en }}</p>
-                        </div>
-                        <img class="lazy" data-src="{{ asset('defaults/defaults_pc_category_banner.png') }}">
+                        <img src="{{ asset('defaults/defaults_pc_category_banner.png') }}">
                     @endif
                 </div>
-            </div>
-        </div>
-        <div class="m-wrapper">
-            <!--面包屑-->
-            <div>
-                <p class="Crumbs">
-                    <a href="{{ route('root') }}">@lang('basic.home')</a>
-                    {!! $crumbs !!}
-                </p>
-            </div>
-            <div class="classification-level">
-                <p class="level_title">@lang('product.product_details.classification')：</p>
-                <ul>
-                    <li class="active">
-                        <a href="javascript:void(0);"><span>@lang('product.All')</span></a>
-                    </li>
-                    @foreach($children as $child)
-                        <li>
-                            <a href="{{ route('product_categories.index', ['category' => $child->id,'slug'=>$child->slug]) }}"><span>{{ App::isLocale('zh-CN') ? $child->name_zh : $child->name_en }}</span></a>
-                        </li>
-                    @endforeach
-                </ul>
-            </div>
-            <!--商品分类展示-->
-            @foreach($children as $child)
-                <div class="classified-display">
-                    <div class="classified-title">
-                        <h3 title="{{ App::isLocale('zh-CN') ? $child->name_zh : $child->name_en }}">
-                            {{ App::isLocale('zh-CN') ? $child->name_zh : $child->name_en }}
-                        </h3>
-                        <p title="{{ App::isLocale('zh-CN') ? strip_tags($child->description_zh) : strip_tags($child->description_en) }}">
-                            {!! App::isLocale('zh-CN') ? $child->description_zh : $child->description_en !!}
-                        </p>
+                <div class="page-title category-title">
+                    <h1>Men's Hairpieces</h1>
+                </div>
+                <div class="category-description">
+                    <p>We stock and custom make a wide variety of non-surgical hair replacement systems including human hair wigs and toupees. Go ahead, find the right hair piece for you.</p>
+                </div>
+                <div class="category-products">
+                    <div class="toolbar">
+                        <div class="sorter">
+                            <div class="sort-by">
+                                <label>SORT BY:</label>
+                                <a class="active" href="#"><span>Position</span>/</a>
+                                <a href="#"><span>Name</span>/</a>
+                                <a href="#"><span>Price</span>/</a>
+                                <a class="category-asc iconfont" href="#" title="">&#xe63b;</a>
+                            </div>
+                        </div> <!-- end: sorter -->
                     </div>
-                    <div class="classified-products">
-                        <ul class="classified-lists">
-                            @if($child->children->isNotEmpty())
-                                @foreach($child->all_products()->take(10) as $product )
-                                    <li>
-                                        <a href="{{ route('products.show', ['product' => $product->id,'slug'=>$product->slug]) }}">
-                                            <div class="list-img">
-                                                <img class="lazy" data-src="{{ $product->thumb_url }}">
-                                            </div>
-                                            <div class="list-info">
-                                                <p title="{{ App::isLocale('zh-CN') ? $product->name_zh : $product->name_en }}" class="list-info-title">
-                                                    {{ App::isLocale('zh-CN') ? $product->name_zh : $product->name_en }}
-                                                </p>
-                                                <p>
-                                                    {{--<span class="old-price"><i>@lang('basic.currency.symbol') </i>{{ App::isLocale('en') ? bcmul($product->price_in_usd, 1.2, 2) : bcmul($product->price, 1.2, 2) }}</span>--}}
-                                                    {{--<span class="new-price"><i>@lang('basic.currency.symbol') </i>{{ App::isLocale('en') ? $product->price_in_usd : $product->price }}</span>--}}
-                                                    <span class="old-price"><i>{{ get_global_symbol() }} </i>{{ bcmul(get_current_price($product->price), 1.2, 2) }}</span>
-                                                    <span class="new-price"><i>{{ get_global_symbol() }} </i>{{ get_current_price($product->price) }}</span>
-                                                </p>
-                                            </div>
+                    <ul class="products-grid category-products-grid">
+                        <?php $_ii=0; while ($_ii++ < 5): ?>
+                          <li class="item">
+                            <div class="product-image-wrapper">
+                                <div class="products-item">
+                                    {{--商品配图--}}
+                                    <div class="products-img">
+                                        <a href="#" title="" class="product-image">
+                                            <img src="https://www.lordhair.com/media/catalog/product/cache/4/small_image/295x/040ec09b1e35df139433887a97daa66f/s/2/s22-stock-mens-hairpiece.jpg" alt="">
                                         </a>
-                                    </li>
-                                @endforeach
-                            @else
-                                @foreach($child->products()->where('on_sale', true)->orderByDesc('index')->limit(10)->get() as $product )
-                                    <li>
-                                        <a href="{{ route('products.show', ['product' => $product->id,'slug'=>$product->slug]) }}">
-                                            <div class="list-img">
-                                                <img class="lazy" data-src="{{ $product->thumb_url }}">
-                                            </div>
-                                            <div class="list-info">
-                                                <p title="{{ App::isLocale('zh-CN') ? $product->name_zh : $product->name_en }}" class="list-info-title">
-                                                    {{ App::isLocale('zh-CN') ? $product->name_zh : $product->name_en }}
-                                                </p>
-                                                <p>
-                                                    {{--<span class="old-price"><i>@lang('basic.currency.symbol') </i>{{ App::isLocale('en') ? bcmul($product->price_in_usd, 1.2, 2) : bcmul($product->price, 1.2, 2) }}</span>--}}
-                                                    {{--<span class="new-price"><i>@lang('basic.currency.symbol') </i>{{ App::isLocale('en') ? $product->price_in_usd : $product->price }}</span>--}}
-                                                    <span class="old-price"><i>{{ get_global_symbol() }} </i>{{ bcmul(get_current_price($product->price), 1.2, 2) }}</span>
-                                                    <span class="new-price"><i>{{ get_global_symbol() }} </i>{{ get_current_price($product->price) }}</span>
-                                                </p>
-                                            </div>
-                                        </a>
-                                    </li>
-                                @endforeach
-                            @endif
-
-                        </ul>
+                                    </div>
+                                    <div class="products-info visible-lg">
+                                        {{--快速预览跳转到商品详情页面--}}
+                                        <button type="button" class="button btn-cart quick-view">
+                                            <a href="#">QUICK VIEW</a>
+                                        </button>
+                                        {{--添加收藏--}}
+                                        {{-- 需判断商品是否已经添加收藏列表如果没有显示 --}}
+                                        @if(true)
+                                          <a class="wishlist-icon" data-product=""><img alt="" src="{{ asset('img/lordImg/w-icon.png') }}">WISHLIST</a>
+                                        @else
+                                        {{--如果已经添加收藏显示--}}
+                                          <a class="wishlist-icon inwish" data-product=""><img alt="" src="{{ asset('img/lordImg/w-icon-hover.png') }}">WISHLIST</a>
+                                        @endif
+                                        <div class="clear"></div>
+                                    </div>
+                                </div>
+                            </div>
+                              {{-- 商品标题 --}}
+                            <h2 class="product-name">
+                                <a href="#">S22: Ultra Thin Skin V-looped Stock Mens Hairpieces</a>
+                            </h2>
+                              {{--商品标号一类--}}
+                            <h5 class="product-name">Product Code: S22 Stock (UTS)</h5>
+                            <div class="">
+                                <div class="ratings">
+                                    <div class="rating-box">
+                                        {{-- 商品星级评价，按照之前的设定分为：
+                                         1星：width:20%
+                                         2星：width:40%
+                                         3星：width:60%
+                                         4星：width:80%
+                                         5星：width:100%--}}
+                                        <div class="rating" style="width:98%"></div>
+                                    </div>
+                                    {{-- 评价的数量 --}}
+                                    <span class="amount">50 Review(s)</span>
+                                </div>
+                            </div>
+                            <div class="price-box">
+                                {{--原始价格--}}
+                                <p class="old-price">
+                                    <span class="price">US$299.00</span>
+                                </p>
+                                {{--当前价格--}}
+                                <p class="special-price">
+                                    <span class="price-label">Special Price</span>
+                                    <span class="price">US$159.00</span>
+                                </p>
+                            </div>
+                            <div class="actions clearer " style="padding-left: 20%; bottom: 25px;"></div>
+                        </li>
+                        <?php endwhile; ?>
+                    </ul>
+                    {{--end: Quick View--}}
+                    <div class="toolbar-bottom">
+                        <div class="toolbar">
+                            <div class="pager">
+                                <div class="pages">
+                                    <strong>Page:</strong>
+                                    <ol>
+                                        {{-- 当前页不是第一页的时候显示 路径为当前页的前一页 --}}
+                                        <li class="previous">
+                                            <a class="next iconfont" href="https://www.lordhair.com/mens-hair-systems.html?p=2" title="Previous">&#xe603;</a>
+                                        </li>
+                                        {{-- 默认显示五个页码多余的不显示 --}}
+                                        <li class="current">1</li>
+                                        <li><a href="#">2</a></li>
+                                        <li><a href="#">3</a></li>
+                                        <li><a href="#">4</a></li>
+                                        <li><a href="#">5</a></li>
+                                        {{--当前页是最后一页时不显示 路径为当前页的前一页--}}
+                                        <li class="next">
+                                            <a class="next iconfont" href="https://www.lordhair.com/mens-hair-systems.html?p=2" title="Next">&#xe63a;</a>
+                                        </li>
+                                    </ol>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            @endforeach
+                {{--文字介绍--}}
+                <div class="article-bottom">
+                    <p>TV celebrities, movie stars, and politicians prefer top quality hair wigs and hair systems for men over painful hair transplant surgery. Besides being completely risk-free and a complete solution for natural hair-loss, our men’s hair systems bring the freedom of multiple hairstyles and a completely natural look. Why go for an expensive and painful surgical procedure when you can get the confidence of full hair with our non-surgical hair replacement systems and hair wigs for men? Browse the complete range of Lordhair’s all-natural men’s hair systems and hair wigs for men that are ready for shipping and come with the promise of 30-day money back warranty! You read it right! 30-day money back warranty comes with our hair wigs for men. This means you will get your money back if you are not happy with the hair system.</p>
+                </div>
+            </div>
         </div>
     </div>
 @endsection
 @section('scriptsAfterJs')
     <script type="text/javascript">
+        {{-- 左侧shopBy点击展开 --}}
+        $(".subtitle-filter").on("click",".opener",function () {
+            var activeDom = $(this).parents(".categories-lists-item"),
+                isActive = $(activeDom).hasClass("item-active"),
+                $allSubtitle = $(".subtitle-filter");
+            if(isActive){
+                $(activeDom).find(".categories-lists-item-ul").slideUp();
+                $(activeDom).removeClass("item-active");
+                $(this).text("+");
+            }else {
+                $allSubtitle.find(".categories-lists-item").removeClass("item-active");
+                $allSubtitle.find(".categories-lists-item-ul").slideUp();
+                $allSubtitle.find(".opener").text("+");
+                $(activeDom).find(".categories-lists-item-ul").slideDown();
+                $(activeDom).addClass("item-active");
+                $(this).text("-");
+            }
+        })
+    // wishlist-icon的触摸事件
+        $(".wishlist-icon").hover(function(){
+            if(!($(this).hasClass('inwish'))){
+                $(this).children("img").attr("src","{{ asset('img/lordImg/w-icon-hover.png') }}");
+            }
+        },function(){
+            if(!($(this).hasClass('inwish'))){
+                $(this).children("img").attr("src","{{ asset('img/lordImg/w-icon.png') }}");
+            }
+        });
+    //    点击wishlist按钮
+        $(".wishlist-icon").click(function(){
+            if($(this).hasClass('inwish')){
+                // 移除收藏
+                $(this).removeClass("inwish").children("img").attr("src","{{ asset('img/lordImg/w-icon.png') }}");
+                // $.ajax({
+                //     url:"https://www.lordhair.com/newwishlist/index/removeItem/",
+                //     data:{product:$(this).data("product")},
+                //     type:"post",
+                //     dataType:'json',
+                //     success:function(data){
+                //         if(data.result == "success"){
+                //         } else {
+                //             console.log(data.message);
+                //         }
+                //     }
+                // })
+            } else {
+                // 添加收藏
+                $(this).addClass("inwish").children("img").attr("src","{{ asset('img/lordImg/w-icon-hover.png') }}");
+                // $.ajax({
+                //     url:"https://www.lordhair.com/newwishlist/index/add/",
+                //     data:{product:$(this).data("product")},
+                //     type:"post",
+                //     dataType:'json',
+                //     success:function(data){
+                //         console.log(data);
+                //         if(data.result == "success"){
+                //         } else {
+                //             console.log(data.message);
+                //         }
+                //     }
+                // });
+            }
+
+        });
     </script>
 @endsection

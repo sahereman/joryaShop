@@ -919,3 +919,26 @@ $(function () {
         $(".quick-login-dropdown").removeClass("open")
     })
 });
+// 移动端menu的点击事件
+$(".mobile-nav").on("click",function () {
+    var isClicked = $(this).hasClass("click-active");
+    if(isClicked) {
+        $(this).removeClass("click-active");
+        $(".mobile-nav-list").slideUp();
+    }else {
+        $(this).addClass("click-active");
+        $(".mobile-nav-list").slideDown();
+    }
+});
+
+// footer移动时展示
+$(".mobile-dropdown-menu").on("click",function () {
+   var isHadClick = $(this).hasClass("active");
+   if(isHadClick) {
+       $(this).removeClass("active");
+       $(this).parents("li").find(".footer-block-content").slideUp();
+   }else {
+       $(this).addClass("active");
+       $(this).parents("li").find(".footer-block-content").slideDown();
+   }
+})

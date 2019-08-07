@@ -1,7 +1,7 @@
 <div class="navigation_left">
     <ul class="staircase_navigation">
         <li class="navigation_title user_index">
-            <a href="{{ route('users.home') }}">@lang('basic.home')</a>
+            <a href="{{ route('users.home') }}">My Account</a>
         </li>
         {{--<li class="navigation_title">
             <a href="javascript:void(0);">@lang('basic.users.Personal_Center')</a>
