@@ -54,19 +54,28 @@ class SocialitesController extends Controller
             'http_client_handler' => new FacebookGuzzle6HttpClient()
         ]);
 
-        $fb_csrf_state = Str::random(FacebookRedirectLoginHelper::CSRF_LENGTH);
+        /*$fb_csrf_state = Str::random(FacebookRedirectLoginHelper::CSRF_LENGTH);
         $_GET['state'] = $fb_csrf_state;
+        $_SESSION['FBRLH_state'] = $fb_csrf_state;
         $_SESSION['fb_csrf_state'] = $fb_csrf_state;
-        session()->put('fb_csrf_state', $fb_csrf_state);
+        session()->put('fb_csrf_state', $fb_csrf_state);*/
         $helper = $fb->getRedirectLoginHelper();
-        $helper->getPersistentDataHandler()->set('state', $fb_csrf_state);
+        // $helper->getPersistentDataHandler()->set('state', $fb_csrf_state);
 
         // $permissions = ['email']; // Optional permissions
         // $permissions = ['default', 'email']; // Optional permissions
         $permissions = ['email', 'public_profile']; // Optional permissions
-        $loginUrl = $helper->getLoginUrl($config['redirect'] . "?state={$fb_csrf_state}", $permissions);
+        // $loginUrl = $helper->getLoginUrl($config['redirect'] . "?state={$fb_csrf_state}", $permissions);
+        $loginUrl = $helper->getLoginUrl($config['redirect'], $permissions);
 
-        echo '<a href="' . htmlspecialchars($loginUrl) . '">Log in with Facebook!</a>';
+        // preg_match('/.+state\=(.+)\&.+/U', $loginUrl, $matches); // preg match in un-greedy mode
+        preg_match('/.+state\=(.+?)\&.+/', $loginUrl, $matches); // preg match in un-greedy mode
+        $fb_csrf_state = $matches[1];
+        $helper->getPersistentDataHandler()->set('state', $fb_csrf_state);
+        $_SESSION['FBRLH_state'] = $fb_csrf_state;
+
+        // echo '<a href="' . htmlspecialchars($loginUrl) . '">Log in with Facebook!</a>';
+        echo '<a href="' . $loginUrl . '">Log in with Facebook!</a>';
         die;
         // return redirect()->to(htmlspecialchars($loginUrl));
     }
@@ -90,13 +99,23 @@ class SocialitesController extends Controller
             'http_client_handler' => new FacebookGuzzle6HttpClient()
         ]);
 
-        if ($_SESSION['fb_csrf_state']) {
+        /*if ($_SESSION['FBRLH_state']) {
+            $fb_csrf_state = $_SESSION['FBRLH_state'];
+        } else if ($_SESSION['fb_csrf_state']) {
             $fb_csrf_state = $_SESSION['fb_csrf_state'];
         } else if ($request->session()->pull('fb_csrf_state')) {
             $fb_csrf_state = $request->session()->pull('fb_csrf_state');
         } else {
             $fb_csrf_state = $request->input('state');
+        }*/
+
+        if ($_SESSION['FBRLH_state']) {
+            $fb_csrf_state = $_SESSION['FBRLH_state'];
+        } else {
+            $fb_csrf_state = $request->input('state');
         }
+        $_GET['state'] = $fb_csrf_state;
+
         $helper = $fb->getRedirectLoginHelper();
         $helper->getPersistentDataHandler()->set('state', $fb_csrf_state);
 
@@ -187,7 +206,9 @@ class SocialitesController extends Controller
         try {
             // Returns a `Facebook\FacebookResponse` object
             // $response = $fb->get('/me?fields=id,name', '{access-token}');
-            $response = $fb->get('/me', $accessToken);
+            // $response = $fb->get('/me?fields=id,name,first_name,middle_name,last_name,email,gender,picture', $accessToken);
+            // $response = $fb->get('/me', $accessToken);
+            $response = $fb->get('/me?fields=id,name,email', $accessToken);
         } catch (FacebookResponseException $e) {
             echo 'Graph returned an error: ' . $e->getMessage();
             exit;
@@ -374,8 +395,9 @@ class SocialitesController extends Controller
         try {
             // Returns a `Facebook\FacebookResponse` object
             // $response = $fb->get('/me?fields=id,name', '{access-token}');
-            // $response = $fb->get('/me?fields=id,name,first_name,middle_name,last_name,email,gender,picture,url', $accessToken);
-            $response = $fb->get('/me', $accessToken);
+            // $response = $fb->get('/me?fields=id,name,first_name,middle_name,last_name,email,gender,picture', $accessToken);
+            // $response = $fb->get('/me', $accessToken);
+            $response = $fb->get('/me?fields=id,name,email', $accessToken);
         } catch (FacebookResponseException $e) {
             echo 'Graph returned an error: ' . $e->getMessage();
             exit;
@@ -398,7 +420,7 @@ class SocialitesController extends Controller
     {
         // $this->isAuthorized($socialite);
 
-        if (!in_array($socialite, $this->supportedSocialites) && $socialite == 'facebook') {
+        if (in_array($socialite, $this->supportedSocialites) && $socialite == 'facebook') {
             $user = User::where([
                 'facebook' => $user_profile->getId()
             ])->first();
@@ -406,10 +428,11 @@ class SocialitesController extends Controller
             if (!$user) {
                 $user = User::create([
                     'name' => $user_profile->getName(),
-                    'avatar' => $user_profile->getPicture()->getUrl(),
+                    'password' => bcrypt(Str::random(6)),
+                    // 'avatar' => $user_profile->getPicture()->getUrl(),
                     'email' => $user_profile->getEmail(),
-                    'real_name' => $user_profile->getFirstName() . $user_profile->getMiddleName() . $user_profile->getLastName(),
-                    'gender' => $user_profile->getGender(),
+                    // 'real_name' => $user_profile->getFirstName() . $user_profile->getMiddleName() . $user_profile->getLastName(),
+                    // 'gender' => $user_profile->getGender(),
                     'facebook' => $user_profile->getId()
                 ]);
             }

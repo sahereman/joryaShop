@@ -41,7 +41,8 @@
                 </form>
                 <div class="switch-back">
                     <a class="forget_psw pull-right" href="{{ route('password.request') }}">@lang('app.forget password')</a>
-                    <a class="btn_dialog normal_btn" data-url="{{ route('login') }}">@lang('app.Log_In')</a>
+                    {{--<a class="btn_dialog normal_btn" data-url="{{ route('login') }}">@lang('app.Log_In')</a>--}}
+                    <a class="btn_dialog fb_btn" href="{{ get_facebook_login_url() }}">@lang('app.Log_In')</a>
                     <a href="{{ route('register') }}">Create an Account</a>
                 </div>
             </div>
@@ -90,9 +91,11 @@
         {{-- facebook登陆 --}}
         <div class="fb-login">
             {{--<button class="fb-login-btn">Facebook Login</button>--}}
-            <button class="fb_button fb_button_medium" onclick="login();return false;">
+            {{--<button class="fb_button fb_button_medium" onclick="login(); return false;">--}}
+            <button class="fb_button fb_button_medium">
                 <span class="border-line">
-                    <span class="fb_button_text">Facebook Login</span>
+                    {{--<span class="fb_button_text">Facebook Login</span>--}}
+                    <span class="fb_button_text"><a href="{{ get_facebook_login_url() }}">Facebook Login</a></span>
                 </span>
             </button>
         </div>
