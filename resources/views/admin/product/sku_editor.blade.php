@@ -70,18 +70,22 @@
                                                        class="form-control table_value" value="" autocomplete="off">
                                                 <span class="tip-l"></span>
                                                 <ul class="skus-select-dropdown" style="display: none;">
-                                                    @foreach($attr->basic_attr->values as $value)
-                                                        <li>{{$value->value}}</li>
-                                                    @endforeach
+                                                    @if($attr->basic_attr)
+                                                        @foreach($attr->basic_attr->values as $value)
+                                                            <li>{{$value->value}}</li>
+                                                        @endforeach
+                                                    @endif
                                                 </ul>
                                             @else
                                                 <input type="text" name="{{ $attr->id }}" data_path=''
                                                        class="form-control table_value" value="" autocomplete="off">
                                                 <span class="tip-l"></span>
                                                 <ul class="skus-select-dropdown" style="display: none;">
-                                                    @foreach($attr->basic_attr->values as $value)
-                                                        <li>{{$value->value}}</li>
-                                                    @endforeach
+                                                    @if($attr->basic_attr)
+                                                        @foreach($attr->basic_attr->values as $value)
+                                                            <li>{{$value->value}}</li>
+                                                        @endforeach
+                                                    @endif
                                                 </ul>
                                             @endif
                                             <span class="input-group-btn">
