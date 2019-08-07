@@ -518,7 +518,7 @@ class ProductsController extends Controller
             ->uniqueName()->removable()
             // ->rules('required')
             ->move('original/' . date('Ym', now()->timestamp))
-            ->help('参考像素:500 * 700 宽高比 1:1.4 ')->rules('image');
+            ->help('参考像素:600 * 840 宽高比 1:1.4 ')->rules('image');
 
         // $form->switch('on_sale', '售卖状态')->value(1);
         $form->switch('on_sale', '售卖状态')->default(1);
