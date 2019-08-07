@@ -9,9 +9,11 @@ use Facebook\Exceptions\FacebookResponseException;
 use Facebook\Exceptions\FacebookSDKException;
 use Facebook\Facebook;
 use Facebook\GraphNodes\GraphUser;
+use Facebook\Helpers\FacebookRedirectLoginHelper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 
 class SocialitesController extends Controller
 {
@@ -52,12 +54,17 @@ class SocialitesController extends Controller
             'http_client_handler' => new FacebookGuzzle6HttpClient()
         ]);
 
+        $fb_csrf_state = Str::random(FacebookRedirectLoginHelper::CSRF_LENGTH);
+        $_GET['state'] = $fb_csrf_state;
+        $_SESSION['fb_csrf_state'] = $fb_csrf_state;
+        session()->put('fb_csrf_state', $fb_csrf_state);
         $helper = $fb->getRedirectLoginHelper();
+        $helper->getPersistentDataHandler()->set('state', $fb_csrf_state);
 
         // $permissions = ['email']; // Optional permissions
         // $permissions = ['default', 'email']; // Optional permissions
         $permissions = ['email', 'public_profile']; // Optional permissions
-        $loginUrl = $helper->getLoginUrl($config['redirect'], $permissions);
+        $loginUrl = $helper->getLoginUrl($config['redirect'] . "?state={$fb_csrf_state}", $permissions);
 
         echo '<a href="' . htmlspecialchars($loginUrl) . '">Log in with Facebook!</a>';
         die;
@@ -83,8 +90,15 @@ class SocialitesController extends Controller
             'http_client_handler' => new FacebookGuzzle6HttpClient()
         ]);
 
+        if ($_SESSION['fb_csrf_state']) {
+            $fb_csrf_state = $_SESSION['fb_csrf_state'];
+        } else if ($request->session()->pull('fb_csrf_state')) {
+            $fb_csrf_state = $request->session()->pull('fb_csrf_state');
+        } else {
+            $fb_csrf_state = $request->input('state');
+        }
         $helper = $fb->getRedirectLoginHelper();
-        $helper->getPersistentDataHandler()->set('state', $request->state);
+        $helper->getPersistentDataHandler()->set('state', $fb_csrf_state);
 
         try {
             $accessToken = $helper->getAccessToken();
