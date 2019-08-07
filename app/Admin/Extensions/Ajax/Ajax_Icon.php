@@ -44,6 +44,7 @@ class Ajax_Icon
               cancelButtonText: "$cancel"
             },
             function(){
+                swal('请等待...', '');
                 $.ajax({
                     method: 'POST',
                     url: data_url,

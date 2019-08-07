@@ -4,6 +4,9 @@ namespace App\Admin\Controllers;
 
 use App\Admin\Extensions\Ajax\Ajax_Delete;
 use App\Admin\Extensions\Ajax\Ajax_Icon;
+use App\Admin\Models\AuctionProduct;
+use App\Admin\Models\DiscountProduct;
+use App\Admin\Models\PeriodProduct;
 use App\Admin\Models\Product;
 use App\Admin\Models\ProductSku;
 use App\Handlers\ImageUploadHandler;
@@ -18,6 +21,7 @@ use App\Models\ProductCategory;
 use App\Models\ProductLocation;
 use App\Models\ProductParam;
 use App\Models\ProductService;
+use App\Models\ProductShipmentTemplate;
 use App\Models\ProductSkuAttrValue;
 use App\Models\ShipmentTemplate;
 use Encore\Admin\Controllers\HasResourceActions;
@@ -650,44 +654,71 @@ class ProductsController extends Controller
 
     public function duplicate(Request $request, Product $product)
     {
-        dd($product->skus);
-        //        $product_id = Product::create($product->toArray())->id;
-        //
-        //        $product->attrs->each(function ($attr) use ($product, $product_id) {
-        //            $attr->product_id = $product_id;
-        //            $attr_id = ProductAttr::create($attr->toArray())->id;
-        //
-        //
-        ////            dd(ProductSkuAttrValue::where('product_attr_id', $attr->id)->get());
-        //
-        //            $add_skus_array = [];
-        //            $current_sku_id = null;
-        //            ProductSkuAttrValue::where('product_attr_id', $attr->id)->get()->each(function ($attr_value) use ($product_id, $attr_id, &$add_skus_array,&$current_sku_id) {
-        //
-        //                if (!in_array($attr_value->product_sku_id, $add_skus_array))
-        //                {
-        //                    $sku = ProductSku::find($attr_value->product_sku_id);
-        //                    $sku->product_id = $product_id;
-        //                    $current_sku_id = ProductSku::create($sku->toArray())->id;
-        //                    $add_skus_array[] = $attr_value->product_sku_id;
-        //                    dump($add_skus_array);
-        //                }
-        //
-        //                $attr_value->product_attr_id = $attr_id;
-        //                $attr_value->product_sku_id = $current_sku_id;
-        //                ProductSkuAttrValue::create($attr_value->toArray());
-        //
-        //            });
-        //
-        //
-        //            //            $item->product_id = $product_id;
-        //            //            ProductSku::create($item->toArray());
-        //        });
+        $product_id = $product->id;
+        $np_id = Product::create($product->toArray())->id;
 
-        //        $product->skus()->each(function ($item) use ($product_id) {
-        //            $item->product_id = $product_id;
-        //            ProductSku::create($item->toArray());
-        //        });
+        /*SKU 属性复制*/
+        $product->skus->each(function ($sku) use ($np_id, $product_id) {
+
+            $sku->product_id = $np_id;
+            $ns_id = ProductSku::create($sku->toArray())->id;
+
+
+            $sku->attr_values->each(function ($attr_value) use ($ns_id, $np_id, $product_id) {
+                $attr = ProductAttr::where('name', $attr_value->name)->where('product_id', $np_id)->first();
+
+                if ($attr)
+                {
+                    $na_id = $attr->id;
+                } else
+                {
+                    $old_attr = ProductAttr::where('name', $attr_value->name)->where('product_id', $product_id)->first();
+                    $old_attr->product_id = $np_id;
+                    $na_id = ProductAttr::create($old_attr->toArray())->id;
+                }
+
+                $attr_value->product_attr_id = $na_id;
+                $attr_value->product_sku_id = $ns_id;
+                ProductSkuAttrValue::create($attr_value->toArray());
+            });
+        });
+
+        /*商品参数 复制*/
+        $product->params->each(function ($param) use ($np_id) {
+            $param->product_id = $np_id;
+            ProductParam::create($param->toArray());
+        });
+
+        /*物流模板 复制*/
+        $product->shipment_templates->each(function ($shipment_template) use ($np_id) {
+            $pivot = $shipment_template->pivot;
+            $pivot->product_id = $np_id;
+            ProductShipmentTemplate::create($pivot->toArray());
+        });
+
+        /*优惠策略 复制*/
+        $product->discounts->each(function ($discount) use ($np_id) {
+            $discount->product_id = $np_id;
+            DiscountProduct::create($discount->toArray());
+        });
+
+        /*商品类型关联数据 复制*/
+        switch ($product->type)
+        {
+            case Product::PRODUCT_TYPE_PERIOD:
+                if($product->period)
+                {
+                    $product->period->product_id = $np_id;
+                    PeriodProduct::create($product->period->toArray());
+                }
+            case Product::PRODUCT_TYPE_AUCTION:
+                if($product->auction)
+                {
+                    $product->auction->product_id = $np_id;
+                    AuctionProduct::create($product->auction->toArray());
+                }
+        }
+
         return response()->json([
             'messages' => '产品复制成功'
         ], 200);

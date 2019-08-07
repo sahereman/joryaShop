@@ -191,16 +191,20 @@ class AuctionProductsController extends Controller
             $tools->disableEdit();
             $tools->disableList();
             $tools->disableDelete();
-            $tools->append('<div class="btn-group pull-right" style="margin-right: 5px">'
-                . '<a href="' . route('admin.auction_products.edit', ['auction_product' => $id, 'product_id' => $this->product_id]) . '" class="btn btn-sm btn-primary">'
-                . '<i class="fa fa-edit"></i>&nbsp;编辑'
-                . '</a>'
-                . '</div>&nbsp;'
-                . '<div class="btn-group pull-right" style="margin-right: 5px">'
-                . '<a href="' . route('admin.auction_products.index', ['product_id' => $this->product_id]) . '" class="btn btn-sm btn-default">'
-                . '<i class="fa fa-list"></i>&nbsp;列表'
-                . '</a>'
-                . '</div>');
+            $tools->append('<div class="btn-group pull-right" style="margin-right: 5px">
+                                <a href="' . route('admin.products.edit', ['id' => $this->product_id]) . '" class="btn btn-sm btn-default">
+                                <i class="fa fa-backward"></i>&nbsp;返回</a>
+                            </div>');
+//            $tools->append('<div class="btn-group pull-right" style="margin-right: 5px">'
+//                . '<a href="' . route('admin.auction_products.edit', ['auction_product' => $id, 'product_id' => $this->product_id]) . '" class="btn btn-sm btn-primary">'
+//                . '<i class="fa fa-edit"></i>&nbsp;编辑'
+//                . '</a>'
+//                . '</div>&nbsp;'
+//                . '<div class="btn-group pull-right" style="margin-right: 5px">'
+//                . '<a href="' . route('admin.auction_products.index', ['product_id' => $this->product_id]) . '" class="btn btn-sm btn-default">'
+//                . '<i class="fa fa-list"></i>&nbsp;列表'
+//                . '</a>'
+//                . '</div>');
         });
 
         // $show->id('Id');
@@ -279,33 +283,54 @@ class AuctionProductsController extends Controller
         $auction_product_id = $this->auction_product_id;
 
         if ($this->mode == Builder::MODE_CREATE) {
-            $form->tools(function (Tools $tools) use ($product_id) {
+            $form->tools(function (Form\Tools $tools) use($product_id) {
                 $tools->disableDelete();
                 $tools->disableList();
                 $tools->disableView();
-                $tools->append('<div class="btn-group pull-right" style="margin-right: 5px">'
-                    . '<a href="' . route('admin.auction_products.index', ['product_id' => $product_id]) . '" class="btn btn-sm btn-default">'
-                    . '<i class="fa fa-list"></i>&nbsp;列表'
-                    . '</a>'
-                    . '</div>');
+
+                $tools->append('<div class="btn-group pull-right" style="margin-right: 5px">
+                                <a href="' . route('admin.products.edit', ['id' => $product_id]) . '" class="btn btn-sm btn-default">
+                                <i class="fa fa-backward"></i>&nbsp;返回</a>
+                            </div>');
+
             });
+//            $form->tools(function (Tools $tools) use ($product_id) {
+//                $tools->disableDelete();
+//                $tools->disableList();
+//                $tools->disableView();
+//                $tools->append('<div class="btn-group pull-right" style="margin-right: 5px">'
+//                    . '<a href="' . route('admin.auction_products.index', ['product_id' => $product_id]) . '" class="btn btn-sm btn-default">'
+//                    . '<i class="fa fa-list"></i>&nbsp;列表'
+//                    . '</a>'
+//                    . '</div>');
+//            });
         }
         if ($this->mode == Builder::MODE_EDIT) {
-            $form->tools(function (Tools $tools) use ($product_id, $auction_product_id) {
+            $form->tools(function (Form\Tools $tools) use($product_id, $auction_product_id) {
                 $tools->disableDelete();
                 $tools->disableList();
-                $tools->disableView();
-                $tools->append('<div class="btn-group pull-right" style="margin-right: 5px">'
-                    . '<a href="' . route('admin.auction_products.show', ['auction_product' => $auction_product_id, 'product_id' => $product_id]) . '" class="btn btn-sm btn-primary">'
-                    . '<i class="fa fa-eye"></i>&nbsp;查看'
-                    . '</a>'
-                    . '</div>&nbsp;'
-                    . '<div class="btn-group pull-right" style="margin-right: 5px">'
-                    . '<a href="' . route('admin.auction_products.index', ['product_id' => $product_id]) . '" class="btn btn-sm btn-default">'
-                    . '<i class="fa fa-list"></i>&nbsp;列表'
-                    . '</a>'
-                    . '</div>');
+
+                $tools->append('<div class="btn-group pull-right" style="margin-right: 5px">
+                                <a href="' . route('admin.products.edit', ['id' => $product_id]) . '" class="btn btn-sm btn-default">
+                                <i class="fa fa-backward"></i>&nbsp;返回</a>
+                            </div>');
+
             });
+//            $form->tools(function (Tools $tools) use ($product_id, $auction_product_id) {
+//                $tools->disableDelete();
+//                $tools->disableList();
+//                $tools->disableView();
+//                $tools->append('<div class="btn-group pull-right" style="margin-right: 5px">'
+//                    . '<a href="' . route('admin.auction_products.show', ['auction_product' => $auction_product_id, 'product_id' => $product_id]) . '" class="btn btn-sm btn-primary">'
+//                    . '<i class="fa fa-eye"></i>&nbsp;查看'
+//                    . '</a>'
+//                    . '</div>&nbsp;'
+//                    . '<div class="btn-group pull-right" style="margin-right: 5px">'
+//                    . '<a href="' . route('admin.auction_products.index', ['product_id' => $product_id]) . '" class="btn btn-sm btn-default">'
+//                    . '<i class="fa fa-list"></i>&nbsp;列表'
+//                    . '</a>'
+//                    . '</div>');
+//            });
         }
 
         $form->hidden('product_id')->default($this->product_id);
@@ -332,10 +357,10 @@ class AuctionProductsController extends Controller
             //
         });
 
-        $form->saved(function (Form $form) {
+        $form->saved(function (Form $form) use ($product_id) {
             $this->auction_product_id = $form->model()->id;
             $this->product_id = $form->model()->product_id;
-            return redirect()->route('admin.auction_products.index', ['product_id' => $this->product_id]);
+            return redirect()->route('admin.products.edit', ['id' => $product_id]);
         });
 
         return $form;

@@ -343,8 +343,8 @@ class ProductSkusController extends Controller
             $form->divider();
             $form->hidden("attr_value_options.{$productAttr->id}.name")->default($productAttr->name);
             $form->display("attr_value_options.{$productAttr->id}.name", 'SKU 属性名称')->default($productAttr->name);
-            // $form->text("attr_value_options.{$productAttr->id}.value", 'SKU 属性值')->rules('required');
-            $form->select("attr_value_options.{$productAttr->id}.value", 'SKU 属性值')->options($product_sku_attr_values[$productAttr->name])->rules('required');
+             $form->text("attr_value_options.{$productAttr->id}.value", 'SKU 属性值')->rules('required');
+//            $form->select("attr_value_options.{$productAttr->id}.value", 'SKU 属性值')->options($product_sku_attr_values[$productAttr->name]);
             $form->number("attr_value_options.{$productAttr->id}.sort", '排序值')->default($productAttr->sort);
         });
 

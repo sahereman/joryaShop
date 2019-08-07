@@ -222,6 +222,7 @@ class PeriodProductsController extends Controller
      */
     protected function form()
     {
+        $ctl = $this;
         $form = new Form(new PeriodProduct);
         // $form->html('<button class="btn btn-primary"><i class="fa fa-send"></i>&nbsp;提交</button>');
 
@@ -244,41 +245,63 @@ class PeriodProductsController extends Controller
         $period_product_id = $this->period_product_id;
 
         if ($this->mode == Builder::MODE_CREATE) {
-            $form->tools(function (Tools $tools) use ($product_id) {
+            $form->tools(function (Form\Tools $tools) use($product_id) {
                 $tools->disableDelete();
                 $tools->disableList();
                 $tools->disableView();
-                $tools->append('<div class="btn-group pull-right" style="margin-right: 5px">'
-                    . '<a href="' . route('admin.period_products.index', ['product_id' => $product_id]) . '" class="btn btn-sm btn-default">'
-                    . '<i class="fa fa-list"></i>&nbsp;列表'
-                    . '</a>'
-                    . '</div>');
+
+                $tools->append('<div class="btn-group pull-right" style="margin-right: 5px">
+                                <a href="' . route('admin.products.edit', ['id' => $product_id]) . '" class="btn btn-sm btn-default">
+                                <i class="fa fa-backward"></i>&nbsp;返回</a>
+                            </div>');
+
             });
+//            $form->tools(function (Tools $tools) use ($product_id) {
+//                $tools->disableDelete();
+//                $tools->disableList();
+//                $tools->disableView();
+//                $tools->append('<div class="btn-group pull-right" style="margin-right: 5px">'
+//                    . '<a href="' . route('admin.period_products.index', ['product_id' => $product_id]) . '" class="btn btn-sm btn-default">'
+//                    . '<i class="fa fa-list"></i>&nbsp;列表'
+//                    . '</a>'
+//                    . '</div>');
+//            });
         }
         if ($this->mode == Builder::MODE_EDIT) {
-            $form->tools(function (Tools $tools) use ($product_id, $period_product_id) {
+            $form->tools(function (Form\Tools $tools) use($product_id, $period_product_id) {
                 $tools->disableDelete();
                 $tools->disableList();
                 $tools->disableView();
-                $tools->append('<div class="btn-group pull-right" style="margin-right: 5px">'
-                    . '<a href="' . route('admin.period_products.show', ['period_product' => $period_product_id, 'product_id' => $product_id]) . '" class="btn btn-sm btn-primary">'
-                    . '<i class="fa fa-eye"></i>&nbsp;查看'
-                    . '</a>'
-                    . '</div>&nbsp;'
-                    . '<div class="btn-group pull-right" style="margin-right: 5px">'
-                    . '<a href="' . route('admin.period_products.index', ['product_id' => $product_id]) . '" class="btn btn-sm btn-default">'
-                    . '<i class="fa fa-list"></i>&nbsp;列表'
-                    . '</a>'
-                    . '</div>');
+
+                $tools->append('<div class="btn-group pull-right" style="margin-right: 5px">
+                                <a href="' . route('admin.products.edit', ['id' => $product_id]) . '" class="btn btn-sm btn-default">
+                                <i class="fa fa-backward"></i>&nbsp;返回</a>
+                            </div>');
+
             });
+//            $form->tools(function (Tools $tools) use ($product_id, $period_product_id) {
+//                $tools->disableDelete();
+//                $tools->disableList();
+//                $tools->disableView();
+//                $tools->append('<div class="btn-group pull-right" style="margin-right: 5px">'
+//                    . '<a href="' . route('admin.period_products.show', ['period_product' => $period_product_id, 'product_id' => $product_id]) . '" class="btn btn-sm btn-primary">'
+//                    . '<i class="fa fa-eye"></i>&nbsp;查看'
+//                    . '</a>'
+//                    . '</div>&nbsp;'
+//                    . '<div class="btn-group pull-right" style="margin-right: 5px">'
+//                    . '<a href="' . route('admin.period_products.index', ['product_id' => $product_id]) . '" class="btn btn-sm btn-default">'
+//                    . '<i class="fa fa-list"></i>&nbsp;列表'
+//                    . '</a>'
+//                    . '</div>');
+//            });
         }
 
         $form->hidden('product_id')->default($this->product_id);
         $form->display('product_name', 'Product')->default($product->name_en);
 
-        // $form->datetime('started_at', 'Started at')->default(date('Y-m-d H:i:s'));
-        // $form->datetime('stopped_at', 'Stopped at')->default(date('Y-m-d H:i:s'));
-        $form->datetimeRange('started_at', 'stopped_at', '限时时段');
+//         $form->datetime('started_at', 'Started at')->default(date('Y-m-d H:i:s'));
+//         $form->datetime('stopped_at', 'Stopped at')->default(date('Y-m-d H:i:s'));
+        $form->datetimeRange('started_at', 'stopped_at', '限时时段')->rules('required');
 
         $form->ignore(['_from_']);
 
@@ -287,10 +310,10 @@ class PeriodProductsController extends Controller
             //
         });
 
-        $form->saved(function (Form $form) {
+        $form->saved(function (Form $form) use ($product_id) {
             $this->period_product_id = $form->model()->id;
             $this->product_id = $form->model()->product_id;
-            return redirect()->route('admin.period_products.index', ['product_id' => $this->product_id]);
+            return redirect()->route('admin.products.edit', ['id' => $product_id]);
         });
 
         return $form;
