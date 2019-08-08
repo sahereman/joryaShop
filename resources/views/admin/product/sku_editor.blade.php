@@ -122,6 +122,7 @@
             <div class="box-header">
                 <h4>
                     <span class="pull-left">SKU 列表</span>
+                    <span class="pull-left" style="margin-left: 20px;color: #666">{{$product->sub_name_en}}</span>
                     <button type="submit" class="btn btn-primary  pull-right">提交并修改</button>
                 </h4>
 
