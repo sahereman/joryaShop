@@ -541,7 +541,7 @@ class ProductsController extends Controller
         /* SKU 属性 */
         $form->divider();
         $attr_options = [];
-        Attr::all()->each(function (Attr $attr) use (&$attr_options) {
+        Attr::orderByDesc('sort')->get()->each(function (Attr $attr) use (&$attr_options) {
             $attr_options[$attr->name] = $attr->name;
         });
         $form->checkbox('attr_names', 'SKU 属性选择 :')->options($attr_options);
@@ -596,12 +596,7 @@ class ProductsController extends Controller
 
             /* SKU 属性 */
             $attr_names = request()->input('attr_names', []);
-            $product->attrs->each(function (ProductAttr $attr) use ($attr_names) {
-                if (!in_array($attr->name, $attr_names))
-                {
-                    $attr->delete();
-                }
-            });
+
             foreach ($attr_names as $attr_name)
             {
                 if (!in_array($attr_name, $product->attr_names) && !is_null($attr_name))
@@ -615,6 +610,27 @@ class ProductsController extends Controller
                     ]);
                 }
             }
+
+            /*检查 删除的 , 排序同步问题*/
+            $product->attrs->each(function (ProductAttr $attr) use ($attr_names) {
+
+                if (!in_array($attr->name, $attr_names))
+                {
+                    $attr->delete();
+                } else
+                {
+                    $basic_attr = Attr::where('name', $attr->name)->first();
+
+                    if ($attr->sort != $basic_attr->sort)
+                    {
+                        $attr->update([
+                            'sort' => $basic_attr->sort
+                        ]);
+
+                    }
+
+                }
+            });
 
             /* 商品参数 */
             $grouped_param_values = request()->input('grouped_param_values', []);
@@ -707,13 +723,13 @@ class ProductsController extends Controller
         switch ($product->type)
         {
             case Product::PRODUCT_TYPE_PERIOD:
-                if($product->period)
+                if ($product->period)
                 {
                     $product->period->product_id = $np_id;
                     PeriodProduct::create($product->period->toArray());
                 }
             case Product::PRODUCT_TYPE_AUCTION:
-                if($product->auction)
+                if ($product->auction)
                 {
                     $product->auction->product_id = $np_id;
                     AuctionProduct::create($product->auction->toArray());
