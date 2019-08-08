@@ -32,6 +32,7 @@ use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
 // use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\URL;
 // use Illuminate\Support\MessageBag;
@@ -88,6 +89,16 @@ class ProductsController extends Controller
     {
         $this->mode = 'edit';
         $this->product_id = $id;
+
+        $str = redirect()->getUrlGenerator()->previous();
+        $pos = strpos($str, '?');
+        $url = substr($str, 0, $pos);
+
+        if (route('admin.products.index') == $url)
+        {
+            session(['admin_products_index_url' => redirect()->getUrlGenerator()->previous()]);
+        }
+
 
         return $content
             ->header('商品管理')
@@ -658,6 +669,10 @@ class ProductsController extends Controller
 
             if (request()->input('_from_') == Builder::MODE_EDIT)
             {
+                if (session('admin_products_index_url'))
+                {
+                    return redirect(session('admin_products_index_url'));
+                }
                 return redirect()->route('admin.products.index');
             }
 
