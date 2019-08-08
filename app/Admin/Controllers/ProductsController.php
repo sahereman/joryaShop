@@ -611,13 +611,14 @@ class ProductsController extends Controller
                 }
             }
 
-            /*检查 删除的 , 排序同步问题*/
+            /*删除未勾选属性*/
             $product->attrs->each(function (ProductAttr $attr) use ($attr_names) {
 
                 if (!in_array($attr->name, $attr_names))
                 {
                     $attr->delete();
-                } else
+                }
+                /*else
                 {
                     $basic_attr = Attr::where('name', $attr->name)->first();
 
@@ -629,7 +630,7 @@ class ProductsController extends Controller
 
                     }
 
-                }
+                }*/
             });
 
             /* 商品参数 */

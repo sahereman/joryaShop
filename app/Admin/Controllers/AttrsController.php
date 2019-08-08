@@ -169,6 +169,9 @@ class AttrsController extends Controller
                 ProductAttr::where('name', $attr->name)->update(['has_photo' => true]);
                 ProductAttr::where('name', '<>', $attr->name)->update(['has_photo' => false]);
             }
+
+            ProductAttr::where('name',$attr->name)->update(['sort'=>$attr->sort]);
+
         });
         return $form;
     }
