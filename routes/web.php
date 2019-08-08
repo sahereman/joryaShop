@@ -204,6 +204,9 @@ Route::get('product_categories/{category}/{slug?}', 'ProductCategoriesController
 Route::get('products/search', 'ProductsController@search')->name('products.search'); // 搜素结果 [仅展示页面]
 Route::get('products/search_more', 'ProductsController@searchMore')->name('products.search_more'); // 搜素结果 [下拉加载更多] [for Ajax request]
 Route::get('products/search_hint', 'ProductsController@searchHint')->name('products.search_hint'); // 模糊搜素提示结果 [10 records] [for Ajax request]
+Route::get('products/custom/{product}/{slug?}', 'ProductsController@customShow')->name('products.custom.show'); // 定制商品详情
+Route::post('products/custom/{product}/{slug?}', 'ProductsController@customStore')->name('products.custom.store'); // 定制商品提交
+Route::put('products/custom/{product}/{slug?}', 'ProductsController@customUpdate')->name('products.custom.update'); // 定制商品修改
 Route::get('products/{product}/{slug?}', 'ProductsController@show')->name('products.show'); // 商品详情页
 Route::get('products/{product}/comment', 'ProductsController@comment')->name('products.comment'); // 获取商品评价 [for Ajax request]
 // Route::get('products/{product}/get_sku_parameters', 'ProductsController@getSkuParameters')->name('products.get_sku_parameters'); // 获取SKU参数列表[三级联动] [for Ajax request]

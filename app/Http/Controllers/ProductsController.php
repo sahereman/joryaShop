@@ -174,13 +174,10 @@ class ProductsController extends Controller
             ];
         })->groupBy('product_sku_id')->toArray();
 
-
         // shipment_template
-        if($request->user() && $request->user()->default_address)
-        {
+        if ($request->user() && $request->user()->default_address) {
             $shipment_template = $product->get_allow_shipment_templates($request->user()->default_address->province);
-            if($shipment_template)
-            {
+            if ($shipment_template) {
                 $shipment_template = $shipment_template->first();
             }
         }
@@ -274,13 +271,24 @@ class ProductsController extends Controller
         }
     }
 
+    // GET: 定制商品详情
     public function customShow(Request $request, Product $product)
     {
+        if ($product->on_sale == 0) {
+            throw new InvalidRequestException('This product is not on sale yet');
+        }
+
+        if ($product->type != Product::PRODUCT_TYPE_CUSTOM) {
+            throw new InvalidRequestException('The product type is not custom');
+        }
+
+
         return view('products.custom', [
             'product' => $product
         ]);
     }
 
+    // POST: 定制商品提交
     public function customStore(Request $request, Product $product)
     {
         $product_sku = ProductSku::create([
@@ -309,6 +317,7 @@ class ProductsController extends Controller
         ]);
     }
 
+    // PUT: 定制商品修改
     public function customUpdate(Request $request, Product $product)
     {
         // $product_sku = ProductSku::with('custom_attr_values')->find($request->input('product_sku_id'));

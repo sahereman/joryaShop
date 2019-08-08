@@ -306,7 +306,11 @@ class UsersController extends Controller
         $grid->avatar('头像')->image('', 40);
         $grid->name('用户名');
         $grid->column('format_phone', '手机号')->display(function () {
-            return "+$this->country_code " . $this->phone;
+            if ($this->country_code && $this->phone) {
+                return "+$this->country_code " . $this->phone;
+            } else {
+                return '';
+            }
         });
         $grid->email('邮箱');
         $grid->created_at('创建时间')->sortable();
