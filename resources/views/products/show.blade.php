@@ -182,7 +182,7 @@
                            data-url_2="{{ $favourite ? route('user_favourites.destroy', ['favourite' => $favourite->id]) : '' }}">
                             {{--<span class="favourites_img"></span>--}}
                             <img src="{{ asset('img/favorite-eye.png') }}" alt="">
-                            <span>Add to watch list</span>
+                            <span>Add to wish list</span>
                         </a>
                     </div>
                     {{-- 运费等介绍 --}}
@@ -414,18 +414,18 @@
         });
         //Init lightbox  图片弹窗
         $(".zoomColorBoxs").colorbox({
-            rel:		'zoomColorBoxs',
-            opacity:	0.5,
-            speed:		300,
-            current:	'{current} / {total}',
+            rel: 'zoomColorBoxs',
+            opacity:0.5,
+            speed: 300,
+            current: '{current} / {total}',
             previous: '',
             next: '',
             close: '',  //No comma here
-            maxWidth:'95%',
-            maxHeight:'95%'
+            maxWidth: '95%',
+            maxHeight: '95%'
         });
 
-        //    简介查看更多
+        // 简介查看更多
         $("#down-more").on("click",function () {
             var _taht = $(this),
                 isHasClass = $(this).hasClass("active");
@@ -558,7 +558,7 @@
                 });
             }
         });
-        //Tab控制函数
+        // Tab控制函数
         function tabs(tabId, tabNum) {
             //设置点击后的切换样式
             $(tabId + " .tab li").removeClass("curr");
@@ -570,14 +570,14 @@
                 // getComments(1);
             }
         }
-        //切换
+        // 切换
         $(".kindOfPro").on("click", "li", function () {
             $(".kindOfPro").find('li').removeClass("active");
             $(this).addClass('active');
             $(".changePrice_num").html("{{ get_global_symbol() }}" + $(this).attr('code_price'));
             $("#pro_num").val("1");
         });
-        //加入购物车
+        // 加入购物车
         $(".add_carts").on("click", function () {
             var clickDom = $(this);
             if ($(this).hasClass('for_show_login') == true) {
@@ -609,7 +609,7 @@
                 });
             }
         });
-        //立即购买
+        // 立即购买
         $(".buy_now").on("click", function () {
             var clickDom = $(this);
             if ($(this).hasClass('for_show_login') == true) {
@@ -824,7 +824,7 @@
         // 数组选择器
         // 定义skus数组内容
 
-     //   数据融合公用方法
+        // 数据融合公用方法
         function  dataFusion(intArray,outArray) {
             $.each(intArray, function (sku_arr_i,sku_arr_n) {
                 $.each(sku_arr_n, function (sku_arr_n_index,sku_arr_n_item) {
@@ -832,8 +832,8 @@
                 })
             });
         }
-     //   数组按属性值进行分类
-        function dataFusionClassif(intArray,outArray,mapname,attributename) {
+        // 数组按属性值进行分类
+        function dataFusionClassify(intArray,outArray,mapname,attributename) {
             for(var i = 0; i < intArray.length; i++){
                 var coalesce_a = intArray[i];     // skus_arr_coalesce循环的每个单独数据的定义
                 if(!mapname[coalesce_a[attributename]]){       // 如果map对象中不存在查找的name值则将这个name新增到map对象中
@@ -915,7 +915,7 @@
         //         return value1 - value2;
         //     }
         // }
-        dataFusionClassif(skus_arr_coalesce,skus_map,map,'name');
+        dataFusionClassify(skus_arr_coalesce,skus_map,map,'name');
         // console.log(skus_map);
          // 根据数组对象进行去重
         function arrayUnique2(arr, name) {
@@ -1011,7 +1011,7 @@
             var searchResultMap = {},
                 finalArray = [];
             var aimLength = $(".sku-choose-store").find('select').length;
-            dataFusionClassif(secondResultArr,finalArray,searchResultMap,'product_sku_id');
+            dataFusionClassify(secondResultArr,finalArray,searchResultMap,'product_sku_id');
             $.each(finalArray,function (finalArray_i,finalArray_n) {
                 if(finalArray_n.data.length == aimLength) {
                     sku_id = finalArray_n.name;
@@ -1074,7 +1074,7 @@
                         temporary_storage_change2 = [],
                         temporary_storage_map = {};
                     dataFusion(temporary_storage,temporary_storage_change1);
-                    dataFusionClassif(temporary_storage_change1,temporary_storage_change2,temporary_storage_map,'name');
+                    dataFusionClassify(temporary_storage_change1,temporary_storage_change2,temporary_storage_map,'name');
                     var aimSelect ;
                         // 将处理好的数据进行渲染    optionHtml
                     // console.log(temporary_storage_change2);

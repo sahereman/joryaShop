@@ -252,23 +252,23 @@
     <script src="{{ asset('js/swiper/js/swiper.js') }}"></script>
     <script type="text/javascript">
         $(function () {
-        	if($(".swiper-container .swiper-slide").length != 1){
-			    var swiper = new Swiper('.swiper-container', {
-	                centeredSlides: true,
-	                loop: true,
-	                speed: 1500,
-	                fadeEffect: {
-	                    crossFade: true,
-	                },
-		            autoplay: {
-		                delay: 4000,
-		            },
-	                navigation: {
-	                    nextEl: '.swiper-button-next',
-	                    prevEl: '.swiper-button-prev',
-	                },
-	           });
-			}
+            if($(".swiper-container .swiper-slide").length != 1){
+                var swiper = new Swiper('.swiper-container', {
+                    centeredSlides: true,
+                    loop: true,
+                    speed: 1500,
+                    fadeEffect: {
+                        crossFade: true,
+                    },
+                    autoplay: {
+                        delay: 4000,
+                    },
+                    navigation: {
+                        nextEl: '.swiper-button-next',
+                        prevEl: '.swiper-button-prev',
+                    },
+               });
+            }
         });
     </script>
 @endsection

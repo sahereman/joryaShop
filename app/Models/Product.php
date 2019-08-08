@@ -112,6 +112,7 @@ class Product extends Model
     protected $appends = [
         'thumb_url',
         'photo_urls',
+        'comment_count',
         // 'attr_names',
         // 'grouped_param_values',
         // 'grouped_param_value_string'
@@ -186,6 +187,10 @@ class Product extends Model
         return $grouped_param_value_string;
     }
 
+    public function getCommentCountAttribute()
+    {
+        return $this->comments()->count();
+    }
 
     /**
      * 获取当前地区可用的运费模板 集合
@@ -256,6 +261,11 @@ class Product extends Model
     public function setGroupedParamValueStringAttribute($value)
     {
         unset($this->attributes['grouped_param_value_string']);
+    }
+
+    public function setCommentCountAttribute($value)
+    {
+        unset($this->attributes['comment_count']);
     }
 
     /* Eloquent Relationships */

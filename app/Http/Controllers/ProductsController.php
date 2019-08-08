@@ -282,7 +282,6 @@ class ProductsController extends Controller
             throw new InvalidRequestException('The product type is not custom');
         }
 
-
         return view('products.custom', [
             'product' => $product
         ]);

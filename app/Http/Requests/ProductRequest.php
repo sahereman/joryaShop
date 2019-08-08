@@ -14,7 +14,7 @@ class ProductRequest extends Request
      */
     public function rules()
     {
-        if ($this->routeIs('product_categories.more')) {
+        if ($this->routeIs('product_categories.index')) {
             return [
                 'sort' => [
                     'bail',

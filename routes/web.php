@@ -197,7 +197,7 @@ Route::post('comment_image/upload', 'IndexController@commentImageUpload')->name(
 Route::get('articles/{slug}', 'ArticlesController@show')->name('articles.show');
 
 /*商品分类*/
-Route::get('product_categories/{category}/more', 'ProductCategoriesController@more')->name('product_categories.more'); // 二级分类及其商品列表 下拉加载更多 [for Ajax request]
+// Route::get('product_categories/{category}/more', 'ProductCategoriesController@more')->name('product_categories.more'); // 二级分类及其商品列表 下拉加载更多 [for Ajax request]
 Route::get('product_categories/{category}/{slug?}', 'ProductCategoriesController@index')->name('product_categories.index'); // 一级分类及其商品列表 [完整展示页面] or 二级分类及其商品列表 [仅展示页面]
 
 /*商品*/

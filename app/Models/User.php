@@ -52,6 +52,11 @@ class User extends Authenticatable
 
     protected $appends = ['avatar_url'];
 
+    public function isProductFavourite(int $product_id)
+    {
+        return UserFavourite::where(['user_id' => $this->id, 'product_id' => $product_id])->exists();
+    }
+
     /* Accessors */
     public function getAvatarUrlAttribute()
     {

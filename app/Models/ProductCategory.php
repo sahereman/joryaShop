@@ -7,6 +7,7 @@ use Encore\Admin\Traits\AdminBuilder;
 use Encore\Admin\Traits\ModelTree;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -92,6 +93,23 @@ class ProductCategory extends Model
     protected $appends = [
         'banner_url',
     ];
+
+    public static $cache_key;
+    // Cache 生命周期: 24小时
+    protected static $cache_expire_in_minutes = 1440;
+
+    public static function categories()
+    {
+        self::$cache_key = config('app.name') . '_categories';
+        // 尝试从缓存中取出 cache_key 对应的数据。如果能取到，便直接返回数据。
+        // 否则运行匿名函数中的代码来取出 categories 表中所有的数据，返回的同时做了缓存。
+        return Cache::remember(self::$cache_key, self::$cache_expire_in_minutes, function () {
+            $categories = self::where([
+                'parent_id' => 0,
+            ])->orderBy('sort')->with('children')->get();
+            return $categories;
+        });
+    }
 
     /* Accessors */
     public function getBannerUrlAttribute()
