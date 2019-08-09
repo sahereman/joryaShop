@@ -38,12 +38,12 @@
                                            value="{{ $cart->id }}">
                                 </div>
                                 <div class="left shop-img">
-                                    <a class="cur_p" href="{{ route('products.show', $cart->sku->product_id) }}">
+                                    <a class="cur_p" href="{{ route('seo_url', $cart->sku->product->slug) }}">
                                         <img class="lazy" data-src="{{ $cart->sku->product->thumb_url }}">
                                     </a>
                                 </div>
                                 <div class="left w250 pro-info">
-                                    <a class="cur_p" href="{{ route('products.show', $cart->sku->product_id) }}">
+                                    <a class="cur_p" href="{{ route('seo_url', $cart->sku->product->slug) }}">
                                         <span>{{ App::isLocale('zh-CN') ? $cart->sku->product->name_zh : $cart->sku->product->name_en }}</span>
                                     </a>
                                 </div>

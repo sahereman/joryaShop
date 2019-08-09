@@ -65,7 +65,7 @@
                 <div class="parameters_content">
                     {{-- 商品标题 --}}
                     <h4 class="forstorage_name" info_url="{{ $product->thumb_url }}" info_code="{{ $product->id }}"
-                        info_href="{{ route('products.show', ['product' => $product->id,'slug'=>$product->slug]) }}">
+                        info_href="{{ route('seo_url', $product->slug) }}">
                         {{ App::isLocale('zh-CN') ? $product->name_zh : $product->name_en }}
                     </h4>
                     {{-- 商品小标题介绍 --}}
@@ -381,7 +381,7 @@
                                 @endif
                                         <div class="swiper-slide-item">
                                             <div class="product-image">
-                                                <a href="{{ route('products.show', ['product' => $guess->id,'slug'=>$guess->slug]) }}">
+                                                <a href="{{ route('seo_url', $guess->slug) }}">
                                                     <img src="{{ $guess->thumb_url }}">
                                                 </a>
                                             </div>

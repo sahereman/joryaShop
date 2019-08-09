@@ -148,7 +148,7 @@ class ProductsController extends Controller
 
         // $grid->thumb('缩略图')->image('', 60);
         $grid->thumb('缩略图')->image('', 60)->display(function ($data) {
-            return '<a target="_blank" href="' . route('products.show', ['product' => $this->id]) . '">' . $data . '</a>';
+            return '<a target="_blank" href="' . route('seo_url', $this->slug) . '">' . $data . '</a>';
         });
 
         /*$grid->category()->name_zh('分类')->display(function ($data) {
@@ -171,7 +171,7 @@ class ProductsController extends Controller
             return "<span style='width: 120px;display: inline-block;overflow: hidden'>$data</span>";
         });*/
         $grid->name_en('标题')->display(function ($data) {
-            return "<a target='_blank' href='" . route('products.show', ['product' => $this->id]) . "'><span style='width: 120px;display: inline-block;overflow: hidden'>$data</span></a>";
+            return "<a target='_blank' href='" . route('seo_url', $this->slug) . "'><span style='width: 120px;display: inline-block;overflow: hidden'>$data</span></a>";
         });
         $grid->sub_name_en('副标题');
         $grid->type('商品类型')->display(function ($type) {

@@ -53,7 +53,7 @@
                                             <span class="old_price">{{ get_global_symbol() }} {{ bcmul(get_current_price($history->product->price), 1.2, 2) }}</span>
                                         </p>
                                         <a class="add_to_cart"
-                                           href="{{ route('products.show', ['product' => $history->product->id,'slug'=>$history->product->slug]) }}">@lang('app.see details')</a>
+                                           href="{{ route('seo_url', $history->product->slug) }}">@lang('app.see details')</a>
                                         <a class="delete_mark"
                                            code="{{ route('user_histories.destroy', ['history' => $history->id]) }}"
                                            title="@lang('app.Click to remove the item')"></a>

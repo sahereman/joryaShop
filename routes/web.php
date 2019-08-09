@@ -240,3 +240,7 @@ Route::get('socialites/login/{socialite}', 'SocialitesController@login')->name('
 Route::get('socialites/callback/{socialite}', 'SocialitesController@callback')->name('socialites.callback'); // Socialite Callback Url
 Route::get('socialites/deauthorize/{socialite}', 'SocialitesController@deauthorize')->name('socialites.deauthorize'); // Socialite Deauthorize Url
 Route::get('socialites/delete/{socialite}', 'SocialitesController@delete')->name('socialites.delete'); // Socialite Delete Url
+
+
+Route::get('{slug}.html', 'IndexController@seoUrl')->name('seo_url');
+

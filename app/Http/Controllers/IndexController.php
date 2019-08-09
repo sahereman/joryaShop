@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Events\OrderCompletedEvent;
 use App\Handlers\ImageUploadHandler;
 use App\Http\Requests\ImageUploadRequest;
+use App\Models\Article;
 use App\Models\Banner;
 use App\Models\CountryProvince;
 use App\Models\DiscountProduct;
@@ -22,6 +23,7 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class IndexController extends Controller
 {
@@ -29,6 +31,32 @@ class IndexController extends Controller
     public function test(Request $request)
     {
         dd('test');
+    }
+
+    public function seoUrl(Request $request, $slug)
+    {
+        $product = Product::where('slug', $slug)->first();
+        if ($product instanceof Product)
+        {
+            $product_ctl = new ProductsController();
+            return $product_ctl->show($request, $product);
+        }
+
+        $product_category = ProductCategory::where('slug', $slug)->first();
+        if ($product_category instanceof ProductCategory)
+        {
+            $product_category_ctl = new ProductCategoriesController();
+            return $product_category_ctl->index($request, $product_category);
+        }
+
+        $article = Article::where('slug', $slug)->first();
+        if ($article instanceof Article)
+        {
+            $article_ctl = new ArticlesController();
+            return $article_ctl->show($request, $article->slug);
+        }
+
+        throw new NotFoundHttpException();
     }
 
     public function root(Request $request)
@@ -40,7 +68,8 @@ class IndexController extends Controller
             return $item->children->isEmpty();
         });
         $categories = $categories->values(); // reset the indices.
-        foreach ($categories as $key => $category) {
+        foreach ($categories as $key => $category)
+        {
             $children = $category->children;
             $children_ids = $children->pluck('id')->all();
             $products[$key]['category'] = $category;
@@ -118,21 +147,25 @@ class IndexController extends Controller
     }
 
     // GET 修改网站语言
+
     /**
      * Locale options: en | zh-CN
      */
     public function localeUpdate(Request $request, string $locale = 'en')
     {
         $request->session()->put('GlobalLocale', $locale);
-        if ($locale === 'zh-CN') {
+        if ($locale === 'zh-CN')
+        {
             set_global_currency('CNY');
-        } else {
+        } else
+        {
             set_global_currency('USD');
         }
         return back();
     }
 
     // GET 修改币种
+
     /**
      * Currency options: USD | CNY
      */

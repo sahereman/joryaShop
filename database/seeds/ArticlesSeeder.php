@@ -52,6 +52,7 @@ class ArticlesSeeder extends Seeder
             ['Repair', 'repair'],
             // Home > My Account > Service Center
             ['After Sales Service', 'refunding_service'],
+            ['Why Lyricalhair', 'why_lyricalhair'],
         ];
 
         $category = \App\Models\ArticleCategory::first();
@@ -59,7 +60,7 @@ class ArticlesSeeder extends Seeder
         foreach ($slug_arr as $item)
         {
             factory(Article::class)->create([
-                'category_id'=>$category->id,
+                'category_id' => $category->id,
                 'name' => $item[0],
                 'slug' => $item[1],
             ]);
