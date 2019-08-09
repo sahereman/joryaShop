@@ -52,12 +52,15 @@ class ProductCategoriesController extends Controller
         }*/
 
         $products = Product::where('on_sale', 1)->whereIn('product_category_id', $category_ids);
+        $all_products = Product::where('on_sale', 1)->whereIn('product_category_id', $category_ids);
+
         if ($is_by_param == 1 && !is_null($param) && !is_null($value)) {
             $query_data['is_by_param'] = $is_by_param;
             $query_data['param'] = $param;
             $query_data['value'] = $value;
             $product_ids = ProductParam::where(['name' => $param, 'value' => $value])->get()->pluck('product_id')->toArray();
-            $products->whereIn('id', $product_ids);
+            $products = $products->whereIn('id', $product_ids);
+            // $all_products = $all_products->whereIn('id', $product_ids);
         }
 
         $query_data = [];
@@ -66,45 +69,71 @@ class ProductCategoriesController extends Controller
             $min_price = exchange_price($request->input('min_price'), 'USD', get_global_currency());
             $query_data['min_price'] = $request->input('min_price');
             $products = $products->where('price', '>', $min_price);
+            $all_products = $all_products->where('price', '>', $min_price);
         }
         if ($request->has('max_price') && $request->input('max_price')) {
             // $max_price = App::isLocale('en') ? ExchangeRate::exchangePrice($request->input('max_price'), 'CNY', 'USD') : $request->input('max_price');
             $max_price = exchange_price($request->input('max_price'), 'USD', get_global_currency());
             $query_data['max_price'] = $request->input('max_price');
             $products = $products->where('price', '<', $max_price);
+            $all_products = $all_products->where('price', '<', $max_price);
         }
         if ($request->has('sort')) {
             $query_data['sort'] = $request->input('sort');
             switch ($request->input('sort')) {
                 case 'index':
                     $products = $products->orderByDesc('index');
+                    // $all_products = $all_products->orderByDesc('index');
                     break;
                 case 'heat':
                     $products = $products->orderByDesc('heat');
+                    // $all_products = $all_products->orderByDesc('heat');
                     break;
                 case 'latest':
                     $products = $products->orderByDesc('created_at');
+                    // $all_products = $all_products->orderByDesc('created_at');
                     break;
                 case 'sales':
                     $products = $products->orderByDesc('sales');
+                    // $all_products = $all_products->orderByDesc('sales');
                     break;
                 case 'price_asc':
                     $products = $products->orderBy('price');
+                    // $all_products = $all_products->orderBy('price');
                     break;
                 case 'price_desc':
                     $products = $products->orderByDesc('price');
+                    // $all_products = $all_products->orderByDesc('price');
                     break;
                 default:
                     $products = $products->orderByDesc('index');
+                    // $all_products = $all_products->orderByDesc('index');
                     break;
             }
+        } else {
+            $products = $products->orderByDesc('index');
+            // $all_products = $all_products->orderByDesc('index');
         }
         $products = $products->simplePaginate(12);
+        $param_values = [];
+        $all_products->get()->each(function (Product $product) use (&$param_values) {
+            $product->params->each(function (ProductParam $productParam) use (&$param_values) {
+                if (!isset($param_values[$productParam->name])) {
+                    $param_values[$productParam->name] = [];
+                }
+                if (!isset($param_values[$productParam->name][$productParam->value])) {
+                    $param_values[$productParam->name][$productParam->value] = 1;
+                } else {
+                    $param_values[$productParam->name][$productParam->value] += 1;
+                }
+            });
+        });
 
         return view('product_categories.index', [
             'user' => $user,
             'category' => $category,
             'crumbs' => $crumbs,
+            'param_values' => $param_values,
             'products' => $products,
             'query_data' => $query_data
         ]);

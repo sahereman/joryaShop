@@ -37,30 +37,32 @@
                     </div>
                 </div>
                 <div class="block block-layered-nav">
-                    <div class="block-title">
-                        <strong><span>Shop By</span></strong>
-                    </div>
-                    <div class="block-content">
-                        <div class="categories-lists-items subtitle-filter">
-                            @foreach(\App\Models\ProductParam::paramNameValues() as $name => $values)
-                                <div class="categories-lists-item">
-                                    <div class="lists-item-title">
-                                        <span>{{ $name }}</span>
-                                        <span class="opener">+</span>
-                                    </div>
-                                    <ul class="categories-lists-item-ul">
-                                        @foreach($values as $value => $count)
-                                            <li>
-                                                <a href="{{ route('product_categories.index', ['category' => $category->id, 'slug' => $category->slug]) . '?is_by_param=1&param=' . $name . '&value=' . $value }}">
-                                                    {{ $value }}<span class="count">({{ $count }})</span>
-                                                </a>
-                                            </li>
-                                        @endforeach
-                                    </ul>
-                                </div>
-                            @endforeach
+                    @if($param_values)
+                        <div class="block-title">
+                            <strong><span>Shop By</span></strong>
                         </div>
-                    </div>
+                        <div class="block-content">
+                            <div class="categories-lists-items subtitle-filter">
+                                @foreach($param_values as $name => $values)
+                                    <div class="categories-lists-item">
+                                        <div class="lists-item-title">
+                                            <span>{{ $name }}</span>
+                                            <span class="opener">+</span>
+                                        </div>
+                                        <ul class="categories-lists-item-ul">
+                                            @foreach($values as $value => $count)
+                                                <li>
+                                                    <a href="{{ route('product_categories.index', ['category' => $category->id, 'slug' => $category->slug]) . '?is_by_param=1&param=' . $name . '&value=' . $value }}">
+                                                        {{ $value }}<span class="count">({{ $count }})</span>
+                                                    </a>
+                                                </li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    @endif
                 </div>
             </div>
             <div class="col-right">
