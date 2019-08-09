@@ -9,6 +9,9 @@ use App\Models\Menu;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
+use App\Models\ProductCategory;
+use App\Models\ProductComment;
+use App\Models\ProductParam;
 use App\Admin\Models\Product as AdminProduct;
 use App\Models\RefundReason;
 use App\Models\ShipmentCompany;
@@ -19,11 +22,14 @@ use App\Observers\ExchangeRateObserver;
 use App\Observers\MenuObserver;
 use App\Observers\OrderObserver;
 use App\Observers\OrderItemObserver;
+use App\Observers\ProductCategoryObserver;
+use App\Observers\ProductCommentObserver;
 use App\Observers\ProductObserver;
+use App\Observers\ProductParamObserver;
 use App\Observers\RefundReasonObserver;
 use App\Observers\ShipmentCompanyObserver;
 use App\Observers\UserObserver;
-use Carbon\Carbon;
+// use Carbon\Carbon;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -41,13 +47,16 @@ class AppServiceProvider extends ServiceProvider
         Order::observe(OrderObserver::class);
         OrderItem::observe(OrderItemObserver::class);
         Product::observe(ProductObserver::class);
+        ProductCategory::observe(ProductCategoryObserver::class);
+        ProductComment::observe(ProductCommentObserver::class);
+        ProductParam::observe(ProductParamObserver::class);
         AdminProduct::observe(ProductObserver::class);
         RefundReason::observe(RefundReasonObserver::class);
         ShipmentCompany::observe(ShipmentCompanyObserver::class);
         User::observe(UserObserver::class);
 
         // Carbon 中文化配置
-        Carbon::setLocale('zh');
+        // Carbon::setLocale('zh');
     }
 
     /**

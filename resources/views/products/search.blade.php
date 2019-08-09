@@ -10,34 +10,23 @@
                     </div>
                     <div class="block-content">
                         <div class="categories-lists-items subtitle-filter">
-                            <div class="categories-lists-item">
-                                <div class="lists-item-title">
-                                    <span>Base material</span>
-                                    <span class="opener">+</span>
+                            @foreach(\App\Models\ProductParam::paramNameValues() as $name => $values)
+                                <div class="categories-lists-item">
+                                    <div class="lists-item-title">
+                                        <span>{{ $name }}</span>
+                                        <span class="opener">+</span>
+                                    </div>
+                                    <ul class="categories-lists-item-ul">
+                                        @foreach($values as $value => $count)
+                                            <li>
+                                                <a href="{{ route('products.search') . '?is_by_param=1&param=' . $name . '&value=' . $value }}">
+                                                    {{ $value }}<span class="count">({{ $count }})</span>
+                                                </a>
+                                            </li>
+                                        @endforeach
+                                    </ul>
                                 </div>
-                                <ul class="categories-lists-item-ul">
-                                    <li><a href="#">Full lace<span class="count">(11)</span></a></li>
-                                    <li><a href="#">Full lace<span class="count">(11)</span></a></li>
-                                    <li><a href="#">Full lace<span class="count">(11)</span></a></li>
-                                    <li><a href="#">Full lace<span class="count">(11)</span></a></li>
-                                    <li><a href="#">Full lace<span class="count">(11)</span></a></li>
-                                    <li><a href="#">Full lace<span class="count">(11)</span></a></li>
-                                </ul>
-                            </div>
-                            <div class="categories-lists-item">
-                                <div class="lists-item-title">
-                                    <span>Base material</span>
-                                    <span class="opener">+</span>
-                                </div>
-                                <ul class="categories-lists-item-ul">
-                                    <li><a href="#">Full lace<span class="count">(11)</span></a></li>
-                                    <li><a href="#">Full lace<span class="count">(11)</span></a></li>
-                                    <li><a href="#">Full lace<span class="count">(11)</span></a></li>
-                                    <li><a href="#">Full lace<span class="count">(11)</span></a></li>
-                                    <li><a href="#">Full lace<span class="count">(11)</span></a></li>
-                                    <li><a href="#">Full lace<span class="count">(11)</span></a></li>
-                                </ul>
-                            </div>
+                            @endforeach
                         </div>
                     </div>
                 </div>
@@ -65,97 +54,109 @@
                             </div>
                         </div> <!-- end: sorter -->
                     </div>
-                    <input type="hidden" class="more_load" value="{{ route('products.search_more') }}">
-                    <ul class="products-grid category-products-grid">
-                        <?php $_ii=0; while ($_ii++ < 5): ?>
-                        <li class="item">
-                            <div class="product-image-wrapper">
-                                <div class="products-item">
-                                    {{--商品配图--}}
-                                    <div class="products-img">
-                                        <a href="#" title="" class="product-image">
-                                            <img src="https://www.lordhair.com/media/catalog/product/cache/4/small_image/295x/040ec09b1e35df139433887a97daa66f/s/2/s22-stock-mens-hairpiece.jpg" alt="">
-                                        </a>
+                    {{--<input type="hidden" class="more_load" value="{{ route('products.search_more') }}">--}}
+                    @if(isset($products))
+                        <ul class="products-grid category-products-grid">
+                            @foreach($products as $product)
+                                <li class="item">
+                                    <div class="product-image-wrapper">
+                                        <div class="products-item">
+                                            {{-- 商品配图 --}}
+                                            <div class="products-img">
+                                                <a href="{{ route('products.show', ['product' => $product->id, 'slug' => $product->slug]) }}" title="{{ $product->name_en }}" class="product-image">
+                                                    <img src="{{ $product->thumb_url }}" alt="{{ $product->name_en }}">
+                                                </a>
+                                            </div>
+                                            <div class="products-info visible-lg">
+                                                {{-- 快速预览跳转到商品详情页面 --}}
+                                                <button type="button" class="button btn-cart quick-view">
+                                                    <a href="{{ route('products.show', ['product' => $product->id, 'slug' => $product->slug]) }}">QUICK VIEW</a>
+                                                </button>
+                                                {{-- 添加收藏 --}}
+                                                {{-- 需判断商品是否已经添加收藏列表如果没有显示 --}}
+                                                @guest
+                                                <a class="wishlist-icon" data-product=""><img alt="" src="{{ asset('img/lordImg/w-icon.png') }}">WISHLIST</a>
+                                                @else
+                                                    @if($user->isProductFavourite($product->id))
+                                                        {{--如果已经添加收藏显示--}}
+                                                        <a class="wishlist-icon inwish" data-product=""><img alt="" src="{{ asset('img/lordImg/w-icon-hover.png') }}">WISHLIST</a>
+                                                    @else
+                                                        <a class="wishlist-icon" data-product=""><img alt="" src="{{ asset('img/lordImg/w-icon.png') }}">WISHLIST</a>
+                                                    @endif
+                                                @endif
+                                                <div class="clear"></div>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="products-info visible-lg">
-                                        {{--快速预览跳转到商品详情页面--}}
-                                        <button type="button" class="button btn-cart quick-view">
-                                            <a href="#">QUICK VIEW</a>
-                                        </button>
-                                        {{--添加收藏--}}
-                                        {{-- 需判断商品是否已经添加收藏列表如果没有显示 --}}
-                                        @if(true)
-                                            <a class="wishlist-icon" data-product=""><img alt="" src="{{ asset('img/lordImg/w-icon.png') }}">WISHLIST</a>
-                                        @else
-                                            {{--如果已经添加收藏显示--}}
-                                            <a class="wishlist-icon inwish" data-product=""><img alt="" src="{{ asset('img/lordImg/w-icon-hover.png') }}">WISHLIST</a>
-                                        @endif
-                                        <div class="clear"></div>
+                                    {{-- 商品标题 --}}
+                                    <h2 class="product-name">
+                                        <a href="{{ route('products.show', ['product' => $product->id, 'slug' => $product->slug]) }}">{{ $product->name_en }}</a>
+                                    </h2>
+                                    {{--商品标号一类--}}
+                                    <h5 class="product-name">{{ $product->sub_name_en }}</h5>
+                                    <div class="">
+                                        <div class="ratings">
+                                            <div class="rating-box">
+                                                {{-- 商品星级评价，
+                                                按照之前的设定分为：
+                                                 1星：width:20%
+                                                 2星：width:40%
+                                                 3星：width:60%
+                                                 4星：width:80%
+                                                 5星：width:100% --}}
+                                                @if($product->comment_count == 0)
+                                                    <div class="rating" style="width: 98%;"></div>
+                                                @else
+                                                    <div class="rating" style="width: {{ (int)bcmul(bcdiv(bcdiv($product->index, $product->comment_count, 2), 5, 2), 100, 0) }}%;"></div>
+                                                @endif
+                                            </div>
+                                            {{-- 评价的数量 --}}
+                                            <span class="amount">{{ $product->comment_count }} Review(s)</span>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
-                            {{-- 商品标题 --}}
-                            <h2 class="product-name">
-                                <a href="#">S22: Ultra Thin Skin V-looped Stock Mens Hairpieces</a>
-                            </h2>
-                            {{--商品标号一类--}}
-                            <h5 class="product-name">Product Code: S22 Stock (UTS)</h5>
-                            <div class="">
-                                <div class="ratings">
-                                    <div class="rating-box">
-                                        {{-- 商品星级评价，按照之前的设定分为：
-                                         1星：width:20%
-                                         2星：width:40%
-                                         3星：width:60%
-                                         4星：width:80%
-                                         5星：width:100%--}}
-                                        <div class="rating" style="width:98%"></div>
+                                    <div class="price-box">
+                                        {{--原始价格--}}
+                                        <p class="old-price">
+                                            <span class="price">{{ get_global_symbol() }} {{ bcmul(get_current_price($product->price), 1.2, 2) }}</span>
+                                        </p>
+                                        {{--当前价格--}}
+                                        <p class="special-price">
+                                            <span class="price-label">Special Price</span>
+                                            <span class="price">{{ get_global_symbol() }} {{ get_current_price($product->price) }}</span>
+                                        </p>
                                     </div>
-                                    {{-- 评价的数量 --}}
-                                    <span class="amount">50 Review(s)</span>
-                                </div>
-                            </div>
-                            <div class="price-box">
-                                {{--原始价格--}}
-                                <p class="old-price">
-                                    <span class="price">US$299.00</span>
-                                </p>
-                                {{--当前价格--}}
-                                <p class="special-price">
-                                    <span class="price-label">Special Price</span>
-                                    <span class="price">US$159.00</span>
-                                </p>
-                            </div>
-                            <div class="actions clearer " style="padding-left: 20%; bottom: 25px;"></div>
-                        </li>
-                        <?php endwhile; ?>
-                    </ul>
-                    {{--end: Quick View--}}
-                    <div class="toolbar-bottom">
-                        <div class="toolbar">
-                            <div class="pager">
-                                <div class="pages">
-                                    <strong>Page:</strong>
-                                    <ol>
-                                        {{-- 当前页不是第一页的时候显示 路径为当前页的前一页 --}}
-                                        <li class="previous">
-                                            <a class="next iconfont" href="https://www.lordhair.com/mens-hair-systems.html?p=2" title="Previous">&#xe603;</a>
-                                        </li>
-                                        {{-- 默认显示五个页码多余的不显示 --}}
-                                        <li class="current">1</li>
-                                        <li><a href="#">2</a></li>
-                                        <li><a href="#">3</a></li>
-                                        <li><a href="#">4</a></li>
-                                        <li><a href="#">5</a></li>
-                                        {{--当前页是最后一页时不显示 路径为当前页的前一页--}}
-                                        <li class="next">
-                                            <a class="next iconfont" href="https://www.lordhair.com/mens-hair-systems.html?p=2" title="Next">&#xe63a;</a>
-                                        </li>
-                                    </ol>
+                                    <div class="actions clearer " style="padding-left: 20%; bottom: 25px;"></div>
+                                </li>
+                            @endforeach
+                        </ul>
+                        {{--end: Quick View--}}
+                        <div class="toolbar-bottom">
+                            <div class="toolbar">
+                                <div class="pager">
+                                    <div class="pages">
+                                        {{ isset($query_data) ? $products->appends($query_data)->links() : $products->links() }}
+                                        {{--<strong>Page:</strong>
+                                        <ol>
+                                            当前页不是第一页的时候显示 路径为当前页的前一页
+                                            <li class="previous">
+                                                <a class="next iconfont" href="https://www.lordhair.com/mens-hair-systems.html?p=2" title="Previous">&#xe603;</a>
+                                            </li>
+                                            默认显示五个页码多余的不显示
+                                            <li class="current">1</li>
+                                            <li><a href="#">2</a></li>
+                                            <li><a href="#">3</a></li>
+                                            <li><a href="#">4</a></li>
+                                            <li><a href="#">5</a></li>
+                                            当前页是最后一页时不显示 路径为当前页的前一页
+                                            <li class="next">
+                                                <a class="next iconfont" href="https://www.lordhair.com/mens-hair-systems.html?p=2" title="Next">&#xe63a;</a>
+                                            </li>
+                                        </ol>--}}
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    @endif
                 </div>
             </div>
         </div>
@@ -191,14 +192,24 @@
             var requestType = 0; // 用来判断滚动条加载数据时应该传递那种参数 0：页面加载时的默认排序，点击人气综合等排序 。1：根据价格区间来获取排序
             var page_num = 2; // 请求页面
             window.onload = function () {
-                $(".dynamic-path").text("Search results for '"+ getQueryString("query") +"'");
-                $(".category-title").html("<h1 class='search-title'>Search results for '"+ getQueryString("query") +"'</h1>");
+                var query = getQueryString('query');
+                var is_by_param = getQueryString('is_by_param');
+                var param = getQueryString('param');
+                var value = getQueryString('value');
+                if (query) {
+                    $(".dynamic-path").text("Search results for '"+ query +"'");
+                    // $(".category-title").html("<h1 class='search-title'>Search results for '"+ query +"'</h1>");
+                } else {
+                    $(".dynamic-path").text("Search results for " + param + ": '"+ value +"'");
+                    // $(".category-title").html("<h1 class='search-title'>Search results for " + param + ": '"+ value +"'</h1>");
+                }
+
                 dataoption_1 = {
                     query: getQueryString("query"),
                     sort: sort,
                     page: 1,
                 };
-                getResults(dataoption_1, true);
+                // getResults(dataoption_1, true);
             };
             // 获取商品列表
             function getResults(data, type) {
@@ -227,57 +238,57 @@
                                 // price = (country == "中文") ? n.price : n.price_in_usd;
                                 symbol = global_symbol;
                                 price = get_current_price(n.price);
-                                html +="<li class='item'>"
-                                html +="<div class='product-image-wrapper'>"
-                                html +="<div class='products-item'>"
-                                html +="<div class='products-img'>"
-                                html +="<a href='/products/" + n.id + "' title='' class='product-image'>"
-                                html +="<img src='"+ n.thumb_url  +"' alt=''>"
-                                html +="</a>"
-                                html +="</div>"
-                                html +="<div class='products-info visible-lg'>"
-                                html +="<button type='button' class='button btn-cart quick-view'>"
-                                html +="<a href='/products/" + n.id + "'>QUICK VIEW</a>"
-                                html +="</button>"
+                                html +="<li class='item'>";
+                                html +="<div class='product-image-wrapper'>";
+                                html +="<div class='products-item'>";
+                                html +="<div class='products-img'>";
+                                html +="<a href='/products/" + n.id + "' title='' class='product-image'>";
+                                html +="<img src='"+ n.thumb_url  +"' alt=''>";
+                                html +="</a>";
+                                html +="</div>";
+                                html +="<div class='products-info visible-lg'>";
+                                html +="<button type='button' class='button btn-cart quick-view'>";
+                                html +="<a href='/products/" + n.id + "'>QUICK VIEW</a>";
+                                html +="</button>";
                                 {{-- 需判断商品是否已经添加收藏列表如果没有显示 --}}
                                 if(1===1) {
-                                    html +="<a class='wishlist-icon' data-product=''><img alt='' src='{{ asset('img/lordImg/w-icon.png') }}'>WISHLIST</a>"
+                                    html +="<a class='wishlist-icon' data-product=''><img alt='' src='{{ asset('img/lordImg/w-icon.png') }}'>WISHLIST</a>";
                                 }else {
-                                    html +="<a class='wishlist-icon inwish' data-product=''><img alt='' src='{{ asset('img/lordImg/w-icon-hover.png') }}'>WISHLIST</a>"
+                                    html +="<a class='wishlist-icon inwish' data-product=''><img alt='' src='{{ asset('img/lordImg/w-icon-hover.png') }}'>WISHLIST</a>";
                                 }
-                                html +="<div class='clear'></div>"
-                                html +="</div>"
-                                html +="</div>"
-                                html +="</div>"
-                                html +="<h2 class='product-name'>"
-                                html +="<a href='/products/" + n.id + "'>"+ name +"</a>"
-                                html +="</h2>"
-                                html +="<h5 class='product-name'>Product Code: S22 Stock (UTS)</h5>"
-                                html +="<div class=''>"
-                                html +="<div class='ratings'>"
-                                html +="<div class='rating-box'>"
+                                html +="<div class='clear'></div>";
+                                html +="</div>";
+                                html +="</div>";
+                                html +="</div>";
+                                html +="<h2 class='product-name'>";
+                                html +="<a href='/products/" + n.id + "'>"+ name +"</a>";
+                                html +="</h2>";
+                                html +="<h5 class='product-name'>Product Code: S22 Stock (UTS)</h5>";
+                                html +="<div class=''>";
+                                html +="<div class='ratings'>";
+                                html +="<div class='rating-box'>";
                                 {{-- 商品星级评价，按照之前的设定分为：
                                          1星：width:20%
                                          2星：width:40%
                                          3星：width:60%
                                          4星：width:80%
                                          5星：width:100%--}}
-                                html +="<div class='rating' style='width:98%'></div>"
-                                html +="</div>"
-                                html +="<span class='amount'>50 Review(s)</span>"
-                                html +="</div>"
-                                html +="</div>"
-                                html +="<div class='price-box'>"
-                                html +="<p class='old-price'>"
-                                html +="<span class='price'><i>" + symbol + "</i>" + js_number_format(Math.imul(float_multiply_by_100(price), 12) / 1000) + "</span>"
-                                html +="</p>"
-                                html +="<p class='special-price'>"
-                                html +="<span class='price-label'>Special Price</span>"
-                                html +="<span class='price'><i>" + symbol + "</i>" + price + "</span>"
-                                html +="</p>"
-                                html +="</div>"
-                                html +="<div class='actions clearer' style='padding-left: 20%; bottom: 25px;'></div>"
-                                html +="</li>"
+                                html +="<div class='rating' style='width:98%'></div>";
+                                html +="</div>";
+                                html +="<span class='amount'>50 Review(s)</span>";
+                                html +="</div>";
+                                html +="</div>";
+                                html +="<div class='price-box'>";
+                                html +="<p class='old-price'>";
+                                html +="<span class='price'><i>" + symbol + "</i>" + js_number_format(Math.imul(float_multiply_by_100(price), 12) / 1000) + "</span>";
+                                html +="</p>";
+                                html +="<p class='special-price'>";
+                                html +="<span class='price-label'>Special Price</span>";
+                                html +="<span class='price'><i>" + symbol + "</i>" + price + "</span>";
+                                html +="</p>";
+                                html +="</div>";
+                                html +="<div class='actions clearer' style='padding-left: 20%; bottom: 25px;'></div>";
+                                html +="</li>";
 
                                 // html += "<li>" +
                                 //         "<a href='/products/" + n.id + "'>" +
@@ -314,7 +325,7 @@
                             }
                             loading = true; // 当返回数组内容为空时阻止滚动条滚动
                         }
-                        $(".products-grid").append(html)
+                        $(".products-grid").append(html);
                         // $(".classified-lists").append(html);
                     },
                     error: function (e) {
@@ -462,10 +473,10 @@
                 return number;
             }
 
-            $(document).ready(function () {
+            /*$(document).ready(function () {
                 var text = decodeURIComponent(getUrlVars());
                 $(".selectInput_header").val(text);
-            });
+            });*/
         });
     </script>
 @endsection

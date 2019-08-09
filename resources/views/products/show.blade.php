@@ -103,10 +103,21 @@
                     {{-- 评价 --}}
                     <div class="ratings">
                         <div class="rating-box">
-                            <div class="rating"></div>
+                            {{-- 商品星级评价，
+                            按照之前的设定分为：
+                             1星：width:20%
+                             2星：width:40%
+                             3星：width:60%
+                             4星：width:80%
+                             5星：width:100% --}}
+                            @if($product->comment_count == 0)
+                                <div class="rating" style="width: 98%;"></div>
+                            @else
+                                <div class="rating" style="width: {{ (int)bcmul(bcdiv(bcdiv($product->index, $product->comment_count, 2), 5, 2), 100, 0) }}%;"></div>
+                            @endif
                         </div>
                         <p class="rating-links">
-                            <a id="goto-reviews" href="#customer-reviews">1 Review(s)</a>
+                            <a id="goto-reviews" href="#customer-reviews">{{ $product->comment_count }} Review(s)</a>
                             <span class="separator">|</span>
                             <a id="goto-reviews-form" href="#customer-reviews">Add Your Review</a>
                         </p>

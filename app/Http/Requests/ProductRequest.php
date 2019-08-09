@@ -27,9 +27,12 @@ class ProductRequest extends Request
                 'max_price' => 'bail|sometimes|nullable|numeric',
                 'page' => 'sometimes|required|integer|min:1',
             ];
-        } elseif ($this->routeIs('products.search_more') || $this->routeIs('products.search')) {
+        } elseif ($this->routeIs('products.search')) {
             return [
-                'query' => 'bail|string|nullable',
+                'is_by_param' => 'bail|sometimes|nullable|int', // 0, 1
+                'param' => 'bail|sometimes|nullable|string',
+                'value' => 'bail|sometimes|nullable|string',
+                'query' => 'bail|sometimes|nullable|string',
                 'sort' => [
                     'bail',
                     'sometimes',
@@ -52,6 +55,9 @@ class ProductRequest extends Request
             return [];
         }
         return [
+            'is_by_param' => '是否根据商品属性进行搜索', // 0, 1
+            'param' => '商品属性名称',
+            'value' => '商品属性值',
             'query' => '搜索内容',
             'sort' => '排序方式',
             'min_price' => '最低价格',

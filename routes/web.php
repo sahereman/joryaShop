@@ -83,7 +83,6 @@ Route::post('login', 'Auth\LoginController@login')->name('login.post'); // form�
 Route::get('orders/pre_payment', 'OrdersController@prePayment')->name('orders.pre_payment'); // 订单预支付页面：选择地址+币种页面
 Route::get('orders/search_by_sn/{sn}', 'OrdersController@searchBySn')->name('orders.search_by_sn'); // 根据订单序列号查看订单详情
 Route::post('orders', 'OrdersController@store')->name('orders.store'); // 提交订单
-// Route::get('orders/{order}/payment_method', 'OrdersController@paymentMethod')->name('orders.payment_method'); // 选择支付方式页面
 Route::post('orders/integrate', 'OrdersController@integrate')->name('orders.integrate'); // 多个订单聚合支付
 
 /*需要登录的路由*/
@@ -130,9 +129,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('orders', 'OrdersController@index')->name('orders.index'); // 订单列表
     Route::get('orders/get_available_coupons', 'OrdersController@getAvailableCoupons')->name('orders.get_available_coupons'); // 获得当前用户可用的优惠券列表 [for Ajax request]
     // Route::get('orders/pre_payment', 'OrdersController@prePayment')->name('orders.pre_payment'); // 订单预支付页面：选择地址+币种页面
-    // Route::get('orders/pre_payment_by_sku_parameters', 'OrdersController@prePaymentBySkuParameters')->name('orders.pre_payment_by_sku_parameters'); // 订单预支付页面：选择地址+币种页面
     Route::get('orders/{order}', 'OrdersController@show')->name('orders.show'); // 订单详情
-    // Route::post('orders/store_by_sku_parameters', 'OrdersController@storeBySkuParameters')->name('orders.store_by_sku_parameters'); // 提交订单
     // Route::post('orders', 'OrdersController@store')->name('orders.store'); // 提交订单
     // Route::get('orders/{order}/payment_method', 'OrdersController@paymentMethod')->name('orders.payment_method'); // 选择支付方式页面
     Route::patch('orders/{order}/close', 'OrdersController@close')->name('orders.close'); // [主动]取消订单，交易关闭 [订单进入交易关闭状态:status->closed]
@@ -197,19 +194,17 @@ Route::post('comment_image/upload', 'IndexController@commentImageUpload')->name(
 Route::get('articles/{slug}', 'ArticlesController@show')->name('articles.show');
 
 /*商品分类*/
-// Route::get('product_categories/{category}/more', 'ProductCategoriesController@more')->name('product_categories.more'); // 二级分类及其商品列表 下拉加载更多 [for Ajax request]
-Route::get('product_categories/{category}/{slug?}', 'ProductCategoriesController@index')->name('product_categories.index'); // 一级分类及其商品列表 [完整展示页面] or 二级分类及其商品列表 [仅展示页面]
+Route::get('product_categories/{category}/{slug?}', 'ProductCategoriesController@index')->name('product_categories.index'); // 商品分类及其商品列表
 
 /*商品*/
-Route::get('products/search', 'ProductsController@search')->name('products.search'); // 搜素结果 [仅展示页面]
-Route::get('products/search_more', 'ProductsController@searchMore')->name('products.search_more'); // 搜素结果 [下拉加载更多] [for Ajax request]
+Route::get('products/search', 'ProductsController@search')->name('products.search'); // 搜素结果
 Route::get('products/search_hint', 'ProductsController@searchHint')->name('products.search_hint'); // 模糊搜素提示结果 [10 records] [for Ajax request]
+// Route::get('products/search_by_param', 'ProductsController@searchByParam')->name('products.search_by_param'); // 搜素结果
 Route::get('products/custom/{product}/{slug?}', 'ProductsController@customShow')->name('products.custom.show'); // 定制商品详情
 Route::post('products/custom/{product}/{slug?}', 'ProductsController@customStore')->name('products.custom.store'); // 定制商品提交
 Route::put('products/custom/{product}/{slug?}', 'ProductsController@customUpdate')->name('products.custom.update'); // 定制商品修改
 Route::get('products/{product}/{slug?}', 'ProductsController@show')->name('products.show'); // 商品详情页
 Route::get('products/{product}/comment', 'ProductsController@comment')->name('products.comment'); // 获取商品评价 [for Ajax request]
-// Route::get('products/{product}/get_sku_parameters', 'ProductsController@getSkuParameters')->name('products.get_sku_parameters'); // 获取SKU参数列表[三级联动] [for Ajax request]
 
 /*收货地址*/
 Route::get('user_addresses/list_all', 'UserAddressesController@listAll')->name('user_addresses.list_all'); // 获取当前用户收货地址列表 [for Ajax request]

@@ -42,34 +42,23 @@
                     </div>
                     <div class="block-content">
                         <div class="categories-lists-items subtitle-filter">
-                            <div class="categories-lists-item">
-                                <div class="lists-item-title">
-                                    <span>Base material</span>
-                                    <span class="opener">+</span>
+                            @foreach(\App\Models\ProductParam::paramNameValues() as $name => $values)
+                                <div class="categories-lists-item">
+                                    <div class="lists-item-title">
+                                        <span>{{ $name }}</span>
+                                        <span class="opener">+</span>
+                                    </div>
+                                    <ul class="categories-lists-item-ul">
+                                        @foreach($values as $value => $count)
+                                            <li>
+                                                <a href="{{ route('products.search') . '?is_by_param=1&param=' . $name . '&value=' . $value }}">
+                                                    {{ $value }}<span class="count">({{ $count }})</span>
+                                                </a>
+                                            </li>
+                                        @endforeach
+                                    </ul>
                                 </div>
-                                <ul class="categories-lists-item-ul">
-                                    <li><a href="#">Full lace<span class="count">(11)</span></a></li>
-                                    <li><a href="#">Full lace<span class="count">(11)</span></a></li>
-                                    <li><a href="#">Full lace<span class="count">(11)</span></a></li>
-                                    <li><a href="#">Full lace<span class="count">(11)</span></a></li>
-                                    <li><a href="#">Full lace<span class="count">(11)</span></a></li>
-                                    <li><a href="#">Full lace<span class="count">(11)</span></a></li>
-                                </ul>
-                            </div>
-                            <div class="categories-lists-item">
-                                <div class="lists-item-title">
-                                    <span>Base material</span>
-                                    <span class="opener">+</span>
-                                </div>
-                                <ul class="categories-lists-item-ul">
-                                    <li><a href="#">Full lace<span class="count">(11)</span></a></li>
-                                    <li><a href="#">Full lace<span class="count">(11)</span></a></li>
-                                    <li><a href="#">Full lace<span class="count">(11)</span></a></li>
-                                    <li><a href="#">Full lace<span class="count">(11)</span></a></li>
-                                    <li><a href="#">Full lace<span class="count">(11)</span></a></li>
-                                    <li><a href="#">Full lace<span class="count">(11)</span></a></li>
-                                </ul>
-                            </div>
+                            @endforeach
                         </div>
                     </div>
                 </div>
@@ -115,8 +104,8 @@
                                         <div class="products-item">
                                             {{-- 商品配图 --}}
                                             <div class="products-img">
-                                                <a href="#" title="" class="product-image">
-                                                    <img src="{{ $product->thumb_url }}" alt="">
+                                                <a href="{{ route('products.show', ['product' => $product->id, 'slug' => $product->slug]) }}" title="{{ $product->name_en }}" class="product-image">
+                                                    <img src="{{ $product->thumb_url }}" alt="{{ $product->name_en }}">
                                                 </a>
                                             </div>
                                             <div class="products-info visible-lg">

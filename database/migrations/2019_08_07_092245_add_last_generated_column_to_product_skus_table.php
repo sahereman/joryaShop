@@ -26,7 +26,7 @@ class AddLastGeneratedColumnToProductSkusTable extends Migration
     public function down()
     {
         Schema::table('product_skus', function (Blueprint $table) {
-            $table->drop('last_generated');
+            $table->dropColumn('last_generated');
         });
     }
 }

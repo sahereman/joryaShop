@@ -8,6 +8,7 @@ use App\Http\Requests\ProductRequest;
 // use App\Models\ExchangeRate;
 use App\Models\CustomAttrValue;
 use App\Models\Product;
+use App\Models\ProductParam;
 use App\Models\ProductSku;
 // use App\Models\ProductCategory;
 use App\Models\ProductComment;
@@ -24,36 +25,37 @@ use Illuminate\Support\Facades\Validator;
 
 class ProductsController extends Controller
 {
-    // GET 搜素结果 [仅展示页面]
+    // GET 搜素结果
     public function search(ProductRequest $request)
     {
-        // 第一次请求 route('products.search') . '?query=***' 打开待填充数据页面
-        return view('products.search');
-    }
-
-    // GET 搜素结果 [下拉加载更多] [for Ajax request]
-    public function searchMore(ProductRequest $request)
-    {
         $query_data = [];
+        $user = $request->user();
+        $is_by_param = $request->query('is_by_param');
+        $param = $request->query('param');
+        $value = $request->query('value');
         $query = $request->query('query');
         // Ajax request for the 1st time: route('products.search') . '?query=***&sort=***&min_price=***&max_price=***&page=1'
-        $current_page = $request->has('page') ? $request->input('page') : 1;
+        // $current_page = $request->has('page') ? $request->input('page') : 1;
         // on_sale: 是否在售 + index: 综合指数
-        if (is_null($query)) {
-            $products = Product::where('on_sale', 1);
+        if (is_null($query) && $is_by_param == 1 && !is_null($param) && !is_null($value)) {
+            $query_data['is_by_param'] = $is_by_param;
+            $query_data['param'] = $param;
+            $query_data['value'] = $value;
+            $product_ids = ProductParam::where(['name' => $param, 'value' => $value])->get()->pluck('product_id')->toArray();
+            $products = Product::where('on_sale', 1)->whereIn('id', $product_ids);
         } else {
             $query_data['query'] = $query;
             $products = Product::where('on_sale', 1)
                 ->where('name_en', 'like', '%' . $query . '%')
-                ->orWhere('name_zh', 'like', '%' . $query . '%')
+                // ->orWhere('name_zh', 'like', '%' . $query . '%')
                 ->orWhere('description_en', 'like', '%' . $query . '%')
-                ->orWhere('description_zh', 'like', '%' . $query . '%')
-                ->orWhere('content_en', 'like', '%' . $query . '%')
-                ->orWhere('content_zh', 'like', '%' . $query . '%');
+                // ->orWhere('description_zh', 'like', '%' . $query . '%')
+                ->orWhere('content_en', 'like', '%' . $query . '%');
+                // ->orWhere('content_zh', 'like', '%' . $query . '%');
         }
-        $product_count = $products->count();
-        $page_count = ceil($product_count / 5);
-        $next_page = ($current_page < $page_count) ? ($current_page + 1) : false;
+        // $product_count = $products->count();
+        // $page_count = ceil($product_count / 5);
+        // $next_page = ($current_page < $page_count) ? ($current_page + 1) : false;
 
         if ($request->has('min_price') && $request->input('min_price')) {
             // $min_price = App::isLocale('en') ? ExchangeRate::exchangePrice($request->input('min_price'), 'CNY', 'USD') : $request->input('min_price');
@@ -95,22 +97,12 @@ class ProductsController extends Controller
         } else {
             $products = $products->orderByDesc('index');
         }
-        $products = $products->simplePaginate(10);
+        $products = $products->simplePaginate(12);
 
-        if ($next_page == false) {
-            $request_url = false;
-        } else {
-            $query_data['page'] = $next_page;
-            $request_url = route('products.search') . '?' . http_build_query($query_data);
-        }
-
-        return response()->json([
-            'code' => 200,
-            'message' => 'success',
-            'data' => [
-                'products' => $products,
-                'request_url' => $request_url,
-            ],
+        return view('products.search', [
+            'user' => $user,
+            'products' => $products,
+            'query_data' => $query_data
         ]);
     }
 
@@ -119,11 +111,12 @@ class ProductsController extends Controller
     {
         $query = $request->has('query') ? $request->query('query') : '';
         if (!$query) {
-            if (App::isLocale('zh-CN')) {
+            throw new InvalidRequestException('Query content must not be empty.');
+            /*if (App::isLocale('zh-CN')) {
                 throw new InvalidRequestException('搜索内容不可为空！');
             } else {
                 throw new InvalidRequestException('Query content must not be empty.');
-            }
+            }*/
         }
         // on_sale: 是否在售 + index: 综合指数
         $products = Product::where('on_sale', 1)
@@ -146,7 +139,7 @@ class ProductsController extends Controller
     public function show(Request $request, Product $product)
     {
         if ($product->on_sale == 0) {
-            throw new InvalidRequestException('该商品尚未上架');
+            throw new InvalidRequestException('This product is not on sale yet.');
         }
 
         $shipment_template = null;
@@ -200,16 +193,17 @@ class ProductsController extends Controller
     public function comment(Request $request, Product $product)
     {
         if ($product->on_sale == 0) {
-            throw new InvalidRequestException('该商品尚未上架');
+            throw new InvalidRequestException('This product is not on sale yet.');
         }
 
         $current_page = $request->has('page') ? $request->input('page') : 1;
         if (preg_match('/^\d+$/', $current_page) != 1) {
-            if (App::isLocale('zh-CN')) {
+            throw new InvalidRequestException('The parameter page must be an integer.');
+            /*if (App::isLocale('zh-CN')) {
                 throw new InvalidRequestException('页码参数必须为数字！');
             } else {
                 throw new InvalidRequestException('The parameter page must be an integer.');
-            }
+            }*/
         }
         $comment_count = $product->comments->count();
         $page_count = ceil($comment_count / 10);
