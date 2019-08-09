@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Product;
+use App\Models\ProductCategory;
 use Illuminate\Database\Seeder;
 
 class ProductSlugsSeeder extends Seeder
@@ -14,6 +15,10 @@ class ProductSlugsSeeder extends Seeder
     {
         Product::all()->each(function (Product $product) {
             $product->save();
+        });
+
+        ProductCategory::all()->each(function (ProductCategory $productCategory) {
+            $productCategory->save();
         });
     }
 }
