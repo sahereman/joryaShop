@@ -11,12 +11,12 @@
                     <a href="{{ route('root') }}">@lang('basic.home')</a>
                     @if($category->parent)
                         <span>/&nbsp;</span>
-                        <a href="{{ route('product_categories.index', ['category' => $category->parent->id,'slug'=>$category->parent->slug]) }}">
+                        <a href="{{ route('seo_url', $category->parent->slug) }}">
                             {{ App::isLocale('zh-CN') ? $category->parent->name_zh : $category->parent->name_en }}
                         </a>
                     @endif
                     <span>/&nbsp;</span>
-                    <a href="{{ route('product_categories.index', ['category' => $category->id,'slug'=>$category->slug]) }}">{{ App::isLocale('zh-CN') ? $category->name_zh : $category->name_en }}</a>
+                    <a href="{{ route('seo_url', $category->slug) }}">{{ App::isLocale('zh-CN') ? $category->name_zh : $category->name_en }}</a>
                     <span>></span>
                     <a href="javascript:void(0);">{{ App::isLocale('zh-CN') ? $product->name_zh : $product->name_en }}</a>
                 </p>

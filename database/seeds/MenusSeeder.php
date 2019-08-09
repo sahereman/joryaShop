@@ -23,14 +23,14 @@ class MenusSeeder extends Seeder
                 'name_en' => $category->name_en,
                 'name_zh' => $category->name_zh,
                 'slug' => 'pc',
-                'link' => route('product_categories.index', ['category' => $category->id]),
+                'link' => route('seo_url', $category->slug),
             ]);
             factory(Menu::class)->create([
                 'parent_id' => 0,
                 'name_en' => $category->name_en,
                 'name_zh' => $category->name_zh,
                 'slug' => 'mobile',
-                'link' => route('product_categories.index', ['category' => $category->id]),
+                'link' => route('seo_url', $category->slug),
             ]);
         });
     }

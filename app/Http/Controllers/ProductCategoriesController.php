@@ -24,7 +24,7 @@ class ProductCategoriesController extends Controller
         $child = $category;
         while ($parent = $child->parent) {
             $crumbs = '&nbsp;<span>&nbsp;&gt;&nbsp;</span>&nbsp;<a href="'
-                . route('product_categories.index', ['category' => $parent->id])
+                . route('seo_url', $parent->slug)
                 . '">' . $parent->name_en . '</a>' . $crumbs;
             $child = $parent;
         }
