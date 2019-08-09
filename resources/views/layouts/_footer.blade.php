@@ -53,54 +53,54 @@
                     <li>
                         <p class="mobile-dropdown-menu"><span>@lang('app.Company_Info')</span><span class="iconfont">&#xe605;</span></p>
                         <div class="footer-block-content">
-                            <a href="{{ route('articles.show', ['slug' => 'about_us']) }}">@lang('app.About_Us')</a>
-                            <a href="{{ route('articles.show', ['slug' => 'contact_us']) }}">@lang('app.Contact_Us')</a>
-                            <a href="{{ route('articles.show', ['slug' => 'privacy_policy']) }}">@lang('app.Privacy_Policy')</a>
-                            <a href="{{ route('articles.show', ['slug' => 'terms_and_conditions']) }}">@lang('app.Terms_and_Conditions')</a>
+                            <a href="{{ route('seo_url', ['slug' => 'about_us']) }}">@lang('app.About_Us')</a>
+                            <a href="{{ route('seo_url', ['slug' => 'contact_us']) }}">@lang('app.Contact_Us')</a>
+                            <a href="{{ route('seo_url', ['slug' => 'privacy_policy']) }}">@lang('app.Privacy_Policy')</a>
+                            <a href="{{ route('seo_url', ['slug' => 'terms_and_conditions']) }}">@lang('app.Terms_and_Conditions')</a>
                             <a href="{{url('sitemap.html')}}">@lang('app.Sitemap')</a>
                         </div>
                     </li>
                     <li>
                         <p class="mobile-dropdown-menu"><span>@lang('app.Help_&_Support')</span><span class="iconfont">&#xe605;</span></p>
                         <div class="footer-block-content">
-                            <a href="{{ route('articles.show', ['slug' => 'newbie_guide']) }}">@lang('app.Newbie_Guide')</a>
-                            <a href="{{ route('articles.show', ['slug' => 'FAQs']) }}">@lang('app.FAQs')</a>
-                            <a href="{{ route('articles.show', ['slug' => 'payment_methods']) }}">@lang('app.Payment_Methods')</a>
-                            <a href="{{ route('articles.show', ['slug' => 'shipping_&_handling']) }}">@lang('app.Shipping_&_Handling')</a>
-                            <a href="{{ route('articles.show', ['slug' => 'warranty_and_return']) }}">@lang('app.Warranty_and_Return')</a>
-                            <a href="{{ route('articles.show', ['slug' => 'track_my_order']) }}">@lang('app.Track_My_Order')</a>
+                            <a href="{{ route('seo_url', ['slug' => 'newbie_guide']) }}">@lang('app.Newbie_Guide')</a>
+                            <a href="{{ route('seo_url', ['slug' => 'FAQs']) }}">@lang('app.FAQs')</a>
+                            <a href="{{ route('seo_url', ['slug' => 'payment_methods']) }}">@lang('app.Payment_Methods')</a>
+                            <a href="{{ route('seo_url', ['slug' => 'shipping_&_handling']) }}">@lang('app.Shipping_&_Handling')</a>
+                            <a href="{{ route('seo_url', ['slug' => 'warranty_and_return']) }}">@lang('app.Warranty_and_Return')</a>
+                            <a href="{{ route('seo_url', ['slug' => 'track_my_order']) }}">@lang('app.Track_My_Order')</a>
                         </div>
                     </li>
                     <li>
                         <p class="mobile-dropdown-menu"><span>@lang('app.Be_Our_Partner')</span><span class="iconfont">&#xe605;</span></p>
                         <div class="footer-block-content">
-                            <a href="{{ route('articles.show', ['slug' => 'wholesale']) }}">@lang('app.Wholesale')</a>
-                            <a href="{{ route('articles.show', ['slug' => 'drop_shipment']) }}">@lang('app.Drop_Shipment')</a>
-                            <a href="{{ route('articles.show', ['slug' => 'news']) }}">@lang('app.News')</a>
-                            <a href="{{ route('articles.show', ['slug' => 'videos']) }}">@lang('app.Videos')</a>
+                            <a href="{{ route('seo_url', ['slug' => 'wholesale']) }}">@lang('app.Wholesale')</a>
+                            <a href="{{ route('seo_url', ['slug' => 'drop_shipment']) }}">@lang('app.Drop_Shipment')</a>
+                            <a href="{{ route('seo_url', ['slug' => 'news']) }}">@lang('app.News')</a>
+                            <a href="{{ route('seo_url', ['slug' => 'videos']) }}">@lang('app.Videos')</a>
                         </div>
                     </li>
                     <li>
                         <p class="mobile-dropdown-menu"><span>@lang('app.Custom_Options')</span><span class="iconfont">&#xe605;</span></p>
                         <div class="footer-block-content">
-                            <a href="{{ route('articles.show', ['slug' => 'base_design_guide']) }}">@lang('app.Base_Design_Guide')</a>
-                            <a href="{{ route('articles.show', ['slug' => 'base_size']) }}">@lang('app.Base_Size')</a>
-                            <a href="{{ route('articles.show', ['slug' => 'hair_style']) }}">@lang('app.Hair_Style')</a>
-                            <a href="{{ route('articles.show', ['slug' => 'hair_texture']) }}">@lang('app.Hair_Texture')</a>
-                            <a href="{{ route('articles.show', ['slug' => 'hair_density']) }}">@lang('app.Hair_Density')</a>
-                            <a href="{{ route('articles.show', ['slug' => 'hair_type']) }}">@lang('app.Hair_Type')</a>
-                            <a href="{{ route('articles.show', ['slug' => 'front_contour']) }}">@lang('app.Front_Contour')</a>
-                            <a href="{{ route('articles.show', ['slug' => 'scallop_front']) }}">@lang('app.Scallop_Front')</a>
+                            <a href="{{ route('seo_url', ['slug' => 'base_design_guide']) }}">@lang('app.Base_Design_Guide')</a>
+                            <a href="{{ route('seo_url', ['slug' => 'base_size']) }}">@lang('app.Base_Size')</a>
+                            <a href="{{ route('seo_url', ['slug' => 'hair_style']) }}">@lang('app.Hair_Style')</a>
+                            <a href="{{ route('seo_url', ['slug' => 'hair_texture']) }}">@lang('app.Hair_Texture')</a>
+                            <a href="{{ route('seo_url', ['slug' => 'hair_density']) }}">@lang('app.Hair_Density')</a>
+                            <a href="{{ route('seo_url', ['slug' => 'hair_type']) }}">@lang('app.Hair_Type')</a>
+                            <a href="{{ route('seo_url', ['slug' => 'front_contour']) }}">@lang('app.Front_Contour')</a>
+                            <a href="{{ route('seo_url', ['slug' => 'scallop_front']) }}">@lang('app.Scallop_Front')</a>
                         </div>
                     </li>
                     <li>
                         <p class="mobile-dropdown-menu"><span>@lang('app.Product_Help')</span><span class="iconfont">&#xe605;</span></p>
                         <div class="footer-block-content">
-                            <a href="{{ route('articles.show', ['slug' => 'currency_rates']) }}">@lang('app.Currency_Rates')</a>
-                            <a href="{{ route('articles.show', ['slug' => 'how_to_make_template']) }}">@lang('app.How_to_Make_Template')</a>
-                            <a href="{{ route('articles.show', ['slug' => 'how_to_clean_toupee']) }}">@lang('app.How_to_Clean_Toupee')</a>
-                            <a href="{{ route('articles.show', ['slug' => 'how_to_comb_the_hair']) }}">@lang('app.How_to_Comb_the_Hair')</a>
-                            <a href="{{ route('articles.show', ['slug' => 'how_to_match_length']) }}">@lang('app.How_to_Match_Length')</a>
+                            <a href="{{ route('seo_url', ['slug' => 'currency_rates']) }}">@lang('app.Currency_Rates')</a>
+                            <a href="{{ route('seo_url', ['slug' => 'how_to_make_template']) }}">@lang('app.How_to_Make_Template')</a>
+                            <a href="{{ route('seo_url', ['slug' => 'how_to_clean_toupee']) }}">@lang('app.How_to_Clean_Toupee')</a>
+                            <a href="{{ route('seo_url', ['slug' => 'how_to_comb_the_hair']) }}">@lang('app.How_to_Comb_the_Hair')</a>
+                            <a href="{{ route('seo_url', ['slug' => 'how_to_match_length']) }}">@lang('app.How_to_Match_Length')</a>
                         </div>
                     </li>
                 </ul>

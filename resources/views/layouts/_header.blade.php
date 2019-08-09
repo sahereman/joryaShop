@@ -57,7 +57,7 @@
                     </div>
                 </div>
                 <div class="item item-left" id="why-lordhair">
-                    <a href="{{ route('articles.show', ['slug' => 'why_lyricalhair']) }}">Why Lyricalhair?</a>
+                    <a href="{{ route('seo_url', ['slug' => 'why_lyricalhair']) }}">Why Lyricalhair?</a>
                 </div>
             </div>
             <div class="right-column">
@@ -139,7 +139,7 @@
                     @endguest
                 </div>
                 <div class="item item-right">
-                    <a href="{{ route('articles.show', ['slug' => 'contact_us']) }}">@lang('app.Contact_Us')</a>
+                    <a href="{{ route('seo_url', ['slug' => 'contact_us']) }}">@lang('app.Contact_Us')</a>
                 </div>
             </div>
         </div>
