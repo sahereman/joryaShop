@@ -426,7 +426,14 @@ class ProductsController extends Controller
     protected function form()
     {
         $form = new Form(new Product());
-        $form->html('<button class="btn btn-primary"><i class="fa fa-send"></i>&nbsp;提交</button>');
+        $form->disableReset();
+        $form->disableSubmit();
+
+        $form->html(
+            '<button data-url="' . session('admin_products_index_url') . '" type="submit" class="btn btn-primary return_url_btn" style="margin-right: 20px;">提交并返回</button>' .
+            '<button data-url="' . route('admin.products.sku_editor_show', ['product' => $this->product_id]) . '"type="submit" class="btn btn-primary return_url_btn">提交后SKU编辑</button>'
+        );
+        $form->hidden('_return_url_')->default(route('admin.products.sku_editor_show', ['product' => $this->product_id]));
 
         if ($this->mode == Builder::MODE_CREATE)
         {
@@ -582,12 +589,26 @@ class ProductsController extends Controller
         // $form->editor('content_zh', '详情介绍(中文)');
         $form->hidden('content_zh', '详情介绍(中文)')->default('lyrical');
         $form->editor('content_en', '详情介绍(英文)');
-
         // });
 
-        $form->html('<script type="text/javascript" src="/vendor/laravel-admin/product.js"></script>');
+        $form->html(
+            '<button data-url="' . session('admin_products_index_url') . '" type="submit" class="btn btn-primary return_url_btn" style="margin-right: 20px;">提交并返回</button>' .
+            '<button data-url="' . route('admin.products.sku_editor_show', ['product' => $this->product_id]) . '"type="submit" class="btn btn-primary return_url_btn">提交后SKU编辑</button>'
+        );
 
-        $form->ignore(['_from_']);
+        $form->html('<script type="text/javascript" src="/vendor/laravel-admin/product.js"></script>');
+        $form->html('<script type="text/javascript">
+                $(function() {
+                    /*提交并返回 与 提交后SKU编辑*/
+                    $(".return_url_btn").click(function () {
+                        console.log($(this).attr("data-url"));
+                        $("._return_url_").val($(this).attr("data-url"));
+                    });
+                });
+            </script>');
+
+
+        $form->ignore(['_from_', '_return_url_']);
 
         // 定义事件回调，当模型即将保存时会触发这个回调
         $form->saving(function (Form $form) {
@@ -669,15 +690,16 @@ class ProductsController extends Controller
 
             if (request()->input('_from_') == Builder::MODE_EDIT)
             {
-                if (session('admin_products_index_url'))
-                {
-                    return redirect(session('admin_products_index_url'));
-                }
-                return redirect()->route('admin.products.index');
+                return redirect(request()->input('_return_url_'));
             }
 
             if (request()->input('_from_') == Builder::MODE_CREATE && $product->type != Product::PRODUCT_TYPE_CUSTOM)
             {
+                if(request()->input('_return_url_') == session('admin_products_index_url'))
+                {
+                    return redirect(request()->input('_return_url_'));
+                }
+
                 return redirect()->route('admin.products.sku_editor_show', ['product' => $product_id]);
             }
         });
