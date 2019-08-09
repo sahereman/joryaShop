@@ -15,7 +15,7 @@ class ProductCategoriesController extends Controller
     // GET 商品分类列表:
     // 一级分类及其商品列表
     // 二级分类及其商品列表
-    public function index(ProductRequest $request, ProductCategory $category)
+    public function index(Request $request, ProductCategory $category)
     {
         $user = $request->user();
         $is_by_param = $request->query('is_by_param');

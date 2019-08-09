@@ -18,12 +18,12 @@
                             </div>
                             @foreach(\App\Models\ProductCategory::categories() as $product_category)
                             <div class="categories-lists-item">
-                                <div class="lists-item-title"><a href="{{ route('product_categories.index', ['category' => $product_category->id, 'slug' => $product_category->slug]) }}"><span>{{ $product_category->name_en }}</span></a></div>
+                                <div class="lists-item-title"><a href="{{ route('seo_url', $product_category->slug) }}"><span>{{ $product_category->name_en }}</span></a></div>
                                 @if($product_category->children->isNotEmpty())
                                 <ul class="categories-lists-item-ul">
                                     @foreach($product_category->children as $child)
                                     <li>
-                                        <a href="{{ route('product_categories.index', ['category' => $child->id, 'slug' => $child->slug]) }}"><span>{{ $child->name_en }}</span></a>
+                                        <a href="{{ route('seo_url', $child->slug) }}"><span>{{ $child->name_en }}</span></a>
                                     </li>
                                     @endforeach
                                 </ul>
@@ -52,7 +52,7 @@
                                         <ul class="categories-lists-item-ul">
                                             @foreach($values as $value => $count)
                                                 <li>
-                                                    <a href="{{ route('product_categories.index', ['category' => $category->id, 'slug' => $category->slug]) . '?is_by_param=1&param=' . $name . '&value=' . $value }}">
+                                                    <a href="{{ route('seo_url', $category->slug) . '?is_by_param=1&param=' . $name . '&value=' . $value }}">
                                                         {{ $value }}<span class="count">({{ $count }})</span>
                                                     </a>
                                                 </li>
