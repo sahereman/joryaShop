@@ -16,14 +16,14 @@
                             <div class="categories-lists-item">
                                 <div class="lists-item-title"><a href="#"><span>Hair Systems</span></a></div>
                             </div>
-                            @foreach(\App\Models\ProductCategory::categories() as $category)
+                            @foreach(\App\Models\ProductCategory::categories() as $product_category)
                             <div class="categories-lists-item">
-                                <div class="lists-item-title"><a href="{{ route('seo_url', $category->slug) }}"><span>{{ $category->name_en }}</span></a></div>
-                                @if($category->children->isNotEmpty())
+                                <div class="lists-item-title"><a href="{{ route('product_categories.index', ['category' => $product_category->id, 'slug' => $product_category->slug]) }}"><span>{{ $product_category->name_en }}</span></a></div>
+                                @if($product_category->children->isNotEmpty())
                                 <ul class="categories-lists-item-ul">
-                                    @foreach($category->children as $child)
+                                    @foreach($product_category->children as $child)
                                     <li>
-                                        <a href="{{ route('seo_url', $child->slug) }}"><span>{{ $child->name_en }}</span></a>
+                                        <a href="{{ route('product_categories.index', ['category' => $child->id, 'slug' => $child->slug]) }}"><span>{{ $child->name_en }}</span></a>
                                     </li>
                                     @endforeach
                                 </ul>
@@ -51,7 +51,7 @@
                                     <ul class="categories-lists-item-ul">
                                         @foreach($values as $value => $count)
                                             <li>
-                                                <a href="{{ route('products.search') . '?is_by_param=1&param=' . $name . '&value=' . $value }}">
+                                                <a href="{{ route('product_categories.index', ['category' => $category->id, 'slug' => $category->slug]) . '?is_by_param=1&param=' . $name . '&value=' . $value }}">
                                                     {{ $value }}<span class="count">({{ $count }})</span>
                                                 </a>
                                             </li>
@@ -78,7 +78,7 @@
                     @endif
                 </div>
                 <div class="page-title category-title">
-                    <h1>Men's Hairpieces</h1>
+                    <h1>{{ $category->name_en }}</h1>
                 </div>
                 <div class="category-description">
                     {{--<p>We stock and custom make a wide variety of non-surgical hair replacement systems including human hair wigs and toupees. Go ahead, find the right hair piece for you.</p>--}}
@@ -104,14 +104,14 @@
                                         <div class="products-item">
                                             {{-- 商品配图 --}}
                                             <div class="products-img">
-                                                <a href="{{ route('products.show', ['product' => $product->id, 'slug' => $product->slug]) }}" title="{{ $product->name_en }}" class="product-image">
+                                                <a href="{{ route('seo_url', ['slug' => $product->slug]) }}" title="{{ $product->name_en }}" class="product-image">
                                                     <img src="{{ $product->thumb_url }}" alt="{{ $product->name_en }}">
                                                 </a>
                                             </div>
                                             <div class="products-info visible-lg">
                                                 {{-- 快速预览跳转到商品详情页面 --}}
                                                 <button type="button" class="button btn-cart quick-view">
-                                                    <a href="{{ route('products.show', ['product' => $product->id, 'slug' => $product->slug]) }}">QUICK VIEW</a>
+                                                    <a href="{{ route('seo_url', ['slug' => $product->slug]) }}">QUICK VIEW</a>
                                                 </button>
                                                 {{-- 添加收藏 --}}
                                                 {{-- 需判断商品是否已经添加收藏列表如果没有显示 --}}
@@ -131,7 +131,7 @@
                                     </div>
                                     {{-- 商品标题 --}}
                                     <h2 class="product-name">
-                                        <a href="{{ route('products.show', ['product' => $product->id, 'slug' => $product->slug]) }}">{{ $product->name_en }}</a>
+                                        <a href="{{ route('seo_url', ['slug' => $product->slug]) }}">{{ $product->name_en }}</a>
                                     </h2>
                                     {{--商品标号一类--}}
                                     <h5 class="product-name">{{ $product->sub_name_en }}</h5>
@@ -226,7 +226,7 @@
                 $(activeDom).addClass("item-active");
                 $(this).text("-");
             }
-        })
+        });
     // wishlist-icon的触摸事件
         $(".wishlist-icon").hover(function(){
             if(!($(this).hasClass('inwish'))){

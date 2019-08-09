@@ -37,17 +37,23 @@ class ProductsController extends Controller
         // Ajax request for the 1st time: route('products.search') . '?query=***&sort=***&min_price=***&max_price=***&page=1'
         // $current_page = $request->has('page') ? $request->input('page') : 1;
         // on_sale: 是否在售 + index: 综合指数
-        if (is_null($query) && $is_by_param == 1 && !is_null($param) && !is_null($value)) {
+
+        $products = Product::where('on_sale', 1);
+
+        if ($is_by_param == 1 && !is_null($param) && !is_null($value)) {
             $query_data['is_by_param'] = $is_by_param;
             $query_data['param'] = $param;
             $query_data['value'] = $value;
             $product_ids = ProductParam::where(['name' => $param, 'value' => $value])->get()->pluck('product_id')->toArray();
-            $products = Product::where('on_sale', 1)->whereIn('id', $product_ids);
-        } else {
+            $products->whereIn('id', $product_ids);
+        }
+
+        if (!is_null($query)) {
             $query_data['query'] = $query;
-            $products = Product::where('on_sale', 1)
-                ->where('name_en', 'like', '%' . $query . '%')
+            $products->where('name_en', 'like', '%' . $query . '%')
                 // ->orWhere('name_zh', 'like', '%' . $query . '%')
+                ->orWhere('sub_name_en', 'like', '%' . $query . '%')
+                // ->orWhere('sub_name_zh', 'like', '%' . $query . '%')
                 ->orWhere('description_en', 'like', '%' . $query . '%')
                 // ->orWhere('description_zh', 'like', '%' . $query . '%')
                 ->orWhere('content_en', 'like', '%' . $query . '%');

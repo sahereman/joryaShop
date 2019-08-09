@@ -16,6 +16,10 @@ class ProductRequest extends Request
     {
         if ($this->routeIs('product_categories.index')) {
             return [
+                // 'is_by_param' => 'bail|sometimes|nullable|integer|in:0,1', // boolean: 0, 1
+                'is_by_param' => 'bail|sometimes|nullable|boolean', // boolean: 0, 1
+                'param' => 'bail|sometimes|nullable|string',
+                'value' => 'bail|sometimes|nullable|string',
                 'sort' => [
                     'bail',
                     'sometimes',
@@ -29,7 +33,8 @@ class ProductRequest extends Request
             ];
         } elseif ($this->routeIs('products.search')) {
             return [
-                'is_by_param' => 'bail|sometimes|nullable|int', // 0, 1
+                // 'is_by_param' => 'bail|sometimes|nullable|integer|in:0,1', // boolean: 0, 1
+                'is_by_param' => 'bail|sometimes|nullable|boolean', // boolean: 0, 1
                 'param' => 'bail|sometimes|nullable|string',
                 'value' => 'bail|sometimes|nullable|string',
                 'query' => 'bail|sometimes|nullable|string',

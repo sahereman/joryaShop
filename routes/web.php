@@ -241,6 +241,5 @@ Route::get('socialites/callback/{socialite}', 'SocialitesController@callback')->
 Route::get('socialites/deauthorize/{socialite}', 'SocialitesController@deauthorize')->name('socialites.deauthorize'); // Socialite Deauthorize Url
 Route::get('socialites/delete/{socialite}', 'SocialitesController@delete')->name('socialites.delete'); // Socialite Delete Url
 
-
 Route::get('{slug}.html', 'IndexController@seoUrl')->name('seo_url');
 

@@ -6,6 +6,7 @@ use App\Http\Requests\ProductRequest;
 use App\Models\ExchangeRate;
 use App\Models\Product;
 use App\Models\ProductCategory;
+use App\Models\ProductParam;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 
@@ -17,6 +18,9 @@ class ProductCategoriesController extends Controller
     public function index(ProductRequest $request, ProductCategory $category)
     {
         $user = $request->user();
+        $is_by_param = $request->query('is_by_param');
+        $param = $request->query('param');
+        $value = $request->query('value');
         $category = ProductCategory::with('children.children')->find($category->id);
 
         // crumbs
@@ -24,16 +28,36 @@ class ProductCategoriesController extends Controller
         $child = $category;
         while ($parent = $child->parent) {
             $crumbs = '&nbsp;<span>&nbsp;&gt;&nbsp;</span>&nbsp;<a href="'
-                . route('seo_url', $parent->slug)
+                . route('seo_url', ['slug' => $parent->slug])
                 . '">' . $parent->name_en . '</a>' . $crumbs;
             $child = $parent;
         }
 
-        if ($category->children->isNotEmpty()) {
-            $children_ids = $category->children->pluck('id')->toArray();
-            $products = Product::where('on_sale', 1)->whereIn('product_category_id', $children_ids);
+        $category_ids = [$category->id];
+        if ($children = $category->children) {
+            $children->each(function (ProductCategory $child) use (&$category_ids) {
+                $category_ids[] = $child->id;
+                if ($children = $child->children) {
+                    $children->each(function (ProductCategory $child) use (&$category_ids) {
+                        $category_ids[] = $child->id;
+                    });
+                }
+            });
+        }
+
+        /*if ($category->children->isNotEmpty()) {
+            $products = Product::where('on_sale', 1)->whereIn('product_category_id', $category_ids);
         } else {
             $products = $category->products()->where('on_sale', 1);
+        }*/
+
+        $products = Product::where('on_sale', 1)->whereIn('product_category_id', $category_ids);
+        if ($is_by_param == 1 && !is_null($param) && !is_null($value)) {
+            $query_data['is_by_param'] = $is_by_param;
+            $query_data['param'] = $param;
+            $query_data['value'] = $value;
+            $product_ids = ProductParam::where(['name' => $param, 'value' => $value])->get()->pluck('product_id')->toArray();
+            $products->whereIn('id', $product_ids);
         }
 
         $query_data = [];

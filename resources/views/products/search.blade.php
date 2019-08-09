@@ -19,7 +19,7 @@
                                     <ul class="categories-lists-item-ul">
                                         @foreach($values as $value => $count)
                                             <li>
-                                                <a href="{{ route('products.search') . '?is_by_param=1&param=' . $name . '&value=' . $value }}">
+                                                <a href="{{ route('products.search') . '?' . http_build_query(array_merge($query_data, ['is_by_param' => 1, 'param' => $name, 'value' => $value])) }}">
                                                     {{ $value }}<span class="count">({{ $count }})</span>
                                                 </a>
                                             </li>
@@ -63,14 +63,14 @@
                                         <div class="products-item">
                                             {{-- 商品配图 --}}
                                             <div class="products-img">
-                                                <a href="{{ route('products.show', ['product' => $product->id, 'slug' => $product->slug]) }}" title="{{ $product->name_en }}" class="product-image">
+                                                <a href="{{ route('seo_url', ['slug' => $product->slug]) }}" title="{{ $product->name_en }}" class="product-image">
                                                     <img src="{{ $product->thumb_url }}" alt="{{ $product->name_en }}">
                                                 </a>
                                             </div>
                                             <div class="products-info visible-lg">
                                                 {{-- 快速预览跳转到商品详情页面 --}}
                                                 <button type="button" class="button btn-cart quick-view">
-                                                    <a href="{{ route('products.show', ['product' => $product->id, 'slug' => $product->slug]) }}">QUICK VIEW</a>
+                                                    <a href="{{ route('seo_url', ['slug' => $product->slug]) }}">QUICK VIEW</a>
                                                 </button>
                                                 {{-- 添加收藏 --}}
                                                 {{-- 需判断商品是否已经添加收藏列表如果没有显示 --}}
@@ -90,7 +90,7 @@
                                     </div>
                                     {{-- 商品标题 --}}
                                     <h2 class="product-name">
-                                        <a href="{{ route('products.show', ['product' => $product->id, 'slug' => $product->slug]) }}">{{ $product->name_en }}</a>
+                                        <a href="{{ route('seo_url', ['slug' => $product->slug]) }}">{{ $product->name_en }}</a>
                                     </h2>
                                     {{--商品标号一类--}}
                                     <h5 class="product-name">{{ $product->sub_name_en }}</h5>
@@ -198,10 +198,10 @@
                 var value = getQueryString('value');
                 if (query) {
                     $(".dynamic-path").text("Search results for '"+ query +"'");
-                    // $(".category-title").html("<h1 class='search-title'>Search results for '"+ query +"'</h1>");
+                    $(".category-title").html("<h1 class='search-title'>Search results for '"+ query +"'</h1>");
                 } else {
                     $(".dynamic-path").text("Search results for " + param + ": '"+ value +"'");
-                    // $(".category-title").html("<h1 class='search-title'>Search results for " + param + ": '"+ value +"'</h1>");
+                    $(".category-title").html("<h1 class='search-title'>Search results for " + param + ": '"+ value +"'</h1>");
                 }
 
                 dataoption_1 = {
