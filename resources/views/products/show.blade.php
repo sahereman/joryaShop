@@ -22,7 +22,12 @@
                 </p>
             </div>
             {{-- 社会化分享 --}}
-            <div class="addthis_inline_share_toolbox"></div>
+            <div class="socialization">
+                <div class="socialization-email">
+                    <a href="javascript:void(0)" class="socialization-email-btn"><span class="iconfont">&#xe606;</span></a>
+                </div>
+                <div class="addthis_inline_share_toolbox"></div>
+            </div>
             <!--详情上半部分-->
             <div class="commodity_parameters">
                 <!--商品放大镜效果新版-->
@@ -404,6 +409,13 @@
             </div>
         </div>
     </div>
+    {{-- 社会化分享弹窗 --}}
+    <div class="social-email dis_n" id="social-email">
+        <div class="social-email-content">
+            <label for="social-email-inp">Please enter your mailbox</label>
+            <input type="email" id="social-email-inp"  data-code="{{ $product->id }}" placeholder="Please enter your mailbox">
+        </div>
+    </div>
 @endsection
 @section('scriptsAfterJs')
     <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5d3faaaad4206199"></script>
@@ -447,6 +459,20 @@
                 _taht.addClass("active");
                 $(".std").find("p").addClass("active");
             }
+        });
+        // 社会化分享弹窗
+        $(".socialization-email-btn").on("click",function () {
+            layer.open({
+                title: 'Please enter your mailbox',
+                type: 1,
+                area: ['300px', '200px'],
+                content: $('#social-email'),
+                btn: ['Submit'],
+                yes: function(index){
+                    alert("12111");
+                    layer.close(index);
+                }
+            });
         });
         var loading_animation;  // loading动画的全局name
         var current_page;  // 评价的当前页
@@ -715,33 +741,6 @@
                             html+="<p>"+ n.content +"</p>"
                             html+="<small class='date'>(Posted on "+ n.created_at +")</small>"
                             html+="</dd>"
-
-                            {{--html += "<div class='item'>";--}}
-                            {{--html += "<div class='evaluation_results_left'>";--}}
-                            {{--html += "<div class='eva_user_img'>";--}}
-                            {{--html += "<img src='" + n.user.avatar_url + "'>";--}}
-                            {{--html += "</div>";--}}
-                            {{--html += "<span>" + n.user.name + "</span>";--}}
-                            {{--html += "</div>";--}}
-                            {{--html += "<div class='evaluation_results_right'>";--}}
-                            {{--html += "<div class='five_star_evaluation'>";--}}
-                            {{--html += "<img src='" + "{{ config('app.url') }}" + "/img/star-" + n.composite_index + ".png' />";--}}
-                            {{--html += "</div>";--}}
-                            {{--html += "<p class='product_attributes'>";--}}
-                            {{--// html += "<span>" + name + "</span>";--}}
-                            {{--html += "<span>" + attributes + "</span>";--}}
-                            {{--html += "</p>";--}}
-                            {{--html += "<p class='eva_text'>" + n.content + "</p>";--}}
-                            {{--html += "<ul class='evaluation_img'>";--}}
-                            {{--$.each(dataObj_photo, function (a, b) {--}}
-                                {{--html += "<li class='eva_img'>";--}}
-                                {{--html += "<img src='" + b + "'>";--}}
-                                {{--html += "</li>";--}}
-                            {{--});--}}
-                            {{--html += "</ul>";--}}
-                            {{--html += "<p class='eva_date'>" + n.created_at + "</p>";--}}
-                            {{--html += "</div>";--}}
-                            {{--html += "</div>";--}}
                         });
                         $(".comment-items dl").html("");
                         $(".comment-items dl").append(html);

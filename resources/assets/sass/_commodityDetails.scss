@@ -735,6 +735,44 @@
       }
     }
     // 社会化分享
+  .socialization {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    min-height: 57px;
+    .socialization-email {
+      text-align: left;
+      padding-bottom: 10px;
+      a {
+        padding: 5px;
+        display: inline-block;
+        margin: 5px 2px 5px;
+        transition: all .2s ease-in-out;
+        &:hover {
+          transform: translateY(-4px);
+        }
+      }
+      .iconfont {
+        font-size: 28px;
+        color: #666;
+      }
+    }
+  }
+  // 社会化分享弹窗
+  .social-email {
+    .social-email-content {
+      width: 100%;
+      height: 100%;
+      padding: 20px;
+    }
+    input {
+      margin-top: 5px;
+      height: 35px;
+      width: 100%;
+      padding: 5px;
+      border: 1px solid #ccc;
+    }
+  }
   .addthis_inline_share_toolbox {
     text-align: left;
     padding-bottom: 10px;

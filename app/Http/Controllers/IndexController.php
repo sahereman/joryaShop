@@ -30,7 +30,10 @@ class IndexController extends Controller
 
     public function test(Request $request)
     {
-        dd('test');
+        return view('emails.share',[
+            'product'=>Product::find(101)
+        ]);
+//        dd('test');
     }
 
     public function seoUrl(Request $request, $slug)

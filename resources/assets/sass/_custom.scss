@@ -1,0 +1,196 @@
+.custom {
+  width: 100%;
+  position: relative;
+  i {
+    font-style: normal;
+  }
+  .custom-top {
+    text-align: right;
+    font-size: 1.8em;
+    padding: 15px 2%;
+    margin-top: 20px;
+  }
+  .custom-title {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    height: 78px;
+    line-height: 50px;
+    background-color: #fff;
+    padding-top: 14px;
+    padding-bottom: 14px;
+    .custom-title-left {
+      width: 35%;
+      min-width: 350px;
+      padding-left: 2%;
+      font-size: 1.2em;
+      color: #e50012;
+    }
+    .custom-title-center {
+      text-align: center;
+      width: 32%;
+      ul {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        li {
+          margin: 0 2% 0 2%;
+          font-size: 1.1em;
+          color: #000;
+          transition: color 300ms ease-in-out, background-color 300ms ease-in-out;
+          &:hover,
+          &.active {
+            color: #e50012;
+          }
+        }
+      }
+    }
+    .custom-title-right {
+      padding-right: 2%;
+      width: 25%;
+      text-align: right;
+      button {
+        background: none;
+        border: 1px solid #e50012;
+        height: 36px;
+        line-height: 36px;
+        margin-top: 7px;
+        min-width: 85px;
+        margin-right: 8px;
+        padding: 0 5px;
+        color: #333;
+        overflow: visible;
+        cursor: pointer;
+        font-size: 12px;
+        font-weight: normal;
+        white-space: nowrap;
+        text-align: center;
+        transition: color 300ms ease-in-out, background-color 300ms ease-in-out;
+        &:hover {
+          background-color: #e50640;
+          color: #fff;
+        }
+        &.previous {
+          display: none;
+        }
+        &.addtocart {
+          display: none;
+        }
+      }
+    }
+  }
+  .customizations-content {
+    width: 90%;
+    margin: 30px 5%;
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+    background: url("../img/lordImg/fr1.jpg") right center no-repeat;
+    min-height: 718px;
+    .customizations-bg {
+      width: 100%;
+      height: 100%;
+      background: rgba(77,77,77,0.5);
+      position: absolute;
+    }
+    .customizations-slide {
+      width: 60%;
+      padding: 20px;
+      .product-title {
+        position: relative;
+        margin: 0 0 10px;
+        font-size: 1.6666em;
+        line-height: 1.2em;
+        font-weight: 400;
+      }
+      .customizations-slide-content {
+        display: none;
+        &.active {
+          display: block;
+        }
+        .block-title {
+          position: relative;
+          padding: 8px 10px;
+          border-color: #fff;
+          border-bottom: 1px solid #f2f2f2;
+          margin-bottom: 0.625em;
+          font-size: 1.3333em;
+          line-height: 1.25em;
+          font-weight: normal;
+          cursor: pointer;
+          .selected-option {
+            color: #e50012;
+            font-size: 0.7em;
+            margin-left: 2%;
+          }
+          .opener {
+            position: absolute;
+            right: 15px;
+            top: 2px;
+            display: block;
+            cursor: pointer;
+            text-align: center;
+            width: 30px;
+            height: 30px;
+            line-height: 30px;
+            transition: color 300ms ease-in-out, background-color 300ms ease-in-out;
+            &:hover {
+              background-color: #e50640;
+              color: #ffffff;
+            }
+          }
+        }
+        .block-content {
+          display: none;
+          padding-bottom: 10px;
+          border-bottom: 1px solid #fff;
+          overflow: hidden;
+          padding-left: 15%;
+          position: relative;
+          margin-top: 0;
+          &.active {
+            display: block;
+          }
+          label {
+            font-weight: normal;
+            cursor: pointer;
+            line-height: 25px;
+          }
+          .block-list-level-2 {
+            margin-top: 6px;
+            display: none;
+            font-size: 14px;
+            padding-left: 35px;
+          }
+          input {
+            position: relative;
+            margin-right: 5px;
+            margin-top: -5px;
+            outline: none;
+            appearance: none;
+            -webkit-appearance: none;
+            vertical-align:middle;
+            background:transparent;
+            border:#fff solid 1px;
+            height: 15px;
+            width: 15px;
+            &:checked {
+              &:after {
+                content: '';
+                top: 1px;
+                left: 1px;
+                position: absolute;
+                border: #fff solid 2px;
+                background: #fff;
+                height: 11px;
+                width: 11px;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
