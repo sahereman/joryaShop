@@ -57,6 +57,28 @@ editor.customConfig.uploadImgHooks = {
 
     }
 }
+// 自定义字体
+editor.customConfig.fontNames = [
+    'Verdana',
+    '宋体',
+    '微软雅黑',
+    'Arial',
+    'Tahoma',
+    'Verdana'
+]
+// 自定义配置颜色（字体颜色、背景色）
+editor.customConfig.colors = [
+    '#333332',
+    '#eeece0',
+    '#1c487f',
+    '#4d80bf',
+    '#c24f4a',
+    '#8baa4a',
+    '#7b5ba1',
+    '#46acc8',
+    '#f9963b',
+    '#ffffff'
+]
 // 自定义菜单配置
 editor.customConfig.menus = [
     'head',  // 标题
