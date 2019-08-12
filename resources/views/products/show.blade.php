@@ -174,10 +174,10 @@
                     <!--添加购物车与立即购买-->
                     <div class="addCart_buyNow">
                         @guest
-                            <a class="buy_now for_show_login" href="{{ route('login') }}}">
+                            <a class="buy_now for_show_login" href="{{ route('login') }}">
                                 @lang('product.product_details.Buy now')
                             </a>
-                            <a class="add_carts for_show_login" href="{{ route('login') }}}">
+                            <a class="add_carts for_show_login" href="{{ route('login') }}">
                                 @lang('app.Add to Shopping Cart')
                             </a>
                         @else
