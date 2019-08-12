@@ -38,12 +38,28 @@ class ExtraImage extends Image
 
     public function destroy()
     {
-        if (!$this->isDeletable)
-        {
-            if ($this->storage->exists($this->original))
-            {
+        if (!$this->isDeletable) {
+            if ($this->storage->exists($this->original)) {
                 $this->storage->delete($this->original);
             }
         }
+    }
+
+    /**
+     * Generate a unique name for uploaded file.
+     *
+     * @param UploadedFile $file
+     *
+     * @return string
+     */
+    protected function generateUniqueName(UploadedFile $file)
+    {
+        $i = 0;
+        $file_name = $file->getClientOriginalName();
+        while ($this->storage->exists("{$this->getDirectory()}/{$file_name}")) {
+            $file_name = $file_name . '-' . $i;
+            $i++;
+        }
+        return $file_name;
     }
 }

@@ -37,4 +37,22 @@ class ExtraMultiImage extends MultipleImage
 
         return $this;
     }
+
+    /**
+     * Generate a unique name for uploaded file.
+     *
+     * @param UploadedFile $file
+     *
+     * @return string
+     */
+    protected function generateUniqueName(UploadedFile $file)
+    {
+        $i = 0;
+        $file_name = $file->getClientOriginalName();
+        while ($this->storage->exists("{$this->getDirectory()}/{$file_name}")) {
+            $file_name = $file_name . '-' . $i;
+            $i++;
+        }
+        return $file_name;
+    }
 }
