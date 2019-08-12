@@ -57,6 +57,12 @@ class User extends Authenticatable
         return UserFavourite::where(['user_id' => $this->id, 'product_id' => $product_id])->exists();
     }
 
+    public function getFavouriteByProduct(int $product_id)
+    {
+        $favourite = UserFavourite::where(['user_id' => $this->id, 'product_id' => $product_id])->first();
+        return $favourite;
+    }
+
     /* Accessors */
     public function getAvatarUrlAttribute()
     {
@@ -91,7 +97,7 @@ class User extends Authenticatable
     /*Default Address */
     public function getDefaultAddressAttribute()
     {
-        return $this->addresses->where('is_default',true)->first();
+        return $this->addresses->where('is_default', true)->first();
     }
 
     /* Eloquent Relationships */

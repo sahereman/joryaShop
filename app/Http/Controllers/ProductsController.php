@@ -206,6 +206,11 @@ class ProductsController extends Controller
                 'value' => $productSkuAttrValue->value
             ];
         })->groupBy('product_sku_id')->toArray();
+        $product_skus->each(function (ProductSku $productSku) use (&$attributes) {
+            $attributes[$productSku->id]['stock'] = $productSku->stock;
+            $attributes[$productSku->id]['price'] = $productSku->price;
+            $attributes[$productSku->id]['delta_price'] = $productSku->delta_price;
+        });
 
         // shipment_template
         if ($request->user() && $request->user()->default_address) {

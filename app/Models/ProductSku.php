@@ -58,7 +58,7 @@ class ProductSku extends Model
     protected $appends = [
         'photo_url',
         // 'product_name',
-//         'attr_value_string',
+        // 'attr_value_string',
         // 'attr_value_options'
     ];
 
