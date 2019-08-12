@@ -5,6 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Support\Facades\App;
 use Illuminate\Validation\Rule;
 use App\Models\Product;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class UserFavouriteRequest extends Request
 {
@@ -19,7 +20,7 @@ class UserFavouriteRequest extends Request
             return [
                 'product_id' => [
                     'required',
-                    'numeric',
+                    'integer',
                     //'exists:products,id',
                     Rule::exists('products', 'id')->where(function ($query) {
                         return $query->where([['on_sale', '=', 1], ['stock', '>', '0']]);
@@ -38,6 +39,12 @@ class UserFavouriteRequest extends Request
                     'regex:/^\d+(\,\d+)*$/',
                 ],
             ];
+        } elseif ($this->routeIs('user_favourites.destroy')) {
+            return [
+                'favourite_id' => 'required|integer|exists:user_favourites,id',
+            ];
+        } else {
+            throw new NotFoundHttpException();
         }
     }
 

@@ -79,8 +79,9 @@ class UserFavouritesController extends Controller
     }
 
     // DELETE 删除
-    public function destroy(Request $request, UserFavourite $favourite)
+    public function destroy(UserFavouriteRequest $request)
     {
+        $favourite = UserFavourite::find($request->input('favourite_id'));
         $this->authorize('delete', $favourite);
         $favourite->user()->dissociate();
         $result = $favourite->delete();

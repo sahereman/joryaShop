@@ -100,7 +100,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('user_favourites', 'UserFavouritesController@index')->name('user_favourites.index'); // 列表
     Route::post('user_favourites', 'UserFavouritesController@store')->name('user_favourites.store'); // 加入收藏
     Route::delete('user_favourites/multi_delete', 'UserFavouritesController@multiDelete')->name('user_favourites.multi_delete'); // 删除多条收藏记录
-    Route::delete('user_favourites/{favourite}', 'UserFavouritesController@destroy')->name('user_favourites.destroy'); // 删除
+    // Route::delete('user_favourites/{favourite}', 'UserFavouritesController@destroy')->name('user_favourites.destroy'); // 删除
+    Route::delete('user_favourites}', 'UserFavouritesController@destroy')->name('user_favourites.destroy'); // 删除
 
     /*浏览历史*/
     Route::get('user_histories', 'UserHistoriesController@index')->name('user_histories.index'); // 列表
