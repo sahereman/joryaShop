@@ -49,6 +49,10 @@ class ProductRequest extends Request
                 'max_price' => 'bail|sometimes|nullable|numeric',
                 'page' => 'sometimes|required|integer|min:1',
             ];
+        } elseif ($this->routeIs('products.share')) {
+            return [
+                'email' => 'required|email',
+            ];
         } else {
             throw new NotFoundHttpException();
         }

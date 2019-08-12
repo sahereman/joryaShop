@@ -6,6 +6,7 @@ use App\Events\UserBrowsingHistoryEvent;
 use App\Exceptions\InvalidRequestException;
 use App\Http\Requests\ProductRequest;
 // use App\Models\ExchangeRate;
+use App\Mail\SendShareEmail;
 use App\Models\CustomAttrValue;
 use App\Models\Product;
 use App\Models\ProductParam;
@@ -14,6 +15,7 @@ use App\Models\ProductSku;
 use App\Models\ProductComment;
 use App\Models\ProductSkuAttrValue;
 use App\Models\ProductSkuCustomAttrValue;
+use App\Models\User;
 use App\Models\UserFavourite;
 use App\Models\UserHistory;
 use Illuminate\Http\Request;
@@ -21,6 +23,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 
 class ProductsController extends Controller
@@ -59,7 +62,7 @@ class ProductsController extends Controller
                 ->orWhere('description_en', 'like', '%' . $query . '%')
                 // ->orWhere('description_zh', 'like', '%' . $query . '%')
                 ->orWhere('content_en', 'like', '%' . $query . '%');
-                // ->orWhere('content_zh', 'like', '%' . $query . '%');
+            // ->orWhere('content_zh', 'like', '%' . $query . '%');
             $all_products = $all_products->where('name_en', 'like', '%' . $query . '%')
                 // ->orWhere('name_zh', 'like', '%' . $query . '%')
                 ->orWhere('sub_name_en', 'like', '%' . $query . '%')
@@ -67,7 +70,7 @@ class ProductsController extends Controller
                 ->orWhere('description_en', 'like', '%' . $query . '%')
                 // ->orWhere('description_zh', 'like', '%' . $query . '%')
                 ->orWhere('content_en', 'like', '%' . $query . '%');
-                // ->orWhere('content_zh', 'like', '%' . $query . '%');
+            // ->orWhere('content_zh', 'like', '%' . $query . '%');
         }
         // $product_count = $products->count();
         // $page_count = ceil($product_count / 5);
@@ -380,5 +383,18 @@ class ProductsController extends Controller
             'code' => 200,
             'message' => 'success'
         ]);
+    }
+
+    // POST: 发送商品分享邮件 [for Ajax request]
+    public function share(ProductRequest $request, Product $product)
+    {
+        $user = new User();
+        $user->name = 'unknown';
+        $user->email = $request->input('email');
+        Mail::to($user)->queue(new SendShareEmail($product));
+        return response()->json([
+            'code' => 200,
+            'message' => 'success'
+        ], 200);
     }
 }
