@@ -189,7 +189,7 @@
                                                 @if(($key%4) == 0)
                                                     <div class="nav-column">
                                                         <a class="nav-panel-one" href="{{ $child['link'] }}">
-                                                            <span>{{ App::isLocale('zh-CN') ? $child['name_zh'] : $child['name_en'] }}<i class="iconfont">&#xe63a;</i><i class="iconfont">&#xe63a;</i></span>
+                                                            <span>{{ App::isLocale('zh-CN') ? $child['name_zh'] : $child['name_en'] }}</span>
                                                         </a>
                                                         @if($child->children->isNotEmpty())
                                                             <div class="nav-panel-two">
@@ -212,7 +212,7 @@
                                                 @if(($key%4) == 1)
                                                     <div class="nav-column">
                                                         <a class="nav-panel-one" href="{{ $child['link'] }}">
-                                                            <span>{{ App::isLocale('zh-CN') ? $child['name_zh'] : $child['name_en'] }}<i class="iconfont">&#xe63a;&#xe63a;</i></span>
+                                                            <span>{{ App::isLocale('zh-CN') ? $child['name_zh'] : $child['name_en'] }}</span>
                                                         </a>
                                                         @if($child->children->isNotEmpty())
                                                             <div class="nav-panel-two">
@@ -235,7 +235,7 @@
                                                 @if(($key%4) == 2)
                                                     <div class="nav-column">
                                                         <a class="nav-panel-one" href="{{ $child['link'] }}">
-                                                            <span>{{ App::isLocale('zh-CN') ? $child['name_zh'] : $child['name_en'] }}<i class="iconfont">&#xe63a;&#xe63a;</i></span>
+                                                            <span>{{ App::isLocale('zh-CN') ? $child['name_zh'] : $child['name_en'] }}</span>
                                                         </a>
                                                         @if($child->children->isNotEmpty())
                                                             <div class="nav-panel-two">
@@ -258,7 +258,7 @@
                                                 @if(($key%4) == 3)
                                                     <div class="nav-column">
                                                         <a class="nav-panel-one" href="{{ $child['link'] }}">
-                                                            <span>{{ App::isLocale('zh-CN') ? $child['name_zh'] : $child['name_en'] }}<i class="iconfont">&#xe63a;&#xe63a;</i></span>
+                                                            <span>{{ App::isLocale('zh-CN') ? $child['name_zh'] : $child['name_en'] }}</span>
                                                         </a>
                                                         @if($child->children->isNotEmpty())
                                                             <div class="nav-panel-two">
