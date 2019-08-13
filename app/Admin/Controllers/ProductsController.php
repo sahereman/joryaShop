@@ -183,9 +183,9 @@ class ProductsController extends Controller
         $grid->comments('评论数')->count();
         $grid->skus('SKU数')->count();
 
-        $grid->column('', '选项')->switchGroup([
-            'on_sale' => '售卖状态',
-            'is_index' => '首页推荐'
+        $grid->column('', '状态')->switchGroup([
+            'on_sale' => '上架',
+            'is_index' => '推荐'
         ]);
 
         $grid->actions(function ($actions) {
