@@ -82,7 +82,9 @@ class ArticlesController extends Controller
         $grid->id('ID');
         $grid->category()->name_en('分类');
 
-        $grid->name('名称');
+        $grid->name('名称')->display(function ($data) {
+            return '<a target="_blank" href="' . route('seo_url', $this->slug) . '">' . $data . '</a>';
+        });;
         $grid->slug('标示位');
         $grid->created_at('创建时间');
         $grid->updated_at('更新时间');
