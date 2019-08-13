@@ -56,8 +56,10 @@ class ExtraImage extends Image
     {
         $i = 0;
         $file_name = $file->getClientOriginalName();
+        $name = pathinfo($file_name, PATHINFO_FILENAME);
+        $extension = pathinfo($file_name, PATHINFO_EXTENSION);
         while ($this->storage->exists("{$this->getDirectory()}/{$file_name}")) {
-            $file_name = $file_name . '-' . $i;
+            $file_name = $name . '-' . $i . '.' . $extension;
             $i++;
         }
         return $file_name;

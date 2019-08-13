@@ -206,14 +206,17 @@ class ProductsController extends Controller
             return [
                 'product_sku_id' => $productSkuAttrValue->product_sku_id,
                 'name' => $productSkuAttrValue->name,
-                'value' => $productSkuAttrValue->value
+                'value' => $productSkuAttrValue->value,
+                'stock' => $productSkuAttrValue->sku->stock,
+                'price' => $productSkuAttrValue->sku->price,
+                'delta_price' => $productSkuAttrValue->sku->delta_price,
             ];
         })->groupBy('product_sku_id')->toArray();
-        $product_skus->each(function (ProductSku $productSku) use (&$attributes) {
+        /*$product_skus->each(function (ProductSku $productSku) use (&$attributes) {
             $attributes[$productSku->id]['stock'] = $productSku->stock;
             $attributes[$productSku->id]['price'] = $productSku->price;
             $attributes[$productSku->id]['delta_price'] = $productSku->delta_price;
-        });
+        });*/
 
         // shipment_template
         if ($request->user() && $request->user()->default_address) {
