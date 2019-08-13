@@ -165,11 +165,9 @@
                 &.active{
                   color: $hover-color;
                 }
-                &.active{
-                  &.category-asc {
-                    display: inline-block;
-                    transform: rotateX(180deg);
-                  }
+                &.category-asc {
+                  display: inline-block;
+                  transform: rotateX(180deg);
                 }
               }
             }
@@ -263,6 +261,11 @@
               font-size: 1.1em;
               line-height: 1.25em;
               margin: 15px 0 10px;
+              display: -webkit-box;
+              -webkit-line-clamp:2;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              -webkit-box-orient: vertical;
             }
             .ratings {
               text-align: center;

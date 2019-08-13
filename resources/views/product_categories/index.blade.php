@@ -13,9 +13,6 @@
                     </div>
                     <div class="block-content">
                         <div class="categories-lists-items categories-menu">
-                            <div class="categories-lists-item">
-                                <div class="lists-item-title"><a href="#"><span>Hair Systems</span></a></div>
-                            </div>
                             @foreach(\App\Models\ProductCategory::categories() as $product_category)
                             <div class="categories-lists-item">
                                 <div class="lists-item-title"><a href="{{ route('seo_url', $product_category->slug) }}"><span>{{ $product_category->name_en }}</span></a></div>
@@ -30,9 +27,6 @@
                                 @endif
                             </div>
                             @endforeach
-                            <div class="categories-lists-item">
-                                <div class="lists-item-title"><a href="#"><span>Salon Collaboration</span></a></div>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -91,10 +85,18 @@
                         <div class="sorter">
                             <div class="sort-by">
                                 <label>SORT BY:</label>
-                                <a class="active" href="#"><span>Position</span>/</a>
-                                <a href="#"><span>Name</span>/</a>
+                                <a class="active" href="#"><span>@lang('product.Comprehensive')</span>/</a>
+                                <a href="#"><span>@lang('product.Popularity')</span>/</a>
+                                <a href="#"><span>@lang('product.New product')</span>/</a>
+                                <a href="#"><span>@lang('product.Sales volume')</span>/</a>
                                 <a href="#"><span>Price</span>/</a>
-                                <a class="category-asc iconfont" href="#" title="">&#xe63b;</a>
+                                @if(true)
+                                    {{--降序显示这个--}}
+                                    <a class="iconfont" href="#" title="">&#xe63b;</a>
+                                @else
+                                    {{--升序显示下面这个--}}
+                                    <a class="category-asc iconfont" href="#" title="">&#xe63b;</a>
+                                @endif
                             </div>
                         </div> <!-- end: sorter -->
                     </div>
@@ -122,9 +124,18 @@
                                                 @else
                                                     @if($user->isProductFavourite($product->id))
                                                         {{--如果已经添加收藏显示--}}
-                                                        <a class="wishlist-icon inwish" data-product=""><img alt="" src="{{ asset('img/lordImg/w-icon-hover.png') }}">WISHLIST</a>
+                                                    {{-- 添加商品的路径也没显示 --}}
+                                                        <a class="wishlist-icon inwish" data-product="{{ $product->id }}"
+                                                           data-favourite-code="{{ $user->getFavouriteByProduct($product->id)->id }}"
+                                                           data-url="{{ route('user_favourites.destroy') }}">
+                                                            <img alt="" src="{{ asset('img/lordImg/w-icon-hover.png') }}">WISHLIST
+                                                        </a>
                                                     @else
-                                                        <a class="wishlist-icon" data-product=""><img alt="" src="{{ asset('img/lordImg/w-icon.png') }}">WISHLIST</a>
+                                                        <a class="wishlist-icon" data-product="{{ $product->id }}"
+                                                           data-favourite-code=""
+                                                           data-url="{{ route('user_favourites.store') }}">
+                                                            <img alt="" src="{{ asset('img/lordImg/w-icon.png') }}">WISHLIST
+                                                        </a>
                                                     @endif
                                                 @endif
                                                 <div class="clear"></div>
@@ -133,10 +144,10 @@
                                     </div>
                                     {{-- 商品标题 --}}
                                     <h2 class="product-name">
-                                        <a href="{{ route('seo_url', ['slug' => $product->slug]) }}">{{ $product->name_en }}</a>
+                                        <a href="{{ route('seo_url', ['slug' => $product->slug]) }}" title="{{ $product->name_en }}">{{ $product->name_en }}</a>
                                     </h2>
                                     {{--商品标号一类--}}
-                                    <h5 class="product-name">{{ $product->sub_name_en }}</h5>
+                                    <h5 class="product-name" title="{{ $product->sub_name_en }}">{{ $product->sub_name_en }}</h5>
                                     <div class="">
                                         <div class="ratings">
                                             <div class="rating-box">
@@ -201,10 +212,6 @@
                         </div>
                     @endif
                 </div>
-                {{--文字介绍--}}
-                {{--<div class="article-bottom">
-                    <p>TV celebrities, movie stars, and politicians prefer top quality hair wigs and hair systems for men over painful hair transplant surgery. Besides being completely risk-free and a complete solution for natural hair-loss, our men’s hair systems bring the freedom of multiple hairstyles and a completely natural look. Why go for an expensive and painful surgical procedure when you can get the confidence of full hair with our non-surgical hair replacement systems and hair wigs for men? Browse the complete range of Lyrical Hair’s all-natural men’s hair systems and hair wigs for men that are ready for shipping and come with the promise of 30-day money back warranty! You read it right! 30-day money back warranty comes with our hair wigs for men. This means you will get your money back if you are not happy with the hair system.</p>
-                </div>--}}
             </div>
         </div>
     </div>
@@ -241,37 +248,57 @@
         });
     //    点击wishlist按钮
         $(".wishlist-icon").click(function(){
+            var clickDom = $(this);
             if($(this).hasClass('inwish')){
                 // 移除收藏
-                $(this).removeClass("inwish").children("img").attr("src","{{ asset('img/lordImg/w-icon.png') }}");
-                // $.ajax({
-                //     url:"https://www.lordhair.com/newwishlist/index/removeItem/",
-                //     data:{product:$(this).data("product")},
-                //     type:"post",
-                //     dataType:'json',
-                //     success:function(data){
-                //         if(data.result == "success"){
-                //         } else {
-                //             console.log(data.message);
-                //         }
-                //     }
-                // })
+                var data = {
+                    _method: "DELETE",
+                    _token: "{{ csrf_token() }}",
+                    favourite_id: clickDom.attr("data-favourite-code")
+                };
+                $.ajax({
+                    type: "post",
+                    url: clickDom.attr('data-url'),
+                    data: data,
+                    success: function (data) {
+                        clickDom.removeClass("inwish").children("img").attr("src","{{ asset('img/lordImg/w-icon.png') }}");
+                    },
+                    error: function (err) {
+                        if (err.status == 422) {
+                            var arr = [];
+                            var dataobj = err.responseJSON.errors;
+                            for (let i in dataobj) {
+                                arr.push(dataobj[i]); //属性
+                            }
+                            layer.msg(arr[0][0]);
+                        }
+                    },
+                });
             } else {
                 // 添加收藏
-                $(this).addClass("inwish").children("img").attr("src","{{ asset('img/lordImg/w-icon-hover.png') }}");
-                // $.ajax({
-                //     url:"https://www.lordhair.com/newwishlist/index/add/",
-                //     data:{product:$(this).data("product")},
-                //     type:"post",
-                //     dataType:'json',
-                //     success:function(data){
-                //         console.log(data);
-                //         if(data.result == "success"){
-                //         } else {
-                //             console.log(data.message);
-                //         }
-                //     }
-                // });
+                var data = {
+                    _token: "{{ csrf_token() }}",
+                    product_id: clickDom.attr("data-product"),
+                };
+                $.ajax({
+                    type: "post",
+                    url: clickDom.attr('data-url'),
+                    data: data,
+                    success: function (data) {
+                        $(".wishlist-icon").attr("data-favourite-code",data.data.favourite.id);
+                        clickDom.addClass("inwish").children("img").attr("src","{{ asset('img/lordImg/w-icon-hover.png') }}");
+                    },
+                    error: function (err) {
+                        if (err.status == 422) {
+                            var arr = [];
+                            var dataobj = err.responseJSON.errors;
+                            for (let i in dataobj) {
+                                arr.push(dataobj[i]); //属性
+                            }
+                            layer.msg(arr[0][0]);
+                        }
+                    },
+                });
             }
 
         });

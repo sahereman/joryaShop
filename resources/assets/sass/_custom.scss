@@ -87,8 +87,13 @@
     color: #fff;
     position: relative;
     overflow: hidden;
-    background: url("../img/lordImg/fr1.jpg") right center no-repeat;
+    //background: url("../img/lordImg/fr1.jpg") right center no-repeat;
     min-height: 718px;
+    .customizations-img {
+      position: absolute;
+      right: 15px;
+      top: 20px;
+    }
     .customizations-bg {
       width: 100%;
       height: 100%;

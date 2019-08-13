@@ -193,9 +193,13 @@
                                 @lang('app.Add to Shopping Cart')
                             </a>
                         @endguest
+                            {{--data-url_2="{{ $favourite ? route('user_favourites.destroy', ['favourite' => $favourite->id]) : '' }}"--}}
+                            {{--data-favourite-code="{{ $user->getFavouriteByProduct($product->id)->id }}"--}}
                         <a class="add_favourites {{ $favourite ? 'active' : '' }}" code="{{ $product->id }}"
                            data-url="{{ route('user_favourites.store') }}"
-                           data-url_2="{{ $favourite ? route('user_favourites.destroy', ['favourite' => $favourite->id]) : '' }}">
+                           data-url_2="{{ route('user_favourites.destroy') }}"
+                           data-favourite-code="{{ $favourite ? $favourite->id : '' }}"
+                        >
                             {{--<span class="favourites_img"></span>--}}
                             <img src="{{ asset('img/favorite-eye.png') }}" alt="">
                             <span>Add to wish list</span>
@@ -203,7 +207,6 @@
                     </div>
                     {{-- 运费等介绍 --}}
                     <div class="shipping-detail">
-
                         {{--Shipping--}}
                         @if($shipment_template)
                             <div class="content-box shipping-info">
@@ -229,7 +232,6 @@
                                 </div>
                             </div>
                         @endif
-
                         {{--Payments--}}
                         <div class="content-box payment-info">
                             <div class="info-title">
@@ -239,7 +241,6 @@
                                 <img src="{{ asset('img/payment-all.png') }}" alt="">
                             </div>
                         </div>
-
                         {{--Return--}}
                         <div class="content-box return-info">
                             <div class="info-title">
@@ -412,8 +413,8 @@
     {{-- 社会化分享弹窗 --}}
     <div class="social-email dis_n" id="social-email">
         <div class="social-email-content">
-            <label for="social-email-inp">Please enter your mailbox</label>
-            <input type="email" id="social-email-inp"  data-code="{{ $product->id }}" placeholder="Please enter your mailbox">
+            <label for="social-email-inp">Please enter the email with which you wanna share</label>
+            <input type="email" id="social-email-inp" data-url="{{ route('products.share', ['product' => $product->id]) }}" placeholder="Please enter the email with which you wanna share">
         </div>
     </div>
 @endsection
@@ -462,14 +463,36 @@
         });
         // 社会化分享弹窗
         $(".socialization-email-btn").on("click",function () {
+            var clickDom = $("#social-email-inp");
             layer.open({
                 title: 'Please enter your mailbox',
                 type: 1,
-                area: ['300px', '200px'],
+                shadeClose: true,
+                // area: ['300px', '200px'],
                 content: $('#social-email'),
                 btn: ['Submit'],
                 yes: function(index){
-                    alert("12111");
+                    $.ajax({
+                        type: "post",
+                        url: clickDom.attr("data-url"),
+                        data: {
+                            _token: "{{ csrf_token() }}",
+                            email: clickDom.val()
+                        },
+                        success: function (data) {
+                            layer.msg("Mail sharing success");
+                        },
+                        error: function (err) {
+                            if (err.status == 422) {
+                                var arr = [];
+                                var dataobj = err.responseJSON.errors;
+                                for (let i in dataobj) {
+                                    arr.push(dataobj[i]); //属性
+                                }
+                                layer.msg(arr[0][0]);
+                            }
+                        },
+                    });
                     layer.close(index);
                 }
             });
@@ -543,7 +566,7 @@
         // 点击添加收藏
         $(".add_favourites").on("click", function () {
             var clickDom = $(this), data, url;
-            if (clickDom.hasClass('active') != true && clickDom.attr('data-url_2') == '') {
+            if (clickDom.hasClass('active') != true) {
                 data = {
                     _token: "{{ csrf_token() }}",
                     product_id: clickDom.attr("code"),
@@ -554,6 +577,9 @@
                     url: url,
                     data: data,
                     success: function (data) {
+                        layer.msg("Added to wish list successfully");
+                        clickDom.find("span").text("Remove from wish list");
+                        clickDom.attr("data-favourite-code",data.data.favourite.id);
                         clickDom.attr('data-url_2', "{{ config('app.url') }}" + '/user_favourites/' + data.data.favourite.id);
                         clickDom.addClass('active');
                     },
@@ -572,6 +598,7 @@
                 data = {
                     _method: "DELETE",
                     _token: "{{ csrf_token() }}",
+                    favourite_id: clickDom.attr("data-favourite-code")
                 };
                 url = clickDom.attr('data-url_2');
                 $.ajax({
@@ -579,6 +606,8 @@
                     url: url,
                     data: data,
                     success: function (data) {
+                        clickDom.find("span").text("Add to wish list");
+                        layer.msg("Remove success from wish list");
                         clickDom.attr('data-url_2', '');
                         clickDom.removeClass('active');
                     },
@@ -621,7 +650,7 @@
                 // $(".login").click();
             } else {
                 getSkuId();
-                if(sku_id == 0){
+                if(sku_id == 0||sku_stock == 0){
                     layer.msg("The item is temporarily out of stock Please reselect!");
                     return
                 }
@@ -659,7 +688,7 @@
                 var url = clickDom.attr('data-url');
                 // 获取sku_id
                 getSkuId();
-                if(sku_id == 0){
+                if(sku_id == 0||sku_stock == 0){
                     layer.msg("The item is temporarily out of stock Please reselect!");
                     return
                 }
@@ -854,7 +883,7 @@
         function dataFusionClassify(intArray,outArray,mapname,attributename) {
             for(var i = 0; i < intArray.length; i++){
                 var coalesce_a = intArray[i];     // skus_arr_coalesce循环的每个单独数据的定义
-                if(!mapname[coalesce_a[attributename]]){       // 如果map对象中不存在查找的name值则将这个name新增到map对象中
+                if(!mapname[coalesce_a[attributename]]&&coalesce_a[attributename] != undefined){       // 如果map对象中不存在查找的name值则将这个name新增到map对象中
                     outArray.push({
                         name: coalesce_a[attributename],
                         data: [coalesce_a]
@@ -887,6 +916,7 @@
              sku_select_amount: 0  // 定义sku中select选择器的数量
          };
         skus_arr = JSON.parse(sku_parameter.sku_data_warehouse.val());
+        // console.log(skus_arr)
         dataFusion(skus_arr,skus_arr_coalesce);
         //当 数据完成第一次处理之后将页面中的input的value进行置空
         sku_parameter.sku_data_warehouse.val("");
@@ -934,7 +964,6 @@
         //     }
         // }
         dataFusionClassify(skus_arr_coalesce,skus_map,map,'name');
-        // console.log(skus_map);
          // 根据数组对象进行去重
         function arrayUnique2(arr, name) {
             var hash = {};
@@ -952,6 +981,7 @@
         //   </select>
         // </div>
         $.each(skus_map,function (sku_map_i,sku_map_n) {
+            // 如果名称为undefind代表该属性为库存价格等
             sku_parameter.html += "<div class='priceOfpro forgetSel'>"
             if(sku_map_n.name == "Hair Color"){
                 sku_parameter.html += "<span class='dynamic_name'>"+ sku_map_n.name +" <a target='_blank' href='{{ asset('img/HairColor.jpg') }}'><img src='{{ asset('img/photo-choose.png') }}'></a></span>"
@@ -999,7 +1029,6 @@
             $.each(allChooseSelect,function (chooseSelect_in,chooseSelect_value) {
                 searchArr.push({name: $(chooseSelect_value).attr("name"),value: $(chooseSelect_value).val() })
             });
-            console.log(searchArr);
             for(var arr_key in skus_arr) {
                 newSkuArray.push({id:arr_key,data:skus_arr[arr_key]});
                 for(var newSkuArrayKey in newSkuArray) {
@@ -1035,8 +1064,9 @@
             $.each(finalArray,function (finalArray_i,finalArray_n) {
                 if(finalArray_n.data.length == aimLength) {
                     sku_id = finalArray_n.name;
+                    sku_stock = skus_arr[sku_id][0].stock
                 }
-            })
+            });
         }
         sku_parameter.sku_choose_store.html("").append(sku_parameter.html);
         // sku_parameter.sku_choose_store.find("select").on("change",function () {
@@ -1120,14 +1150,9 @@
         //         // }
         //     // }
         // });
-
-
-
-
      // 原价计算
      // var old_price = js_number_format(Math.imul(float_multiply_by_100(origin_price), 12) / 1000);
      {{--$("#sku_original_price_in_usd").html("<i>{{ get_global_symbol() }}</i> " + old_price);--}}
-
       //数据选择器兼容性处理
      if (!Array.prototype.filter) {
          Array.prototype.filter = function (fn, context) {

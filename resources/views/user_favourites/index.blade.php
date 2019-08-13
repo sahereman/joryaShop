@@ -49,7 +49,9 @@
                                     </p>
                                     <a class="add_to_cart"
                                        href="{{ route('seo_url',$favourite->product->slug) }}">@lang('app.Add to Shopping Cart')</a>
-                                    <a class="delete_mark" code="{{ route('user_favourites.destroy', ['favourite' => $favourite->id]) }}"
+                                    <a class="delete_mark"
+                                       data-code="{{ $favourite->id }}"
+                                       data-url="{{ route('user_favourites.destroy') }}"
                                        title="@lang('app.Click to remove the item')"></a>
                                 </li>
                             @endforeach
@@ -93,7 +95,8 @@
             $(".address_list ul").on("click", ".delete_mark", function () {
 //              $(".confirm_delete .textarea_content").find("span").attr("code", $(this).attr("code"));
 //              $(".confirm_delete").show();
-                var url = $(this).attr("code");
+                var clickDom = $(this);
+                var url = $(this).attr("data-url");
                 var index = layer.open({
                     title: "@lang('app.Prompt')",
                     content: "@lang('product.Are you sure you want to delete this record')",
@@ -102,7 +105,8 @@
                         var data = {
                             _method: "DELETE",
                             _token: "{{ csrf_token() }}",
-                        }
+                            favourite_id: clickDom.attr("data-code")
+                        };
                         $.ajax({
                             type: "post",
                             url: url,

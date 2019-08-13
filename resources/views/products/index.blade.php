@@ -121,10 +121,18 @@
                             <div class="sorter">
                                 <div class="sort-by">
                                     <label>SORT BY:</label>
-                                    <a class="active" href="#"><span>Position</span>/</a>
-                                    <a href="#"><span>Name</span>/</a>
+                                    <a class="active" href="#"><span>@lang('product.Comprehensive')</span>/</a>
+                                    <a href="#"><span>@lang('product.Popularity')</span>/</a>
+                                    <a href="#"><span>@lang('product.New product')</span>/</a>
+                                    <a href="#"><span>@lang('product.Sales volume')</span>/</a>
                                     <a href="#"><span>Price</span>/</a>
-                                    <a class="category-asc iconfont" href="#" title="">&#xe63b;</a>
+                                    @if(true)
+                                        {{--降序显示这个--}}
+                                        <a class="iconfont" href="#" title="">&#xe63b;</a>
+                                    @else
+                                        {{--升序显示下面这个--}}
+                                        <a class="category-asc iconfont" href="#" title="">&#xe63b;</a>
+                                    @endif
                                 </div>
                             </div> <!-- end: sorter -->
                         </div>

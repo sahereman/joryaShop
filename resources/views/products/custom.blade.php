@@ -36,6 +36,10 @@
         </div>
         {{--内容--}}
         <div class="customizations-content">
+            {{-- 商品默认图片 --}}
+            <div class="customizations-img">
+                <img src="{{ asset('img/new_pro_2.png') }}" alt="lyricalhai.com">
+            </div>
             {{--背景--}}
             <div class="customizations-bg"></div>
             {{--内容列表--}}
