@@ -7,6 +7,8 @@ use App\Exceptions\InvalidRequestException;
 use App\Http\Requests\ProductRequest;
 // use App\Models\ExchangeRate;
 use App\Mail\SendShareEmail;
+use App\Models\Cart;
+use App\Models\CustomAttr;
 use App\Models\CustomAttrValue;
 use App\Models\Product;
 use App\Models\ProductParam;
@@ -331,14 +333,21 @@ class ProductsController extends Controller
             throw new InvalidRequestException('The product type is not custom');
         }
 
+        $grouped_custom_attrs = CustomAttr::with('values')->orderByDesc('sort')->get()->groupBy('type');
+        $custom_attr_types = $grouped_custom_attrs->keys()->toArray();
+
         return view('products.custom', [
-            'product' => $product
+            'product' => $product,
+            'custom_attr_types' => $custom_attr_types,
+            'grouped_custom_attrs' => $grouped_custom_attrs,
         ]);
     }
 
     // POST: 定制商品提交
     public function customStore(Request $request, Product $product)
     {
+        $user = $request->user();
+
         $product_sku = ProductSku::create([
             'product_id' => $product->id,
             'name_en' => 'custom product sku of lyrical hair',
@@ -358,6 +367,12 @@ class ProductsController extends Controller
                 'sort' => $custom_attr_value_model->sort
             ]);
         }
+
+        $cart = Cart::create([
+            'user_id' => $user->id,
+            'product_sku_id' => $product_sku->id,
+            'number' => 1
+        ]);
 
         return response()->json([
             'code' => 200,
