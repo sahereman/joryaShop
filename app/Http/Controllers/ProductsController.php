@@ -202,16 +202,19 @@ class ProductsController extends Controller
 
         $product_skus = $product->skus;
         $product_sku_ids = $product_skus->pluck('id');
-        $attributes = ProductSkuAttrValue::with('sku')->whereIn('product_sku_id', $product_sku_ids)->orderByDesc('sort')->get()->map(function (ProductSkuAttrValue $productSkuAttrValue) {
-            return [
+        $attributes = ProductSkuAttrValue::with('sku', 'attr')->whereIn('product_sku_id', $product_sku_ids)->orderByDesc('sort')->get()->map(function (ProductSkuAttrValue $productSkuAttrValue) {
+            $attribute = [
                 'product_sku_id' => $productSkuAttrValue->product_sku_id,
                 'name' => $productSkuAttrValue->name,
                 'value' => $productSkuAttrValue->value,
                 'stock' => $productSkuAttrValue->sku->stock,
                 'price' => $productSkuAttrValue->sku->price,
                 'delta_price' => $productSkuAttrValue->sku->delta_price,
-                'photo_url' => $productSkuAttrValue->sku->photo_url,
             ];
+            if ($productSkuAttrValue->attr->has_photo) {
+                $attribute['photo_url'] = $productSkuAttrValue->sku->photo_url;
+            }
+            return $attribute;
         })->groupBy('product_sku_id')->toArray();
         /*$product_skus->each(function (ProductSku $productSku) use (&$attributes) {
             $attributes[$productSku->id]['stock'] = $productSku->stock;
