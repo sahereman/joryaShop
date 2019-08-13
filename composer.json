@@ -25,6 +25,7 @@
         "overtrue/laravel-lang": "^3.0",
         "paypal/rest-api-sdk-php": "*",
         "simplesoftwareio/simple-qrcode": "~2",
+        "spatie/laravel-backup": "^5.12",
         "yansongda/pay": "^2.5"
     },
     "require-dev": {
