@@ -23,7 +23,7 @@ class UserFavouriteRequest extends Request
                     'integer',
                     //'exists:products,id',
                     Rule::exists('products', 'id')->where(function ($query) {
-                        return $query->where(['on_sale', 1]);
+                        return $query->where('on_sale', 1);
                     }),
                     // Rule::unique('user_favourites')->where('user_id', $user->id),
                     /*Rule::unique('user_favourites')->where(function ($query) use ($user) {
