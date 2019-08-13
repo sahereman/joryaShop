@@ -26,7 +26,7 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')
         //          ->hourly();
-        $schedule->command('backup:run --disable-notifications --only-db')->everyMinute()->runInBackground(); // 定时备份数据库
+        $schedule->command('backup:run --disable-notifications --only-db')->twiceDaily(1,13)->runInBackground(); // 定时备份数据库
     }
 
     /**
