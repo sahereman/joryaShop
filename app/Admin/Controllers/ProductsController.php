@@ -612,14 +612,14 @@ class ProductsController extends Controller
 
         // 定义事件回调，当模型即将保存时会触发这个回调
         $form->saving(function (Form $form) {
-            if ((request()->has('is_index') || request()->has('on_sale')) && count(request()->all()) == 3)
+            if (request()->input('photos') == '_file_del_' || (request()->has('is_index') || request()->has('on_sale')) && count(request()->all()) == 3)
             {
                 return $form;
             }
         });
 
         $form->saved(function (Form $form) {
-            if ((request()->has('is_index') || request()->has('on_sale')) && count(request()->all()) == 3)
+            if (request()->input('photos') == '_file_del_' || (request()->has('is_index') || request()->has('on_sale')) && count(request()->all()) == 3)
             {
                 return $form;
             }
