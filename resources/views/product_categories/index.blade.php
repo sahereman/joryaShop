@@ -85,17 +85,17 @@
                         <div class="sorter">
                             <div class="sort-by">
                                 <label>SORT BY:</label>
-                                <a class="active" href="#"><span>@lang('product.Comprehensive')</span>/</a>
-                                <a href="#"><span>@lang('product.Popularity')</span>/</a>
-                                <a href="#"><span>@lang('product.New product')</span>/</a>
-                                <a href="#"><span>@lang('product.Sales volume')</span>/</a>
-                                <a href="#"><span>Price</span>/</a>
-                                @if(true)
+                                <a class="active" href="{{ URL::current() . (isset($query_data) ? '?' . http_build_query($query_data) . '&sort=index': '') }}"><span>@lang('product.Comprehensive')</span>/</a>
+                                <a href="{{ URL::current() . (isset($query_data) ? '?' . http_build_query($query_data) . '&sort=heat': '') }}"><span>@lang('product.Popularity')</span>/</a>
+                                <a href="{{ URL::current() . (isset($query_data) ? '?' . http_build_query($query_data) . '&sort=latest': '') }}"><span>@lang('product.New product')</span>/</a>
+                                <a href="{{ URL::current() . (isset($query_data) ? '?' . http_build_query($query_data) . '&sort=sales': '') }}"><span>@lang('product.Sales volume')</span>/</a>
+                                <a href="{{ URL::current() . (isset($query_data) ? '?' . http_build_query($query_data) . '&sort=price': '') }}"><span>Price</span>/</a>
+                                @if(isset($query_data) && $query_data['order'] == 'desc')
                                     {{--降序显示这个--}}
-                                    <a class="iconfont" href="#" title="">&#xe63b;</a>
+                                    <a class="iconfont" href="{{ URL::current() . (isset($query_data) ? '?' . http_build_query($query_data) . '&order=asc' : '') }}" title="">&#xe63b;</a>
                                 @else
                                     {{--升序显示下面这个--}}
-                                    <a class="category-asc iconfont" href="#" title="">&#xe63b;</a>
+                                    <a class="category-asc iconfont" href="{{ URL::current() . (isset($query_data) ? '?' . http_build_query($query_data) . '&order=desc'  : '') }}" title="">&#xe63b;</a>
                                 @endif
                             </div>
                         </div> <!-- end: sorter -->
@@ -236,17 +236,17 @@
                 $(this).text("-");
             }
         });
-    // wishlist-icon的触摸事件
+        // wishlist-icon的触摸事件
         $(".wishlist-icon").hover(function(){
             if(!($(this).hasClass('inwish'))){
                 $(this).children("img").attr("src","{{ asset('img/lordImg/w-icon-hover.png') }}");
             }
-        },function(){
+        }, function(){
             if(!($(this).hasClass('inwish'))){
                 $(this).children("img").attr("src","{{ asset('img/lordImg/w-icon.png') }}");
             }
         });
-    //    点击wishlist按钮
+        // 点击wishlist按钮
         $(".wishlist-icon").click(function(){
             var clickDom = $(this);
             if($(this).hasClass('inwish')){

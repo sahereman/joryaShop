@@ -39,9 +39,6 @@ class ProductsController extends Controller
         $param = $request->query('param');
         $value = $request->query('value');
         $query = $request->query('query');
-        // Ajax request for the 1st time: route('products.search') . '?query=***&sort=***&min_price=***&max_price=***&page=1'
-        // $current_page = $request->has('page') ? $request->input('page') : 1;
-        // on_sale: 是否在售 + index: 综合指数
 
         $products = Product::where('on_sale', 1);
         $all_products = Product::where('on_sale', 1);
@@ -74,11 +71,8 @@ class ProductsController extends Controller
                 ->orWhere('content_en', 'like', '%' . $query . '%');
             // ->orWhere('content_zh', 'like', '%' . $query . '%');
         }
-        // $product_count = $products->count();
-        // $page_count = ceil($product_count / 5);
-        // $next_page = ($current_page < $page_count) ? ($current_page + 1) : false;
 
-        if ($request->has('min_price') && $request->input('min_price')) {
+        /*if ($request->has('min_price') && $request->input('min_price')) {
             // $min_price = App::isLocale('en') ? ExchangeRate::exchangePrice($request->input('min_price'), 'CNY', 'USD') : $request->input('min_price');
             $min_price = exchange_price($request->input('min_price'), 'USD', get_global_currency());
             $query_data['min_price'] = $request->input('min_price');
@@ -91,33 +85,52 @@ class ProductsController extends Controller
             $query_data['max_price'] = $request->input('max_price');
             $products = $products->where('price', '<', $max_price);
             $all_products = $all_products->where('price', '<', $max_price);
-        }
+        }*/
+
+        $query_data['order'] = $request->input('order', 'desc');
+
         if ($request->has('sort')) {
             $query_data['sort'] = $request->input('sort');
             switch ($request->input('sort')) {
                 case 'index':
-                    $products = $products->orderByDesc('index');
+                    if ($query_data['order'] == 'asc') {
+                        $products = $products->orderBy('index');
+                    } else {
+                        $products = $products->orderByDesc('index');
+                    }
                     // $all_products = $all_products->orderByDesc('index');
                     break;
                 case 'heat':
-                    $products = $products->orderByDesc('heat');
+                    if ($query_data['order'] == 'asc') {
+                        $products = $products->orderBy('heat');
+                    } else {
+                        $products = $products->orderByDesc('heat');
+                    }
                     // $all_products = $all_products->orderByDesc('heat');
                     break;
                 case 'latest':
-                    $products = $products->orderByDesc('created_at');
+                    if ($query_data['order'] == 'asc') {
+                        $products = $products->orderBy('created_at');
+                    } else {
+                        $products = $products->orderByDesc('created_at');
+                    }
                     // $all_products = $all_products->orderByDesc('created_at');
                     break;
                 case 'sales':
-                    $products = $products->orderByDesc('sales');
+                    if ($query_data['order'] == 'asc') {
+                        $products = $products->orderBy('sales');
+                    } else {
+                        $products = $products->orderByDesc('sales');
+                    }
                     // $all_products = $all_products->orderByDesc('sales');
                     break;
-                case 'price_asc':
-                    $products = $products->orderBy('price');
+                case 'price':
+                    if ($query_data['order'] == 'asc') {
+                        $products = $products->orderBy('price');
+                    } else {
+                        $products = $products->orderByDesc('price');
+                    }
                     // $all_products = $all_products->orderBy('price');
-                    break;
-                case 'price_desc':
-                    $products = $products->orderByDesc('price');
-                    // $all_products = $all_products->orderByDesc('price');
                     break;
                 default:
                     $products = $products->orderByDesc('index');
@@ -129,6 +142,7 @@ class ProductsController extends Controller
             // $all_products = $all_products->orderByDesc('index');
         }
         $products = $products->simplePaginate(12);
+
         $param_values = [];
         $all_products->get()->each(function (Product $product) use (&$param_values) {
             $product->params->each(function (ProductParam $productParam) use (&$param_values) {
