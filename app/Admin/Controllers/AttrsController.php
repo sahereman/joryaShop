@@ -5,6 +5,7 @@ namespace App\Admin\Controllers;
 use App\Models\Attr;
 use App\Http\Controllers\Controller;
 use App\Models\ProductAttr;
+use App\Models\ProductSkuAttrValue;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
 use Encore\Admin\Form\NestedForm;
@@ -170,7 +171,11 @@ class AttrsController extends Controller
                 ProductAttr::where('name', '<>', $attr->name)->update(['has_photo' => false]);
             }
 
-            ProductAttr::where('name',$attr->name)->update(['sort'=>$attr->sort]);
+            $product_attr = ProductAttr::where('name', $attr->name);
+            $product_attr->update(['sort' => $attr->sort]);
+            $product_attr->get()->each(function (ProductAttr $productAttr) use ($attr) {
+                $productAttr->values()->update(['sort' => $attr->sort]);
+            });
 
         });
         return $form;

@@ -202,7 +202,7 @@ class ProductsController extends Controller
 
         $product_skus = $product->skus;
         $product_sku_ids = $product_skus->pluck('id');
-        $attributes = ProductSkuAttrValue::with('sku')->whereIn('product_sku_id', $product_sku_ids)->get()->map(function (ProductSkuAttrValue $productSkuAttrValue) {
+        $attributes = ProductSkuAttrValue::with('sku')->whereIn('product_sku_id', $product_sku_ids)->orderByDesc('sort')->get()->map(function (ProductSkuAttrValue $productSkuAttrValue) {
             return [
                 'product_sku_id' => $productSkuAttrValue->product_sku_id,
                 'name' => $productSkuAttrValue->name,
