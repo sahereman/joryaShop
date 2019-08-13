@@ -85,7 +85,7 @@
                                                 {{-- 添加收藏 --}}
                                                 {{-- 需判断商品是否已经添加收藏列表如果没有显示 --}}
                                                 @guest
-                                                <a class="wishlist-icon"><img alt="" src="{{ asset('img/lordImg/w-icon.png') }}">WISHLIST</a>
+                                                <a class="wishlist-icon for-login-show"><img alt="" src="{{ asset('img/lordImg/w-icon.png') }}">WISHLIST</a>
                                                 @else
                                                     @if($user->isProductFavourite($product->id))
                                                         {{--如果已经添加收藏显示--}}
@@ -215,6 +215,10 @@
             var clickDom = $(this);
             if($(this).hasClass('inwish')){
                 // 移除收藏
+                clickDom.removeClass("inwish").children("img").attr("src","{{ asset('img/lordImg/w-icon.png') }}");
+                if(clickDom.hasClass("for-login-show")) {
+                    return
+                }
                 var data = {
                     _method: "DELETE",
                     _token: "{{ csrf_token() }}",
@@ -226,7 +230,6 @@
                     url: url,
                     data: data,
                     success: function (data) {
-                        clickDom.removeClass("inwish").children("img").attr("src","{{ asset('img/lordImg/w-icon.png') }}");
                     },
                     error: function (err) {
                         if (err.status == 422) {
@@ -241,6 +244,10 @@
                 });
             } else {
                 // 添加收藏
+                clickDom.addClass("inwish").children("img").attr("src","{{ asset('img/lordImg/w-icon-hover.png') }}");
+                if(clickDom.hasClass("for-login-show")) {
+                    return
+                }
                 var data = {
                     _token: "{{ csrf_token() }}",
                     product_id: clickDom.attr("data-product"),
@@ -252,7 +259,6 @@
                     data: data,
                     success: function (data) {
                         $(".wishlist-icon").attr("data-favourite-code",data.data.favourite.id);
-                        clickDom.addClass("inwish").children("img").attr("src","{{ asset('img/lordImg/w-icon-hover.png') }}");
                     },
                     error: function (err) {
                         if (err.status == 422) {
