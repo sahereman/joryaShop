@@ -210,6 +210,7 @@ class ProductsController extends Controller
                 'stock' => $productSkuAttrValue->sku->stock,
                 'price' => $productSkuAttrValue->sku->price,
                 'delta_price' => $productSkuAttrValue->sku->delta_price,
+                'photo_url' => $productSkuAttrValue->sku->photo_url,
             ];
         })->groupBy('product_sku_id')->toArray();
         /*$product_skus->each(function (ProductSku $productSku) use (&$attributes) {
