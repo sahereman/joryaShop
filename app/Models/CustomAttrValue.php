@@ -42,7 +42,7 @@ class CustomAttrValue extends Model
     /* Mutators */
 
     /* Eloquent Relationships */
-    public function custom_attr()
+    public function attr()
     {
         return $this->belongsTo(CustomAttr::class);
     }

@@ -53,6 +53,10 @@ class ProductRequest extends Request
             return [
                 'email' => 'required|email',
             ];
+        } elseif ($this->routeIs('products.custom.store')) {
+            return [
+                'custom_attr_value_ids' => 'required|regex:/^\d+(\,\d+)*$/',
+            ];
         } else {
             throw new NotFoundHttpException();
         }

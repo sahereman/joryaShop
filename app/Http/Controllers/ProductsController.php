@@ -362,25 +362,32 @@ class ProductsController extends Controller
     {
         $user = $request->user();
 
+        $price = $product->price;
+        $custom_attr_value_ids = $request->input('custom_attr_value_ids');
+        $custom_attr_value_ids = explode(',', $custom_attr_value_ids);
+        $custom_attr_values = CustomAttrValue::with('attr')->orderByDesc('sort')->whereIn('id', $custom_attr_value_ids)->get();
+        $custom_attr_values->each(function (CustomAttrValue $customAttrValue) use (&$price) {
+            $price = bcadd($price, $customAttrValue->delta_price, 2);
+        });
+
         $product_sku = ProductSku::create([
             'product_id' => $product->id,
             'name_en' => 'custom product sku of lyrical hair',
             'name_zh' => 'custom product sku of lyrical hair',
             'photo' => '',
-            'price' => $request->input('price'),
-            'stock' => 0,
+            'price' => $price,
+            'stock' => 100, // 暂定数值，占位用，便于客户在购物车内追加购买数量
             'sales' => 1,
         ]);
 
-        foreach ($request->input('custom_attr_values') as $custom_attr_value) {
-            $custom_attr_value_model = CustomAttrValue::first(['value' => $custom_attr_value['value']]);
+        $custom_attr_values->each(function (CustomAttrValue $customAttrValue) use ($product_sku) {
             ProductSkuCustomAttrValue::create([
                 'product_sku_id' => $product_sku->id,
-                'name' => $custom_attr_value['name'],
-                'value' => $custom_attr_value['value'],
-                'sort' => $custom_attr_value_model->sort
+                'name' => $customAttrValue->attr->name,
+                'value' => $customAttrValue->value,
+                'sort' => $customAttrValue->sort
             ]);
-        }
+        });
 
         $cart = Cart::create([
             'user_id' => $user->id,
