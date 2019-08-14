@@ -254,7 +254,42 @@
                 },
             });
         });
-
+        //数据计算方法
+        function float_multiply_by_100(float) {
+            float = String(float);
+            // float = float.toString();
+            var index_of_dec_point = float.indexOf('.');
+            if (index_of_dec_point == -1) {
+                float += '00';
+            } else {
+                var float_splitted = float.split('.');
+                var dec_length = float_splitted[1].length;
+                if (dec_length == 1) {
+                    float_splitted[1] += '0';
+                } else if (dec_length > 2) {
+                    float_splitted[1] = float_splitted[1].substring(0, 1);
+                }
+                float = float_splitted.join('');
+            }
+            return Number(float);
+        }
+        function js_number_format(number) {
+            number = String(number);
+            var index_of_dec_point = number.indexOf('.');
+            if (index_of_dec_point == -1) {
+                number += '.00';
+            } else {
+                var number_splitted = number.split('.');
+                var dec_length = number_splitted[1].length;
+                if (dec_length == 1) {
+                    number += '0';
+                } else if (dec_length > 2) {
+                    number_splitted[1] = number_splitted[1].substring(0, 2);
+                    number = number_splitted.join('.');
+                }
+            }
+            return number;
+        }
         {{--点击title出现一级列表--}}
         $(".customizations-slide").on("click", ".block-title", function () {
             var isOpened = $(this).hasClass("opened");
@@ -270,8 +305,8 @@
         });
         // 用于价格记录的计算变量参数
         var _CHOOSEPRICE = 0,
-                _INITIALPRICE = Number($(".custom-price").attr("data-price")),  // 页面的初始价格
-                _NEWPRICE = Number($(".custom-price").attr("data-price")),    // 新的价格数
+                _INITIALPRICE = float_multiply_by_100($(".custom-price").attr("data-price")),  // 页面的初始价格
+                _NEWPRICE = float_multiply_by_100($(".custom-price").attr("data-price")),    // 新的价格数
                 _CHOOSEPRICEARR = [],            // 用来存储所有选择的价格的数组
                 _PRECHOOSENAME = "";  // 记录上一次选择的
 
@@ -304,31 +339,35 @@
             var isExist = false;
             if ($(this).parent("label").find(".price").length != 0) {
                 var _inputThat = $(this);
+                // var old_price = js_number_format(Math.imul(float_multiply_by_100(origin_price), 12) / 1000);
                 if(_CHOOSEPRICEARR.length == 0) {
                     _PRECHOOSENAME = $(this).prop("name");
-                    _CHOOSEPRICE = Number($(this).parent("label").find(".price").attr("data-price"));
+                    // _CHOOSEPRICE = Number($(this).parent("label").find(".price").attr("data-price"));
+                    _CHOOSEPRICE = float_multiply_by_100($(this).parent("label").find(".price").attr("data-price"));
                     _NEWPRICE = _CHOOSEPRICE + _NEWPRICE;
-                    _CHOOSEPRICEARR.push({"name": $(this).prop("name"),"price": Number($(this).parent("label").find(".price").attr("data-price"))})
+                    _CHOOSEPRICEARR.push({"name": $(this).prop("name"),"price": _CHOOSEPRICE})
                 }else {
                     for(var i in _CHOOSEPRICEARR){
                         if(_CHOOSEPRICEARR[i].name == _inputThat.prop("name")) {
                             isExist = true;
                             _NEWPRICE = _NEWPRICE - _CHOOSEPRICEARR[i].price;
-                            _CHOOSEPRICE = Number(_inputThat.parent("label").find(".price").attr("data-price"));
+                            // _CHOOSEPRICE = Number(_inputThat.parent("label").find(".price").attr("data-price"));
+                            _CHOOSEPRICE = float_multiply_by_100(_inputThat.parent("label").find(".price").attr("data-price"));
                             _CHOOSEPRICEARR[i].price = _CHOOSEPRICE;
                             _NEWPRICE = _CHOOSEPRICE + _NEWPRICE;
                         }
                     }
                     if(!isExist) {
                         _PRECHOOSENAME = _inputThat.prop("name");
-                        _CHOOSEPRICE = Number(_inputThat.parent("label").find(".price").attr("data-price"));
+                        // _CHOOSEPRICE = Number(_inputThat.parent("label").find(".price").attr("data-price"));
+                        _CHOOSEPRICE = float_multiply_by_100(_inputThat.parent("label").find(".price").attr("data-price"));
                         _NEWPRICE = _CHOOSEPRICE + _NEWPRICE;
-                        _CHOOSEPRICEARR.push({"name": _inputThat.prop("name"),"price": Number(_inputThat.parent("label").find(".price").attr("data-price"))})
+                        _CHOOSEPRICEARR.push({"name": _inputThat.prop("name"),"price": _CHOOSEPRICE})
                     }
                 }
             }
-            $(".custom-price-num").text(_NEWPRICE);
-            $(".custom-price").attr("data-price", _NEWPRICE);
+            $(".custom-price-num").text(js_number_format(_NEWPRICE/100));
+            $(".custom-price").attr("data-price", js_number_format(_NEWPRICE/100));
         });
     </script>
 @endsection
