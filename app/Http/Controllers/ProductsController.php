@@ -365,7 +365,7 @@ class ProductsController extends Controller
         $price = $product->price;
         $custom_attr_value_ids = $request->input('custom_attr_value_ids');
         $custom_attr_value_ids = explode(',', $custom_attr_value_ids);
-        $custom_attr_values = CustomAttrValue::with('attr')->orderByDesc('sort')->whereIn('id', $custom_attr_value_ids)->get();
+        $custom_attr_values = CustomAttrValue::orderByDesc('sort')->whereIn('id', $custom_attr_value_ids)->get();
         $custom_attr_values->each(function (CustomAttrValue $customAttrValue) use (&$price) {
             $price = bcadd($price, $customAttrValue->delta_price, 2);
         });
@@ -383,7 +383,7 @@ class ProductsController extends Controller
         $custom_attr_values->each(function (CustomAttrValue $customAttrValue) use ($product_sku) {
             ProductSkuCustomAttrValue::create([
                 'product_sku_id' => $product_sku->id,
-                'name' => $customAttrValue->attr->name,
+                'name' => $customAttrValue->attr_name,
                 'value' => $customAttrValue->value,
                 'sort' => $customAttrValue->sort
             ]);

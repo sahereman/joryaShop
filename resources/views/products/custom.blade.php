@@ -3,7 +3,7 @@
     <div class="custom">
         {{-- 价格显示 --}}
         <div class="custom-top">
-            <div class="custom-price" data-price="199">
+            <div class="custom-price" data-price="{{ get_current_price($product->price) }}">
                 <span>{{ get_global_symbol() }}</span>
                 <span class="custom-price-num">{{ get_current_price($product->price) }}</span>
             </div>
@@ -18,7 +18,7 @@
             <div class="custom-title-center">
                 <ul>
                     @foreach($custom_attr_types as $key => $custom_attr_type)
-                        <li {{ $key == 0 ? 'class="active"' : '' }}>
+                        <li class="{{ $key == 0 ? 'active' : '' }}" >
                             {{--不同的href值对应相同id值得模块--}}
                             {{--这个标号用序号表示，方便js用来计数--}}
                             <a data-href="#tab-{{ $custom_attr_type }}" href="javascript:void (0)">
@@ -50,6 +50,12 @@
                     {{--不同的href值对应相同id值得模块--}}
                     <div class="customizations-slide-content {{ $type == $custom_attr_types[0] ? 'active' : '' }}"
                          id="tab-{{ $type }}">
+                        @guest
+                            <input type="hidden" class="addToCartSuccess" value="{{ route('login') }}">
+                        @else
+                            <input type="hidden" class="addToCartSuccess" value="{{ route('carts.index') }}">
+                        @endguest
+                        <input type="hidden" value="{{ route('products.custom.store', ['product' => $product->id]) }}" id="addToCartUrl">
                         <ul>
                             @foreach($custom_attrs as $key => $custom_attr)
                                 <li class="top-level">
@@ -60,7 +66,7 @@
                                             <span class="red iconfont">&#xe613;</span>
                                         @endif
                                         {{--后面的标号为了区分没有实际意义--}}
-                                        {{ $custom_attr->name }}
+                                        <span class="select-title">{{ $custom_attr->name }}</span>
                                         {{-- 显示用户已选择额内容 --}}
                                         <span class="selected-option"></span>
                                         <span class="opener iconfont">&#xe60f;</span>
@@ -70,11 +76,9 @@
                                             @foreach($custom_attr->values as $custom_attr_value)
                                                 <li class="block-list-level">
                                                     <label>
-                                                        <input type="hidden" value="{{ $custom_attr->name }}" name="custom_attr_values[{{ $custom_attr->sort }}]name">
-                                                        <input type="hidden" value="{{ $custom_attr->sort }}" name="custom_attr_values[{{ $custom_attr->sort }}]sort">
-                                                        <input type="radio" value="{{ $custom_attr_value->value }}" name="custom_attr_values[{{ $custom_attr->sort }}]value">
+                                                        <input type="radio" value="{{ $custom_attr_value->id }}" name="{{ $custom_attr->name }}">
                                                         {{--后面的标号为了区分没有实际意义--}}
-                                                        <span>{{ $custom_attr_value->value }}</span>
+                                                        <span class="val-text">{{ $custom_attr_value->value }}</span>
                                                         <span class="price red"
                                                               data-price="{{ get_current_price($custom_attr_value->delta_price) }}">
                                                             <i>{{ get_global_currency() }}</i>
@@ -98,24 +102,45 @@
     <script type="text/javascript">
         {{-- 验证当前选项卡的必选项是否已经全部被选中 --}}
         function isALLChoosed(domId) {
+            var notSelect = true;
             // domId是当前活跃的选项卡的ID
             // 当前dom节点面板下的所有必填项的集合
             var requiredAll = $(domId).find(".required");
             $.each(requiredAll, function (i, n) {
                 if ($(n).find(".selected-option").html() == "") {
-                    return false;
+                    notSelect = false
+                    return notSelect;
                 }
             });
-            return false;
+            // 判断是否填写完成如果填写完成这再次点击此选项卡时不需要判断当前页面是否已经填写完成
+            if (notSelect == true) {
+                $(".custom-title-center").find("a[data-href='"+ domId +"']").addClass("Completed");
+            }
+            return notSelect;
         }
         {{-- 点击选项卡切换对应的页面内容 --}}
          $(".custom-title-center").on("click", "a", function () {
+             var _that = $(this);
             //  页面切换的时候进行验证，验证用户是否已选择了所有的必选项,如果已经选择了则进行下一步，如果不可以则提示
-            var activeDom = $(this).attr("data-href");
-            var getResult = isALLChoosed(activeDom);
-            if (getResult == false) {
-                alert("请选择必要选项");
-                return;
+            var nowactiveDom = $(".custom-title-center").find("li.active").find("a").attr("data-href"), // 当前活跃的选项卡的ID
+                activeDom = $(this).attr("data-href"); // 即将要切换到的选项卡的ID
+            var getResult = isALLChoosed(nowactiveDom);
+            if($(this).hasClass("Completed")!=true){
+            //    如果点击的选项卡不存在已完成的clas则需要判断当前页面是否已经填写完成，
+            //    如果包含已经完成的标志，则直接跳转即可
+                if (getResult == false) {
+                    layer.alert("Please select the required option!!");
+                    return;
+                }
+                // else {
+                // //    如果当前页面的所有的必填选项都已经选择完成则所有的选择拼接为一个小字符串
+                //     var getCheckedVal = $(nowactiveDom).find(".selected-option");
+                //     $.each(getCheckedVal,function (i,n) {
+                //         if($(n).text()!=""){
+                //             console.log($(n).text());
+                //         }
+                //     })
+                // };
             }
             var total_tabs = $(".custom-title-center").find("li").length;
             var active_num = $(this).parent("li").index();
@@ -142,7 +167,7 @@
             var activeDom = $(".custom-title-center").find("li.active").find("a").attr("data-href");
             var getResult = isALLChoosed(activeDom);
             if (getResult == false) {
-                alert("请选择必要选项");
+                layer.alert("Please select the required option!!");
                 return;
             }
             $(".custom-title-center").find("li").removeClass("active");
@@ -187,6 +212,49 @@
                 }
             })
         });
+        // 点击添加到购物车
+        var dataString = "";  // 用于存储数据提交的字符串
+        $(".addtocart").on("click",function () {
+            // 点击添加到购物车同时判断最后一页的内容中的必选项是否已经选择完成
+            var index_active = $(".custom-title-center").find("li.active").index() + 1;
+            var choose_index_arr = $(".custom-title-center").find("li");
+            var activeDom = $(".custom-title-center").find("li.active").find("a").attr("data-href");
+            var getResult = isALLChoosed(activeDom);
+            if (getResult == false) {
+                layer.alert("Please select the required option!!");
+                return;
+            }
+            var getCheckedVal = $(".customizations-slide").find(".selected-option");
+                $.each(getCheckedVal,function (i,n) {
+                    if($(n).text()!=""){
+                        dataString+=$(n).attr("data-id") + ","
+                    }
+                });
+            dataString = dataString.substring(0,dataString.length-1);
+            var data = {
+                _token: "{{ csrf_token() }}",
+                custom_attr_value_ids: dataString
+            };
+            $.ajax({
+                type: "post",
+                url: $("#addToCartUrl").val(),
+                data: data,
+                success: function (data) {
+                    window.location.href = $(".addToCartSuccess").val();
+                },
+                error: function (err) {
+                    if (err.status == 422) {
+                        var arr = [];
+                        var dataobj = err.responseJSON.errors;
+                        for (let i in dataobj) {
+                            arr.push(dataobj[i]); //属性
+                        }
+                        layer.msg(arr[0][0]);
+                    }
+                },
+            });
+        });
+
         {{--点击title出现一级列表--}}
         $(".customizations-slide").on("click", ".block-title", function () {
             var isOpened = $(this).hasClass("opened");
@@ -204,6 +272,7 @@
         var _CHOOSEPRICE = 0,
                 _INITIALPRICE = Number($(".custom-price").attr("data-price")),  // 页面的初始价格
                 _NEWPRICE = Number($(".custom-price").attr("data-price")),    // 新的价格数
+                _CHOOSEPRICEARR = [],            // 用来存储所有选择的价格的数组
                 _PRECHOOSENAME = "";  // 记录上一次选择的
 
         // 点击一级分类出现二级分类内容
@@ -226,21 +295,36 @@
                 }
             } else {
                 // 如果二级选项不存在，则将选中的选项的value值赋值给每个大类中的option中
-                chooseText = $(this).val();
+                chooseText = $(this).parent("label").find(".val-text").text();
             }
             // 将选中的选项的值赋值给option
             $(this).parents(".top-level").find(".selected-option").text(chooseText);
+            $(this).parents(".top-level").find(".selected-option").attr("data-id", $(this).val());
             // 判断是否有价格参数
+            var isExist = false;
             if ($(this).parent("label").find(".price").length != 0) {
-                if (_PRECHOOSENAME == $(this).prop("name")) {
-                    console.log("相同的name值");
-                    _NEWPRICE = _CHOOSEPRICE - _INITIALPRICE;
-                    _CHOOSEPRICE = Number($(this).parent("label").find(".price").attr("data-price"))
-                    _NEWPRICE = _CHOOSEPRICE + _INITIALPRICE;
-                } else {
+                var _inputThat = $(this);
+                if(_CHOOSEPRICEARR.length == 0) {
                     _PRECHOOSENAME = $(this).prop("name");
-                    _CHOOSEPRICE = Number($(this).parent("label").find(".price").attr("data-price"))
-                    _NEWPRICE = _CHOOSEPRICE + _INITIALPRICE;
+                    _CHOOSEPRICE = Number($(this).parent("label").find(".price").attr("data-price"));
+                    _NEWPRICE = _CHOOSEPRICE + _NEWPRICE;
+                    _CHOOSEPRICEARR.push({"name": $(this).prop("name"),"price": Number($(this).parent("label").find(".price").attr("data-price"))})
+                }else {
+                    for(var i in _CHOOSEPRICEARR){
+                        if(_CHOOSEPRICEARR[i].name == _inputThat.prop("name")) {
+                            isExist = true;
+                            _NEWPRICE = _NEWPRICE - _CHOOSEPRICEARR[i].price;
+                            _CHOOSEPRICE = Number(_inputThat.parent("label").find(".price").attr("data-price"));
+                            _CHOOSEPRICEARR[i].price = _CHOOSEPRICE;
+                            _NEWPRICE = _CHOOSEPRICE + _NEWPRICE;
+                        }
+                    }
+                    if(!isExist) {
+                        _PRECHOOSENAME = _inputThat.prop("name");
+                        _CHOOSEPRICE = Number(_inputThat.parent("label").find(".price").attr("data-price"));
+                        _NEWPRICE = _CHOOSEPRICE + _NEWPRICE;
+                        _CHOOSEPRICEARR.push({"name": _inputThat.prop("name"),"price": Number(_inputThat.parent("label").find(".price").attr("data-price"))})
+                    }
                 }
             }
             $(".custom-price-num").text(_NEWPRICE);

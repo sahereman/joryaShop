@@ -38,8 +38,17 @@ class CustomAttrValue extends Model
     ];
 
     /* Accessors */
+    public function getAttrNameAttribute()
+    {
+        $attr = CustomAttr::where(['id' => $this->attributes['custom_attr_id']])->first();
+        return $attr->name;
+    }
 
     /* Mutators */
+    public function setAttrNameAttribute($value)
+    {
+        unset($this->attributes['attr_name']);
+    }
 
     /* Eloquent Relationships */
     public function attr()
