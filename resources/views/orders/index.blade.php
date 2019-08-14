@@ -285,7 +285,7 @@
                                         <span class="old_price">{{ get_global_symbol() }} {{ bcmul(get_current_price($guess->price), 1.2, 2) }}</span>
                                     </p>
                                     <a class="add_to_cart"
-                                       href="{{ route('seo_url', $order_item['sku']['product']['slug']) }}">@lang('app.see details')</a>
+                                       href="{{ route('seo_url', $guess->slug) }}">@lang('app.see details')</a>
                                 </li>
                             @endforeach
                         </ul>
