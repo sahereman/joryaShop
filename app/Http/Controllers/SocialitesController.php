@@ -13,13 +13,22 @@ use Facebook\Helpers\FacebookRedirectLoginHelper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Intervention\Image\Facades\Image;
 
 class SocialitesController extends Controller
 {
     protected $supportedSocialites = [
         'facebook'
     ];
+
+    protected $fb;
+    protected $accessToken;
+
+    protected $avatarUrl;
+    protected $avatar_width = 400;
+    protected $avatar_height = 400;
 
     protected function isAuthorized(string $socialite)
     {
@@ -98,6 +107,7 @@ class SocialitesController extends Controller
             'default_graph_version' => $config['graph_version'],
             'http_client_handler' => new FacebookGuzzle6HttpClient()
         ]);
+        $this->fb = $fb;
 
         /*if ($_SESSION['FBRLH_state']) {
             $fb_csrf_state = $_SESSION['FBRLH_state'];
@@ -121,6 +131,7 @@ class SocialitesController extends Controller
 
         try {
             $accessToken = $helper->getAccessToken();
+            $this->accessToken = $accessToken;
         } catch (FacebookResponseException $e) {
             // When Graph returns an error
             // echo 'Graph returned an error: ' . $e->getMessage();
@@ -427,19 +438,127 @@ class SocialitesController extends Controller
             ])->first();
 
             if (!$user) {
+                $avatar_url = $this->getAvatarUrl($user_profile);
                 $user = User::create([
                     'name' => $user_profile->getName(),
                     'password' => bcrypt(Str::random(6)),
                     // 'avatar' => $user_profile->getPicture()->getUrl(), // https://graph.facebook.com/userid_here/picture
+                    'avatar' => $avatar_url,
                     'email' => $user_profile->getEmail(),
                     // 'real_name' => $user_profile->getFirstName() . $user_profile->getMiddleName() . $user_profile->getLastName(),
                     // 'gender' => $user_profile->getGender(),
                     'facebook' => $user_profile->getId()
                 ]);
+            } else if (!$user->avatar) {
+                $user->avatar = $this->getAvatarUrl($user_profile);
+                $user->save();
             }
             return $user;
         } else {
             throw new InvalidRequestException("Socialite {$socialite} is not supported yet");
         }
+    }
+
+    protected function getAvatarUrl(GraphUser $user_profile)
+    {
+        // $date = Carbon::now();
+        $prefix_path = Storage::disk('public')->getAdapter()->getPathPrefix();
+        $child_path = 'avatar'; /*存储文件格式为 avatar 文件夹内*/
+        // $path = $prefix_path . $child_path;
+
+        $user_id = $user_profile->getId();
+        $user_name = $user_profile->getName();
+
+        $i = 0;
+        $file_name = str_replace(' ', '-', strtolower($user_name)) . '.jpg';
+        $name = pathinfo($file_name, PATHINFO_FILENAME);
+        $extension = pathinfo($file_name, PATHINFO_EXTENSION);
+        while (\Storage::disk('public')->exists($child_path . '/' . $file_name)) {
+            $file_name = $name . '-' . $i . '.' . $extension;
+            $i++;
+        }
+        $file_path = $prefix_path . $child_path . '/' . $file_name;
+
+        try {
+            // Returns a `FacebookFacebookResponse` object
+            // $response = $fb->get(
+            // '/{user-id}/picture',
+            // '{access-token}'
+            // );
+            // curl -i -X GET \
+            // "https://graph.facebook.com/v4.0/{user-id}/picture"
+            // $response = $fb->get("/{$user_id}/picture?height=80&redirect=0&type=normal&width=80", $accessToken);
+            $response = $this->fb->get("/{$user_id}/picture?redirect=0&type=large", $this->accessToken);
+        } catch (FacebookResponseException $e) {
+            echo 'Graph returned an error: ' . $e->getMessage();
+            exit;
+        } catch (FacebookSDKException $e) {
+            echo 'Facebook SDK returned an error: ' . $e->getMessage();
+            exit;
+        }
+        $graphNode = $response->getGraphNode();
+        $url = $graphNode->getField('url');
+        $avatar_path = CurlHelper::downloadFile($url, array(
+            'followLocation' => true,
+            'maxRedirs' => 5,
+        ), $file_path);
+        // dd($avatar_path);
+
+        // Image::make($prefix_path . $path)->orientate()->resize($this->avatar_width, $this->avatar_height)->save();
+        // $image = Image::make($prefix_path . $path)->orientate();
+        $image = Image::make($avatar_path)->orientate();
+        $width = $image->width();
+        $height = $image->height();
+        $image->fit(min($width, $height))->resize($this->avatar_width, $this->avatar_height, function ($constraint) {
+            // $constraint->aspectRatio();
+            $constraint->upsize();
+        })->save();
+
+        $this->avatarUrl = Storage::disk('public')->url($child_path . '/' . $file_name);
+        // dd($this->avatarUrl);
+
+        return $this->avatarUrl;
+    }
+}
+
+class CurlHelper
+{
+    /**
+     * Downloads a file from a url and returns the temporary file path.
+     * @param string $url
+     * @return string The file path
+     */
+    public static function downloadFile($url, $options = array(), $file_path)
+    {
+        if (!is_array($options)) {
+            $options = array();
+        }
+        $options = array_merge(array(
+            'connectionTimeout' => 5, // seconds
+            'timeout' => 10, // seconds
+            'sslVerifyPeer' => false,
+            'followLocation' => false, // if true, limit recursive redirection by
+            'maxRedirs' => 1, // setting value for "maxRedirs"
+        ), $options);
+
+        // create a temporary file (we are assuming that we can write to the system's temporary directory)
+        // $tempFileName = tempnam(sys_get_temp_dir(), '') . '.jpg';
+        // $fh = fopen($tempFileName, 'w');
+        $fh = fopen($file_path, 'w');
+
+        $curl = curl_init($url);
+        curl_setopt($curl, CURLOPT_FILE, $fh);
+        curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, $options['connectionTimeout']);
+        curl_setopt($curl, CURLOPT_TIMEOUT, $options['timeout']);
+        curl_setopt($curl, CURLOPT_HEADER, false);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, $options['sslVerifyPeer']);
+        curl_setopt($curl, CURLOPT_FOLLOWLOCATION, $options['followLocation']);
+        curl_setopt($curl, CURLOPT_MAXREDIRS, $options['maxRedirs']);
+        curl_exec($curl);
+
+        curl_close($curl);
+        fclose($fh);
+
+        return $file_path;
     }
 }
