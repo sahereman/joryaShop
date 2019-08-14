@@ -49,7 +49,7 @@
                                             @foreach($product->photo_urls as $key => $photo_url)
                                                 <li>
                                                     @if ($key == 0)
-                                                        <a href="{{ $photo_url }}">
+                                                        <a class="firstzoomColorBoxs" href="{{ $photo_url }}">
                                                     @else
                                                         <a class="zoomColorBoxs" href="{{ $photo_url }}">
                                                     @endif
@@ -58,6 +58,12 @@
                                                     </a>
                                                 </li>
                                             @endforeach
+                                            <li class="for-choose-img dis_ni">
+                                                <a class="cboxElement" href="">
+                                                    <img class='cloudzoom-gallery' src=""
+                                                         data-cloudzoom ="useZoom:'.cloudzoom', image:'' ">
+                                                </a>
+                                            </li>
                                         </ul>
                                         <div class="thumbelina-but horiz right">&#707;</div>
                                     </div>
@@ -193,8 +199,6 @@
                                 @lang('app.Add to Shopping Cart')
                             </a>
                         @endguest
-                            {{--data-url_2="{{ $favourite ? route('user_favourites.destroy', ['favourite' => $favourite->id]) : '' }}"--}}
-                            {{--data-favourite-code="{{ $user->getFavouriteByProduct($product->id)->id }}"--}}
                         <a class="add_favourites {{ $favourite ? 'active' : '' }}" code="{{ $product->id }}"
                            data-url="{{ route('user_favourites.store') }}"
                            data-url_2="{{ route('user_favourites.destroy') }}"
@@ -448,7 +452,6 @@
             maxWidth: '95%',
             maxHeight: '95%'
         });
-
         // 简介查看更多
         $("#down-more").on("click",function () {
             var _taht = $(this),
@@ -540,16 +543,18 @@
         });
         // 控制商品下单的数量显示
         $(".add").on("click", function () {
+            // 获取商品ID及库存数量
+            getSkuId();
             // if ($(".kindOfPro").find("li").hasClass('active') != true) {
             // layer.msg("@lang('product.product_details.Please select specifications')");
             // } else {
             $(".reduce").removeClass('no_allow');
-            // if (parseInt($("#pro_num").val()) < sku_stock) {
+            if (parseInt($("#pro_num").val()) < sku_stock) {
                 var num = parseInt($("#pro_num").val()) + 1;
                 $("#pro_num").val(num);
-            // } else {
-                {{--layer.msg("@lang('order.Cannot add more quantities')");--}}
-            // }
+            } else {
+                layer.msg("@lang('order.Cannot add more quantities')");
+            }
             // }
         });
         $(".reduce").on("click", function () {
@@ -916,7 +921,6 @@
              sku_select_amount: 0  // 定义sku中select选择器的数量
          };
         skus_arr = JSON.parse(sku_parameter.sku_data_warehouse.val());
-        // console.log(skus_arr)
         dataFusion(skus_arr,skus_arr_coalesce);
         //当 数据完成第一次处理之后将页面中的input的value进行置空
         sku_parameter.sku_data_warehouse.val("");
@@ -984,7 +988,7 @@
             // 如果名称为undefind代表该属性为库存价格等
             sku_parameter.html += "<div class='priceOfpro forgetSel'>"
             if(sku_map_n.name == "Hair Color"){
-                sku_parameter.html += "<span class='dynamic_name'>"+ sku_map_n.name +" <a target='_blank' href='{{ asset('img/HairColor.jpg') }}'><img src='{{ asset('img/photo-choose.png') }}'></a></span>"
+                sku_parameter.html += "<span class='dynamic_name' data-type='Hair Color'>"+ sku_map_n.name +" <a target='_blank' href='{{ asset('img/HairColor.jpg') }}'><img src='{{ asset('img/photo-choose.png') }}'></a></span>"
             }else if(sku_map_n.name == "Hair Density"){
                 sku_parameter.html += "<span class='dynamic_name'>"+ sku_map_n.name +" <a target='_blank' href='{{ asset('img/HairDensity.jpg') }}'><img src='{{ asset('img/photo-choose.png') }}'></a></span>"
             }else{
@@ -994,7 +998,11 @@
             var sku_map_item =arrayUnique2(sku_map_n.data,'value');
             sku_map_item.sort(compare("value"));
             $.each(sku_map_item,function (sku_map_data_i,sku_map_data_n) {
-                sku_parameter.html += "<option value='" + sku_map_data_n.value + "'>"+ sku_map_data_n.value +"</option>"
+                if(sku_map_n.name == "Hair Color") {
+                    sku_parameter.html += "<option value='" + sku_map_data_n.value + "' data-img='"+ sku_map_data_n.photo_url +"'>"+ sku_map_data_n.value +"</option>"
+                }else {
+                    sku_parameter.html += "<option value='" + sku_map_data_n.value + "'>"+ sku_map_data_n.value +"</option>"
+                }
             });
             sku_parameter.html += "</select>"
             sku_parameter.html += "</div>"
@@ -1069,9 +1077,40 @@
             });
         }
         sku_parameter.sku_choose_store.html("").append(sku_parameter.html);
-        // sku_parameter.sku_choose_store.find("select").on("change",function () {
-        //     var _that = $(this);
-        //         selected_val = _that.val();
+        sku_parameter.sku_choose_store.find("select").on("change",function () {
+            var _that = $(this),
+                selected_val = _that.val();
+            if(_that.parents(".forgetSel").find(".dynamic_name").attr("data-type") == "Hair Color") {
+                $(".for-choose-img").removeClass("dis_ni");
+                $(".for-choose-img").find("a").prop("href",_that.find("option:selected").attr("data-img"));
+                $(".for-choose-img").find("img").prop("src",_that.find("option:selected").attr("data-img"));
+                $(".for-choose-img").find("img").attr("data-cloudzoom" ,"useZoom:'.cloudzoom', image:'"+ _that.find("option:selected").attr("data-img") +"' ");
+                $("#zoom1").prop("src",_that.find("option:selected").attr("data-img"));
+                $("#zoom-btn").prop("href",_that.find("option:selected").attr("data-img"));
+                $("#slider1").find(".firstzoomColorBoxs").addClass("zoomColorBoxs");
+                $("#slider1").find(".firstzoomColorBoxs").addClass("cboxElement");
+                // 插入新节点后重新初始化放大镜插件
+                CloudZoom.quickStart();
+                //插入新节点后重新初始化zoom弹窗
+                $(".zoomColorBoxs").colorbox({
+                    rel: 'zoomColorBoxs',
+                    opacity:0.5,
+                    speed: 300,
+                    current: '{current} / {total}',
+                    previous: '',
+                    next: '',
+                    close: '',  //No comma here
+                    maxWidth: '95%',
+                    maxHeight: '95%'
+                });
+                $("#slider1").find("img").removeClass("cloudzoom-gallery-active");
+                $(".for-choose-img").find("img").addClass("cloudzoom-gallery-active");
+                // $('#slider1').Thumbelina({
+                //     $bwdBut:$('#slider1 .left'),
+                //     $fwdBut:$('#slider1 .right')
+                // });
+
+            }
         //     //    每次切换时将临时仓库进行置空操作
         //     temporary_storage = [];
         //     sku_parameter.choose_classify_index = $(this).attr("data-index");
@@ -1149,7 +1188,7 @@
         //         //
         //         // }
         //     // }
-        // });
+        });
      // 原价计算
      // var old_price = js_number_format(Math.imul(float_multiply_by_100(origin_price), 12) / 1000);
      {{--$("#sku_original_price_in_usd").html("<i>{{ get_global_symbol() }}</i> " + old_price);--}}
