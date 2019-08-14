@@ -15,7 +15,7 @@
     <div class="content" style="width: 600px;margin: auto;text-align: left">
         <h4>Hello,</h4>
         <p>I love this product on <a href="https://www.lyricalhair.com/" style="text-decoration: underline;color: #0000cc">LYRICALHAIR.COM</a> and thought you might too!</p>
-        <img src="{{ $product->photos[0] }}" alt="lyricalhair.com">
+        <img src="{{ $product->photo_urls[0] }}" alt="lyricalhair.com">
         <a href="{{ route('seo_url', ['slug' => $product->slug]) }}" style="text-decoration: underline;color: #0000cc;display: block;">{{ $product->name_en }}</a>
         <p style="font-size: 14px;">{{ $product->description_en }}</p>
         <img src="{{ asset('img/star-5.png') }}" alt="" style="width: 20%;">

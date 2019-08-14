@@ -208,6 +208,7 @@ class SocialitesController extends Controller
             // $response = $fb->get('/me?fields=id,name', '{access-token}');
             // $response = $fb->get('/me?fields=id,name,first_name,middle_name,last_name,email,gender,picture', $accessToken);
             // $response = $fb->get('/me', $accessToken);
+            // $response = $fb->get('/me?fields=id,name,email,picture&redirect=false', $accessToken);
             $response = $fb->get('/me?fields=id,name,email', $accessToken);
         } catch (FacebookResponseException $e) {
             echo 'Graph returned an error: ' . $e->getMessage();
@@ -429,7 +430,7 @@ class SocialitesController extends Controller
                 $user = User::create([
                     'name' => $user_profile->getName(),
                     'password' => bcrypt(Str::random(6)),
-                    // 'avatar' => $user_profile->getPicture()->getUrl(),
+                    // 'avatar' => $user_profile->getPicture()->getUrl(), // https://graph.facebook.com/userid_here/picture
                     'email' => $user_profile->getEmail(),
                     // 'real_name' => $user_profile->getFirstName() . $user_profile->getMiddleName() . $user_profile->getLastName(),
                     // 'gender' => $user_profile->getGender(),

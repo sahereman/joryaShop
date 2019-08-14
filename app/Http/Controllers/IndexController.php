@@ -21,6 +21,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -30,10 +31,7 @@ class IndexController extends Controller
 
     public function test(Request $request)
     {
-        return view('emails.share',[
-            'product'=>Product::find(101)
-        ]);
-//        dd('test');
+        dd('test');
     }
 
     public function seoUrl(Request $request, $slug)
