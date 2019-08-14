@@ -243,7 +243,11 @@
                                             </p>
                                             <p>
                                                 {{--{{ App::isLocale('en') ? $order_item['sku']['name_en'] : $order_item['sku']['name_zh'] }}--}}
-                                                {{ $order_item['sku']['attr_value_string'] }}
+                                                @if($order_item['sku']['product']['type'] == \App\Models\Product::PRODUCT_TYPE_CUSTOM)
+                                                    {{ $order_item['sku']['custom_attr_value_string'] }}
+                                                @else
+                                                    {{ $order_item['sku']['attr_value_string'] }}
+                                                @endif
                                             </p>
                                             <p>
                                                 @lang('order.Unit Price')

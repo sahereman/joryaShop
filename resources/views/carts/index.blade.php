@@ -48,7 +48,11 @@
                                     </a>
                                 </div>
                                 <div class="left w120 center kindofpro">
-                                    <span>{{ $cart->sku->attr_value_string }}</span>
+                                    @if($cart->sku->product->type == \App\Models\Product::PRODUCT_TYPE_CUSTOM)
+                                        <span>{{ $cart->sku->custom_attr_value_string }}</span>
+                                    @else
+                                        <span>{{ $cart->sku->attr_value_string }}</span>
+                                    @endif
 
                                     {{--<span>{{ App::isLocale('zh-CN') ? $cart->sku->base_size_zh : $cart->sku->base_size_en }}</span>--}}
                                     {{--<span>{{ App::isLocale('zh-CN') ? $cart->sku->hair_colour_zh : $cart->sku->hair_colour_en }}</span>--}}

@@ -362,12 +362,12 @@ class ProductsController extends Controller
     {
         $user = $request->user();
 
-        $price = $product->price;
+        $delta_price = 0;
         $custom_attr_value_ids = $request->input('custom_attr_value_ids');
         $custom_attr_value_ids = explode(',', $custom_attr_value_ids);
         $custom_attr_values = CustomAttrValue::orderByDesc('sort')->whereIn('id', $custom_attr_value_ids)->get();
-        $custom_attr_values->each(function (CustomAttrValue $customAttrValue) use (&$price) {
-            $price = bcadd($price, $customAttrValue->delta_price, 2);
+        $custom_attr_values->each(function (CustomAttrValue $customAttrValue) use (&$delta_price) {
+            $delta_price = bcadd($delta_price, $customAttrValue->delta_price, 2);
         });
 
         $product_sku = ProductSku::create([
@@ -375,7 +375,7 @@ class ProductsController extends Controller
             'name_en' => 'custom product sku of lyrical hair',
             'name_zh' => 'custom product sku of lyrical hair',
             'photo' => '',
-            'price' => $price,
+            'delta_price' => $delta_price,
             'stock' => 100, // 暂定数值，占位用，便于客户在购物车内追加购买数量
             'sales' => 1,
         ]);

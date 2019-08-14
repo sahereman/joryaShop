@@ -58,8 +58,10 @@ class ProductSku extends Model
     protected $appends = [
         'photo_url',
         // 'product_name',
+        // 'product_type',
         // 'attr_value_string',
         // 'attr_value_options'
+        // 'custom_attr_value_string',
     ];
 
     /* Accessors */
@@ -85,6 +87,11 @@ class ProductSku extends Model
     /*public function getProductNameAttribute()
     {
         return Product::find($this->attributes['product_id'])->name_en;
+    }*/
+
+    /*public function getProductTypeAttribute()
+    {
+        return Product::find($this->attributes['product_id'])->type;
     }*/
 
     public function getAttrValueStringAttribute()
@@ -135,6 +142,11 @@ class ProductSku extends Model
     /*public function setProductNameAttribute($value)
     {
         unset($this->attributes['product_name']);
+    }*/
+
+    /*public function setProductTypeAttribute($value)
+    {
+        unset($this->attributes['product_type']);
     }*/
 
     public function setAttrValueStringAttribute($value)

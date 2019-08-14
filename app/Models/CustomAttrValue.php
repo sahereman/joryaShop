@@ -40,7 +40,7 @@ class CustomAttrValue extends Model
     /* Accessors */
     public function getAttrNameAttribute()
     {
-        $attr = CustomAttr::where(['id' => $this->attributes['custom_attr_id']])->first();
+        $attr = CustomAttr::find($this->attributes['custom_attr_id']);
         return $attr->name;
     }
 

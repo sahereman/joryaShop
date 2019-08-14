@@ -15,7 +15,8 @@ class ProductSku extends ProductSkuModel
         'product_name',
         'price',
         'attr_value_string',
-        'attr_value_options'
+        'attr_value_options',
+        'custom_attr_value_string'
     ];
 
     /* Accessors */
