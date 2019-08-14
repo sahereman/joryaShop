@@ -19,8 +19,8 @@ class CreateProductCategoriesTable extends Migration
             $table->string('banner')->nullable()->comment('banner'); // 备用字段
             $table->string('name_en')->nullable(false)->comment('英文名称');
             $table->string('name_zh')->nullable(false)->comment('中文名称'); // 备用字段
-            $table->string('description_en')->nullable()->comment('英文描述');
-            $table->string('description_zh')->nullable()->comment('中文描述'); // 备用字段
+            $table->string('description_en', 1000)->nullable()->comment('英文描述');
+            $table->string('description_zh', 1000)->nullable()->comment('中文描述'); // 备用字段
             $table->boolean('is_index')->nullable(false)->default(false)->comment('是否允许在首页展示推荐商品');
 
             $table->unsignedSmallInteger('sort')->nullable(false)->default(0)->comment('排序值');

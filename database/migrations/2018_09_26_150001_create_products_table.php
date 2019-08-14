@@ -20,8 +20,8 @@ class CreateProductsTable extends Migration
 
             $table->string('name_en')->nullable(false)->comment('英文名称');
             $table->string('name_zh')->nullable(false)->comment('中文名称'); // 备用字段
-            $table->string('description_en',1000)->nullable()->comment('英文描述');
-            $table->string('description_zh',1000)->nullable()->comment('中文描述'); // 备用字段
+            $table->string('description_en', 1000)->nullable()->comment('英文描述');
+            $table->string('description_zh', 1000)->nullable()->comment('中文描述'); // 备用字段
             $table->text('content_en')->nullable()->comment('英文内容');
             $table->text('content_zh')->nullable()->comment('中文内容'); // 备用字段
             $table->string('thumb')->nullable()->comment('缩略图');

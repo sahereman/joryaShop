@@ -193,7 +193,7 @@ class ProductCategoriesController extends Controller
 
         // $form->text('description_zh', '描述(中文)')->rules('required');
         $form->hidden('description_zh', '描述(中文)')->default('lyrical');
-        $form->text('description_en', '描述(英文)')->rules('required');
+        $form->textarea('description_en', '描述(英文)')->rules('required');
         $form->hidden('content_zh', '内容(中文)')->default('lyrical');
         $form->hidden('content_en', '内容(英文)')->default('lyrical');
 
