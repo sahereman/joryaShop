@@ -365,6 +365,19 @@ class ProductsController extends Controller
         $delta_price = 0;
         $custom_attr_value_ids = $request->input('custom_attr_value_ids');
         $custom_attr_value_ids = explode(',', $custom_attr_value_ids);
+
+        $flag = false;
+        $required_custom_attrs = CustomAttr::where(['is_required' => 1])->get();
+        $required_custom_attrs->each(function (CustomAttr $customAttr) use ($custom_attr_value_ids, &$flag) {
+            $intersect = $customAttr->values->pluck('id')->intersect($custom_attr_value_ids);
+            if ($intersect->isEmpty()) {
+                $flag = true;
+            }
+        });
+        if ($flag) {
+            throw new InvalidRequestException('Please make sure that you have set every REQUIRED custom attribute.');
+        }
+
         $custom_attr_values = CustomAttrValue::orderByDesc('sort')->whereIn('id', $custom_attr_value_ids)->get();
         $custom_attr_values->each(function (CustomAttrValue $customAttrValue) use (&$delta_price) {
             $delta_price = bcadd($delta_price, $customAttrValue->delta_price, 2);
