@@ -17,10 +17,10 @@
                                         </div>
                                         @if($articles = $article_category->articles)
                                             <ul class="categories-lists-item-ul">
-                                                @foreach($articles as $article)
+                                                @foreach($articles as $item)
                                                     <li>
-                                                        <a href="{{ route('seo_url', ['slug' => $article->slug]) }}">
-                                                            <span>{{ $article->name }}</span>
+                                                        <a href="{{ route('seo_url', ['slug' => $item->slug]) }}">
+                                                            <span>{{ $item->name }}</span>
                                                         </a>
                                                     </li>
                                                 @endforeach
