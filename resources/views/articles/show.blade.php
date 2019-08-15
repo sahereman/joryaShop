@@ -8,56 +8,28 @@
             <div class="left-nav">
                 <div class="block block-layered-nav">
                     <div class="block-content">
-                        <div class="categories-lists-items categories-menu">
-                            <div class="categories-lists-item">
-                                <div class="lists-item-title"><a href="#"><span>Mens Hair Systems</span></a></div>
-                                <ul class="categories-lists-item-ul">
-                                    <li>
-                                        <a href="#"><span>Stock Hair Systems</span></a>
-                                    </li>
-                                    <li>
-                                        <a href="#"><span>Custom Hair Systems</span></a>
-                                    </li>
-                                    <li>
-                                        <a href="#"><span>Lace Hair Systems</span></a>
-                                    </li>
-                                    <li>
-                                        <a href="#"><span>Lace Front Hair Systems</span></a>
-                                    </li>
-                                </ul>
+                        @if($article_categories && $article_categories->isNotEmpty())
+                            <div class="categories-lists-items categories-menu">
+                                @foreach($article_categories as $article_category)
+                                    <div class="categories-lists-item">
+                                        <div class="lists-item-title">
+                                            <a href="#"><span>{{ $article_category->name_en }}</span></a>
+                                        </div>
+                                        @if($articles = $article_category->articles)
+                                            <ul class="categories-lists-item-ul">
+                                                @foreach($articles as $article)
+                                                    <li>
+                                                        <a href="{{ route('seo_url', ['slug' => $article->slug]) }}">
+                                                            <span>{{ $article->slug }}</span>
+                                                        </a>
+                                                    </li>
+                                                @endforeach
+                                            </ul>
+                                        @endif
+                                    </div>
+                                @endforeach
                             </div>
-                            <div class="categories-lists-item">
-                                <div class="lists-item-title"><a href="#"><span>Womens Hair Systems</span></a></div>
-                                <ul class="categories-lists-item-ul">
-                                    <li>
-                                        <a href="#"><span>Womens Hair Systems</span></a>
-                                    </li>
-                                    <li>
-                                        <a href="#"><span>Full Cap Wigs</span></a>
-                                    </li>
-                                    <li>
-                                        <a href="#"><span>Hair Integration</span></a>
-                                    </li>
-                                    <li>
-                                        <a href="#"><span>Medical Wigs</span></a>
-                                    </li>
-                                    <li>
-                                        <a href="#"><span>Stock Wigs for Women</span></a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="categories-lists-item">
-                                <div class="lists-item-title"><a href="#"><span>Accessories</span></a></div>
-                                <ul class="categories-lists-item-ul">
-                                    <li>
-                                        <a href="#"><span>Ordering tools</span></a>
-                                    </li>
-                                    <li>
-                                        <a href="#"><span>Maintenance &amp; accessories</span></a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -65,7 +37,9 @@
                 <p class="Crumbs">
                     <a href="{{ route('root') }}">@lang('basic.home')</a>
                     <span>/</span>
-                    <a class="dynamic-path" href="#">Article Name</a>
+                    <a class="dynamic-path" href="#">{{ $article->category->name_en }}</a>
+                    <span>/</span>
+                    <a class="dynamic-path" href="#">{{ $article->name }}</a>
                 </p>
                 <div class="right-article">
                     <div class="iframe_content dis_ni">
@@ -76,7 +50,6 @@
             </div>
         </div>
     </div>
-
 @endsection
 @section('scriptsAfterJs')
     <script type="text/javascript">
@@ -98,7 +71,6 @@
             if(count == 5){
                 window.clearInterval(autoSet);
             }
-
         }
     </script>
 @endsection
