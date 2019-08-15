@@ -212,10 +212,10 @@
                         </div>
                     @endif
                 </div>
-                <div class="iframe_content dis_ni">
+                <div>
                     {!! App::isLocale('zh-CN') ? $category->content_zh : $category->content_en !!}
                 </div>
-                <iframe name="cmsCon" id="cmsCon" class="cmsCon" frameborder="0" width="100%" scrolling="no" height="auto"></iframe>
+                {{--<iframe name="cmsCon" id="cmsCon" class="cmsCon" frameborder="0" width="100%" scrolling="no" height="auto"></iframe>--}}
             </div>
         </div>
     </div>
@@ -313,24 +313,24 @@
 
         });
     //    文章内容
-        var iframe_content = $('.iframe_content').html();
-        $('.iframe_content').html("");
-        $('#cmsCon').contents().find('body').html(iframe_content);
-        autoHeight();  //动态调整高度
-        var count = 0;
-        var autoSet = window.setInterval('autoHeight()',500);
-        function autoHeight(){
-            var mainheight;
-            count++;
-            if(count == 1){
-                mainheight = $('.cmsCon').contents().find("body").height()+50;
-            }else{
-                mainheight = $('.cmsCon').contents().find("body").height()+24;
-            }
-            $('.cmsCon').height(mainheight);
-            if(count == 5){
-                window.clearInterval(autoSet);
-            }
-        }
+    //     var iframe_content = $('.iframe_content').html();
+    //     $('.iframe_content').html("");
+    //     $('#cmsCon').contents().find('body').html(iframe_content);
+    //     autoHeight();  //动态调整高度
+    //     var count = 0;
+    //     var autoSet = window.setInterval('autoHeight()',500);
+    //     function autoHeight(){
+    //         var mainheight;
+    //         count++;
+    //         if(count == 1){
+    //             mainheight = $('.cmsCon').contents().find("body").height()+50;
+    //         }else{
+    //             mainheight = $('.cmsCon').contents().find("body").height()+24;
+    //         }
+    //         $('.cmsCon').height(mainheight);
+    //         if(count == 5){
+    //             window.clearInterval(autoSet);
+    //         }
+    //     }
     </script>
 @endsection
