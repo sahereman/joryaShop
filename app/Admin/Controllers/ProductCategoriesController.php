@@ -193,9 +193,9 @@ class ProductCategoriesController extends Controller
 
         // $form->text('description_zh', '描述(中文)')->rules('required');
         $form->hidden('description_zh', '描述(中文)')->default('lyrical');
-        $form->textarea('description_en', '描述(英文)')->rules('required');
+        $form->textarea('description_en', '描述')->rows(12)->rules('required');
         $form->hidden('content_zh', '内容(中文)')->default('lyrical');
-        $form->hidden('content_en', '内容(英文)')->default('lyrical');
+        $form->editor('content_en', '底部文章');
 
         $form->image('banner', '分类主页图')->uniqueName()->move('banners')->removable()->help('尺寸:720 * 230');
 
