@@ -77,8 +77,10 @@
                     <h1>{{ $category->name_en }}</h1>
                 </div>
                 <div class="category-description">
-                    {{--<p>We stock and custom make a wide variety of non-surgical hair replacement systems including human hair wigs and toupees. Go ahead, find the right hair piece for you.</p>--}}
-                    <p>{{ $category->description_en }}</p>
+                    <div class="iframe_content_description dis_ni">
+                        {{ $category->description_en }}
+                    </div>
+                    <iframe name="cmsCon_description" id="cmsConDescription" class="cmsCon_description" frameborder="0" width="100%" scrolling="no" height="auto"></iframe>
                 </div>
                 <div class="category-products">
                     <div class="toolbar">
@@ -189,23 +191,6 @@
                                 <div class="pager">
                                     <div class="pages">
                                         {{ isset($query_data) ? $products->appends($query_data)->links() : $products->links() }}
-                                        {{--<strong>Page:</strong>
-                                        <ol>
-                                            当前页不是第一页的时候显示 路径为当前页的前一页
-                                            <li class="previous">
-                                                <a class="next iconfont" href="https://www.lordhair.com/mens-hair-systems.html?p=2" title="Previous">&#xe603;</a>
-                                            </li>
-                                            默认显示五个页码多余的不显示
-                                            <li class="current">1</li>
-                                            <li><a href="#">2</a></li>
-                                            <li><a href="#">3</a></li>
-                                            <li><a href="#">4</a></li>
-                                            <li><a href="#">5</a></li>
-                                            当前页是最后一页时不显示 路径为当前页的前一页
-                                            <li class="next">
-                                                <a class="next iconfont" href="https://www.lordhair.com/mens-hair-systems.html?p=2" title="Next">&#xe63a;</a>
-                                            </li>
-                                        </ol>--}}
                                     </div>
                                 </div>
                             </div>
@@ -314,25 +299,45 @@
             }
 
         });
-    //    文章内容
-    //     var iframe_content = $('.iframe_content').html();
-    //     $('.iframe_content').html("");
-    //     $('#cmsCon').contents().find('body').html(iframe_content);
-    //     autoHeight();  //动态调整高度
-    //     var count = 0;
-    //     var autoSet = window.setInterval('autoHeight()',500);
-    //     function autoHeight(){
-    //         var mainheight;
-    //         count++;
-    //         if(count == 1){
-    //             mainheight = $('.cmsCon').contents().find("body").height()+50;
-    //         }else{
-    //             mainheight = $('.cmsCon').contents().find("body").height()+24;
-    //         }
-    //         $('.cmsCon').height(mainheight);
-    //         if(count == 5){
-    //             window.clearInterval(autoSet);
-    //         }
-    //     }
+    //    底部文章内容
+        var iframe_content = $('.iframe_content').html();
+        $('.iframe_content').html("");
+        $('#cmsCon').contents().find('body').html(iframe_content);
+        autoHeight();  //动态调整高度
+        var count = 0;
+        var autoSet = window.setInterval('autoHeight()',500);
+        function autoHeight(){
+            var mainheight;
+            count++;
+            if(count == 1){
+                mainheight = $('.cmsCon').contents().find("body").height()+50;
+            }else{
+                mainheight = $('.cmsCon').contents().find("body").height()+24;
+            }
+            $('.cmsCon').height(mainheight);
+            if(count == 5){
+                window.clearInterval(autoSet);
+            }
+        }
+    //    上方描述文章页
+        var iframe_content_description = $('.iframe_content_description').html();
+        $('.iframe_content_description').html("");
+        $('#cmsConDescription').contents().find('body').html(iframe_content_description);
+        autoHeightDescription();  //动态调整高度
+        var count_description = 0;
+        var autoSet_description = window.setInterval('autoHeightDescription()',500);
+        function autoHeightDescription(){
+            var mainheight_description;
+            count_description++;
+            if(count_description == 1){
+                mainheight_description = $('.cmsCon_description').contents().find("body").height()+50;
+            }else{
+                mainheight_description = $('.cmsCon_description').contents().find("body").height()+24;
+            }
+            $('.cmsCon_description').height(mainheight_description);
+            if(count_description == 5){
+                window.clearInterval(autoSet_description);
+            }
+        }
     </script>
 @endsection

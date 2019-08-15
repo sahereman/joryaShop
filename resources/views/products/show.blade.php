@@ -188,7 +188,7 @@
                             <a class="buy_now for_show_login" href="{{ route('login') }}">
                                 @lang('product.product_details.Buy now')
                             </a>
-                            <a class="add_carts for_show_login" href="{{ route('login') }}">
+                            <a class="add_carts for_show_login" data-url="{{ route('carts.store') }}">
                                 @lang('app.Add to Shopping Cart')
                             </a>
                         @else
@@ -449,7 +449,7 @@
                     <p>
                         <label for="social-email-inp-body">Body:</label>
                     </p>
-                    <textarea id="social-email-inp-body" cols="30" rows="10" >I love this product on SHOP.COM and thought you might too!</textarea>
+                    <textarea id="social-email-inp-body" cols="30" rows="10" >I love this product on LYRICALHAIR.COM and thought you might too!</textarea>
                 </li>
             </ul>
         </div>
@@ -515,10 +515,14 @@
                 yes: function(index){
                     $.ajax({
                         type: "post",
-                        url: clickDom.attr("data-url"),
+                        url: $("#social-email-inp-to").attr("data-url"),
                         data: {
                             _token: "{{ csrf_token() }}",
-                            email: clickDom.val()
+                            // email: clickDom.val()
+                            to: $("#social-email-inp-to").val(),
+                            from: $("#social-email-inp-from").val(),
+                            subject: $("#social-email-inp-subject").val(),
+                            body: $("#social-email-inp-body").val()
                         },
                         success: function (data) {
                             layer.msg("Mail sharing success");
@@ -689,38 +693,34 @@
         // 加入购物车
         $(".add_carts").on("click", function () {
             var clickDom = $(this);
-            if ($(this).hasClass('for_show_login') == true) {
-                // $(".login").click();
-            } else {
-                getSkuId();
-                if(sku_id == 0||sku_stock == 0){
-                    layer.msg("The item is temporarily out of stock Please reselect!");
-                    return
-                }
-                var data = {
-                    _token: "{{ csrf_token() }}",
-                    sku_id: sku_id,
-                    number: $("#pro_num").val(),
-                };
-                var url = clickDom.attr('data-url');
-                $.ajax({
-                    type: "post",
-                    url: url,
-                    data: data,
-                    success: function (data) {
-                        layer.msg("@lang('product.product_details.Shopping cart added successfully')");
-                        $(".for_cart_num").load(location.href + " .shop_cart_num");
-                    },
-                    error: function (err) {
-                        var arr = [];
-                        var dataobj = err.responseJSON.errors;
-                        for (let i in dataobj) {
-                            arr.push(dataobj[i]); //属性
-                        }
-                        layer.msg(arr[0][0]);
-                    }
-                });
+            getSkuId();
+            if(sku_id == 0||sku_stock == 0){
+                layer.msg("The item is temporarily out of stock Please reselect!");
+                return
             }
+            var data = {
+                _token: "{{ csrf_token() }}",
+                sku_id: sku_id,
+                number: $("#pro_num").val(),
+            };
+            var url = clickDom.attr('data-url');
+            $.ajax({
+                type: "post",
+                url: url,
+                data: data,
+                success: function (data) {
+                    layer.msg("@lang('product.product_details.Shopping cart added successfully')");
+                    // $(".for_cart_num").load(location.href + " .shop_cart_num");
+                },
+                error: function (err) {
+                    var arr = [];
+                    var dataobj = err.responseJSON.errors;
+                    for (let i in dataobj) {
+                        arr.push(dataobj[i]); //属性
+                    }
+                    layer.msg(arr[0][0]);
+                }
+            });
         });
         // 立即购买
         $(".buy_now").on("click", function () {
