@@ -467,10 +467,14 @@ class ProductsController extends Controller
     // POST: 发送商品分享邮件 [for Ajax request]
     public function share(ProductRequest $request, Product $product)
     {
+        $to_email = $request->input('to_email');
+        $from_email = $request->input('from_email');
+        $subject = $request->input('subject');
+        $body = $request->input('body');
         $user = new User();
         $user->name = 'unknown';
-        $user->email = $request->input('email');
-        Mail::to($user)->queue(new SendShareEmail($product));
+        $user->email = $to_email;
+        Mail::to($user)->queue(new SendShareEmail($product, $from_email, $subject, $body));
         return response()->json([
             'code' => 200,
             'message' => 'success'

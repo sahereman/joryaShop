@@ -435,11 +435,11 @@
             <ul class="simple-form">
                 <li>
                     <label for="social-email-inp-to">To:</label>
-                    <input type="email" id="social-email-inp-to" data-url="{{ route('products.share', ['product' => $product->id]) }}" placeholder="yourname@example.com">
+                    <input type="email" id="social-email-inp-to" data-url="{{ route('products.share', ['product' => $product->id]) }}" placeholder="your-friend@example.com">
                 </li>
                 <li>
                     <label for="social-email-inp-from">From:</label>
-                    <input type="email" id="social-email-inp-from" placeholder="yourname@example.com">
+                    <input type="email" id="social-email-inp-from" placeholder="your-name@example.com">
                 </li>
                 <li>
                     <label for="social-email-inp-subject">Subject:</label>
@@ -519,8 +519,8 @@
                         data: {
                             _token: "{{ csrf_token() }}",
                             // email: clickDom.val()
-                            to: $("#social-email-inp-to").val(),
-                            from: $("#social-email-inp-from").val(),
+                            to_email: $("#social-email-inp-to").val(),
+                            from_email: $("#social-email-inp-from").val(),
                             subject: $("#social-email-inp-subject").val(),
                             body: $("#social-email-inp-body").val()
                         },

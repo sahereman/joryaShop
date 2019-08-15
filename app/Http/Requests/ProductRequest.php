@@ -51,7 +51,10 @@ class ProductRequest extends Request
             ];
         } elseif ($this->routeIs('products.share')) {
             return [
-                'email' => 'required|email',
+                'to_email' => 'bail|required|email',
+                'from_email' => 'bail|sometimes|nullable|email',
+                'subject' => 'bail|sometimes|nullable|string',
+                'body' => 'bail|sometimes|nullable|string'
             ];
         } elseif ($this->routeIs('products.custom.store')) {
             return [
