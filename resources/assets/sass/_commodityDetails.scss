@@ -221,6 +221,9 @@
       display: flex;
       flex-direction: row;
       justify-content: space-around;
+      @media only screen and (max-width: 767px){
+        flex-direction: column;
+      }
       .product-img-column {
         position: relative;
         .img-box {
@@ -316,15 +319,15 @@
           cursor: pointer;
         }
       }
-
-
-
     }
     .parameters_content {
-        width: 52%;
-        float: left;
-        margin: 0;
-        padding: 0 2px;
+      width: 52%;
+      float: left;
+      margin: 0;
+      padding: 0 2px;
+      @media only screen and (max-width: 767px){
+        width: 100%;
+      }
         h4 {
             font-size: 23px;
             font-weight: 400;

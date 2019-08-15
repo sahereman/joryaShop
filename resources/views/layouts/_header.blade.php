@@ -142,6 +142,38 @@
                     <a href="{{ route('seo_url', ['slug' => 'contact_us']) }}">@lang('app.Contact_Us')</a>
                 </div>
             </div>
+            {{-- 移动端展示 --}}
+            <div class="mobile-header-menu">
+                <div class="mobile-nav">
+                    <span class="iconfont">&#xe604;</span>
+                </div>
+                <div class="mobile-nav-list">
+                    <div class="mobile-list-item">
+                        <a class="skype_btn" href="skype:live:info_1104672?call">
+                            <img src="{{ asset('img/skype-call.png') }}"/>
+                        </a>
+                    </div>
+                    <div class="mobile-list-item">
+                        <a href="{{ route('carts.index') }}">
+                            <img src="{{ asset('img/header/ic-cart.png') }}">
+                            <span class="caret">&nbsp;</span>
+                        </a>
+                    </div>
+                    <div class="mobile-list-item">
+                        <a href="#">Wishlist</a>
+                    </div>
+                    <div class="mobile-list-item">
+                        @guest
+                            <a href="{{ route('login') }}">@lang('app.Log_In')</a>
+                        @else
+                            <a href="{{ route('users.home') }}">Hi, {{ Auth::user()->name }}</a>
+                        @endguest
+                    </div>
+                    <div class="mobile-list-item">
+                        <a href="{{ route('articles.show', ['slug' => 'contact_us']) }}">@lang('app.Contact_Us')</a>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
