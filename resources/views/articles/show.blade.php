@@ -13,14 +13,14 @@
                                 @foreach($article_categories as $article_category)
                                     <div class="categories-lists-item">
                                         <div class="lists-item-title">
-                                            <a href="#"><span>{{ $article_category->name_en }}</span></a>
+                                            <a href="javascript:void(0)"><span>{{ $article_category->name_en }}</span></a>
                                         </div>
                                         @if($articles = $article_category->articles)
                                             <ul class="categories-lists-item-ul">
                                                 @foreach($articles as $article)
                                                     <li>
                                                         <a href="{{ route('seo_url', ['slug' => $article->slug]) }}">
-                                                            <span>{{ $article->slug }}</span>
+                                                            <span>{{ $article->name }}</span>
                                                         </a>
                                                     </li>
                                                 @endforeach
@@ -37,9 +37,9 @@
                 <p class="Crumbs">
                     <a href="{{ route('root') }}">@lang('basic.home')</a>
                     <span>/</span>
-                    <a class="dynamic-path" href="#">{{ $article->category->name_en }}</a>
+                    <a href="javascript:void(0)">{{ $article->category->name_en }}</a>
                     <span>/</span>
-                    <a class="dynamic-path" href="#">{{ $article->name }}</a>
+                    <a href="javascript:void(0)">{{ $article->name }}</a>
                 </p>
                 <div class="right-article">
                     <div class="iframe_content dis_ni">
