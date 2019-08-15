@@ -68,7 +68,7 @@
                 </div>
                 <div class="category-image">
                     @if(!empty($category->banner))
-                        <img class="lazy" data-src="{{ $category->banner_url }}">
+                        <img src="{{ $category->banner_url }}">
                     @else
                         <img src="{{ asset('defaults/defaults_pc_category_banner.png') }}">
                     @endif
@@ -213,9 +213,11 @@
                     @endif
                 </div>
                 <div class="bottom-article">
-                    {!! App::isLocale('zh-CN') ? $category->content_zh : $category->content_en !!}
+                    <div class="iframe_content dis_ni">
+                        {!! App::isLocale('zh-CN') ? $category->content_zh : $category->content_en !!}
+                    </div>
+                    <iframe name="cmsCon" id="cmsCon" class="cmsCon" frameborder="0" width="100%" scrolling="no" height="auto"></iframe>
                 </div>
-                {{--<iframe name="cmsCon" id="cmsCon" class="cmsCon" frameborder="0" width="100%" scrolling="no" height="auto"></iframe>--}}
             </div>
         </div>
     </div>
