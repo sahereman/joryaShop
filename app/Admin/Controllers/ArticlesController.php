@@ -206,6 +206,11 @@ class ArticlesController extends Controller
         $form->hidden('content_zh', '内容(中文)')->default('lyrical');
         $form->editor('content_en', '内容(英文)');
 
+        // 定义事件回调，当模型即将保存时会触发这个回调
+        $form->saving(function (Form $form) {
+            $form->model()->slug = null;
+        });
+
         return $form;
     }
 }

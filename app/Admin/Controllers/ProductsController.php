@@ -588,6 +588,7 @@ class ProductsController extends Controller
 
         // 定义事件回调，当模型即将保存时会触发这个回调
         $form->saving(function (Form $form) {
+            $form->model()->slug = null;
             if (request()->input('photos') == '_file_del_' || (request()->has('is_index') || request()->has('on_sale')) && count(request()->all()) == 3) {
                 return $form;
             }

@@ -85,46 +85,46 @@ class ProductCategoriesController extends Controller
      * Make a grid builder.
      * @return Grid
      */
-//    protected function grid(Request $request)
-//    {
-//        $parent_category = ProductCategory::find($request->input('pid'));
-//
-//        $grid = new Grid(new ProductCategory);
-//
-//        /*筛选*/
-//        $grid->filter(function ($filter) {
-//            $filter->disableIdFilter(); // 去掉默认的id过滤器
-//            $filter->like('name_zh', '名称(中文)');
-//        });
-//
-//        if ($parent_category) {
-//            $grid->model()->where('parent_id', $parent_category->id);
-//        } else {
-//            $grid->model()->where('parent_id', 0);
-//        }
-//
-//        $grid->id('ID');
-//        $grid->name_zh('名称(中文)');
-//        $grid->name_en('名称(英文)');
-//
-//        if ($parent_category) {
-//            $grid->parent_category()->name_zh('上级分类');
-//        } else {
-//            // 是否首页显示
-//            $states = [
-//                'on' => ['value' => true, 'text' => '已开启', 'color' => 'primary'],
-//                'off' => ['value' => false, 'text' => '已关闭', 'color' => 'default'],
-//            ];
-//            $grid->is_index('首页显示')->switch($states);
-//
-//            // 选项
-//            $grid->column('option', '选项')->display(function () {
-//                return '<a href="' . route('admin.product_categories.index', ['pid' => $this->id]) . '" class="btn btn-xs btn-primary" style="margin-right: 10px">查看下级分类 <span class="badge">' . count($this->child_categories) . '</span></a>';
-//            });
-//        }
-//
-//        return $grid;
-//    }
+    //    protected function grid(Request $request)
+    //    {
+    //        $parent_category = ProductCategory::find($request->input('pid'));
+    //
+    //        $grid = new Grid(new ProductCategory);
+    //
+    //        /*筛选*/
+    //        $grid->filter(function ($filter) {
+    //            $filter->disableIdFilter(); // 去掉默认的id过滤器
+    //            $filter->like('name_zh', '名称(中文)');
+    //        });
+    //
+    //        if ($parent_category) {
+    //            $grid->model()->where('parent_id', $parent_category->id);
+    //        } else {
+    //            $grid->model()->where('parent_id', 0);
+    //        }
+    //
+    //        $grid->id('ID');
+    //        $grid->name_zh('名称(中文)');
+    //        $grid->name_en('名称(英文)');
+    //
+    //        if ($parent_category) {
+    //            $grid->parent_category()->name_zh('上级分类');
+    //        } else {
+    //            // 是否首页显示
+    //            $states = [
+    //                'on' => ['value' => true, 'text' => '已开启', 'color' => 'primary'],
+    //                'off' => ['value' => false, 'text' => '已关闭', 'color' => 'default'],
+    //            ];
+    //            $grid->is_index('首页显示')->switch($states);
+    //
+    //            // 选项
+    //            $grid->column('option', '选项')->display(function () {
+    //                return '<a href="' . route('admin.product_categories.index', ['pid' => $this->id]) . '" class="btn btn-xs btn-primary" style="margin-right: 10px">查看下级分类 <span class="badge">' . count($this->child_categories) . '</span></a>';
+    //            });
+    //        }
+    //
+    //        return $grid;
+    //    }
 
     /**
      * Make a show builder.
@@ -193,14 +193,19 @@ class ProductCategoriesController extends Controller
 
         // $form->text('description_zh', '描述(中文)')->rules('required');
         $form->hidden('description_zh', '描述(中文)')->default('lyrical');
-        $form->textarea('description_en', '描述')->rows(12)->rules('required');
+        $form->editor('description_en', '描述')->rules('required');
         $form->hidden('content_zh', '内容(中文)')->default('lyrical');
-        $form->textarea('content_en', '底部文章')->rows(12);
+        $form->editor('content_en', '底部文章');
 
         $form->image('banner', '分类主页图')->uniqueName()->move('banners')->removable()->help('尺寸:720 * 230');
 
         $form->switch('is_index', '首页显示');
         $form->number('sort', '排序值')->default(999);
+
+        // 定义事件回调，当模型即将保存时会触发这个回调
+        $form->saving(function (Form $form) {
+            $form->model()->slug = null;
+        });
 
         return $form;
     }
