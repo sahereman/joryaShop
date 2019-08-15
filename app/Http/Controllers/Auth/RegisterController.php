@@ -8,6 +8,7 @@ use App\Http\Requests\RegisterEmailCodeRequest;
 use App\Http\Requests\RegisterEmailCodeValidationRequest;
 use App\Http\Requests\SmsCodeRegisterRequest;
 use App\Http\Requests\SmsCodeRegisterValidationRequest;
+use App\Models\Cart;
 use App\Models\Coupon;
 use App\Models\User;
 use App\Models\UserCoupon;
@@ -19,6 +20,7 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Validator;
 
@@ -186,6 +188,8 @@ class RegisterController extends Controller
 
         // user browsing history - initialization
         $this->initializeUserBrowsingHistoryCacheByUser($user);
+        // update cart
+        $this->updateCart($user);
 
         /* Send coupons to the newly registered user */
         $coupons = Coupon::where(['scenario' => Coupon::COUPON_SCENARIO_REGISTER])->get()->filter(function (Coupon $coupon) {
@@ -236,5 +240,27 @@ class RegisterController extends Controller
         Cache::forever($user->id . '-user_browsing_history_list_stored', [
             $browsed_at => $user_browsing_histories,
         ]);
+    }
+
+    // update cart
+    protected function updateCart(User $user)
+    {
+        $carts = session('carts', []);
+        // $carts = Session::get('carts', []);
+        foreach ($carts as $cart) {
+            if ($user_cart = Cart::where(['user_id' => $user->id, 'product_sku_id' => $cart['product_sku_id']])->first()) {
+                // $user_cart->number += $cart['number'];
+                $user_cart->increment('number', $cart['number']);
+                $user_cart->save();
+            } else {
+                Cart::create([
+                    'user_id' => $user->id,
+                    'product_sku_id' => $cart['product_sku_id'],
+                    'number' => $cart['number']
+                ]);
+            }
+        }
+        session()->forget('carts');
+        // Session::forget('carts');
     }
 }

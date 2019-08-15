@@ -26,6 +26,7 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 
 class ProductsController extends Controller
@@ -402,11 +403,33 @@ class ProductsController extends Controller
             ]);
         });
 
-        $cart = Cart::create([
-            'user_id' => $user->id,
-            'product_sku_id' => $product_sku->id,
-            'number' => 1
-        ]);
+        if ($user) {
+            Cart::create([
+                'user_id' => $user->id,
+                'product_sku_id' => $product_sku->id,
+                'number' => 1
+            ]);
+        } else {
+            $carts = session('carts', []);
+            // $carts = Session::get('carts', []);
+            $flag = false;
+            foreach ($carts as $key => $cart) {
+                if ($cart['product_sku_id'] == $product_sku->id) {
+                    $carts[$key]['number'] += 1;
+                    $flag = true;
+                    break;
+                }
+            }
+            if (!$flag) {
+                $carts[] = [
+                    'product_sku_id' => $product_sku->id,
+                    'number' => 1
+                ];
+            }
+            session(['carts' => $carts]);
+            // Session::put('carts', $carts);
+            // Session::put(['carts' => $carts]);
+        }
 
         return response()->json([
             'code' => 200,

@@ -9,6 +9,7 @@ use App\Http\Requests\LoginEmailCodeRequest;
 use App\Http\Requests\LoginEmailCodeValidationRequest;
 use App\Http\Requests\SmsCodeLoginRequest;
 use App\Http\Requests\SmsCodeLoginValidationRequest;
+use App\Models\Cart;
 use App\Models\User;
 use App\Models\UserHistory;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
@@ -17,6 +18,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
@@ -311,6 +313,8 @@ class LoginController extends Controller
 
                 // user browsing history - initialization
                 $this->initializeUserBrowsingHistoryCacheByUser($user);
+                // update cart
+                $this->updateCart($user);
 
                 return response()->json([
                     'code' => 200,
@@ -369,5 +373,27 @@ class LoginController extends Controller
         Cache::forever($user->id . '-user_browsing_history_list_stored', [
             $browsed_at => $user_browsing_histories,
         ]);
+    }
+
+    // update cart
+    protected function updateCart(User $user)
+    {
+        $carts = session('carts', []);
+        // $carts = Session::get('carts', []);
+        foreach ($carts as $cart) {
+            if ($user_cart = Cart::where(['user_id' => $user->id, 'product_sku_id' => $cart['product_sku_id']])->first()) {
+                // $user_cart->number += $cart['number'];
+                $user_cart->increment('number', $cart['number']);
+                $user_cart->save();
+            } else {
+                Cart::create([
+                    'user_id' => $user->id,
+                    'product_sku_id' => $cart['product_sku_id'],
+                    'number' => $cart['number']
+                ]);
+            }
+        }
+        session()->forget('carts');
+        // Session::forget('carts');
     }
 }

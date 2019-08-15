@@ -119,17 +119,17 @@ Route::group(['middleware' => 'auth'], function () {
     Route::patch('user_addresses/{address}/set_default', 'UserAddressesController@setDefault')->name('user_addresses.set_default'); // 设置默认
 
     /*定制商品*/
-    Route::get('products/custom/{product}/{slug?}', 'ProductsController@customShow')->name('products.custom.show'); // 定制商品详情
-    Route::post('products/custom/{product}/{slug?}', 'ProductsController@customStore')->name('products.custom.store'); // 定制商品提交
-    Route::put('products/custom/{product}/{slug?}', 'ProductsController@customUpdate')->name('products.custom.update'); // 定制商品修改
+    // Route::get('products/custom/{product}/{slug?}', 'ProductsController@customShow')->name('products.custom.show'); // 定制商品详情
+    // Route::post('products/custom/{product}/{slug?}', 'ProductsController@customStore')->name('products.custom.store'); // 定制商品提交
+    // Route::put('products/custom/{product}/{slug?}', 'ProductsController@customUpdate')->name('products.custom.update'); // 定制商品修改
 
     /*购物车*/
-    Route::get('carts', 'CartsController@index')->name('carts.index'); // 购物车
-    Route::post('carts/store_by_sku_parameters', 'CartsController@storeBySkuParameters')->name('carts.store_by_sku_parameters'); // 加入购物车
-    Route::post('carts', 'CartsController@store')->name('carts.store'); // 加入购物车
-    Route::patch('carts/{cart}', 'CartsController@update')->name('carts.update'); // 更新 (增减数量)
-    Route::delete('carts/{cart}', 'CartsController@destroy')->name('carts.destroy'); // 删除
-    Route::delete('carts', 'CartsController@flush')->name('carts.flush'); // 清空
+    // Route::get('carts', 'CartsController@index')->name('carts.index'); // 购物车
+    // Route::post('carts/store_by_sku_parameters', 'CartsController@storeBySkuParameters')->name('carts.store_by_sku_parameters'); // 加入购物车
+    // Route::post('carts', 'CartsController@store')->name('carts.store'); // 加入购物车
+    // Route::patch('carts/{cart}', 'CartsController@update')->name('carts.update'); // 更新 (增减数量)
+    // Route::delete('carts/{cart}', 'CartsController@destroy')->name('carts.destroy'); // 删除
+    // Route::delete('carts', 'CartsController@flush')->name('carts.flush'); // 清空
 
     /*订单*/
     Route::get('orders', 'OrdersController@index')->name('orders.index'); // 订单列表
@@ -212,6 +212,18 @@ Route::get('products/search_hint', 'ProductsController@searchHint')->name('produ
 Route::get('products/{product}/{slug?}', 'ProductsController@show')->name('products.show'); // 商品详情页
 Route::get('products/{product}/comment', 'ProductsController@comment')->name('products.comment'); // 获取商品评价 [for Ajax request]
 Route::post('products/{product}/share', 'ProductsController@share')->name('products.share'); // 发送商品分享邮件 [for Ajax request]
+
+/*定制商品*/
+Route::get('products/custom/{product}/{slug?}', 'ProductsController@customShow')->name('products.custom.show'); // 定制商品详情
+Route::post('products/custom/{product}/{slug?}', 'ProductsController@customStore')->name('products.custom.store'); // 定制商品提交
+Route::put('products/custom/{product}/{slug?}', 'ProductsController@customUpdate')->name('products.custom.update'); // 定制商品修改
+
+/*购物车*/
+Route::get('carts', 'CartsController@index')->name('carts.index'); // 购物车
+Route::post('carts', 'CartsController@store')->name('carts.store'); // 加入购物车
+Route::patch('carts/update', 'CartsController@update')->name('carts.update'); // 更新 (增减数量)
+Route::delete('carts/delete', 'CartsController@destroy')->name('carts.destroy'); // 删除
+Route::delete('carts/flush', 'CartsController@flush')->name('carts.flush'); // 清空
 
 /*收货地址*/
 Route::get('user_addresses/list_all', 'UserAddressesController@listAll')->name('user_addresses.list_all'); // 获取当前用户收货地址列表 [for Ajax request]
