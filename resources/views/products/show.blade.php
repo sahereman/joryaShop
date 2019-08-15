@@ -417,8 +417,41 @@
     {{-- 社会化分享弹窗 --}}
     <div class="social-email dis_n" id="social-email">
         <div class="social-email-content">
-            <label for="social-email-inp">Please enter the email with which you wanna share</label>
-            <input type="email" id="social-email-inp" data-url="{{ route('products.share', ['product' => $product->id]) }}" placeholder="Please enter the email with which you wanna share">
+            <div class="product-share-info">
+                <div class="product-share-img">
+                    <img src="" alt="">
+                </div>
+                <div class="product-share-title">
+                    <h4></h4>
+                    <p></p>
+                </div>
+                <div class="product-share-price">
+                    <p class="share-special-price share-price">
+                        <span></span>
+                    </p>
+                </div>
+            </div>
+            <h2>Email This</h2>
+            <ul class="simple-form">
+                <li>
+                    <label for="social-email-inp-to">To:</label>
+                    <input type="email" id="social-email-inp-to" data-url="{{ route('products.share', ['product' => $product->id]) }}" placeholder="yourname@example.com">
+                </li>
+                <li>
+                    <label for="social-email-inp-from">From:</label>
+                    <input type="email" id="social-email-inp-from" placeholder="yourname@example.com">
+                </li>
+                <li>
+                    <label for="social-email-inp-subject">Subject:</label>
+                    <input type="text" id="social-email-inp-subject" value="A LYRICALHAIR.COM customer thinks you’ll love this product from LYRICALHAIR.COM!">
+                </li>
+                <li>
+                    <p>
+                        <label for="social-email-inp-body">Body:</label>
+                    </p>
+                    <textarea id="social-email-inp-body" cols="30" rows="10" >I love this product on SHOP.COM and thought you might too!</textarea>
+                </li>
+            </ul>
         </div>
     </div>
 @endsection
@@ -467,11 +500,16 @@
         // 社会化分享弹窗
         $(".socialization-email-btn").on("click",function () {
             var clickDom = $("#social-email-inp");
+            // 将页面可获取的内容进行赋值
+            $(".product-share-img").find("img").prop("src",$("#zoom1").prop("src"));
+            $(".product-share-title").find("h4").html($(".forstorage_name").html());
+            $(".product-share-title").find("p").html($(".small_title").html());
+            $(".share-special-price").find("span").html($(".special-price").find("span").html());
             layer.open({
-                title: 'Please enter your mailbox',
+                title: '',
                 type: 1,
                 shadeClose: true,
-                // area: ['300px', '200px'],
+                area: ['auto', '80%'],
                 content: $('#social-email'),
                 btn: ['Submit'],
                 yes: function(index){

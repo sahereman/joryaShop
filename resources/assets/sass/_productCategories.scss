@@ -357,7 +357,6 @@
           .pager {
             margin: 0;
             padding: 10px 0;
-            line-height: 36px;
             border-bottom: none;
             border-top: none;
             text-align: right;
@@ -365,6 +364,9 @@
               display: inline-block;
               float: none;
               vertical-align: middle;
+              .pagination {
+                margin: 0;
+              }
               strong {
                 float: left;
                 margin-right: 5px;
@@ -406,6 +408,9 @@
             }
           }
         }
+      }
+      .bottom-article {
+        margin-bottom: 20px;
       }
     }
   }

@@ -212,7 +212,7 @@
                         </div>
                     @endif
                 </div>
-                <div>
+                <div class="bottom-article">
                     {!! App::isLocale('zh-CN') ? $category->content_zh : $category->content_en !!}
                 </div>
                 {{--<iframe name="cmsCon" id="cmsCon" class="cmsCon" frameborder="0" width="100%" scrolling="no" height="auto"></iframe>--}}

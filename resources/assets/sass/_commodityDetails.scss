@@ -775,6 +775,37 @@
       padding: 5px;
       border: 1px solid #ccc;
     }
+    textarea {
+      padding: 5px;
+      width: 100%;
+      border: 1px solid #ccc;
+    }
+    .product-share-info {
+      .product-share-img {
+        width: 450px;
+        min-height: 450px;
+        padding: 10px;
+        background-color: #f0f1f7;
+        img {
+          width: 100%;
+        }
+      }
+      .product-share-title {
+        p {
+          font-size: 0.85rem;
+        }
+      }
+      .product-share-price {
+        color: #ee001c;
+        i {
+          font-style: normal;
+        }
+      }
+    }
+    h2 {
+      margin: 5px 0;
+      font-size: 1.8rem;
+    }
   }
   .addthis_inline_share_toolbox {
     text-align: left;
@@ -1228,6 +1259,7 @@
               }
               &.product-details {
                 margin-left: 10px;
+                width: 65%;
                 h3 {
                   margin-top: 0;
                   margin-bottom: 5px;

@@ -14,8 +14,15 @@ footer {
       flex-direction: row;
       justify-content: flex-start;
       .footer-subscribe {
+        @media only screen and (max-width: 767px){
+          width: 100%;
+          padding: 0 2%;
+        }
         p {
           padding: 20px 0;
+          @media only screen and (max-width: 767px){
+            width: 100%;
+          }
         }
         .subscribe-form {
           padding-bottom: 20px;

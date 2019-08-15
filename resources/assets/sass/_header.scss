@@ -163,10 +163,18 @@
     min-height: 110px;
     background-color: #fff;
     display: flex;
+    @media only screen and (max-width: 767px){
+      min-height: auto;
+      height: auto;
+    }
     .m-wrapper {
       min-height: 110px;
       margin: 0 auto;
       clear: both;
+      @media only screen and (max-width: 767px){
+        min-height: auto;
+        height: auto;
+      }
       .navbar-bottom-top {
         width: 100%;
         display: flex;
@@ -182,6 +190,7 @@
           justify-content: space-between;
           @media only screen and (max-width: 767px){
             width: 100%;
+            margin-bottom: 10px;
           }
           //@media (max-width: 991px) and (min-width: 768px) {
           //  display: none;
@@ -252,6 +261,9 @@
         display: flex;
         flex-direction: row;
         justify-content: space-between;
+        @media only screen and (max-width: 767px){
+          display: none;
+        }
         .navbar-bottom-bottom-left {
           width: 98%;
           margin: auto;
@@ -769,4 +781,35 @@
     display: block;
   }
 }
-
+// 移动端Menu
+.navbar-mobile {
+  display: none;
+  background-color: #f5f5f5;
+  color: #333;
+  font-size: 0.95em;
+  padding: 0 1%;
+  a {
+    position: relative;
+    min-width: 20%;
+    line-height: 36px;
+    text-align: center;
+    cursor: pointer;
+    padding: 0 5px;
+    &.show_btn {
+      width: 6%;
+    }
+  }
+  .mobile-menun {
+    a {
+      span {
+        font-size: 0.95em;
+      }
+    }
+  }
+  @media only screen and (max-width: 767px){
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+  }
+}
