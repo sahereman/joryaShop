@@ -15,7 +15,7 @@ class SendShareEmail extends Mailable
 
     protected $product = false;
     protected $from_email = '';
-    protected $subject = '';
+    // public $subject = '';
     protected $body = '';
 
     public function __construct(Product $product, $from_email, $subject, $body)
