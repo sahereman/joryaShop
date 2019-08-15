@@ -763,6 +763,10 @@
   }
   // 社会化分享弹窗
   .social-email {
+    width: 450px;
+    @media only screen and (max-width: 767px){
+      width: 85%;
+    }
     .social-email-content {
       width: 100%;
       height: 100%;
@@ -782,8 +786,7 @@
     }
     .product-share-info {
       .product-share-img {
-        width: 450px;
-        min-height: 450px;
+        width: 100%;
         padding: 10px;
         background-color: #f0f1f7;
         img {
