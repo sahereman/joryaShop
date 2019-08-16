@@ -439,7 +439,7 @@
                 </li>
                 <li>
                     <label for="social-email-inp-from">From:</label>
-                    <input type="email" id="social-email-inp-from" placeholder="your-name@example.com">
+                    <input type="email" id="social-email-inp-from" placeholder="your-name@example.com" value="{{Auth::user() ? Auth::user()->email : ''}}">
                 </li>
                 <li>
                     <label for="social-email-inp-subject">Subject:</label>
