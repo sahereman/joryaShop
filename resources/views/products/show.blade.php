@@ -184,11 +184,11 @@
                     </div>
                     <!--添加购物车与立即购买-->
                     <div class="addCart_buyNow">
-                        @guest
-                            <a class="buy_now for_show_login" href="{{ route('login') }}">
-                                @lang('product.product_details.Buy now')
+                        @if($product->type == \App\Models\Product::PRODUCT_TYPE_CUSTOM)
+                            <a class="buy_now for_show_login" href="{{ route('products.custom.show', ['product' => $product->id]) }}">
+                                Custom Now
                             </a>
-                            <a class="add_carts for_show_login" data-url="{{ route('carts.store') }}">
+                            <a class="add_carts for_show_login" href="{{ route('products.custom.show', ['product' => $product->id]) }}">
                                 @lang('app.Add to Shopping Cart')
                             </a>
                         @else
@@ -198,7 +198,7 @@
                             <a class="add_carts" data-url="{{ route('carts.store') }}">
                                 @lang('app.Add to Shopping Cart')
                             </a>
-                        @endguest
+                        @endif
                         <a class="add_favourites {{ $favourite ? 'active' : '' }}" code="{{ $product->id }}"
                            data-url="{{ route('user_favourites.store') }}"
                            data-url_2="{{ route('user_favourites.destroy') }}"
@@ -548,6 +548,7 @@
         var pre_page;   // 上一页的页码
         var country = $("#dLabel").find("span").html();
         var sku_id, sku_stock, sku_price, sku_original_price;
+        var product = JSON.parse('{!! $product !!}');
 
         $('#img_x li').eq(0).css('border', '2px solid #bc8c61');
         $('#img_x li').eq(0).addClass("active");
@@ -693,10 +694,14 @@
         // 加入购物车
         $(".add_carts").on("click", function () {
             var clickDom = $(this);
-            getSkuId();
-            if(sku_id == 0||sku_stock == 0){
-                layer.msg("The item is temporarily out of stock Please reselect!");
-                return
+            if(product.type == "custom") {
+                window.location.href = "{{ route('products.custom.show', ['product' => $product->id]) }}";
+            }else {
+                getSkuId();
+                if(sku_id == 0||sku_stock == 0){
+                    layer.msg("The item is temporarily out of stock Please reselect!");
+                    return
+                }
             }
             var data = {
                 _token: "{{ csrf_token() }}",
@@ -725,9 +730,9 @@
         // 立即购买
         $(".buy_now").on("click", function () {
             var clickDom = $(this);
-            if ($(this).hasClass('for_show_login') == true) {
-                // $(".login").click();
-            } else {
+            // if ($(this).hasClass('for_show_login') == true) {
+            //     // $(".login").click();
+            // } else {
                 var url = clickDom.attr('data-url');
                 // 获取sku_id
                 getSkuId();
@@ -736,7 +741,7 @@
                     return
                 }
                 window.location.href = url + "?sku_id=" + sku_id + "&number=" + $("#pro_num").val() + "&sendWay=1";
-            }
+            // }
         });
         // 获取评价内容
         function getComments(page) {

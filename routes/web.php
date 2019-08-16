@@ -202,6 +202,11 @@ Route::get('articles/{slug}', 'ArticlesController@show')->name('articles.show');
 /*商品分类*/
 Route::get('product_categories/{category}/{slug?}', 'ProductCategoriesController@index')->name('product_categories.index'); // 商品分类及其商品列表
 
+/*定制商品*/
+Route::get('products/custom/{product}/{slug?}', 'ProductsController@customShow')->name('products.custom.show'); // 定制商品详情
+Route::post('products/custom/{product}/{slug?}', 'ProductsController@customStore')->name('products.custom.store'); // 定制商品提交
+Route::put('products/custom/{product}/{slug?}', 'ProductsController@customUpdate')->name('products.custom.update'); // 定制商品修改
+
 /*商品*/
 Route::get('products/search', 'ProductsController@search')->name('products.search'); // 搜素结果
 Route::get('products/search_hint', 'ProductsController@searchHint')->name('products.search_hint'); // 模糊搜素提示结果 [10 records] [for Ajax request]
@@ -212,11 +217,6 @@ Route::get('products/search_hint', 'ProductsController@searchHint')->name('produ
 Route::get('products/{product}/{slug?}', 'ProductsController@show')->name('products.show'); // 商品详情页
 Route::get('products/{product}/comment', 'ProductsController@comment')->name('products.comment'); // 获取商品评价 [for Ajax request]
 Route::post('products/{product}/share', 'ProductsController@share')->name('products.share'); // 发送商品分享邮件 [for Ajax request]
-
-/*定制商品*/
-Route::get('products/custom/{product}/{slug?}', 'ProductsController@customShow')->name('products.custom.show'); // 定制商品详情
-Route::post('products/custom/{product}/{slug?}', 'ProductsController@customStore')->name('products.custom.store'); // 定制商品提交
-Route::put('products/custom/{product}/{slug?}', 'ProductsController@customUpdate')->name('products.custom.update'); // 定制商品修改
 
 /*购物车*/
 Route::get('carts', 'CartsController@index')->name('carts.index'); // 购物车

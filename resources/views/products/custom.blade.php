@@ -50,11 +50,7 @@
                     {{--不同的href值对应相同id值得模块--}}
                     <div class="customizations-slide-content {{ $type == $custom_attr_types[0] ? 'active' : '' }}"
                          id="tab-{{ $type }}">
-                        @guest
-                            <input type="hidden" class="addToCartSuccess" value="{{ route('login') }}">
-                        @else
-                            <input type="hidden" class="addToCartSuccess" value="{{ route('carts.index') }}">
-                        @endguest
+                        <input type="hidden" class="addToCartSuccess" value="{{ route('carts.index') }}">
                         <input type="hidden" value="{{ route('products.custom.store', ['product' => $product->id]) }}" id="addToCartUrl">
                         <ul>
                             @foreach($custom_attrs as $key => $custom_attr)
