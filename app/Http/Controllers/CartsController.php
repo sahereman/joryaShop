@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CartRequest;
 use App\Models\Cart;
 use App\Models\Product;
+use App\Models\ProductSku;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Session;
@@ -17,28 +18,43 @@ class CartsController extends Controller
         $user = $request->user();
         if ($user) {
             $carts = $user->carts()->with('sku.product')->get();
+
+            // 自动清除失效商品[已删除或已下架商品]
+            /*foreach ($carts as $key => $cart) {
+                if (!$cart->sku->product || !$cart->sku->product->on_sale) {
+                    $cart->user()->dissociate();
+                    $cart->delete();
+                    $carts->forget($key);
+                }
+            }*/
+            /*if ($carts->isNotEmpty()) {
+                $carts = $carts->reject(function (Cart $cart, $key) {
+                    return (!$cart->sku->product || !$cart->sku->product->on_sale);
+                });
+            }*/
+            if ($carts->isNotEmpty()) {
+                $carts = $carts->filter(function (Cart $cart, $key) {
+                    return ($cart->sku->product && $cart->sku->product->on_sale);
+                });
+            }
         } else {
             $carts = session('carts', []);
             // $carts = Session::get('carts', []);
-        }
 
-        // 自动清除失效商品[已删除或已下架商品]
-        $flag = false;
-        foreach ($carts as $key => $cart) {
-            if (!$cart->sku->product || !$cart->sku->product->on_sale) {
-                if ($user) {
-                    $cart->user()->dissociate();
-                    $cart->delete();
-                } else {
+            // 自动清除失效商品[已删除或已下架商品]
+            $flag = false;
+            foreach ($carts as $key => $cart) {
+                $product_sku = ProductSku::with('product')->find($cart['product_sku_id']);
+                if (!$product_sku->product || !$product_sku->product->on_sale) {
                     unset($carts[$key]);
                     $flag = true;
                 }
             }
-        }
-        if ($flag) {
-            session(['carts' => $carts]);
-            // Session::put('carts', $carts);
-            // Session::put(['carts' => $carts]);
+            if ($flag) {
+                session(['carts' => $carts]);
+                // Session::put('carts', $carts);
+                // Session::put(['carts' => $carts]);
+            }
         }
 
         return view('carts.index', [
