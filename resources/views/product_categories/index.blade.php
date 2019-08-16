@@ -78,9 +78,10 @@
                 </div>
                 <div class="category-description">
                     <div class="iframe_content_description dis_ni">
-                        {{ $category->description_en }}
+                        {{--{!! $category->description_en !!}--}}
+                        {!! App::isLocale('zh-CN') ? $category->description_zh : $category->description_en !!}
                     </div>
-                    <iframe name="cmsCon_description" id="cmsConDescription" class="cmsCon_description" frameborder="0" width="100%" scrolling="no" height="auto"></iframe>
+                    <iframe name="cmsCon_description" id="cmsConDescription" class="cmsCon_description" frameborder="0" width="100%"></iframe>
                 </div>
                 <div class="category-products">
                     <div class="toolbar">
@@ -303,41 +304,20 @@
         var iframe_content = $('.iframe_content').html();
         $('.iframe_content').html("");
         $('#cmsCon').contents().find('body').html(iframe_content);
-        autoHeight();  //动态调整高度
-        var count = 0;
-        var autoSet = window.setInterval('autoHeight()',500);
-        function autoHeight(){
-            var mainheight;
-            count++;
-            if(count == 1){
-                mainheight = $('.cmsCon').contents().find("body").height()+50;
-            }else{
-                mainheight = $('.cmsCon').contents().find("body").height()+24;
-            }
-            $('.cmsCon').height(mainheight);
-            if(count == 5){
-                window.clearInterval(autoSet);
-            }
-        }
+        reinitIframe("cmsCon");
     //    上方描述文章页
+        function reinitIframe(domID){
+            var iframe_Description = document.getElementById(domID);
+            iframe_Description.height = 0; //只有先设置原来的iframe高度为0，之前的iframe高度才不会对现在的设置有影响
+            var bHeight = iframe_Description.contentWindow.document.body.scrollHeight;
+            var dHeight = iframe_Description.contentWindow.document.documentElement.scrollHeight;
+            var height = Math.max(bHeight, dHeight);
+            iframe_Description.height = height;
+        }
         var iframe_content_description = $('.iframe_content_description').html();
         $('.iframe_content_description').html("");
         $('#cmsConDescription').contents().find('body').html(iframe_content_description);
-        autoHeightDescription();  //动态调整高度
-        var count_description = 0;
-        var autoSet_description = window.setInterval('autoHeightDescription()',500);
-        function autoHeightDescription(){
-            var mainheight_description;
-            count_description++;
-            if(count_description == 1){
-                mainheight_description = $('.cmsCon_description').contents().find("body").height()+50;
-            }else{
-                mainheight_description = $('.cmsCon_description').contents().find("body").height()+24;
-            }
-            $('.cmsCon_description').height(mainheight_description);
-            if(count_description == 5){
-                window.clearInterval(autoSet_description);
-            }
-        }
+        reinitIframe("cmsConDescription");
+        // var autoSet_description = window.setInterval('reinitIframe()',500);
     </script>
 @endsection
