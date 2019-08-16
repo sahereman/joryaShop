@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use App\Models\OrderItem;
+use App\Models\Product;
 
 class OrderItemObserver
 {
@@ -17,11 +18,15 @@ class OrderItemObserver
 
     public function created(OrderItem $orderItem)
     {
-        // 更新 Sku -库存
-        $orderItem->sku->decrement('stock', $orderItem->number);
+        // 定制商品忽略库存变动
+        if ($orderItem->sku->product->type != Product::PRODUCT_TYPE_CUSTOM) {
+            // 更新 Sku -库存
+            $orderItem->sku->decrement('stock', $orderItem->number);
 
-        // 更新 Product -库存 & +综合指数 & +人气|热度
-        $orderItem->sku->product->decrement('stock', $orderItem->number);
+            // 更新 Product -库存 & +综合指数 & +人气|热度
+            $orderItem->sku->product->decrement('stock', $orderItem->number);
+        }
+
         $orderItem->sku->product->increment('index', $orderItem->number);
         $orderItem->sku->product->increment('heat');
     }

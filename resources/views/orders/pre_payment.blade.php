@@ -74,7 +74,11 @@
                                         <span>{{ App::isLocale('zh-CN') ? $item['product']->name_zh : $item['product']->name_en }}</span>
                                     </div>
                                     <div class="left w150 Specifications_info center">
-                                        <span>{{ $item['sku']->attr_value_string }}</span>
+                                        @if($item['sku']->product->type == \App\Models\Product::PRODUCT_TYPE_CUSTOM)
+                                            <span>{{ $item['sku']->custom_attr_value_string }}</span>
+                                        @else
+                                            <span>{{ $item['sku']->attr_value_string }}</span>
+                                        @endif
                                     </div>
                                     <div class="left w150 dis_ni center RMB_num">
                                         <span>&#165; {{ exchange_price($item['price'], 'CNY') }}</span>

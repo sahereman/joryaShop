@@ -4,6 +4,7 @@ namespace App\Listeners;
 
 use App\Events\OrderClosedEvent;
 use App\Models\Order;
+use App\Models\Product;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Carbon;
@@ -40,8 +41,14 @@ class OrderClosedEventListener
 
             // 恢复 Product & Sku +库存 -人气|热度 -综合指数
             foreach ($order->items as $item) {
-                $item->sku->increment('stock', $item->number);
-                $item->sku->product->increment('stock', $item->number);
+                // 定制商品忽略库存变动
+                if ($item->sku->product->type != Product::PRODUCT_TYPE_CUSTOM) {
+                    // 更新 Sku +库存
+                    $item->sku->increment('stock', $item->number);
+
+                    // 更新 Product +库存
+                    $item->sku->product->increment('stock', $item->number);
+                }
                 $item->sku->product->decrement('index', $item->number);
                 $item->sku->product->decrement('heat');
             }
