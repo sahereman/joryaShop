@@ -10,7 +10,7 @@
                     <a href="javascript:void(0);">@lang('product.shopping_cart.Shop_cart')</a>
                 </p>
                 <!--当购物车内容为空时显示-->
-                @if($carts->isEmpty())
+                @if(!count($carts) > 0)
                     <div class="empty_shopping_cart">
                         <div></div>
                         <p>@lang('product.shopping_cart.shopping_cart_still_empty')</p>
@@ -31,71 +31,124 @@
                         <div class="left w120 center">@lang('product.shopping_cart.Operating')</div>
                     </div>
                     <div class="cart-items">
-                        @foreach($carts as $cart)
-                            <div class="clear single-item">
-                                <div class="left w20 dis_n">
-                                    <input name="selectOne" type="checkbox" checked="checked" code="{{ $cart->sku->id }}"
-                                           value="{{ $cart->id }}">
-                                </div>
-                                <div class="left shop-img">
-                                    <a class="cur_p" href="{{ route('seo_url', $cart->sku->product->slug) }}">
-                                        <img class="lazy" data-src="{{ $cart->sku->product->thumb_url }}">
-                                    </a>
-                                </div>
-                                <div class="left w250 pro-info">
-                                    <a class="cur_p" href="{{ route('seo_url', $cart->sku->product->slug) }}">
-                                        <span>{{ App::isLocale('zh-CN') ? $cart->sku->product->name_zh : $cart->sku->product->name_en }}</span>
-                                    </a>
-                                </div>
-                                <div class="left w120 center kindofpro">
-                                    @if($cart->sku->product->type == \App\Models\Product::PRODUCT_TYPE_CUSTOM)
-                                        <span>{{ $cart->sku->custom_attr_value_string }}</span>
-                                    @else
-                                        <span>{{ $cart->sku->attr_value_string }}</span>
-                                    @endif
-
-                                    {{--<span>{{ App::isLocale('zh-CN') ? $cart->sku->base_size_zh : $cart->sku->base_size_en }}</span>--}}
-                                    {{--<span>{{ App::isLocale('zh-CN') ? $cart->sku->hair_colour_zh : $cart->sku->hair_colour_en }}</span>--}}
-                                    {{--<span>{{ App::isLocale('zh-CN') ? $cart->sku->hair_density_zh : $cart->sku->hair_density_en }}</span>--}}
-                                </div>
-                                <div class="left w100 center">
-                                    {{--<span>{{ App::isLocale('en') ? '&#36;' : '&#165;' }}</span>--}}
-                                    {{--<span class="price">{{ App::isLocale('en') ? $cart->sku->price_in_usd : $cart->sku->price }}</span>--}}
-                                    <span>{{ get_global_symbol() }}</span>
-                                    <span class="price">{{ get_current_price($cart->sku->price) }}</span>
-                                </div>
-                                <div class="left w150 center counter">
-                                    <button class="left small-button">-</button>
-                                    <input class="left center count" data-url="{{ route('carts.update', $cart->id) }}"
-                                           type="text" size="4" value="{{ $cart->number }}">
-                                    <button class="left small-button">+</button>
-                                </div>
-                                <div class="left w100 s_total center">
-                                    {{--<span>{{ App::isLocale('en') ? '&#36;' : '&#165;' }}</span>--}}
-                                    {{--<span>{{ App::isLocale('en') ? bcmul($cart->sku->price_in_usd, $cart->number, 2) : bcmul($cart->sku->price, $cart->number, 2) }}</span>--}}
-                                    <span>{{ get_global_symbol() }}</span>
-                                    <span>{{ bcmul(get_current_price($cart->sku->price), $cart->number, 2) }}</span>
-                                </div>
-                                <div class="left w120 center">
-                                    <p>
-                                        @if($cart->favourite)
-                                            {{--<a class="cur_p add_favourites" code="{{ $cart->sku->product_id }}"
-                                               data-url="{{ route('user_favourites.destroy', ['favourite' => $cart->favourite->id]) }}">
-                                                @lang('product.shopping_cart.Remove_from_favourites')
-                                            </a>--}}
+                        @guest
+                            @foreach($carts as $cart)
+                                <div class="clear single-item">
+                                    <div class="left w20 dis_n">
+                                        <input name="selectOne" type="checkbox" checked="checked" code="{{ $cart['product_sku_id'] }}"
+                                               value="{{ $cart['product_sku_id'] }}">
+                                    </div>
+                                    <div class="left shop-img">
+                                        <a class="cur_p" href="{{ route('seo_url', $cart['product_sku']->product->slug) }}">
+                                            <img class="lazy" data-src="{{ $cart['product_sku']->product->thumb_url }}">
+                                        </a>
+                                    </div>
+                                    <div class="left w250 pro-info">
+                                        <a class="cur_p" href="{{ route('seo_url', $cart['product_sku']->product->slug) }}">
+                                            <span>{{ App::isLocale('zh-CN') ? $cart['product_sku']->product->name_zh : $cart['product_sku']->product->name_en }}</span>
+                                        </a>
+                                    </div>
+                                    <div class="left w120 center kindofpro">
+                                        @if($cart['product_sku']->product->type == \App\Models\Product::PRODUCT_TYPE_CUSTOM)
+                                            <span>{{ $cart['product_sku']->custom_attr_value_string }}</span>
                                         @else
-                                            <a class="cur_p add_favourites" code="{{ $cart->sku->product_id }}"
+                                            <span>{{ $cart['product_sku']->attr_value_string }}</span>
+                                        @endif
+                                    </div>
+                                    <div class="left w100 center">
+                                        {{--<span>{{ App::isLocale('en') ? '&#36;' : '&#165;' }}</span>--}}
+                                        {{--<span class="price">{{ App::isLocale('en') ? $cart['product_sku']->price_in_usd : $cart['product_sku']->price }}</span>--}}
+                                        <span>{{ get_global_symbol() }}</span>
+                                        <span class="price">{{ get_current_price($cart['product_sku']->price) }}</span>
+                                    </div>
+                                    <div class="left w150 center counter">
+                                        <button class="left small-button">-</button>
+                                        <input class="left center count" data-url="{{ route('carts.update') }}"
+                                               type="text" size="4" value="{{ $cart['number'] }}">
+                                        <button class="left small-button">+</button>
+                                    </div>
+                                    <div class="left w100 s_total center">
+                                        {{--<span>{{ App::isLocale('en') ? '&#36;' : '&#165;' }}</span>--}}
+                                        {{--<span>{{ App::isLocale('en') ? bcmul($cart['product_sku']->price_in_usd, $cart['number'], 2) : bcmul($cart['product_sku']->price, $cart['number'], 2) }}</span>--}}
+                                        <span>{{ get_global_symbol() }}</span>
+                                        <span>{{ bcmul(get_current_price($cart['product_sku']->price), $cart['number'], 2) }}</span>
+                                    </div>
+                                    <div class="left w120 center">
+                                        <p>
+                                            <a class="cur_p add_favourites" code="{{ $cart['product_sku']->product_id }}"
                                                data-url="{{ route('user_favourites.store') }}">
                                                 @lang('product.shopping_cart.Move_to_favourites')
                                             </a>
-                                        @endif
-                                        <a class="cur_p single_delete" data-url="{{ route('carts.destroy', $cart->id) }}">
-                                            @lang('basic.delete')
-                                        </a>
-                                    </p>
+                                            <a class="cur_p single_delete" data-url="{{ route('carts.destroy') }}" data-sku-id="{{ $cart['product_sku_id'] }}">
+                                                @lang('basic.delete')
+                                            </a>
+                                        </p>
+                                    </div>
                                 </div>
-                            </div>
-                        @endforeach
+                            @endforeach
+                        @else
+                            @foreach($carts as $cart)
+                                <div class="clear single-item">
+                                    <div class="left w20 dis_n">
+                                        <input name="selectOne" type="checkbox" checked="checked" code="{{ $cart->sku->id }}"
+                                               value="{{ $cart->id }}">
+                                    </div>
+                                    <div class="left shop-img">
+                                        <a class="cur_p" href="{{ route('seo_url', $cart->sku->product->slug) }}">
+                                            <img class="lazy" data-src="{{ $cart->sku->product->thumb_url }}">
+                                        </a>
+                                    </div>
+                                    <div class="left w250 pro-info">
+                                        <a class="cur_p" href="{{ route('seo_url', $cart->sku->product->slug) }}">
+                                            <span>{{ App::isLocale('zh-CN') ? $cart->sku->product->name_zh : $cart->sku->product->name_en }}</span>
+                                        </a>
+                                    </div>
+                                    <div class="left w120 center kindofpro">
+                                        @if($cart->sku->product->type == \App\Models\Product::PRODUCT_TYPE_CUSTOM)
+                                            <span>{{ $cart->sku->custom_attr_value_string }}</span>
+                                        @else
+                                            <span>{{ $cart->sku->attr_value_string }}</span>
+                                        @endif
+                                    </div>
+                                    <div class="left w100 center">
+                                        {{--<span>{{ App::isLocale('en') ? '&#36;' : '&#165;' }}</span>--}}
+                                        {{--<span class="price">{{ App::isLocale('en') ? $cart->sku->price_in_usd : $cart->sku->price }}</span>--}}
+                                        <span>{{ get_global_symbol() }}</span>
+                                        <span class="price">{{ get_current_price($cart->sku->price) }}</span>
+                                    </div>
+                                    <div class="left w150 center counter">
+                                        <button class="left small-button">-</button>
+                                        <input class="left center count" data-url="{{ route('carts.update') }}"
+                                               type="text" size="4" value="{{ $cart->number }}">
+                                        <button class="left small-button">+</button>
+                                    </div>
+                                    <div class="left w100 s_total center">
+                                        {{--<span>{{ App::isLocale('en') ? '&#36;' : '&#165;' }}</span>--}}
+                                        {{--<span>{{ App::isLocale('en') ? bcmul($cart->sku->price_in_usd, $cart->number, 2) : bcmul($cart->sku->price, $cart->number, 2) }}</span>--}}
+                                        <span>{{ get_global_symbol() }}</span>
+                                        <span>{{ bcmul(get_current_price($cart->sku->price), $cart->number, 2) }}</span>
+                                    </div>
+                                    <div class="left w120 center">
+                                        <p>
+                                            @if($cart->favourite)
+                                                {{--<a class="cur_p add_favourites" code="{{ $cart->sku->product_id }}"
+                                                   data-url="{{ route('user_favourites.destroy', ['favourite' => $cart->favourite->id]) }}">
+                                                    @lang('product.shopping_cart.Remove_from_favourites')
+                                                </a>--}}
+                                            @else
+                                                <a class="cur_p add_favourites" code="{{ $cart->sku->product_id }}"
+                                                   data-url="{{ route('user_favourites.store') }}">
+                                                    @lang('product.shopping_cart.Move_to_favourites')
+                                                </a>
+                                            @endif
+                                            <a class="cur_p single_delete" data-url="{{ route('carts.destroy') }}" data-sku-id="{{ $cart->product_sku_id }}">
+                                                @lang('basic.delete')
+                                            </a>
+                                        </p>
+                                    </div>
+                                </div>
+                            @endforeach
+                        @endguest
                     </div>
                     <div class="cart-footer">
                         <div class="clear left left-control">
@@ -152,9 +205,7 @@
             }
             // });
             calcTotal();
-            
-            
-            
+
             // 全选
             $('.selectAll').on('change', function (evt) {
                 if ($(this).prop('checked')) {
@@ -298,6 +349,7 @@
                         var data = {
                             _method: "DELETE",
                             _token: "{{ csrf_token() }}",
+                            sku_id: clickDom.attr('data-sku-id')
                         };
                         var url = clickDom.attr('data-url');
                         $.ajax({
@@ -332,7 +384,7 @@
                     data: data,
                     success: function (data) {
                         location.reload();
-//                      calcTotal();
+                        // calcTotal();
                     },
                     error: function (err) {
                         console.log(err);
@@ -354,7 +406,7 @@
                     data: data,
                     success: function (data) {
                         del_forfavourty(url_del);
-//                      calcTotal();
+                        // calcTotal();
                         layer.open({
                             title: "@lang('app.Prompt')",
                             content: "@lang('product.shopping_cart.Add_favourites_successfully')",

@@ -45,6 +45,7 @@ class CartsController extends Controller
             $flag = false;
             foreach ($carts as $key => $cart) {
                 $product_sku = ProductSku::with('product')->find($cart['product_sku_id']);
+                $carts[$key]['product_sku'] = $product_sku;
                 if (!$product_sku->product || !$product_sku->product->on_sale) {
                     unset($carts[$key]);
                     $flag = true;
