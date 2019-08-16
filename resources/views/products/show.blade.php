@@ -451,6 +451,10 @@
                     </p>
                     <textarea id="social-email-inp-body" cols="30" rows="10" >I love this product on LYRICALHAIR.COM and thought you might too!</textarea>
                 </li>
+                <li>
+                    <p>URL being shared:</p>
+                    <p id="URLshared"></p>
+                </li>
             </ul>
         </div>
     </div>
@@ -505,6 +509,7 @@
             $(".product-share-title").find("h4").html($(".forstorage_name").html());
             $(".product-share-title").find("p").html($(".small_title").html());
             $(".share-special-price").find("span").html($(".special-price").find("span").html());
+            $("#URLshared").html(window.location.href);
             layer.open({
                 title: '',
                 type: 1,
