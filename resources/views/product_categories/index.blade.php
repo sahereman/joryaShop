@@ -304,7 +304,9 @@
         var iframe_content = $('.iframe_content').html();
         $('.iframe_content').html("");
         $('#cmsCon').contents().find('body').html(iframe_content);
-        $('#cmsCon').contents().find('body').css("color","#333");
+        $('#cmsCon').contents().find('body').css({"color":"#333","margin":0,"word-break":"break-all","line-height":"130%","box-sizing":"border-box"});
+        $('#cmsCon').contents().find('body').find("span").css("fontSize","14px");
+        $('#cmsCon').contents().find('body').find("p").css("margin","0 0 8.4px");
         reinitIframe("cmsCon");
     //    上方描述文章页
         function reinitIframe(domID){
@@ -313,12 +315,12 @@
             var bHeight = iframe_Description.contentWindow.document.body.scrollHeight;
             var dHeight = iframe_Description.contentWindow.document.documentElement.scrollHeight;
             var height = Math.max(bHeight, dHeight);
-            iframe_Description.height = height;
+            iframe_Description.height = bHeight;
         }
         var iframe_content_description = $('.iframe_content_description').html();
         $('.iframe_content_description').html("");
         $('#cmsConDescription').contents().find('body').html(iframe_content_description);
-        $('#cmsConDescription').contents().find('body').css({"color":"#333","margin":0});
+        $('#cmsConDescription').contents().find('body').css({"color":"#333","margin":0,"word-break":"break-all","line-height":"130%","box-sizing":"border-box"});
         $('#cmsConDescription').contents().find('body').find("span").css("fontSize","14px");
         $('#cmsConDescription').contents().find('body').find("p").css("margin","0 0 8.4px");
         reinitIframe("cmsConDescription");
