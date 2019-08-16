@@ -730,9 +730,9 @@
         // 立即购买
         $(".buy_now").on("click", function () {
             var clickDom = $(this);
-            // if ($(this).hasClass('for_show_login') == true) {
+            if ($(this).hasClass('for_show_login') == true) {
             //     // $(".login").click();
-            // } else {
+            } else {
                 var url = clickDom.attr('data-url');
                 // 获取sku_id
                 getSkuId();
@@ -741,7 +741,7 @@
                     return
                 }
                 window.location.href = url + "?sku_id=" + sku_id + "&number=" + $("#pro_num").val() + "&sendWay=1";
-            // }
+            }
         });
         // 获取评价内容
         function getComments(page) {
