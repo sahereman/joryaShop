@@ -609,8 +609,8 @@
             }
             provinces['0'] = ['Please select a state/province/region'];
             // 获取页面中的选项卡
-            var country = document.getElementById('user_country');
-            var province = document.getElementById('user_province');
+            var country = document.getElementById('new_address_country');
+            var province = document.getElementById('new_address_province');
 
             // 给第一个选项卡中的option赋值
             /*country.options.length = countries.length;

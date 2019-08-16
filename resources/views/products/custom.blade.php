@@ -39,7 +39,7 @@
         <div class="customizations-content">
             {{-- 商品默认图片 --}}
             <div class="customizations-img">
-                <img src="{{ asset('img/new_pro_2.png') }}" alt="lyricalhair.com">
+                <img src="{{ $product->photo_urls[0] }}" alt="lyricalhair.com">
             </div>
             {{--背景--}}
             <div class="customizations-bg"></div>
