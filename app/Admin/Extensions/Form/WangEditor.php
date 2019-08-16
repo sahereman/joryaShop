@@ -69,6 +69,7 @@ editor.customConfig.fontNames = [
 // 自定义配置颜色（字体颜色、背景色）
 editor.customConfig.colors = [
     '#333332',
+    '#333333',
     '#eeece0',
     '#1c487f',
     '#4d80bf',

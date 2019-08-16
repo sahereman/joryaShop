@@ -304,6 +304,7 @@
         var iframe_content = $('.iframe_content').html();
         $('.iframe_content').html("");
         $('#cmsCon').contents().find('body').html(iframe_content);
+        $('#cmsCon').contents().find('body').css("color","#333");
         reinitIframe("cmsCon");
     //    上方描述文章页
         function reinitIframe(domID){
@@ -317,6 +318,7 @@
         var iframe_content_description = $('.iframe_content_description').html();
         $('.iframe_content_description').html("");
         $('#cmsConDescription').contents().find('body').html(iframe_content_description);
+        $('#cmsConDescription').contents().find('body').css("color","#333");
         reinitIframe("cmsConDescription");
         // var autoSet_description = window.setInterval('reinitIframe()',500);
     </script>
