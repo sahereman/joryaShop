@@ -55,22 +55,8 @@ class CartRequest extends Request
         } elseif ($this->routeIs('carts.destroy')) {
             return [
                 'sku_id' => [
-                    'bail',
                     'required',
                     'integer',
-                    'exists:product_skus,id',
-                    function ($attribute, $value, $fail) {
-                        $sku = ProductSku::find($value);
-                        if ($sku->product->on_sale == 0) {
-                            $fail(trans('basic.orders.Product_sku_off_sale'));
-                        }
-                        if ($sku->stock == 0) {
-                            $fail(trans('basic.orders.Product_sku_out_of_stock'));
-                        }
-                        /*if ($sku->stock < $this->input('number')) {
-                            $fail(trans('basic.orders.Insufficient_sku_stock'));
-                        }*/
-                    },
                 ],
             ];
         } else {
