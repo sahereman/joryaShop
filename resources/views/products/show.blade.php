@@ -548,7 +548,7 @@
         var pre_page;   // 上一页的页码
         var country = $("#dLabel").find("span").html();
         var sku_id, sku_stock, sku_price, sku_original_price;
-        var product = JSON.parse('{!! $product !!}');
+        var product = {!! $product !!};
 
         $('#img_x li').eq(0).css('border', '2px solid #bc8c61');
         $('#img_x li').eq(0).addClass("active");
