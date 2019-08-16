@@ -318,7 +318,9 @@
         var iframe_content_description = $('.iframe_content_description').html();
         $('.iframe_content_description').html("");
         $('#cmsConDescription').contents().find('body').html(iframe_content_description);
-        $('#cmsConDescription').contents().find('body').css("color","#333");
+        $('#cmsConDescription').contents().find('body').css({"color":"#333","margin":0});
+        $('#cmsConDescription').contents().find('body').find("span").css("fontSize","14px");
+        $('#cmsConDescription').contents().find('body').find("p").css("margin","0 0 8.4px");
         reinitIframe("cmsConDescription");
         // var autoSet_description = window.setInterval('reinitIframe()',500);
     </script>
