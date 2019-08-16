@@ -38,6 +38,7 @@
       }
       .categories-lists-items {
         width: 100%;
+        color: #555;
         .categories-lists-item {
           position: relative;
           width: 100%;
@@ -112,6 +113,15 @@
         .Crumbs {
           line-height: 24px;
           margin: 0 0 5px;
+          span {
+            color: #333;
+          }
+          a {
+            color: #333;
+            &:last-of-type {
+              color: $hover-color;
+            }
+          }
           .dynamic-path {
             color: $hover-color;
           }
@@ -139,7 +149,7 @@
         }
       }
       .category-description {
-        margin: 20px 0;
+        //margin-bottom: 12px;
         position: relative;
         text-align: justify;
         p {
