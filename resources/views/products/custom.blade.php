@@ -125,7 +125,7 @@
             //    如果点击的选项卡不存在已完成的clas则需要判断当前页面是否已经填写完成，
             //    如果包含已经完成的标志，则直接跳转即可
                 if (getResult == false) {
-                    layer.alert("Please select the required option!!");
+                    layer.alert("Please make sure that you have set every REQUIRED custom attribute");
                     return;
                 }
                 // else {
@@ -163,7 +163,7 @@
             var activeDom = $(".custom-title-center").find("li.active").find("a").attr("data-href");
             var getResult = isALLChoosed(activeDom);
             if (getResult == false) {
-                layer.alert("Please select the required option!!");
+                layer.alert("Please make sure that you have set every REQUIRED custom attribute");
                 return;
             }
             $(".custom-title-center").find("li").removeClass("active");
@@ -240,10 +240,14 @@
                 },
                 error: function (err) {
                     if (err.status == 422) {
+                        var exception = err.responseJSON.exception;
+                        if (exception) {
+                            layer.msg(exception.message);
+                        }
                         var arr = [];
-                        var dataobj = err.responseJSON.errors;
-                        for (let i in dataobj) {
-                            arr.push(dataobj[i]); //属性
+                        var errors = err.responseJSON.errors;
+                        for (let i in errors) {
+                            arr.push(errors[i]); //属性
                         }
                         layer.msg(arr[0][0]);
                     }
