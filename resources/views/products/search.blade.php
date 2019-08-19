@@ -76,7 +76,7 @@
                                                 @foreach($values as $value => $count)
                                                     @if(!isset($query_param_values[$name]) || $query_param_values[$name] != $value)
                                                         <li>
-                                                            <a href="{{ route('seo_url', $category->slug) . '?' . http_build_query(array_merge($query_data, ['is_by_param' => 1, 'param-' . $name => $value])) }}">
+                                                            <a href="{{ URL::current() . (isset($query_data) ? '?' . http_build_query(array_merge($query_data, ['is_by_param' => 1, 'param-' . $name => $value])) : '') }}">
                                                                 {{ $value }}<span class="count">({{ $count }})</span>
                                                             </a>
                                                         </li>
