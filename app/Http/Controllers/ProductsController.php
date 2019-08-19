@@ -11,6 +11,7 @@ use App\Models\Cart;
 use App\Models\CustomAttr;
 use App\Models\CustomAttrValue;
 use App\Models\EmailLog;
+use App\Models\Param;
 use App\Models\Product;
 use App\Models\ProductParam;
 use App\Models\ProductSku;
@@ -158,6 +159,9 @@ class ProductsController extends Controller
         $products = $products->simplePaginate(12);
 
         $param_values = [];
+        Param::orderByDesc('sort')->get()->each(function (Param $param) use (&$param_values) {
+            $param_values[$param->name] = [];
+        });
         $all_products->get()->each(function (Product $product) use (&$param_values) {
             $product->params->each(function (ProductParam $productParam) use (&$param_values) {
                 if (!isset($param_values[$productParam->name])) {
