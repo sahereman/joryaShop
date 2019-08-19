@@ -17,7 +17,6 @@ class CustomAttrsController extends Controller
 
     /**
      * Index interface.
-     *
      * @param Content $content
      * @return Content
      */
@@ -31,7 +30,6 @@ class CustomAttrsController extends Controller
 
     /**
      * Show interface.
-     *
      * @param mixed $id
      * @param Content $content
      * @return Content
@@ -46,7 +44,6 @@ class CustomAttrsController extends Controller
 
     /**
      * Edit interface.
-     *
      * @param mixed $id
      * @param Content $content
      * @return Content
@@ -61,7 +58,6 @@ class CustomAttrsController extends Controller
 
     /**
      * Create interface.
-     *
      * @param Content $content
      * @return Content
      */
@@ -75,16 +71,24 @@ class CustomAttrsController extends Controller
 
     /**
      * Make a grid builder.
-     *
      * @return Grid
      */
     protected function grid()
     {
         $grid = new Grid(new CustomAttr);
         $grid->model()->orderBy('sort', 'desc'); // 设置初始排序条件
+        if (request()->input('type'))
+        {
+            $grid->model()->where('type', request()->input('type'));
+        }
 
         $grid->id('Id');
-        $grid->type('属性类型');
+
+        $grid->type('属性类型')->display(function ($data) {
+            $str = "</s><a href='" . route('admin.custom_attrs.index', ['type' => $data]) . "'>$data</a>";
+            return $str;
+        });;
+
         $grid->name('属性名称');
         $grid->is_required('是否必填')->display(function ($value) {
             return $value ? '<span class="label label-primary">是</span>' : '<span class="label label-default">否</span>';
@@ -99,7 +103,6 @@ class CustomAttrsController extends Controller
 
     /**
      * Make a show builder.
-     *
      * @param mixed $id
      * @return Show
      */
@@ -141,7 +144,6 @@ class CustomAttrsController extends Controller
 
     /**
      * Make a form builder.
-     *
      * @return Form
      */
     protected function form()
