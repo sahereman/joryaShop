@@ -198,15 +198,22 @@
                             <a class="add_carts" data-url="{{ route('carts.store') }}">
                                 @lang('app.Add to Shopping Cart')
                             </a>
-                            <a class="add_favourites {{ $favourite ? 'active' : '' }}" code="{{ $product->id }}"
-                               data-url="{{ route('user_favourites.store') }}"
-                               data-url_2="{{ route('user_favourites.destroy') }}"
-                               data-favourite-code="{{ $favourite ? $favourite->id : '' }}"
-                            >
-                                {{--<span class="favourites_img"></span>--}}
-                                <img src="{{ asset('img/favorite-eye.png') }}" alt="">
-                                <span>Add to wish list</span>
-                            </a>
+                            @guest
+                                <a class="add_favourites for_show_login" >
+                                    <img src="{{ asset('img/favorite-eye.png') }}" alt="">
+                                    <span>Add to wish list</span>
+                                </a>
+                            @else
+                                <a class="add_favourites {{ $favourite ? 'active' : '' }}" code="{{ $product->id }}"
+                                   data-url="{{ route('user_favourites.store') }}"
+                                   data-url_2="{{ route('user_favourites.destroy') }}"
+                                   data-favourite-code="{{ $favourite ? $favourite->id : '' }}"
+                                >
+                                    {{--<span class="favourites_img"></span>--}}
+                                    <img src="{{ asset('img/favorite-eye.png') }}" alt="">
+                                    <span>{{ $favourite ? 'Remove from wish list' : 'Add to wish list' }}</span>
+                                </a>
+                            @endguest
                         @endif
                     </div>
                     {{-- 运费等介绍 --}}
@@ -619,6 +626,18 @@
         // 点击添加收藏
         $(".add_favourites").on("click", function () {
             var clickDom = $(this), data, url;
+            if(clickDom.hasClass("for_show_login")) {
+                if(!clickDom.hasClass("active")) {
+                    clickDom.find("span").text("Remove from wish list");
+                    layer.msg("Added to wish list successfully");
+                    clickDom.addClass("active");
+                }else {
+                    clickDom.find("span").text("Add to wish list");
+                    layer.msg("Remove success from wish list");
+                    clickDom.removeClass("active");
+                }
+                return
+            }
             if (clickDom.hasClass('active') != true) {
                 data = {
                     _token: "{{ csrf_token() }}",
