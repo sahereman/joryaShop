@@ -136,7 +136,8 @@
                     {{-- 简介 --}}
                     <div class="short-description">
                         <div class="std">
-                            <p>{!! App::isLocale('zh-CN') ? $product->description_zh : $product->description_en !!}</p>
+                            <textarea name="" id="" cols="30" rows="10">{!! App::isLocale('zh-CN') ? $product->description_zh : $product->description_en !!}</textarea>
+                            {{--<p>{!! App::isLocale('zh-CN') ? $product->description_zh : $product->description_en !!}</p>--}}
                         </div>
                         <a href="javascript:void(0)" class="down-more" id="down-more">
                             <img src=" {{ asset('img/down-more.png') }}" alt="">
@@ -421,7 +422,7 @@
             </div>
         </div>
     </div>
-    {{-- 社会化分享弹窗 --}}
+    {{-- 社会化分享弹窗(邮件) --}}
     <div class="social-email dis_n" id="social-email">
         <div class="social-email-content">
             <div class="product-share-info">
@@ -502,10 +503,10 @@
                 isHasClass = $(this).hasClass("active");
             if (isHasClass){
                 _taht.removeClass("active");
-                $(".std").find("p").removeClass("active");
+                $(".std").find("textarea").removeClass("active");
             } else {
                 _taht.addClass("active");
-                $(".std").find("p").addClass("active");
+                $(".std").find("textarea").addClass("active");
             }
         });
         // 社会化分享弹窗
