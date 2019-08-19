@@ -61,8 +61,8 @@
                         <div class="screening-results">
                             <span class="screening-results-title">All Results:</span>
                             <div class="screening-results-option">
-                                @foreach($query_param_values as $param => $value)
-                                    <a href="javascript:void (0)">
+                            @foreach($query_param_values as $param => $value)
+                                    <a href="{{ str_replace_first('param-'.$param.'='.$value,'',url(Request::getRequestUri())) }}">
                                         <span class="broad-heading">{{ $param }}</span>
                                         <span>:</span>
                                         <span class="subclass">{{ $value }}</span>
@@ -261,11 +261,6 @@
                 pop.find(".opener").text("+");
             }
         });
-        // remove Results
-        $(".screening-results-option").on("click",".option-close",function () {
-            console.log("是否有什么操作!!")
-        })
-
         // wishlist-icon的触摸事件
         $(".wishlist-icon").hover(function(){
             if(!($(this).hasClass('inwish'))){

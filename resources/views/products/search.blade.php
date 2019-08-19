@@ -46,7 +46,7 @@
                             <span class="screening-results-title">All Results:</span>
                             <div class="screening-results-option">
                                 @foreach($query_param_values as $param => $value)
-                                    <a href="javascript:void (0)">
+                                    <a href="{{ str_replace_first('param-'.$param.'='.$value,'',url(Request::getRequestUri())) }}">
                                         <span class="broad-heading">{{ $param }}</span>
                                         <span>:</span>
                                         <span class="subclass">{{ $value }}</span>
@@ -211,21 +211,21 @@
 @section('scriptsAfterJs')
     <script type="text/javascript">
         {{-- 左侧shopBy点击展开 --}}
-        $(".subtitle-filter").on("click",".opener",function () {
+        $(".subtitle-filter").on("click",".lists-item-title",function () {
             var activeDom = $(this).parents(".categories-lists-item"),
                 isActive = $(activeDom).hasClass("item-active"),
                 $allSubtitle = $(".subtitle-filter");
             if(isActive){
                 $(activeDom).find(".categories-lists-item-ul").slideUp();
                 $(activeDom).removeClass("item-active");
-                $(this).text("+");
+                $(this).parents(".lists-item-title").find(".opener").text("+");
             }else {
                 $allSubtitle.find(".categories-lists-item").removeClass("item-active");
                 $allSubtitle.find(".categories-lists-item-ul").slideUp();
                 $allSubtitle.find(".opener").text("+");
                 $(activeDom).find(".categories-lists-item-ul").slideDown();
                 $(activeDom).addClass("item-active");
-                $(this).text("-");
+                $(this).parents(".lists-item-title").find(".opener").text("-");
             }
         });
         // 点击空白处关闭弹窗
@@ -238,10 +238,6 @@
                 pop.find(".opener").text("+");
             }
         });
-        // remove Results
-        $(".screening-results-option").on("click",".option-close",function () {
-            console.log("是否有什么操作!!")
-        })
 
         // wishlist-icon的触摸事件
         $(".wishlist-icon").hover(function(){
