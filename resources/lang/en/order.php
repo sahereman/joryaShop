@@ -14,7 +14,7 @@ return [
     'Dollars' => 'Dollars',
     'Currency options' => 'Currency options',
     'order note' => 'Order note',
-    'Optional message' => 'Optional, leave a message to the seller (limited to 150 words)',
+    'Optional message' => 'Optional, leave a message to the seller',
     'Sum' => 'Sum',
     'freight' => 'Freight',
     'Amount payable' => 'Amount payable',

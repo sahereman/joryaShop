@@ -109,7 +109,7 @@
                     <ul>
                         <li class="clear">
                             <span>@lang('order.order note')：</span>
-                            <textarea class="remark" maxlength="150" placeholder="@lang('order.Optional message')"></textarea>
+                            <textarea class="remark" placeholder="@lang('order.Optional message')"></textarea>
                         </li>
                         <li>
                             <p>

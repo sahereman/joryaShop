@@ -56,7 +56,7 @@ class CreateOrdersTable extends Migration
 
             $table->unsignedDecimal('total_shipping_fee', 8, 2)->nullable(false)->default(0)->comment('total-shipping-fee:运费/USD');
             $table->unsignedDecimal('total_amount', 8, 2)->nullable(false)->comment('total-amount:商品合计金额/USD');
-            $table->string('remark')->nullable()->comment('订单备注');
+            $table->string('remark',1000)->nullable()->comment('订单备注');
 
             $table->softDeletes(); // timestamp deleted_at used for soft deletes.
             $table->timestamps();
