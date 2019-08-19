@@ -137,7 +137,7 @@ class ArticleCategoriesController extends Controller
         $form->hidden('description_zh', '描述(中文)')->default('lyrical');
         $form->text('description_en', '描述(英文)')->rules('required|max:255');
 
-        $form->number('sort', '排序值')->default(999);
+        $form->number('sort', '排序值')->default(9)->rules('required|integer|min:0')->help('默认倒序排列：数值越大越靠前');
 
         return $form;
     }

@@ -124,11 +124,10 @@ class BannersController extends Controller
 
         $form->text('link', '链接');
 
-        $form->number('sort', '排序值');
+        $form->number('sort', '排序值')->default(9)->rules('required|integer|min:0');
 
         //保存前回调
         $form->saving(function (Form $form) {
-
             switch ($form->input('type')) {
                 case 'index' :
                     $form->builder()->field('image')->resize(1920, 780)->uniqueName()->move('banner');
@@ -140,7 +139,6 @@ class BannersController extends Controller
                     $form->builder()->field('image')->uniqueName()->move('banner');
                     break;
             }
-
         });
 
         return $form;

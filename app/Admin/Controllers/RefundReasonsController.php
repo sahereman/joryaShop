@@ -117,7 +117,7 @@ class RefundReasonsController extends Controller
         $form->text('reason_en', '退款原因英文');
         // $form->text('reason_zh', '退款原因中文');
         $form->hidden('reason_zh', '退款原因中文')->default('lyrical');
-        $form->number('sort', '排序值');
+        $form->number('sort', '排序值')->default(9)->rules('required|integer|min:0')->help('默认倒序排列：数值越大越靠前');
 
         return $form;
     }

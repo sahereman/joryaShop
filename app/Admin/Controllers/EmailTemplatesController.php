@@ -33,7 +33,7 @@ class EmailTemplatesController extends Controller
     {
         return $content
             ->header('邮件模板管理')
-            //            ->description('description')
+            // ->description('description')
             ->body($this->grid());
     }
 
@@ -47,7 +47,7 @@ class EmailTemplatesController extends Controller
     {
         return $content
             ->header('邮件模板管理')
-            //            ->description('description')
+            // ->description('description')
             ->body($this->form()->edit($id));
     }
 
@@ -60,7 +60,7 @@ class EmailTemplatesController extends Controller
     {
         return $content
             ->header('邮件模板管理')
-            //            ->description('description')
+            // ->description('description')
             ->body($this->form());
     }
 
@@ -91,7 +91,6 @@ class EmailTemplatesController extends Controller
         $form->tools(function (Form\Tools $tools) {
             $tools->disableView();
         });
-
 
         $form->text('name', '名称');
         $form->hidden('type', '模板类型')->default('html');

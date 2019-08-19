@@ -136,11 +136,11 @@ class ParamsController extends Controller
         $form = new Form(new Param);
 
         $form->text('name', '商品参数名称');
-        $form->number('sort', '排序值');
+        $form->number('sort', '排序值')->default(9)->rules('required|integer|min:0')->help('默认倒序排列：数值越大越靠前');
 
         $form->hasMany('values', '商品参数值 - 列表', function (NestedForm $form) {
             $form->text('value', '商品参数值');
-            $form->number('sort', '排序值')->help('默认倒序排列：数值越大越靠前');
+            $form->number('sort', '排序值')->default(9)->rules('required|integer|min:0')->help('默认倒序排列：数值越大越靠前');
         });
 
         return $form;

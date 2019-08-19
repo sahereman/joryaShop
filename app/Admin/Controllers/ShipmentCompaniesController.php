@@ -111,7 +111,7 @@ class ShipmentCompaniesController extends Controller
 
         $form->text('code', '快递代码');
         $form->text('name', '快递名称');
-        $form->number('sort', '排序值');
+        $form->number('sort', '排序值')->default(9)->rules('required|integer|min:0')->help('默认倒序排列：数值越大越靠前');
 
         return $form;
     }

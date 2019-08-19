@@ -36,7 +36,7 @@ class ProductParam extends Model
         // 否则运行匿名函数中的代码来取出 categories 表中所有的数据，返回的同时做了缓存。
         return Cache::remember(self::$cache_key, self::$cache_expire_in_minutes, function () {
             $param_name_values = [];
-            self::orderBy('sort')->get(['name', 'value'])->each(function ($param) use (&$param_name_values) {
+            self::orderByDesc('sort')->get(['name', 'value'])->each(function ($param) use (&$param_name_values) {
                 if (! isset($param_name_values[$param->name])) {
                     $param_name_values[$param->name] = [];
                 }

@@ -161,7 +161,7 @@ class MenusController extends Controller
         ])->rules('required');
 
         $form->text('link', '链接');
-        $form->number('sort', '排序值')->default(999);
+        $form->number('sort', '排序值')->default(9)->rules('required|integer|min:0');
 
         return $form;
     }

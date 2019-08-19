@@ -133,7 +133,7 @@ class AttrsController extends Controller
             $value->disablePagination();
 
             $value->value('SKU 属性值');
-//            $value->sort('排序值');
+            // $value->sort('排序值');
         });
 
         $show->sort('排序值');
@@ -159,7 +159,7 @@ class AttrsController extends Controller
             $form->text('value', 'SKU 属性值');
         });
 
-        $form->number('sort', '排序值');
+        $form->number('sort', '排序值')->default(9)->rules('required|integer|min:0')->help('默认倒序排列：数值越大越靠前');
 
         $form->saved(function (Form $form) {
             $attr = $form->model();

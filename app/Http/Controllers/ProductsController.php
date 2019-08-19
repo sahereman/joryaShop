@@ -348,6 +348,11 @@ class ProductsController extends Controller
             throw new InvalidRequestException('The product type is not custom');
         }
 
+        // $custom_attrs = CustomAttr::with('values')->orderByDesc('sort')->get();
+        /*$custom_attrs->each(function (CustomAttr $customAttr) {
+            $customAttr->values = $customAttr->values()->orderByDesc('sort')->get();
+        });*/
+        // $grouped_custom_attrs = $custom_attrs->groupBy('type');
         $grouped_custom_attrs = CustomAttr::with('values')->orderByDesc('sort')->get()->groupBy('type');
         $custom_attr_types = $grouped_custom_attrs->keys()->toArray();
 

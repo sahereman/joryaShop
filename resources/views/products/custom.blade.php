@@ -75,10 +75,11 @@
                                                         <input type="radio" value="{{ $custom_attr_value->id }}" name="{{ $custom_attr->name }}">
                                                         {{--后面的标号为了区分没有实际意义--}}
                                                         <span class="val-text">{{ $custom_attr_value->value }}</span>
-                                                        <span class="price red"
-                                                              data-price="{{ get_current_price($custom_attr_value->delta_price) }}">
-                                                            <i>{{ get_global_currency() }}</i>
-                                                            <i class="price_num">{{ get_current_price($custom_attr_value->delta_price) }}</i>
+                                                        <span class="price red" data-price="{{ get_current_price($custom_attr_value->delta_price) }}">
+                                                            @if($custom_attr_value->delta_price != 0)
+                                                                <i>{{ get_global_currency() }}</i>
+                                                                <i class="price_num">{{ get_current_price($custom_attr_value->delta_price) }}</i>
+                                                            @endif
                                                         </span>
                                                     </label>
                                                 </li>

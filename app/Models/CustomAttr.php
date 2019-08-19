@@ -55,6 +55,6 @@ class CustomAttr extends Model
     /* Eloquent Relationships */
     public function values()
     {
-        return $this->hasMany(CustomAttrValue::class);
+        return $this->hasMany(CustomAttrValue::class)->orderByDesc('sort');
     }
 }

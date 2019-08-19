@@ -30,7 +30,7 @@ class ArticlesController extends Controller
     // GET 通用-单页展示
     public function show(Request $request, string $slug)
     {
-        $article_categories = ArticleCategory::with('articles')->orderBy('sort')->get();
+        $article_categories = ArticleCategory::with('articles')->orderByDesc('sort')->get();
         $article = Article::getArticleBySlug($slug);
         if ($article) {
             return view('articles.show', [

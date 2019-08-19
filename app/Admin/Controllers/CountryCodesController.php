@@ -114,7 +114,7 @@ class CountryCodesController extends Controller
         $form->text('country_name', '国家名称');
         // $form->text('country_iso', '国家iso标示');
         $form->text('country_code', '国际电话区号');
-        $form->number('sort', '排序值');
+        $form->number('sort', '排序值')->default(9)->rules('required|integer|min:0')->help('默认倒序排列：数值越大越靠前');
 
         return $form;
     }

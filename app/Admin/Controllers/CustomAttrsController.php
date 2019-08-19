@@ -81,6 +81,7 @@ class CustomAttrsController extends Controller
     protected function grid()
     {
         $grid = new Grid(new CustomAttr);
+        $grid->model()->orderBy('sort', 'desc'); // 设置初始排序条件
 
         $grid->id('Id');
         $grid->type('属性类型');
@@ -151,7 +152,7 @@ class CustomAttrsController extends Controller
         $form->select('type', '属性类型')->options(CustomAttr::$customAttrTypeMap);
         $form->text('name', '属性名称');
         $form->switch('is_required', '是否必填');
-        $form->number('sort', '排序值');
+        $form->number('sort', '排序值')->default(9)->rules('required|integer|min:0')->help('默认倒序排列：数值越大越靠前');
 
         $form->hasMany('values', '属性值 - 列表', function (NestedForm $form) {
             $form->text('value', '属性值');
@@ -163,7 +164,7 @@ class CustomAttrsController extends Controller
                 // ->removable()
                 ->move('original/' . date('Ym', now()->timestamp));
 
-            $form->number('sort', '排序值')->help('默认倒序排列：数值越大越靠前');
+            $form->number('sort', '排序值')->default(9)->rules('required|integer|min:0')->help('默认倒序排列：数值越大越靠前');
         });
 
         return $form;

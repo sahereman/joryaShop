@@ -200,7 +200,7 @@ class ProductCategoriesController extends Controller
         $form->image('banner', '分类主页图')->uniqueName()->move('banners')->removable()->help('尺寸:720 * 230');
 
         $form->switch('is_index', '首页显示');
-        $form->number('sort', '排序值')->default(999);
+        $form->number('sort', '排序值')->default(9)->rules('required|integer|min:0');
 
         // 定义事件回调，当模型即将保存时会触发这个回调
         $form->saving(function (Form $form) {

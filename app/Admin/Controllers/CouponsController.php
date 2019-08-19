@@ -269,7 +269,7 @@ class CouponsController extends Controller
         $form->number('allowance', '单人领取限额')->default(1)->rules('integer|min:1');
         $form->checkbox('supported_product_types', '支持商品类型')->options(Product::$productTypeMap);
         $form->select('scenario', '用户领取场景')->options(Coupon::$couponScenarioMap)->default('register');
-        $form->number('sort', '排序值')->default(0)->rules('integer|min:0');
+        $form->number('sort', '排序值')->default(9)->rules('required|integer|min:0')->help('默认倒序排列：数值越大越靠前');
 
         // $form->datetime('started_at', 'Started at')->default(date('Y-m-d H:i:s'));
         // $form->datetime('stopped_at', 'Stopped at')->default(date('Y-m-d H:i:s'));

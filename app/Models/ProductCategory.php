@@ -107,6 +107,9 @@ class ProductCategory extends Model
             $categories = self::where([
                 'parent_id' => 0,
             ])->orderBy('sort')->with('children')->get();
+            $categories->each(function (ProductCategory $category) {
+                $category->children = $category->children()->orderBy('sort')->get();
+            });
             return $categories;
         });
     }

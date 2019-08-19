@@ -120,7 +120,7 @@ class ProductServicesController extends Controller
 
         $form->hidden('name')->default('Product Service Name');
         $form->text('description', '服务描述');
-        // $form->number('sort', '排序值');
+        // $form->number('sort', '排序值')->default(9)->rules('required|integer|min:0')->help('默认倒序排列：数值越大越靠前');
 
         return $form;
     }
