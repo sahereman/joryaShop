@@ -37,8 +37,10 @@
                 <p class="Crumbs">
                     <a href="{{ route('root') }}">@lang('basic.home')</a>
                     <span>/</span>
-                    <a href="javascript:void(0)">{{ $article->category->name_en }}</a>
-                    <span>/</span>
+                    @if( $article->category )
+                        <a href="javascript:void(0)">{{ $article->category->name_en }}</a>
+                        <span>/</span>
+                    @endif
                     <a href="javascript:void(0)">{{ $article->name }}</a>
                 </p>
                 <div class="right-article">
