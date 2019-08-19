@@ -18,10 +18,17 @@ class ProductCategoriesController extends Controller
     public function index(Request $request, ProductCategory $category)
     {
         $query_data = [];
+        $query_param_values = [];
         $user = $request->user();
+        $queries = $request->query();
         $is_by_param = $request->query('is_by_param');
-        $param = $request->query('param');
-        $value = $request->query('value');
+        foreach ($queries as $key => $value) {
+            if (strpos($key, 'param-') === 0) {
+                $param = substr($key, 6);
+                $query_data[$key] = $value;
+                $query_param_values[$param] = $value;
+            }
+        }
 
         $category = ProductCategory::with('children.children')->find($category->id);
 
@@ -56,11 +63,16 @@ class ProductCategoriesController extends Controller
         $products = Product::where('on_sale', 1)->whereIn('product_category_id', $category_ids);
         $all_products = Product::where('on_sale', 1)->whereIn('product_category_id', $category_ids);
 
-        if ($is_by_param == 1 && !is_null($param) && !is_null($value)) {
+        if ($is_by_param == 1 && count($query_param_values) > 0) {
             $query_data['is_by_param'] = $is_by_param;
-            $query_data['param'] = $param;
-            $query_data['value'] = $value;
-            $product_ids = ProductParam::where(['name' => $param, 'value' => $value])->get()->pluck('product_id')->toArray();
+            $product_ids = [];
+            foreach ($query_param_values as $param => $value) {
+                if ($product_ids == []) {
+                    $product_ids = ProductParam::where(['name' => $param, 'value' => $value])->get()->pluck('product_id')->toArray();
+                } else {
+                    $product_ids = ProductParam::where(['name' => $param, 'value' => $value])->whereIn('product_id', $product_ids)->get()->pluck('product_id')->toArray();
+                }
+            }
             $products = $products->whereIn('id', $product_ids);
             // $all_products = $all_products->whereIn('id', $product_ids);
         }
@@ -155,6 +167,7 @@ class ProductCategoriesController extends Controller
             'category' => $category,
             'crumbs' => $crumbs,
             'param_values' => $param_values,
+            'query_param_values' => $query_param_values,
             'products' => $products,
             'query_data' => $query_data
         ]);

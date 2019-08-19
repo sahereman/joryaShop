@@ -19,11 +19,13 @@
                                         </div>
                                         <ul class="categories-lists-item-ul">
                                             @foreach($values as $value => $count)
-                                                <li>
-                                                    <a href="{{ route('products.search') . '?' . http_build_query(array_merge($query_data, ['is_by_param' => 1, 'param' => $name, 'value' => $value])) }}">
-                                                        {{ $value }}<span class="count">({{ $count }})</span>
-                                                    </a>
-                                                </li>
+                                                @if(!isset($query_param_values[$name]) || $query_param_values[$name] != $value)
+                                                    <li>
+                                                        <a href="{{ route('seo_url', $category->slug) . '?' . http_build_query(array_merge($query_data, ['is_by_param' => 1, 'param-' . $name => $value])) }}">
+                                                            {{ $value }}<span class="count">({{ $count }})</span>
+                                                        </a>
+                                                    </li>
+                                                @endif
                                             @endforeach
                                         </ul>
                                     </div>
