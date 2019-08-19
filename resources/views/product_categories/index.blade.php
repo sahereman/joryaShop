@@ -57,23 +57,21 @@
                 </div>
                 <div class="category-products">
                     {{-- 筛选结果展示 --}}
-                    <div class="screening-results">
-                        <span class="screening-results-title">All Results:</span>
-                        <div class="screening-results-option">
-                            <a href="javascript:void (0)">
-                                <span class="broad-heading">Style</span>
-                                <span>:</span>
-                                <span class="subclass">Classic</span>
-                                <span class="iconfont option-close">&#xe7b6;</span>
-                            </a>
-                            <a href="javascript:void (0)">
-                                <span class="broad-heading">Base</span>
-                                <span>:</span>
-                                <span class="subclass">Modern</span>
-                                <span class="iconfont option-close">&#xe7b6;</span>
-                            </a>
+                    @if(count($query_param_values) > 0)
+                        <div class="screening-results">
+                            <span class="screening-results-title">All Results:</span>
+                            <div class="screening-results-option">
+                                @foreach($query_param_values as $param => $value)
+                                    <a href="javascript:void (0)">
+                                        <span class="broad-heading">{{ $param }}</span>
+                                        <span>:</span>
+                                        <span class="subclass">{{ $value }}</span>
+                                        <span class="iconfont option-close">&#xe7b6;</span>
+                                    </a>
+                                @endforeach
+                            </div>
                         </div>
-                    </div>
+                    @endif
                     {{-- Shop By 筛选内容--}}
                     <div class="shop-by">
                         <div class="shop-by-title block-title">
