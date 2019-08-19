@@ -8,6 +8,7 @@ use App\Models\ProductAttr;
 use App\Models\ProductSkuAttrValue;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
+use Encore\Admin\Form\Builder;
 use Encore\Admin\Form\NestedForm;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
@@ -17,6 +18,9 @@ class AttrsController extends Controller
 {
     use HasResourceActions;
 
+    protected $mode = 'create';
+    protected $attr_id;
+
     /**
      * Index interface.
      *
@@ -25,6 +29,7 @@ class AttrsController extends Controller
      */
     public function index(Content $content)
     {
+        $this->mode = 'index';
         return $content
             ->header('SKU 属性管理')
             ->description('属性 - 列表')
@@ -40,6 +45,8 @@ class AttrsController extends Controller
      */
     public function show($id, Content $content)
     {
+        $this->mode = 'show';
+        $this->attr_id = $id;
         return $content
             ->header('SKU 属性管理')
             ->description('属性 - 详情')
@@ -55,6 +62,8 @@ class AttrsController extends Controller
      */
     public function edit($id, Content $content)
     {
+        $this->mode = 'edit';
+        $this->attr_id = $id;
         return $content
             ->header('SKU 属性管理')
             ->description('属性 - 编辑')
@@ -69,6 +78,7 @@ class AttrsController extends Controller
      */
     public function create(Content $content)
     {
+        $this->mode = 'create';
         return $content
             ->header('SKU 属性管理')
             ->description('属性 - 新增')
@@ -152,6 +162,13 @@ class AttrsController extends Controller
     {
         $form = new Form(new Attr);
 
+        if ($this->mode == Builder::MODE_CREATE) {
+            $form->hidden('_from_')->default(Builder::MODE_CREATE);
+        }
+        if ($this->mode == Builder::MODE_EDIT) {
+            $form->hidden('_from_')->default(Builder::MODE_EDIT);
+        }
+
         $form->text('name', 'SKU 属性名称');
         $form->switch('has_photo', '是否有对应图片');
 
@@ -160,6 +177,17 @@ class AttrsController extends Controller
         });
 
         $form->number('sort', '排序值')->default(9)->rules('required|integer|min:0')->help('默认倒序排列：数值越大越靠前');
+
+        $form->ignore(['_from_']);
+
+        // 定义事件回调，当模型即将保存时会触发这个回调
+        $form->saving(function (Form $form) {
+            $attr = $form->model();
+            $attr_name = request()->input('name');
+            if ($attr_name != $attr->name) {
+                ProductAttr::where('name', $attr->name)->update(['name' => $attr_name]);
+            }
+        });
 
         $form->saved(function (Form $form) {
             $attr = $form->model();
