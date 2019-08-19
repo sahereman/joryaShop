@@ -159,6 +159,146 @@
         }
       }
       .category-products {
+        .screening-results {
+          display: flex;
+          flex-direction: row;
+          justify-content: flex-start;
+          border: 0;
+          border-top: 1px solid #e5e5e5;
+          border-bottom: 1px solid #e5e5e5;
+          padding: 10px 0;
+          .screening-results-title{
+            margin: auto 0;
+            display: inline-block;
+            width: 13%;
+            max-width: 100%;
+            font-weight: bold;
+          }
+          .screening-results-option {
+            margin: auto 0;
+            width: 87%;
+            span {
+              float: left;
+              font-size: 1rem;
+              &.subclass,
+              &.option-close{
+                color: #e96e70;
+              }
+            }
+            .option-close {
+              position: relative;
+              width: 25px;
+              height: 24px;
+              top: -1px;
+              right: 0;
+              line-height: 26px;
+              display: inline-block;
+              text-align: center;
+              margin-left: 5px;
+            }
+            a {
+              position: relative;
+              margin-right: 5px;
+              padding-left: 5px;
+              display: inline-block;
+              height: 25px;
+              background-color: #f7f7f7;
+              border: 1px solid #ddd;
+              &:hover {
+                border-color: #e5393c;
+                .option-close {
+                  color: #fff;
+                  background-color: #e5393c;
+                }
+              }
+            }
+          }
+        }
+        .shop-by {
+          position: relative;
+          display: flex;
+          flex-direction: row;
+          justify-content: flex-start;
+          padding: 10px 0;
+          margin-bottom: 20px;
+          //height: 52px;
+          //overflow-y: hidden;
+          border-bottom: 1px solid #e5e5e5;
+          &.active {
+            height: auto;
+          }
+          .arrow-up-btn {
+            position: absolute;
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            line-height: 24px;
+            right: 5px;
+            bottom: 0;
+            cursor: pointer;
+            transform: rotate(180deg);
+            &.active {
+              transform: rotate(0deg);
+            }
+            span {
+              font-size: 24px;
+              color: #cfcfcf;
+            }
+          }
+          .shop-by-title {
+            width: 13%;
+            padding: 5px 0;
+          }
+          .shop-by-content {
+            width: 87%;
+          }
+          .categories-lists-items {
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            flex-wrap: wrap;
+            .categories-lists-item {
+              margin-right: 20px;
+              position: relative;
+              &.item-active {
+                .lists-item-title {
+                  box-shadow: 0 5px 5px #ddd !important;
+                }
+              }
+            }
+            .lists-item-title {
+              display: flex;
+              flex-direction: row;
+              min-width: 60px;
+              padding: 5px;
+              justify-content: space-between;
+              cursor: pointer;
+            }
+            .categories-lists-item-ul {
+              position: absolute;
+              padding: 10px;
+              max-width: 290px;
+              max-height: 170px;
+              overflow: auto;
+              background-color: #fff;
+              z-index: 20;
+              box-shadow: 0 5px 5px #ddd;
+              display: none;
+              li {
+                margin-bottom: 5px;
+                a {
+                  font-size: 1rem;
+                  color: #b8b8b8;
+                  &:hover {
+                    color: $hover-color;
+                    text-decoration: underline;
+                  }
+                }
+              }
+            }
+          }
+        }
         .toolbar {
           border-top: 1px solid #e5e5e5;
           margin-bottom: -1px;

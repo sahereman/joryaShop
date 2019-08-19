@@ -30,36 +30,6 @@
                         </div>
                     </div>
                 </div>
-                <div class="block block-layered-nav">
-                    @if($param_values)
-                        <div class="block-title">
-                            <strong><span>Shop By</span></strong>
-                        </div>
-                        <div class="block-content">
-                            <div class="categories-lists-items subtitle-filter">
-                                @foreach($param_values as $name => $values)
-                                    <div class="categories-lists-item">
-                                        <div class="lists-item-title">
-                                            <span>{{ $name }}</span>
-                                            <span class="opener">+</span>
-                                        </div>
-                                        <ul class="categories-lists-item-ul">
-                                            @foreach($values as $value => $count)
-                                                @if(!isset($query_param_values[$name]) || $query_param_values[$name] != $value)
-                                                    <li>
-                                                        <a href="{{ route('seo_url', $category->slug) . '?' . http_build_query(array_merge($query_data, ['is_by_param' => 1, 'param-' . $name => $value])) }}">
-                                                            {{ $value }}<span class="count">({{ $count }})</span>
-                                                        </a>
-                                                    </li>
-                                                @endif
-                                            @endforeach
-                                        </ul>
-                                    </div>
-                                @endforeach
-                            </div>
-                        </div>
-                    @endif
-                </div>
             </div>
             <div class="col-right">
                 <div class="Crumbs-box">
@@ -86,25 +56,78 @@
                     {{--<iframe name="cmsCon_description" id="cmsConDescription" class="cmsCon_description" frameborder="0" width="100%"></iframe>--}}
                 </div>
                 <div class="category-products">
-                    <div class="toolbar">
-                        <div class="sorter">
-                            <div class="sort-by">
-                                <label>SORT BY:</label>
-                                <a class="active" href="{{ URL::current() . (isset($query_data) ? '?' . http_build_query($query_data) . '&sort=index': '') }}"><span>@lang('product.Comprehensive')</span>/</a>
-                                <a href="{{ URL::current() . (isset($query_data) ? '?' . http_build_query($query_data) . '&sort=heat': '') }}"><span>@lang('product.Popularity')</span>/</a>
-                                <a href="{{ URL::current() . (isset($query_data) ? '?' . http_build_query($query_data) . '&sort=latest': '') }}"><span>@lang('product.New product')</span>/</a>
-                                <a href="{{ URL::current() . (isset($query_data) ? '?' . http_build_query($query_data) . '&sort=sales': '') }}"><span>@lang('product.Sales volume')</span>/</a>
-                                <a href="{{ URL::current() . (isset($query_data) ? '?' . http_build_query($query_data) . '&sort=price': '') }}"><span>Price</span>/</a>
-                                @if(isset($query_data) && $query_data['order'] == 'desc')
-                                    {{--降序显示这个--}}
-                                    <a class="iconfont" href="{{ URL::current() . (isset($query_data) ? '?' . http_build_query($query_data) . '&order=asc' : '') }}" title="">&#xe63b;</a>
-                                @else
-                                    {{--升序显示下面这个--}}
-                                    <a class="category-asc iconfont" href="{{ URL::current() . (isset($query_data) ? '?' . http_build_query($query_data) . '&order=desc'  : '') }}" title="">&#xe63b;</a>
-                                @endif
-                            </div>
-                        </div> <!-- end: sorter -->
+                    {{-- 筛选结果展示 --}}
+                    <div class="screening-results">
+                        <span class="screening-results-title">All Results:</span>
+                        <div class="screening-results-option">
+                            <a href="javascript:void (0)">
+                                <span class="broad-heading">Style</span>
+                                <span>:</span>
+                                <span class="subclass">Classic</span>
+                                <span class="iconfont option-close">&#xe7b6;</span>
+                            </a>
+                            <a href="javascript:void (0)">
+                                <span class="broad-heading">Base</span>
+                                <span>:</span>
+                                <span class="subclass">Modern</span>
+                                <span class="iconfont option-close">&#xe7b6;</span>
+                            </a>
+                        </div>
                     </div>
+                    {{-- Shop By 筛选内容--}}
+                    <div class="shop-by">
+                        <div class="shop-by-title block-title">
+                            <strong><span>Shop By:</span></strong>
+                        </div>
+                        @if($param_values)
+                            <div class="shop-by-content block-content">
+                                <div class="categories-lists-items subtitle-filter">
+                                    @foreach($param_values as $name => $values)
+                                        <div class="categories-lists-item">
+                                            <div class="lists-item-title">
+                                                <span>{{ $name }}</span>
+                                                <span class="opener">+</span>
+                                            </div>
+                                            <ul class="categories-lists-item-ul">
+                                                @foreach($values as $value => $count)
+                                                    @if(!isset($query_param_values[$name]) || $query_param_values[$name] != $value)
+                                                        <li>
+                                                            <a href="{{ route('seo_url', $category->slug) . '?' . http_build_query(array_merge($query_data, ['is_by_param' => 1, 'param-' . $name => $value])) }}">
+                                                                {{ $value }}<span class="count">({{ $count }})</span>
+                                                            </a>
+                                                        </li>
+                                                    @endif
+                                                @endforeach
+                                            </ul>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        @endif
+                        {{--<a class="arrow-up-btn" href="javascript:void (0)">--}}
+                            {{--<span class="iconfont">&#xe614;</span>--}}
+                        {{--</a>--}}
+                    </div>
+                    {{-- 排序 --}}
+                    {{--<div class="toolbar">--}}
+                        {{--<div class="sorter">--}}
+                            {{--<div class="sort-by">--}}
+                                {{--<label>SORT BY:</label>--}}
+                                {{--<a class="active" href="{{ URL::current() . (isset($query_data) ? '?' . http_build_query($query_data) . '&sort=index': '') }}"><span>@lang('product.Comprehensive')</span>/</a>--}}
+                                {{--<a href="{{ URL::current() . (isset($query_data) ? '?' . http_build_query($query_data) . '&sort=heat': '') }}"><span>@lang('product.Popularity')</span>/</a>--}}
+                                {{--<a href="{{ URL::current() . (isset($query_data) ? '?' . http_build_query($query_data) . '&sort=latest': '') }}"><span>@lang('product.New product')</span>/</a>--}}
+                                {{--<a href="{{ URL::current() . (isset($query_data) ? '?' . http_build_query($query_data) . '&sort=sales': '') }}"><span>@lang('product.Sales volume')</span>/</a>--}}
+                                {{--<a href="{{ URL::current() . (isset($query_data) ? '?' . http_build_query($query_data) . '&sort=price': '') }}"><span>Price</span>/</a>--}}
+                                {{--@if(isset($query_data) && $query_data['order'] == 'desc')--}}
+                                    {{--降序显示这个--}}
+                                    {{--<a class="iconfont" href="{{ URL::current() . (isset($query_data) ? '?' . http_build_query($query_data) . '&order=asc' : '') }}" title="">&#xe63b;</a>--}}
+                                {{--@else--}}
+                                    {{--升序显示下面这个--}}
+                                    {{--<a class="category-asc iconfont" href="{{ URL::current() . (isset($query_data) ? '?' . http_build_query($query_data) . '&order=desc'  : '') }}" title="">&#xe63b;</a>--}}
+                                {{--@endif--}}
+                            {{--</div>--}}
+                        {{--</div> <!-- end: sorter -->--}}
+                    {{--</div>--}}
                     @if(isset($products))
                         <ul class="products-grid category-products-grid">
                             @foreach($products as $product)
@@ -213,23 +236,38 @@
 @section('scriptsAfterJs')
     <script type="text/javascript">
         {{-- 左侧shopBy点击展开 --}}
-        $(".subtitle-filter").on("click",".opener",function () {
+        $(".subtitle-filter").on("click",".lists-item-title",function () {
             var activeDom = $(this).parents(".categories-lists-item"),
                 isActive = $(activeDom).hasClass("item-active"),
                 $allSubtitle = $(".subtitle-filter");
             if(isActive){
                 $(activeDom).find(".categories-lists-item-ul").slideUp();
                 $(activeDom).removeClass("item-active");
-                $(this).text("+");
+                $(this).parents(".lists-item-title").find(".opener").text("+");
             }else {
                 $allSubtitle.find(".categories-lists-item").removeClass("item-active");
                 $allSubtitle.find(".categories-lists-item-ul").slideUp();
                 $allSubtitle.find(".opener").text("+");
                 $(activeDom).find(".categories-lists-item-ul").slideDown();
                 $(activeDom).addClass("item-active");
-                $(this).text("-");
+                $(this).parents(".lists-item-title").find(".opener").text("-");
             }
         });
+        // 点击空白处关闭弹窗
+        $(document).mouseup(function(e) {
+            var  pop = $('.shop-by-content');
+            if(!pop.is(e.target) && pop.has(e.target).length === 0) {
+                // 可以在这里关闭弹窗
+                pop.find(".categories-lists-item-ul").slideUp();
+                pop.find(".categories-lists-item").removeClass("item-active");
+                pop.find(".opener").text("+");
+            }
+        });
+        // remove Results
+        $(".screening-results-option").on("click",".option-close",function () {
+            console.log("是否有什么操作!!")
+        })
+
         // wishlist-icon的触摸事件
         $(".wishlist-icon").hover(function(){
             if(!($(this).hasClass('inwish'))){
@@ -327,5 +365,17 @@
         $('#cmsConDescription').find("p").css("margin","0 0 8.4px");
         // reinitIframe("cmsConDescription");
         // var autoSet_description = window.setInterval('reinitIframe()',500);
+
+    //    点击shopBy的箭头按钮
+    //     $(".arrow-up-btn").on("click",function () {
+    //         var clickDom = $(this);
+    //         if(clickDom.hasClass("active")){
+    //             clickDom.removeClass("active");
+    //             $(".shop-by").removeClass("active");
+    //         }else {
+    //             clickDom.addClass("active");
+    //             $(".shop-by").addClass("active");
+    //         }
+    //     })
     </script>
 @endsection

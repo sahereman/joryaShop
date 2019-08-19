@@ -5,34 +5,27 @@
         <div class="container main productCate-content">
             <div class="col-left">
                 <div class="block block-layered-nav">
-                    @if($param_values)
-                        <div class="block-title">
-                            <strong><span>Shop By</span></strong>
-                        </div>
-                        <div class="block-content">
-                            <div class="categories-lists-items subtitle-filter">
-                                @foreach($param_values as $name => $values)
-                                    <div class="categories-lists-item">
-                                        <div class="lists-item-title">
-                                            <span>{{ $name }}</span>
-                                            <span class="opener">+</span>
-                                        </div>
+                    <div class="block-title">
+                        <strong><span>Categories</span></strong>
+                    </div>
+                    <div class="block-content">
+                        <div class="categories-lists-items categories-menu">
+                            @foreach(\App\Models\ProductCategory::categories() as $product_category)
+                                <div class="categories-lists-item">
+                                    <div class="lists-item-title"><a href="{{ route('seo_url', $product_category->slug) }}"><span>{{ $product_category->name_en }}</span></a></div>
+                                    @if($product_category->children->isNotEmpty())
                                         <ul class="categories-lists-item-ul">
-                                            @foreach($values as $value => $count)
-                                                @if(!isset($query_param_values[$name]) || $query_param_values[$name] != $value)
-                                                    <li>
-                                                        <a href="{{ route('seo_url', $category->slug) . '?' . http_build_query(array_merge($query_data, ['is_by_param' => 1, 'param-' . $name => $value])) }}">
-                                                            {{ $value }}<span class="count">({{ $count }})</span>
-                                                        </a>
-                                                    </li>
-                                                @endif
+                                            @foreach($product_category->children as $child)
+                                                <li>
+                                                    <a href="{{ route('seo_url', $child->slug) }}"><span>{{ $child->name_en }}</span></a>
+                                                </li>
                                             @endforeach
                                         </ul>
-                                    </div>
-                                @endforeach
-                            </div>
+                                    @endif
+                                </div>
+                            @endforeach
                         </div>
-                    @endif
+                    </div>
                 </div>
             </div>
             <div class="col-right">
@@ -47,25 +40,77 @@
                     {{-- 引号内添加用户搜索的关键词 --}}
                 </div>
                 <div class="category-products">
-                    <div class="toolbar">
-                        <div class="sorter">
-                            <div class="sort-by">
-                                <label>SORT BY:</label>
-                                <a class="active" href="{{ URL::current() . (isset($query_data) ? '?' . http_build_query($query_data) . '&sort=index': '') }}"><span>@lang('product.Comprehensive')</span>/</a>
-                                <a href="{{ URL::current() . (isset($query_data) ? '?' . http_build_query($query_data) . '&sort=heat': '') }}"><span>@lang('product.Popularity')</span>/</a>
-                                <a href="{{ URL::current() . (isset($query_data) ? '?' . http_build_query($query_data) . '&sort=latest': '') }}"><span>@lang('product.New product')</span>/</a>
-                                <a href="{{ URL::current() . (isset($query_data) ? '?' . http_build_query($query_data) . '&sort=sales': '') }}"><span>@lang('product.Sales volume')</span>/</a>
-                                <a href="{{ URL::current() . (isset($query_data) ? '?' . http_build_query($query_data) . '&sort=price': '') }}"><span>Price</span>/</a>
-                                @if(isset($query_data) && $query_data['order'] == 'desc')
-                                    {{--降序显示这个--}}
-                                    <a class="iconfont" href="{{ URL::current() . (isset($query_data) ? '?' . http_build_query($query_data) . '&order=asc' : '') }}" title="">&#xe63b;</a>
-                                @else
-                                    {{--升序显示下面这个--}}
-                                    <a class="category-asc iconfont" href="{{ URL::current() . (isset($query_data) ? '?' . http_build_query($query_data) . '&order=desc'  : '') }}" title="">&#xe63b;</a>
-                                @endif
-                            </div>
-                        </div> <!-- end: sorter -->
+                    {{-- 筛选结果展示 --}}
+                    <div class="screening-results">
+                        <span class="screening-results-title">All Results:</span>
+                        <div class="screening-results-option">
+                            <a href="javascript:void (0)">
+                                <span class="broad-heading">Style</span>
+                                <span>:</span>
+                                <span class="subclass">Classic</span>
+                                <span class="iconfont option-close">&#xe7b6;</span>
+                            </a>
+                            <a href="javascript:void (0)">
+                                <span class="broad-heading">Base</span>
+                                <span>:</span>
+                                <span class="subclass">Modern</span>
+                                <span class="iconfont option-close">&#xe7b6;</span>
+                            </a>
+                        </div>
                     </div>
+                    {{-- Shop By 筛选内容--}}
+                    <div class="shop-by">
+                        <div class="shop-by-title block-title">
+                            <strong><span>Shop By:</span></strong>
+                        </div>
+                        @if($param_values)
+                            <div class="shop-by-content block-content">
+                                <div class="categories-lists-items subtitle-filter">
+                                    @foreach($param_values as $name => $values)
+                                        <div class="categories-lists-item">
+                                            <div class="lists-item-title">
+                                                <span>{{ $name }}</span>
+                                                <span class="opener">+</span>
+                                            </div>
+                                            <ul class="categories-lists-item-ul">
+                                                @foreach($values as $value => $count)
+                                                    @if(!isset($query_param_values[$name]) || $query_param_values[$name] != $value)
+                                                        <li>
+                                                            <a href="{{ route('seo_url', $category->slug) . '?' . http_build_query(array_merge($query_data, ['is_by_param' => 1, 'param-' . $name => $value])) }}">
+                                                                {{ $value }}<span class="count">({{ $count }})</span>
+                                                            </a>
+                                                        </li>
+                                                    @endif
+                                                @endforeach
+                                            </ul>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        @endif
+                        {{--<a class="arrow-up-btn" href="javascript:void (0)">--}}
+                        {{--<span class="iconfont">&#xe614;</span>--}}
+                        {{--</a>--}}
+                    </div>
+                    {{--<div class="toolbar">--}}
+                        {{--<div class="sorter">--}}
+                            {{--<div class="sort-by">--}}
+                                {{--<label>SORT BY:</label>--}}
+                                {{--<a class="active" href="{{ URL::current() . (isset($query_data) ? '?' . http_build_query($query_data) . '&sort=index': '') }}"><span>@lang('product.Comprehensive')</span>/</a>--}}
+                                {{--<a href="{{ URL::current() . (isset($query_data) ? '?' . http_build_query($query_data) . '&sort=heat': '') }}"><span>@lang('product.Popularity')</span>/</a>--}}
+                                {{--<a href="{{ URL::current() . (isset($query_data) ? '?' . http_build_query($query_data) . '&sort=latest': '') }}"><span>@lang('product.New product')</span>/</a>--}}
+                                {{--<a href="{{ URL::current() . (isset($query_data) ? '?' . http_build_query($query_data) . '&sort=sales': '') }}"><span>@lang('product.Sales volume')</span>/</a>--}}
+                                {{--<a href="{{ URL::current() . (isset($query_data) ? '?' . http_build_query($query_data) . '&sort=price': '') }}"><span>Price</span>/</a>--}}
+                                {{--@if(isset($query_data) && $query_data['order'] == 'desc')--}}
+                                    {{--降序显示这个--}}
+                                    {{--<a class="iconfont" href="{{ URL::current() . (isset($query_data) ? '?' . http_build_query($query_data) . '&order=asc' : '') }}" title="">&#xe63b;</a>--}}
+                                {{--@else--}}
+                                    {{--升序显示下面这个--}}
+                                    {{--<a class="category-asc iconfont" href="{{ URL::current() . (isset($query_data) ? '?' . http_build_query($query_data) . '&order=desc'  : '') }}" title="">&#xe63b;</a>--}}
+                                {{--@endif--}}
+                            {{--</div>--}}
+                        {{--</div> <!-- end: sorter -->--}}
+                    {{--</div>--}}
                     {{--<input type="hidden" class="more_load" value="{{ route('products.search_more') }}">--}}
                     @if(isset($products))
                         <ul class="products-grid category-products-grid">
@@ -155,23 +200,6 @@
                                 <div class="pager">
                                     <div class="pages">
                                         {{ isset($query_data) ? $products->appends($query_data)->links() : $products->links() }}
-                                        {{--<strong>Page:</strong>
-                                        <ol>
-                                            当前页不是第一页的时候显示 路径为当前页的前一页
-                                            <li class="previous">
-                                                <a class="next iconfont" href="https://www.lordhair.com/mens-hair-systems.html?p=2" title="Previous">&#xe603;</a>
-                                            </li>
-                                            默认显示五个页码多余的不显示
-                                            <li class="current">1</li>
-                                            <li><a href="#">2</a></li>
-                                            <li><a href="#">3</a></li>
-                                            <li><a href="#">4</a></li>
-                                            <li><a href="#">5</a></li>
-                                            当前页是最后一页时不显示 路径为当前页的前一页
-                                            <li class="next">
-                                                <a class="next iconfont" href="https://www.lordhair.com/mens-hair-systems.html?p=2" title="Next">&#xe63a;</a>
-                                            </li>
-                                        </ol>--}}
                                     </div>
                                 </div>
                             </div>
@@ -202,6 +230,21 @@
                 $(this).text("-");
             }
         });
+        // 点击空白处关闭弹窗
+        $(document).mouseup(function(e) {
+            var  pop = $('.shop-by-content');
+            if(!pop.is(e.target) && pop.has(e.target).length === 0) {
+                // 可以在这里关闭弹窗
+                pop.find(".categories-lists-item-ul").slideUp();
+                pop.find(".categories-lists-item").removeClass("item-active");
+                pop.find(".opener").text("+");
+            }
+        });
+        // remove Results
+        $(".screening-results-option").on("click",".option-close",function () {
+            console.log("是否有什么操作!!")
+        })
+
         // wishlist-icon的触摸事件
         $(".wishlist-icon").hover(function(){
             if(!($(this).hasClass('inwish'))){
