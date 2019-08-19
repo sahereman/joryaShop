@@ -10,6 +10,7 @@ use App\Mail\SendShareEmail;
 use App\Models\Cart;
 use App\Models\CustomAttr;
 use App\Models\CustomAttrValue;
+use App\Models\EmailLog;
 use App\Models\Product;
 use App\Models\ProductParam;
 use App\Models\ProductSku;
@@ -493,6 +494,16 @@ class ProductsController extends Controller
         $user->name = 'unknown';
         $user->email = $to_email;
         Mail::to($user)->queue(new SendShareEmail($product, $from_email, $subject, $body));
+
+        EmailLog::create([
+            'email' => $to_email,
+            'content' => "Subject: {$subject}. " . view('emails.share', [
+                    'product' => $product,
+                    'from_email' => $from_email,
+                    'body' => $body
+                ])
+        ]);
+
         return response()->json([
             'code' => 200,
             'message' => 'success'

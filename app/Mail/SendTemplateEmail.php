@@ -22,24 +22,19 @@ class SendTemplateEmail extends Mailable
 
     public function build()
     {
-        if (empty($this->email_template->attachments))
-        {
+        if (empty($this->email_template->attachments)) {
             return $this->view('emails.template', [
                 'email_template' => $this->email_template
             ])->subject($this->email_template->name);
-
-        } else
-        {
+        } else {
             $ste = $this->view('emails.template', [
                 'email_template' => $this->email_template
             ])->subject($this->email_template->name);
-            foreach ($this->email_template->attachments as $item)
-            {
+            foreach ($this->email_template->attachments as $item) {
                 $ste->attach(Storage::disk('public')->path($item));
             }
 
             return $ste;
         }
-
     }
 }

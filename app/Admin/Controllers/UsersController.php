@@ -5,6 +5,7 @@ namespace App\Admin\Controllers;
 use App\Http\Requests\Request;
 use App\Mail\SendTemplateEmail;
 use App\Models\Coupon;
+use App\Models\EmailLog;
 use App\Models\EmailTemplate;
 use App\Models\User;
 use App\Models\UserCoupon;
@@ -19,6 +20,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Notification;
+
 // use Illuminate\Validation\Rule;
 
 class UsersController extends Controller
@@ -197,11 +199,16 @@ class UsersController extends Controller
 
         $users = User::whereIn('id', $data['user_ids'])->get();
 
-
         $users->each(function ($user) use ($data) {
+            $email_template = EmailTemplate::find($data['email_template']);
+            Mail::to($user)->queue(new SendTemplateEmail($email_template));
 
-            Mail::to($user)->queue(new SendTemplateEmail(EmailTemplate::find($data['email_template'])));
-
+            EmailLog::create([
+                'email' => $user->email,
+                'content' => "Subject: {$email_template->name}. " . view('emails.template', [
+                        'email_template' => $email_template
+                    ])
+            ]);
         });
 
         return $content

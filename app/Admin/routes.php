@@ -134,6 +134,9 @@ Route::group([
     /*分销等级*/
     $router->resource('distribution_levels', DistributionLevelsController::class)->names('admin.distribution_levels');
 
+    /*Email Log*/
+    $router->resource('email_logs', EmailLogsController::class)->names('admin.email_logs');
+
     // $router->resource('example', ExampleController::class)->names('admin.example');
     // $router->get('example', 'ExampleController@index')->name('admin.example.index');
     // $router->get('example/create', 'ExampleController@create')->name('admin.example.create');

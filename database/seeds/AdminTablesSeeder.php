@@ -502,6 +502,13 @@ class AdminTablesSeeder extends Seeder
                 'uri' => 'auth/logs',
             ],
             [
+                'parent_id' => 2,
+                'order' => 10,
+                'title' => 'Email Log',
+                'icon' => 'fa-envelope',
+                'uri' => 'email_logs',
+            ],
+            [
                 'parent_id' => 0,
                 'order' => 998,
                 'title' => '系统设置',
