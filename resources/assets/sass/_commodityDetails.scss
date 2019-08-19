@@ -661,6 +661,10 @@
                   border: 1px solid $hover-color;
                   font-size: 21px;
                   color: #000;
+                  &.for_show_login {
+                    width: 100%;
+                    margin-bottom: 20px;
+                  }
                   &:hover {
                       background: $hover-color;
                       color: #fff;

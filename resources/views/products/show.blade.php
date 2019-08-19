@@ -186,11 +186,11 @@
                     <div class="addCart_buyNow">
                         @if($product->type == \App\Models\Product::PRODUCT_TYPE_CUSTOM)
                             <a class="buy_now for_show_login" href="{{ route('products.custom.show', ['product' => $product->id]) }}">
-                                Custom Now
+                                Customize it now
                             </a>
-                            <a class="add_carts for_show_login" href="{{ route('products.custom.show', ['product' => $product->id]) }}">
-                                @lang('app.Add to Shopping Cart')
-                            </a>
+                            {{--<a class="add_carts for_show_login" href="{{ route('products.custom.show', ['product' => $product->id]) }}">--}}
+                                {{--@lang('app.Add to Shopping Cart')--}}
+                            {{--</a>--}}
                         @else
                             <a class="buy_now" data-url="{{ route('orders.pre_payment') }}">
                                 @lang('product.product_details.Buy now')
@@ -198,16 +198,16 @@
                             <a class="add_carts" data-url="{{ route('carts.store') }}">
                                 @lang('app.Add to Shopping Cart')
                             </a>
+                            <a class="add_favourites {{ $favourite ? 'active' : '' }}" code="{{ $product->id }}"
+                               data-url="{{ route('user_favourites.store') }}"
+                               data-url_2="{{ route('user_favourites.destroy') }}"
+                               data-favourite-code="{{ $favourite ? $favourite->id : '' }}"
+                            >
+                                {{--<span class="favourites_img"></span>--}}
+                                <img src="{{ asset('img/favorite-eye.png') }}" alt="">
+                                <span>Add to wish list</span>
+                            </a>
                         @endif
-                        <a class="add_favourites {{ $favourite ? 'active' : '' }}" code="{{ $product->id }}"
-                           data-url="{{ route('user_favourites.store') }}"
-                           data-url_2="{{ route('user_favourites.destroy') }}"
-                           data-favourite-code="{{ $favourite ? $favourite->id : '' }}"
-                        >
-                            {{--<span class="favourites_img"></span>--}}
-                            <img src="{{ asset('img/favorite-eye.png') }}" alt="">
-                            <span>Add to wish list</span>
-                        </a>
                     </div>
                     {{-- 运费等介绍 --}}
                     <div class="shipping-detail">

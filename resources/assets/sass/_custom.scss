@@ -93,6 +93,10 @@
       position: absolute;
       right: 15px;
       top: 20px;
+      max-width: 40%;
+      img {
+        width: 100%;
+      }
     }
     .customizations-bg {
       width: 100%;
