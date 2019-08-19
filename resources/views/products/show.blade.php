@@ -136,8 +136,7 @@
                     {{-- 简介 --}}
                     <div class="short-description">
                         <div class="std">
-                            <textarea name="" id="" cols="30" rows="10">{!! App::isLocale('zh-CN') ? $product->description_zh : $product->description_en !!}</textarea>
-                            {{--<p>{!! App::isLocale('zh-CN') ? $product->description_zh : $product->description_en !!}</p>--}}
+                            <textarea class="std-content" name="" id="topArticle" cols="30" readonly>{!! App::isLocale('zh-CN') ? $product->description_zh : $product->description_en !!}</textarea>
                         </div>
                         <a href="javascript:void(0)" class="down-more" id="down-more">
                             <img src=" {{ asset('img/down-more.png') }}" alt="">
@@ -469,6 +468,14 @@
 @endsection
 @section('scriptsAfterJs')
     <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5d3faaaad4206199"></script>
+    <script type="text/javascript">
+        // var addthis_share = {
+        //     url: "https://www.lyricalhair.com/fpm-french-lace-front-mens-toupee-fine-mono-hairpiece-poly-skin-natural-hair-systems.html",
+        //     title: "FPM: French Lace Front Mens Toupee Fine Mono Hairpiece Poly Skin Natural Hair Systems",
+        //     description: "Fine mono with a thin skin perimeter and lace front base. Not only is it a durable design, but it also gives you an undetectable front hairline.",
+        //     media: "https://www.lyricalhair.com/storage/original/201908/FMP-a1-0.jpg"
+        // }
+    </script>
     <script src="{{ asset('js/swiper/js/swiper.js') }}"></script>
     {{--<script src="{{ asset('js/promagnifying/js/smoothproducts.min.js') }}"></script>--}}
     <script src="{{ asset('js/lord/jquery.colorbox.min.js') }}"></script>
@@ -500,13 +507,17 @@
         // 简介查看更多
         $("#down-more").on("click",function () {
             var _taht = $(this),
+                element = document.getElementById("topArticle"),
                 isHasClass = $(this).hasClass("active");
             if (isHasClass){
                 _taht.removeClass("active");
                 $(".std").find("textarea").removeClass("active");
+                // element.style.height = element.scrollHeight + "px";
+                element.style.height = "38px";
             } else {
                 _taht.addClass("active");
                 $(".std").find("textarea").addClass("active");
+                element.style.height = element.scrollHeight + "px";
             }
         });
         // 社会化分享弹窗
@@ -653,7 +664,6 @@
                         layer.msg("Added to wish list successfully");
                         clickDom.find("span").text("Remove from wish list");
                         clickDom.attr("data-favourite-code",data.data.favourite.id);
-                        clickDom.attr('data-url_2', "{{ config('app.url') }}" + '/user_favourites/' + data.data.favourite.id);
                         clickDom.addClass('active');
                     },
                     error: function (err) {
@@ -681,7 +691,6 @@
                     success: function (data) {
                         clickDom.find("span").text("Add to wish list");
                         layer.msg("Remove success from wish list");
-                        clickDom.attr('data-url_2', '');
                         clickDom.removeClass('active');
                     },
                     error: function (err) {
