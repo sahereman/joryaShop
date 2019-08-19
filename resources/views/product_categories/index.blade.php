@@ -77,11 +77,11 @@
                     <h1>{{ $category->name_en }}</h1>
                 </div>
                 <div class="category-description">
-                    <div class="iframe_content_description dis_ni">
+                    <div class="iframe_content_description" id="cmsConDescription">
                         {{--{!! $category->description_en !!}--}}
                         {!! App::isLocale('zh-CN') ? $category->description_zh : $category->description_en !!}
                     </div>
-                    <iframe name="cmsCon_description" id="cmsConDescription" class="cmsCon_description" frameborder="0" width="100%"></iframe>
+                    {{--<iframe name="cmsCon_description" id="cmsConDescription" class="cmsCon_description" frameborder="0" width="100%"></iframe>--}}
                 </div>
                 <div class="category-products">
                     <div class="toolbar">
@@ -317,13 +317,13 @@
             var height = Math.max(bHeight, dHeight);
             iframe_Description.height = bHeight;
         }
-        var iframe_content_description = $('.iframe_content_description').html();
-        $('.iframe_content_description').html("");
-        $('#cmsConDescription').contents().find('body').html(iframe_content_description);
-        $('#cmsConDescription').contents().find('body').css({"color":"#333","margin":0,"line-height":"130%","box-sizing":"border-box"});
-        $('#cmsConDescription').contents().find('body').find("span").css("fontSize","14px");
-        $('#cmsConDescription').contents().find('body').find("p").css("margin","0 0 8.4px");
-        reinitIframe("cmsConDescription");
+        // var iframe_content_description = $('.iframe_content_description').html();
+        // $('.iframe_content_description').html("");
+        // $('#cmsConDescription').contents().find('body').html(iframe_content_description);
+        $('#cmsConDescription').css({"color":"#333","margin":0,"line-height":"130%","box-sizing":"border-box"});
+        $('#cmsConDescription').find("span").css("fontSize","14px");
+        $('#cmsConDescription').find("p").css("margin","0 0 8.4px");
+        // reinitIframe("cmsConDescription");
         // var autoSet_description = window.setInterval('reinitIframe()',500);
     </script>
 @endsection
