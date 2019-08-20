@@ -1155,6 +1155,7 @@
         }
         sku_parameter.sku_choose_store.html("").append(sku_parameter.html);
         sku_parameter.sku_choose_store.find("select").on("change",function () {
+            $("#pro_num").val("1");
             var _that = $(this),
                 selected_val = _that.val();
             if(_that.parents(".forgetSel").find(".dynamic_name").attr("data-type") == "Hair Color") {

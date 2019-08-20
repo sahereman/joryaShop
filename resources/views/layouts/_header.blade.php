@@ -70,14 +70,15 @@
                     <a href="{{ route('carts.index') }}">
                         <img src="{{ asset('img/header/ic-cart.png') }}">
                         {{-- 判断是否登录登陆显示，不登陆不显示 --}}
-                        @guest
-                        @else
-                            @if(isset($cart_count))
-                                <span class="count">{{ $cart_count }}</span>
-                            @else
-                                <span class="count">0</span>
-                            @endif
-                        @endguest
+                        {{--@if(isset($cart_count))--}}
+                            {{--<div class="for_cart_num" style="display: table-cell;">--}}
+                                {{--<span class="count shop_cart_num">{{ $cart_count }}</span>--}}
+                            {{--</div>--}}
+                        {{--@else--}}
+                            {{--<div class="for_cart_num" style="display: table-cell;">--}}
+                                {{--<span class="count shop_cart_num">0</span>--}}
+                            {{--</div>--}}
+                        {{--@endif--}}
                         <span class="caret">&nbsp;</span>
                     </a>
                     {{-- 显示部分商品列表没接口 --}}
@@ -328,6 +329,27 @@
                         </li>
                     </ul>
                 </div>
+            </div>
+            {{--Mobile Menu--}}
+            <div class="navbar-mobile">
+                <div class="mobile-menun">
+                    <a href="javascript:void (0)">
+                        <span class="iconfont">&#xe604;Menu</span>
+                    </a>
+                    <div class="mobile-menu-content">
+
+                    </div>
+                </div>
+                <div class="for_show_search">
+                    <a class="show_btn" href="javascript:void(0);">
+                        <img src="{{ asset('img/search_magnifier.png') }}">
+                    </a>
+                </div>
+                @foreach(\App\Models\Menu::subPcMenus() as $sub_child)
+                    <a href="{{ $sub_child['link'] }}">
+                        {{ App::isLocale('zh-CN') ? $sub_child['name_zh'] : $sub_child['name_en'] }}
+                    </a>
+                @endforeach
             </div>
         </div>
     </div>

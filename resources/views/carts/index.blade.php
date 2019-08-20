@@ -40,8 +40,6 @@
                                             <div class="cart-header-item cart-item-option">
                                                 <a class="cur_p single_delete" href="javascript:void (0)" data-url="{{ route('carts.destroy') }}" data-sku-id="{{ $cart['product_sku_id'] }}">
                                                     <span class="iconfont">&#xe7b6;</span>
-                                                    {{--<input name="selectOne" type="hidden" checked="checked" data-sku-id="{{ $cart['product_sku_id'] }}"--}}
-                                                           {{--value="{{ $cart['product_sku_id'] }}">--}}
                                                 </a>
                                             </div>
                                             <div class="cart-header-item cart-item-item">
@@ -52,20 +50,14 @@
                                                 </div>
                                                 <div class="cart-item-item-content">
                                                     <div class="cart-item-name">
-                                                        {{--<a class="cur_p" href="{{ route('seo_url', $cart->sku->product->slug) }}">--}}
-                                                            {{--<span>{{ App::isLocale('zh-CN') ? $cart->sku->product->name_zh : $cart->sku->product->name_en }}</span>--}}
-                                                        {{--</a>--}}
                                                         <a class="cur_p" href="{{ route('seo_url', $cart['product_sku']->product->slug) }}">
                                                             <span>{{ App::isLocale('zh-CN') ? $cart['product_sku']->product->name_zh : $cart['product_sku']->product->name_en }}</span>
                                                         </a>
                                                     </div>
                                                     <div class="cart-item-btns">
-                                                        @if(!$cart->favourite)
-                                                            <a class="cur_p add_favourites" data-product-id="{{ $cart['product_sku']->product_id }}"
-                                                               data-url="{{ route('user_favourites.store') }}">
-                                                                Move To Wishlist
-                                                            </a>
-                                                        @endif
+                                                        <a class="cur_p add_favourites not-login">
+                                                            Move To Wishlist
+                                                        </a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -80,7 +72,7 @@
                                             <div class="cart-header-item cart-item-amount">
                                                 <div class="amount-price">
                                                     <span>{{ get_global_symbol() }}</span>
-                                                    <span>{{ bcmul(get_current_price($cart['product_sku']->price), $cart['number'], 2) }}</span>
+                                                    <span class="single-price">{{ bcmul(get_current_price($cart['product_sku']->price), $cart['number'], 2) }}</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -144,8 +136,6 @@
                                             <div class="cart-header-item cart-item-option">
                                                 <a class="cur_p single_delete" href="javascript:void (0)" data-url="{{ route('carts.destroy') }}" data-sku-id="{{ $cart->product_sku_id }}">
                                                     <span class="iconfont">&#xe7b6;</span>
-                                                    {{--<input name="selectOne" type="hidden" checked="checked" data-sku-id="{{ $cart['product_sku_id'] }}"--}}
-                                                    {{--value="{{ $cart['product_sku_id'] }}">--}}
                                                 </a>
                                             </div>
                                             <div class="cart-header-item cart-item-item">
@@ -156,9 +146,6 @@
                                                 </div>
                                                 <div class="cart-item-item-content">
                                                     <div class="cart-item-name">
-                                                        {{--<a class="cur_p" href="{{ route('seo_url', $cart->sku->product->slug) }}">--}}
-                                                        {{--<span>{{ App::isLocale('zh-CN') ? $cart->sku->product->name_zh : $cart->sku->product->name_en }}</span>--}}
-                                                        {{--</a>--}}
                                                         <a class="cur_p" href="{{ route('seo_url', $cart->sku->product->slug) }}">
                                                             <span>{{ App::isLocale('zh-CN') ? $cart->sku->product->name_zh : $cart->sku->product->name_en }}</span>
                                                         </a>
@@ -184,7 +171,7 @@
                                             <div class="cart-header-item cart-item-amount">
                                                 <div class="amount-price">
                                                     <span>{{ get_global_symbol() }}</span>
-                                                    <span>{{ bcmul(get_current_price($cart->sku->price), $cart->number, 2) }}</span>
+                                                    <span  class="single-price">{{ bcmul(get_current_price($cart->sku->price), $cart->number, 2) }}</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -290,7 +277,10 @@
                                         </tr>--}}
                                         <tr>
                                             <td class="price-name"><strong>Grand Total</strong></td>
-                                            <td class="price-num"><strong class="total-price">{{ get_global_symbol() . ' ' . get_current_price($total_amount) }}</strong></td>
+                                            <td class="price-num">
+                                                <strong class="total-price">
+                                                    <span>{{ get_global_symbol() }}</span>
+                                                    <span id="totalPriceNum">{{ get_current_price($total_amount) }}</span></strong></td>
                                         </tr>
                                         </tbody>
                                     </table>
@@ -418,18 +408,15 @@
                 {{--});--}}
             {{--});--}}
 
-
-            // ********************* 待修改，更改数量，同时更改价格（包含折扣等）  *********************
-
             // 为减少和添加商品数量的按钮绑定事件回调
             $('.cart-items').on('click',".small-button", function (evt) {
-                $(this).parent().parent().find('input[name="selectOne"]').prop('checked', true);
+                var single_price = $(this).parents(".cart-item-top").find(".single-price");
                 if ($(this).text() == '-') {
                     var count = parseInt($(this).next().val());
                     if (count > 1) {
                         count -= 1;
                         $(this).next().val(count);
-                        update_pro_num($(this).next());
+                        update_pro_num($(this).next(),single_price);
                     } else {
                         layer.msg("@lang('order.The number of goods is at least 1')");
                     }
@@ -438,15 +425,12 @@
                     if (count <= 10000) {
                         count += 1;
                         $(this).prev().val(count);
-                        update_pro_num($(this).prev());
+                        update_pro_num($(this).prev(),single_price);
                     } else {
                         layer.msg("@lang('order.Cannot add more quantities')");
                     }
                 }
                 var price = parseFloat($(this).parent().prev().find('span.price').text());
-                // $(this).parent().next().html("{{--{{ App::isLocale('en') ? '&#36;' : '&#165;' }}--}}" + (price * count).toFixed(2));
-                $(this).parent().next().html(global_symbol + js_number_format(Math.imul(float_multiply_by_100(price), count) / 100));
-                calcTotal();
             });
 
             // 为单个商品项删除超链接绑定事件回调
@@ -469,7 +453,7 @@
                             data: data,
                             success: function (data) {
                                 location.reload();
-                                calcTotal();
+                                // calcTotal();
                                 layer.close(index);
                             },
                             error: function (err) {
@@ -506,6 +490,14 @@
             // 加入收藏夹
             $('.cart-items').on('click', ".add_favourites", function () {
                 var clickDom = $(this);
+                if(clickDom.hasClass("not-login")) {
+                    layer.open({
+                        title: "@lang('app.Prompt')",
+                        content: "Add wishlist successfully",
+                        btn: "@lang('app.determine')",
+                    });
+                    return
+                }
                 var url_del = clickDom.parents("p").find(".single_delete").attr("data-url");
                 var data = {
                     _token: "{{ csrf_token() }}",
@@ -517,7 +509,7 @@
                     url: url,
                     data: data,
                     success: function (data) {
-                        del_forfavourty(url_del);
+                        del_forfavourty(url_del,url_del);
                         // calcTotal();
                         layer.open({
                             title: "@lang('app.Prompt')",
@@ -534,53 +526,20 @@
                 });
             });
 
-            //  **************************************** 待修改，商品数量变化的价格与之前不同 ***************************************
             // 为商品数量文本框绑定改变事件回调
             $('.cart-items input[type="text"]').on('change', function () {
-                $(this).parent().parent().find('input[name="selectOne"]').prop('checked', true);
+                var single_price = $(this).parents(".cart-item-top").find(".single-price");
                 var count = parseInt($(this).val());
                 if (count != $(this).val() || count < 1 || count > 200) {
                     layer.msg("@lang('product.invalid_commodity_quantity')");
                     count = 1;
                     $(this).val(count);
                 }
-                update_pro_num($(this));
+                update_pro_num($(this),single_price);
                 var price = parseFloat($(this).parent().prev().find('span.price').text());
-                // $(this).parent().next().html("{{--{{ App::isLocale('en') ? '&#36;' : '&#165;' }}--}}" + (price * count).toFixed(2));
-                $(this).parent().next().html(global_symbol + js_number_format(Math.imul(float_multiply_by_100(price), count) / 100));
-                calcTotal();
             });
-
-            // 计算总计
-            function calcTotal() {
-                var checkBoxes = $('input[name="selectOne"]');
-                var priceSpans = $('.single-item .price');
-                var countInputs = $('.single-item .count');
-                var totalCount = 0;
-                var totalPrice = 0;
-                for (var i = 0; i < priceSpans.length; i += 1) {
-                    // 复选框被勾中的购物车项才进行计算
-                    if ($(checkBoxes[i]).prop('checked')) {
-                        // 强调: jQuery对象使用下标运算或get方法会还原成原生的JavaScript对象
-                        var price = parseFloat($(priceSpans[i]).text());
-                        var count = parseInt($(countInputs[i]).val());
-                        totalCount += count;
-                        // totalPrice += price * count;
-                        totalPrice += parseFloat(js_number_format(Math.imul(float_multiply_by_100(price), count) / 100));
-                    }
-                }
-                if (totalPrice > 0) {
-                    $(".big-button").addClass('active');
-                } else {
-                    $(".big-button").removeClass('active');
-                }
-                $('#totalCount').text(totalCount);
-                // $('#totalPrice').html("{{--{{ App::isLocale('en') ? '&#36;' : '&#165;' }}--}}" + totalPrice.toFixed(2));
-                $('#totalPrice').html(global_symbol + js_number_format(totalPrice));
-            }
-
             //更新购物车记录（增减数量）
-            function update_pro_num(dom) {
+            function update_pro_num(dom,univalence) {
                 var url = dom.attr("data-url");
                 var data = {
                     _method: "PATCH",
@@ -593,7 +552,8 @@
                     url: url,
                     data: data,
                     success: function (data) {
-                        // calcTotal();
+                        $(univalence).text(data.data.amount);
+                        $("#totalPriceNum").text(data.data.total_amount);
                     },
                     error: function (err) {
                         console.log(err);
@@ -612,48 +572,56 @@
 
             // 点击结算
             $("#Checkout").on("click", function () {
-                var clickDom = $(this);
-                if (clickDom.hasClass('for_show_login') == true) {
-                    $(".login").click();
-                } else {
-                    if (clickDom.hasClass("active") != true) {
-                        layer.open({
-                            title: "@lang('app.Prompt')",
-                            content: "@lang('product.choose_settlement')",
-                            btn: "@lang('app.determine')",
-                        });
-                    } else {
-                        var cart_ids = "";
-                        var cartIds = $(".cart-items").find("input[name='selectOne']:checked");
-                        if (cartIds.length > 0) {
-                            $.each(cartIds, function (i, n) {
-                                cart_ids += $(n).val() + ","
-                            });
-                            cart_ids = cart_ids.substring(0, cart_ids.length - 1);
-                            var url = clickDom.attr('data-url');
-                            window.location.href = url + "?cart_ids=" + cart_ids + "&sendWay=2";
-                        } else {
-                            layer.open({
-                                title: "@lang('app.Prompt')",
-                                content: "@lang('product.choose_settlement')",
-                                btn: "@lang('app.determine')",
-                            });
-                        }
-                    }
-                }
+                var allSku = $(".cart-items").find(".count");
+                var allSkuStr = "";
+                var subUrl = "{{ route('orders.pre_payment') }}";
+                $.each(allSku,function (allSku_index,allSku_n) {
+                    allSkuStr+=$(allSku_n).attr("data-sku-id") + ","
+                });
+                allSkuStr = allSkuStr.substring(0,allSkuStr.length-1);
+                window.location.href = subUrl+"?sku_ids="+allSkuStr;
+                {{--var clickDom = $(this);--}}
+                {{--if (clickDom.hasClass('for_show_login') == true) {--}}
+                    {{--$(".login").click();--}}
+                {{--} else {--}}
+                    {{--if (clickDom.hasClass("active") != true) {--}}
+                        {{--layer.open({--}}
+                            {{--title: "@lang('app.Prompt')",--}}
+                            {{--content: "@lang('product.choose_settlement')",--}}
+                            {{--btn: "@lang('app.determine')",--}}
+                        {{--});--}}
+                    {{--} else {--}}
+                        {{--var cart_ids = "";--}}
+                        {{--var cartIds = $(".cart-items").find("input[name='selectOne']:checked");--}}
+                        {{--if (cartIds.length > 0) {--}}
+                            {{--$.each(cartIds, function (i, n) {--}}
+                                {{--cart_ids += $(n).val() + ","--}}
+                            {{--});--}}
+                            {{--cart_ids = cart_ids.substring(0, cart_ids.length - 1);--}}
+                            {{--var url = clickDom.attr('data-url');--}}
+                            {{--window.location.href = url + "?cart_ids=" + cart_ids + "&sendWay=2";--}}
+                        {{--} else {--}}
+                            {{--layer.open({--}}
+                                {{--title: "@lang('app.Prompt')",--}}
+                                {{--content: "@lang('product.choose_settlement')",--}}
+                                {{--btn: "@lang('app.determine')",--}}
+                            {{--});--}}
+                        {{--}--}}
+                    {{--}--}}
+                {{--}--}}
             });
             // 再次购买的特殊处理，如果从再次购买进入购物车则url中存在参数 sku_ids 用来判断哪些商品是通过再次购买添加至购物车中
             // 同时对这些对应的商品进行选择进行状态选中
-            function getUrlVars() {
-                var vars = [], hash;
-                var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
-                for (var i = 0; i < hashes.length; i++) {
-                    hash = hashes[i].split('=');
-                    vars.push(hash[0]);
-                    vars[hash[0]] = hash[1];
-                }
-                return vars["sku_ids"];
-            }
+            // function getUrlVars() {
+            //     var vars = [], hash;
+            //     var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+            //     for (var i = 0; i < hashes.length; i++) {
+            //         hash = hashes[i].split('=');
+            //         vars.push(hash[0]);
+            //         vars[hash[0]] = hash[1];
+            //     }
+            //     return vars["sku_ids"];
+            // }
         });
     </script>
 @endsection
