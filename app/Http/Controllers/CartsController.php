@@ -205,7 +205,7 @@ class CartsController extends Controller
         $user = $request->user();
         $sku_id = $request->input('sku_id');
 
-        $total_amount = 0;
+        // $total_amount = 0;
 
         if ($user) {
             $cart = Cart::where([
@@ -217,7 +217,7 @@ class CartsController extends Controller
                 $cart->delete();
             }
 
-            $carts = $user->carts()->with('sku.product')->get();
+            /*$carts = $user->carts()->with('sku.product')->get();
             if ($carts->isNotEmpty()) {
                 $carts->each(function (Cart $cart, $key) use (&$total_amount) {
                     if ($cart->sku->product && $cart->sku->product->on_sale) {
@@ -226,7 +226,7 @@ class CartsController extends Controller
                     }
                     $cart->delete();
                 });
-            }
+            }*/
         } else {
             $cart = session('cart', []);
             // $cart = Session::get('cart', []);
@@ -240,7 +240,7 @@ class CartsController extends Controller
             }
 
             // 自动清除失效商品[已删除或已下架商品]
-            $flag = false;
+            /*$flag = false;
             foreach ($cart as $product_sku_id => $number) {
                 $product_sku = ProductSku::with('product')->find($product_sku_id);
                 if (!$product_sku->product || !$product_sku->product->on_sale) {
@@ -254,15 +254,15 @@ class CartsController extends Controller
                 session(['cart' => $cart]);
                 // Session::put('cart', $cart);
                 // Session::put(['cart' => $cart]);
-            }
+            }*/
         }
 
         return response()->json([
             'code' => 200,
             'message' => 'success',
-            'data' => [
+            /*'data' => [
                 'total_amount' => $total_amount
-            ]
+            ]*/
         ]);
     }
 

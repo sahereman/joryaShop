@@ -533,8 +533,8 @@
                             payment_one(sku_id, number, url);
                             break;
                         case "2":
-                            var cart_ids = getUrlVars("sku_ids");
-                            payment_two(cart_ids, url);
+                            var sku_ids = getUrlVars("sku_ids");
+                            payment_two(sku_ids, url);
                             break;
                         default :
                             break;
@@ -578,10 +578,10 @@
             }
 
             // 第二类创建订单（购物车下单）
-            function payment_two(cart_ids, url) {
+            function payment_two(sku_ids, url) {
                 var data = {
                     _token: "{{ csrf_token() }}",
-                    sku_ids: cart_ids,
+                    sku_ids: sku_ids,
                     address_id: $(".pre_payment_header").attr("code"),
                     name: $('.address_name').text(),
                     phone: $('.address_phone').text(),
