@@ -305,7 +305,9 @@
                 $(".customizations-slide").find(".block-content").slideUp();
                 $(this).addClass("opened");
                 $(this).parents("li").find(".block-content").slideDown();
-                $(".customizations-img").find("img").prop("src",img_url);
+                if(img_url_default != "") {
+                    $(".customizations-img").find("img").prop("src",img_url);
+                }
             }
         });
         // 用于价格记录的计算变量参数
