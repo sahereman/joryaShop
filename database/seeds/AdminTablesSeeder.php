@@ -158,35 +158,35 @@ class AdminTablesSeeder extends Seeder
 
             //用户
             [
-                'parent_id' => 12,
+                'parent_id' => 13,
                 'order' => 1,
                 'title' => '用户',
                 'icon' => 'fa-user',
                 'uri' => 'users',
             ],
             [
-                'parent_id' => 12,
+                'parent_id' => 13,
                 'order' => 2,
                 'title' => '群发站内信',
                 'icon' => 'fa-file-text',
                 'uri' => 'users/send_message',
             ],
             [
-                'parent_id' => 12,
+                'parent_id' => 13,
                 'order' => 3,
                 'title' => '群发邮件',
                 'icon' => 'fa-send',
                 'uri' => 'users/send_email',
             ],
             [
-                'parent_id' => 12,
+                'parent_id' => 13,
                 'order' => 4,
                 'title' => '群发优惠券',
                 'icon' => 'fa-codiepie',
                 'uri' => 'users/send_coupon',
             ],
             [
-                'parent_id' => 12,
+                'parent_id' => 13,
                 'order' => 5,
                 'title' => '分销等级',
                 'icon' => 'fa-arrows',
@@ -195,56 +195,56 @@ class AdminTablesSeeder extends Seeder
 
             // 产品
             [
-                'parent_id' => 13,
+                'parent_id' => 14,
                 'order' => 1,
                 'title' => 'SKU 属性',
                 'icon' => 'fa-arrows',
                 'uri' => 'attrs',
             ],
             [
-                'parent_id' => 13,
+                'parent_id' => 14,
                 'order' => 2,
                 'title' => '商品参数',
                 'icon' => 'fa-arrows-alt',
                 'uri' => 'params',
             ],
             [
-                'parent_id' => 13,
+                'parent_id' => 14,
                 'order' => 3,
                 'title' => '分类',
                 'icon' => 'fa-cube',
                 'uri' => 'product_categories',
             ],
             [
-                'parent_id' => 13,
+                'parent_id' => 14,
                 'order' => 4,
                 'title' => '产品',
                 'icon' => 'fa-cubes',
                 'uri' => 'products',
             ],
             [
-                'parent_id' => 13,
+                'parent_id' => 14,
                 'order' => 5,
                 'title' => '仓库',
                 'icon' => 'fa-fort-awesome',
                 'uri' => 'product_locations',
             ],
             [
-                'parent_id' => 13,
+                'parent_id' => 14,
                 'order' => 6,
                 'title' => '服务',
                 'icon' => 'fa-server',
                 'uri' => 'product_services',
             ],
             [
-                'parent_id' => 13,
+                'parent_id' => 14,
                 'order' => 7,
                 'title' => '优惠券',
                 'icon' => 'fa-contao',
                 'uri' => 'coupons',
             ],
             [
-                'parent_id' => 13,
+                'parent_id' => 14,
                 'order' => 8,
                 'title' => '定制商品 SKU 属性',
                 'icon' => 'fa-asterisk',
@@ -253,21 +253,21 @@ class AdminTablesSeeder extends Seeder
 
             // 订单
             [
-                'parent_id' => 14,
+                'parent_id' => 15,
                 'order' => 1,
                 'title' => '商品订单',
                 'icon' => 'fa-bookmark-o',
                 'uri' => 'orders',
             ],
             [
-                'parent_id' => 14,
+                'parent_id' => 15,
                 'order' => 2,
                 'title' => '售后订单',
                 'icon' => 'fa-bookmark',
                 'uri' => 'order_refunds',
             ],
             [
-                'parent_id' => 14,
+                'parent_id' => 15,
                 'order' => 3,
                 'title' => '订单回收站',
                 'icon' => 'fa-archive',
@@ -276,14 +276,14 @@ class AdminTablesSeeder extends Seeder
 
             // 文章
             [
-                'parent_id' => 16,
+                'parent_id' => 17,
                 'order' => 1,
                 'title' => '分类',
                 'icon' => 'fa-bookmark',
                 'uri' => 'article_categories',
             ],
             [
-                'parent_id' => 16,
+                'parent_id' => 17,
                 'order' => 2,
                 'title' => '文章',
                 'icon' => 'fa-bookmark-o',
@@ -293,42 +293,42 @@ class AdminTablesSeeder extends Seeder
 
             // 其他设置
             [
-                'parent_id' => 19,
+                'parent_id' => 20,
                 'order' => 1,
                 'title' => '汇率管理',
                 'icon' => 'fa-usd',
                 'uri' => 'exchange_rates',
             ],
             [
-                'parent_id' => 19,
+                'parent_id' => 20,
                 'order' => 2,
                 'title' => '手机号国家管理',
                 'icon' => 'fa-phone',
                 'uri' => 'country_codes',
             ],
             [
-                'parent_id' => 19,
+                'parent_id' => 20,
                 'order' => 3,
                 'title' => '快递公司管理',
                 'icon' => 'fa-ambulance',
                 'uri' => 'shipment_companies',
             ],
             [
-                'parent_id' => 19,
+                'parent_id' => 20,
                 'order' => 5,
                 'title' => '退款原因管理',
                 'icon' => 'fa-retweet',
                 'uri' => 'refund_reasons',
             ],
             [
-                'parent_id' => 19,
+                'parent_id' => 20,
                 'order' => 6,
                 'title' => '邮件模板管理',
                 'icon' => 'fa-bookmark',
                 'uri' => 'email_templates',
             ],
             [
-                'parent_id' => 19,
+                'parent_id' => 20,
                 'order' => 8,
                 'title' => '运费模板管理',
                 'icon' => 'fa-bookmark',
@@ -337,21 +337,21 @@ class AdminTablesSeeder extends Seeder
 
             // 导航
             [
-                'parent_id' => 20,
+                'parent_id' => 21,
                 'order' => 1,
                 'title' => 'PC主导航',
                 'icon' => 'fa-anchor',
                 'uri' => 'menus?slug=pc',
             ],
             [
-                'parent_id' => 20,
+                'parent_id' => 21,
                 'order' => 2,
                 'title' => 'PC副导航',
                 'icon' => 'fa-anchor',
                 'uri' => 'menus?slug=sub_pc',
             ],
             [
-                'parent_id' => 20,
+                'parent_id' => 21,
                 'order' => 3,
                 'title' => 'Mobile导航',
                 'icon' => 'fa-anchor',

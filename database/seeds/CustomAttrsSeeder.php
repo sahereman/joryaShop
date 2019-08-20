@@ -26,7 +26,7 @@ class CustomAttrsSeeder extends Seeder
                 'Hair Density',
                 'Hair Direction'
             ],
-            'OTHERS' => [
+            'COLOR' => [
                 'Hair Color',
                 'Grey Hair',
                 'Highlight',

@@ -25,7 +25,7 @@ class ProductCategoriesController extends Controller
         $is_by_param = $request->query('is_by_param');
         foreach ($queries as $key => $value) {
             if (strpos($key, 'param-') === 0) {
-                $param = substr($key, 6);
+                $param = str_replace('_', ' ', substr($key, 6));
                 $query_data[$key] = $value;
                 $query_param_values[$param] = $value;
             }

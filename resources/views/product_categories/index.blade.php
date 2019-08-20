@@ -61,8 +61,8 @@
                         <div class="screening-results">
                             <span class="screening-results-title">All Results:</span>
                             <div class="screening-results-option">
-                            @foreach($query_param_values as $param => $value)
-                                    <a href="{{ str_replace_first('param-'.$param.'='.$value,'',url(Request::getRequestUri())) }}">
+                                @foreach($query_param_values as $param => $value)
+                                    <a href="{{ preg_replace('/param\-' . str_replace(' ', '\_', $param) . '\=' . '.+(\&|$)/U', '', url(Request::getRequestUri())) }}">
                                         <span class="broad-heading">{{ $param }}</span>
                                         <span>:</span>
                                         <span class="subclass">{{ $value }}</span>
@@ -77,27 +77,29 @@
                         <div class="shop-by-title block-title">
                             <strong><span>Shop By:</span></strong>
                         </div>
-                        @if($param_values)
+                        @if(count($param_values) > 0)
                             <div class="shop-by-content block-content">
                                 <div class="categories-lists-items subtitle-filter">
-                                    @foreach($param_values as $name => $values)
-                                        <div class="categories-lists-item">
-                                            <div class="lists-item-title">
-                                                <span title="{{ $name }}">{{ $name }}</span>
-                                                <span class="opener">+</span>
+                                    @foreach($param_values as $param => $values)
+                                        @if(count($values) > 0)
+                                            <div class="categories-lists-item">
+                                                <div class="lists-item-title">
+                                                    <span>{{ $param }}</span>
+                                                    <span class="opener">+</span>
+                                                </div>
+                                                <ul class="categories-lists-item-ul">
+                                                    @foreach($values as $value => $count)
+                                                        @if(!isset($query_param_values[$param]) || $query_param_values[$param] != $value)
+                                                            <li>
+                                                                <a href="{{ route('seo_url', $category->slug) . '?' . http_build_query(array_merge($query_data, ['is_by_param' => 1, 'param-' . str_replace(' ', '_', $param) => $value])) }}">
+                                                                    {{ $value }}<span class="count">({{ $count }})</span>
+                                                                </a>
+                                                            </li>
+                                                        @endif
+                                                    @endforeach
+                                                </ul>
                                             </div>
-                                            <ul class="categories-lists-item-ul">
-                                                @foreach($values as $value => $count)
-                                                    @if(!isset($query_param_values[$name]) || $query_param_values[$name] != $value)
-                                                        <li>
-                                                            <a href="{{ route('seo_url', $category->slug) . '?' . http_build_query(array_merge($query_data, ['is_by_param' => 1, 'param-' . $name => $value])) }}">
-                                                                {{ $value }}<span class="count">({{ $count }})</span>
-                                                            </a>
-                                                        </li>
-                                                    @endif
-                                                @endforeach
-                                            </ul>
-                                        </div>
+                                        @endif
                                     @endforeach
                                 </div>
                             </div>

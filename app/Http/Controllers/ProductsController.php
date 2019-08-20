@@ -43,7 +43,7 @@ class ProductsController extends Controller
         $is_by_param = $request->query('is_by_param');
         foreach ($queries as $key => $value) {
             if (strpos($key, 'param-') === 0) {
-                $param = substr($key, 6);
+                $param = str_replace('_', ' ', substr($key, 6));
                 $query_data[$key] = $value;
                 $query_param_values[$param] = $value;
             }
@@ -372,20 +372,12 @@ class ProductsController extends Controller
         });*/
         // $grouped_custom_attrs = $custom_attrs->groupBy('type');
         $grouped_custom_attrs = CustomAttr::with('values')->orderByDesc('sort')->get()->groupBy('type');
+        $custom_attr_types = $grouped_custom_attrs->keys()->toArray();
 
-        /*根据模型中静态数组的顺序排序*/
-        $sorted_grouped_custom_attrs = [];
-        foreach (CustomAttr::$customAttrTypeMap as $item)
-        {
-            $sorted_grouped_custom_attrs[$item] = $grouped_custom_attrs[$item];
-        }
-        $sorted_grouped_custom_attrs = collect($sorted_grouped_custom_attrs);
-
-        $custom_attr_types = $sorted_grouped_custom_attrs->keys()->toArray();
         return view('products.custom', [
             'product' => $product,
             'custom_attr_types' => $custom_attr_types,
-            'grouped_custom_attrs' => $sorted_grouped_custom_attrs,
+            'grouped_custom_attrs' => $grouped_custom_attrs,
         ]);
     }
 

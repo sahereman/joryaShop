@@ -4,6 +4,7 @@ namespace App\Admin\Controllers;
 
 use App\Models\Param;
 use App\Http\Controllers\Controller;
+use App\Models\ProductParam;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
 use Encore\Admin\Form\NestedForm;
@@ -134,6 +135,7 @@ class ParamsController extends Controller
     protected function form()
     {
         $form = new Form(new Param);
+        $form->html('<button class="btn btn-primary"><i class="fa fa-send"></i>&nbsp;提交</button>');
 
         $form->text('name', '商品参数名称');
         $form->number('sort', '排序值')->default(9)->rules('required|integer|min:0')->help('默认倒序排列：数值越大越靠前');
@@ -141,6 +143,15 @@ class ParamsController extends Controller
         $form->hasMany('values', '商品参数值 - 列表', function (NestedForm $form) {
             $form->text('value', '商品参数值');
             $form->number('sort', '排序值')->default(9)->rules('required|integer|min:0')->help('默认倒序排列：数值越大越靠前');
+        });
+
+        // 定义事件回调，当模型即将保存时会触发这个回调
+        $form->saving(function (Form $form) {
+            $param = $form->model();
+            $param_name = request()->input('name');
+            if ($param_name != $param->name) {
+                ProductParam::where('name', $param->name)->update(['name' => $param_name]);
+            }
         });
 
         return $form;

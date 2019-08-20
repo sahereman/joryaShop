@@ -222,7 +222,6 @@ class PeriodProductsController extends Controller
      */
     protected function form()
     {
-        $ctl = $this;
         $form = new Form(new PeriodProduct);
         // $form->html('<button class="btn btn-primary"><i class="fa fa-send"></i>&nbsp;提交</button>');
 
