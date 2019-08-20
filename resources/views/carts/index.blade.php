@@ -579,7 +579,7 @@
                     allSkuStr+=$(allSku_n).attr("data-sku-id") + ","
                 });
                 allSkuStr = allSkuStr.substring(0,allSkuStr.length-1);
-                window.location.href = subUrl+"?sku_ids="+allSkuStr;
+                window.location.href = subUrl+"?sku_ids="+allSkuStr+"&sendWay=2";
                 {{--var clickDom = $(this);--}}
                 {{--if (clickDom.hasClass('for_show_login') == true) {--}}
                     {{--$(".login").click();--}}
