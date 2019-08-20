@@ -68,7 +68,7 @@
                                         <span class="opener iconfont">&#xe60f;</span>
                                     </h6>
                                     <div class="block-content">
-                                        <ul class="block-list">
+                                        <ul class="block-list" data-url="{{ $custom_attr->photo_url }}">
                                             @foreach($custom_attr->values as $custom_attr_value)
                                                 <li class="block-list-level">
                                                     <label>
