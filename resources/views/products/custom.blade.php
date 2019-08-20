@@ -313,6 +313,8 @@
 
         // 点击一级分类出现二级分类内容
         $(".customizations-slide").on("click", "input[type=radio]", function () {
+            var img_url = $(this).parents(".block-list").attr("data-url");
+            $(".customizations-img").find("img").prop("src",img_url);
             var chil_ul = $(this).parent("label").parent(".block-list-level").find("ul"),
                     chooseText = '';
             // 判断是否有二级选项存在
