@@ -71,9 +71,12 @@
             @foreach($order->items as $item)
                 <tr>
                     <td><a href="{{route('admin.products.show',$item->sku->product->id)}}">{{ $item->sku->product->name_en }}</a></td>
-                    <td>{{ $item->sku->base_size_en }}
-                        | {{ $item->sku->hair_colour_en }}
-                        | {{ $item->sku->hair_density_en }}
+                    <td>
+                        @if($item->sku->product->type == \App\Models\Product::PRODUCT_TYPE_CUSTOM)
+                            {{ $item->sku->custom_attr_value_string }}
+                        @else
+                            {{ $item->sku->attr_value_string }}
+                        @endif
                     </td>
                     <td>{{ $item->price }}</td>
                     <td>{{ $item->number }}</td>
