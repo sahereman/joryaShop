@@ -16,6 +16,7 @@ class CartsController extends Controller
     public function index(Request $request)
     {
         $user = $request->user();
+        $total_amount = 0;
         if ($user) {
             $carts = $user->carts()->with('sku.product')->get();
 
@@ -33,33 +34,43 @@ class CartsController extends Controller
                 });
             }*/
             if ($carts->isNotEmpty()) {
-                $carts = $carts->filter(function (Cart $cart, $key) {
-                    return ($cart->sku->product && $cart->sku->product->on_sale);
+                $carts = $carts->map(function (Cart $cart, $key) use (&$total_amount) {
+                    if ($cart->sku->product && $cart->sku->product->on_sale) {
+                        $total_amount += bcmul($cart->sku->price, $cart->number, 2);
+                        return $cart;
+                    }
+                    $cart->delete();
                 });
             }
         } else {
-            $carts = session('carts', []);
-            // $carts = Session::get('carts', []);
+            $carts = [];
+            $cart = session('cart', []);
+            // $cart = Session::get('cart', []);
 
             // 自动清除失效商品[已删除或已下架商品]
             $flag = false;
-            foreach ($carts as $key => $cart) {
-                $product_sku = ProductSku::with('product')->find($cart['product_sku_id']);
-                $carts[$key]['product_sku'] = $product_sku;
+            foreach ($cart as $product_sku_id => $number) {
+                $product_sku = ProductSku::with('product')->find($product_sku_id);
                 if (!$product_sku->product || !$product_sku->product->on_sale) {
-                    unset($carts[$key]);
+                    unset($cart[$product_sku_id]);
                     $flag = true;
+                    continue;
                 }
+                $carts[$product_sku_id]['product_sku_id'] = $product_sku_id;
+                $carts[$product_sku_id]['product_sku'] = $product_sku;
+                $carts[$product_sku_id]['number'] = $number;
+                $total_amount += bcmul($product_sku->price, $number, 2);
             }
             if ($flag) {
-                session(['carts' => $carts]);
-                // Session::put('carts', $carts);
-                // Session::put(['carts' => $carts]);
+                session(['cart' => $cart]);
+                // Session::put('cart', $cart);
+                // Session::put(['cart' => $cart]);
             }
         }
 
         return view('carts.index', [
             'carts' => $carts,
+            'total_amount' => $total_amount
         ]);
     }
 
@@ -86,25 +97,18 @@ class CartsController extends Controller
                 ]);
             }
         } else {
-            $carts = session('carts', []);
-            // $carts = Session::get('carts', []);
-            $flag = false;
-            foreach ($carts as $key => $cart) {
-                if ($cart['product_sku_id'] == $sku_id) {
-                    $carts[$key]['number'] += $number;
-                    $flag = true;
-                    break;
-                }
+            $cart = session('cart', []);
+            // $cart = Session::get('cart', []);
+
+            if (isset($cart[$sku_id])) {
+                $cart[$sku_id] += $number;
+            } else {
+                $cart[$sku_id] = $number;
             }
-            if (!$flag) {
-                $carts[] = [
-                    'product_sku_id' => $sku_id,
-                    'number' => $number
-                ];
-            }
-            session(['carts' => $carts]);
-            // Session::put('carts', $carts);
-            // Session::put(['carts' => $carts]);
+
+            session(['cart' => $cart]);
+            // Session::put('cart', $cart);
+            // Session::put(['cart' => $cart]);
         }
 
         return response()->json([
@@ -122,6 +126,9 @@ class CartsController extends Controller
         $sku_id = $request->input('sku_id');
         $number = $request->input('number');
 
+        $amount = 0;
+        $total_amount = 0;
+
         if ($user) {
             $cart = Cart::where([
                 'user_id' => $user->id,
@@ -132,37 +139,61 @@ class CartsController extends Controller
                     'number' => $number
                 ]);
             } else {
-                Cart::create([
+                $cart = Cart::create([
                     'user_id' => $user->id,
                     'product_sku_id' => $sku_id,
                     'number' => $number
                 ]);
             }
+
+            $amount = get_current_price(bcmul($cart->sku->price, $number, 2));
+            $carts = $user->carts()->with('sku.product')->get();
+            if ($carts->isNotEmpty()) {
+                $carts->each(function (Cart $cart, $key) use (&$total_amount) {
+                    if ($cart->sku->product && $cart->sku->product->on_sale) {
+                        $total_amount += bcmul($cart->sku->price, $cart->number, 2);
+                        return $cart;
+                    }
+                    $cart->delete();
+                });
+            }
         } else {
-            $carts = session('carts', []);
-            // $carts = Session::get('carts', []);
+            $cart = session('cart', []);
+            // $cart = Session::get('cart', []);
+
+            $cart[$sku_id] = $number;
+
+            session(['cart' => $cart]);
+            // Session::put('cart', $cart);
+            // Session::put(['cart' => $cart]);
+
+            $product_sku = ProductSku::with('product')->find($sku_id);
+            $amount = get_current_price(bcmul($product_sku->price, $number, 2));
+            // 自动清除失效商品[已删除或已下架商品]
             $flag = false;
-            foreach ($carts as $key => $cart) {
-                if ($cart['product_sku_id'] == $sku_id) {
-                    $carts[$key]['number'] = $number;
+            foreach ($cart as $product_sku_id => $number) {
+                $product_sku = ProductSku::with('product')->find($product_sku_id);
+                if (!$product_sku->product || !$product_sku->product->on_sale) {
+                    unset($cart[$product_sku_id]);
                     $flag = true;
-                    break;
+                    continue;
                 }
+                $total_amount += bcmul($product_sku->price, $number, 2);
             }
-            if (!$flag) {
-                $carts[] = [
-                    'product_sku_id' => $sku_id,
-                    'number' => $number
-                ];
+            if ($flag) {
+                session(['cart' => $cart]);
+                // Session::put('cart', $cart);
+                // Session::put(['cart' => $cart]);
             }
-            session(['carts' => $carts]);
-            // Session::put('carts', $carts);
-            // Session::put(['carts' => $carts]);
         }
 
         return response()->json([
             'code' => 200,
             'message' => 'success',
+            'data' => [
+                'amount' => $amount,
+                'total_amount' => $total_amount
+            ]
         ]);
     }
 
@@ -174,6 +205,8 @@ class CartsController extends Controller
         $user = $request->user();
         $sku_id = $request->input('sku_id');
 
+        $total_amount = 0;
+
         if ($user) {
             $cart = Cart::where([
                 'user_id' => $user->id,
@@ -183,27 +216,53 @@ class CartsController extends Controller
                 $cart->user()->dissociate();
                 $cart->delete();
             }
+
+            $carts = $user->carts()->with('sku.product')->get();
+            if ($carts->isNotEmpty()) {
+                $carts->each(function (Cart $cart, $key) use (&$total_amount) {
+                    if ($cart->sku->product && $cart->sku->product->on_sale) {
+                        $total_amount += bcmul($cart->sku->price, $cart->number, 2);
+                        return $cart;
+                    }
+                    $cart->delete();
+                });
+            }
         } else {
-            $carts = session('carts', []);
-            // $carts = Session::get('carts', []);
+            $cart = session('cart', []);
+            // $cart = Session::get('cart', []);
+
+            if (isset($cart[$sku_id])) {
+                unset($cart[$sku_id]);
+
+                session(['cart' => $cart]);
+                // Session::put('cart', $cart);
+                // Session::put(['cart' => $cart]);
+            }
+
+            // 自动清除失效商品[已删除或已下架商品]
             $flag = false;
-            foreach ($carts as $key => $cart) {
-                if ($cart['product_sku_id'] == $sku_id) {
-                    unset($carts[$key]);
+            foreach ($cart as $product_sku_id => $number) {
+                $product_sku = ProductSku::with('product')->find($product_sku_id);
+                if (!$product_sku->product || !$product_sku->product->on_sale) {
+                    unset($cart[$product_sku_id]);
                     $flag = true;
-                    break;
+                    continue;
                 }
+                $total_amount += bcmul($product_sku->price, $number, 2);
             }
             if ($flag) {
-                session(['carts' => $carts]);
-                // Session::put('carts', $carts);
-                // Session::put(['carts' => $carts]);
+                session(['cart' => $cart]);
+                // Session::put('cart', $cart);
+                // Session::put(['cart' => $cart]);
             }
         }
 
         return response()->json([
             'code' => 200,
             'message' => 'success',
+            'data' => [
+                'total_amount' => $total_amount
+            ]
         ]);
     }
 
@@ -215,9 +274,12 @@ class CartsController extends Controller
         if ($user) {
             Cart::where(['user_id' => $user->id])->delete();
         } else {
-            if (session()->has('carts')) { // (Session::has('carts'))
-                session()->forget('carts');
-                // Session::forget('carts');
+            if (session()->has('cart')) { // (Session::has('cart'))
+                session(['cart' => []]);
+                // Session::put('cart', []);
+                // Session::put(['cart' => []]);
+                // session()->forget('cart');
+                // Session::forget('cart');
             }
         }
 

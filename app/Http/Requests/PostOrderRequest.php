@@ -34,7 +34,7 @@ class PostOrderRequest extends Request
                 ],
                 'sku_id' => [
                     'bail',
-                    'required_without:cart_ids',
+                    'required_without:sku_ids',
                     'required_with:number',
                     'integer',
                     'exists:product_skus,id',
@@ -53,7 +53,7 @@ class PostOrderRequest extends Request
                 ],
                 'number' => [
                     'bail',
-                    'required_without:cart_ids',
+                    'required_without:sku_ids',
                     'required_with:sku_id',
                     'integer',
                     'min:1',
@@ -64,7 +64,7 @@ class PostOrderRequest extends Request
                         }
                     },
                 ],
-                'cart_ids' => [
+                'sku_ids' => [
                     'bail',
                     'required_without_all:sku_id,number',
                     'string',
@@ -103,7 +103,7 @@ class PostOrderRequest extends Request
             return [
                 'sku_id' => [
                     'bail',
-                    'required_without:cart_ids',
+                    'required_without:sku_ids',
                     'required_with:number',
                     'integer',
                     'exists:product_skus,id',
@@ -122,7 +122,7 @@ class PostOrderRequest extends Request
                 ],
                 'number' => [
                     'bail',
-                    'required_without:cart_ids',
+                    'required_without:sku_ids',
                     'required_with:sku_id',
                     'integer',
                     'min:1',
@@ -133,7 +133,7 @@ class PostOrderRequest extends Request
                         }
                     },
                 ],
-                'cart_ids' => [
+                'sku_ids' => [
                     'bail',
                     'required_without_all:sku_id,number',
                     'string',
@@ -167,7 +167,7 @@ class PostOrderRequest extends Request
             'currency' => '币种',
             'sku_id' => '商品SKU-ID',
             'number' => '商品购买数量',
-            'cart_ids' => '购物车IDs',
+            'sku_ids' => '商品SKU-IDs',
             'address_id' => '用户地址ID',
             'name' => '收件人姓名',
             'phone' => '收件人联系方式',
@@ -185,7 +185,7 @@ class PostOrderRequest extends Request
     {
         return [
             'sku_id.exists' => trans('basic.orders.Product_sku_does_not_exist'),
-            'cart_ids.regex' => trans('basic.orders.Cart_ids_with_bad_format'),
+            'sku_ids.regex' => trans('basic.orders.Cart_ids_with_bad_format'),
         ];
     }
 }

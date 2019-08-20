@@ -2,7 +2,7 @@
 @section('title', (App::isLocale('zh-CN') ? '购物车' : 'Cart') . ' - ' . \App\Models\Config::config('title'))
 @section('content')
     <div class="shopping_cart">
-        <div class="m-wrapper">
+        <div class="container m-wrapper">
             <div class="carts">
                 @if(!count($carts) > 0)
                     <div class="empty_shopping_cart">
@@ -40,7 +40,7 @@
                                             <div class="cart-header-item cart-item-option">
                                                 <a class="cur_p single_delete" href="javascript:void (0)" data-url="{{ route('carts.destroy') }}" data-sku-id="{{ $cart['product_sku_id'] }}">
                                                     <span class="iconfont">&#xe7b6;</span>
-                                                    {{--<input name="selectOne" type="hidden" checked="checked" code="{{ $cart['product_sku_id'] }}"--}}
+                                                    {{--<input name="selectOne" type="hidden" checked="checked" data-sku-id="{{ $cart['product_sku_id'] }}"--}}
                                                            {{--value="{{ $cart['product_sku_id'] }}">--}}
                                                 </a>
                                             </div>
@@ -61,7 +61,7 @@
                                                     </div>
                                                     <div class="cart-item-btns">
                                                         @if(!$cart->favourite)
-                                                            <a class="cur_p add_favourites" code="{{ $cart['product_sku']->product_id }}"
+                                                            <a class="cur_p add_favourites" data-product-id="{{ $cart['product_sku']->product_id }}"
                                                                data-url="{{ route('user_favourites.store') }}">
                                                                 Move To Wishlist
                                                             </a>
@@ -73,7 +73,7 @@
                                                 <div class="counter">
                                                     <button class="left small-button">-</button>
                                                     <input class="left center count" data-url="{{ route('carts.update') }}"
-                                                           type="text" size="4" value="{{ $cart['number'] }}" title="QTY">
+                                                           type="text" size="4" value="{{ $cart['number'] }}" data-sku-id="{{ $cart['product_sku_id'] }}" title="QTY">
                                                     <button class="left small-button">+</button>
                                                 </div>
                                             </div>
@@ -88,30 +88,51 @@
                                             <p class="order-detail-title">ORDER DETAILS</p>
                                             <div class="order-details">
                                                 {{-- 循环的时候分奇偶数 --}}
-                                                <div class="order-detail odd">
-                                                    <div class="order-detail-name">
-                                                        <span>Base Size</span>
-                                                    </div>
-                                                    <div class="order-detail-value">
-                                                        <span>ImBLbMR</span>
-                                                    </div>
-                                                </div>
-                                                <div class="order-detail even">
-                                                    <div class="order-detail-name">
-                                                        <span>Hair Color</span>
-                                                    </div>
-                                                    <div class="order-detail-value">
-                                                        <span>JojwIyG</span>
-                                                    </div>
-                                                </div>
-                                                <div class="order-detail odd">
-                                                    <div class="order-detail-name">
-                                                        <span>Hair Density</span>
-                                                    </div>
-                                                    <div class="order-detail-value">
-                                                        <span>nIqi05E</span>
-                                                    </div>
-                                                </div>
+                                                @if($cart['product_sku']->product->type == \App\Models\Product::PRODUCT_TYPE_CUSTOM)
+                                                    @foreach($cart['product_sku']->custom_attr_values as $key => $custom_attr_value)
+                                                        @if(($key + 1) % 2 == 1)
+                                                            <div class="order-detail odd">
+                                                                <div class="order-detail-name">
+                                                                    <span>{{ $custom_attr_value->name }}</span>
+                                                                </div>
+                                                                <div class="order-detail-value">
+                                                                    <span>{{ $custom_attr_value->value }}</span>
+                                                                </div>
+                                                            </div>
+                                                        @else
+                                                            <div class="order-detail even">
+                                                                <div class="order-detail-name">
+                                                                    <span>{{ $custom_attr_value->name }}</span>
+                                                                </div>
+                                                                <div class="order-detail-value">
+                                                                    <span>{{ $custom_attr_value->value }}</span>
+                                                                </div>
+                                                            </div>
+                                                        @endif
+                                                    @endforeach
+                                                @else
+                                                    @foreach($cart['product_sku']->attr_values as $key => $attr_value)
+                                                        @if(($key + 1) % 2 == 1)
+                                                            <div class="order-detail odd">
+                                                                <div class="order-detail-name">
+                                                                    <span>{{ $attr_value->name }}</span>
+                                                                </div>
+                                                                <div class="order-detail-value">
+                                                                    <span>{{ $attr_value->value }}</span>
+                                                                </div>
+                                                            </div>
+                                                        @else
+                                                            <div class="order-detail even">
+                                                                <div class="order-detail-name">
+                                                                    <span>{{ $attr_value->name }}</span>
+                                                                </div>
+                                                                <div class="order-detail-value">
+                                                                    <span>{{ $attr_value->value }}</span>
+                                                                </div>
+                                                            </div>
+                                                        @endif
+                                                    @endforeach
+                                                @endif
                                             </div>
                                         </div>
                                     </div>
@@ -121,9 +142,9 @@
                                     <div class="cart-item">
                                         <div class="cart-item-top">
                                             <div class="cart-header-item cart-item-option">
-                                                <a class="cur_p single_delete" href="javascript:void (0)" data-url="{{ route('carts.destroy') }}" data-sku-id="{{ $cart['product_sku_id'] }}">
+                                                <a class="cur_p single_delete" href="javascript:void (0)" data-url="{{ route('carts.destroy') }}" data-sku-id="{{ $cart->product_sku_id }}">
                                                     <span class="iconfont">&#xe7b6;</span>
-                                                    {{--<input name="selectOne" type="hidden" checked="checked" code="{{ $cart['product_sku_id'] }}"--}}
+                                                    {{--<input name="selectOne" type="hidden" checked="checked" data-sku-id="{{ $cart['product_sku_id'] }}"--}}
                                                     {{--value="{{ $cart['product_sku_id'] }}">--}}
                                                 </a>
                                             </div>
@@ -144,7 +165,7 @@
                                                     </div>
                                                     <div class="cart-item-btns">
                                                         @if(!$cart->favourite)
-                                                            <a class="cur_p add_favourites" code="{{ $cart->sku->product_id }}"
+                                                            <a class="cur_p add_favourites" data-product-id="{{ $cart->sku->product_id }}"
                                                                data-url="{{ route('user_favourites.store') }}">
                                                                 Move To Wishlist
                                                             </a>
@@ -156,7 +177,7 @@
                                                 <div class="counter">
                                                     <button class="left small-button">-</button>
                                                     <input class="left center count" data-url="{{ route('carts.update') }}"
-                                                           type="text" size="4" value="{{ $cart->number }}" title="QTY">
+                                                           type="text" size="4" value="{{ $cart->number }}" data-sku-id="{{ $cart->product_sku_id }}" title="QTY">
                                                     <button class="left small-button">+</button>
                                                 </div>
                                             </div>
@@ -171,30 +192,51 @@
                                             <p class="order-detail-title">ORDER DETAILS</p>
                                             <div class="order-details">
                                                 {{-- 循环的时候分奇偶数 --}}
-                                                <div class="order-detail odd">
-                                                    <div class="order-detail-name">
-                                                        <span>Base Size</span>
-                                                    </div>
-                                                    <div class="order-detail-value">
-                                                        <span>ImBLbMR</span>
-                                                    </div>
-                                                </div>
-                                                <div class="order-detail even">
-                                                    <div class="order-detail-name">
-                                                        <span>Hair Color</span>
-                                                    </div>
-                                                    <div class="order-detail-value">
-                                                        <span>JojwIyG</span>
-                                                    </div>
-                                                </div>
-                                                <div class="order-detail odd">
-                                                    <div class="order-detail-name">
-                                                        <span>Hair Density</span>
-                                                    </div>
-                                                    <div class="order-detail-value">
-                                                        <span>nIqi05E</span>
-                                                    </div>
-                                                </div>
+                                                @if($cart->sku->product->type == \App\Models\Product::PRODUCT_TYPE_CUSTOM)
+                                                    @foreach($cart->sku->custom_attr_values as $key => $custom_attr_value)
+                                                        @if(($key + 1) % 2 == 1)
+                                                            <div class="order-detail odd">
+                                                                <div class="order-detail-name">
+                                                                    <span>{{ $custom_attr_value->name }}</span>
+                                                                </div>
+                                                                <div class="order-detail-value">
+                                                                    <span>{{ $custom_attr_value->value }}</span>
+                                                                </div>
+                                                            </div>
+                                                        @else
+                                                            <div class="order-detail even">
+                                                                <div class="order-detail-name">
+                                                                    <span>{{ $custom_attr_value->name }}</span>
+                                                                </div>
+                                                                <div class="order-detail-value">
+                                                                    <span>{{ $custom_attr_value->value }}</span>
+                                                                </div>
+                                                            </div>
+                                                        @endif
+                                                    @endforeach
+                                                @else
+                                                    @foreach($cart->sku->attr_values as $key => $attr_value)
+                                                        @if(($key + 1) % 2 == 1)
+                                                            <div class="order-detail odd">
+                                                                <div class="order-detail-name">
+                                                                    <span>{{ $attr_value->name }}</span>
+                                                                </div>
+                                                                <div class="order-detail-value">
+                                                                    <span>{{ $attr_value->value }}</span>
+                                                                </div>
+                                                            </div>
+                                                        @else
+                                                            <div class="order-detail even">
+                                                                <div class="order-detail-name">
+                                                                    <span>{{ $attr_value->name }}</span>
+                                                                </div>
+                                                                <div class="order-detail-value">
+                                                                    <span>{{ $attr_value->value }}</span>
+                                                                </div>
+                                                            </div>
+                                                        @endif
+                                                    @endforeach
+                                                @endif
                                                 {{--@if($cart->sku->product->type == \App\Models\Product::PRODUCT_TYPE_CUSTOM)--}}
                                                     {{--<span>{{ $cart->sku->custom_attr_value_string }}</span>--}}
                                                 {{--@else--}}
@@ -208,43 +250,47 @@
                         </div>
                         <div class="cart-foot">
                             {{-- 购物车积分 --}}
-                            <div class="cart-foot-points">
+                            {{--<div class="cart-foot-points">
                                 <div class="reward-points">
                                     <h2>Reward points</h2>
-                                    {{--积分使用说明--}}
+                                    --}}{{--积分使用说明--}}{{--
                                     <p>This shopping cart is worth <span>1207</span> loyalty point(s).</p>
                                     <p>You are currently using <span>120</span> point(s) of your <span>150</span> loyalty point(s) available.</p>
                                     <div class="buttons-set">
                                         <button type="button">Remove Points</button>
                                     </div>
                                 </div>
-                                {{--优惠码--}}
+                                --}}{{--优惠码--}}{{--
                                 <div class="coupon-code">
                                     <input type="text" id="coupon_code" name="coupon_code" value="" placeholder="Enter Coupon Code">
                                     <div class="buttons-set">
                                         <button type="button">Apply Coupon</button>
                                     </div>
                                 </div>
-                            </div>
+                            </div>--}}
                             {{-- 购物车支付 --}}
                             <div class="cart-foot-pay totals">
                                 <div class="totals-inner">
                                     <table>
                                         <tbody>
                                         {{-- 原总价 --}}
-                                        <tr>
+                                        {{--<tr>
                                             <td class="price-name">Subtotal</td>
                                             <td class="price-num"><span class="original-price">US$627.00</span></td>
                                         </tr>
-                                        {{-- 折扣价格 --}}
+                                        --}}{{-- 折扣价格 --}}{{--
                                         <tr>
                                             <td class="price-name">Discount (Free Shipping for Hair Systems, $20 OFF the 1st Order, 120 points used)</td>
                                             <td class="price-num"><span class="discount-price">-US$23.00</span></td>
                                         </tr>
-                                        {{-- 折后总价 --}}
+                                        --}}{{-- 折后总价 --}}{{--
                                         <tr>
                                             <td class="price-name"><strong>Grand Total</strong></td>
                                             <td class="price-num"><strong class="total-price">US$604.00</strong></td>
+                                        </tr>--}}
+                                        <tr>
+                                            <td class="price-name"><strong>Grand Total</strong></td>
+                                            <td class="price-num"><strong class="total-price">{{ get_global_symbol() . ' ' . get_current_price($total_amount) }}</strong></td>
                                         </tr>
                                         </tbody>
                                     </table>
@@ -300,21 +346,21 @@
 @section('scriptsAfterJs')
     <script type="text/javascript">
         $(function () {
-            var action = "";
-            var sku_id = [];
+            var query_data = "";
+            var sku_ids = [];
             var COUNTRY = $("#dLabel").find("span").html();
             // $(document).ready(function(){
-            if (getUrlVars() != undefined) {
-                action = getUrlVars();
-                action = action.substring(0, action.length - 1);
-                sku_id = action.split(",");
-                $.each(sku_id, function (i, n) {
-                    $(".cart-items").find("input[code='" + n + "']").attr("checked", true);
+            /*if (getUrlVars() != undefined) {
+                query_data = getUrlVars();
+                query_data = query_data.substring(0, query_data.length - 1);
+                sku_ids = query_data.split(",");
+                $.each(sku_ids, function (i, sku_id) {
+                    $(".cart-items").find("input[data-sku-id='" + sku_id + "']").attr("checked", true);
                 });
                 calcTotal();
-            }
+            }*/
             // });
-            calcTotal();
+            // calcTotal();
             // 全选
             {{--$('.selectAll').on('change', function (evt) {--}}
                 {{--if ($(this).prop('checked')) {--}}
@@ -463,7 +509,7 @@
                 var url_del = clickDom.parents("p").find(".single_delete").attr("data-url");
                 var data = {
                     _token: "{{ csrf_token() }}",
-                    product_id: clickDom.attr("code")
+                    product_id: clickDom.attr("data-product-id")
                 };
                 var url = clickDom.attr('data-url');
                 $.ajax({
@@ -539,6 +585,7 @@
                 var data = {
                     _method: "PATCH",
                     _token: "{{ csrf_token() }}",
+                    sku_id: dom.attr('data-sku-id'),
                     number: dom.val(),
                 };
                 $.ajax({
@@ -546,7 +593,7 @@
                     url: url,
                     data: data,
                     success: function (data) {
-                        calcTotal();
+                        // calcTotal();
                     },
                     error: function (err) {
                         console.log(err);
@@ -556,7 +603,7 @@
                         var price = parseFloat(dom.parent().prev().find('span.price').text());
                         // dom.parent().next().html("{{--{{ App::isLocale('en') ? '&#36;' : '&#165;' }}--}}" + (price * count).toFixed(2));
                         dom.parent().next().html(global_symbol + js_number_format(Math.imul(float_multiply_by_100(price), count) / 100));
-                        calcTotal();
+                        // calcTotal();
                         var obj = err.responseJSON.errors;
                         layer.msg(Object.values(obj)[0][0]);
                     },
@@ -595,7 +642,7 @@
                     }
                 }
             });
-            // 再次购买的特殊处理，如果从再次购买进入购物车则url中存在参数sku_id_lists用来判断哪些商品是通过再次购买添加至购物车中
+            // 再次购买的特殊处理，如果从再次购买进入购物车则url中存在参数 sku_ids 用来判断哪些商品是通过再次购买添加至购物车中
             // 同时对这些对应的商品进行选择进行状态选中
             function getUrlVars() {
                 var vars = [], hash;
@@ -605,7 +652,7 @@
                     vars.push(hash[0]);
                     vars[hash[0]] = hash[1];
                 }
-                return vars["sku_id_lists"];
+                return vars["sku_ids"];
             }
         });
     </script>

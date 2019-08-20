@@ -424,9 +424,11 @@ class ProductsController extends Controller
             'sales' => 1,
         ]);
 
-        $custom_attr_values->each(function (CustomAttrValue $customAttrValue) use ($product_sku) {
+        $product_sku_id = $product_sku->id;
+
+        $custom_attr_values->each(function (CustomAttrValue $customAttrValue) use ($product_sku_id) {
             ProductSkuCustomAttrValue::create([
-                'product_sku_id' => $product_sku->id,
+                'product_sku_id' => $product_sku_id,
                 'name' => $customAttrValue->attr_name,
                 'value' => $customAttrValue->value,
                 'sort' => $customAttrValue->sort
@@ -436,29 +438,22 @@ class ProductsController extends Controller
         if ($user) {
             Cart::create([
                 'user_id' => $user->id,
-                'product_sku_id' => $product_sku->id,
+                'product_sku_id' => $product_sku_id,
                 'number' => 1
             ]);
         } else {
-            $carts = session('carts', []);
-            // $carts = Session::get('carts', []);
-            $flag = false;
-            foreach ($carts as $key => $cart) {
-                if ($cart['product_sku_id'] == $product_sku->id) {
-                    $carts[$key]['number'] += 1;
-                    $flag = true;
-                    break;
-                }
+            $cart = session('cart', []);
+            // $cart = Session::get('cart', []);
+
+            if (isset($cart[$product_sku_id])) {
+                $cart[$product_sku_id] += 1;
+            } else {
+                $cart[$product_sku_id] = 1;
             }
-            if (!$flag) {
-                $carts[] = [
-                    'product_sku_id' => $product_sku->id,
-                    'number' => 1
-                ];
-            }
-            session(['carts' => $carts]);
-            // Session::put('carts', $carts);
-            // Session::put(['carts' => $carts]);
+
+            session(['cart' => $cart]);
+            // Session::put('cart', $cart);
+            // Session::put(['cart' => $cart]);
         }
 
         return response()->json([

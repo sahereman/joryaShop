@@ -245,22 +245,22 @@ class RegisterController extends Controller
     // update cart
     protected function updateCart(User $user)
     {
-        $carts = session('carts', []);
-        // $carts = Session::get('carts', []);
-        foreach ($carts as $cart) {
-            if ($user_cart = Cart::where(['user_id' => $user->id, 'product_sku_id' => $cart['product_sku_id']])->first()) {
-                // $user_cart->number += $cart['number'];
-                $user_cart->increment('number', $cart['number']);
+        $cart = session('cart', []);
+        // $cart = Session::get('cart', []);
+        foreach ($cart as $product_sku_id => $number) {
+            if ($user_cart = Cart::where(['user_id' => $user->id, 'product_sku_id' => $product_sku_id])->first()) {
+                // $user_cart->number += $number;
+                $user_cart->increment('number', $number);
                 $user_cart->save();
             } else {
                 Cart::create([
                     'user_id' => $user->id,
-                    'product_sku_id' => $cart['product_sku_id'],
-                    'number' => $cart['number']
+                    'product_sku_id' => $product_sku_id,
+                    'number' => $number
                 ]);
             }
         }
-        session()->forget('carts');
-        // Session::forget('carts');
+        session()->forget('cart');
+        // Session::forget('cart');
     }
 }

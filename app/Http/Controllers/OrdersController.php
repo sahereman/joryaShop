@@ -217,31 +217,56 @@ class OrdersController extends Controller
             $total_amount = bcmul($sku->price, $number, 2);
             $total_shipping_fee = bcmul($product->shipping_fee, $number, 2);
             $is_nil = false;
-        } elseif ($user && $request->has('cart_ids')) {
-            $cart_ids = explode(',', $request->query('cart_ids'));
-            foreach ($cart_ids as $key => $cart_id) {
-                $cart = Cart::find($cart_id);
-                if ($cart->user_id != $user->id) {
-                    // array_forget($cart_ids, $key);
-                    continue;
+        } elseif ($request->has('sku_ids')) {
+            $sku_ids = explode(',', $request->query('sku_ids'));
+            foreach ($sku_ids as $key => $sku_id) {
+                if ($user) {
+                    $cart = Cart::where(['user_id' => $user->id, 'product_sku_id' => $sku_id])->first();
+                    if (!$cart) {
+                        // array_forget($sku_ids, $key);
+                        continue;
+                    }
+                    $number = $cart->number;
+                    $sku = $cart->sku;
+                    if ($number > $sku->stock) {
+                        throw new InvalidRequestException(trans('basic.orders.Insufficient_sku_stock'));
+                    }
+                    $product = $sku->product;
+                    if (!in_array($product->type, $product_types)) {
+                        $product_types[] = $product->type;
+                    }
+                    $items[$key]['sku'] = $sku;
+                    $items[$key]['product'] = $product;
+                    $items[$key]['number'] = $number;
+                    $items[$key]['amount'] = bcmul($sku->price, $number, 2);
+                    $items[$key]['shipping_fee'] = bcmul($product->shipping_fee, $number, 2);
+                    $total_amount += bcmul($sku->price, $number, 2);
+                    $total_shipping_fee += bcmul($product->shipping_fee, $number, 2);
+                    $is_nil = false;
+                } else {
+                    $cart = session('cart', []);
+                    // $cart = Session::get('cart', []);
+                    if (!isset($cart[$sku_id])) {
+                        continue;
+                    }
+                    $number = $cart[$sku_id];
+                    $sku = ProductSku::with('product')->find($sku_id);
+                    if ($number > $sku->stock) {
+                        throw new InvalidRequestException(trans('basic.orders.Insufficient_sku_stock'));
+                    }
+                    $product = $sku->product;
+                    if (!in_array($product->type, $product_types)) {
+                        $product_types[] = $product->type;
+                    }
+                    $items[$key]['sku'] = $sku;
+                    $items[$key]['product'] = $product;
+                    $items[$key]['number'] = $number;
+                    $items[$key]['amount'] = bcmul($sku->price, $number, 2);
+                    $items[$key]['shipping_fee'] = bcmul($product->shipping_fee, $number, 2);
+                    $total_amount += bcmul($sku->price, $number, 2);
+                    $total_shipping_fee += bcmul($product->shipping_fee, $number, 2);
+                    $is_nil = false;
                 }
-                $number = $cart->number;
-                $sku = $cart->sku;
-                if ($number > $sku->stock) {
-                    throw new InvalidRequestException(trans('basic.orders.Insufficient_sku_stock'));
-                }
-                $product = $sku->product;
-                if (!in_array($product->type, $product_types)) {
-                    $product_types[] = $product->type;
-                }
-                $items[$key]['sku'] = $sku;
-                $items[$key]['product'] = $product;
-                $items[$key]['number'] = $number;
-                $items[$key]['amount'] = bcmul($sku->price, $number, 2);
-                $items[$key]['shipping_fee'] = bcmul($product->shipping_fee, $number, 2);
-                $total_amount += bcmul($sku->price, $number, 2);
-                $total_shipping_fee += bcmul($product->shipping_fee, $number, 2);
-                $is_nil = false;
             }
         }
         $total_fee = bcadd($total_amount, $total_shipping_fee, 2);
@@ -348,43 +373,80 @@ class OrdersController extends Controller
             $total_amount = bcmul($price, $number, 2);
             $total_shipping_fee = bcmul($product->shipping_fee, $number, 2);
             $is_nil = false;
-        } elseif ($user && $request->has('cart_ids')) {
-            $cart_ids = explode(',', $request->query('cart_ids'));
-            foreach ($cart_ids as $key => $cart_id) {
-                $cart = Cart::find($cart_id);
-                if ($cart->user_id != $user->id) {
-                    // array_forget($cart_ids, $key);
-                    continue;
-                }
-                $number = $cart->number;
-                $sku = $cart->sku;
-                if ($number > $sku->stock) {
-                    throw new InvalidRequestException(trans('basic.orders.Insufficient_sku_stock'));
-                }
-                $product = $sku->product;
-                if (!in_array($product->type, $product_types)) {
-                    $product_types[] = $product->type;
-                }
-                $price = $sku->price;
-                $discounted_fee = 0;
-                $discounts = $product->discounts()->orderBy('number', 'desc')->get();
-                foreach ($discounts as $discount) {
-                    if ($number >= $discount->number) {
-                        $price = $discount->price;
-                        $discounted_fee = bcsub($sku->price, $discount->price, 2);
-                        break;
+        } elseif ($request->has('sku_ids')) {
+            $sku_ids = explode(',', $request->query('sku_ids'));
+            foreach ($sku_ids as $key => $sku_id) {
+                if ($user) {
+                    $cart = Cart::where(['user_id' => $user->id, 'product_sku_id' => $sku_id])->first();
+                    if (!$cart) {
+                        // array_forget($sku_ids, $key);
+                        continue;
                     }
+                    $number = $cart->number;
+                    $sku = $cart->sku;
+                    if ($number > $sku->stock) {
+                        throw new InvalidRequestException(trans('basic.orders.Insufficient_sku_stock'));
+                    }
+                    $product = $sku->product;
+                    if (!in_array($product->type, $product_types)) {
+                        $product_types[] = $product->type;
+                    }
+                    $price = $sku->price;
+                    $discounted_fee = 0;
+                    $discounts = $product->discounts()->orderBy('number', 'desc')->get();
+                    foreach ($discounts as $discount) {
+                        if ($number >= $discount->number) {
+                            // $price = $discount->price;
+                            $discounted_fee = bcsub($sku->price, $discount->price, 2);
+                            break;
+                        }
+                    }
+                    $items[$key]['sku'] = $sku;
+                    $items[$key]['product'] = $product;
+                    $items[$key]['number'] = $number;
+                    $items[$key]['price'] = $price;
+                    $items[$key]['amount'] = bcmul($price, $number, 2);
+                    $items[$key]['shipping_fee'] = bcmul($product->shipping_fee, $number, 2);
+                    $saved_fee += bcmul($discounted_fee, $number, 2);
+                    $total_amount += bcmul($price, $number, 2);
+                    $total_shipping_fee += bcmul($product->shipping_fee, $number, 2);
+                    $is_nil = false;
+                } else {
+                    $cart = session('cart', []);
+                    // $cart = Session::get('cart', []);
+                    if (!isset($cart[$sku_id])) {
+                        continue;
+                    }
+                    $number = $cart[$sku_id];
+                    $sku = ProductSku::with('product')->find($sku_id);
+                    if ($number > $sku->stock) {
+                        throw new InvalidRequestException(trans('basic.orders.Insufficient_sku_stock'));
+                    }
+                    $product = $sku->product;
+                    if (!in_array($product->type, $product_types)) {
+                        $product_types[] = $product->type;
+                    }
+                    $price = $sku->price;
+                    $discounted_fee = 0;
+                    $discounts = $product->discounts()->orderBy('number', 'desc')->get();
+                    foreach ($discounts as $discount) {
+                        if ($number >= $discount->number) {
+                            $price = $discount->price;
+                            $discounted_fee = bcsub($sku->price, $discount->price, 2);
+                            break;
+                        }
+                    }
+                    $items[$key]['sku'] = $sku;
+                    $items[$key]['product'] = $product;
+                    $items[$key]['number'] = $number;
+                    $items[$key]['price'] = $price;
+                    $items[$key]['amount'] = bcmul($price, $number, 2);
+                    $items[$key]['shipping_fee'] = bcmul($product->shipping_fee, $number, 2);
+                    $saved_fee += bcmul($discounted_fee, $number, 2);
+                    $total_amount += bcmul($price, $number, 2);
+                    $total_shipping_fee += bcmul($product->shipping_fee, $number, 2);
+                    $is_nil = false;
                 }
-                $items[$key]['sku'] = $sku;
-                $items[$key]['product'] = $product;
-                $items[$key]['number'] = $number;
-                $items[$key]['price'] = $price;
-                $items[$key]['amount'] = bcmul($price, $number, 2);
-                $items[$key]['shipping_fee'] = bcmul($product->shipping_fee, $number, 2);
-                $saved_fee += bcmul($discounted_fee, $number, 2);
-                $total_amount += bcmul($price, $number, 2);
-                $total_shipping_fee += bcmul($product->shipping_fee, $number, 2);
-                $is_nil = false;
             }
         }
         $total_fee = bcadd($total_amount, $total_shipping_fee, 2);
@@ -525,9 +587,9 @@ class OrdersController extends Controller
                 }
                 /* usage of coupon */
                 $saved_fee += $discount_saved_fee;
-            } elseif ($user && $request->has('cart_ids')) {
+            } elseif ($request->has('sku_ids')) {
                 // 来自购物车的订单
-                $cart_ids = explode(',', $request->input('cart_ids'));
+                $sku_ids = explode(',', $request->input('sku_ids'));
 
                 /* usage of coupon */
                 $is_product_type_supported = false; // flag variable
@@ -538,48 +600,101 @@ class OrdersController extends Controller
                 }
                 /* usage of coupon */
 
-                foreach ($cart_ids as $key => $cartId) {
-                    $cart = Cart::find($cartId);
-                    if ($cart->user_id != $user->id) {
-                        array_forget($cart_ids, $key);
-                        continue;
-                    }
-                    $number = $cart->number;
-                    $sku = $cart->sku;
-                    if ($number > $sku->stock) {
-                        throw new InvalidRequestException(trans('basic.orders.Insufficient_sku_stock'));
-                    }
-                    $product = $sku->product;
-                    $price = $sku->price;
-                    $discounted_fee = 0;
-                    $discounts = $product->discounts()->orderBy('number', 'desc')->get();
-                    foreach ($discounts as $discount) {
-                        if ($number >= $discount->number) {
-                            $price = $discount->price;
-                            $discounted_fee = bcsub($sku->price, $discount->price, 2);
-                            break;
+                if ($user) {
+                    foreach ($sku_ids as $key => $sku_id) {
+                        $cart = Cart::where(['user_id' => $user->id, 'product_sku_id' => $sku_id])->first();
+                        if (!$cart) {
+                            array_forget($sku_ids, $key);
+                            continue;
                         }
-                    }
-                    $snapshot[$key]['sku_id'] = $sku->id;
-                    $snapshot[$key]['price'] = $price;
-                    $snapshot[$key]['number'] = $cart->number;
-                    $total_shipping_fee += bcmul($product->shipping_fee, $number, 2);
-                    $total_amount += bcmul($price, $number, 2);
-                    $is_nil = false;
-                    $discount_saved_fee += bcmul($discounted_fee, $number, 2);
+                        $number = $cart->number;
+                        $sku = $cart->sku;
+                        if ($number > $sku->stock) {
+                            throw new InvalidRequestException(trans('basic.orders.Insufficient_sku_stock'));
+                        }
+                        $product = $sku->product;
+                        $price = $sku->price;
+                        $discounted_fee = 0;
+                        $discounts = $product->discounts()->orderBy('number', 'desc')->get();
+                        foreach ($discounts as $discount) {
+                            if ($number >= $discount->number) {
+                                $price = $discount->price;
+                                $discounted_fee = bcsub($sku->price, $discount->price, 2);
+                                break;
+                            }
+                        }
+                        $snapshot[$key]['sku_id'] = $sku->id;
+                        $snapshot[$key]['price'] = $price;
+                        $snapshot[$key]['number'] = $cart->number;
+                        $total_shipping_fee += bcmul($product->shipping_fee, $number, 2);
+                        $total_amount += bcmul($price, $number, 2);
+                        $is_nil = false;
+                        $discount_saved_fee += bcmul($discounted_fee, $number, 2);
 
-                    /* usage of coupon */
-                    if ($coupon && $coupon->status == Coupon::COUPON_STATUS_USING && $coupon->type == Coupon::COUPON_TYPE_DISCOUNT && in_array($product->type, $coupon->supported_product_types)) {
-                        $saved_fee += bcmul(bcadd($total_amount, $total_shipping_fee, 2), $coupon->discount, 2);
-                        $is_product_type_supported = true;
-                        $is_coupon_used = true;
+                        /* usage of coupon */
+                        if ($coupon && $coupon->status == Coupon::COUPON_STATUS_USING && $coupon->type == Coupon::COUPON_TYPE_DISCOUNT && in_array($product->type, $coupon->supported_product_types)) {
+                            $saved_fee += bcmul(bcadd($total_amount, $total_shipping_fee, 2), $coupon->discount, 2);
+                            $is_product_type_supported = true;
+                            $is_coupon_used = true;
+                        }
+                        /* usage of coupon */
                     }
-                    /* usage of coupon */
-                }
 
-                if ($is_nil == false) {
-                    // 删除相关购物车记录
-                    Cart::destroy($cart_ids);
+                    if ($is_nil == false) {
+                        // 删除相关购物车记录
+                        Cart::where(['user_id' => $user->id])->whereIn('product_sku_id', $sku_ids)->delete();
+                    }
+                } else {
+                    $cart = session('cart', []);
+                    // $cart = Session::get('cart', []);
+                    foreach ($sku_ids as $key => $sku_id) {
+                        if (!isset($cart[$sku_id])) {
+                            array_forget($sku_ids, $key);
+                            continue;
+                        }
+                        $number = $cart[$sku_id];
+                        $sku = ProductSku::with('product')->find($sku_id);
+                        if ($number > $sku->stock) {
+                            throw new InvalidRequestException(trans('basic.orders.Insufficient_sku_stock'));
+                        }
+                        $product = $sku->product;
+                        $price = $sku->price;
+                        $discounted_fee = 0;
+                        $discounts = $product->discounts()->orderBy('number', 'desc')->get();
+                        foreach ($discounts as $discount) {
+                            if ($number >= $discount->number) {
+                                // $price = $discount->price;
+                                $discounted_fee = bcsub($sku->price, $discount->price, 2);
+                                break;
+                            }
+                        }
+                        $snapshot[$key]['sku_id'] = $sku->id;
+                        $snapshot[$key]['price'] = $price;
+                        $snapshot[$key]['number'] = $cart->number;
+                        $total_shipping_fee += bcmul($product->shipping_fee, $number, 2);
+                        $total_amount += bcmul($price, $number, 2);
+                        $is_nil = false;
+                        $discount_saved_fee += bcmul($discounted_fee, $number, 2);
+
+                        /* usage of coupon */
+                        if ($coupon && $coupon->status == Coupon::COUPON_STATUS_USING && $coupon->type == Coupon::COUPON_TYPE_DISCOUNT && in_array($product->type, $coupon->supported_product_types)) {
+                            $saved_fee += bcmul(bcadd($total_amount, $total_shipping_fee, 2), $coupon->discount, 2);
+                            $is_product_type_supported = true;
+                            $is_coupon_used = true;
+                        }
+                        /* usage of coupon */
+                    }
+
+                    if ($is_nil == false) {
+                        // 删除相关购物车记录
+                        foreach ($sku_ids as $sku_id) {
+                            unset($cart[$sku_id]);
+                        }
+
+                        session(['cart' => $cart]);
+                        // Session::put('cart', $cart);
+                        // Session::put(['cart' => $cart]);
+                    }
                 }
 
                 /* usage of coupon */
@@ -595,7 +710,6 @@ class OrdersController extends Controller
                     'code' => 200,
                     'message' => 'success',
                     'data' => [
-                        'order' => $user->orders()->latest()->first(),
                         'request_url' => URL::previous(),
                         'mobile_request_url' => URL::previous(),
                     ],
