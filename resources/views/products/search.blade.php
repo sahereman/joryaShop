@@ -67,7 +67,7 @@
                                     @foreach($param_values as $name => $values)
                                         <div class="categories-lists-item">
                                             <div class="lists-item-title">
-                                                <span>{{ $name }}</span>
+                                                <span title="{{ $name }}">{{ $name }}</span>
                                                 <span class="opener">+</span>
                                             </div>
                                             <ul class="categories-lists-item-ul">

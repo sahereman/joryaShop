@@ -79,6 +79,7 @@
           flex-direction: row;
           justify-content: space-between;
           height: 28px;
+          width: 16.67%;
           line-height: 28px !important;
           font-size: 14px !important;
           .opener {
@@ -246,11 +247,11 @@
             }
           }
           .shop-by-title {
-            width: 13%;
+            width: 9%;
             padding: 5px 0;
           }
           .shop-by-content {
-            width: 87%;
+            width: 91%;
           }
           .categories-lists-items {
             width: 100%;
@@ -259,8 +260,9 @@
             justify-content: flex-start;
             flex-wrap: wrap;
             .categories-lists-item {
-              margin-right: 20px;
+              margin-right: 5px;
               position: relative;
+              width: 15.87%;
               &.item-active {
                 .lists-item-title {
                   box-shadow: 0 5px 5px #ddd !important;
@@ -270,15 +272,23 @@
             .lists-item-title {
               display: flex;
               flex-direction: row;
-              min-width: 60px;
               padding: 5px;
               justify-content: space-between;
               cursor: pointer;
+              span {
+                &:first-of-type {
+                  width: 90%;
+                  overflow: hidden;
+                  text-overflow:ellipsis;
+                  white-space: nowrap;
+                }
+              }
             }
             .categories-lists-item-ul {
               position: absolute;
               padding: 10px;
-              max-width: 290px;
+              min-width: 100%;
+              width: max-content;
               max-height: 170px;
               overflow: auto;
               background-color: #fff;
