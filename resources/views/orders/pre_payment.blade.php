@@ -45,9 +45,15 @@
                             @endif
                         </ul>
                         <div class="right">
-                            <a class="change_address" data-url="{{ route('user_addresses.list_all') }}"
-                               href="javascript:void(0);">@lang('order.Switch address')</a>
-                            <a class="add_new_address" href="javascript:void(0);">@lang('order.New address')</a>
+                            @guest
+                                <a class="change_address for-login-show" data-url="{{ route('user_addresses.list_all') }}"
+                                   href="javascript:void(0);">@lang('order.Switch address')</a>
+                                <a class="add_new_address for-login-show" href="javascript:void(0);">@lang('order.New address')</a>
+                            @else
+                                <a class="change_address" data-url="{{ route('user_addresses.list_all') }}"
+                                   href="javascript:void(0);">@lang('order.Switch address')</a>
+                                <a class="add_new_address" href="javascript:void(0);">@lang('order.New address')</a>
+                            @endguest
                         </div>
                     </div>
                 </div>
@@ -336,6 +342,10 @@
 
             // 新建收货地址
             $(".add_new_address").on("click", function () {
+                if($(this).hasClass("for-login-show")) {
+                    layer.alert("Please login first");
+                    return
+                }
                 layer.open({
                     title: ["The new address", "font-size: 18px;"],
                     type: 1,
@@ -423,6 +433,10 @@
             });*/
             // 切换地址
             $(".change_address").on("click", function () {
+                if($(this).hasClass("for-login-show")) {
+                    layer.alert("Please login first");
+                    return
+                }
                 var url = $(this).attr("data-url");
                 var changeAdd;
                 $.ajax({
