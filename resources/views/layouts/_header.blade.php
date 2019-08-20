@@ -211,7 +211,7 @@
                     @foreach(\App\Models\Menu::pcMenus() as $menu)
                         @if($menu->children->isNotEmpty())
                             <li class="first_menu">
-                                <a href="{{ $menu->link }}">
+                                <a href="{{ $menu->link or 'javascript:void(0)' }}">
                                     {{ App::isLocale('zh-CN') ? $menu->name_zh : $menu->name_en }}
                                 </a>
                                 <!--二级菜单内容-->
@@ -221,14 +221,14 @@
                                             @foreach($menu['children'] as $key => $child)
                                                 @if(($key%4) == 0)
                                                     <div class="nav-column">
-                                                        <a class="nav-panel-one" href="{{ $child['link'] }}">
+                                                        <a class="nav-panel-one" href="{{ $child['link'] or 'javascript:void(0)' }}">
                                                             <span>{{ App::isLocale('zh-CN') ? $child['name_zh'] : $child['name_en'] }}</span>
                                                         </a>
                                                         @if($child->children->isNotEmpty())
                                                             <div class="nav-panel-two">
                                                                 @foreach($child['children'] as $sub_child)
                                                                     <div class="nav-two-item">
-                                                                        <a href="{{ $sub_child['link'] }}">
+                                                                        <a href="{{ $sub_child['link'] or 'javascript:void(0)'  }}">
                                                                             <span>{{ App::isLocale('zh-CN') ? $sub_child['name_zh'] : $sub_child['name_en'] }}</span>
                                                                         </a>
                                                                     </div>
@@ -244,14 +244,14 @@
                                             @foreach($menu['children'] as $key => $child)
                                                 @if(($key%4) == 1)
                                                     <div class="nav-column">
-                                                        <a class="nav-panel-one" href="{{ $child['link'] }}">
+                                                        <a class="nav-panel-one" href="{{ $child['link'] or 'javascript:void(0)' }}">
                                                             <span>{{ App::isLocale('zh-CN') ? $child['name_zh'] : $child['name_en'] }}</span>
                                                         </a>
                                                         @if($child->children->isNotEmpty())
                                                             <div class="nav-panel-two">
                                                                 @foreach($child['children'] as $sub_child)
                                                                     <div class="nav-two-item">
-                                                                        <a href="{{ $sub_child['link'] }}">
+                                                                        <a href="{{ $sub_child['link'] or 'javascript:void(0)' }}">
                                                                             <span>{{ App::isLocale('zh-CN') ? $sub_child['name_zh'] : $sub_child['name_en'] }}</span>
                                                                         </a>
                                                                     </div>
@@ -267,14 +267,14 @@
                                             @foreach($menu['children'] as $key => $child)
                                                 @if(($key%4) == 2)
                                                     <div class="nav-column">
-                                                        <a class="nav-panel-one" href="{{ $child['link'] }}">
+                                                        <a class="nav-panel-one" href="{{ $child['link'] or 'javascript:void(0)' }}">
                                                             <span>{{ App::isLocale('zh-CN') ? $child['name_zh'] : $child['name_en'] }}</span>
                                                         </a>
                                                         @if($child->children->isNotEmpty())
                                                             <div class="nav-panel-two">
                                                                 @foreach($child['children'] as $sub_child)
                                                                     <div class="nav-two-item">
-                                                                        <a href="{{ $sub_child['link'] }}">
+                                                                        <a href="{{ $sub_child['link'] or 'javascript:void(0)' }}">
                                                                             <span>{{ App::isLocale('zh-CN') ? $sub_child['name_zh'] : $sub_child['name_en'] }}</span>
                                                                         </a>
                                                                     </div>
@@ -290,14 +290,14 @@
                                             @foreach($menu['children'] as $key => $child)
                                                 @if(($key%4) == 3)
                                                     <div class="nav-column">
-                                                        <a class="nav-panel-one" href="{{ $child['link'] }}">
+                                                        <a class="nav-panel-one" href="{{ $child['link'] or 'javascript:void(0)' }}">
                                                             <span>{{ App::isLocale('zh-CN') ? $child['name_zh'] : $child['name_en'] }}</span>
                                                         </a>
                                                         @if($child->children->isNotEmpty())
                                                             <div class="nav-panel-two">
                                                                 @foreach($child['children'] as $sub_child)
                                                                     <div class="nav-two-item">
-                                                                        <a href="{{ $sub_child['link'] }}">
+                                                                        <a href="{{ $sub_child['link'] or 'javascript:void(0)' }}">
                                                                             <span>{{ App::isLocale('zh-CN') ? $sub_child['name_zh'] : $sub_child['name_en'] }}</span>
                                                                         </a>
                                                                     </div>
@@ -314,7 +314,7 @@
                             </li>
                         @else
                             <li class="first_menu">
-                                <a href="{{ $menu->link }}">{{ App::isLocale('zh-CN') ? $menu->name_zh : $menu->name_en }}</a>
+                                <a href="{{ $menu->link or 'javascript:void(0)' }}">{{ App::isLocale('zh-CN') ? $menu->name_zh : $menu->name_en }}</a>
                             </li>
                         @endif
                     @endforeach
