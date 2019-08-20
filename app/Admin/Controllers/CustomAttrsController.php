@@ -87,7 +87,9 @@ class CustomAttrsController extends Controller
         $grid->type('属性类型')->display(function ($data) {
             $str = "</s><a href='" . route('admin.custom_attrs.index', ['type' => $data]) . "'>$data</a>";
             return $str;
-        });;
+        });
+
+        $grid->photo('Photo')->image('', 60);
 
         $grid->name('属性名称');
         $grid->is_required('是否必填')->display(function ($value) {
@@ -116,6 +118,9 @@ class CustomAttrsController extends Controller
         $show->is_required('是否必填')->as(function ($value) {
             return $value ? '是' : '否';
         });
+
+        $show->photo('Photo')->image('', 60);
+
         $show->sort('排序值');
         $show->values('属性值 - 列表', function ($value) {
             /*禁用*/
@@ -128,10 +133,6 @@ class CustomAttrsController extends Controller
 
             $value->value('属性值');
             $value->delta_price('加价[+|-]');
-
-            $value->photo('Photo')->image('', 60)->display(function ($data) use ($value) {
-                return '<a target="_blank" href="' . route('admin.product_skus.show', ['product_skus' => $this->getKey()]) . '">' . $data . '</a>';
-            });
 
             $value->sort('排序值');
         });
@@ -154,17 +155,18 @@ class CustomAttrsController extends Controller
         $form->select('type', '属性类型')->options(CustomAttr::$customAttrTypeMap);
         $form->text('name', '属性名称');
         $form->switch('is_required', '是否必填');
+
+        $form->image('photo', 'Photo')
+            ->deletable(true)
+            ->uniqueName()
+            // ->removable()
+            ->move('original/' . date('Ym', now()->timestamp));
+
         $form->number('sort', '排序值')->default(9)->rules('required|integer|min:0')->help('默认倒序排列：数值越大越靠前');
 
         $form->hasMany('values', '属性值 - 列表', function (NestedForm $form) {
             $form->text('value', '属性值');
             $form->decimal('delta_price', '加价[+|-]')->help('取值为正数(+)时，为加价；取值为负数(-)时，为减价。');
-
-            $form->image('photo', 'Photo')
-                ->deletable(true)
-                ->uniqueName()
-                // ->removable()
-                ->move('original/' . date('Ym', now()->timestamp));
 
             $form->number('sort', '排序值')->default(9)->rules('required|integer|min:0')->help('默认倒序排列：数值越大越靠前');
         });
