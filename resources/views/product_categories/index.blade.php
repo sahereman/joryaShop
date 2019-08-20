@@ -80,7 +80,7 @@
                     {{-- Shop By 筛选内容--}}
                     <div class="shop-by">
                         <div class="shop-by-title block-title">
-                            <strong><span>Shop By:</span></strong>
+                            <strong><span>Sort By:</span></strong>
                         </div>
                         @if(count($param_values) > 0)
                             <div class="shop-by-content block-content">
