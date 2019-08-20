@@ -68,7 +68,7 @@
                                         @if(count($values) > 0)
                                             <div class="categories-lists-item">
                                                 <div class="lists-item-title">
-                                                    <span title="{{ $name }}">{{ $name }}</span>
+                                                    <span title="{{ $param }}">{{ $param }}</span>
                                                     <span class="opener">+</span>
                                                 </div>
                                                 <ul class="categories-lists-item-ul">
