@@ -376,7 +376,9 @@ class ProductsController extends Controller
         /*根据模型中静态数组的顺序排序*/
         $sorted_grouped_custom_attrs = [];
         foreach (CustomAttr::$customAttrTypeMap as $item) {
-            $sorted_grouped_custom_attrs[$item] = $grouped_custom_attrs[$item];
+            if (isset($grouped_custom_attrs[$item])) {
+                $sorted_grouped_custom_attrs[$item] = $grouped_custom_attrs[$item];
+            }
         }
         $sorted_grouped_custom_attrs = collect($sorted_grouped_custom_attrs);
 

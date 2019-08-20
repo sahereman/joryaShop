@@ -616,11 +616,13 @@ class OrdersController extends Controller
                         $price = $sku->price;
                         $discounted_fee = 0;
                         $discounts = $product->discounts()->orderBy('number', 'desc')->get();
-                        foreach ($discounts as $discount) {
-                            if ($number >= $discount->number) {
-                                $price = $discount->price;
-                                $discounted_fee = bcsub($sku->price, $discount->price, 2);
-                                break;
+                        if ($discounts->isNotEmpty()) {
+                            foreach ($discounts as $discount) {
+                                if ($number >= $discount->number) {
+                                    $price = $discount->price;
+                                    $discounted_fee = bcsub($sku->price, $discount->price, 2);
+                                    break;
+                                }
                             }
                         }
                         $snapshot[$key]['sku_id'] = $sku->id;
@@ -661,16 +663,18 @@ class OrdersController extends Controller
                         $price = $sku->price;
                         $discounted_fee = 0;
                         $discounts = $product->discounts()->orderBy('number', 'desc')->get();
-                        foreach ($discounts as $discount) {
-                            if ($number >= $discount->number) {
-                                // $price = $discount->price;
-                                $discounted_fee = bcsub($sku->price, $discount->price, 2);
-                                break;
+                        if ($discounts->isNotEmpty()) {
+                            foreach ($discounts as $discount) {
+                                if ($number >= $discount->number) {
+                                    // $price = $discount->price;
+                                    $discounted_fee = bcsub($sku->price, $discount->price, 2);
+                                    break;
+                                }
                             }
                         }
                         $snapshot[$key]['sku_id'] = $sku->id;
                         $snapshot[$key]['price'] = $price;
-                        $snapshot[$key]['number'] = $cart->number;
+                        $snapshot[$key]['number'] = $number;
                         $total_shipping_fee += bcmul($product->shipping_fee, $number, 2);
                         $total_amount += bcmul($price, $number, 2);
                         $is_nil = false;
