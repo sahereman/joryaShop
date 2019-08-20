@@ -12,6 +12,7 @@ $factory->define(App\Models\CustomAttr::class, function (Faker $faker) {
     return [
         'type' => 'BASE',
         'is_required' => true,
+        'photo' => $faker->imageUrl(640, 480, null, false), // Note: $faker->image() will download an image file into /tmp/ locally.
         'created_at' => $created_at,
         'updated_at' => $updated_at,
     ];
