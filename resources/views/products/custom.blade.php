@@ -293,15 +293,19 @@
         }
         {{--点击title出现一级列表--}}
         $(".customizations-slide").on("click", ".block-title", function () {
+            var img_url_default = "{{ $product->photo_urls[0] }}";
+            var img_url = $(this).parents(".top-level").find(".block-list").attr("data-url");
             var isOpened = $(this).hasClass("opened");
             if (isOpened) {
                 $(this).removeClass("opened");
                 $(".customizations-slide").find(".block-content").slideUp();
+                $(".customizations-img").find("img").prop("src",img_url_default);
             } else {
                 $(".customizations-slide").find(".block-title").removeClass("opened");
                 $(".customizations-slide").find(".block-content").slideUp();
                 $(this).addClass("opened");
                 $(this).parents("li").find(".block-content").slideDown();
+                $(".customizations-img").find("img").prop("src",img_url);
             }
         });
         // 用于价格记录的计算变量参数
@@ -313,8 +317,6 @@
 
         // 点击一级分类出现二级分类内容
         $(".customizations-slide").on("click", "input[type=radio]", function () {
-            var img_url = $(this).parents(".block-list").attr("data-url");
-            $(".customizations-img").find("img").prop("src",img_url);
             var chil_ul = $(this).parent("label").parent(".block-list-level").find("ul"),
                     chooseText = '';
             // 判断是否有二级选项存在
