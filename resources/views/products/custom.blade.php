@@ -305,7 +305,6 @@
                 $(".customizations-slide").find(".block-content").slideUp();
                 $(this).addClass("opened");
                 $(this).parents("li").find(".block-content").slideDown();
-                console.log(img_url)
                 if(img_url != "") {
                     $(".customizations-img").find("img").prop("src",img_url);
                 }
