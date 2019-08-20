@@ -533,7 +533,7 @@
                             payment_one(sku_id, number, url);
                             break;
                         case "2":
-                            var cart_ids = getUrlVars("cart_ids");
+                            var cart_ids = getUrlVars("sku_ids");
                             payment_two(cart_ids, url);
                             break;
                         default :
@@ -581,7 +581,7 @@
             function payment_two(cart_ids, url) {
                 var data = {
                     _token: "{{ csrf_token() }}",
-                    cart_ids: cart_ids,
+                    sku_ids: cart_ids,
                     address_id: $(".pre_payment_header").attr("code"),
                     name: $('.address_name').text(),
                     phone: $('.address_phone').text(),
@@ -589,6 +589,7 @@
                     remark: $(".remark").val(),
                     currency: $(".currency_selection").find("a.active").attr("country")
                 };
+                console.log(data);
                 $.ajax({
                     type: "post",
                     url: url,
