@@ -15,7 +15,12 @@
                         <div class="categories-lists-items categories-menu">
                             @foreach(\App\Models\ProductCategory::categories() as $product_category)
                             <div class="categories-lists-item">
-                                <div class="lists-item-title"><a href="{{ route('seo_url', $product_category->slug) }}"><span>{{ $product_category->name_en }}</span></a></div>
+                                <div class="lists-item-title">
+                                    {{--<a href="{{ route('seo_url', $product_category->slug) }}">--}}
+                                    <a href="javascript:void(0)">
+                                        <span>{{ $product_category->name_en }}</span>
+                                    </a>
+                                </div>
                                 @if($product_category->children->isNotEmpty())
                                 <ul class="categories-lists-item-ul">
                                     @foreach($product_category->children as $child)

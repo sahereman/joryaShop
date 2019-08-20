@@ -8,28 +8,48 @@
             <div class="left-nav">
                 <div class="block block-layered-nav">
                     <div class="block-content">
-                        @if($article_categories && $article_categories->isNotEmpty())
+
+                        @if($article->category)
                             <div class="categories-lists-items categories-menu">
-                                @foreach($article_categories as $article_category)
-                                    <div class="categories-lists-item">
-                                        <div class="lists-item-title">
-                                            <a href="javascript:void(0)"><span>{{ $article_category->name_en }}</span></a>
-                                        </div>
-                                        @if($articles = $article_category->articles)
-                                            <ul class="categories-lists-item-ul">
-                                                @foreach($articles as $item)
-                                                    <li>
-                                                        <a href="{{ route('seo_url', ['slug' => $item->slug]) }}">
-                                                            <span>{{ $item->name }}</span>
-                                                        </a>
-                                                    </li>
-                                                @endforeach
-                                            </ul>
-                                        @endif
+                                <div class="categories-lists-item">
+                                    <div class="lists-item-title">
+                                        <a href="javascript:void(0)"><span>{{ $article->category->name_en }}</span></a>
                                     </div>
-                                @endforeach
+                                    <ul class="categories-lists-item-ul">
+                                        @foreach($article->category->articles as $item)
+                                            <li>
+                                                <a href="{{ route('seo_url', ['slug' => $item->slug]) }}">
+                                                    <span>{{ $item->name }}</span>
+                                                </a>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                </div>
                             </div>
                         @endif
+
+                        {{--@if($article_categories && $article_categories->isNotEmpty())--}}
+                        {{--<div class="categories-lists-items categories-menu">--}}
+                        {{--@foreach($article_categories as $article_category)--}}
+                        {{--<div class="categories-lists-item">--}}
+                        {{--<div class="lists-item-title">--}}
+                        {{--<a href="javascript:void(0)"><span>{{ $article_category->name_en }}</span></a>--}}
+                        {{--</div>--}}
+                        {{--@if($articles = $article_category->articles)--}}
+                        {{--<ul class="categories-lists-item-ul">--}}
+                        {{--@foreach($articles as $item)--}}
+                        {{--<li>--}}
+                        {{--<a href="{{ route('seo_url', ['slug' => $item->slug]) }}">--}}
+                        {{--<span>{{ $item->name }}</span>--}}
+                        {{--</a>--}}
+                        {{--</li>--}}
+                        {{--@endforeach--}}
+                        {{--</ul>--}}
+                        {{--@endif--}}
+                        {{--</div>--}}
+                        {{--@endforeach--}}
+                        {{--</div>--}}
+                        {{--@endif--}}
                     </div>
                 </div>
             </div>
@@ -60,17 +80,18 @@
         $('#cmsCon').contents().find('body').html(iframe_content);
         autoHeight();  //动态调整高度
         var count = 0;
-        var autoSet = window.setInterval('autoHeight()',500);
-        function autoHeight(){
+        var autoSet = window.setInterval('autoHeight()', 500);
+
+        function autoHeight() {
             var mainheight;
             count++;
-            if(count == 1){
-                mainheight = $('.cmsCon').contents().find("body").height()+50;
-            }else{
-                mainheight = $('.cmsCon').contents().find("body").height()+24;
+            if (count == 1) {
+                mainheight = $('.cmsCon').contents().find("body").height() + 50;
+            } else {
+                mainheight = $('.cmsCon').contents().find("body").height() + 24;
             }
             $('.cmsCon').height(mainheight);
-            if(count == 5){
+            if (count == 5) {
                 window.clearInterval(autoSet);
             }
         }
