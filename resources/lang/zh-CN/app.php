@@ -108,6 +108,7 @@ return [
     'Privacy_Policy' => 'Privacy Policy',
     'Terms_and_Conditions' => 'Terms and Conditions',
     'Sitemap' => 'Sitemap',
+    'Our_Donation_for_Love' => 'Our Donation for Love',
     // HELP & SUPPORT
     'Help_&_Support' => 'HELP & SUPPORT',
     'Newbie_Guide' => 'Newbie Guide',

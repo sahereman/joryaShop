@@ -108,6 +108,7 @@ return [
     'Privacy_Policy' => 'Privacy Policy',
     'Distributor_wholesale_cooperation' => 'Distributor Wholesale Cooperation',
     'Sitemap' => 'Sitemap',
+    'Our_Donation_for_Love' => 'Our Donation for Love',
     //WARRANTY SERVICES
     'WARRANTY_SERVICES' => 'WARRANTY SERVICES',
     'Drop_Shipment' => 'Drop Shipment',

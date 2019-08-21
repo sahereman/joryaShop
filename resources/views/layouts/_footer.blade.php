@@ -55,9 +55,9 @@
                         <div class="footer-block-content">
                             <a href="{{ route('seo_url', ['slug' => 'about_us']) }}">@lang('app.About_Us')</a>
                             <a href="{{ route('seo_url', ['slug' => 'contact_us']) }}">@lang('app.Contact_Us')</a>
-                            <a href="{{ route('seo_url', ['slug' => 'privacy_policy']) }}">@lang('app.Privacy_Policy')</a>
                             <a href="{{ route('seo_url', ['slug' => 'distributor_wholesale_cooperation']) }}">@lang('app.Distributor_wholesale_cooperation')</a>
-                            <a href="{{url('sitemap.html')}}">@lang('app.Sitemap')</a>
+                            <a href="{{ route('seo_url', ['slug' => 'our_donation_for_love']) }}">@lang('app.Our_Donation_for_Love')</a>
+                            {{--<a href="{{url('sitemap.html')}}">@lang('app.Sitemap')</a>--}}
                         </div>
                     </li>
                     <li>
