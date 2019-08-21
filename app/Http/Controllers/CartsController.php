@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CartRequest;
 use App\Models\Cart;
+use App\Models\CustomAttr;
 use App\Models\Product;
 use App\Models\ProductSku;
 use Illuminate\Http\Request;
@@ -19,6 +20,7 @@ class CartsController extends Controller
         $total_amount = 0;
         if ($user) {
             $carts = $user->carts()->with('sku.product')->get();
+            $attr_values = [];
 
             // 自动清除失效商品[已删除或已下架商品]
             /*foreach ($carts as $key => $cart) {
@@ -34,9 +36,22 @@ class CartsController extends Controller
                 });
             }*/
             if ($carts->isNotEmpty()) {
-                $carts = $carts->map(function (Cart $cart, $key) use (&$total_amount) {
-                    if ($cart->sku->product && $cart->sku->product->on_sale) {
+                $carts = $carts->map(function (Cart $cart, $key) use (&$total_amount, &$attr_values) {
+                    if ($cart->sku && $cart->sku->product && $cart->sku->product->on_sale) {
                         $total_amount += bcmul($cart->sku->price, $cart->number, 2);
+                        /*custom product sku attr value sorting*/
+                        $sorted_custom_attr_values = collect();
+                        if ($cart->sku->product->type == Product::PRODUCT_TYPE_CUSTOM) {
+                            $grouped_custom_attr_values = $cart->sku->custom_attr_values->groupBy('type');
+                            foreach (CustomAttr::$customAttrTypeMap as $item) {
+                                if (isset($grouped_custom_attr_values[$item])) {
+                                    $sorted_custom_attr_values[$item] = $grouped_custom_attr_values[$item];
+                                }
+                            }
+                            $sorted_custom_attr_values = $sorted_custom_attr_values->flatten(1);
+                        }
+                        $attr_values[$cart->sku_id] = $cart->sku->product->type == Product::PRODUCT_TYPE_CUSTOM ? $sorted_custom_attr_values : $cart->sku->attr_values;
+                        /*custom product sku attr value sorting*/
                         return $cart;
                     }
                     $cart->delete();
@@ -44,6 +59,7 @@ class CartsController extends Controller
             }
         } else {
             $carts = [];
+            $attr_values = [];
             $cart = session('cart', []);
             // $cart = Session::get('cart', []);
 
@@ -51,11 +67,24 @@ class CartsController extends Controller
             $flag = false;
             foreach ($cart as $product_sku_id => $number) {
                 $product_sku = ProductSku::with('product')->find($product_sku_id);
-                if (!$product_sku->product || !$product_sku->product->on_sale) {
+                if (!$product_sku || !$product_sku->product || !$product_sku->product->on_sale) {
                     unset($cart[$product_sku_id]);
                     $flag = true;
                     continue;
                 }
+                /*custom product sku attr value sorting*/
+                $sorted_custom_attr_values = collect();
+                if ($product_sku->product->type == Product::PRODUCT_TYPE_CUSTOM) {
+                    $grouped_custom_attr_values = $product_sku->custom_attr_values->groupBy('type');
+                    foreach (CustomAttr::$customAttrTypeMap as $item) {
+                        if (isset($grouped_custom_attr_values[$item])) {
+                            $sorted_custom_attr_values[$item] = $grouped_custom_attr_values[$item];
+                        }
+                    }
+                    $sorted_custom_attr_values = $sorted_custom_attr_values->flatten(1);
+                }
+                $attr_values[$product_sku_id] = $product_sku->product->type == Product::PRODUCT_TYPE_CUSTOM ? $sorted_custom_attr_values : $product_sku->attr_values;
+                /*custom product sku attr value sorting*/
                 $carts[$product_sku_id]['product_sku_id'] = $product_sku_id;
                 $carts[$product_sku_id]['product_sku'] = $product_sku;
                 $carts[$product_sku_id]['number'] = $number;
@@ -70,7 +99,8 @@ class CartsController extends Controller
 
         return view('carts.index', [
             'carts' => $carts,
-            'total_amount' => $total_amount
+            'total_amount' => $total_amount,
+            'attr_values' => $attr_values
         ]);
     }
 

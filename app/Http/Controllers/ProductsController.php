@@ -411,7 +411,7 @@ class ProductsController extends Controller
             throw new InvalidRequestException('Please make sure that you have set every REQUIRED custom attribute.');
         }
 
-        $custom_attr_values = CustomAttrValue::orderByDesc('sort')->whereIn('id', $custom_attr_value_ids)->get();
+        $custom_attr_values = CustomAttrValue::with('attr')->orderByDesc('sort')->whereIn('id', $custom_attr_value_ids)->get();
         $custom_attr_values->each(function (CustomAttrValue $customAttrValue) use (&$delta_price) {
             $delta_price = bcadd($delta_price, $customAttrValue->delta_price, 2);
         });
@@ -431,9 +431,10 @@ class ProductsController extends Controller
         $custom_attr_values->each(function (CustomAttrValue $customAttrValue) use ($product_sku_id) {
             ProductSkuCustomAttrValue::create([
                 'product_sku_id' => $product_sku_id,
-                'name' => $customAttrValue->attr_name,
+                'type' => $customAttrValue->attr->type,
+                'name' => $customAttrValue->attr->name,
                 'value' => $customAttrValue->value,
-                'sort' => $customAttrValue->sort
+                'sort' => ($customAttrValue->sort + $customAttrValue->attr->sort)
             ]);
         });
 

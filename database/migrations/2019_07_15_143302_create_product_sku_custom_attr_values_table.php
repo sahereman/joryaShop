@@ -19,7 +19,7 @@ class CreateProductSkuCustomAttrValuesTable extends Migration
             $table->unsignedInteger('product_sku_id')->nullable(false)->comment('product_sku-id');
             $table->foreign('product_sku_id')->references('id')->on('product_skus')->onDelete('cascade');
 
-            $table->string('type')->nullable(false)->default('Base')->comment('属性类型'); // Types: Base | Hair | Color | Service
+            $table->string('type')->nullable(false)->default('BASE')->comment('属性类型'); // Types: BASE | HAIR | COLOR | SERVICE
 
             $table->string('name')->nullable(false)->comment('定制商品 SKU 属性名称');
 

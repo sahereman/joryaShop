@@ -44,15 +44,26 @@ class CustomAttrValue extends Model
         return $attr->name;
     }
 
+    public function getAttrTypeAttribute()
+    {
+        $attr = CustomAttr::find($this->attributes['custom_attr_id']);
+        return $attr->type;
+    }
+
     /* Mutators */
     public function setAttrNameAttribute($value)
     {
         unset($this->attributes['attr_name']);
     }
 
+    public function setAttrTypeAttribute($value)
+    {
+        unset($this->attributes['attr_type']);
+    }
+
     /* Eloquent Relationships */
     public function attr()
     {
-        return $this->belongsTo(CustomAttr::class);
+        return $this->belongsTo(CustomAttr::class, 'custom_attr_id');
     }
 }

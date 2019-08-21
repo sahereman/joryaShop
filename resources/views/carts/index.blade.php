@@ -81,7 +81,7 @@
                                             <div class="order-details">
                                                 {{-- 循环的时候分奇偶数 --}}
                                                 @if($cart['product_sku']->product->type == \App\Models\Product::PRODUCT_TYPE_CUSTOM)
-                                                    @foreach($cart['product_sku']->custom_attr_values as $key => $custom_attr_value)
+                                                    @foreach($attr_values[$cart['product_sku_id']] as $key => $custom_attr_value)
                                                         @if(($key + 1) % 2 == 1)
                                                             <div class="order-detail odd">
                                                                 <div class="order-detail-name">
@@ -180,7 +180,7 @@
                                             <div class="order-details">
                                                 {{-- 循环的时候分奇偶数 --}}
                                                 @if($cart->sku->product->type == \App\Models\Product::PRODUCT_TYPE_CUSTOM)
-                                                    @foreach($cart->sku->custom_attr_values as $key => $custom_attr_value)
+                                                    @foreach($attr_values[$cart->sku_id] as $key => $custom_attr_value)
                                                         @if(($key + 1) % 2 == 1)
                                                             <div class="order-detail odd">
                                                                 <div class="order-detail-name">
