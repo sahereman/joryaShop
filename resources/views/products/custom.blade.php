@@ -11,7 +11,7 @@
         {{--标题--}}
         <div class="custom-title">
             <div class="custom-title-left">
-                <a href="{{ route('root') }}" class="back-to-product">
+                <a href="{{ route('seo_url', ['slug' => $product->slug]) }}" class="back-to-product">
                     <i class="iconfont">&#xe603;</i> BACK TO PRODUCT: <span> Custom a New System</span>
                 </a>
             </div>
@@ -62,9 +62,9 @@
                                             <span class="red iconfont">&#xe613;</span>
                                         @endif
                                         {{--后面的标号为了区分没有实际意义--}}
-                                        <span class="select-title">{{ $custom_attr->name }}</span>
+                                        <span class="select-title" title="{{ $custom_attr->name }}">{{ $custom_attr->name }}</span>
                                         {{-- 显示用户已选择额内容 --}}
-                                        <span class="selected-option"></span>
+                                        <span class="selected-option" title=""></span>
                                         <span class="opener iconfont">&#xe60f;</span>
                                     </h6>
                                     <div class="block-content">
@@ -341,6 +341,7 @@
             }
             // 将选中的选项的值赋值给option
             $(this).parents(".top-level").find(".selected-option").text(chooseText);
+            $(this).parents(".top-level").find(".selected-option").prop("title", chooseText);
             $(this).parents(".top-level").find(".selected-option").attr("data-id", $(this).val());
             // 判断是否有价格参数
             var isExist = false;

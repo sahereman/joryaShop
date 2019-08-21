@@ -89,8 +89,8 @@
                                         @if(count($values) > 0)
                                             <div class="categories-lists-item">
                                                 <div class="lists-item-title">
-                                                    <span title="{{ $param }}">{{ $param }}</span>
                                                     <span class="opener">+</span>
+                                                    <span title="{{ $param }}">{{ $param }}</span>
                                                 </div>
                                                 <ul class="categories-lists-item-ul">
                                                     @foreach($values as $value => $count)

@@ -89,7 +89,7 @@
                     </div>
                 </div>
                 <div class="item item-right">
-                    <a href="#">Wishlist</a>
+                    <a href="{{ route('user_favourites.index') }}">Wishlist</a>
                 </div>
                 <div class="item item-right quick-login">
                     @guest
@@ -161,7 +161,7 @@
                         </a>
                     </div>
                     <div class="mobile-list-item">
-                        <a href="#">Wishlist</a>
+                        <a href="{{ route('user_favourites.index') }}">Wishlist</a>
                     </div>
                     <div class="mobile-list-item">
                         @guest

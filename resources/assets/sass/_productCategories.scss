@@ -276,7 +276,7 @@
               justify-content: space-between;
               cursor: pointer;
               span {
-                &:first-of-type {
+                &:last-of-type {
                   width: 90%;
                   overflow: hidden;
                   text-overflow:ellipsis;

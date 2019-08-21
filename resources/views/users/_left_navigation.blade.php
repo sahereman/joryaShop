@@ -19,7 +19,7 @@
             <a>@lang('basic.users.Transaction_management')</a>
         </li>
         <li class="my_collection">
-            <a href="{{ route('user_favourites.index') }}">@lang('basic.users.My_collection')</a>
+            <a href="{{ route('user_favourites.index') }}">My Wishlist</a>
         </li>
         <li class="browse_history">
             <a href="{{ route('user_histories.index') }}">@lang('basic.users.Browse_history')</a>
