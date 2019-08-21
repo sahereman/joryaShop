@@ -18,9 +18,9 @@ class CartsController extends Controller
     {
         $user = $request->user();
         $total_amount = 0;
+        $attr_values = [];
         if ($user) {
             $carts = $user->carts()->with('sku.product')->get();
-            $attr_values = [];
 
             // 自动清除失效商品[已删除或已下架商品]
             /*foreach ($carts as $key => $cart) {
@@ -43,9 +43,9 @@ class CartsController extends Controller
                         $sorted_custom_attr_values = collect();
                         if ($cart->sku->product->type == Product::PRODUCT_TYPE_CUSTOM) {
                             $grouped_custom_attr_values = $cart->sku->custom_attr_values->groupBy('type');
-                            foreach (CustomAttr::$customAttrTypeMap as $item) {
-                                if (isset($grouped_custom_attr_values[$item])) {
-                                    $sorted_custom_attr_values[$item] = $grouped_custom_attr_values[$item];
+                            foreach (CustomAttr::$customAttrTypeMap as $type) {
+                                if (isset($grouped_custom_attr_values[$type])) {
+                                    $sorted_custom_attr_values[$type] = $grouped_custom_attr_values[$type];
                                 }
                             }
                             $sorted_custom_attr_values = $sorted_custom_attr_values->flatten(1);
@@ -59,7 +59,6 @@ class CartsController extends Controller
             }
         } else {
             $carts = [];
-            $attr_values = [];
             $cart = session('cart', []);
             // $cart = Session::get('cart', []);
 
@@ -76,9 +75,9 @@ class CartsController extends Controller
                 $sorted_custom_attr_values = collect();
                 if ($product_sku->product->type == Product::PRODUCT_TYPE_CUSTOM) {
                     $grouped_custom_attr_values = $product_sku->custom_attr_values->groupBy('type');
-                    foreach (CustomAttr::$customAttrTypeMap as $item) {
-                        if (isset($grouped_custom_attr_values[$item])) {
-                            $sorted_custom_attr_values[$item] = $grouped_custom_attr_values[$item];
+                    foreach (CustomAttr::$customAttrTypeMap as $type) {
+                        if (isset($grouped_custom_attr_values[$type])) {
+                            $sorted_custom_attr_values[$type] = $grouped_custom_attr_values[$type];
                         }
                     }
                     $sorted_custom_attr_values = $sorted_custom_attr_values->flatten(1);

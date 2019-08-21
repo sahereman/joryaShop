@@ -100,116 +100,36 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="cart-item-bottom">
-                                        <p class="order-detail-title">ORDER DETAILS <span class="iconfont">&#xe605;</span></p>
-                                        <div class="order-details">
-                                             {{--循环的时候分奇偶数 --}}
-                                            <div class="order-detail odd">
-                                                <div class="order-detail-name">
-                                                    <span>Base Size</span>
-                                                </div>
-                                                <div class="order-detail-value">
-                                                    <span>eVsun3t</span>
-                                                </div>
+                                    @if(isset($attr_values[$item['sku']->id]))
+                                        <div class="cart-item-bottom">
+                                            <p class="order-detail-title">ORDER DETAILS <span class="iconfont">&#xe605;</span></p>
+                                            <div class="order-details">
+                                                 {{--循环的时候分奇偶数 --}}
+                                                @foreach($attr_values[$item['sku']->id] as $key => $attr_value)
+                                                    @if(($key + 1) % 2 == 1)
+                                                        <div class="order-detail odd">
+                                                            <div class="order-detail-name">
+                                                                <span>{{ $attr_value->name }}</span>
+                                                            </div>
+                                                            <div class="order-detail-value">
+                                                                <span>{{ $attr_value->value }}</span>
+                                                            </div>
+                                                        </div>
+                                                    @else
+                                                        <div class="order-detail even">
+                                                            <div class="order-detail-name">
+                                                                <span>{{ $attr_value->name }}</span>
+                                                            </div>
+                                                            <div class="order-detail-value">
+                                                                <span>{{ $attr_value->value }}</span>
+                                                            </div>
+                                                        </div>
+                                                    @endif
+                                                @endforeach
                                             </div>
-                                            <div class="order-detail even">
-                                                <div class="order-detail-name">
-                                                    <span>Hair Color</span>
-                                                </div>
-                                                <div class="order-detail-value">
-                                                    <span>eVsun3t</span>
-                                                </div>
-                                            </div>
-                                            {{-- 购物车页面的数据渲染，如不需要可以删掉 --}}
-                                            {{--@if($cart['product_sku']->product->type == \App\Models\Product::PRODUCT_TYPE_CUSTOM)--}}
-                                                {{--@foreach($cart['product_sku']->custom_attr_values as $key => $custom_attr_value)--}}
-                                                    {{--@if(($key + 1) % 2 == 1)--}}
-                                                        {{--<div class="order-detail odd">--}}
-                                                            {{--<div class="order-detail-name">--}}
-                                                                {{--<span>{{ $custom_attr_value->name }}</span>--}}
-                                                            {{--</div>--}}
-                                                            {{--<div class="order-detail-value">--}}
-                                                                {{--<span>{{ $custom_attr_value->value }}</span>--}}
-                                                            {{--</div>--}}
-                                                        {{--</div>--}}
-                                                        {{--<div class="order-detail even">--}}
-                                                            {{--<div class="order-detail-name">--}}
-                                                                {{--<span>{{ $custom_attr_value->name }}</span>--}}
-                                                            {{--</div>--}}
-                                                            {{--<div class="order-detail-value">--}}
-                                                                {{--<span>{{ $custom_attr_value->value }}</span>--}}
-                                                            {{--</div>--}}
-                                                        {{--</div>--}}
-                                                    {{--@else--}}
-                                                        {{--<div class="order-detail even">--}}
-                                                            {{--<div class="order-detail-name">--}}
-                                                                {{--<span>{{ $custom_attr_value->name }}</span>--}}
-                                                            {{--</div>--}}
-                                                            {{--<div class="order-detail-value">--}}
-                                                                {{--<span>{{ $custom_attr_value->value }}</span>--}}
-                                                            {{--</div>--}}
-                                                        {{--</div>--}}
-                                                    {{--@endif--}}
-                                                {{--@endforeach--}}
-                                            {{--@else--}}
-                                                {{--@foreach($cart['product_sku']->attr_values as $key => $attr_value)--}}
-                                                    {{--@if(($key + 1) % 2 == 1)--}}
-                                                        {{--<div class="order-detail odd">--}}
-                                                            {{--<div class="order-detail-name">--}}
-                                                                {{--<span>{{ $attr_value->name }}</span>--}}
-                                                            {{--</div>--}}
-                                                            {{--<div class="order-detail-value">--}}
-                                                                {{--<span>{{ $attr_value->value }}</span>--}}
-                                                            {{--</div>--}}
-                                                        {{--</div>--}}
-                                                    {{--@else--}}
-                                                        {{--<div class="order-detail even">--}}
-                                                            {{--<div class="order-detail-name">--}}
-                                                                {{--<span>{{ $attr_value->name }}</span>--}}
-                                                            {{--</div>--}}
-                                                            {{--<div class="order-detail-value">--}}
-                                                                {{--<span>{{ $attr_value->value }}</span>--}}
-                                                            {{--</div>--}}
-                                                        {{--</div>--}}
-                                                    {{--@endif--}}
-                                                {{--@endforeach--}}
-                                            {{--@endif--}}
                                         </div>
-                                    </div>
+                                    @endif
                                 </div>
-                            {{-- 预下单页面原版数据渲染，不需要可删除 --}}
-                                {{--<div class="clear single-item">--}}
-                                    {{--<div class="left w110 shop-img">--}}
-                                        {{--<a class="cur_p" href="javascript:void(0);">--}}
-                                            {{--<img src="{{ $item['product']->thumb_url }}">--}}
-                                        {{--</a>--}}
-                                    {{--</div>--}}
-                                    {{--<div class="left w250 pro-info">--}}
-                                        {{--<span>{{ App::isLocale('zh-CN') ? $item['product']->name_zh : $item['product']->name_en }}</span>--}}
-                                    {{--</div>--}}
-                                    {{--<div class="left w150 Specifications_info center">--}}
-                                        {{--@if($item['sku']->product->type == \App\Models\Product::PRODUCT_TYPE_CUSTOM)--}}
-                                            {{--<span>{{ $item['sku']->custom_attr_value_string }}</span>--}}
-                                        {{--@else--}}
-                                            {{--<span>{{ $item['sku']->attr_value_string }}</span>--}}
-                                        {{--@endif--}}
-                                    {{--</div>--}}
-                                    {{--<div class="left w150 dis_ni center RMB_num">--}}
-                                        {{--<span>&#165; {{ exchange_price($item['price'], 'CNY') }}</span>--}}
-                                    {{--</div>--}}
-                                    {{--<div class="left w150  center dollar_num">--}}
-                                        {{--<span>&#36; {{ $item['price'] }}</span>--}}
-                                    {{--</div>--}}
-                                    {{--<div class="left w150 center counter">--}}
-                                        {{--<span>{{ $item['number'] }}</span>--}}
-                                    {{--</div>--}}
-                                    {{--<div class="left w150 s_total dis_ni red center RMB_num">--}}
-                                        {{--<span>&#165; {{ exchange_price($item['amount'], 'CNY') }}</span>--}}
-                                    {{--</div>--}}
-                                    {{--<div class="left w150 s_total red dollar_num center">--}}
-                                        {{--<span>&#36; {{ $item['amount'] }}</span>--}}
-                                    {{--</div>--}}
-                                {{--</div>--}}
                             @endforeach
                         @endif
                     </div>

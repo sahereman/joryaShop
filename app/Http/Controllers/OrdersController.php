@@ -14,6 +14,7 @@ use App\Jobs\AutoCloseOrderJob;
 use App\Models\Cart;
 use App\Models\CountryProvince;
 use App\Models\Coupon;
+use App\Models\CustomAttr;
 use App\Models\ExchangeRate;
 use App\Models\Order;
 use App\Models\OrderRefund;
@@ -330,6 +331,7 @@ class OrdersController extends Controller
         $total_shipping_fee = 0;
         $items = [];
         $is_nil = true;
+        $attr_values = [];
         $product_types = [];
 
         $countries = [];
@@ -349,7 +351,8 @@ class OrdersController extends Controller
         });
 
         if ($request->has('sku_id') && $request->has('number')) {
-            $sku = ProductSku::find($request->query('sku_id'));
+            $sku_id = $request->query('sku_id');
+            $sku = ProductSku::find($sku_id);
             $product = $sku->product;
             $product_types[] = $product->type;
             $number = $request->query('number');
@@ -363,6 +366,19 @@ class OrdersController extends Controller
                     break;
                 }
             }
+            /*custom product sku attr value sorting*/
+            $sorted_custom_attr_values = collect();
+            if ($product->type == Product::PRODUCT_TYPE_CUSTOM) {
+                $grouped_custom_attr_values = $sku->custom_attr_values->groupBy('type');
+                foreach (CustomAttr::$customAttrTypeMap as $type) {
+                    if (isset($grouped_custom_attr_values[$type])) {
+                        $sorted_custom_attr_values[$type] = $grouped_custom_attr_values[$type];
+                    }
+                }
+                $sorted_custom_attr_values = $sorted_custom_attr_values->flatten(1);
+            }
+            $attr_values[$sku_id] = $product->type == Product::PRODUCT_TYPE_CUSTOM ? $sorted_custom_attr_values : $sku->attr_values;
+            /*custom product sku attr value sorting*/
             $items[0]['sku'] = $sku;
             $items[0]['product'] = $product;
             $items[0]['number'] = $number;
@@ -401,6 +417,19 @@ class OrdersController extends Controller
                             break;
                         }
                     }
+                    /*custom product sku attr value sorting*/
+                    $sorted_custom_attr_values = collect();
+                    if ($product->type == Product::PRODUCT_TYPE_CUSTOM) {
+                        $grouped_custom_attr_values = $cart->sku->custom_attr_values->groupBy('type');
+                        foreach (CustomAttr::$customAttrTypeMap as $type) {
+                            if (isset($grouped_custom_attr_values[$type])) {
+                                $sorted_custom_attr_values[$type] = $grouped_custom_attr_values[$type];
+                            }
+                        }
+                        $sorted_custom_attr_values = $sorted_custom_attr_values->flatten(1);
+                    }
+                    $attr_values[$sku_id] = $product->type == Product::PRODUCT_TYPE_CUSTOM ? $sorted_custom_attr_values : $sku->attr_values;
+                    /*custom product sku attr value sorting*/
                     $items[$key]['sku'] = $sku;
                     $items[$key]['product'] = $product;
                     $items[$key]['number'] = $number;
@@ -436,6 +465,19 @@ class OrdersController extends Controller
                             break;
                         }
                     }
+                    /*custom product sku attr value sorting*/
+                    $sorted_custom_attr_values = collect();
+                    if ($product->type == Product::PRODUCT_TYPE_CUSTOM) {
+                        $grouped_custom_attr_values = $sku->custom_attr_values->groupBy('type');
+                        foreach (CustomAttr::$customAttrTypeMap as $type) {
+                            if (isset($grouped_custom_attr_values[$type])) {
+                                $sorted_custom_attr_values[$type] = $grouped_custom_attr_values[$type];
+                            }
+                        }
+                        $sorted_custom_attr_values = $sorted_custom_attr_values->flatten(1);
+                    }
+                    $attr_values[$sku_id] = $product->type == Product::PRODUCT_TYPE_CUSTOM ? $sorted_custom_attr_values : $sku->attr_values;
+                    /*custom product sku attr value sorting*/
                     $items[$key]['sku'] = $sku;
                     $items[$key]['product'] = $product;
                     $items[$key]['number'] = $number;
@@ -513,7 +555,8 @@ class OrdersController extends Controller
             'saved_fees' => $saved_fees,
             // 'countries' => json_encode($countries),
             'countries' => $countries,
-            'provinces' => json_encode($provinces)
+            'provinces' => json_encode($provinces),
+            'attr_values' => $attr_values
         ]);
     }
 
