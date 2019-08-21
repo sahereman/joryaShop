@@ -175,6 +175,17 @@
           vertical-align: bottom;
           border-right: none;
           empty-cells: show;
+          span {
+            display: inline-block;
+            transition: all .3s;
+            transform: rotateZ(0deg);
+            &.active {
+              transform: rotateZ(180deg);
+            }
+          }
+        }
+        .order-details {
+          display: none;
         }
         .order-detail {
           display: flex;
