@@ -3,7 +3,7 @@
     position: relative;
     padding-bottom: 40px;
     .pre_payment_content {
-        width: 990px;
+        width: 100%;
         margin: auto;
         .main_title {
             width: 100%;
@@ -78,55 +78,208 @@
             }
         }
         .pre_payment_main {
-            width: 100%;
-            margin-bottom: 50px;
-            .pre_payment_main_header {
+          width: 100%;
+          margin-bottom: 50px;
+          .cart-header {
+              display: flex;
+              flex-direction: row;
+              justify-content: flex-start;
+              padding: 10px;
+              border-bottom: 1px solid #e5e5e5;
+              font-weight: bold;
+              vertical-align: bottom;
+              text-align: left;
+          }
+          .cart-header-item {
+            padding: 0 10px;
+          }
+          .cart-item-item {
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            width: 70%;
+          }
+          .cart-item-qty {
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            width: 20%;
+            text-align: center;
+            span {
+              margin: auto;
+            }
+            .counter {
+              margin: auto;
+              input {
+                background: transparent;
+                border: 0;
+                display: inline-block;
+                text-align: center;
+                height: 41px;
+                width: 3em;
+                margin: 0 5px;
+              }
+            }
+          }
+          .cart-item-amount {
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            width: 10%;
+            padding-right: 0;
+            span {
+              margin: auto;
+            }
+            .amount-price {
+              margin: auto;
+              color: #e50012;
+            }
+          }
+          .pre_payment-items {
+            .cart-item {
+              padding: 10px 0;
+            }
+            .cart-item-top {
+              display: flex;
+              flex-direction: row;
+              justify-content: flex-start;
+              padding: 0 5px;
+            }
+            .cart-item-item-img {
+              width: 20%;
+              img {
                 width: 100%;
-                height: 42px;
-                background: #f0f0f0;
-                line-height: 42px;
-                padding-left: 15px;
+              }
+            }
+            .cart-item-item-content {
+              margin: auto;
+              width: 78%;
+              text-align: left;
+              font-size: 1.2em;
+              padding: 10px 6px;
+              .cart-item-name {
+                span {
+                  font-size: 1.35rem;
+                  color: #555;
+                  line-height: 1.2em;
+                }
+              }
+              .cart-item-btns {
+                text-align: left;
+                padding: 10px 0;
+                a {
+                  cursor: pointer;
+                  text-decoration: underline;
+                  margin-right: 10px;
+                  color: #555;
+                  span {
+                    font-size: 1.2em;
+                  }
+                  &:hover {
+                    color: $hover-color;
+                  }
+                }
+              }
+            }
+            .cart-item-bottom {
+              padding: 10px 5px;
+              border-bottom: 1px solid #e5e5e5;
+              .order-detail-title {
+                padding: 10px;
+                height: 41px;
+                width: 100%;
+                text-transform: Uppercase;
+                text-align: center;
+                background-color: #fde7e9;
+                font-weight: bold;
+                vertical-align: bottom;
+                border-right: none;
+                empty-cells: show;
+                cursor: pointer;
+                span {
+                  display: inline-block;
+                  transition: all .3s;
+                  transform: rotateZ(0deg);
+                  &.active {
+                    transform: rotateZ(180deg);
+                  }
+                }
+              }
+              .order-details {
+                display: none;
+              }
+              .order-detail {
+                display: flex;
+                flex-direction: row;
+                padding: 10px;
+                min-height: 41px;
+                width: 100%;
                 div {
-                    height: 100%;
+                  width: 50%;
+                  height: 100%;
+                  margin: auto;
+                  text-align: left;
+                  color: #333;
+                  &:last-of-type {
+                    color: #00a7db;
+                  }
                 }
-            }
-            .pre_payment-items {
-                .single-item {
-                    width: 100%;
-                    min-height: 140px;
-                    background: #fff;
-                    margin-bottom: 10px;
-                    line-height: 140px;
-                    padding-left: 15px;
-                    display: flex;
-                    div {
-                        display: flex;
-                        flex-direction: row;
-                        padding: 5px;
-                        a {
-                            margin: auto;
-                        }
-                        img {
-                            width: 80px;
-                            height: 80px;
-                            margin-left: 15px;
-                        }
-                        span{
-                            display: inline-block;
-                            line-height: 25px;
-                            margin: auto;
-                        }
-//                      &.pro-info,
-//                      &.Specifications_info{
-//                          display: flex;
-//                          
-//                          span {
-//                              margin: auto;
-//                          }
-//                      }
-                    }
+                &.odd {
+                  background-color: #fff;
                 }
+                &.even {
+                  background-color: #efefef;
+                }
+              }
             }
+          }
+            //.pre_payment_main_header {
+            //    width: 100%;
+            //    height: 42px;
+            //    background: #f0f0f0;
+            //    line-height: 42px;
+            //    padding-left: 15px;
+            //    div {
+            //        height: 100%;
+            //    }
+            //}
+//            .pre_payment-items {
+//                .single-item {
+//                    width: 100%;
+//                    min-height: 140px;
+//                    background: #fff;
+//                    margin-bottom: 10px;
+//                    line-height: 140px;
+//                    padding-left: 15px;
+//                    display: flex;
+//                    div {
+//                        display: flex;
+//                        flex-direction: row;
+//                        padding: 5px;
+//                        a {
+//                            margin: auto;
+//                        }
+//                        img {
+//                            width: 80px;
+//                            height: 80px;
+//                            margin-left: 15px;
+//                        }
+//                        span{
+//                            display: inline-block;
+//                            line-height: 25px;
+//                            margin: auto;
+//                        }
+////                      &.pro-info,
+////                      &.Specifications_info{
+////                          display: flex;
+////
+////                          span {
+////                              margin: auto;
+////                          }
+////                      }
+//                    }
+//                }
+//            }
         }
         .pre_payment_footer {
             width: 100%;
