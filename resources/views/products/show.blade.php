@@ -168,22 +168,20 @@
                             @endforeach
                         @endif
                     </ul>
-                    @if($product->type != \App\Models\Product::PRODUCT_TYPE_CUSTOM)
-                        {{-- 动态渲染的skus选择器存放位置 --}}
-                        <div class="sku-choose-store"></div>
-                        {{-- skus参数数组 --}}
-                        <input type="hidden" class="parameter-data" value="{{ json_encode($attributes) }}"/>
-                        {{-- 商品数量相关 --}}
-                        <div class="priceOfpro">
-                            <span class="buy_numbers">@lang('product.product_details.Quantity'):</span>
-                            <div class="quantity_control">
-                                <span class="reduce no_allow"><i>-</i></span>
-                                <input type="number" name="number" id="pro_num" value="1" min="1" max="99">
-                                <span class="add"><i>+</i></span>
-                            </div>
-                            <div class="availableSold"></div>
+                    {{-- 动态渲染的skus选择器存放位置 --}}
+                    <div class="sku-choose-store {{ $product->type == \App\Models\Product::PRODUCT_TYPE_CUSTOM ? ' dis_ni' : '' }}"></div>
+                    {{-- skus参数数组 --}}
+                    <input type="hidden" class="parameter-data" value="{{ json_encode($attributes) }}"/>
+                    {{-- 商品数量相关 --}}
+                    <div class="priceOfpro {{ $product->type == \App\Models\Product::PRODUCT_TYPE_CUSTOM ? ' dis_ni' : '' }}">
+                        <span class="buy_numbers">@lang('product.product_details.Quantity'):</span>
+                        <div class="quantity_control">
+                            <span class="reduce no_allow"><i>-</i></span>
+                            <input type="number" name="number" id="pro_num" value="1" min="1" max="99">
+                            <span class="add"><i>+</i></span>
                         </div>
-                    @endif
+                        <div class="availableSold"></div>
+                    </div>
                     <!--添加购物车与立即购买-->
                     <div class="addCart_buyNow">
                         @if($product->type == \App\Models\Product::PRODUCT_TYPE_CUSTOM)
