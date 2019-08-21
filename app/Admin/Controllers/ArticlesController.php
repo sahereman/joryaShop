@@ -79,8 +79,17 @@ class ArticlesController extends Controller
         $grid = new Grid(new Article);
         $grid->disableFilter();
 
+        $grid->model()->orderBy('category_id', 'desc'); // 设置初始排序条件
+        if (request()->input('cid'))
+        {
+            $grid->model()->where('category_id', request()->input('cid'));
+        }
+
         $grid->id('ID');
-        $grid->category()->name_en('分类');
+        $grid->category()->name_en('分类')->display(function ($data) {
+            $str = "<a href='" . route('admin.articles.index', ['cid' => $this->category_id]) . "'>$data</a>";
+            return $str;
+        });;
 
         $grid->name('名称')->display(function ($data) {
             return '<a target="_blank" href="' . route('seo_url', $this->slug) . '">' . $data . '</a>';
@@ -88,6 +97,7 @@ class ArticlesController extends Controller
         $grid->slug('标示位');
         $grid->created_at('创建时间');
         $grid->updated_at('更新时间');
+        $grid->sort('排序值')->sortable();
 
         return $grid;
     }
@@ -189,6 +199,8 @@ class ArticlesController extends Controller
         $form->text('seo_keywords', 'SEO - 关键字');
         $form->text('seo_description', 'SEO - 描述');
         /* 2019-04-09 for SEO */
+
+        $form->number('sort', '排序值')->default(9)->rules('required|integer|min:0')->help('默认倒序排列：数值越大越靠前');
 
         /*for select-options*/
         /*$form->select('slug', '标示位')->options($slugs)->rules(function ($form) {

@@ -77,6 +77,6 @@ class ArticleCategory extends Model
 
     public function articles()
     {
-        return $this->hasMany(Article::class, 'category_id');
+        return $this->hasMany(Article::class, 'category_id')->orderByDesc('sort');
     }
 }

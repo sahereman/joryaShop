@@ -21,6 +21,7 @@ class Article extends Model
         'seo_keywords',
         'seo_description',
         /* 2019-04-09 for SEO */
+        'sort'
     ];
 
     public static function getArticleBySlug(string $slug)

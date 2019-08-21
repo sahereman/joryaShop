@@ -85,7 +85,7 @@ class CustomAttrsController extends Controller
         $grid->id('Id');
 
         $grid->type('属性类型')->display(function ($data) {
-            $str = "</s><a href='" . route('admin.custom_attrs.index', ['type' => $data]) . "'>$data</a>";
+            $str = "<a href='" . route('admin.custom_attrs.index', ['type' => $data]) . "'>$data</a>";
             return $str;
         });
 
