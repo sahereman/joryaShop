@@ -8,6 +8,8 @@
     <meta name="description" content="@yield('description', \App\Models\Config::config('description'))"/>
     {{--Share Image--}}
     <meta property="og:image" content="@yield('og:image', '')" />
+    <meta property="og:image:width" content="680" />
+    <meta property="og:image:height" content="800" />
     <meta name="twitter:image" content="@yield('twitter:image', '')" />
     {{--CSRF Token--}}
     <meta name="csrf-token" content="{{ csrf_token() }}">
