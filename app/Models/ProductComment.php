@@ -45,7 +45,8 @@ class ProductComment extends Model
      */
     protected $appends = [
         'photo_urls',
-        'title'
+        'title',
+        'index'
     ];
 
     /* Accessors */
@@ -97,6 +98,11 @@ class ProductComment extends Model
         }
     }
 
+    public function getIndexAttribute()
+    {
+        return bcdiv(bcmul($this->attributes['composite_index'], 100), 5);
+    }
+
     /* Mutators */
     public function setPhotoUrlsAttribute($value)
     {
@@ -106,6 +112,11 @@ class ProductComment extends Model
     public function setTitleAttribute($value)
     {
         unset($this->attributes['title']);
+    }
+
+    public function setIndexAttribute($value)
+    {
+        unset($this->attributes['index']);
     }
 
     /* Eloquent Relationships */

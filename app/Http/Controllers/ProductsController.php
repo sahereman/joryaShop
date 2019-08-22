@@ -307,8 +307,8 @@ class ProductsController extends Controller
                 ]) . '?page=' . $next_page;
         }
         $comments = ProductComment::where('product_id', $product->id)->with(['user', 'orderItem.sku'])->simplePaginate(10);
-        $composite_index = ProductComment::where('product_id', $product->id)->get()->average('composite_index');
-        $composite_index = bcdiv(bcmul($composite_index, 100), 5);
+        // $composite_index = ProductComment::where('product_id', $product->id)->get()->average('composite_index');
+        // $composite_index = bcdiv(bcmul($composite_index, 100), 5);
         // $description_index = ProductComment::where('product_id', $product->id)->get()->average('description_index');
         // $shipment_index = ProductComment::where('product_id', $product->id)->get()->average('shipment_index');
 
@@ -317,7 +317,7 @@ class ProductsController extends Controller
             'message' => 'success',
             'data' => [
                 'comments' => $comments,
-                'composite_index' => $composite_index,
+                // 'composite_index' => $composite_index,
                 // 'description_index' => $description_index,
                 // 'shipment_index' => $shipment_index,
                 'request_url' => $request_url,
