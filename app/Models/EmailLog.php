@@ -13,6 +13,31 @@ class EmailLog extends Model
      */
     protected $fillable = [
         'email',
-        'content'
+        'name',
+        'phone',
+        'address',
+        'agent',
+        'facebook',
+        'content',
+        'sent_at'
     ];
+
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'facebook' => 'boolean'
+    ];
+
+    /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+    protected $dates = [
+        'sent_at'
+    ];
+
 }

@@ -31,7 +31,7 @@ class EmailLogsController extends Controller
     /**
      * Show interface.
      *
-     * @param mixed   $id
+     * @param mixed $id
      * @param Content $content
      * @return Content
      */
@@ -46,7 +46,7 @@ class EmailLogsController extends Controller
     /**
      * Edit interface.
      *
-     * @param mixed   $id
+     * @param mixed $id
      * @param Content $content
      * @return Content
      */
@@ -91,7 +91,7 @@ class EmailLogsController extends Controller
 
         $grid->actions(function ($actions) {
             // $actions->disableView();
-            $actions->disableEdit();
+            // $actions->disableEdit();
             $actions->disableDelete();
         });
 
@@ -101,10 +101,21 @@ class EmailLogsController extends Controller
             });
         });
 
-        $grid->id('Id');
-        $grid->email('Email');
+        /*筛选*/
+        $grid->filter(function ($filter) {
+            $filter->disableIdFilter(); // 去掉默认的id过滤器
+            $filter->like('email', 'Client Email');
+        });
+
+        $grid->id('Id')->sortable();
+        $grid->email('Client Email')->sortable();
+        $grid->name('Client Name')->sortable();
+        $grid->phone('Client Phone')->sortable();
+        $grid->address('Client Address')->sortable();
+        $grid->agent('Agent Info')->sortable();
+        $grid->facebook('Communicated via Facebook')->switch();
         // $grid->content('Content');
-        $grid->created_at('Sent at');
+        $grid->sent_at('Sent at')->sortable();
         // $grid->updated_at('Updated at');
 
         return $grid;
@@ -113,7 +124,7 @@ class EmailLogsController extends Controller
     /**
      * Make a show builder.
      *
-     * @param mixed   $id
+     * @param mixed $id
      * @return Show
      */
     protected function detail($id)
@@ -121,15 +132,22 @@ class EmailLogsController extends Controller
         $show = new Show(EmailLog::findOrFail($id));
 
         $show->panel()->tools(function ($tools) {
-            $tools->disableEdit();
+            // $tools->disableEdit();
             // $tools->disableList();
             $tools->disableDelete();
         });
 
         $show->id('Id');
         $show->email('Email');
+        $show->name('Client Name');
+        $show->phone('Client Phone');
+        $show->address('Client Address');
+        $show->agent('Agent Info');
+        $show->facebook('Communicated via Facebook')->as(function ($facebook) {
+            return $facebook ? 'Yes' : 'No';
+        });
+        $show->sent_at('Sent at');
         $show->content('Content');
-        $show->created_at('Sent at');
         // $show->updated_at('Updated at');
 
         return $show;
@@ -143,6 +161,7 @@ class EmailLogsController extends Controller
     protected function form()
     {
         $form = new Form(new EmailLog);
+        $form->html('<button class="btn btn-primary"><i class="fa fa-send"></i>&nbsp;提交</button>');
 
         $form->tools(function (Form\Tools $tools) {
             $tools->disableDelete();
@@ -150,8 +169,16 @@ class EmailLogsController extends Controller
             // $tools->disableView();
         });
 
-        $form->email('email', 'Email');
-        $form->textarea('content', 'Content');
+        $form->display('email', 'Email');
+        $form->text('name', 'Client Name');
+        $form->text('phone', 'Client Phone');
+        $form->text('address', 'Client Address');
+        $form->text('agent', 'Agent Info');
+        $form->switch('facebook', 'Communicated via Facebook')->states([
+            'on' => ['value' => 1, 'text' => 'Yes', 'color' => 'success'],
+            'off' => ['value' => 0, 'text' => 'No', 'color' => 'danger'],
+        ]);
+        $form->display('content', 'Content');
 
         return $form;
     }
