@@ -1,6 +1,8 @@
 @extends('layouts.app')
 @section('keywords', $product->seo_keywords ? : \App\Models\Config::config('keywords'))
-@section('description', $product->seo_description ? : \App\Models\Config::config('description'))
+@section('description', $product->seo_description ? : (App::isLocale('zh-CN') ? $product->description_zh : $product->description_en))
+@section('og:image', $product->photo_urls[0])
+@section('twitter:image', $product->photo_urls[0])
 @section('title', $product->seo_title ? : (App::isLocale('zh-CN') ? $product->name_zh : $product->name_en) . ' - ' . \App\Models\Config::config('title'))
 @section('content')
     <div class="commodity-details">
