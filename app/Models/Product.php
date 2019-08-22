@@ -313,4 +313,9 @@ class Product extends Model
     {
         return $this->belongsToMany(ShipmentTemplate::class, 'product_shipment_templates');
     }
+
+    public function question_answers()
+    {
+        return $this->hasMany(ProductQuestionAnswer::class);
+    }
 }

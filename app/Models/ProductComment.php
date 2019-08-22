@@ -45,6 +45,7 @@ class ProductComment extends Model
      */
     protected $appends = [
         'photo_urls',
+        'title'
     ];
 
     /* Accessors */
@@ -64,6 +65,47 @@ class ProductComment extends Model
             }
         }
         return $photo_urls;
+    }
+
+    public function getTitleAttribute()
+    {
+        $content = strip_tags($this->attributes['content']);
+        // 是否含有中文字符
+        // Chinese regular expression pattern in UTF-8 for PHP: \x4e00-\x9fa5
+        // Chinese regular expression pattern in UTF-8 for JavaScript: \u4e00-\u9fa5
+        // Chinese regular expression pattern for PHP: $pattern = chr(0xa1) . "-" . chr(0xff);
+        $pattern = chr(0xa1) . "-" . chr(0xff);
+        // if (preg_match('/[\x4e00-\x9fa5]+/', $content)) {
+        // if (preg_match('/[\x4e00-\x9fa5]+/u', $content)) {
+        if (preg_match("/[{$pattern}]+/", $content)) {
+            if (mb_strlen($content) <= 10) {
+                return $content;
+            } else {
+                return mb_substr($content, 0, 10) . ' ...';
+            }
+        } else {
+            if (mb_strlen($content) < 50) {
+                return $content;
+            } else {
+                $content = mb_substr($content, 0, 50);
+                $position = strrpos($content, ' ');
+                if ($position) {
+                    return mb_substr($content, 0, $position) . ' ...';
+                }
+                return $content . ' ...';
+            }
+        }
+    }
+
+    /* Mutators */
+    public function setPhotoUrlsAttribute($value)
+    {
+        unset($this->attributes['photo_urls']);
+    }
+
+    public function setTitleAttribute($value)
+    {
+        unset($this->attributes['title']);
     }
 
     /* Eloquent Relationships */
