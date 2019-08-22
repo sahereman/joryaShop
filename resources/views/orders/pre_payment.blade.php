@@ -170,16 +170,16 @@
                             </p>
                             @if($address)
                                 <p class="address_info">
-                                    <span class="address_name">{{ $address->name }}</span>
-                                    <span class="address_phone">{{ $address->phone }}</span>
+                                    <span class="address_name address_name_bottom">{{ $address->name }}</span>
+                                    <span class="address_phone address_phone_bottom">{{ $address->phone }}</span>
                                 </p>
-                                <p class="address_info address_location">{{ $address->full_address }}</p>
+                                <p class="address_info address_location address_location_bottom">{{ $address->full_address }}</p>
                             @else
                                 <p class="address_info">
-                                    <span class="address_name"></span>
-                                    <span class="address_phone"></span>
+                                    <span class="address_name address_name_bottom"></span>
+                                    <span class="address_phone address_phone_bottom"></span>
                                 </p>
-                                <p class="address_info address_location"></p>
+                                <p class="address_info address_location address_location_bottom"></p>
                             @endif
                         </li>
                     </ul>
@@ -187,66 +187,6 @@
             </div>
         </div>
     </div>
-    <!--新建收货地址弹出层-->
-    {{--<div class="dialog_popup new_receipt_address">
-        <div class="dialog_content">
-            <div class="close">
-                <i></i>
-            </div>
-            <div class="dialog_textarea">
-                <div class="textarea_title">
-                    <span>@lang('basic.address.The new address')</span>
-                </div>
-                <div class="textarea_content">
-                    <form id="creat-form">
-                        <ul>
-                            <li>
-                                <p>
-                                    <span class="input_name"><i>*</i>@lang('basic.address.The consignee')：</span>
-                                    <input class="user_name" name="name" type="text"
-                                           placeholder="@lang('basic.address.Enter the consignee name')">
-                                </p>
-                                <p>
-                                    <span class="input_name"><i>*</i>@lang('basic.address.Contact')：</span>
-                                    <input class="user_tel" name="phone" type="text"
-                                           placeholder="@lang('basic.address.Enter the real and valid mobile phone number')">
-                                </p>
-                            </li>
-                            <li>
-                                <p>
-                                    <span class="input_name"><i>*</i>Country or region：</span>
-                                    <input class="user_country" name="country" type="text"
-                                           placeholder="Enter the Country or region">
-                                </p>
-                            </li>
-                            <li>
-                                <p>
-                                    <span class="input_name"><i>*</i>City：</span>
-                                    <input class="user_city" name="city" type="text"
-                                           placeholder="Enter the City">
-                                </p>
-                                <p>
-                                    <span class="input_name"><i>*</i>State/Province/Region：</span>
-                                    <input class="user_province" name="province" type="text"
-                                           placeholder="Enter the State/Province/Region">
-                                </p>
-                            </li>
-                            <li>
-                                <span class="input_name"><i>*</i>@lang('basic.address.Detailed address')：</span>
-                                <textarea name="address"
-                                          placeholder="@lang('basic.address.Detailed_address')"></textarea>
-                            </li>
-                        </ul>
-                    </form>
-                </div>
-            </div>
-            <div class="btn_area">
-                <a class="success" data-url="{{ route('user_addresses.store_for_ajax') }}">@lang('app.determine')</a>
-                <a class="cancel">@lang('app.cancel')</a>
-            </div>
-        </div>
-    </div>--}}
-
     <!--新增地址新版-->
     <div id="addNewAddress" class="dis_n address-info-form">
         <form id="creat-form" data-url="{{ route('user_addresses.store_for_ajax') }}">
@@ -555,9 +495,9 @@
             }
 
             $(".payment_btn").on("click", function () {
-                var address_name = $(".address_name").html();
-                var address_phone = $(".address_phone").html();
-                var address_location = $(".address_location").html();
+                var address_name = $(".address_name_bottom").html();
+                var address_phone = $(".address_phone_bottom").html();
+                var address_location = $(".address_location_bottom").html();
                 var url = $(this).attr("data-url");
                 var sendWay = getUrlVars("sendWay");
                 if (address_name == "" || address_phone == "" || address_location == "") {
@@ -585,9 +525,9 @@
                     sku_id: sku_id,
                     number: number,
                     address_id: $(".pre_payment_header").attr("code"),
-                    name: $('.address_name').text(),
-                    phone: $('.address_phone').text(),
-                    address: $('.address_location').text(),
+                    name: $('.address_name_bottom').text(),
+                    phone: $('.address_phone_bottom').text(),
+                    address: $('.address_location_bottom').text(),
                     remark: $(".remark").val(),
                     currency: $(".currency_selection").find("a.active").attr("country")
                 };
@@ -620,13 +560,12 @@
                     _token: "{{ csrf_token() }}",
                     sku_ids: sku_ids,
                     address_id: $(".pre_payment_header").attr("code"),
-                    name: $('.address_name').text(),
-                    phone: $('.address_phone').text(),
-                    address: $('.address_location').text(),
+                    name: $('.address_name_bottom').text(),
+                    phone: $('.address_phone_bottom').text(),
+                    address: $('.address_location_bottom').text(),
                     remark: $(".remark").val(),
                     currency: $(".currency_selection").find("a.active").attr("country")
                 };
-                console.log(data);
                 $.ajax({
                     type: "post",
                     url: url,
