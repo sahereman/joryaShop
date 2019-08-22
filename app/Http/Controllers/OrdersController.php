@@ -995,8 +995,10 @@ class OrdersController extends Controller
                 'order_item_id' => $order_item_id,
                 'product_id' => $order_item[0]->sku->product->id,
                 'composite_index' => $request->input('composite_index')[$order_item_id],
-                'description_index' => $request->input('description_index')[$order_item_id],
-                'shipment_index' => $request->input('shipment_index')[$order_item_id],
+                'description_index' => $request->input('composite_index')[$order_item_id],
+                'shipment_index' => $request->input('composite_index')[$order_item_id],
+                // 'description_index' => $request->input('description_index')[$order_item_id],
+                // 'shipment_index' => $request->input('shipment_index')[$order_item_id],
                 'content' => $request->input('content')[$order_item_id],
                 'photos' => $photos ?? null,
             ]);

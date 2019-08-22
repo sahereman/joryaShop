@@ -308,8 +308,9 @@ class ProductsController extends Controller
         }
         $comments = ProductComment::where('product_id', $product->id)->with(['user', 'orderItem.sku'])->simplePaginate(10);
         $composite_index = ProductComment::where('product_id', $product->id)->get()->average('composite_index');
-        $description_index = ProductComment::where('product_id', $product->id)->get()->average('description_index');
-        $shipment_index = ProductComment::where('product_id', $product->id)->get()->average('shipment_index');
+        $composite_index = bcdiv(bcmul($composite_index, 100), 5);
+        // $description_index = ProductComment::where('product_id', $product->id)->get()->average('description_index');
+        // $shipment_index = ProductComment::where('product_id', $product->id)->get()->average('shipment_index');
 
         return response()->json([
             'code' => 200,
@@ -317,8 +318,8 @@ class ProductsController extends Controller
             'data' => [
                 'comments' => $comments,
                 'composite_index' => $composite_index,
-                'description_index' => $description_index,
-                'shipment_index' => $shipment_index,
+                // 'description_index' => $description_index,
+                // 'shipment_index' => $shipment_index,
                 'request_url' => $request_url,
             ],
         ]);
@@ -509,10 +510,10 @@ class ProductsController extends Controller
             'email' => $to_email
         ], [
             'content' => "Subject: {$subject}. " . view('emails.share', [
-                'product' => $product,
-                'from_email' => $from_email,
-                'body' => $body
-            ]),
+                    'product' => $product,
+                    'from_email' => $from_email,
+                    'body' => $body
+                ]),
             'sent_at' => Carbon::now()->toDateTimeString()
         ]);
 

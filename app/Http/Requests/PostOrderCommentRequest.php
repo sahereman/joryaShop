@@ -46,7 +46,7 @@ class PostOrderCommentRequest extends Request
                     }
                 },
             ],
-            'description_index' => [
+            /*'description_index' => [
                 'bail',
                 'required',
                 'array',
@@ -79,7 +79,7 @@ class PostOrderCommentRequest extends Request
                         $fail(trans('basic.comments.Plz_mark_every_shipment_index'));
                     }
                 },
-            ],
+            ],*/
             'content' => [
                 'bail',
                 'required',
@@ -116,8 +116,8 @@ class PostOrderCommentRequest extends Request
                 },
             ],
             'composite_index.*' => 'bail|required|integer|min:0|max:5',
-            'description_index.*' => 'bail|required|integer|min:0|max:5',
-            'shipment_index.*' => 'bail|required|integer|min:0|max:5',
+            // 'description_index.*' => 'bail|required|integer|min:0|max:5',
+            // 'shipment_index.*' => 'bail|required|integer|min:0|max:5',
             'content.*' => 'bail|required|string|min:3',
             'photos.*' => 'sometimes|nullable|string',
         ];
