@@ -31,7 +31,7 @@
                                 <th></th>
                                 <th>@lang('product.comments.commodity')</th>
                                 <th>@lang('product.comments.specification')</th>
-                                <th>@lang('product.comments.Unit Price')</th>
+                                {{--<th>@lang('product.comments.Unit Price')</th>--}}
                                 <th>@lang('product.comments.Quantity')</th>
                                 <th>@lang('product.comments.Subtotal')</th>
                                 </thead>
@@ -50,11 +50,11 @@
                                             </a>
                                         </p>
                                     </td>
-                                    <td class="col-pro-speci">
+                                    {{--<td class="col-pro-speci">
                                         <p class="p-info">
                                             <a class="specifications"
                                                href="{{ route('seo_url', $order_item['sku']['product']['slug']) }}">
-                                                {{--{{ App::isLocale('en') ? $order_item['sku']['name_en'] : $order_item['sku']['name_zh'] }}--}}
+                                                --}}{{--{{ App::isLocale('en') ? $order_item['sku']['name_en'] : $order_item['sku']['name_zh'] }}--}}{{--
                                                 @if($order_item['sku']['product']['type'] == \App\Models\Product::PRODUCT_TYPE_CUSTOM)
                                                     {{ $order_item['sku']['custom_attr_value_string'] }}
                                                 @else
@@ -62,7 +62,7 @@
                                                 @endif
                                             </a>
                                         </p>
-                                    </td>
+                                    </td>--}}
                                     <td class="col-price">
                                         <p class="p-price">
                                             {{--<span>{{ $order->currency == "USD" ? '&#36;' : '&#165;' }}</span>--}}
@@ -118,7 +118,7 @@
                                             <label for="rate1-1_{{ $order_item['id'] }}" title="Terrible"></label>
                                         </div>
                                     </div>
-                                    <div class="five_star_two star_area">
+                                    {{--<div class="five_star_two star_area">
                                         <p>
                                             <i>*</i>
                                             <span>@lang('product.description_index')</span>
@@ -171,7 +171,7 @@
                                                    name="shipment_index[{{ $order_item['id'] }}]" value="1"/>
                                             <label for="rate1-3_{{ $order_item['id'] }}" title="Terrible"></label>
                                         </div>
-                                    </div>
+                                    </div>--}}
                                 </div>
                                 <textarea name="content[{{ $order_item['id'] }}]" maxlength="200"
                                           placeholder="@lang('product.comments.Please enter a product evaluation of less than 200 words')">{{ old('content')[$order_item['id']] }}</textarea>
@@ -273,9 +273,9 @@
             var five_star_one, five_star_two, five_star_three, star_status, textarea_status;
             $.each($(".evaluation_content"), function (i, n) {
                 five_star_one = $(n).find(".five_star_one").find("input:checked");
-                five_star_two = $(n).find(".five_star_two").find("input:checked");
-                five_star_three = $(n).find(".five_star_three").find("input:checked");
-                if (five_star_one.length == 1 && five_star_two.length == 1 && five_star_three.length == 1) {
+                // five_star_two = $(n).find(".five_star_two").find("input:checked");
+                // five_star_three = $(n).find(".five_star_three").find("input:checked");
+                if (five_star_one.length == 1) {
                     star_status = true;
                 } else {
                     layer.msg("@lang('product.Please select a Star')！");

@@ -27,7 +27,7 @@
                             <th></th>
                             <th>@lang('product.comments.commodity')</th>
                             <th>@lang('product.comments.specification')</th>
-                            <th>@lang('product.comments.Unit Price')</th>
+                            {{--<th>@lang('product.comments.Unit Price')</th>--}}
                             <th>@lang('product.comments.Quantity')</th>
                             <th>@lang('product.comments.Subtotal')</th>
                             </thead>
@@ -46,19 +46,19 @@
                                         </a>
                                     </p>
                                 </td>
-                                <td class="col-pro-speci">
-                                    <p class="p-info">
-                                        <a class="specifications"
-                                           href="{{ route('seo_url', $order_item['sku']['product']['slug']) }}">
+                                {{--<td class="col-pro-speci">--}}
+                                    {{--<p class="p-info">--}}
+                                        {{--<a class="specifications"--}}
+                                           {{--href="{{ route('seo_url', $order_item['sku']['product']['slug']) }}">--}}
                                             {{--{{ App::isLocale('en') ? $order_item['sku']['name_en'] : $order_item['sku']['name_zh'] }}--}}
-                                            @if($order_item['sku']['product']['type'] == \App\Models\Product::PRODUCT_TYPE_CUSTOM)
-                                                {{ $order_item['sku']['custom_attr_value_string'] }}
-                                            @else
-                                                {{ $order_item['sku']['attr_value_string'] }}
-                                            @endif
-                                        </a>
-                                    </p>
-                                </td>
+                                            {{--@if($order_item['sku']['product']['type'] == \App\Models\Product::PRODUCT_TYPE_CUSTOM)--}}
+                                                {{--{{ $order_item['sku']['custom_attr_value_string'] }}--}}
+                                            {{--@else--}}
+                                                {{--{{ $order_item['sku']['attr_value_string'] }}--}}
+                                            {{--@endif--}}
+                                        {{--</a>--}}
+                                    {{--</p>--}}
+                                {{--</td>--}}
                                 <td class="col-price">
                                     <p class="p-price">
                                         {{--<em>{{ App::isLocale('en') ? '&#36;' : '&#165;' }}</em>--}}
@@ -94,16 +94,16 @@
                                         </div>
                                     </div>
                                 </div>
-                                <p class="product_parameters">
-                                    <span>
+                                {{--<p class="product_parameters">--}}
+                                    {{--<span>--}}
                                         {{--{{ App::isLocale('en') ? $order_item['sku']['name_en'] : $order_item['sku']['name_zh'] }}--}}
-                                        @if($order_item['sku']['product']['type'] == \App\Models\Product::PRODUCT_TYPE_CUSTOM)
-                                            {{ $order_item['sku']['custom_attr_value_string'] }}
-                                        @else
-                                            {{ $order_item['sku']['attr_value_string'] }}
-                                        @endif
-                                    </span>
-                                </p>
+                                        {{--@if($order_item['sku']['product']['type'] == \App\Models\Product::PRODUCT_TYPE_CUSTOM)--}}
+                                            {{--{{ $order_item['sku']['custom_attr_value_string'] }}--}}
+                                        {{--@else--}}
+                                            {{--{{ $order_item['sku']['attr_value_string'] }}--}}
+                                        {{--@endif--}}
+                                    {{--</span>--}}
+                                {{--</p>--}}
                                 <p class="eva_text">{{ $comments[$order_item['id']][0]->content }}</p>
                                 <div class="tm-m-photos">
                                     <ul class="evaluation_img">
