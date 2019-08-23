@@ -420,7 +420,31 @@
                     }
                 });
             }
-
+            //确认收货
+            $(".confirmation_receipt").on('click', function () {
+                var data = {
+                    _method: "PATCH",
+                    _token: "{{ csrf_token() }}",
+                };
+                var url = $(this).attr('code');
+                $.ajax({
+                    type: "post",
+                    url: url,
+                    data: data,
+                    success: function (data) {
+                        window.location.reload();
+                    },
+                    error: function (err) {
+                        if (err.status == 403) {
+                            layer.open({
+                                title: "@lang('app.Prompt')",
+                                content: "@lang('app.Unable to complete operation')",
+                                btn: ["@lang('app.determine')", "@lang('app.cancel')"],
+                            });
+                        }
+                    }
+                });
+            });
             //倒计时方法封装
             function timeCount(remain_id, totalS, type) {
                 function _fresh() {

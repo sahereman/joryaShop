@@ -42,7 +42,12 @@
                             }
                         }
                         .col-operate {
-                            
+                            min-width: 175px !important;
+                            p {
+                                display: flex;
+                                flex-direction: column;
+                                padding: 0 10px;
+                            }
                             .reminding_shipments,
                             .confirmation_receipt,
                             .View_evaluation,
@@ -50,7 +55,7 @@
                             .Buy_again {
                                 min-width: 100px !important;
                                 height: 30px;
-                                padding: 0 5px;
+                                padding: 0 10px;
                                 border: 1px solid #dcdcdc;
                                 border-radius: 2px;
                                 line-height: 30px;
@@ -58,6 +63,7 @@
                                 color: #333;
                                 font-size: 14px;
                                 font-weight: bold;
+                                white-space: nowrap;
                                 &:hover {
                                     color: $hover-color;
                                     border-color: $hover-color;
@@ -189,7 +195,7 @@
                         font-size: 12px;
                         cursor: pointer;
                         color: #666;
-                        padding: 0 5px; 
+                        padding: 0 10px;
                         &:hover {
                             color: $hover-color;
                             border-color: $hover-color;

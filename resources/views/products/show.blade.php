@@ -114,7 +114,7 @@
                         </p>
                     </div>
                     {{-- 评价 --}}
-                    <div class="ratings">
+                    <div class="ratings dis_ni">
                         <div class="rating-box">
                             {{-- 商品星级评价，
                             按照之前的设定分为：
@@ -313,56 +313,7 @@
                             <div class="no_eva dis_n">
                                 <p>@lang('product.product_details.No evaluation information yet')</p>
                             </div>
-                            <dl>
-                                <dt>
-                                    <span class="heading">I am happy.</span>Review by <span>Tony</span>
-                                </dt>
-                                <dd>
-                                    <table class="ratings-table">
-                                        <colgroup><col width="1">
-                                            <col>
-                                        </colgroup><tbody>
-                                        <tr>
-                                            <th>Product Rating</th>
-                                            <td>
-                                                <div class="rating-box">
-                                                    <div class="rating" style="width:80%;"></div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
-                                    <p>thank you.... I was concerned about doing business like this.... you are a honest person.... I had other friends that used Apollo....
-                                        they will definitely be using you.... I intend to show them my hair that I received from you... I am sure they're going to feel the
-                                        same way I do.... I will be using you as long as I used these things... I have been using them now for over 12 years.... probably
-                                        another 20...... thank you for the quality.... thank you again for being honest and not one of those horror stories we hear at times
-                                        doing business over the Internet.</p>
-                                    <small class="date">(Posted on 3/27/2014)</small>
-                                </dd>
-                                <dt>
-                                    <span class="heading">Thank you for all your help.</span>Review by <span>Tarek</span>
-                                </dt>
-                                <dd>
-                                    <table class="ratings-table">
-                                        <colgroup><col width="1">
-                                            <col>
-                                        </colgroup><tbody>
-                                        <tr>
-                                            <th>Product Rating</th>
-                                            <td>
-                                                <div class="rating-box">
-                                                    <div class="rating" style="width:100%;"></div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
-                                    <p>Just wanted to thank you for all your help in ordering my first unit from you. The second unit came through just as ordered.
-                                        The quality of the hair and the piece is excellent - much better than what I was getting here in the US. I'm recommending
-                                        your company to my other friends that wear hair - I'm sure that they will be equally satisfied.</p>
-                                    <small class="date">(Posted on 6/29/2013)</small>
-                                </dd>
-                            </dl>
+                            <dl></dl>
                         </div>
                         <!--分页-->
                         <div class="paging_box">
@@ -716,7 +667,8 @@
             $(tabId + " .tabcon").hide();
             $(tabId + " .tabcon").eq(tabNum).show();
             if (tabNum == 1) {
-                // getComments(1);
+                var url = $(".shopping_eva").attr("data-url");
+                getComments(url);
             }
         }
         // 切换
@@ -779,45 +731,31 @@
             }
         });
         // 获取评价内容
-        function getComments(page) {
-            var data = {
-                page: page,
-            };
-            var url = $(".shopping_eva").attr("data-url");
+        function getComments(url) {
             $.ajax({
                 type: "GET",
                 url: url,
                 beforeSend: function () {
-                    {{--loading_animation = layer.msg("@lang('app.Please wait')", {--}}
-                        {{--icon: 16,--}}
-                        {{--shade: 0.4,--}}
-                        {{--time: false, // 取消自动关闭--}}
-                    {{--});--}}
+                    loading_animation = layer.msg("@lang('app.Please wait')", {
+                        icon: 16,
+                        shade: 0.4,
+                        time: false, // 取消自动关闭
+                    });
                 },
                 success: function (json) {
-                    console.log(json)
+                    console.log(json);
                     var dataObj = json.data.comments.data;
-                    var dataObj_photo;
+                    // var dataObj_photo;
                     if (dataObj.length <= 0) {
                         $(".no_eva").removeClass('dis_n');
                         $(".comment-score h3").text("0.0");
-                        $(".pre_page").addClass("not_allow");
-                        $(".pre_page").attr("disabled", true);
-                        $(".next_page").addClass("not_allow");
-                        $(".next_page").attr("disabled", true);
+                        $(".pre_page").addClass("dis_ni");
+                        $(".next_page").addClass("dis_ni");
                     } else {
                         var html = "";
-                        // var name;
-                        var attributes;
-                        // $(".composite_index").text((json.data.composite_index).toFixed(1));
-                        // $(".description_index").text((json.data.description_index).toFixed(1));
-                        // $(".shipment_index").text((json.data.shipment_index).toFixed(1));
                         $.each(dataObj, function (i, n) {
-                            // name = (country == "中文") ? n.order_item.sku.name_zh : n.order_item.sku.name_en;
-                            attributes = (country == "中文") ? n.order_item.sku.attributes_zh : n.order_item.sku.attributes_en;
-                            dataObj_photo = n.photo_urls;
                             html+="<dt>"
-                            html+="<span class='heading'>I am happy.</span>Review by <span>"+ n.user.name  +"</span>"
+                            html+="<span class='heading'>"+ n.title +"</span>Review by <span>"+ n.user.name  +"</span>"
                             html+="</dt>"
                             html+="<dd>"
                             html+="<table class='ratings-table'>"
@@ -828,23 +766,7 @@
                             html+="<th>Product Rating</th>"
                             html+="<td>"
                             html+="<div class='rating-box'>"
-                            switch (n.composite_index) {
-                                case 1:
-                                    html+="<div class='rating' style='width:20%;'></div>"
-                                    break;
-                                case 2:
-                                    html+="<div class='rating' style='width:40%;'></div>"
-                                    break;
-                                case 3:
-                                    html+="<div class='rating' style='width:60%;'></div>"
-                                    break;
-                                case 4:
-                                    html+="<div class='rating' style='width:80%;'></div>"
-                                    break;
-                                case 5:
-                                    html+="<div class='rating' style='width:100%;'></div>"
-                                    break;
-                            }
+                            html+="<div class='rating' style='width:"+ n.index +"%;'></div>"
                             html+="</div>"
                             html+="</td>"
                             html+="</tr>"
@@ -856,17 +778,25 @@
                         });
                         $(".comment-items dl").html("");
                         $(".comment-items dl").append(html);
-                        $(".pre_page").attr("data-url", json.data.comments.prev_page_url);
+                        $(".pre_page").removeClass("dis_ni");
+                        $(".next_page").removeClass("dis_ni");
+                        $(".pre_page").attr("data-url", json.data.comments.first_page_url);
                         $(".next_page").attr("data-url", json.data.comments.next_page_url);
-                        $(".pre_page").attr("code", json.data.comments.from);
-                        $(".next_page").attr("code", json.data.comments.to);
-                        if (json.data.comments.prev_page_url == null) {
+                        console.log(json.data.previous_url)
+                        console.log(json.data.previous_url == false)
+                        if (json.data.previous_url == false) {
                             $(".pre_page").addClass("not_allow");
                             $(".pre_page").attr("disabled", true);
+                        }else {
+                            $(".pre_page").removeClass("not_allow");
+                            $(".pre_page").attr("disabled", false);
                         }
-                        if (json.data.comments.next_page_url == null) {
+                        if (json.data.next_url == false) {
                             $(".next_page").addClass("not_allow");
                             $(".next_page").attr("disabled", true);
+                        }else {
+                            $(".next_page").removeClass("not_allow");
+                            $(".next_page").attr("disabled", false);
                         }
                     }
                 },
@@ -881,7 +811,7 @@
                     }
                 },
                 complete: function () {
-                    // layer.close(loading_animation);
+                    layer.close(loading_animation);
                 }
             });
             // 放大镜的缩略图的上一页与下一页
@@ -889,11 +819,15 @@
         // 点击分页
         // 上一页
         $(".pre_page").on("click", function () {
-            getComments($(this).attr("code"));
+            if(!$(this).hasClass("not_allow")){
+                getComments($(this).attr("data-url"));
+            }
         });
         // 下一页
         $(".next_page").on("click", function () {
-            getComments($(this).attr("code"));
+            if(!$(this).hasClass("not_allow")){
+                getComments($(this).attr("data-url"));
+            }
         });
         // 图片预览小图移动效果,页面加载时触发
         $(function () {

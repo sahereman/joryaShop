@@ -181,7 +181,7 @@
                                     </h2>
                                     {{--商品标号一类--}}
                                     <h5 class="product-name" title="{{ $product->sub_name_en }}">{{ $product->sub_name_en }}</h5>
-                                    <div class="">
+                                    <div class="dis_ni">
                                         <div class="ratings">
                                             <div class="rating-box">
                                                 {{-- 商品星级评价，
