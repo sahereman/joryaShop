@@ -360,7 +360,7 @@
                                                     <span class="original_price"><i>{{ get_global_symbol() }} </i>{{ bcmul(get_current_price($guess->price), 1.2, 2) }}</span>
                                                     <span class="present_price"><i>{{ get_global_symbol() }} </i>{{ get_current_price($guess->price) }}</span>
                                                 </div>
-                                                <a class="related-add-to-wishlist" href="#">Add to Wishlist</a>
+                                                {{--<a class="related-add-to-wishlist" href="#">Add to Wishlist</a>--}}
                                             </div>
                                         </div>
                                 @if($key % 3 == 2 || $key == count($guesses))
@@ -537,7 +537,7 @@
                 prevEl: '.swiper-button-prev',
             },
         });
-        
+
         var loading_animation;  // loading动画的全局name
         var current_page;  // 评价的当前页
         var next_page;   // 下一页的页码
@@ -1394,8 +1394,8 @@
         var parameters_content = $('.parameters-iframe').html();
         $('.parameters-iframe').html("");
         $('#parameters-cmsCon').contents().find('body').html(parameters_content);
-        var parameter_x = document.getElementById('parameters-cmsCon').contentWindow.document.getElementsByTagName('table');
-        parameter_x.border = "1";
+        // var parameter_x = document.getElementById('parameters-cmsCon').contentWindow.document.getElementsByTagName('table');
+        // parameter_x.border = "1";
         autoHeightParameters();  //动态调整高度
         var parameter_count = 0;
         var parameter_autoSet = window.setInterval('autoHeightParameters()',500);
@@ -1411,7 +1411,6 @@
             if(parameter_count == 5){
                 window.clearInterval(parameter_autoSet);
             }
-
         }
     </script>
 @endsection
