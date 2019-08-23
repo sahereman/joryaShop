@@ -518,6 +518,26 @@
                 }
             });
         });
+        // 友情链接
+        var swiper = new Swiper('#carousel', {
+            centeredSlides: true,
+            loop: true,
+            speed: 200,
+            effect : 'slide',
+            preventLinksPropagation: true,
+            fadeEffect: {
+                crossFade: true,
+            },
+            autoplay: {
+                delay: 6000,
+                disableOnInteraction: false,
+            },
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+        });
+        
         var loading_animation;  // loading动画的全局name
         var current_page;  // 评价的当前页
         var next_page;   // 下一页的页码
@@ -1393,24 +1413,5 @@
             }
 
         }
-        // 友情链接
-        var swiper = new Swiper('#carousel', {
-            centeredSlides: true,
-            loop: true,
-            speed: 200,
-            effect : 'slide',
-            preventLinksPropagation: true,
-            fadeEffect: {
-                crossFade: true,
-            },
-            autoplay: {
-                delay: 6000,
-                disableOnInteraction: false,
-            },
-            navigation: {
-                nextEl: '.swiper-button-next',
-                prevEl: '.swiper-button-prev',
-            },
-        });
     </script>
 @endsection
