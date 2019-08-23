@@ -297,12 +297,20 @@ class ProductsController extends Controller
             }*/
         }
         $comment_count = $product->comments->count();
-        $page_count = ceil($comment_count / 10);
+        $page_count = ceil($comment_count / 6);
+        $previous_page = ($current_page > 1) ? ($current_page - 1) : false;
         $next_page = ($current_page < $page_count) ? ($current_page + 1) : false;
-        if ($next_page == false) {
-            $request_url = false;
+        if ($previous_page == false) {
+            $previous_url = false;
         } else {
-            $request_url = route('products.comment', [
+            $previous_url = route('products.comment', [
+                    'product' => $product->id,
+                ]) . '?page=' . $previous_page;
+        }
+        if ($next_page == false) {
+            $next_url = false;
+        } else {
+            $next_url = route('products.comment', [
                     'product' => $product->id,
                 ]) . '?page=' . $next_page;
         }
@@ -320,7 +328,8 @@ class ProductsController extends Controller
                 // 'composite_index' => $composite_index,
                 // 'description_index' => $description_index,
                 // 'shipment_index' => $shipment_index,
-                'request_url' => $request_url,
+                'previous_url' => $previous_url,
+                'next_url' => $next_url,
             ],
         ]);
     }
