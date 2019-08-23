@@ -224,9 +224,9 @@ class ProductsController extends Controller
         $shipment_template = null;
         $category = $product->category()->with('parent')->first();
         $comment_count = $product->comments->count();
-        $guesses = Product::where(['is_index' => 1, 'on_sale' => 1])->orderByDesc('index')->limit(8)->get();
-        $hot_sales = Product::where(['is_index' => 1, 'on_sale' => 1])->orderByDesc('heat')->limit(8)->get();
-        $best_sellers = Product::where(['is_index' => 1, 'on_sale' => 1])->orderByDesc('sales')->limit(8)->get();
+        $guesses = Product::where(['is_index' => 1, 'on_sale' => 1])->orderByDesc('index')->limit(9)->get();
+        // $hot_sales = Product::where(['is_index' => 1, 'on_sale' => 1])->orderByDesc('heat')->limit(8)->get();
+        // $best_sellers = Product::where(['is_index' => 1, 'on_sale' => 1])->orderByDesc('sales')->limit(8)->get();
         $user = $request->user();
         $favourite = false;
         if ($user) {
@@ -273,8 +273,8 @@ class ProductsController extends Controller
             'attributes' => $attributes,
             'comment_count' => $comment_count,
             'guesses' => $guesses,
-            'hot_sales' => $hot_sales,
-            'best_sellers' => $best_sellers,
+            // 'hot_sales' => $hot_sales,
+            // 'best_sellers' => $best_sellers,
             'favourite' => $favourite,
             'shipment_template' => $shipment_template,
         ]);

@@ -360,7 +360,7 @@
                                                     <span class="original_price"><i>{{ get_global_symbol() }} </i>{{ bcmul(get_current_price($guess->price), 1.2, 2) }}</span>
                                                     <span class="present_price"><i>{{ get_global_symbol() }} </i>{{ get_current_price($guess->price) }}</span>
                                                 </div>
-                                                {{--<a class="related-add-to-wishlist" href="#">Add to Wishlist</a>--}}
+                                                {{--<a class="related-add-to-wishlist" href="javascript:void(0);">Add to Wishlist</a>--}}
                                             </div>
                                         </div>
                                 @if($key % 3 == 2 || $key == count($guesses))
