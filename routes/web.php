@@ -214,8 +214,8 @@ Route::get('products/search_hint', 'ProductsController@searchHint')->name('produ
 // Route::get('products/custom/{product}/{slug?}', 'ProductsController@customShow')->name('products.custom.show'); // 定制商品详情
 // Route::post('products/custom/{product}/{slug?}', 'ProductsController@customStore')->name('products.custom.store'); // 定制商品提交
 // Route::put('products/custom/{product}/{slug?}', 'ProductsController@customUpdate')->name('products.custom.update'); // 定制商品修改
-Route::get('products/{product}/{slug?}', 'ProductsController@show')->name('products.show'); // 商品详情页
 Route::get('products/{product}/comment', 'ProductsController@comment')->name('products.comment'); // 获取商品评价 [for Ajax request]
+Route::get('products/{product}/{slug?}', 'ProductsController@show')->name('products.show'); // 商品详情页
 Route::post('products/{product}/share', 'ProductsController@share')->name('products.share'); // 发送商品分享邮件 [for Ajax request]
 
 /*购物车*/

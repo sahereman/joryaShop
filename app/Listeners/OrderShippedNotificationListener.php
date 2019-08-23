@@ -18,6 +18,8 @@ class OrderShippedNotificationListener
     {
         $order = $event->getOrder();
 
-        $order->user->notify(new OrderSellerShippedNotification($order));
+        if ($order->user) {
+            $order->user->notify(new OrderSellerShippedNotification($order));
+        }
     }
 }

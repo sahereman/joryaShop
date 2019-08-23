@@ -261,12 +261,11 @@
                                                href="{{ route('seo_url', $order_item['sku']['product']['slug']) }}">
                                                 {{ App::isLocale('zh-CN') ? $order_item['sku']['product']['name_zh'] : $order_item['sku']['product']['name_en'] }}
                                             </a>
-                                            <br><br>
+                                            {{--<br><br>
                                             <a class="commodity_description"
                                                href="{{ route('seo_url', $order_item['sku']['product']['slug']) }}">
-                                                {{--{{ App::isLocale('en') ? $order_item['sku']['name_en'] : $order_item['sku']['name_zh'] }}--}}
                                                 {{ $order_item['sku']['attr_value_string'] }}
-                                            </a>
+                                            </a>--}}
                                         </p>
                                     </td>
                                     <td class="col-price">
@@ -317,12 +316,11 @@
                                                href="{{ route('seo_url', $order_item['sku']['product']['slug']) }}">
                                                 {{ App::isLocale('zh-CN') ? $order_item['sku']['product']['name_zh'] : $order_item['sku']['product']['name_en'] }}
                                             </a>
-                                            <br><br>
+                                            {{--<br><br>
                                             <a class="commodity_description"
                                                href="{{ route('seo_url', $order_item['sku']['product']['slug']) }}">
-                                                {{--{{ App::isLocale('en') ? $order_item['sku']['name_en'] : $order_item['sku']['name_zh'] }}--}}
                                                 {{ $order_item['sku']['attr_value_string'] }}
-                                            </a>
+                                            </a>--}}
                                         </p>
                                     </td>
                                     <td class="col-price">

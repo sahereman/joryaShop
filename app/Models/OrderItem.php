@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Admin\Models\ProductSku;
 use Illuminate\Database\Eloquent\Model;
 
 class OrderItem extends Model
@@ -31,6 +32,6 @@ class OrderItem extends Model
 
     public function sku()
     {
-        return $this->belongsTo(ProductSku::class, 'product_sku_id');
+        return $this->belongsTo(ProductSku::class, 'product_sku_id'); // use App\Admin\Models\ProductSku;
     }
 }

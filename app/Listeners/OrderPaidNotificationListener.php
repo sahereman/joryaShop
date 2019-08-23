@@ -18,6 +18,8 @@ class OrderPaidNotificationListener
     {
         $order = $event->getOrder();
 
-        $order->user->notify(new OrderUserPaidNotification($order));
+        if ($order->user) {
+            $order->user->notify(new OrderUserPaidNotification($order));
+        }
     }
 }
