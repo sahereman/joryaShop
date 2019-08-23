@@ -743,9 +743,7 @@
                     });
                 },
                 success: function (json) {
-                    console.log(json);
                     var dataObj = json.data.comments.data;
-                    // var dataObj_photo;
                     if (dataObj.length <= 0) {
                         $(".no_eva").removeClass('dis_n');
                         $(".comment-score h3").text("0.0");
@@ -782,8 +780,6 @@
                         $(".next_page").removeClass("dis_ni");
                         $(".pre_page").attr("data-url", json.data.comments.first_page_url);
                         $(".next_page").attr("data-url", json.data.comments.next_page_url);
-                        console.log(json.data.previous_url)
-                        console.log(json.data.previous_url == false)
                         if (json.data.previous_url == false) {
                             $(".pre_page").addClass("not_allow");
                             $(".pre_page").attr("disabled", true);
