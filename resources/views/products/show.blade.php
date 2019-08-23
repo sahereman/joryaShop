@@ -274,17 +274,11 @@
                         <li onclick="tabs('#comments_details',1)" class="shopping_eva"
                             data-url="{{ route('products.comment', ['product' => $product->id]) }}">@lang('product.product_details.Commodity feedback')
                         </li>
+                        @if($product->faqs->isNotEmpty())
+                        <li onclick="tabs('#comments_details',2)" class="comments_faqs">FAQS</li>
+                        @endif
                     </ul>
                     <div class="mc tabcon product_info">
-                        {{--商品参数部分--}}
-                        <div class="commodity-parameters">
-                            {{-- 用来存放后台返回的的iframe的数据或者富文本  --}}
-                            <div class="parameters-iframe dis_ni">
-                                {{-- 占位假数据需替换为后台接口 --}}
-                                {{-- {!! App::isLocale('zh-CN') ? $product->content_zh : $product->content_en !!} --}}
-                            </div>
-                            {{--<iframe name="parameters-cmsCon" id="parameters-cmsCon" class="parameters-cmsCon" frameborder="0" width="100%" scrolling="no" height="auto"></iframe>--}}
-                        </div>
                         {{--商品详情部分iframe--}}
                         <div class="iframe_content dis_ni">
                             {{-- 用来存放后台返回的的iframe的数据或者富文本 --}}
@@ -294,20 +288,6 @@
                         <iframe name="cmsCon" id="cmsCon" class="cmsCon" frameborder="0" width="100%" scrolling="no" height="auto"></iframe>
                     </div>
                     <div class="mc tabcon dis_n" id="customer-reviews">
-                        {{--<ul class="comment-score">--}}
-                            {{--<li>--}}
-                                {{--<span>@lang('product.product_details.Overall rating')</span>--}}
-                                {{--<h3 class="composite_index">4</h3>--}}
-                            {{--</li>--}}
-                            {{--<li>--}}
-                                {{--<span>@lang('product.product_details.Description match')</span>--}}
-                                {{--<h3 class="description_index">4</h3>--}}
-                            {{--</li>--}}
-                            {{--<li>--}}
-                                {{--<span>@lang('product.product_details.Logistics Services')</span>--}}
-                                {{--<h3 class="shipment_index">4</h3>--}}
-                            {{--</li>--}}
-                        {{--</ul>--}}
                         <div class="comment-items">
                             <!--暂无评价-->
                             <div class="no_eva dis_n">
@@ -321,15 +301,21 @@
                             <a class="next_page" href="javascript:void(0);">@lang('app.Next page')</a>
                         </div>
                     </div>
-                    <!--浏览足迹-->
-                    <!--<div class="browseFootprints">
-                        <div class="browseFootprints_title">
-                            <p>Browsing history</p>
+                    @if($product->faqs->isNotEmpty())
+                        <div class="mc tabcon dis_n faqs-content">
+                            @foreach($product->faqs as $key => $faq)
+                                <div class="faq_qus_ans">
+                                    <h3 class="faq_ques">
+                                        {{ ($key + 1) . '. ' . $faq->question }}
+                                        <span class="iconfont">&#xe60f;</span>
+                                    </h3>
+                                    <div class="faq_ans">
+                                        <textarea class="faq_ans_content" name="" id="ans_content_{{ $key }}" cols="30" readonly>{{ $faq->answer }}</textarea>
+                                    </div>
+                                </div>
+                            @endforeach
                         </div>
-                        <div class="browseFootprints_content">
-                            <ul></ul>
-                        </div>
-                    </div>-->
+                    @endif
                 </div>
             </div>
             {{-- 友情推荐 --}}
@@ -420,16 +406,7 @@
 @endsection
 @section('scriptsAfterJs')
     <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5d3faaaad4206199"></script>
-    <script type="text/javascript">
-        // var addthis_share = {
-        //     url: "https://www.lyricalhair.com/fpm-french-lace-front-mens-toupee-fine-mono-hairpiece-poly-skin-natural-hair-systems.html",
-        //     title: "FPM: French Lace Front Mens Toupee Fine Mono Hairpiece Poly Skin Natural Hair Systems",
-        //     description: "Fine mono with a thin skin perimeter and lace front base. Not only is it a durable design, but it also gives you an undetectable front hairline.",
-        //     media: "https://www.lyricalhair.com/storage/original/201908/FMP-a1-0.jpg"
-        // }
-    </script>
     <script src="{{ asset('js/swiper/js/swiper.js') }}"></script>
-    {{--<script src="{{ asset('js/promagnifying/js/smoothproducts.min.js') }}"></script>--}}
     <script src="{{ asset('js/lord/jquery.colorbox.min.js') }}"></script>
     <script src="{{ asset('js/lord/jquery.owlcarousel.min.js') }}"></script>
     <script src="{{ asset('js/lord/cloudzoom.js') }}"></script>
@@ -545,41 +522,6 @@
         var country = $("#dLabel").find("span").html();
         var sku_id, sku_stock, sku_price, sku_original_price;
         var product = {!! $product !!};
-
-        $('#img_x li').eq(0).css('border', '2px solid #bc8c61');
-        $('#img_x li').eq(0).addClass("active");
-        $('#zhezhao').mousemove(function (e) {
-            $('#img_u').show();
-            $('#magnifier').show();
-            var left = e.offsetX - parseInt($('#magnifier').width()) / 2;
-            var top = e.offsetY - parseInt($('#magnifier').height()) / 2;
-            left = left < 0 ? 0 : left;
-            left = left > (parseInt($('#zhezhao').outerWidth()) - parseInt($('#magnifier').outerWidth())) ? (parseInt($('#zhezhao').outerWidth()) - parseInt($('#magnifier').outerWidth())) : left;
-            top = top < 0 ? 0 : top;
-            top = top > (parseInt($('#zhezhao').outerHeight()) - parseInt($('#magnifier').outerHeight())) ? (parseInt($('#zhezhao').outerHeight()) - parseInt($('#magnifier').outerHeight())) : top;
-
-            $('#magnifier').css('left', left + 'px');
-            $('#magnifier').css('top', top + 'px');
-
-            var leftRate = left / parseInt($('#zhezhao').outerWidth());
-            var bigLeft = leftRate * parseInt($('#img_u img').outerWidth()) + 20;
-            $('#img_u img').css('margin-left', -bigLeft + 'px');
-
-            var topRate = top / parseInt($('#zhezhao').outerHeight());
-            var bigTop = topRate * parseInt($('#img_u img').outerHeight()) + 20;
-            $('#img_u img').css('margin-top', -bigTop + 'px');
-        });
-        $('#zhezhao').mouseleave(function () {
-            $('#img_u').hide();
-            $('#magnifier').hide();
-        });
-        $('#img_x li').mouseover(function () {
-            $("#img_x li").removeClass("active");
-            $(this).addClass("active");
-            $(this).css('border', '2px solid #bc8c61').siblings().css('border', '2px solid transparent');
-            $('#mediumContainer img').eq(0).attr('src', $(this).attr('code'));
-            $('#img_u img').eq(0).attr('src', $(this).attr('code'));
-        });
         // 控制商品下单的数量显示
         $(".add").on("click", function () {
             // 获取商品ID及库存数量
@@ -845,40 +787,21 @@
                 getComments($(this).attr("data-url"));
             }
         });
-        // 图片预览小图移动效果,页面加载时触发
-        $(function () {
-            var tempLength = 0; // 临时变量,当前移动的长度
-            var viewNum = 5; // 设置每次显示图片的个数量
-            var moveNum = 2; // 每次移动的数量
-            var moveTime = 300; // 移动速度,毫秒
-            var scrollDiv = $(".spec-scroll .img_items ul"); // 进行移动动画的容器
-            var scrollItems = $(".spec-scroll .img_items ul li"); // 移动容器里的集合
-            var moveLength = scrollItems.eq(0).width() * moveNum; // 计算每次移动的长度
-            var countLength = (scrollItems.length - viewNum) * scrollItems.eq(0).width(); // 计算总长度,总个数*单个长度
-            // 下一张
-            $(".spec-scroll .next").on("click", function () {
-                if (tempLength < countLength) {
-                    if ((countLength - tempLength) > moveLength) {
-                        scrollDiv.animate({left: "-=" + moveLength + "px"}, moveTime);
-                        tempLength += moveLength;
-                    } else {
-                        scrollDiv.animate({left: "-=" + (countLength - tempLength) + "px"}, moveTime);
-                        tempLength += (countLength - tempLength);
-                    }
-                }
-            });
-            // 上一张
-            $(".spec-scroll .prev").on("click", function () {
-                if (tempLength > 0) {
-                    if (tempLength > moveLength) {
-                        scrollDiv.animate({left: "+=" + moveLength + "px"}, moveTime);
-                        tempLength -= moveLength;
-                    } else {
-                        scrollDiv.animate({left: "+=" + tempLength + "px"}, moveTime);
-                        tempLength = 0;
-                    }
-                }
-            });
+        // FAQS的标题点击
+        $(".faqs-content").on("click",".faq_ques",function () {
+            var clickDom = $(this),
+                index = clickDom.parent(".faq_qus_ans").index();
+            if(clickDom.hasClass("active")){
+                clickDom.removeClass("active");
+                clickDom.parent(".faq_qus_ans").find(".faq_ans").slideUp();
+            }else {
+                // $(".faqs-content").find(".faq_ques").removeClass("active");
+                // $(".faqs-content").find(".faq_ans").slideUp();
+                clickDom.addClass("active");
+                clickDom.parent(".faq_qus_ans").find(".faq_ans").slideDown();
+                var element = document.getElementById("ans_content_"+ index);
+                element.style.height = element.scrollHeight + "px";
+            }
         });
         // map方法的兼容性写法
         /**
@@ -1390,27 +1313,5 @@
             }
         }
 
-        // 商品参数iframe
-        var parameters_content = $('.parameters-iframe').html();
-        $('.parameters-iframe').html("");
-        $('#parameters-cmsCon').contents().find('body').html(parameters_content);
-        // var parameter_x = document.getElementById('parameters-cmsCon').contentWindow.document.getElementsByTagName('table');
-        // parameter_x.border = "1";
-        autoHeightParameters();  //动态调整高度
-        var parameter_count = 0;
-        var parameter_autoSet = window.setInterval('autoHeightParameters()',500);
-        function autoHeightParameters(){
-            var parameter_mainheight;
-            parameter_count++;
-            if(parameter_count == 1){
-                parameter_mainheight = $('.parameters-cmsCon').contents().find("body").height()+50;
-            }else{
-                parameter_mainheight = $('.parameters-cmsCon').contents().find("body").height()+24;
-            }
-            $('.parameters-cmsCon').height(parameter_mainheight);
-            if(parameter_count == 5){
-                window.clearInterval(parameter_autoSet);
-            }
-        }
     </script>
 @endsection

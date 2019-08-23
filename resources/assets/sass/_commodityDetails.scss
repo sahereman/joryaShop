@@ -971,7 +971,7 @@
                 &.curr {
                   position: relative;
                   border: 1px solid #e5e5e5;
-                  border-bottom: 1px solid transparent;
+                  border-bottom: 1px solid #fff;
                   color: $hover-color;
                   &:before,
                   &:after {
@@ -1161,6 +1161,40 @@
                     }
                 }
             }
+          .faqs-content {
+            padding: 10px;
+            .faq_qus_ans {
+              border: 0;
+              padding: 19px;
+              margin-bottom: 10px;
+              background: #faf9f9;
+              .faq_ques {
+                margin: 0;
+                color: #5e656a;
+                font-size: 18px;
+                line-height: 22px;
+                font-weight: 600;
+                position: relative;
+                cursor: pointer;
+                span {
+                  float: right;
+                }
+              }
+              .faq_ans {
+                display: none;
+                color: #686e73;
+                font-size: 16px;
+                line-height: 28px;
+                font-weight: 400;
+                margin: 15px 0 0;
+                textarea {
+                  width: 100%;
+                  background-color: transparent;
+                  font-size: 1.15rem;
+                }
+              }
+            }
+          }
             .browseFootprints {
                 width: 100%;
                 min-height: 450px;
