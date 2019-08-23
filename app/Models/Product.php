@@ -314,8 +314,8 @@ class Product extends Model
         return $this->belongsToMany(ShipmentTemplate::class, 'product_shipment_templates');
     }
 
-    public function question_answers()
+    public function faqs()
     {
-        return $this->hasMany(ProductQuestionAnswer::class);
+        return $this->hasMany(ProductFaq::class)->orderByDesc('sort');
     }
 }

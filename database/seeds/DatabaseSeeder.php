@@ -75,7 +75,7 @@ class DatabaseSeeder extends Seeder
         $this->call(ProductParamsSeeder::class);
 
         // 产品 Q&A
-        $this->call(ProductQuestionAnswersSeeder::class);
+        $this->call(ProductFaqsSeeder::class);
 
         // 优惠券
         $this->call(CouponsSeeder::class);

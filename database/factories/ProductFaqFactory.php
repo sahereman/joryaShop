@@ -2,7 +2,7 @@
 
 use Faker\Generator as Faker;
 
-$factory->define(App\Models\ProductQuestionAnswer::class, function (Faker $faker) {
+$factory->define(App\Models\ProductFaq::class, function (Faker $faker) {
     // 现在时间
     $now = \Carbon\Carbon::now()->toDateTimeString();
     // 随机取一个月以内的时间
