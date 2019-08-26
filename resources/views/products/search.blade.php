@@ -75,7 +75,7 @@
                                                     @foreach($values as $value => $count)
                                                         @if(!isset($query_param_values[$param]) || $query_param_values[$param] != $value)
                                                             <li>
-                                                                <a href="{{ url(\Illuminate\Support\Facades\Request::getUri(), array_merge($query_data, ['is_by_param' => 1, 'param-' . str_replace(' ', '_', $param) => $value])) }}">
+                                                                <a href="{{ url(\Illuminate\Support\Facades\Request::getBaseUrl() . \Illuminate\Support\Facades\Request::getPathInfo()) . '?' . http_build_query(array_merge($query_data, ['is_by_param' => 1, 'param-' . str_replace(' ', '_', $param) => $value])) }}">
                                                                     {{ $value }}<span class="count">({{ $count }})</span>
                                                                 </a>
                                                             </li>
