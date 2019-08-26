@@ -233,80 +233,80 @@ $(function () {
 
 // 登陆注册弹窗
 $(function () {
-    $(".rotary_btn").on("click", function () {
-        var show_code = $(this).attr("code"); // show_code表示显示的内容，0表示登录显示，1表示注册显示
-        if (show_code == 0) {
-            $(".register_form").addClass("dis_n");
-            $(".login_frame").removeClass("dialog_close_active"); // 弹窗翻转
-            $(".register_form").removeClass("dialog_close_active");
-            $(".dialog_logo").removeClass("dialog_close_active");
-            $(".close").removeClass("dialog_close_active");
-            $(".login_frame").removeClass('register_active');
-            $(".login_form").removeClass('register_active');
-            $(".dialog_logo").removeClass('register_active');
-            $(".close").removeClass('register_active');
-            $(".login_frame").addClass('login_active');
-            $(".login_form").addClass('login_active');
-            $(".dialog_logo").addClass('login_active');
-            $(".close").addClass('login_active');
-            $(".login_form").removeClass("dis_n");
-            $(".common_login").click();
-        } else {
-            enter_event = "register";
-            $(".login_form").addClass("dis_n");
-            $(".login_frame").removeClass("dialog_close_active"); // 弹窗翻转
-            $(".register_form").removeClass("dialog_close_active");
-            $(".dialog_logo").removeClass("dialog_close_active");
-            $(".close").removeClass("dialog_close_active");
-            $(".login_frame").removeClass('login_active');
-            $(".register_form").removeClass('login_active');
-            $(".dialog_logo").removeClass('login_active');
-            $(".close").removeClass('login_active');
-            $(".login_frame").addClass('register_active');
-            $(".register_form").addClass('register_active');
-            $(".dialog_logo").addClass('register_active');
-            $(".close").addClass('register_active');
-            $(".register_form").removeClass("dis_n");
-        }
-    });
+//     $(".rotary_btn").on("click", function () {
+//         var show_code = $(this).attr("code"); // show_code表示显示的内容，0表示登录显示，1表示注册显示
+//         if (show_code == 0) {
+//             $(".register_form").addClass("dis_n");
+//             $(".login_frame").removeClass("dialog_close_active"); // 弹窗翻转
+//             $(".register_form").removeClass("dialog_close_active");
+//             $(".dialog_logo").removeClass("dialog_close_active");
+//             $(".close").removeClass("dialog_close_active");
+//             $(".login_frame").removeClass('register_active');
+//             $(".login_form").removeClass('register_active');
+//             $(".dialog_logo").removeClass('register_active');
+//             $(".close").removeClass('register_active');
+//             $(".login_frame").addClass('login_active');
+//             $(".login_form").addClass('login_active');
+//             $(".dialog_logo").addClass('login_active');
+//             $(".close").addClass('login_active');
+//             $(".login_form").removeClass("dis_n");
+//             $(".common_login").click();
+//         } else {
+//             enter_event = "register";
+//             $(".login_form").addClass("dis_n");
+//             $(".login_frame").removeClass("dialog_close_active"); // 弹窗翻转
+//             $(".register_form").removeClass("dialog_close_active");
+//             $(".dialog_logo").removeClass("dialog_close_active");
+//             $(".close").removeClass("dialog_close_active");
+//             $(".login_frame").removeClass('login_active');
+//             $(".register_form").removeClass('login_active');
+//             $(".dialog_logo").removeClass('login_active');
+//             $(".close").removeClass('login_active');
+//             $(".login_frame").addClass('register_active');
+//             $(".register_form").addClass('register_active');
+//             $(".dialog_logo").addClass('register_active');
+//             $(".close").addClass('register_active');
+//             $(".register_form").removeClass("dis_n");
+//         }
+//     });
     // 弹窗关闭
-    $(".close").on("click", function () {
-        $(".dialog_iframe").addClass("dis_n");
-        $(".login_form").removeClass("dis_n");
-        $(".login_form").removeClass("dis_n");
-        $(".register_form").addClass("dis_n");
-        $(".login_frame").removeClass('login_active');
-        $(".register_form").removeClass('login_active');
-        $(".dialog_logo").removeClass('login_active');
-        $(".close").removeClass('login_active');
-        $(".login_frame").removeClass('register_active');
-        $(".login_form").removeClass('register_active');
-        $(".dialog_logo").removeClass('register_active');
-        $(".close").removeClass('register_active');
-        $(".login_frame").addClass("dialog_close_active"); // 弹窗翻转
-        $(".register_form").addClass("dialog_close_active");
-        $(".dialog_logo").addClass("dialog_close_active");
-        $(".close").addClass("dialog_close_active");
-    });
+    // $(".close").on("click", function () {
+    //     $(".dialog_iframe").addClass("dis_n");
+    //     $(".login_form").removeClass("dis_n");
+    //     $(".login_form").removeClass("dis_n");
+    //     $(".register_form").addClass("dis_n");
+    //     $(".login_frame").removeClass('login_active');
+    //     $(".register_form").removeClass('login_active');
+    //     $(".dialog_logo").removeClass('login_active');
+    //     $(".close").removeClass('login_active');
+    //     $(".login_frame").removeClass('register_active');
+    //     $(".login_form").removeClass('register_active');
+    //     $(".dialog_logo").removeClass('register_active');
+    //     $(".close").removeClass('register_active');
+    //     $(".login_frame").addClass("dialog_close_active"); // 弹窗翻转
+    //     $(".register_form").addClass("dialog_close_active");
+    //     $(".dialog_logo").addClass("dialog_close_active");
+    //     $(".close").addClass("dialog_close_active");
+    // });
     // 登陆注册按钮点击事件
-    $(".login").on("click", function () {
-        $(".login_frame").removeClass("dialog_close_active"); // 弹窗翻转
-        $(".register_form").removeClass("dialog_close_active");
-        $(".dialog_logo").removeClass("dialog_close_active");
-        $(".close").removeClass("dialog_close_active");
-        $(".login_frame").removeClass('register_active');
-        $(".login_form").removeClass('register_active');
-        $(".dialog_logo").removeClass('register_active');
-        $(".close").removeClass('register_active');
-        $(".login_frame").addClass('login_active');
-        $(".login_form").addClass('login_active');
-        $(".dialog_logo").addClass('login_active');
-        $(".close").addClass('login_active');
-        $(".dialog_iframe").removeClass("dis_n");
-        $(".login_form").removeClass("dis_n");
-        $(".register_form").addClass("dis_n");
-        $(".common_login").click();
-    });
+    // $(".login").on("click", function () {
+    //     $(".login_frame").removeClass("dialog_close_active"); // 弹窗翻转
+    //     $(".register_form").removeClass("dialog_close_active");
+    //     $(".dialog_logo").removeClass("dialog_close_active");
+    //     $(".close").removeClass("dialog_close_active");
+    //     $(".login_frame").removeClass('register_active');
+    //     $(".login_form").removeClass('register_active');
+    //     $(".dialog_logo").removeClass('register_active');
+    //     $(".close").removeClass('register_active');
+    //     $(".login_frame").addClass('login_active');
+    //     $(".login_form").addClass('login_active');
+    //     $(".dialog_logo").addClass('login_active');
+    //     $(".close").addClass('login_active');
+    //     $(".dialog_iframe").removeClass("dis_n");
+    //     $(".login_form").removeClass("dis_n");
+    //     $(".register_form").addClass("dis_n");
+    //     $(".common_login").click();
+    // });
     // $(".register").on("click", function () {
     //     enter_event = "register";
     //     $(".dialog_iframe").removeClass("dis_n");
@@ -965,6 +965,14 @@ $(".nav-panel-one").on("click",function () {
         $(this).parents(".mobile-nav-panel").find(".nav-panel-two").slideUp();
         $(this).addClass("active");
         $(this).parent(".nav-column").find(".nav-panel-two").slideDown();
+    }
+});
+// 点击空白处关闭弹窗
+$(document).mouseup(function(e) {
+    var  pop = $('.navbar-mobile');
+    if(!pop.is(e.target) && pop.has(e.target).length === 0) {
+        pop.find(".mobile-menu-content").slideUp();
+        pop.find(".mobile-menu-btn").removeClass("click-active");
     }
 });
 // footer移动时展示
