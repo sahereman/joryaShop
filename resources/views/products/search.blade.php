@@ -46,7 +46,7 @@
                             <span class="screening-results-title">All Results:</span>
                             <div class="screening-results-option">
                                 @foreach($query_param_values as $param => $value)
-                                    <a href="{{ preg_replace('/param\-' . str_replace(' ', '\_', $param) . '\=' . '.+(\&|$)/U', '', url(Request::getRequestUri())) }}">
+                                    <a href="{{ preg_replace('/param\-' . str_replace(' ', '\_', $param) . '\=' . '.+(\&|$)/U', '', url(\Illuminate\Support\Facades\Request::getRequestUri())) }}">
                                         <span class="broad-heading">{{ $param }}</span>
                                         <span>:</span>
                                         <span class="subclass">{{ $value }}</span>
@@ -75,7 +75,7 @@
                                                     @foreach($values as $value => $count)
                                                         @if(!isset($query_param_values[$param]) || $query_param_values[$param] != $value)
                                                             <li>
-                                                                <a href="{{ route('seo_url', $category->slug) . '?' . http_build_query(array_merge($query_data, ['is_by_param' => 1, 'param-' . str_replace(' ', '_', $param) => $value])) }}">
+                                                                <a href="{{ url(\Illuminate\Support\Facades\Request::getUri(), array_merge($query_data, ['is_by_param' => 1, 'param-' . str_replace(' ', '_', $param) => $value])) }}">
                                                                     {{ $value }}<span class="count">({{ $count }})</span>
                                                                 </a>
                                                             </li>
