@@ -13,6 +13,9 @@ footer {
       display: flex;
       flex-direction: row;
       justify-content: flex-start;
+      @media only screen and (max-width: 767px){
+       flex-direction: column;
+      }
       .footer-subscribe {
         @media only screen and (max-width: 767px){
           width: 100%;
@@ -26,10 +29,16 @@ footer {
         }
         .subscribe-form {
           padding-bottom: 20px;
+          @media only screen and (max-width: 767px){
+            padding-bottom: 0;
+          }
           form {
             display: flex;
             flex-direction: row;
             justify-content: flex-start;
+            @media only screen and (max-width: 767px){
+              flex-direction: column;
+            }
             input{
               background: #fff;
               border: 1px solid #ddd;
@@ -38,17 +47,30 @@ footer {
               text-overflow: ellipsis;
               margin-right: 10px !important;
               height: 35px;
+              @media only screen and (max-width: 767px){
+                margin-bottom: 5px;
+              }
               &#footemail {
                 width: 294px;
+                @media only screen and (max-width: 767px){
+                  width: 100%;
+                }
               }
               &#footverCode {
                 width: 130px;
+                @media only screen and (max-width: 767px){
+                  width: 100%;
+                }
               }
             }
             .thumbnail {
               height: 36px;
               margin-right: 10px !important;
-              margin-bottom: 0 !important;
+              margin-bottom: 0;
+              @media only screen and (max-width: 767px){
+                width: 120px;
+                margin-bottom: 5px;
+              }
             }
             button {
               height: 35px;
@@ -257,6 +279,10 @@ footer {
   }
   .footer-share {
     margin-left: 45px;
+    @media only screen and (max-width: 767px){
+      margin-left: 20px;
+      margin-bottom: 10px;
+    }
     p {
       padding: 20px 0 10px 0;
     }

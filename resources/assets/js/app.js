@@ -930,7 +930,43 @@ $(".mobile-nav").on("click",function () {
         $(".mobile-nav-list").slideDown();
     }
 });
-
+// 移动端menu导航
+$(".mobile-menu-btn").on("click",function () {
+    var isClicked = $(this).hasClass("click-active");
+    if(isClicked) {
+        $(this).removeClass("click-active");
+        $(".mobile-menu-content").slideUp();
+    }else {
+        $(this).addClass("click-active");
+        $(".mobile-menu-content").slideDown();
+    }
+});
+// menu展开后的第一级导航的点击
+$(".first_menu").on("click",".mobile-nav-one",function () {
+    var isClicked = $(this).hasClass("active");
+    if(isClicked) {
+        $(this).removeClass("active");
+        $(this).parent(".first_menu").find(".mobile-nav-panel").slideUp();
+    }else {
+        $(".first_menu").find(".mobile-nav-one").removeClass("active");
+        $(".first_menu").find(".mobile-nav-panel").slideUp();
+        $(this).addClass("active");
+        $(this).parent(".first_menu").find(".mobile-nav-panel").slideDown();
+    }
+});
+// menu展开后的第二级导航的点击
+$(".nav-panel-one").on("click",function () {
+    var isClicked = $(this).hasClass("active");
+    if(isClicked) {
+        $(this).removeClass("active");
+        $(this).parent(".nav-column").find(".nav-panel-two").slideUp();
+    }else {
+        $(this).parents(".mobile-nav-panel").find(".nav-panel-one").removeClass("active");
+        $(this).parents(".mobile-nav-panel").find(".nav-panel-two").slideUp();
+        $(this).addClass("active");
+        $(this).parent(".nav-column").find(".nav-panel-two").slideDown();
+    }
+});
 // footer移动时展示
 $(".mobile-dropdown-menu").on("click",function () {
    var isHadClick = $(this).hasClass("active");
@@ -941,4 +977,4 @@ $(".mobile-dropdown-menu").on("click",function () {
        $(this).addClass("active");
        $(this).parents("li").find(".footer-block-content").slideDown();
    }
-})
+});

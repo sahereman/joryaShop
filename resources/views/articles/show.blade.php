@@ -8,12 +8,14 @@
             <div class="left-nav">
                 <div class="block block-layered-nav">
                     <div class="block-content">
-
                         @if($article->category)
                             <div class="categories-lists-items categories-menu">
                                 <div class="categories-lists-item">
                                     <div class="lists-item-title">
-                                        <a href="javascript:void(0)"><span>{{ $article->category->name_en }}</span></a>
+                                        <a href="javascript:void(0)">
+                                            <span>{{ $article->category->name_en }}</span>
+                                            <span class="iconfont">&#xe605;</span>
+                                        </a>
                                     </div>
                                     <ul class="categories-lists-item-ul">
                                         @foreach($article->category->articles as $item)
@@ -95,5 +97,16 @@
                 window.clearInterval(autoSet);
             }
         }
+    //    mobile click lists-item-title
+        $(".lists-item-title").on("click",function () {
+            var isClicked = $(this);
+            if(isClicked.hasClass("active")){
+                isClicked.removeClass("active");
+                $(".categories-lists-item-ul").slideUp();
+            }else {
+                isClicked.addClass("active");
+                $(".categories-lists-item-ul").slideDown();
+            }
+        })
     </script>
 @endsection

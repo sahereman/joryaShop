@@ -249,6 +249,9 @@
           .shop-by-title {
             width: 9%;
             padding: 5px 0;
+            @media only screen and (max-width: 767px){
+              width: 25%;
+            }
           }
           .shop-by-content {
             width: 91%;
@@ -263,6 +266,9 @@
               margin-right: 5px;
               position: relative;
               width: 24%;
+              @media only screen and (max-width: 767px){
+                width: 31%;
+              }
               &.item-active {
                 .lists-item-title {
                   box-shadow: 0 5px 5px #ddd !important;
@@ -356,7 +362,9 @@
               position: relative;
               max-width: 295px;
               min-height: 354px;
-              //line-height: 354px;
+              @media screen and (max-width:639px){
+                min-height: 230px;
+              }
               .products-item {
                 //position: relative;
               }

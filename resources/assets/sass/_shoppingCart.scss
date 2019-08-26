@@ -5,12 +5,17 @@
 .shopping_cart {
   .page-title {
     margin-bottom: 20px;
+    font-size: .8em;
     h1 {
       margin: 0;
       min-height: 1.3125em;
       font-weight: 400;
       font-size: 2em;
       line-height: 1.25em;
+      @media only screen and (max-width: 767px){
+        font-weight: normal;
+        font-size: 1.5em;
+      }
     }
   }
   // 购物城为空的样式
@@ -25,6 +30,7 @@
   }
   .cart {
     padding-top: 20px;
+    width: 100%;
     .title-buttons {
       display: flex;
       flex-direction: row;
@@ -47,6 +53,9 @@
       font-weight: bold;
       vertical-align: bottom;
       text-align: left;
+      @media only screen and (max-width: 767px){
+        display: none;
+      }
     }
     .cart-header-item {
       padding: 0 10px;
@@ -62,6 +71,11 @@
         margin: auto;
         cursor: pointer;
         color: #333;
+        .iconfont {
+          @media only screen and (max-width: 767px){
+            font-size: 22px;
+          }
+        }
       }
     }
     .cart-item-item {
@@ -69,6 +83,9 @@
       flex-direction: row;
       justify-content: flex-start;
       width: 65%;
+      @media only screen and (max-width: 767px){
+        width: 100%;
+      }
     }
     .cart-item-qty {
       display: flex;
@@ -76,8 +93,19 @@
       justify-content: flex-start;
       width: 20%;
       text-align: center;
+      @media only screen and (max-width: 767px){
+        width: 100%;
+        margin-bottom: 10px;
+      }
       span {
         margin: auto;
+      }
+      .mobile-title {
+        display: none;
+        margin-left: 0;
+        @media only screen and (max-width: 767px){
+          display: inline-block;
+        }
       }
       .counter {
         margin: auto;
@@ -107,8 +135,18 @@
       justify-content: flex-start;
       width: 10%;
       padding-right: 0;
+      @media only screen and (max-width: 767px){
+        width: 100%;
+      }
       span {
         margin: auto;
+      }
+      .mobile-title {
+        display: none;
+        margin-left: 0;
+        @media only screen and (max-width: 767px){
+          display: inline-block;
+        }
       }
       .amount-price {
         margin: auto;
@@ -124,6 +162,10 @@
         flex-direction: row;
         justify-content: flex-start;
         padding: 0 5px;
+        @media only screen and (max-width: 767px){
+          flex-direction: column;
+          padding: 0;
+        }
       }
       .cart-item-item-img {
         width: 20%;
@@ -137,11 +179,18 @@
         text-align: left;
         font-size: 1.2em;
         padding: 10px 6px;
+        @media only screen and (max-width: 767px){
+          padding: 0;
+        }
         .cart-item-name {
           span {
             font-size: 1.35rem;
             color: #555;
             line-height: 1.2em;
+            @media only screen and (max-width: 767px){
+              font-size: 1rem;
+              line-height: 1em;
+            }
           }
         }
         .cart-item-btns {
@@ -152,8 +201,14 @@
             text-decoration: underline;
             margin-right: 10px;
             color: #555;
+            @media only screen and (max-width: 767px){
+              font-size: 1rem;
+            }
             span {
               font-size: 1.2em;
+              @media only screen and (max-width: 767px){
+                font-size: 1rem;
+              }
             }
             &:hover {
               color: $hover-color;
@@ -202,6 +257,9 @@
             color: #333;
             &:last-of-type {
               color: #00a7db;
+            }
+            span {
+              word-break: break-all;
             }
           }
           &.odd {

@@ -62,6 +62,8 @@
                                                 </div>
                                             </div>
                                             <div class="cart-header-item cart-item-qty">
+                                                {{-- mobile show --}}
+                                                <span class="mobile-title">QTY</span>
                                                 <div class="counter">
                                                     <button class="left small-button">-</button>
                                                     <input class="left center count" data-url="{{ route('carts.update') }}"
@@ -70,6 +72,8 @@
                                                 </div>
                                             </div>
                                             <div class="cart-header-item cart-item-amount">
+                                                {{-- mobile show --}}
+                                                <span class="mobile-title">Subtotal</span>
                                                 <div class="amount-price">
                                                     <span>{{ get_global_symbol() }}</span>
                                                     <span class="single-price">{{ bcmul(get_current_price($cart['product_sku']->price), $cart['number'], 2) }}</span>
@@ -161,6 +165,8 @@
                                                 </div>
                                             </div>
                                             <div class="cart-header-item cart-item-qty">
+                                                {{-- mobile show --}}
+                                                <span class="mobile-title">QTY</span>
                                                 <div class="counter">
                                                     <button class="left small-button">-</button>
                                                     <input class="left center count" data-url="{{ route('carts.update') }}"
@@ -169,6 +175,8 @@
                                                 </div>
                                             </div>
                                             <div class="cart-header-item cart-item-amount">
+                                                {{-- mobile show --}}
+                                                <span class="mobile-title">Subtotal</span>
                                                 <div class="amount-price">
                                                     <span>{{ get_global_symbol() }}</span>
                                                     <span  class="single-price">{{ bcmul(get_current_price($cart->sku->price), $cart->number, 2) }}</span>

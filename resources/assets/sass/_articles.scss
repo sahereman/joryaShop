@@ -3,15 +3,25 @@
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
+    @media only screen and (max-width: 767px){
+      flex-direction: column;
+      padding: 10px;
+    }
   }
  .left-nav {
    width: 25%;
    margin-top: 0;
+   @media only screen and (max-width: 767px){
+     width: 100%;
+   }
    .block-layered-nav {
      margin-right: 32px;
    }
    .block {
      margin: 0 32px 10px 0;
+     @media only screen and (max-width: 767px){
+       margin-right: 0;
+     }
      .block-title {
        font-weight: 400;
        padding-bottom: 7px;
@@ -51,8 +61,25 @@
          line-height: 1.1428em;
          font-weight: 400;
          //margin: 0 0 10px;
+         .iconfont {
+           display: none;
+           transform: rotateZ(0deg);
+           transition: all .3s;
+           @media only screen and (max-width: 767px){
+             display: inline-block;
+             float: right;
+           }
+         }
+         &.active {
+           .iconfont {
+             transform: rotateZ(180deg);
+           }
+         }
        }
        .categories-lists-item-ul {
+         @media only screen and (max-width: 767px){
+           display: none;
+         }
          li {
            a {
              padding-left: 30px;
@@ -65,6 +92,9 @@
   .right-content {
     width: 75%;
     margin-top: 0;
+    @media only screen and (max-width: 767px){
+      width: 100%;
+    }
     .Crumbs {
       margin: 0 8px;
       a {

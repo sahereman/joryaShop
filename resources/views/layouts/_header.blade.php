@@ -192,6 +192,12 @@
                         <p>@lang('app.Custom & Stock Hair Systems')</p>
                         <p><span>@lang('app.30-Day Money Back')</span> @lang('app.Guarantee')</p>
                     </div>
+                    {{-- 移动端时出现 --}}
+                    <div class="for_show_search">
+                        <a class="show_btn" href="javascript:void(0);">
+                            <img src="{{ asset('img/search_magnifier.png') }}">
+                        </a>
+                    </div>
                 </div>
                 <div class="navbar-bottom-top-right">
                     @foreach(\App\Models\Menu::subPcMenus() as $sub_child)
@@ -239,7 +245,6 @@
                                                 @endif
                                             @endforeach
                                         </li>
-
                                         <li>
                                             @foreach($menu['children'] as $key => $child)
                                                 @if(($key%4) == 1)
@@ -262,7 +267,6 @@
                                                 @endif
                                             @endforeach
                                         </li>
-
                                         <li>
                                             @foreach($menu['children'] as $key => $child)
                                                 @if(($key%4) == 2)
@@ -285,7 +289,6 @@
                                                 @endif
                                             @endforeach
                                         </li>
-
                                         <li>
                                             @foreach($menu['children'] as $key => $child)
                                                 @if(($key%4) == 3)
@@ -333,23 +336,52 @@
             {{--Mobile Menu--}}
             <div class="navbar-mobile">
                 <div class="mobile-menun">
-                    <a href="javascript:void (0)">
+                    <a href="javascript:void (0)" class="mobile-menu-btn">
                         <span class="iconfont">&#xe604;Menu</span>
                     </a>
                     <div class="mobile-menu-content">
-
+                        @foreach(\App\Models\Menu::pcMenus() as $menu)
+                            @if($menu->children->isNotEmpty())
+                                <div class="first_menu">
+                                    <a href="javascript:void(0)" class="mobile-nav-one">
+                                    {{--<a href="{{ $menu->link or 'javascript:void(0)' }}">--}}
+                                        {{ App::isLocale('zh-CN') ? $menu->name_zh : $menu->name_en }}
+                                        <span class="iconfont">&#xe605;</span>
+                                    </a>
+                                    <!--二级菜单内容-->
+                                    <div class="mobile-nav-panel">
+                                        @foreach($menu['children'] as $key => $child)
+                                            <div class="nav-column">
+                                                <a class="nav-panel-one" href="javascript:void(0)">
+                                                {{--<a class="nav-panel-one" href="{{ $child['link'] or 'javascript:void(0)' }}">--}}
+                                                    <span>{{ App::isLocale('zh-CN') ? $child['name_zh'] : $child['name_en'] }}</span>
+                                                    @if($child->children->isNotEmpty())
+                                                        <span class="iconfont">&#xe605;</span>
+                                                    @endif
+                                                </a>
+                                                @if($child->children->isNotEmpty())
+                                                    <div class="nav-panel-two">
+                                                        @foreach($child['children'] as $sub_child)
+                                                            <div class="nav-two-item">
+                                                                <a href="{{ $sub_child['link'] or 'javascript:void(0)'  }}">
+                                                                    <span>{{ App::isLocale('zh-CN') ? $sub_child['name_zh'] : $sub_child['name_en'] }}</span>
+                                                                </a>
+                                                            </div>
+                                                        @endforeach
+                                                    </div>
+                                                @endif
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            @else
+                                <div class="first_menu">
+                                    <a href="{{ $menu->link or 'javascript:void(0)' }}">{{ App::isLocale('zh-CN') ? $menu->name_zh : $menu->name_en }}</a>
+                                </div>
+                            @endif
+                        @endforeach
                     </div>
                 </div>
-                <div class="for_show_search">
-                    <a class="show_btn" href="javascript:void(0);">
-                        <img src="{{ asset('img/search_magnifier.png') }}">
-                    </a>
-                </div>
-                @foreach(\App\Models\Menu::subPcMenus() as $sub_child)
-                    <a href="{{ $sub_child['link'] }}">
-                        {{ App::isLocale('zh-CN') ? $sub_child['name_zh'] : $sub_child['name_en'] }}
-                    </a>
-                @endforeach
             </div>
         </div>
     </div>
