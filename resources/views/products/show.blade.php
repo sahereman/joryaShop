@@ -171,7 +171,7 @@
                         @endif
                     </ul>
                     {{-- 动态渲染的skus选择器存放位置 --}}
-                    <div class="sku-choose-store {{ $product->type == \App\Models\Product::PRODUCT_TYPE_CUSTOM ? ' dis_ni' : '' }}"></div>
+                    <div id="sku-choose-store" class="sku-choose-store {{ $product->type == \App\Models\Product::PRODUCT_TYPE_CUSTOM ? ' dis_ni' : '' }}"></div>
                     {{-- skus参数数组 --}}
                     <input type="hidden" class="parameter-data" value="{{ json_encode($attributes) }}"/>
                     {{-- 商品数量相关 --}}
@@ -182,7 +182,7 @@
                             <input type="number" name="number" id="pro_num" value="1" min="1" max="99">
                             <span class="add"><i>+</i></span>
                         </div>
-                        <div class="availableSold">
+                        <div class="availableSold {{ $product->type == \App\Models\Product::PRODUCT_TYPE_CUSTOM ? ' dis_ni' : '' }}">
                             <button class="Reset-filter">Reset filter</button>
                         </div>
                     </div>
@@ -528,6 +528,10 @@
         $(".add").on("click", function () {
             // 获取商品ID及库存数量
             getSkuId();
+            if(haschoose == false){
+                layer.msg("Please Select");
+                return
+            }
             // if ($(".kindOfPro").find("li").hasClass('active') != true) {
             // layer.msg("@lang('product.product_details.Please select specifications')");
             // } else {
@@ -648,6 +652,10 @@
                 window.location.href = "{{ route('products.custom.show', ['product' => $product->id]) }}";
             }else {
                 getSkuId();
+                if(haschoose == false){
+                    layer.msg("Please Select");
+                    return
+                }
                 if(sku_id == 0||sku_stock == 0){
                     layer.msg("The item is temporarily out of stock Please reselect!");
                     return
@@ -686,6 +694,11 @@
                 var url = clickDom.attr('data-url');
                 // 获取sku_id
                 getSkuId();
+                if(haschoose == false){
+                    layer.msg("Please Select");
+                    return
+                }
+                // getSkuId();
                 if(sku_id == 0||sku_stock == 0){
                     layer.msg("The item is temporarily out of stock Please reselect!");
                     return
@@ -863,6 +876,7 @@
             skus_map = [],  // 经过map操作融合后的数据,同时对该数组进行循环，将内容渲染到页面中
             already_selected = [],   // 存放用户做出选择的skus参数的数组
             temporary_storage = [], // 用于临时存储根据索引从原始数组中存储的数据
+            haschoose = true,   // 定义判断用户是否已经进行选择
             sku_parameter = {     // 定义一个sku参数对象集合，单个相关参数存放在该对象中方便区分与查找
                 html: '',
                 optionHtml: '',   // 每次选择之后刷新的option的模板
@@ -950,6 +964,7 @@
                 sku_parameter.html += "<select data-index='"+ sku_map_i +"' name='"+ sku_map_n.name +"'>"
                 var sku_map_item =arrayUnique2(sku_map_n.data,'value');
                 sku_map_item.sort(compare("value"));
+                sku_parameter.html += "<option value='select'>Please Select</option>"
                 $.each(sku_map_item,function (sku_map_data_i,sku_map_data_n) {
                     if(sku_map_n.name == "Hair Color") {
                         sku_parameter.html += "<option value='" + sku_map_data_n.value + "' data-img='"+ sku_map_data_n.photo_url +"'>"+ sku_map_data_n.value +"</option>"
@@ -987,11 +1002,20 @@
                 newSkuArray = [],
                 childSkuArr = [],
                 firstResultArr = [],
-                secondResultArr = [];
+                secondResultArr = [],
+                forTipArr = [];
             var allChooseSelect = $(".sku-choose-store").find("select");
             $.each(allChooseSelect,function (chooseSelect_in,chooseSelect_value) {
-                searchArr.push({name: $(chooseSelect_value).attr("name"),value: $(chooseSelect_value).val() })
+                if($(chooseSelect_value).val() == "select"||!$(chooseSelect_value).val()){
+                    forTipArr.push($(chooseSelect_value).val())
+                }else {
+                    searchArr.push({name: $(chooseSelect_value).attr("name"),value: $(chooseSelect_value).val() })
+                }
             });
+            if(forTipArr.length!=0){
+                haschoose = false;
+                return haschoose
+            }
             for(var arr_key in skus_arr) {
                 newSkuArray.push({id:arr_key,data:skus_arr[arr_key]});
                 for(var newSkuArrayKey in newSkuArray) {
@@ -1125,15 +1149,26 @@
                     sku_parameter.optionHtml = "";
                     aimSelect = $(".sku-choose-store").find("select[name='"+ storage_value.name +"']");
                     $(aimSelect).find("option").prop("disabled",true);
+                    $(aimSelect).find("option").removeClass("allow-choose");
+                    $(aimSelect).find("option").addClass("forbid-choose");
                     $.each(storage_value_item,function (storage_value_index,storage_value_content) {
                         // sku_parameter.optionHtml += "<option value='" + storage_value_content.value + "'>"+ storage_value_content.value +"</option>"
                         $(aimSelect).find("option[value='"+ storage_value_content.value +"']").prop("disabled",false);
+                        $(aimSelect).find("option[value='"+ storage_value_content.value +"']").removeClass("forbid-choose");
+                        $(aimSelect).find("option[value='"+ storage_value_content.value +"']").addClass("allow-choose");
+                        // if(storage_value_index == 0){
+                        //     $(aimSelect).find("option[value='"+ storage_value_content.value +"']").prop("selected",true);
+                        // }
                     });
                     // $(aimSelect).find("option").remove();
                     // $(aimSelect).append(sku_parameter.optionHtml);
                     $.each(already_selected,function (already_selected_key,already_selected_value) {
                         if(aimSelect.attr("data-index") == already_selected_value.select_index) {
-                            $(aimSelect).find("option[value='"+ already_selected_value.value +"']").attr("selected",true);
+                            if(!$(aimSelect).find("option[value='"+ already_selected_value.value +"']").hasClass("forbid-choose")){
+                                $(aimSelect).find("option[value='"+ already_selected_value.value +"']").prop("selected",true);
+                            }else {
+                                $($(aimSelect).find("option[class='allow-choose']")[0]).prop("selected",true);
+                            }
                         }
                     });
                     // $(aimSelect).find("option[value='"+ selected_val +"']").attr("selected",true);
@@ -1145,7 +1180,8 @@
         });
         // 重置筛选条件
         $(".Reset-filter").on("click",function () {
-            sku_parameter.sku_choose_store.html("").append(sku_parameter.html);
+            $("#sku-choose-store").load(location.href+"#sku-choose-store");
+            // sku_parameter.sku_choose_store.html("").append(sku_parameter.html);
         });
         // 原价计算
         // var old_price = js_number_format(Math.imul(float_multiply_by_100(origin_price), 12) / 1000);
