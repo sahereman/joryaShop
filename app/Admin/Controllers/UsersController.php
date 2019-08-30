@@ -203,14 +203,30 @@ class UsersController extends Controller
             $email_template = EmailTemplate::find($data['email_template']);
             Mail::to($user)->queue(new SendTemplateEmail($email_template));
 
-            EmailLog::updateOrCreate([
+            /*EmailLog::updateOrCreate([
                 'email' => $user->email
             ], [
                 'content' => "Subject: {$email_template->name}. " . view('emails.template', [
                     'email_template' => $email_template
                 ]),
                 'sent_at' => Carbon::now()->toDateTimeString()
-            ]);
+            ]);*/
+            if ($email_log = EmailLog::where(['email' => $user->email])->first()) {
+                $email_log->update([
+                    'content' => "Subject: {$email_template->name}. " . view('emails.template', [
+                            'email_template' => $email_template
+                        ]),
+                    'sent_at' => Carbon::now()->toDateTimeString()
+                ]);
+            } else {
+                EmailLog::create([
+                    'email' => $user->email,
+                    'content' => "Subject: {$email_template->name}. " . view('emails.template', [
+                            'email_template' => $email_template
+                        ]),
+                    'sent_at' => Carbon::now()->toDateTimeString()
+                ]);
+            }
         });
 
         return $content

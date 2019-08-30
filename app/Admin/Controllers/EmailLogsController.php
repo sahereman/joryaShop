@@ -89,17 +89,17 @@ class EmailLogsController extends Controller
         $grid->disableCreateButton();
         // $grid->disablePagination();
 
-        $grid->actions(function ($actions) {
+        /*$grid->actions(function ($actions) {
             // $actions->disableView();
             // $actions->disableEdit();
-            $actions->disableDelete();
-        });
+            // $actions->disableDelete();
+        });*/
 
-        $grid->tools(function ($tools) {
+        /*$grid->tools(function ($tools) {
             $tools->batch(function ($batch) {
-                $batch->disableDelete();
+                // $batch->disableDelete();
             });
-        });
+        });*/
 
         /*筛选*/
         $grid->filter(function ($filter) {
@@ -131,11 +131,11 @@ class EmailLogsController extends Controller
     {
         $show = new Show(EmailLog::findOrFail($id));
 
-        $show->panel()->tools(function ($tools) {
+        /*$show->panel()->tools(function ($tools) {
             // $tools->disableEdit();
             // $tools->disableList();
-            $tools->disableDelete();
-        });
+            // $tools->disableDelete();
+        });*/
 
         $show->id('Id');
         $show->email('Email');
@@ -163,11 +163,11 @@ class EmailLogsController extends Controller
         $form = new Form(new EmailLog);
         $form->html('<button class="btn btn-primary"><i class="fa fa-send"></i>&nbsp;提交</button>');
 
-        $form->tools(function (Form\Tools $tools) {
-            $tools->disableDelete();
+        /*$form->tools(function (Form\Tools $tools) {
+            // $tools->disableDelete();
             // $tools->disableList();
             // $tools->disableView();
-        });
+        });*/
 
         $form->display('email', 'Email');
         $form->text('name', 'Client Name');

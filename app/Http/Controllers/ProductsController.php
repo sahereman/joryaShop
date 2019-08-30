@@ -515,7 +515,7 @@ class ProductsController extends Controller
         $user->email = $to_email;
         Mail::to($user)->queue(new SendShareEmail($product, $from_email, $subject, $body));
 
-        EmailLog::updateOrCreate([
+        /*EmailLog::updateOrCreate([
             'email' => $to_email
         ], [
             'content' => "Subject: {$subject}. " . view('emails.share', [
@@ -524,7 +524,27 @@ class ProductsController extends Controller
                     'body' => $body
                 ]),
             'sent_at' => Carbon::now()->toDateTimeString()
-        ]);
+        ]);*/
+        if ($email_log = EmailLog::where(['email' => $to_email])->first()) {
+            $email_log->update([
+                'content' => "Subject: {$subject}. " . view('emails.share', [
+                        'product' => $product,
+                        'from_email' => $from_email,
+                        'body' => $body
+                    ]),
+                'sent_at' => Carbon::now()->toDateTimeString()
+            ]);
+        } else {
+            EmailLog::create([
+                'email' => $to_email,
+                'content' => "Subject: {$subject}. " . view('emails.share', [
+                        'product' => $product,
+                        'from_email' => $from_email,
+                        'body' => $body
+                    ]),
+                'sent_at' => Carbon::now()->toDateTimeString()
+            ]);
+        }
 
         return response()->json([
             'code' => 200,
