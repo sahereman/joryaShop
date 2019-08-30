@@ -964,7 +964,7 @@
                 sku_parameter.html += "<select data-index='"+ sku_map_i +"' name='"+ sku_map_n.name +"'>"
                 var sku_map_item =arrayUnique2(sku_map_n.data,'value');
                 sku_map_item.sort(compare("value"));
-                sku_parameter.html += "<option value='select'>Please Select</option>"
+                sku_parameter.html += "<option value='select' disabled selected>Please Select</option>"
                 $.each(sku_map_item,function (sku_map_data_i,sku_map_data_n) {
                     if(sku_map_n.name == "Hair Color") {
                         sku_parameter.html += "<option value='" + sku_map_data_n.value + "' data-img='"+ sku_map_data_n.photo_url +"'>"+ sku_map_data_n.value +"</option>"
