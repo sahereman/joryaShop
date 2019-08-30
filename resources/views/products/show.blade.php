@@ -1180,8 +1180,10 @@
         });
         // 重置筛选条件
         $(".Reset-filter").on("click",function () {
-            $("#sku-choose-store").load(location.href+"#sku-choose-store");
-            // sku_parameter.sku_choose_store.html("").append(sku_parameter.html);
+            already_selected = []
+            $("#sku-choose-store").find("select").val("select");
+            $("#sku-choose-store").find("option").prop("disabled",false);
+            $("#sku-choose-store").find("option[value='select']").prop("disabled",true);
         });
         // 原价计算
         // var old_price = js_number_format(Math.imul(float_multiply_by_100(origin_price), 12) / 1000);
