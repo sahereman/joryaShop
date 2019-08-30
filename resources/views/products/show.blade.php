@@ -182,7 +182,9 @@
                             <input type="number" name="number" id="pro_num" value="1" min="1" max="99">
                             <span class="add"><i>+</i></span>
                         </div>
-                        <div class="availableSold"></div>
+                        <div class="availableSold">
+                            <button class="Reset-filter">Reset filter</button>
+                        </div>
                     </div>
                     <!--添加购物车与立即购买-->
                     <div class="addCart_buyNow">
@@ -536,7 +538,6 @@
             } else {
                 layer.msg("@lang('order.Cannot add more quantities')");
             }
-            // }
         });
         $(".reduce").on("click", function () {
             if ($(this).hasClass('no_allow') != true && $("#pro_num").val() > 1) {
@@ -935,29 +936,32 @@
         //     <option value="参数值">参数值</option>
         //   </select>
         // </div>
-        $.each(skus_map,function (sku_map_i,sku_map_n) {
-            // 如果名称为undefind代表该属性为库存价格等
-            sku_parameter.html += "<div class='priceOfpro forgetSel'>"
-            if(sku_map_n.name == "Hair Color"){
-                sku_parameter.html += "<span class='dynamic_name' data-type='Hair Color'>"+ sku_map_n.name +" <a target='_blank' href='{{ asset('img/HairColor.jpg') }}'><img src='{{ asset('img/photo-choose.png') }}'></a></span>"
-            }else if(sku_map_n.name == "Hair Density"){
-                sku_parameter.html += "<span class='dynamic_name'>"+ sku_map_n.name +" <a target='_blank' href='{{ asset('img/HairDensity.jpg') }}'><img src='{{ asset('img/photo-choose.png') }}'></a></span>"
-            }else{
-                sku_parameter.html += "<span class='dynamic_name'>"+ sku_map_n.name +" </span>"
-            }
-            sku_parameter.html += "<select data-index='"+ sku_map_i +"' name='"+ sku_map_n.name +"'>"
-            var sku_map_item =arrayUnique2(sku_map_n.data,'value');
-            sku_map_item.sort(compare("value"));
-            $.each(sku_map_item,function (sku_map_data_i,sku_map_data_n) {
-                if(sku_map_n.name == "Hair Color") {
-                    sku_parameter.html += "<option value='" + sku_map_data_n.value + "' data-img='"+ sku_map_data_n.photo_url +"'>"+ sku_map_data_n.value +"</option>"
-                }else {
-                    sku_parameter.html += "<option value='" + sku_map_data_n.value + "'>"+ sku_map_data_n.value +"</option>"
+        function renderingNode(){
+            $.each(skus_map,function (sku_map_i,sku_map_n) {
+                // 如果名称为undefind代表该属性为库存价格等
+                sku_parameter.html += "<div class='priceOfpro forgetSel'>"
+                if(sku_map_n.name == "Hair Color"){
+                    sku_parameter.html += "<span class='dynamic_name' data-type='Hair Color'>"+ sku_map_n.name +" <a target='_blank' href='{{ asset('img/HairColor.jpg') }}'><img src='{{ asset('img/photo-choose.png') }}'></a></span>"
+                }else if(sku_map_n.name == "Hair Density"){
+                    sku_parameter.html += "<span class='dynamic_name'>"+ sku_map_n.name +" <a target='_blank' href='{{ asset('img/HairDensity.jpg') }}'><img src='{{ asset('img/photo-choose.png') }}'></a></span>"
+                }else{
+                    sku_parameter.html += "<span class='dynamic_name'>"+ sku_map_n.name +" </span>"
                 }
+                sku_parameter.html += "<select data-index='"+ sku_map_i +"' name='"+ sku_map_n.name +"'>"
+                var sku_map_item =arrayUnique2(sku_map_n.data,'value');
+                sku_map_item.sort(compare("value"));
+                $.each(sku_map_item,function (sku_map_data_i,sku_map_data_n) {
+                    if(sku_map_n.name == "Hair Color") {
+                        sku_parameter.html += "<option value='" + sku_map_data_n.value + "' data-img='"+ sku_map_data_n.photo_url +"'>"+ sku_map_data_n.value +"</option>"
+                    }else {
+                        sku_parameter.html += "<option value='" + sku_map_data_n.value + "'>"+ sku_map_data_n.value +"</option>"
+                    }
+                });
+                sku_parameter.html += "</select>"
+                sku_parameter.html += "</div>"
             });
-            sku_parameter.html += "</select>"
-            sku_parameter.html += "</div>"
-        });
+        }
+        renderingNode();
 
         // 判断数组中是否存在重复标号
         function isExists(arr,aim,search){
@@ -1032,6 +1036,7 @@
             $("#pro_num").val("1");
             var _that = $(this),
                 selected_val = _that.val();
+            // 插入放大镜图片的内容与数据无关
             if(_that.parents(".forgetSel").find(".dynamic_name").attr("data-type") == "Hair Color") {
                 $(".for-choose-img").removeClass("dis_ni");
                 $(".for-choose-img").find("a").prop("href",_that.find("option:selected").attr("data-img"));
@@ -1057,88 +1062,90 @@
                 });
                 $("#slider1").find("img").removeClass("cloudzoom-gallery-active");
                 $(".for-choose-img").find("img").addClass("cloudzoom-gallery-active");
-                // $('#slider1').Thumbelina({
-                //     $bwdBut:$('#slider1 .left'),
-                //     $fwdBut:$('#slider1 .right')
-                // });
             }
+
         // 每次切换时将临时仓库进行置空操作
-        // temporary_storage = [];
-        // sku_parameter.choose_classify_index = $(this).attr("data-index");
-        // // for(var change_index = 0;change_index<=skus_map.length-1;change_index++){
-        //     // 判断当前的操作的select的DOM节点
-        //     // if(change_index == sku_parameter.choose_classify_index) {
-        //         for(var search_key in skus_arr){
-        //             for (var search_key_child in skus_arr[search_key]) {
-        //                     // 通过轮询的方式在原始数组查找与所选项目相同的数组内容
-        //                     if(skus_arr[search_key][search_key_child].value == selected_val){
-        //                         // already_selected为用于存放用户已选择的选项的数组
-        //                         // 如果数组为空便将用户选择的内容添加到数组中
-        //                         // 如果数组不为空则分两种情况考虑：
-        //                         // 1、以skus_map数组为依据判断页面中sku种类的数量，如果already_selected的长度小于skus_map的长度则继续添加新的数据
-        //                         //    添加新数据的同时判断数组内是否已存在当前操作的select的已选值，如果存在则更新，反之则继续添加
-        //                         // 2、同样是根据skus_map数组的长度进行判断，当长度相同时代表用户对所有的sku参数都已经进行过操作如果继续操作则只需要更新即可
-        //                         //  ！！！！！当存在重置功能时，重置时也需要将already_selected进行置空操作
-        //                         var select_index = _that.attr("data-index"),     // 用户进行操作的DOM的标号
-        //                             active_sku_id = skus_arr[search_key][search_key_child].product_sku_id,  // 用户选择的sku对用的id
-        //                             active_value = skus_arr[search_key][search_key_child].value,  // 用户选择的sku对应的value值
-        //                             exists = false;    // 用于判断数组是否存在重复选择的值
-        //                         if(already_selected.length < skus_map.length ||already_selected.length == 0) {
-        //                             if(already_selected.length != 0) {
-        //                                 // 用来判断数组是否存在重复的select的选择标号
-        //                                 exists = isExists(already_selected,'select_index',select_index);
-        //                             }
-        //                             if (exists){
-        //                                 delOldData(already_selected,'select_index',select_index);
-        //                             }
-        //                         }else {
-        //                             exists = isExists(already_selected,'select_index',select_index);
-        //                             if (exists){
-        //                                 delOldData(already_selected,'select_index',select_index);
-        //                             }
-        //                         }
-        //                         // 将已选择的参数添加到数组中进行存储
-        //                         already_selected.push({select_index: select_index,product_sku_id: active_sku_id,value:active_value,name:_that.attr('name')});
-        //                         // 将查找到的数据存储到临时仓库中
-        //                         temporary_storage.push(skus_arr[search_key]);
-        //                         // console.log(temporary_storage)
-        //                         if (temporary_storage.length == 1) {
-        //                             sku_id = temporary_storage[0][0].product_sku_id;
-        //                         }
-        //                     //    通过对临时仓库和以选择仓库的数据进行对比查找到相应的已选择的
-        //                     }
-        //             }
-        //         }
-        //         //   将搜索的结果进行处理对剩下的select的option选项进行刷新
-        //         var temporary_storage_change1 = [],
-        //             temporary_storage_change2 = [],
-        //             temporary_storage_map = {};
-        //         dataFusion(temporary_storage,temporary_storage_change1);
-        //         dataFusionClassify(temporary_storage_change1,temporary_storage_change2,temporary_storage_map,'name');
-        //         var aimSelect ;
-        //             // 将处理好的数据进行渲染    optionHtml
-        //         // console.log(temporary_storage_change2);
-        //         $.each(temporary_storage_change2,function (storage_index,storage_value) {
-        //             var storage_value_item =arrayUnique2(storage_value.data,'value');
-        //             storage_value_item.sort(compare("value"));
-        //             sku_parameter.optionHtml = "";
-        //             $.each(storage_value_item,function (storage_value_index,storage_value_content) {
-        //                 sku_parameter.optionHtml += "<option value='" + storage_value_content.value + "'>"+ storage_value_content.value +"</option>"
-        //             });
-        //             aimSelect = $(".sku-choose-store").find("select[name='"+ storage_value.name +"']");
-        //             $(aimSelect).find("option").remove();
-        //             $(aimSelect).append(sku_parameter.optionHtml);
-        //             $.each(already_selected,function (already_selected_key,already_selected_value) {
-        //                 if(aimSelect.attr("data-index") == already_selected_value.select_index) {
-        //                     $(aimSelect).find("option[value='"+ already_selected_value.value +"']").attr("selected",true);
-        //                 }
-        //             });
-        //             // $(aimSelect).find("option[value='"+ selected_val +"']").attr("selected",true);
-        //         })
-        //     // }else {
-        //     //
-        //     // }
-        // // }
+        temporary_storage = [];
+        sku_parameter.choose_classify_index = $(this).attr("data-index");
+        // for(var change_index = 0;change_index<=skus_map.length-1;change_index++){
+            // 判断当前的操作的select的DOM节点
+            // if(change_index == sku_parameter.choose_classify_index) {
+                for(var search_key in skus_arr){
+                    for (var search_key_child in skus_arr[search_key]) {
+                            // 通过轮询的方式在原始数组查找与所选项目相同的数组内容
+                            if(skus_arr[search_key][search_key_child].value == selected_val){
+                                // already_selected为用于存放用户已选择的选项的数组
+                                // 如果数组为空便将用户选择的内容添加到数组中
+                                // 如果数组不为空则分两种情况考虑：
+                                // 1、以skus_map数组为依据判断页面中sku种类的数量，如果already_selected的长度小于skus_map的长度则继续添加新的数据
+                                //    添加新数据的同时判断数组内是否已存在当前操作的select的已选值，如果存在则更新，反之则继续添加
+                                // 2、同样是根据skus_map数组的长度进行判断，当长度相同时代表用户对所有的sku参数都已经进行过操作如果继续操作则只需要更新即可
+                                //  ！！！！！当存在重置功能时，重置时也需要将already_selected进行置空操作
+                                var select_index = _that.attr("data-index"),     // 用户进行操作的DOM的标号
+                                    active_sku_id = skus_arr[search_key][search_key_child].product_sku_id,  // 用户选择的sku对用的id
+                                    active_value = skus_arr[search_key][search_key_child].value,  // 用户选择的sku对应的value值
+                                    exists = false;    // 用于判断数组是否存在重复选择的值
+                                if(already_selected.length < skus_map.length ||already_selected.length == 0) {
+                                    if(already_selected.length != 0) {
+                                        // 用来判断数组是否存在重复的select的选择标号
+                                        exists = isExists(already_selected,'select_index',select_index);
+                                    }
+                                    if (exists){
+                                        delOldData(already_selected,'select_index',select_index);
+                                    }
+                                }else {
+                                    exists = isExists(already_selected,'select_index',select_index);
+                                    if (exists){
+                                        delOldData(already_selected,'select_index',select_index);
+                                    }
+                                }
+                                // 将已选择的参数添加到数组中进行存储
+                                already_selected.push({select_index: select_index,product_sku_id: active_sku_id,value:active_value,name:_that.attr('name')});
+                                // 将查找到的数据存储到临时仓库中
+                                temporary_storage.push(skus_arr[search_key]);
+                                // console.log(temporary_storage)
+                                if (temporary_storage.length == 1) {
+                                    sku_id = temporary_storage[0][0].product_sku_id;
+                                }
+                            //    通过对临时仓库和以选择仓库的数据进行对比查找到相应的已选择的
+                            }
+                    }
+                }
+                //   将搜索的结果进行处理对剩下的select的option选项进行刷新
+                var temporary_storage_change1 = [],
+                    temporary_storage_change2 = [],
+                    temporary_storage_map = {};
+                dataFusion(temporary_storage,temporary_storage_change1);
+                dataFusionClassify(temporary_storage_change1,temporary_storage_change2,temporary_storage_map,'name');
+                var aimSelect ;
+                    // 将处理好的数据进行渲染    optionHtml
+                $.each(temporary_storage_change2,function (storage_index,storage_value) {
+                    var storage_value_item =arrayUnique2(storage_value.data,'value');
+                    storage_value_item.sort(compare("value"));
+                    sku_parameter.optionHtml = "";
+                    aimSelect = $(".sku-choose-store").find("select[name='"+ storage_value.name +"']");
+                    $(aimSelect).find("option").prop("disabled",true);
+                    $.each(storage_value_item,function (storage_value_index,storage_value_content) {
+                        // sku_parameter.optionHtml += "<option value='" + storage_value_content.value + "'>"+ storage_value_content.value +"</option>"
+                        $(aimSelect).find("option[value='"+ storage_value_content.value +"']").prop("disabled",false);
+                    });
+                    // $(aimSelect).find("option").remove();
+                    // $(aimSelect).append(sku_parameter.optionHtml);
+                    $.each(already_selected,function (already_selected_key,already_selected_value) {
+                        if(aimSelect.attr("data-index") == already_selected_value.select_index) {
+                            $(aimSelect).find("option[value='"+ already_selected_value.value +"']").attr("selected",true);
+                        }
+                    });
+                    // $(aimSelect).find("option[value='"+ selected_val +"']").attr("selected",true);
+                })
+            // }else {
+            //
+            // }
+        // }
+        });
+        // 重置筛选条件
+        $(".Reset-filter").on("click",function () {
+            sku_parameter.sku_choose_store.html("").append(sku_parameter.html);
         });
         // 原价计算
         // var old_price = js_number_format(Math.imul(float_multiply_by_100(origin_price), 12) / 1000);

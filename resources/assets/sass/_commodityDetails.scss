@@ -224,6 +224,12 @@
       @media only screen and (max-width: 767px){
         flex-direction: column;
       }
+      .magnifierContainer {
+        width: 48%;
+        @media only screen and (max-width: 767px){
+          width: 100%;
+        }
+      }
       .product-img-column {
         position: relative;
         .img-box {
@@ -649,7 +655,21 @@
                 }
             }
             .availableSold {
-                margin-left: 30px;
+              display: flex;
+              margin-left: 30px;
+              button {
+                margin: auto;
+                border: 1px solid #bc8c61;
+                font-size: 16px;
+                color: #000;
+                background-color: transparent;
+                height: 35px;
+                text-align: center;
+                &:hover {
+                  background: #bc8c61;
+                  color: #fff;
+                }
+              }
                 span {
                     i {
                         color: #4d80bf;
