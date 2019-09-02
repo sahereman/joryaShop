@@ -526,6 +526,7 @@ class OrdersController extends Controller
                                     }
                                 }
                             }
+                            $userCoupon->saved_fee = number_format($userCoupon->saved_fee,2);
                             $available_coupons[] = $userCoupon;
                             break;
                         }
@@ -534,6 +535,8 @@ class OrdersController extends Controller
             });
             /* usage of coupon */
         }
+        $available_coupons = collect($available_coupons);
+        $available_coupons = $available_coupons->sortByDesc('saved_fee');
 
         /* usage of coupon */
         /*$saved_fees = [];

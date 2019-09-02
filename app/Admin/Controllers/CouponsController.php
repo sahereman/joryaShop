@@ -104,15 +104,15 @@ class CouponsController extends Controller
 
         $grid->actions(function ($actions) {
             // $actions->disableView();
-            $actions->disableEdit();
-            $actions->disableDelete();
+//            $actions->disableEdit();
+//            $actions->disableDelete();
         });
 
-        $grid->tools(function ($tools) {
-            $tools->batch(function ($batch) {
-                $batch->disableDelete();
-            });
-        });
+//        $grid->tools(function ($tools) {
+//            $tools->batch(function ($batch) {
+//                $batch->disableDelete();
+//            });
+//        });
 
         $grid->id('Id')->sortable();
         $grid->name('Name')->sortable();
@@ -222,7 +222,7 @@ class CouponsController extends Controller
             $form->hidden('_from_')->default(Builder::MODE_EDIT);
         }
 
-        $form->text('name', 'Name')->setWidth(2);
+        $form->text('name', 'Name')->setWidth(2)->rules('required');
 
         if ($this->mode == Builder::MODE_CREATE) {
             $form->select('type', '类型')->options(Coupon::$couponTypeMap)->default('discount');
@@ -266,14 +266,14 @@ class CouponsController extends Controller
         ];
         $form->switch('is_limited', '是否限量')->states($states)->default(0);*/
 
-        $form->number('allowance', '单人领取限额')->default(1)->rules('integer|min:1');
-        $form->checkbox('supported_product_types', '支持商品类型')->options(Product::$productTypeMap);
+        $form->number('allowance', '单人领取限额')->default(1)->rules('required|integer|min:1');
+        $form->checkbox('supported_product_types', '支持商品类型')->options(Product::$productTypeMap)->rules('required');
         $form->select('scenario', '用户领取场景')->options(Coupon::$couponScenarioMap)->default('register');
         $form->number('sort', '排序值')->default(9)->rules('required|integer|min:0')->help('默认倒序排列：数值越大越靠前');
 
         // $form->datetime('started_at', 'Started at')->default(date('Y-m-d H:i:s'));
         // $form->datetime('stopped_at', 'Stopped at')->default(date('Y-m-d H:i:s'));
-        $form->datetimeRange('started_at', 'stopped_at', '限时时段');
+        $form->datetimeRange('started_at', 'stopped_at', '限时时段')->rules('required');
 
         $form->ignore(['_from_']);
 

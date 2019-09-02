@@ -104,7 +104,7 @@
                                         <div class="cart-item-bottom">
                                             <p class="order-detail-title">ORDER DETAILS <span class="iconfont">&#xe605;</span></p>
                                             <div class="order-details">
-                                                 {{--循环的时候分奇偶数 --}}
+                                                {{--循环的时候分奇偶数 --}}
                                                 @foreach($attr_values[$item['sku']->id] as $key => $attr_value)
                                                     @if(($key + 1) % 2 == 1)
                                                         <div class="order-detail odd">
@@ -140,6 +140,16 @@
                         {{--<a href="javascript:void(0);" class="active" code="RMB" country="CNY">@lang('order.RMB')</a>--}}
                         <a href="javascript:void(0);" class="active" code="dollar" country="USD">@lang('order.Dollars')</a>
                     </p>
+
+                    <p class="main_title">优惠券选择</p>
+                    <p class="">
+                        <select class="coupon_selection" name="coupon_id">
+                            @foreach($available_coupons as $available_coupon)
+                                <option value="{{$available_coupon->id}}">{{$available_coupon->coupon_name}} - {{$available_coupon->saved_fee}}</option>
+                            @endforeach
+                        </select>
+                    </p>
+
                     <ul>
                         <li class="clear">
                             <span>@lang('order.order note')：</span>
@@ -184,6 +194,7 @@
                         </li>
                     </ul>
                 </div>
+
             </div>
         </div>
     </div>
@@ -262,13 +273,13 @@
     <script type="text/javascript">
         $(function () {
             // 点击展开和收起参数详情
-            $('.pre_payment-items').on("click",".order-detail-title",function () {
+            $('.pre_payment-items').on("click", ".order-detail-title", function () {
                 var clickDom = $(this);
-                if(clickDom.hasClass("active")){
+                if (clickDom.hasClass("active")) {
                     clickDom.removeClass("active");
                     clickDom.find("span").removeClass("active");
                     clickDom.parent(".cart-item-bottom").find(".order-details").slideUp();
-                }else {
+                } else {
                     clickDom.addClass("active");
                     clickDom.find("span").addClass("active");
                     clickDom.parent(".cart-item-bottom").find(".order-details").slideDown();
@@ -410,7 +421,7 @@
             });*/
             // 切换地址
             $(".change_address").on("click", function () {
-                if($(this).hasClass("for-login-show")) {
+                if ($(this).hasClass("for-login-show")) {
                     layer.alert("Please login first");
                     return
                 }
@@ -427,11 +438,11 @@
                             if (dataObj.length > 0) {
                                 var html = "";
                                 $.each(dataObj, function (i, n) {
-                                    html += "<li class='clear' code='"+ n.id +"'>" +
-                                            "<p class='clear'><span>@lang('order.Contact')：</span><span class='name'>" + n.name + "</span></p>" +
-                                            "<p class='clear'><span>@lang('order.Contact information')：</span><span class='phone'>" + n.phone + "</span></p>" +
-                                            "<p class='clear'><span>@lang('order.contact address')：</span><span class='address'>" + n.full_address + "</span></p>" +
-                                            "</li>";
+                                    html += "<li class='clear' code='" + n.id + "'>" +
+                                        "<p class='clear'><span>@lang('order.Contact')：</span><span class='name'>" + n.name + "</span></p>" +
+                                        "<p class='clear'><span>@lang('order.Contact information')：</span><span class='phone'>" + n.phone + "</span></p>" +
+                                        "<p class='clear'><span>@lang('order.contact address')：</span><span class='address'>" + n.full_address + "</span></p>" +
+                                        "</li>";
                                 });
                                 $(".changeAddress ul").html("");
                                 $(".changeAddress ul").append(html);
@@ -452,7 +463,7 @@
                                             $(".address_name").html($(".changeAddress").find("li.active").find(".name").html());
                                             $(".address_phone").html($(".changeAddress").find("li.active").find(".phone").html());
                                             $(".address_location").html($(".changeAddress").find("li.active").find(".address").html());
-                                            $(".pre_payment_header").attr("code",$(".changeAddress").find("li.active").attr("code"));
+                                            $(".pre_payment_header").attr("code", $(".changeAddress").find("li.active").attr("code"));
                                             layer.close(changeAdd);
                                         }
                                     },
@@ -518,6 +529,7 @@
                     }
                 }
             });
+
             // 第一类创建订单（直接下单）
             function payment_one(sku_id, number, url) {
                 var data = {
@@ -529,7 +541,8 @@
                     phone: $('.address_phone_bottom').text(),
                     address: $('.address_location_bottom').text(),
                     remark: $(".remark").val(),
-                    currency: $(".currency_selection").find("a.active").attr("country")
+                    currency: $(".currency_selection").find("a.active").attr("country"),
+                    coupon_id : $(".coupon_selection option:selected").val()
                 };
                 $.ajax({
                     type: "post",
@@ -564,7 +577,8 @@
                     phone: $('.address_phone_bottom').text(),
                     address: $('.address_location_bottom').text(),
                     remark: $(".remark").val(),
-                    currency: $(".currency_selection").find("a.active").attr("country")
+                    currency: $(".currency_selection").find("a.active").attr("country"),
+                    coupon_id : $(".coupon_selection option:selected").val()
                 };
                 $.ajax({
                     type: "post",
