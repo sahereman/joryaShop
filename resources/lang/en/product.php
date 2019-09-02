@@ -64,7 +64,7 @@ return [
         'hair_colour' => 'Color',
         'hair_density' => 'Density',
         'Quantity' => 'Qty',
-        'Buy now' => 'Buy It Now',
+        'Buy now' => 'Buy it Now',
         'Collection' => 'Collection',
         'Hot sales' => 'Hot Sales',
         'Popular sales' => 'Popular Sales',
