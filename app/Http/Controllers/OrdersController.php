@@ -512,10 +512,20 @@ class OrdersController extends Controller
             }
 
             /* usage of coupon */
-            $user->available_coupons->each(function (UserCoupon $userCoupon) use ($total_fee, $product_types, &$available_coupons) {
+            $user->available_coupons->each(function (UserCoupon $userCoupon) use ($items, $total_fee, $product_types, &$available_coupons) {
                 if ($userCoupon->proto_coupon->status == Coupon::COUPON_STATUS_USING && $userCoupon->proto_coupon->threshold <= $total_fee) {
                     foreach ($product_types as $product_type) {
                         if (in_array($product_type, $userCoupon->proto_coupon->supported_product_types)) {
+                            $proto_coupon = $userCoupon->proto_coupon;
+                            if ($proto_coupon->type == Coupon::COUPON_TYPE_REDUCTION) {
+                                $userCoupon->saved_fee = $proto_coupon->reduction;
+                            } else if ($proto_coupon->type == Coupon::COUPON_TYPE_DISCOUNT) {
+                                foreach ($items as $item) {
+                                    if (in_array($item['product']->type, $proto_coupon->supported_product_types)) {
+                                        $userCoupon->saved_fee += bcmul(bcadd($item['amount'], $item['shipping_fee'], 2), $proto_coupon->discount, 2);
+                                    }
+                                }
+                            }
                             $available_coupons[] = $userCoupon;
                             break;
                         }
@@ -526,7 +536,7 @@ class OrdersController extends Controller
         }
 
         /* usage of coupon */
-        $saved_fees = [];
+        /*$saved_fees = [];
         foreach ($available_coupons as $user_coupon) {
             $user_coupon_id = $user_coupon->id;
             $saved_fees[$user_coupon_id] = 0;
@@ -541,7 +551,7 @@ class OrdersController extends Controller
                 }
             }
         }
-        asort($saved_fees, SORT_NUMERIC);
+        asort($saved_fees, SORT_NUMERIC);*/
         /* usage of coupon */
 
         return view('orders.pre_payment', [
@@ -552,7 +562,7 @@ class OrdersController extends Controller
             'total_fee' => $total_fee,
             'saved_fee' => $saved_fee,
             'available_coupons' => $available_coupons,
-            'saved_fees' => $saved_fees,
+            // 'saved_fees' => $saved_fees,
             // 'countries' => json_encode($countries),
             'countries' => $countries,
             'provinces' => json_encode($provinces),
