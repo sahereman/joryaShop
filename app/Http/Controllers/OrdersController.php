@@ -362,7 +362,7 @@ class OrdersController extends Controller
             foreach ($discounts as $discount) {
                 if ($number >= $discount->number) {
                     $price = $discount->price;
-                    $discounted_fee = bcsub($sku->price, $discount->price, 2);
+                    $discounted_fee = bcsub($sku->product->price, $discount->price, 2);
                     break;
                 }
             }
@@ -413,7 +413,7 @@ class OrdersController extends Controller
                     foreach ($discounts as $discount) {
                         if ($number >= $discount->number) {
                             // $price = $discount->price;
-                            $discounted_fee = bcsub($sku->price, $discount->price, 2);
+                            $discounted_fee = bcsub($sku->product->price, $discount->price, 2);
                             break;
                         }
                     }
@@ -461,7 +461,7 @@ class OrdersController extends Controller
                     foreach ($discounts as $discount) {
                         if ($number >= $discount->number) {
                             $price = $discount->price;
-                            $discounted_fee = bcsub($sku->price, $discount->price, 2);
+                            $discounted_fee = bcsub($sku->product->price, $discount->price, 2);
                             break;
                         }
                     }
@@ -617,7 +617,7 @@ class OrdersController extends Controller
                 foreach ($discounts as $discount) {
                     if ($number >= $discount->number) {
                         $price = $discount->price;
-                        $discounted_fee = bcsub($sku->price, $discount->price, 2);
+                        $discounted_fee = bcsub($sku->product->price, $discount->price, 2);
                         break;
                     }
                 }
@@ -673,7 +673,7 @@ class OrdersController extends Controller
                             foreach ($discounts as $discount) {
                                 if ($number >= $discount->number) {
                                     $price = $discount->price;
-                                    $discounted_fee = bcsub($sku->price, $discount->price, 2);
+                                    $discounted_fee = bcsub($sku->product->price, $discount->price, 2);
                                     break;
                                 }
                             }
@@ -720,7 +720,7 @@ class OrdersController extends Controller
                             foreach ($discounts as $discount) {
                                 if ($number >= $discount->number) {
                                     // $price = $discount->price;
-                                    $discounted_fee = bcsub($sku->price, $discount->price, 2);
+                                    $discounted_fee = bcsub($sku->product->price, $discount->price, 2);
                                     break;
                                 }
                             }
