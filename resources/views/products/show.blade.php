@@ -174,6 +174,9 @@
                     <div id="sku-choose-store" class="sku-choose-store {{ $product->type == \App\Models\Product::PRODUCT_TYPE_CUSTOM ? ' dis_ni' : '' }}"></div>
                     {{-- skus参数数组 --}}
                     <input type="hidden" class="parameter-data" value="{{ json_encode($attributes) }}"/>
+                    {{--<div class="availableSold {{ $product->type == \App\Models\Product::PRODUCT_TYPE_CUSTOM ? ' dis_ni' : '' }}">--}}
+                        {{--<button class="Reset-filter">Reset Select</button>--}}
+                    {{--</div>--}}
                     {{-- 商品数量相关 --}}
                     <div class="priceOfpro {{ $product->type == \App\Models\Product::PRODUCT_TYPE_CUSTOM ? ' dis_ni' : '' }}">
                         <span class="buy_numbers">@lang('product.product_details.Quantity'):</span>
@@ -181,9 +184,6 @@
                             <span class="reduce no_allow"><i>-</i></span>
                             <input type="number" name="number" id="pro_num" value="1" min="1" max="99">
                             <span class="add"><i>+</i></span>
-                        </div>
-                        <div class="availableSold {{ $product->type == \App\Models\Product::PRODUCT_TYPE_CUSTOM ? ' dis_ni' : '' }}">
-                            <button class="Reset-filter">Reset filter</button>
                         </div>
                     </div>
                     <!--添加购物车与立即购买-->
@@ -516,7 +516,6 @@
                 prevEl: '.swiper-button-prev',
             },
         });
-
         var loading_animation;  // loading动画的全局name
         var current_page;  // 评价的当前页
         var next_page;   // 下一页的页码
@@ -840,7 +839,6 @@
         };
         // 数组选择器
         // 定义skus数组内容
-
         // 数据融合公用方法
         function  dataFusion(intArray,outArray) {
             $.each(intArray, function (sku_arr_i,sku_arr_n) {
@@ -926,13 +924,6 @@
                 return 0;
             }
         }
-        // function compare(prop){
-        //     return function (a,b) {
-        //         var value1 = a[prop];
-        //         var value2 = b[prop]
-        //         return value1 - value2;
-        //     }
-        // }
         dataFusionClassify(skus_arr_coalesce,skus_map,map,'name');
          // 根据数组对象进行去重
         function arrayUnique2(arr, name) {
@@ -977,7 +968,6 @@
             });
         }
         renderingNode();
-
         // 判断数组中是否存在重复标号
         function isExists(arr,aim,search){
             return arr.some(function(item) {
@@ -1087,10 +1077,9 @@
                 $("#slider1").find("img").removeClass("cloudzoom-gallery-active");
                 $(".for-choose-img").find("img").addClass("cloudzoom-gallery-active");
             }
-
-        // 每次切换时将临时仓库进行置空操作
-        temporary_storage = [];
-        sku_parameter.choose_classify_index = $(this).attr("data-index");
+             // 每次切换时将临时仓库进行置空操作
+             temporary_storage = [];
+             sku_parameter.choose_classify_index = $(this).attr("data-index");
         // for(var change_index = 0;change_index<=skus_map.length-1;change_index++){
             // 判断当前的操作的select的DOM节点
             // if(change_index == sku_parameter.choose_classify_index) {
@@ -1148,7 +1137,7 @@
                     storage_value_item.sort(compare("value"));
                     sku_parameter.optionHtml = "";
                     aimSelect = $(".sku-choose-store").find("select[name='"+ storage_value.name +"']");
-                    $(aimSelect).find("option").prop("disabled",true);
+                    // $(aimSelect).find("option").prop("disabled",true);
                     $(aimSelect).find("option").removeClass("allow-choose");
                     $(aimSelect).find("option").addClass("forbid-choose");
                     $.each(storage_value_item,function (storage_value_index,storage_value_content) {
@@ -1156,9 +1145,6 @@
                         $(aimSelect).find("option[value='"+ storage_value_content.value +"']").prop("disabled",false);
                         $(aimSelect).find("option[value='"+ storage_value_content.value +"']").removeClass("forbid-choose");
                         $(aimSelect).find("option[value='"+ storage_value_content.value +"']").addClass("allow-choose");
-                        // if(storage_value_index == 0){
-                        //     $(aimSelect).find("option[value='"+ storage_value_content.value +"']").prop("selected",true);
-                        // }
                     });
                     // $(aimSelect).find("option").remove();
                     // $(aimSelect).append(sku_parameter.optionHtml);
@@ -1168,6 +1154,7 @@
                                 $(aimSelect).find("option[value='"+ already_selected_value.value +"']").prop("selected",true);
                             }else {
                                 $($(aimSelect).find("option[class='allow-choose']")[0]).prop("selected",true);
+                                // layer.msg("The selected combination is currently out of stock and the selected properties have been reset")
                             }
                         }
                     });
@@ -1199,9 +1186,7 @@
                 if (!this || typeof fn !== 'function' || (fn instanceof RegExp)) {
                     throw new TypeError();
                 }
-
                 length = this.length;
-
                 for (i = 0; i < length; i++) {
                     if (this.hasOwnProperty(i)) {
                         value = this[i];
@@ -1261,7 +1246,6 @@
             }
             return number;
         }
-
         // 页面加载时将商品信息存储到localstorage中，方便之后进行调取
         // 判断浏览器是否支持 localStorage 属性
         var hisProductOld = [],
@@ -1334,7 +1318,6 @@
                 $(".browseFootprints").addClass("dis_n");
             }
         }
-
         // 商品详情iframe
         var iframe_content = $('.iframe_content').html();
         $('.iframe_content').html("");

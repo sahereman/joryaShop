@@ -541,7 +541,7 @@
           overflow: hidden;
           display: flex;
           flex-direction: row;
-          margin-top: 20px;
+          margin-top: 10px;
           margin-bottom: 5px;
           span {
             display: inline-block;
@@ -654,29 +654,28 @@
                   color: #888;
                 }
             }
-            .availableSold {
-              display: flex;
-              margin-left: 30px;
-              button {
-                margin: auto;
-                border: 1px solid #bc8c61;
-                font-size: 16px;
-                color: #000;
-                background-color: transparent;
-                height: 35px;
-                text-align: center;
-                &:hover {
-                  background: #bc8c61;
-                  color: #fff;
-                }
-              }
-                span {
-                    i {
-                        color: #4d80bf;
-                    }
-                }
-            }
         }
+      .availableSold {
+        display: flex;
+        button {
+          margin: auto 0;
+          border: 1px solid #bc8c61;
+          font-size: 16px;
+          color: #000;
+          background-color: transparent;
+          height: 35px;
+          text-align: center;
+          &:hover {
+            background: #bc8c61;
+            color: #fff;
+          }
+        }
+        span {
+          i {
+            color: #4d80bf;
+          }
+        }
+      }
         //添加购物车与立即购买
         .addCart_buyNow {
             width: 100%;
