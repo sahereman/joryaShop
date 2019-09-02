@@ -178,7 +178,7 @@
                                 <span>@lang('order.Amount payable')：</span>
                                 <span class="red dis_ni  RMB_num amount_of_money">&#165; <span>{{ exchange_price($total_fee, 'CNY') }}</span></span>
                                 <span class="red dollar_num amount_of_money">&#36; <span class="total_price" data-price="{{ $total_fee }}">{{ $total_fee }}</span></span>
-                                <span>(Saved fee: &#36;  <span class="coupon_num">{{ $saved_fee }}</span> )</span>
+                                <span>(Saved fee: &#36;  <span class="discounts_num" data-discounts="{{ $saved_fee }}">{{ $saved_fee }}</span> )</span>
                             </p>
                             <p>
                                 <a href="javascript:void(0);" class="payment_btn"
@@ -353,8 +353,16 @@
                 var couponNum = $(this).find("option:selected").attr("data-coupon-num");
                 // 商品最初的总价格
                 var oldPrice = $(".total_price").attr("data-price");
+                // 商品最初的优惠金额
+                var oldDiscounts = $(".discounts_num").attr("data-discounts");
                 var newPrice = float_multiply_by_100(oldPrice) - float_multiply_by_100(couponNum);
+                var newDiscounts = float_multiply_by_100(oldDiscounts) + float_multiply_by_100(couponNum);
                 $(".coupon_num").text(couponNum);
+                if(newDiscounts == 0){
+                    $(".discounts_num").text("0");
+                }else {
+                    $(".discounts_num").text(js_number_format(newDiscounts/ 100));
+                }
             //    计算选择优惠券后的总价格
                 $(".total_price").text(js_number_format(newPrice/ 100));
             });
