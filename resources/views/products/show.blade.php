@@ -997,6 +997,7 @@
             var allChooseSelect = $(".sku-choose-store").find("select");
             $.each(allChooseSelect,function (chooseSelect_in,chooseSelect_value) {
                 if($(chooseSelect_value).val() == "select"||!$(chooseSelect_value).val()){
+                    console.log($(chooseSelect_value).val())
                     forTipArr.push($(chooseSelect_value).val())
                 }else {
                     searchArr.push({name: $(chooseSelect_value).attr("name"),value: $(chooseSelect_value).val() })
@@ -1005,6 +1006,8 @@
             if(forTipArr.length!=0){
                 haschoose = false;
                 return haschoose
+            }else {
+                haschoose = true;
             }
             for(var arr_key in skus_arr) {
                 newSkuArray.push({id:arr_key,data:skus_arr[arr_key]});

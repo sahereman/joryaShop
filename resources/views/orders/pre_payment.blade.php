@@ -140,16 +140,18 @@
                         {{--<a href="javascript:void(0);" class="active" code="RMB" country="CNY">@lang('order.RMB')</a>--}}
                         <a href="javascript:void(0);" class="active" code="dollar" country="USD">@lang('order.Dollars')</a>
                     </p>
-
-                    <p class="main_title">优惠券选择</p>
-                    <p class="">
+                    <p class="main_title">Discount coupon</p>
+                    <p class="coupon-select">
                         <select class="coupon_selection" name="coupon_id">
+                            <option value="0" data-coupon-num="0">Don't use coupons</option>
                             @foreach($available_coupons as $available_coupon)
-                                <option value="{{$available_coupon->id}}">{{$available_coupon->coupon_name}} - {{$available_coupon->saved_fee}}</option>
+                                <option value="{{$available_coupon->id}}"
+                                        data-coupon-num="{{$available_coupon->saved_fee}}">
+                                    {{$available_coupon->coupon_name}} - {{$available_coupon->saved_fee}}
+                                </option>
                             @endforeach
                         </select>
                     </p>
-
                     <ul>
                         <li class="clear">
                             <span>@lang('order.order note')：</span>
@@ -166,12 +168,16 @@
                                 <span class="dis_ni RMB_num amount_of_money">&#165; <span>{{ exchange_price($total_shipping_fee, 'CNY') }}</span></span>
                                 <span class="dollar_num amount_of_money">&#36; <span>{{ $total_shipping_fee }}</span></span>
                             </p>
+                            <p>
+                              <span>Discount：</span>
+                              <span class="dollar_num amount_of_money coupon_of_money">&#36; <span class="coupon_num">0</span></span>
+                            </p>
                         </li>
                         <li>
                             <p>
                                 <span>@lang('order.Amount payable')：</span>
                                 <span class="red dis_ni  RMB_num amount_of_money">&#165; <span>{{ exchange_price($total_fee, 'CNY') }}</span></span>
-                                <span class="red dollar_num amount_of_money">&#36; <span>{{ $total_fee }}</span></span>
+                                <span class="red dollar_num amount_of_money">&#36; <span class="total_price" data-price="{{ $total_fee }}">{{ $total_fee }}</span></span>
                                 <span>(Saved fee: &#36; {{ $saved_fee }} )</span>
                             </p>
                             <p>
@@ -305,6 +311,52 @@
                     default :
                         break;
                 }
+            });
+            // 数据计算方法
+            function float_multiply_by_100(float) {
+                float = String(float);
+                // float = float.toString();
+                var index_of_dec_point = float.indexOf('.');
+                if (index_of_dec_point == -1) {
+                    float += '00';
+                } else {
+                    var float_splitted = float.split('.');
+                    var dec_length = float_splitted[1].length;
+                    if (dec_length == 1) {
+                        float_splitted[1] += '0';
+                    } else if (dec_length > 2) {
+                        float_splitted[1] = float_splitted[1].substring(0, 1);
+                    }
+                    float = float_splitted.join('');
+                }
+                return Number(float);
+            }
+            function js_number_format(number) {
+                number = String(number);
+                var index_of_dec_point = number.indexOf('.');
+                if (index_of_dec_point == -1) {
+                    number += '.00';
+                } else {
+                    var number_splitted = number.split('.');
+                    var dec_length = number_splitted[1].length;
+                    if (dec_length == 1) {
+                        number += '0';
+                    } else if (dec_length > 2) {
+                        number_splitted[1] = number_splitted[1].substring(0, 2);
+                        number = number_splitted.join('.');
+                    }
+                }
+                return number;
+            }
+            //优惠券切换
+            $(".coupon_selection").on("click",function () {
+                var couponNum = $(this).find("option:selected").attr("data-coupon-num");
+                // 商品最初的总价格
+                var oldPrice = $(".total_price").attr("data-price");
+                var newPrice = float_multiply_by_100(oldPrice) - float_multiply_by_100(couponNum);
+                $(".coupon_of_money").find(".coupon_num").text(couponNum);
+            //    计算选择优惠券后的总价格
+                $(".total_price").text(js_number_format(newPrice/ 100));
             });
 
             $("#creat-form").validate({

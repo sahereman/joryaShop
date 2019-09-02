@@ -286,6 +286,7 @@
             .currency_selection {
                 width: 100%;
                 padding-left: 20px;
+                margin-bottom: 20px;
                 a {
                     display: inline-block;
                     width: 110px;
@@ -302,14 +303,23 @@
                     }
                 }
             }
+          .coupon-select {
+            padding-left: 20px;
+            select {
+              padding: 5px;
+              height: 30px;
+              background: #fff;
+              border: 1px solid #ddd;
+            }
+          }
             ul {
                 width: 100%;
-                height: 407px;
+                min-height: 407px;
                 background: #f0f0f0;
                 margin-top: 60px;
                 li {
                     width: 100%;
-                    height: 95px;
+                    min-height: 95px;
                     border-bottom: 1px dashed #dadada;
                     padding-right: 30px;
                     &:first-of-type {
@@ -337,6 +347,7 @@
                     }
                     &:nth-of-type(2) {
                         text-align: right;
+                        padding-bottom: 20px;
                         p {
                             font-size: 16px;
                             color: #333;

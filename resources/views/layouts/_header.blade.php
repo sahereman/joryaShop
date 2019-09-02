@@ -100,7 +100,7 @@
                                 <ul>
                                     <li>
                                         <em class="red">*</em>
-                                        <input type="text" name="username" autocomplete="off" required placeholder="Email Address">
+                                        <input type="text" name="username" autocomplete="off" required placeholder="Email or Phone">
                                     </li>
                                     <li>
                                         <em class="red">*</em>
