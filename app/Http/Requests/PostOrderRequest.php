@@ -19,7 +19,7 @@ class PostOrderRequest extends Request
      */
     public function rules()
     {
-        if ($this->routeIs('orders.store')) {
+        if ($this->routeIs('orders.store') || $this->routeIs('orders.get_total_shipping_fee')) {
             return [
                 'currency' => [
                     'bail',
@@ -97,6 +97,7 @@ class PostOrderRequest extends Request
                 'name' => 'bail|sometimes|nullable|string',
                 'phone' => 'bail|sometimes|nullable|string',
                 'address' => 'bail|sometimes|nullable|string',
+                'province' => 'bail|required|string',
                 'remark' => 'bail|sometimes|nullable|string',
             ];
         } elseif ($this->routeIs('orders.get_available_coupons') || $this->routeIs('orders.pre_payment')) {

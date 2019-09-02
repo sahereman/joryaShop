@@ -140,18 +140,20 @@
                         {{--<a href="javascript:void(0);" class="active" code="RMB" country="CNY">@lang('order.RMB')</a>--}}
                         <a href="javascript:void(0);" class="active" code="dollar" country="USD">@lang('order.Dollars')</a>
                     </p>
-                    <p class="main_title">Discount coupon</p>
-                    <p class="coupon-select">
-                        <select class="coupon_selection" name="coupon_id">
-                            <option value="0" data-coupon-num="0">Don't use coupons</option>
-                            @foreach($available_coupons as $available_coupon)
-                                <option value="{{$available_coupon->id}}"
-                                        data-coupon-num="{{$available_coupon->saved_fee}}">
-                                    {{$available_coupon->coupon_name}} - {{$available_coupon->saved_fee}}
-                                </option>
-                            @endforeach
-                        </select>
-                    </p>
+                    @if($available_coupons->isNotEmpty())
+                        <p class="main_title">Discount coupon</p>
+                        <p class="coupon-select">
+                            <select class="coupon_selection" name="coupon_id">
+                                <option value="0" data-coupon-num="0">Don't use coupons</option>
+                                @foreach($available_coupons as $available_coupon)
+                                    <option value="{{$available_coupon->id}}"
+                                            data-coupon-num="{{$available_coupon->saved_fee}}">
+                                        {{$available_coupon->coupon_name}} - {{$available_coupon->saved_fee}}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </p>
+                    @endif
                     <ul>
                         <li class="clear">
                             <span>@lang('order.order note')：</span>
@@ -190,12 +192,14 @@
                                     <span class="address_phone address_phone_bottom">{{ $address->phone }}</span>
                                 </p>
                                 <p class="address_info address_location address_location_bottom">{{ $address->full_address }}</p>
+                                <p class="address_info address_province address_province_bottom dis_ni">{{ $address->province }}</p>
                             @else
                                 <p class="address_info">
                                     <span class="address_name address_name_bottom"></span>
                                     <span class="address_phone address_phone_bottom"></span>
                                 </p>
                                 <p class="address_info address_location address_location_bottom"></p>
+                                <p class="address_info address_province address_province_bottom dis_ni"></p>
                             @endif
                         </li>
                     </ul>
@@ -423,6 +427,7 @@
                                     $(".address_name").html(json.data.address.name);
                                     $(".address_phone").html(json.data.address.phone);
                                     $(".address_location").html(json.data.address.full_address);
+                                    $(".address_province").html(json.data.address.province);
                                     $(".pre_payment_header").attr("code", json.data.address.id);
                                     $(".new_receipt_address").hide();
                                     layer.close(index);
@@ -600,10 +605,15 @@
                     name: $('.address_name_bottom').text(),
                     phone: $('.address_phone_bottom').text(),
                     address: $('.address_location_bottom').text(),
+                    province: $('.address_province_bottom').text(),
                     remark: $(".remark").val(),
                     currency: $(".currency_selection").find("a.active").attr("country"),
-                    coupon_id : $(".coupon_selection option:selected").val()
+                    // coupon_id : $(".coupon_selection option:selected").val()
                 };
+                var coupon_id = $(".coupon_selection option:selected").val();
+                if (coupon_id != 0) {
+                    data.coupon_id = coupon_id;
+                }
                 $.ajax({
                     type: "post",
                     url: url,
@@ -636,10 +646,15 @@
                     name: $('.address_name_bottom').text(),
                     phone: $('.address_phone_bottom').text(),
                     address: $('.address_location_bottom').text(),
+                    province: $('.address_province_bottom').text(),
                     remark: $(".remark").val(),
                     currency: $(".currency_selection").find("a.active").attr("country"),
-                    coupon_id : $(".coupon_selection option:selected").val()
+                    // coupon_id : $(".coupon_selection option:selected").val()
                 };
+                var coupon_id = $(".coupon_selection option:selected").val();
+                if (coupon_id != 0) {
+                    data.coupon_id = coupon_id;
+                }
                 $.ajax({
                     type: "post",
                     url: url,
