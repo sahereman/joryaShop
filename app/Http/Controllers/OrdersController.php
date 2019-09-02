@@ -616,7 +616,7 @@ class OrdersController extends Controller
                 $discounts = $product->discounts()->orderBy('number', 'desc')->get();
                 foreach ($discounts as $discount) {
                     if ($number >= $discount->number) {
-                        $price = bcadd($sku->delta_price, $discount->price, 2);
+                        // $price = bcadd($sku->delta_price, $discount->price, 2);
                         $discounted_fee = bcsub($sku->product->price, $discount->price, 2);
                         break;
                     }
@@ -672,7 +672,7 @@ class OrdersController extends Controller
                         if ($discounts->isNotEmpty()) {
                             foreach ($discounts as $discount) {
                                 if ($number >= $discount->number) {
-                                    $price = bcadd($sku->delta_price, $discount->price, 2);
+                                    // $price = bcadd($sku->delta_price, $discount->price, 2);
                                     $discounted_fee = bcsub($sku->product->price, $discount->price, 2);
                                     break;
                                 }
@@ -719,7 +719,7 @@ class OrdersController extends Controller
                         if ($discounts->isNotEmpty()) {
                             foreach ($discounts as $discount) {
                                 if ($number >= $discount->number) {
-                                    $price = bcadd($sku->delta_price, $discount->price, 2);
+                                    // $price = bcadd($sku->delta_price, $discount->price, 2);
                                     $discounted_fee = bcsub($sku->product->price, $discount->price, 2);
                                     break;
                                 }
