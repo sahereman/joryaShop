@@ -168,7 +168,7 @@
                             <p>
                                 <span>@lang('order.freight')：</span>
                                 <span class="dis_ni RMB_num amount_of_money">&#165; <span>{{ exchange_price($total_shipping_fee, 'CNY') }}</span></span>
-                                <span class="dollar_num amount_of_money">&#36; <span>{{ $total_shipping_fee }}</span></span>
+                                <span class="dollar_num amount_of_money">&#36; <span class="total_shipping_fee">{{ $total_shipping_fee }}</span></span>
                             </p>
                             <p>
                               <span>Discount：</span>
@@ -382,6 +382,12 @@
                     address: {
                         required: true
                     },
+                    country: {
+                        required: true
+                    },
+                    province: {
+                        required: true
+                    }
                 },
                 messages: {
                     name: {
@@ -393,6 +399,12 @@
                     address: {
                         required: "@lang('Please enter the detailed shipping address')"
                     },
+                    country: {
+                        required: "Please select a country"
+                    },
+                    province: {
+                        required: "Please select a state/province/region"
+                    }
                 },
             });
 
@@ -406,6 +418,10 @@
                     content: $('#addNewAddress'),
                     yes: function (index, layero) {
                         if ($("#creat-form").valid()) {
+                            if($(".new_receipt_address .user_country").val() == 0||$(".new_receipt_address .user_province").val() == 0) {
+                                layer.msg("Please select country and state/province/region");
+                                return
+                            }
                             var data = {
                                 _token: "{{ csrf_token() }}",
                                 name: $(".new_receipt_address .user_name").val(),
@@ -421,16 +437,36 @@
                                 type: "post",
                                 url: $("#creat-form").attr("data-url"),
                                 data: data,
-                                beforeSend: function () {
-                                },
                                 success: function (json) {
                                     $(".address_name").html(json.data.address.name);
                                     $(".address_phone").html(json.data.address.phone);
                                     $(".address_location").html(json.data.address.full_address);
                                     $(".address_province").html(json.data.address.province);
                                     $(".pre_payment_header").attr("code", json.data.address.id);
-                                    $(".new_receipt_address").hide();
+                                    document.getElementById("creat-form").reset();
                                     layer.close(index);
+                                //    新建地址保存成功后调用获取运费的接口
+                                    var sendWay = getUrlVars("sendWay");
+                                    var requestData ;
+                                    switch (sendWay) {
+                                        case "1":
+                                            requestData= {
+                                                sku_id: getUrlVars("sku_id"),
+                                                number: getUrlVars("number"),
+                                                province: json.data.address.province
+                                            };
+                                            break;
+                                        case "2":
+                                            var sku_ids = getUrlVars("sku_ids");
+                                            requestData= {
+                                                sku_ids:  getUrlVars("sku_ids"),
+                                                province: json.data.address.province
+                                            };
+                                            break;
+                                        default :
+                                            break;
+                                    }
+                                    getTotalShippingFee(requestData);
                                 },
                                 error: function (err) {
                                     var arr = [];
@@ -439,9 +475,7 @@
                                         arr.push(dataobj[i]); //属性
                                     }
                                     layer.msg(arr[0][0]);
-                                },
-                                complete: function () {
-                                },
+                                }
                             });
                         }
                     }
@@ -491,7 +525,7 @@
                     return
                 }
                 var url = $(this).attr("data-url");
-                var changeAdd;
+                var changeAdd,userProvince;
                 $.ajax({
                     type: "get",
                     url: url,
@@ -507,6 +541,7 @@
                                         "<p class='clear'><span>@lang('order.Contact')：</span><span class='name'>" + n.name + "</span></p>" +
                                         "<p class='clear'><span>@lang('order.Contact information')：</span><span class='phone'>" + n.phone + "</span></p>" +
                                         "<p class='clear'><span>@lang('order.contact address')：</span><span class='address'>" + n.full_address + "</span></p>" +
+                                        "<p class='dis_ni'><span class='user_province'>" + n.province + "</span></p>" +
                                         "</li>";
                                 });
                                 $(".changeAddress ul").html("");
@@ -529,7 +564,30 @@
                                             $(".address_phone").html($(".changeAddress").find("li.active").find(".phone").html());
                                             $(".address_location").html($(".changeAddress").find("li.active").find(".address").html());
                                             $(".pre_payment_header").attr("code", $(".changeAddress").find("li.active").attr("code"));
+                                            userProvince = $(".changeAddress").find("li.active").find(".user_province").html();
                                             layer.close(changeAdd);
+                                            //    新建地址保存成功后调用获取运费的接口
+                                            var sendWay = getUrlVars("sendWay");
+                                            var requestData ;
+                                            switch (sendWay) {
+                                                case "1":
+                                                    requestData= {
+                                                        sku_id: getUrlVars("sku_id"),
+                                                        number: getUrlVars("number"),
+                                                        province: userProvince
+                                                    };
+                                                    break;
+                                                case "2":
+                                                    var sku_ids = getUrlVars("sku_ids");
+                                                    requestData= {
+                                                        sku_ids:  getUrlVars("sku_ids"),
+                                                        province: userProvince
+                                                    };
+                                                    break;
+                                                default :
+                                                    break;
+                                            }
+                                            getTotalShippingFee(requestData);
                                         }
                                     },
                                     btn2: function () { // 取消
@@ -629,8 +687,12 @@
                         window.location.href = json.data.request_url;
                     },
                     error: function (err) {
-                        console.log(err);
-                        layer.msg($.parseJSON(err.responseText).errors.currency[0])
+                        var arr = []
+                        var dataobj = err.responseJSON.errors;
+                        for (var i in dataobj) {
+                            arr.push(dataobj[i]); //属性
+                        }
+                        layer.msg(arr[0][0]);
                     },
                     complete: function () {
                     }
@@ -670,8 +732,12 @@
                         window.location.href = json.data.request_url;
                     },
                     error: function (err) {
-                        console.log(err);
-                        layer.msg($.parseJSON(err.responseText).errors.currency[0])
+                        var arr = []
+                        var dataobj = err.responseJSON.errors;
+                        for (var i in dataobj) {
+                            arr.push(dataobj[i]); //属性
+                        }
+                        layer.msg(arr[0][0]);
                     },
                     complete: function () {
                     },
@@ -732,6 +798,27 @@
                     }
                 }
             };
+        //    根据地址变化获取运费获取运费
+            function getTotalShippingFee(requestData) {
+                var requestUrl = "{{ route('orders.get_total_shipping_fee') }}";
+                var data = requestData;
+                $.ajax({
+                    type: "get",
+                    url: requestUrl,
+                    data: data,
+                    success: function (json) {
+                        $(".total_shipping_fee").text(json.total_shipping_fee)
+                    },
+                    error: function (err) {
+                        var arr = []
+                        var dataobj = err.responseJSON.errors;
+                        for (var i in dataobj) {
+                            arr.push(dataobj[i]); //属性
+                        }
+                        layer.msg(arr[0][0]);
+                    }
+                });
+            }
         });
     </script>
 @endsection
