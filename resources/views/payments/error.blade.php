@@ -28,8 +28,8 @@
                     <a href="{{ route('orders.index') }}">@lang('order.View order list')</a>
                     <a href="{{ route('root') }}">@lang('order.Continue to buy')</a>
                 </p>
-                <h3>错误信息：</h3>
-                {{ $message }}
+                {{--<h3>错误信息：</h3>
+                {{ $message }}--}}
             </div>
         </div>
     </div>

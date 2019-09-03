@@ -352,7 +352,7 @@
                         <p class="total_cost">
                             <span class="title">@lang('order.Total amount payable')：</span>
                             {{--<span class="cost_of_total">{{ ($order->currency == 'USD') ? '&#36;' : '&#165;' }} {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}</span>--}}
-                            <span class="cost_of_total">{{ get_symbol_by_currency($order->currency) }} {{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}</span>
+                            <span class="cost_of_total">{{ get_symbol_by_currency($order->currency) }} {{ bcsub(bcadd($order->total_amount, $order->total_shipping_fee, 2), $order->saved_fee, 2) }}</span>
                         </p>
                     </div>
                 </div>
