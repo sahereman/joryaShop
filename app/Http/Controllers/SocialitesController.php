@@ -4,13 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Clients\FacebookGuzzle6HttpClient;
 use App\Exceptions\InvalidRequestException;
+use App\Models\Coupon;
 use App\Models\User;
+use App\Models\UserCoupon;
 use Facebook\Exceptions\FacebookResponseException;
 use Facebook\Exceptions\FacebookSDKException;
 use Facebook\Facebook;
 use Facebook\GraphNodes\GraphUser;
 use Facebook\Helpers\FacebookRedirectLoginHelper;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
