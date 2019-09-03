@@ -210,6 +210,7 @@ class RegisterController extends Controller
             'title' => 'You just received ' . $coupon_count . ' new coupons: ' . $coupon_names,
             'link' => ''
         ]));
+        /* Send coupons to the newly registered user */
 
         return response()->json([
             'code' => 200,

@@ -449,6 +449,27 @@ class SocialitesController extends Controller
                     // 'gender' => $user_profile->getGender(),
                     'facebook' => $user_profile->getId()
                 ]);
+
+                /* Send coupons to the newly registered user */
+                $coupons = Coupon::where(['scenario' => Coupon::COUPON_SCENARIO_REGISTER])->get()->filter(function (Coupon $coupon) {
+                    return $coupon->status == Coupon::COUPON_STATUS_USING;
+                });
+                $coupon_names = '';
+                $coupons->each(function (Coupon $coupon) use ($user, &$coupon_names) {
+                    UserCoupon::create([
+                        'user_id' => $user->id,
+                        'coupon_id' => $coupon->id,
+                        'got_at' => Carbon::now()->toDateTimeString()
+                    ]);
+                    $coupon_names .= $coupon->name . ', ';
+                });
+                $coupon_count = $coupons->count();
+                $coupon_names = substr($coupon_names, 0, -2);
+                $user->notify(new AdminCustomNotification([
+                    'title' => 'You just received ' . $coupon_count . ' new coupons: ' . $coupon_names,
+                    'link' => ''
+                ]));
+                /* Send coupons to the newly registered user */
             } else if (!$user->avatar) {
                 $user->avatar = $this->getAvatarUrl($user_profile);
                 $user->save();
