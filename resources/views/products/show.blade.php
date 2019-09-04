@@ -1325,6 +1325,7 @@
         var iframe_content = $('.iframe_content').html();
         $('.iframe_content').html("");
         $('#cmsCon').contents().find('body').html(iframe_content);
+        $('#cmsCon').contents().find('body').find("a").css("text-decoration","none");
         var x = document.getElementById('cmsCon').contentWindow.document.getElementsByTagName('table');   
         x.border = "1";   
         autoHeight();  //动态调整高度
