@@ -150,7 +150,7 @@
                             <span class="price" id="old-price-695"><i>{{ get_global_symbol() }} </i>{{ bcmul(get_current_price($product->price), 1.2, 2) }}</span>
                         </p>
                         <p class="special-price">
-                            <span class="price" id="product-price-695"><i>{{ get_global_symbol() }} </i>{{ get_current_price($product->price) }}</span>
+                            <span class="price" id="product-price-695"><i>{{ get_global_symbol() }} </i><span id="product-price">{{ get_current_price($product->price) }}</span></span>
                         </p>
                         <div class="clear"></div>
                         @if($shipment_template == null)
@@ -925,7 +925,7 @@
             }
         }
         dataFusionClassify(skus_arr_coalesce,skus_map,map,'name');
-         // 根据数组对象进行去重
+        // 根据数组对象进行去重
         function arrayUnique2(arr, name) {
             var hash = {};
             return arr.reduce(function (item, next) {
@@ -997,7 +997,6 @@
             var allChooseSelect = $(".sku-choose-store").find("select");
             $.each(allChooseSelect,function (chooseSelect_in,chooseSelect_value) {
                 if($(chooseSelect_value).val() == "select"||!$(chooseSelect_value).val()){
-                    console.log($(chooseSelect_value).val())
                     forTipArr.push($(chooseSelect_value).val())
                 }else {
                     searchArr.push({name: $(chooseSelect_value).attr("name"),value: $(chooseSelect_value).val() })
@@ -1044,7 +1043,8 @@
             $.each(finalArray,function (finalArray_i,finalArray_n) {
                 if(finalArray_n.data.length == aimLength) {
                     sku_id = finalArray_n.name;
-                    sku_stock = skus_arr[sku_id][0].stock
+                    sku_stock = skus_arr[sku_id][0].stock;
+                    sku_price = skus_arr[sku_id][0].price;
                 }
             });
         }
@@ -1151,12 +1151,20 @@
                     });
                     // $(aimSelect).find("option").remove();
                     // $(aimSelect).append(sku_parameter.optionHtml);
+                    if(already_selected.length == skus_map.length){
+                        getSkuId();
+                        $("#product-price").text(sku_price);
+                    }
                     $.each(already_selected,function (already_selected_key,already_selected_value) {
                         if(aimSelect.attr("data-index") == already_selected_value.select_index) {
                             if(!$(aimSelect).find("option[value='"+ already_selected_value.value +"']").hasClass("forbid-choose")){
                                 $(aimSelect).find("option[value='"+ already_selected_value.value +"']").prop("selected",true);
                             }else {
                                 $($(aimSelect).find("option[class='allow-choose']")[0]).prop("selected",true);
+                                if(already_selected.length == skus_map.length){
+                                    getSkuId();
+                                    $("#product-price").text(sku_price);
+                                }
                                 // layer.msg("The selected combination is currently out of stock and the selected properties have been reset")
                             }
                         }
