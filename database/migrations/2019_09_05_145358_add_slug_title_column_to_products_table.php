@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddSlugTitleColumnToProductCategoriesTable extends Migration
+class AddSlugTitleColumnToProductsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class AddSlugTitleColumnToProductCategoriesTable extends Migration
      */
     public function up()
     {
-        Schema::table('product_categories', function (Blueprint $table) {
-            $table->string('slug_title')->nullable()->comment('slug title')->after('slug');
+        Schema::table('products', function (Blueprint $table) {
+            $table->string('slug_title')->nullable()->comment('短链接')->after('slug');
         });
     }
 
@@ -25,7 +25,7 @@ class AddSlugTitleColumnToProductCategoriesTable extends Migration
      */
     public function down()
     {
-        Schema::table('product_categories', function (Blueprint $table) {
+        Schema::table('products', function (Blueprint $table) {
             $table->dropColumn('slug_title');
         });
     }

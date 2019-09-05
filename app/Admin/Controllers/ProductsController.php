@@ -264,8 +264,9 @@ class ProductsController extends Controller
         $show->id('ID');
         // $show->name_zh('名称(中文)');
         $show->name_en('标题');
-        // $show->description_zh('描述(中文)');
+        $show->slug_title('短链接');
         $show->sub_name_en('副标题');
+        // $show->description_zh('描述(中文)');
         $show->description_en('描述');
         $show->thumb('缩略图')->image();
         $show->photos('相册')->as(function ($photos) {
@@ -496,10 +497,12 @@ class ProductsController extends Controller
         $form->select('service', '服务内容')->options(ProductService::availableOptions())->rules('required|exists:product_services,description');
         // $form->text('name_zh', '名称(中文)')->rules('required');
         $form->hidden('name_zh', '名称(中文)')->default('lyrical');
-        $form->text('name_en', '标题')->rules('required');
+        $form->text('name_en', '标题')->rules('required|string');
+
+        $form->text('slug_title', '短链接')->rules('required|string');
 
         $form->hidden('sub_name_zh', '副标题(中文)')->default('lyrical');
-        $form->text('sub_name_en', '副标题')->rules('required');
+        $form->text('sub_name_en', '副标题')->rules('required|string');
 
         /* 2019-04-09 for SEO */
         $form->text('seo_title', 'SEO - 标题');

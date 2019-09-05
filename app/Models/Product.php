@@ -18,7 +18,7 @@ class Product extends Model
     {
         return [
             'slug' => [
-                'source' => 'name_en'
+                'source' => 'slug_title'
             ]
         ];
     }
@@ -44,6 +44,8 @@ class Product extends Model
      * @var array
      */
     protected $fillable = [
+        'slug',
+        'slug_title',
         'product_category_id',
         'type',
         'name_en',
