@@ -11,7 +11,7 @@
                         </div>
                         <div class="cart-empty">
                             <p>You have no items in your shopping cart.</p>
-                            <p><a href="{{ route('root') }}">Click Here</a>to continue shopping.</p>
+                            <p><a href="{{ route('root') }}">Click Here</a> to continue shopping.</p>
                         </div>
                     </div>
                 @else

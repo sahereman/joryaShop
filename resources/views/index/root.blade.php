@@ -33,14 +33,24 @@
                         <img src="{{ asset("img/Home/video_img.png") }}">
                     </div>
                     {{--<iframe id="player" type="text/html" width="517" height="330"--}}
-                            {{--src="http://www.youtube.com/embed/ziGD7vQOwl8?showinfo=0&rel=0&autoplay=1"--}}
-                            {{--frameborder="0" allow="autoplay" allowfullscreen/>--}}
+                    {{--src="http://www.youtube.com/embed/ziGD7vQOwl8?showinfo=0&rel=0&autoplay=1"--}}
+                    {{--frameborder="0" allow="autoplay" allowfullscreen/>--}}
                 </div>
                 <div class="lyrical-intro-text" data-scroll-reveal>
                     {{--lyrical文字简介--}}
                     <div class="iframe_content">
-                        <p>Lyricalhair is a hair replacement system manufacturer and global online retailer. Our first factory was established in 1999.</p>
-                        <p>We also offer significant savings because we are an internet based business; our overhead costs are much lower and we pass these additional savings on to you. We offer this new way to get a hair replacement which is both affordable and easy to order, without ever leaving the comfort of your home. Remember, you can always get <span>INDIVIDUALLY CUSTOMISED</span> hair replacement systems. Base material, base material color, size, hair color, hair length, density, hair texture, </p>
+                        <p>
+                            Lyricalhair is a hair replacement system manufacturer and global online retailer.
+                            Our first factory was established in 1999.
+                        </p>
+                        <p>
+                            We also offer significant savings because we are an internet based business;
+                            our overhead costs are much lower and we pass these additional savings on to you.
+                            We offer this new way to get a hair replacement which is both affordable and easy to order,
+                            without ever leaving the comfort of your home.
+                            Remember, you can always get <span>INDIVIDUALLY CUSTOMISED</span> hair replacement systems.
+                            Base material, base material color, size, hair color, hair length, density, hair texture,
+                        </p>
                     </div>
                     {{--<iframe name="cmsCon" id="cmsCon" class="cmsCon" frameborder="0" width="100%" scrolling="no" height="auto"></iframe>--}}
                 </div>
@@ -63,25 +73,44 @@
             </div>
             <div class="hair-system-classify" data-scroll-reveal>
                 <div class="hair-system-classify-title"><span>Product Zone</span></div>
-                <div class="hair-system-classify-kinds">
-                    <?php $_ii=0; while ($_ii++ < 3): ?>
-                        <div class="classify-kinds-item">
-                            <a href="">MEN’S HAIR SYSTEM</a>
-                        </div>
-                    <?php endwhile; ?>
-                    {{--超过3个就显示更多--}}
-                    <div class="classify-kinds-item more-kinds-item">
-                        <a href="javascript:void(0)" class="more-kinds iconfont">&#xe617;</a>
+                @if($categories)
+                    <div class="hair-system-classify-kinds">
+                        @if(count($categories) <= 3)
+                            @foreach($categories as $category)
+                                <div class="classify-kinds-item">
+                                    <a href="{{ route('seo_url', $category->slug) }}">{{ $category->name_en }}</a>
+                                </div>
+                            @endforeach
+                        @else
+                            @foreach($categories as $key => $category)
+                                @if($key < 2)
+                                    <div class="classify-kinds-item">
+                                        <a href="{{ route('seo_url', $category->slug) }}">{{ $category->name_en }}</a>
+                                    </div>
+                                @elseif($key == 2)
+                                    <div class="classify-kinds-item">
+                                        <a href="{{ route('seo_url', $category->slug) }}">{{ $category->name_en }}</a>
+                                    </div>
+                                    {{--超过3个就显示更多--}}
+                                    <div class="classify-kinds-item more-kinds-item">
+                                        <a href="javascript:void(0)" class="more-kinds iconfont">&#xe617;</a>
+                                    </div>
+                                    {{--多于三个的存放位置--}}
+                                    <div class="more-classify-kinds-box">
+                                        <ul class="more-classify-kinds">
+                                            @else
+                                                <li title="{{ $category->name_en }}">
+                                                    <a href="{{ route('seo_url', $category->slug) }}">
+                                                        {{ $category->name_en }}
+                                                    </a>
+                                                </li>
+                                            @endif
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                        @endif
                     </div>
-                    {{--多于三个的存放位置--}}
-                    <div class="more-classify-kinds-box">
-                        <ul class="more-classify-kinds">
-                            <?php $_ii=0; while ($_ii++ < 9): ?>
-                                <li title="MEN’S HAIR SYSTEM"><a href="">MEN’S HAIR SYSTEM</a></li>
-                            <?php endwhile; ?>
-                        </ul>
-                    </div>
-                </div>
+                @endif
                 {{--移动端显示所有的分类选项,把上面的分类不分组直接显示在下面的列表里面--}}
                 <div class="classify-kinds-mobile">
                     <div class="classify-kinds-mobile-btn">
@@ -89,9 +118,13 @@
                     </div>
                     <div class="classify-kinds-mobile-lists">
                         <ul class="classify-kinds-mobile-list">
-                            <?php $_ii=0; while ($_ii++ < 12): ?>
-                            <li title="MEN’S HAIR SYSTEM"><a href="">MEN’S HAIR SYSTEM</a></li>
-                            <?php endwhile; ?>
+                            @foreach($categories as $category)
+                                <li title="{{ $category->name_en }}">
+                                    <a href="{{ route('seo_url', $category->slug) }}">
+                                        {{ $category->name_en }}
+                                    </a>
+                                </li>
+                            @endforeach
                         </ul>
                     </div>
                 </div>
@@ -99,23 +132,27 @@
             <div class="hair-system-slider" data-scroll-reveal>
                 <div class="swiper-container" id="productZone">
                     <div class="swiper-wrapper">
-                        <?php $_ii=0; while ($_ii++ < 9): ?>
-                            <div class="swiper-slide">
-                                <div class="slide-img">
-                                    <img src="{{ asset("img/product-slide.png") }}">
+                        @if($products)
+                            @foreach($products as $product)
+                                <div class="swiper-slide">
+                                    <div class="slide-img">
+                                        <img src="{{ $product->thumb_url }}" alt="{{ $product->name_en }}">
+                                    </div>
+                                    <div class="slide-title">
+                                        <p title="{{ $product->name_en }}">{{ mb_strlen($product->name_en) <= 20 ? $product->name_en : substr($product->name_en, 0, 17) . ' ... ' }}</p>
+                                    </div>
+                                    <div class="slide-price">
+                                        <p class="old-price"><span>{{ get_global_symbol() }} {{ bcmul(get_current_price($product->price), 1.2, 2) }}</span></p>
+                                        <p class="special-price"><span>Special Price </span><span>{{ get_global_symbol() }} {{ get_current_price($product->price) }}</span></p>
+                                    </div>
+                                    <div class="slide-operation">
+                                        <a href="{{ route('seo_url', $product->slug) }}">
+                                            View all
+                                        </a>
+                                    </div>
                                 </div>
-                                <div class="slide-title">
-                                    <p title="Afro PAPY: Soft Human Hair Afro Waves  Mens Toupee Full">Afro PAPY: Soft Human Hair Afro Waves  Mens Toupee Full... </p>
-                                </div>
-                                <div class="slide-price">
-                                    <p class="old-price"><span>US$ 190.80</span></p>
-                                    <p class="special-price"><span>Special Price </span><span>US$ 190.80</span></p>
-                                </div>
-                                <div class="slide-operation">
-                                    <a href="">View all</a>
-                                </div>
-                            </div>
-                        <?php endwhile; ?>
+                            @endforeach
+                        @endif
                     </div>
                 </div>
                 <div class="swiper-button-prev"></div>

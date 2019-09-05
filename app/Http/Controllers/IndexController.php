@@ -63,26 +63,13 @@ class IndexController extends Controller
     public function root(Request $request)
     {
         $banners = Banner::where('type', 'index')->orderBy('sort')->get();
-
-        $products = [];
-        $categories = ProductCategory::where(['parent_id' => 0, 'is_index' => 1])->orderBy('sort')->get()->reject(function ($item, $key) {
-            return $item->children->isEmpty();
-        });
-        $categories = $categories->values(); // reset the indices.
-        foreach ($categories as $key => $category)
-        {
-            $children = $category->children;
-            $children_ids = $children->pluck('id')->all();
-            $products[$key]['category'] = $category;
-            $products[$key]['children'] = $children;
-            $products[$key]['products'] = Product::where('is_index', 1)->whereIn('product_category_id', $children_ids)->orderByDesc('index')->limit(8)->get();
-        }
-        $guesses = Product::where(['is_index' => 1, 'on_sale' => 1])->orderByDesc('heat')->limit(8)->get();
+        $products = Product::where('is_index', 1)->orderByDesc('index')->limit(12)->get();
+        $categories = ProductCategory::where('parent_id', '<>', 0)->where('is_index', 1)->orderBy('sort')->limit(12)->get();
 
         return view('index.root', [
             'banners' => $banners,
             'products' => $products,
-            'guesses' => $guesses,
+            'categories' => $categories,
         ]);
     }
 
