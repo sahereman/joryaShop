@@ -56,36 +56,34 @@
                         {{--</ul>--}}
                     </div>
                 </div>
+                <div class="item item-left item-left-type" id="why-lordhair">
+                    <a href="{{ route('seo_url', ['slug' => 'why_lyricalhair']) }}">Why Lyricalhair?</a>
+                </div>
                 <div class="item item-left item-left-type">
                     <a href="{{ route('seo_url', ['slug' => 'contact_us']) }}">@lang('app.Contact_Us')</a>
                 </div>
                 <div class="item item-left item-left-type">
                     <a href="{{ route('user_favourites.index') }}">Wishlist</a>
                 </div>
-                <div class="item item-left item-left-type" id="why-lordhair">
-                    <a href="{{ route('seo_url', ['slug' => 'why_lyricalhair']) }}">Why Lyricalhair?</a>
-                </div>
             </div>
             <div class="right-column">
                 <div class="item item-right">
                     <a class="skype_btn" href="skype:live:info_1104672?call">
-                        <img src="{{ asset('img/skype-call.png') }}"/>
+                        <img src="{{ asset('img/skype-call32.png') }}"/>
+                        <span>Call</span>
+                        <span class="caret">&nbsp;</span>
                     </a>
                 </div>
                 <div class="item item-right mini-cart-wrapper-regular">
                     <a href="{{ route('carts.index') }}">
                         <img src="{{ asset('img/header/cart.png') }}">
                         {{-- 判断是否登录登陆显示，不登陆不显示 --}}
-                        {{--@if(isset($cart_count))--}}
-                            {{--<div class="for_cart_num" style="display: table-cell;">--}}
-                                {{--<span class="count shop_cart_num">{{ $cart_count }}</span>--}}
-                            {{--</div>--}}
-                        {{--@else--}}
-                            {{--<div class="for_cart_num" style="display: table-cell;">--}}
-                                {{--<span class="count shop_cart_num">0</span>--}}
-                            {{--</div>--}}
-                        {{--@endif--}}
-                        <span>cart</span>
+                        @if(isset($cart_count))
+                            <span class="count shop_cart_num">{{ $cart_count }}</span>
+                        @else
+                            <span class="count shop_cart_num">0</span>
+                        @endif
+                        <span>Cart</span>
                         <span class="caret">&nbsp;</span>
                     </a>
                     {{-- 显示部分商品列表没接口 --}}
@@ -155,7 +153,7 @@
                 <div class="mobile-nav-list">
                     <div class="mobile-list-item">
                         <a class="skype_btn" href="skype:live:info_1104672?call">
-                            <img src="{{ asset('img/skype-call.png') }}"/>
+                            <img src="{{ asset('img/skype-call32.png') }}"/>
                         </a>
                     </div>
                     <div class="mobile-list-item">

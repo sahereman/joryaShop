@@ -136,10 +136,14 @@
                             @foreach($products as $product)
                                 <div class="swiper-slide">
                                     <div class="slide-img">
-                                        <img src="{{ $product->thumb_url }}" alt="{{ $product->name_en }}">
+                                        <a href="{{ route('seo_url', $product->slug) }}">
+                                          <img src="{{ $product->thumb_url }}" alt="{{ $product->name_en }}">
+                                        </a>
                                     </div>
                                     <div class="slide-title">
-                                        <p title="{{ $product->name_en }}">{{ mb_strlen($product->name_en) <= 20 ? $product->name_en : substr($product->name_en, 0, 17) . ' ... ' }}</p>
+                                        <a href="{{ route('seo_url', $product->slug) }}">
+                                          <p title="{{ $product->name_en }}">{{ mb_strlen($product->name_en) <= 20 ? $product->name_en : substr($product->name_en, 0, 17) . ' ... ' }}</p>
+                                        </a>
                                     </div>
                                     <div class="slide-price">
                                         <p class="old-price"><span>{{ get_global_symbol() }} {{ bcmul(get_current_price($product->price), 1.2, 2) }}</span></p>
