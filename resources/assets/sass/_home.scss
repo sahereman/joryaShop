@@ -368,10 +368,16 @@
       }
       .preferential-images-left {
         width: 48%;
-        height: 630px;
+        min-height: 630px;
+        display: flex;
+        flex-direction: column;
         @media only screen and (max-width: 767px){
           width: 100%;
           height: auto;
+        }
+        .images-left-box {
+          width: 100%;
+          max-height: 100%;
         }
         img {
           width: 100%;
