@@ -136,6 +136,7 @@ class ProductCategoriesController extends Controller
         $show = new Show(ProductCategory::findOrFail($id));
 
         $show->id('ID');
+        $show->slug_title('短链接');
         // $show->name_zh('名称(中文)');
         $show->name_en('名称(英文)');
         // $show->description_zh('描述(中文)');
@@ -180,10 +181,12 @@ class ProductCategoriesController extends Controller
         });
         $parent_categories->prepend('顶级分类', 0);*/
 
+        $form->text('slug_title', '短链接')->rules('required|string');
+
         $form->select('parent_id', '上级分类')->options(ProductCategory::selectOptions())->rules('required');
         // $form->text('name_zh', '名称(中文)')->rules('required');
         $form->hidden('name_zh', '名称(中文)')->default('lyrical');
-        $form->text('name_en', '名称(英文)')->rules('required');
+        $form->text('name_en', '名称(英文)')->rules('required|string');
 
         /* 2019-04-09 for SEO */
         $form->text('seo_title', 'SEO - 标题');

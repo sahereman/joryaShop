@@ -21,7 +21,7 @@ class ProductCategory extends Model
     {
         return [
             'slug' => [
-                'source' => 'name_en'
+                'source' => 'slug_title'
             ]
         ];
     }
@@ -43,6 +43,9 @@ class ProductCategory extends Model
      * @var array
      */
     protected $fillable = [
+        'slug',
+        'slug_title',
+
         'parent_id',
         // 'banner', // 备用字段
         'name_zh',

@@ -13,11 +13,12 @@ class ProductSlugsSeeder extends Seeder
      */
     public function run()
     {
-        Product::all()->each(function (Product $product) {
+        /*Product::all()->each(function (Product $product) {
             $product->save();
-        });
+        });*/
 
         ProductCategory::all()->each(function (ProductCategory $productCategory) {
+            $productCategory->slug_title = $productCategory->name_en;
             $productCategory->save();
         });
     }
