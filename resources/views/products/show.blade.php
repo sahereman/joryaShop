@@ -672,6 +672,9 @@
                 data: data,
                 success: function (data) {
                     layer.msg("@lang('product.product_details.Shopping cart added successfully')");
+                    var oldCartNum = parseInt($(".shop_cart_num").html());
+                    var newCartNum = oldCartNum + parseInt($("#pro_num").val())
+                    $(".shop_cart_num").html(newCartNum);
                     // $(".for_cart_num").load(location.href + " .shop_cart_num");
                 },
                 error: function (err) {
