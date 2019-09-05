@@ -25,22 +25,24 @@
         {{--lyrical简介--}}
         <div class="lyrical-intro-box">
             <h1 class="lyrical-intro-title" data-scroll-reveal>LYRICALHAIR</h1>
-            <div class="lyrical-intro container" data-scroll-reveal>
+            <div class="lyrical-intro m-wrapper" data-scroll-reveal>
                 <div class="lyrical-intro-video" data-scroll-reveal>
                     {{-- 油管播放器的页面嵌入，非API式的iframe嵌套 --}}
-                    <div class="dis_n" id="youtubeVideoID" data-video-id="M7lc1UVf-VE" >存放youtube视频id的位置</div>
-                    <div id="player"></div>
+                    {{--<div class="dis_n" id="youtubeVideoID" data-video-id="M7lc1UVf-VE" >存放youtube视频id的位置</div>--}}
+                    <div id="player">
+                        <img src="{{ asset("img/Home/video_img.png") }}">
+                    </div>
                     {{--<iframe id="player" type="text/html" width="517" height="330"--}}
                             {{--src="http://www.youtube.com/embed/ziGD7vQOwl8?showinfo=0&rel=0&autoplay=1"--}}
                             {{--frameborder="0" allow="autoplay" allowfullscreen/>--}}
                 </div>
                 <div class="lyrical-intro-text" data-scroll-reveal>
                     {{--lyrical文字简介--}}
-                    <div class="iframe_content dis_ni">
+                    <div class="iframe_content">
                         <p>Lyricalhair is a hair replacement system manufacturer and global online retailer. Our first factory was established in 1999.</p>
-                        <p>We also offer significant savings because we are an internet based business; our overhead costs are much lower and we pass these additional savings on to you. We offer this new way to get a hair replacement which is both affordable and easy to order, without ever leaving the comfort of your home. Remember, you can always get INDIVIDUALLY CUSTOMISED hair replacement systems. Base material, base material color, size, hair color, hair length, density, hair texture, </p>
+                        <p>We also offer significant savings because we are an internet based business; our overhead costs are much lower and we pass these additional savings on to you. We offer this new way to get a hair replacement which is both affordable and easy to order, without ever leaving the comfort of your home. Remember, you can always get <span>INDIVIDUALLY CUSTOMISED</span> hair replacement systems. Base material, base material color, size, hair color, hair length, density, hair texture, </p>
                     </div>
-                    <iframe name="cmsCon" id="cmsCon" class="cmsCon" frameborder="0" width="100%" scrolling="no" height="auto"></iframe>
+                    {{--<iframe name="cmsCon" id="cmsCon" class="cmsCon" frameborder="0" width="100%" scrolling="no" height="auto"></iframe>--}}
                 </div>
             </div>
         </div>
@@ -207,21 +209,21 @@
                });
             }
             //    iframe高度自适应
-            function reinitIframe(domID){
-                var iframe_Description = document.getElementById(domID);
-                iframe_Description.height = 0; //只有先设置原来的iframe高度为0，之前的iframe高度才不会对现在的设置有影响
-                var bHeight = iframe_Description.contentWindow.document.body.scrollHeight;
-                var dHeight = iframe_Description.contentWindow.document.documentElement.scrollHeight;
-                var height = Math.max(bHeight, dHeight);
-                iframe_Description.height = bHeight;
-            }
-            var IFRAME = $('.iframe_content'),
-                CMSCON = $('#cmsCon'),
-                iframe_content = IFRAME.html();
-            IFRAME.html("");
-            CMSCON.contents().find('body').html(iframe_content);
-            CMSCON.contents().find('body').css({"color":"#8f8f8f","margin":0,"line-height":"150%","box-sizing":"border-box"});
-            reinitIframe("cmsCon");
+            // function reinitIframe(domID){
+            //     var iframe_Description = document.getElementById(domID);
+            //     iframe_Description.height = 0; //只有先设置原来的iframe高度为0，之前的iframe高度才不会对现在的设置有影响
+            //     var bHeight = iframe_Description.contentWindow.document.body.scrollHeight;
+            //     var dHeight = iframe_Description.contentWindow.document.documentElement.scrollHeight;
+            //     var height = Math.max(bHeight, dHeight);
+            //     iframe_Description.height = bHeight;
+            // }
+            // var IFRAME = $('.iframe_content'),
+            //     CMSCON = $('#cmsCon'),
+            //     iframe_content = IFRAME.html();
+            // IFRAME.html("");
+            // CMSCON.contents().find('body').html(iframe_content);
+            // CMSCON.contents().find('body').css({"color":"#8f8f8f","margin":0,"line-height":"150%","box-sizing":"border-box"});
+            // reinitIframe("cmsCon");
         //    点击更多
             $(".more-kinds-item").on("click",function () {
                 var clickDom = $(this);
@@ -268,32 +270,32 @@
             });
         });
         // 油管视频API搭建
-        var tag = document.createElement('script');
-        tag.src = "https://www.youtube.com/iframe_api";
-        var firstScriptTag = document.getElementsByTagName('script')[0];
-        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-        var player;
-        var videoID =  $("#youtubeVideoID").attr("data-video-id");
-        function onYouTubeIframeAPIReady() {
-            player = new YT.Player('player', {
-                height: '330',
-                width: '100%',
-                videoId: videoID,
-                events: {
-                    'onReady': onPlayerReady,
-                    'onStateChange': onPlayerStateChange
-                }
-            });
-        }
-        function onPlayerReady(event) {
-            event.target.playVideo();
-        }
-        var done = false;
-        function onPlayerStateChange(event) {
-            if (event.data == YT.PlayerState.PLAYING && !done) {
-                done = true;
-            }
-        }
+        // var tag = document.createElement('script');
+        // tag.src = "https://www.youtube.com/iframe_api";
+        // var firstScriptTag = document.getElementsByTagName('script')[0];
+        // firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+        // var player;
+        // var videoID =  $("#youtubeVideoID").attr("data-video-id");
+        // function onYouTubeIframeAPIReady() {
+        //     player = new YT.Player('player', {
+        //         height: '330',
+        //         width: '100%',
+        //         videoId: videoID,
+        //         events: {
+        //             'onReady': onPlayerReady,
+        //             'onStateChange': onPlayerStateChange
+        //         }
+        //     });
+        // }
+        // function onPlayerReady(event) {
+        //     event.target.playVideo();
+        // }
+        // var done = false;
+        // function onPlayerStateChange(event) {
+        //     if (event.data == YT.PlayerState.PLAYING && !done) {
+        //         done = true;
+        //     }
+        // }
         // function stopVideo() {
         //     player.stopVideo();
         // }
