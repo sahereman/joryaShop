@@ -164,48 +164,29 @@
             <h1 class="lyrical-intro-title" data-scroll-reveal>PREFERENTIAL ACTIVITIES</h1>
             <div class="preferential-images" data-scroll-reveal>
                 <div class="preferential-images-left" data-scroll-reveal>
-                    {{--<div class="images-left-box preferential-img">--}}
-                        {{-- 测试大小，添加数据时请设定为动态的 --}}
-                        {{--<img class="lazy" data-src="https://www.lyricalhair.com/storage/posters/d6071a5cd87b861890915a7cf515b627.jpg" alt="lyricalhair.com">--}}
-                    {{--</div>--}}
-                    @if($poster = \App\Models\Poster::getPosterBySlug('pc_index_right'))
-                        <div class="images-left-box preferential-img">
-                            <a href="{{ $poster->link }}"><img class="lazy" data-src="{{ $poster->image_url }}"></a>
-                        </div>
-                    @else
-                        <div class="images-left-box preferential-img">
-                            <img class="lazy" data-src="{{ asset('defaults/default_pc_index_right.jpg') }}">
-                        </div>
-                    @endif
-                    <h2><a href="javascript:void (0)">MEN’S HAIR SYSTEM <span>&#62;</span></a></h2>
+                    <div class="images-left-box preferential-img">
+                        <a href="https://lyricalhair.com/hair-weaves.html">
+                            <img class="lazy" data-src="https://www.lyricalhair.com/storage/posters/d6071a5cd87b861890915a7cf515b627.jpg" alt="lyricalhair.com">
+                        </a>
+                    </div>
+                    <h2><a href="https://lyricalhair.com/hair-weaves.html">WOMEN’S HAIR SYSTEM <span>&#62;</span></a></h2>
                 </div>
                 <div class="preferential-images-right" data-scroll-reveal>
                     <div data-scroll-reveal>
-                        @if($poster = \App\Models\Poster::getPosterBySlug('pc_index_left_top'))
-                            <div class="images-right-box preferential-img">
-                                <a href="{{ $poster->link }}"><img class="lazy" data-src="{{ $poster->image_url }}"></a>
-                            </div>
-                        @else
-                            <div class="images-right-box preferential-img">
-                                <img class="lazy" data-src="{{ asset('defaults/default_pc_index_left_bottom.jpg') }}">
-                            </div>
-                        @endif
-                        <h2><a href="javascript:void (0)">WOMEN’S HAIR SYSTEM <span>&#62;</span></a></h2>
+                        <div class="images-right-box preferential-img">
+                            <a href="https://lyricalhair.com/stock-hair-systems.html">
+                                <img class="lazy" data-src="https://www.lyricalhair.com/storage/posters/29092330f6d5bb4a3388e160cb5eb3d6.jpg" alt="lyricalhair.com">
+                            </a>
+                        </div>
+                        <h2><a href="https://lyricalhair.com/stock-hair-systems.html">MEN’S HAIR SYSTEM <span>&#62;</span></a></h2>
                     </div>
                     <div data-scroll-reveal>
-                        @if($poster = \App\Models\Poster::getPosterBySlug('pc_index_left_bottom'))
-                            <div class="images-right-box preferential-img">
-                                <a href="{{ $poster->link }}"><img class="lazy" data-src="{{ $poster->image_url }}"></a>
-                            </div>
-                        @else
-                            <div class="images-right-box preferential-img">
-                                <img class="lazy" data-src="{{ asset('defaults/default_pc_index_left_bottom.jpg') }}">
-                            </div>
-                        @endif
-                        {{--<div class="images-right-box preferential-img">--}}
-                            {{--<img class="lazy" data-src="https://www.lyricalhair.com/storage/posters/c76f01d99da8b8421e47a84cfa7ba69d.jpg" alt="lyricalhair.com">--}}
-                        {{--</div>--}}
-                        <h2><a href="javascript:void (0)">HAIR SYSTEM ACCESSORIES <span>&#62;</span></a></h2>
+                        <div class="images-right-box preferential-img">
+                            <a href="https://lyricalhair.com/adhesives-tapes-removers.html">
+                                <img class="lazy" data-src="https://www.lyricalhair.com/storage/posters/c76f01d99da8b8421e47a84cfa7ba69d.jpg" alt="lyricalhair.com">
+                            </a>
+                        </div>
+                        <h2><a href="https://lyricalhair.com/adhesives-tapes-removers.html">HAIR SYSTEM ACCESSORIES <span>&#62;</span></a></h2>
                     </div>
                 </div>
             </div>
