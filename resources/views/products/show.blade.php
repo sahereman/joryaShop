@@ -961,9 +961,9 @@
                 sku_parameter.html += "<option value='select' disabled selected>Please Select</option>"
                 $.each(sku_map_item,function (sku_map_data_i,sku_map_data_n) {
                     if(sku_map_n.name == "Hair Color") {
-                        sku_parameter.html += "<option value='" + sku_map_data_n.value + "' data-img='"+ sku_map_data_n.photo_url +"'>"+ sku_map_data_n.value +"</option>"
+                        sku_parameter.html += "<option value='" + sku_map_data_n.value.replace(/\'|\"/g,"") + "' data-img='"+ sku_map_data_n.photo_url +"'>"+ sku_map_data_n.value +"</option>"
                     }else {
-                        sku_parameter.html += "<option value='" + sku_map_data_n.value + "'>"+ sku_map_data_n.value +"</option>"
+                        sku_parameter.html += "<option value='" + sku_map_data_n.value.replace(/\'|\"/g,"") + "'>"+ sku_map_data_n.value +"</option>"
                     }
                 });
                 sku_parameter.html += "</select>"
@@ -1018,7 +1018,7 @@
                     for (var childSkuArrKey in childSkuArr){
                         for (var searchArrKey in searchArr){
                             if (childSkuArr[childSkuArrKey].value!=undefined&&searchArr[searchArrKey].value!=undefined) {
-                                if(childSkuArr[childSkuArrKey].value == searchArr[searchArrKey].value&&childSkuArr[childSkuArrKey].name == searchArr[searchArrKey].name){
+                                if(childSkuArr[childSkuArrKey].value.replace(/\'|\"/g,"") == searchArr[searchArrKey].value&&childSkuArr[childSkuArrKey].name == searchArr[searchArrKey].name){
                                     firstResultArr.push(newSkuArray[newSkuArrayKey]);
                                 }
                             }
@@ -1033,7 +1033,7 @@
                 var firstResultData = firstResultArr_value.data;
                 for (var firstResultData_i = 0;firstResultData_i<firstResultData.length;firstResultData_i++) {
                     for (var searchArr_index = 0;searchArr_index<searchArr.length;searchArr_index++){
-                        if(firstResultData[firstResultData_i].name==searchArr[searchArr_index].name&&firstResultData[firstResultData_i].value==searchArr[searchArr_index].value){
+                        if(firstResultData[firstResultData_i].name==searchArr[searchArr_index].name&&firstResultData[firstResultData_i].value.replace(/\'|\"/g,"")==searchArr[searchArr_index].value){
                             secondResultArr.push(firstResultData[firstResultData_i]);
                         }
                     }
@@ -1056,6 +1056,7 @@
             $("#pro_num").val("1");
             var _that = $(this),
                 selected_val = _that.val();
+            // console.log(selected_val)
             // 插入放大镜图片的内容与数据无关
             if(_that.parents(".forgetSel").find(".dynamic_name").attr("data-type") == "Hair Color") {
                 $(".for-choose-img").removeClass("dis_ni");
@@ -1092,7 +1093,11 @@
                 for(var search_key in skus_arr){
                     for (var search_key_child in skus_arr[search_key]) {
                             // 通过轮询的方式在原始数组查找与所选项目相同的数组内容
-                            if(skus_arr[search_key][search_key_child].value == selected_val){
+                            var sku_arrFindSel = skus_arr[search_key][search_key_child].value
+                            if(sku_arrFindSel){
+                                sku_arrFindSel = sku_arrFindSel.replace(/\'|\"/g,"")
+                            }
+                            if(sku_arrFindSel == selected_val){
                                 // already_selected为用于存放用户已选择的选项的数组
                                 // 如果数组为空便将用户选择的内容添加到数组中
                                 // 如果数组不为空则分两种情况考虑：
@@ -1119,7 +1124,7 @@
                                     }
                                 }
                                 // 将已选择的参数添加到数组中进行存储
-                                already_selected.push({select_index: select_index,product_sku_id: active_sku_id,value:active_value,name:_that.attr('name')});
+                                already_selected.push({select_index: select_index,product_sku_id: active_sku_id,value:active_value.replace(/\'|\"/g,""),name:_that.attr('name')});
                                 // 将查找到的数据存储到临时仓库中
                                 temporary_storage.push(skus_arr[search_key]);
                                 // console.log(temporary_storage)
@@ -1137,6 +1142,10 @@
                 dataFusion(temporary_storage,temporary_storage_change1);
                 dataFusionClassify(temporary_storage_change1,temporary_storage_change2,temporary_storage_map,'name');
                 var aimSelect ;
+                var alreadyOption,
+                    alreadyFind = false;
+                var storageOption,
+                    storageFind = false;
                     // 将处理好的数据进行渲染    optionHtml
                 $.each(temporary_storage_change2,function (storage_index,storage_value) {
                     var storage_value_item =arrayUnique2(storage_value.data,'value');
@@ -1148,20 +1157,17 @@
                     $(aimSelect).find("option").addClass("forbid-choose");
                     $.each(storage_value_item,function (storage_value_index,storage_value_content) {
                         // sku_parameter.optionHtml += "<option value='" + storage_value_content.value + "'>"+ storage_value_content.value +"</option>"
-                        $(aimSelect).find("option[value='"+ storage_value_content.value +"']").prop("disabled",false);
-                        $(aimSelect).find("option[value='"+ storage_value_content.value +"']").removeClass("forbid-choose");
-                        $(aimSelect).find("option[value='"+ storage_value_content.value +"']").addClass("allow-choose");
+
+                        $(aimSelect).find("option[value='"+ storage_value_content.value.replace(/\'|\"/g,"") +"']").prop("disabled",false);
+                        $(aimSelect).find("option[value='"+ storage_value_content.value.replace(/\'|\"/g,"") +"']").removeClass("forbid-choose");
+                        $(aimSelect).find("option[value='"+ storage_value_content.value.replace(/\'|\"/g,"") +"']").addClass("allow-choose");
                     });
                     // $(aimSelect).find("option").remove();
                     // $(aimSelect).append(sku_parameter.optionHtml);
-                    if(already_selected.length == skus_map.length){
-                        getSkuId();
-                        $("#product-price").text(sku_price);
-                    }
                     $.each(already_selected,function (already_selected_key,already_selected_value) {
                         if(aimSelect.attr("data-index") == already_selected_value.select_index) {
-                            if(!$(aimSelect).find("option[value='"+ already_selected_value.value +"']").hasClass("forbid-choose")){
-                                $(aimSelect).find("option[value='"+ already_selected_value.value +"']").prop("selected",true);
+                            if(!$(aimSelect).find("option[value='"+ already_selected_value.value.replace(/\'|\"/g,"") +"']").hasClass("forbid-choose")){
+                                $(aimSelect).find("option[value='"+ already_selected_value.value.replace(/\'|\"/g,"") +"']").prop("selected",true);
                             }else {
                                 $($(aimSelect).find("option[class='allow-choose']")[0]).prop("selected",true);
                                 if(already_selected.length == skus_map.length){
@@ -1174,6 +1180,10 @@
                     });
                     // $(aimSelect).find("option[value='"+ selected_val +"']").attr("selected",true);
                 })
+                if(already_selected.length == skus_map.length){
+                    getSkuId();
+                    $("#product-price").text(sku_price);
+                }
             // }else {
             //
             // }
