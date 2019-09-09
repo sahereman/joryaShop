@@ -19,6 +19,8 @@ use App\Models\ProductSku;
 use App\Models\ProductComment;
 use App\Models\ProductSkuAttrValue;
 use App\Models\ProductSkuCustomAttrValue;
+use App\Models\ProductSkuDuplicateAttrValue;
+use App\Models\ProductSkuRepairAttrValue;
 use App\Models\User;
 use App\Models\UserFavourite;
 use App\Models\UserHistory;
@@ -482,7 +484,7 @@ class ProductsController extends Controller
         // $product_sku = ProductSku::with('custom_attr_values')->find($request->input('product_sku_id'));
         foreach ($request->input('custom_attr_values') as $custom_attr_value) {
             $custom_attr_value_model = CustomAttrValue::first(['value' => $custom_attr_value['value']]);
-            $product_sku_custom_attr_value = ProductSkuCustomAttrValue::updateOrCreate([
+            $product_sku_custom_attr_value = ProductSkuCustomAttrValue::firstOrCreate([
                 'product_sku_id' => $request->input('product_sku_id'),
                 'name' => $custom_attr_value['name']
             ], [
@@ -493,6 +495,178 @@ class ProductsController extends Controller
                 $product_sku_custom_attr_value->update([
                     'value' => $custom_attr_value['value'],
                     'sort' => $custom_attr_value_model->sort
+                ]);
+            }
+        }
+
+        return response()->json([
+            'code' => 200,
+            'message' => 'success'
+        ]);
+    }
+
+    // POST: 复制商品提交
+    public function duplicateStore(Request $request, Product $product)
+    {
+        $user = $request->user();
+
+        $delta_price = 0;
+        $duplicate_attr_values = $request->input('duplicate_attr_values');
+        $duplicate_attr_values = explode(',', $duplicate_attr_values);
+
+        foreach ($duplicate_attr_values as $duplicate_attr_value) {
+            $delta_price = bcadd($delta_price, $duplicate_attr_value['delta_price'], 2);
+        }
+
+        $product_sku = ProductSku::create([
+            'product_id' => $product->id,
+            'name_en' => 'duplicate product sku of lyrical hair',
+            'name_zh' => 'duplicate product sku of lyrical hair',
+            'photo' => '',
+            'delta_price' => $delta_price,
+            'stock' => 100, // 暂定数值，占位用，便于客户在购物车内追加购买数量
+            'sales' => 1,
+        ]);
+
+        $product_sku_id = $product_sku->id;
+        // $duplicate_attr_value_count = count($duplicate_attr_values);
+
+        foreach ($duplicate_attr_values as $key => $duplicate_attr_value) {
+            ProductSkuDuplicateAttrValue::create([
+                'product_sku_id' => $product_sku_id,
+                'name' => $duplicate_attr_value['name'],
+                'value' => $duplicate_attr_value['value'],
+                // 'sort' => (integer)($duplicate_attr_value_count - $key)
+                'sort' => $duplicate_attr_value['sort']
+            ]);
+        }
+
+        if ($user) {
+            Cart::create([
+                'user_id' => $user->id,
+                'product_sku_id' => $product_sku_id,
+                'number' => 1
+            ]);
+        } else {
+            $cart = session('cart', []);
+            // $cart = Session::get('cart', []);
+
+            if (isset($cart[$product_sku_id])) {
+                $cart[$product_sku_id] += 1;
+            } else {
+                $cart[$product_sku_id] = 1;
+            }
+
+            session(['cart' => $cart]);
+            // Session::put('cart', $cart);
+            // Session::put(['cart' => $cart]);
+        }
+
+        return response()->json([
+            'code' => 200,
+            'message' => 'success'
+        ]);
+    }
+
+    // PUT: 复制商品修改
+    public function duplicateUpdate(Request $request, Product $product)
+    {
+        // $product_sku = ProductSku::with('duplicate_attr_values')->find($request->input('product_sku_id'));
+        foreach ($request->input('duplicate_attr_values') as $duplicate_attr_value) {
+            $product_sku_duplicate_attr_value = ProductSkuDuplicateAttrValue::first([
+                'product_sku_id' => $request->input('product_sku_id'),
+                'name' => $duplicate_attr_value['name']
+            ]);
+            if ($product_sku_duplicate_attr_value->value != $duplicate_attr_value['value']) {
+                $product_sku_duplicate_attr_value->update([
+                    'value' => $duplicate_attr_value['value'],
+                    'sort' => $duplicate_attr_value['sort']
+                ]);
+            }
+        }
+
+        return response()->json([
+            'code' => 200,
+            'message' => 'success'
+        ]);
+    }
+
+    // POST: 修复商品提交
+    public function repairStore(Request $request, Product $product)
+    {
+        $user = $request->user();
+
+        $delta_price = 0;
+        $repair_attr_values = $request->input('repair_attr_values');
+        $repair_attr_values = explode(',', $repair_attr_values);
+
+        foreach ($repair_attr_values as $repair_attr_value) {
+            $delta_price = bcadd($delta_price, $repair_attr_value['delta_price'], 2);
+        }
+
+        $product_sku = ProductSku::create([
+            'product_id' => $product->id,
+            'name_en' => 'repair product sku of lyrical hair',
+            'name_zh' => 'repair product sku of lyrical hair',
+            'photo' => '',
+            'delta_price' => $delta_price,
+            'stock' => 100, // 暂定数值，占位用，便于客户在购物车内追加购买数量
+            'sales' => 1,
+        ]);
+
+        $product_sku_id = $product_sku->id;
+        // $repair_attr_value_count = count($repair_attr_values);
+
+        foreach ($repair_attr_values as $key => $repair_attr_value) {
+            ProductSkuRepairAttrValue::create([
+                'product_sku_id' => $product_sku_id,
+                'name' => $repair_attr_value['name'],
+                'value' => $repair_attr_value['value'],
+                // 'sort' => (integer)($repair_attr_value_count - $key)
+                'sort' => $repair_attr_value['sort']
+            ]);
+        }
+
+        if ($user) {
+            Cart::create([
+                'user_id' => $user->id,
+                'product_sku_id' => $product_sku_id,
+                'number' => 1
+            ]);
+        } else {
+            $cart = session('cart', []);
+            // $cart = Session::get('cart', []);
+
+            if (isset($cart[$product_sku_id])) {
+                $cart[$product_sku_id] += 1;
+            } else {
+                $cart[$product_sku_id] = 1;
+            }
+
+            session(['cart' => $cart]);
+            // Session::put('cart', $cart);
+            // Session::put(['cart' => $cart]);
+        }
+
+        return response()->json([
+            'code' => 200,
+            'message' => 'success'
+        ]);
+    }
+
+    // PUT: 修复商品修改
+    public function repairUpdate(Request $request, Product $product)
+    {
+        // $product_sku = ProductSku::with('repair_attr_values')->find($request->input('product_sku_id'));
+        foreach ($request->input('repair_attr_values') as $repair_attr_value) {
+            $product_sku_repair_attr_value = ProductSkuRepairAttrValue::first([
+                'product_sku_id' => $request->input('product_sku_id'),
+                'name' => $repair_attr_value['name']
+            ]);
+            if ($product_sku_repair_attr_value->value != $repair_attr_value['value']) {
+                $product_sku_repair_attr_value->update([
+                    'value' => $repair_attr_value['value'],
+                    'sort' => $repair_attr_value['sort']
                 ]);
             }
         }

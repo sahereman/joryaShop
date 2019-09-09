@@ -208,6 +208,16 @@ Route::get('products/custom/{product}/{slug?}', 'ProductsController@customShow')
 Route::post('products/custom/{product}/{slug?}', 'ProductsController@customStore')->name('products.custom.store'); // 定制商品提交
 Route::put('products/custom/{product}/{slug?}', 'ProductsController@customUpdate')->name('products.custom.update'); // 定制商品修改
 
+/*修复商品*/
+Route::get('products/repair/{product}/{slug?}', 'ProductsController@repairShow')->name('products.repair.show'); // 修复商品详情
+Route::post('products/repair/{product}/{slug?}', 'ProductsController@repairStore')->name('products.repair.store'); // 修复商品提交
+Route::put('products/repair/{product}/{slug?}', 'ProductsController@repairUpdate')->name('products.repair.update'); // 修复商品修改
+
+/*复制商品*/
+Route::get('products/duplicate/{product}/{slug?}', 'ProductsController@duplicateShow')->name('products.duplicate.show'); // 复制商品详情
+Route::post('products/duplicate/{product}/{slug?}', 'ProductsController@duplicateStore')->name('products.duplicate.store'); // 复制商品提交
+Route::put('products/duplicate/{product}/{slug?}', 'ProductsController@duplicateUpdate')->name('products.duplicate.update'); // 复制商品修改
+
 /*商品*/
 Route::get('products/search', 'ProductsController@search')->name('products.search'); // 搜素结果
 Route::get('products/search_hint', 'ProductsController@searchHint')->name('products.search_hint'); // 模糊搜素提示结果 [10 records] [for Ajax request]

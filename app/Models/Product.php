@@ -27,6 +27,8 @@ class Product extends Model
     const PRODUCT_TYPE_PERIOD = 'period'; // 限时
     const PRODUCT_TYPE_AUCTION = 'auction'; // 拍卖
     const PRODUCT_TYPE_CUSTOM = 'custom'; // 定制
+    const PRODUCT_TYPE_DUPLICATE = 'duplicate'; // 复制
+    const PRODUCT_TYPE_REPAIR = 'repair'; // 修复
     const PRODUCT_TYPE_POINT = 'point'; // 积分
     // const PRODUCT_TYPE_DISCOUNT = 'discount'; // 优惠|备用
 
@@ -35,6 +37,8 @@ class Product extends Model
         self::PRODUCT_TYPE_PERIOD => '限时',
         self::PRODUCT_TYPE_AUCTION => '拍卖',
         self::PRODUCT_TYPE_CUSTOM => '定制',
+        self::PRODUCT_TYPE_DUPLICATE => '复制',
+        self::PRODUCT_TYPE_REPAIR => '修复',
         self::PRODUCT_TYPE_POINT => '积分',
         // self::PRODUCT_TYPE_DISCOUNT => '优惠', // 备用
     ];
