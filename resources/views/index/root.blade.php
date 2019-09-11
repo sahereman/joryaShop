@@ -164,7 +164,7 @@
             </div>
         </div>
         {{--Preferential activities--}}
-        <div class="preferential-activities container">
+        <div class="preferential-activities container dis_ni">
             <h1 class="lyrical-intro-title" data-scroll-reveal>PREFERENTIAL ACTIVITIES</h1>
             <div class="preferential-images" data-scroll-reveal>
                 <div class="preferential-images-left" data-scroll-reveal>
@@ -196,7 +196,7 @@
             </div>
         </div>
         {{--publicity--}}
-        <div class="publicity" data-scroll-reveal>
+        <div class="publicity dis_ni" data-scroll-reveal>
             <a href="">
                 <img src="{{ asset("img/publicity.png") }}" alt="lyricalhair.com">
             </a>
