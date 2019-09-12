@@ -894,7 +894,42 @@
             skus_arr_object[skus_arr_index] = skus_arr[skus_arr_index];
             skus_arr_Arry.push(skus_arr_object)
         }
-        dataFusion(skus_arr,skus_arr_coalesce);
+        // 原始数组进行重构
+        var skus_arr_refactor = [];  // 将原始数组进行重构
+        var skus_arr_refactor_kinds = [];
+        for (var skus_arr_index in skus_arr) {
+            var  skus_arr_object = {};
+            var skus_arr_object_child = [];
+            skus_arr_object.product_sku_id = skus_arr[skus_arr_index][0].product_sku_id;
+            skus_arr_object.delta_price = skus_arr[skus_arr_index][0].delta_price;
+            skus_arr_object.price = skus_arr[skus_arr_index][0].price;
+            skus_arr_object.stock = skus_arr[skus_arr_index][0].stock;
+            for(var skus_arr_child_index in skus_arr[skus_arr_index]){
+                if(skus_arr[skus_arr_index][skus_arr_child_index].value){
+                    if(skus_arr[skus_arr_index][skus_arr_child_index].photo_url) {
+                        skus_arr_object_child.push({
+                            name: skus_arr[skus_arr_index][skus_arr_child_index].name,
+                            value: skus_arr[skus_arr_index][skus_arr_child_index].value,
+                            photo_url: skus_arr[skus_arr_index][skus_arr_child_index].photo_url
+                        })
+                    }else {
+                        skus_arr_object_child.push({name: skus_arr[skus_arr_index][skus_arr_child_index].name,value: skus_arr[skus_arr_index][skus_arr_child_index].value})
+                    }
+                }
+            }
+            skus_arr_object.sku_kinds = skus_arr_object_child;
+            skus_arr_refactor.push(skus_arr_object)
+        }
+        for(var i=0;i<skus_arr_refactor.length;i++){
+            skus_arr_refactor_kinds.push(skus_arr_refactor[i].sku_kinds)
+        }
+        var skus_arr_refactor_map = {};
+        var skus_arr_refactor_map_arr = [];
+        var skus_arr_refactor_kinds_coalesce = [];
+        dataFusion(skus_arr_refactor_kinds,skus_arr_refactor_kinds_coalesce);
+        dataFusionClassify(skus_arr_refactor_kinds_coalesce,skus_arr_refactor_map_arr,skus_arr_refactor_map,'name');
+        // 最初版本的数组的遍历
+        // dataFusion(skus_arr,skus_arr_coalesce);
         //当 数据完成第一次处理之后将页面中的input的value进行置空
         sku_parameter.sku_data_warehouse.val("");
         /**数组根据数组对象中的某个属性值进行排序的方法
@@ -921,7 +956,8 @@
                 return 0;
             }
         }
-        dataFusionClassify(skus_arr_coalesce,skus_map,map,'name');
+        // 最初版本的数组的分类
+        // dataFusionClassify(skus_arr_coalesce,skus_map,map,'name');
         // 根据数组对象进行去重
         function arrayUnique2(arr, name) {
             var hash = {};
@@ -932,7 +968,7 @@
         }
          //   对处理过后的数据进行循环，动态生成相应的DOM节点
         function renderingNode(){
-            $.each(skus_map,function (sku_map_i,sku_map_n) {
+            $.each(skus_arr_refactor_map_arr,function (sku_map_i,sku_map_n) {
                 sku_parameter.html += "<div class='sku-select'>"
                 sku_parameter.html += "<div class='sku-select-name'>"
                 if(sku_map_n.name == "Hair Color"){
@@ -948,7 +984,7 @@
                 }
                 sku_parameter.html += "</div>"
                 sku_parameter.html += "<div class='sku-select-module'>"
-                sku_parameter.html += "<div class='sku-select-value'>"
+                sku_parameter.html += "<div data-index='"+ sku_map_i +"'  data-name='"+ sku_map_n.name +"' class='sku-select-value'>"
                 sku_parameter.html += "<input type='hidden' readonly name='"+ sku_map_n.name +"'>"
                 sku_parameter.html += "<span class='sku-select-value-show'>Please Select</span>"
                 sku_parameter.html += "</div>"
@@ -1049,6 +1085,7 @@
                     sku_price = skus_arr[sku_id][0].price;
                 }
             });
+            // console.log(sku_id)
         }
         sku_parameter.sku_choose_store.html("").append(sku_parameter.html);
         // 重置筛选条件
@@ -1227,6 +1264,12 @@
                 window.clearInterval(autoSet);
             }
         }
+        var isFirstChooseClick = null;   //    定义一个参数用来判断点击的是否为第一个选择器的第一次点击
+        var isCkickLast = null; // 判断点击的选择器与上一次点击的选择器是否相同
+        var temporary_storage_last = []; // 上一次刷选后的遗留数组
+        var anyClickGetArry = [];  // 每次选择的内容添加为一个数组，每次点击的时候都进行置空，然后用新的数据进行比对
+        var isSameClickBtn = true; // 判断连续点击的是否为同一个按钮
+        var isFirstSameBtn = false; // 判断是否连续点击的第一个
     //    自定义下拉菜单
         $("#sku-choose-store").on("click",".sku-select-value",function () {
             var clickDom = $(this);
@@ -1239,7 +1282,17 @@
                 clickDom.addClass("active");
                 clickDom.parent(".sku-select-module").find(".sku-select-options").slideDown();
             }
-        })
+            if(isCkickLast !=  sku_parameter.choose_classify_index){
+                isCkickLast = sku_parameter.choose_classify_index;
+                isSameClickBtn = false;
+            }else {
+                isSameClickBtn = true;
+            }
+            if(isFirstChooseClick == clickDom.attr("data-index")){
+                clickDom.parent(".sku-select-module").find(".sku-select-options").find("li").removeClass("forbid-choose-style");
+                isFirstSameBtn = true;
+            }
+        });
         // 点击空白处关闭弹窗
         $(document).mouseup(function(e) {
             var  pop = $('.sku-choose-store');
@@ -1278,9 +1331,10 @@
     //    点击li修改值
         $("#sku-choose-store").on("click","li",function () {
             var _that = $(this),
-                selected_val = _that.attr("data-value");
+                selected_val = _that.attr("data-value"),
+                _that_parent = _that.parent("ul");
             _that.parents(".sku-select-module").find(".sku-select-value-show").html(_that.html());
-            _that.parents(".sku-select-module").find("input").val(_that.html().replace(/\'|\"/g,""));
+            _that.parents(".sku-select-module").find("input").val(selected_val);
             $("#sku-choose-store").find(".sku-select-value").removeClass("active");
             $("#sku-choose-store").find(".sku-select-options").slideUp();
             $("#pro_num").val("1");
@@ -1289,56 +1343,209 @@
                 var zoomImgUrl = _that.attr("data-img");
                 magnifyingAdd(zoomImgUrl);
             }
-            // 每次切换时将临时仓库进行置空操作
-            temporary_storage = [];
+            anyClickGetArry = []
             // 判断操作的是哪一个选择器
-            sku_parameter.choose_classify_index = _that.parent("ul").attr("data-index");
-            skus_arr_Arry.forEach(function (item) {
-                for(var item_key in item){
-                    for (var item_key_child in item[item_key]) {
-                        var sku_arrFindSel =item[item_key][item_key_child].value
+            sku_parameter.choose_classify_index = _that_parent.attr("data-index");
+            if(already_selected.length == skus_arr_refactor_map_arr.length){
+                temporary_storage = [];
+                skus_arr_refactor_kinds.forEach(function (item) {
+                    for (var item_key in item){
+                        var sku_arrFindSel =item[item_key].value;
                         if(sku_arrFindSel){
                             sku_arrFindSel = sku_arrFindSel.replace(/\'|\"/g,"")
                         }
                         if(sku_arrFindSel == selected_val){
-                            var select_index = _that.parent("ul").attr("data-index"),     // 用户进行操作的DOM的标号
-                                active_sku_id = item[item_key][item_key_child].product_sku_id,  // 用户选择的sku对用的id
-                                active_value = item[item_key][item_key_child].value,  // 用户选择的sku对应的value值
+                            var active_name = item[item_key].name,  // 用户选择的sku对用的id
+                                active_value = item[item_key].value,  // 用户选择的sku对应的value值
                                 exists = false;    // 用于判断数组是否存在重复选择的值
-                            if(already_selected.length < skus_map.length ||already_selected.length == 0) {
-                                if(already_selected.length != 0) {
-                                    exists = isExists(already_selected,'select_index',select_index);
-                                }
+                            if(already_selected.length != 0) {
+                                exists = isExists(already_selected,'name',active_name);
                                 if (exists){
-                                    delOldData(already_selected,'select_index',select_index);
-                                }
-                            }else {
-                                exists = isExists(already_selected,'select_index',select_index);
-                                if (exists){
-                                    delOldData(already_selected,'select_index',select_index);
+                                    delOldData(already_selected,'name',active_name);
                                 }
                             }
-                            already_selected.push({
-                                select_index: select_index,
-                                product_sku_id: active_sku_id,
-                                value:active_value.replace(/\'|\"/g,""),
-                                name:_that.parent("ul").attr('data-name')
+                            if(anyClickGetArry.length != 0) {
+                                exists = isExists(anyClickGetArry,'name',active_name);
+                                if (exists){
+                                    // delOldData(anyClickGetArry,'name',active_name);
+                                    for (var select_i = 0; select_i< anyClickGetArry.length;select_i++){
+                                        if(anyClickGetArry[select_i]["name"] == active_name){
+                                            anyClickGetArry.splice(select_i,1);
+                                        }
+                                    }
+                                }
+                            }
+                            anyClickGetArry.push({
+                                name:active_name,
+                                value:active_value
                             });
-                            // 将查找到的数据存储到临时仓库中
-                            temporary_storage.push(item[item_key]);
+                            already_selected.push({
+                                name:active_name,
+                                value:active_value
+                            });
+                            //    将已选择的数组与原始数组进行对比，查询结果存入临时仓库中
+                            for(var refactor_kinds_index in skus_arr_refactor_kinds){
+                                if(skus_arr_refactor_kinds[refactor_kinds_index].length == skus_arr_refactor_map_arr.length){
+                                    var refactor_kinds_child = skus_arr_refactor_kinds[refactor_kinds_index];
+                                    for (var refactor_kinds_child_index in refactor_kinds_child){
+                                        for (var already_selected_index in anyClickGetArry){
+                                            if(refactor_kinds_child[refactor_kinds_child_index].value) {
+                                                if(refactor_kinds_child[refactor_kinds_child_index].value == anyClickGetArry[already_selected_index].value&&
+                                                    refactor_kinds_child[refactor_kinds_child_index].name == anyClickGetArry[already_selected_index].name){
+                                                    temporary_storage.push(refactor_kinds_child);
+                                                    temporary_storage_last = temporary_storage
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
+                });
+            }else {
+                if(isFirstChooseClick == null||isFirstSameBtn){
+                    // 当点击第一个时候将临时仓库进行指控
+                    temporary_storage = [];
+                    if(!isFirstSameBtn){
+                        isFirstChooseClick = sku_parameter.choose_classify_index;
+                    }
+                    isFirstSameBtn = false;
+                    skus_arr_refactor_kinds.forEach(function (item) {
+                        for (var item_key in item){
+                            var sku_arrFindSel =item[item_key].value;
+                            if(sku_arrFindSel){
+                                sku_arrFindSel = sku_arrFindSel.replace(/\'|\"/g,"")
+                            }
+                            if(sku_arrFindSel == selected_val){
+                                var active_name = item[item_key].name,  // 用户选择的sku对用的id
+                                    active_value = item[item_key].value,  // 用户选择的sku对应的value值
+                                    exists = false;    // 用于判断数组是否存在重复选择的值
+                                if(already_selected.length != 0) {
+                                    exists = isExists(already_selected,'name',active_name);
+                                    if (exists){
+                                        delOldData(already_selected,'name',active_name);
+                                    }
+                                }
+                                if(anyClickGetArry.length != 0) {
+                                    exists = isExists(anyClickGetArry,'name',active_name);
+                                    if (exists){
+                                        // delOldData(anyClickGetArry,'name',active_name);
+                                        for (var select_i = 0; select_i< anyClickGetArry.length;select_i++){
+                                            if(anyClickGetArry[select_i]["name"] == active_name){
+                                                anyClickGetArry.splice(select_i,1);
+                                            }
+                                        }
+                                    }
+                                }
+                                anyClickGetArry.push({
+                                    name:active_name,
+                                    value:active_value
+                                });
+                                already_selected.push({
+                                    name:active_name,
+                                    value:active_value
+                                });
+                                //    将已选择的数组与原始数组进行对比，查询结果存入临时仓库中
+                                for(var refactor_kinds_index in skus_arr_refactor_kinds){
+                                    if(skus_arr_refactor_kinds[refactor_kinds_index].length == skus_arr_refactor_map_arr.length){
+                                        var refactor_kinds_child = skus_arr_refactor_kinds[refactor_kinds_index];
+                                        for (var refactor_kinds_child_index in refactor_kinds_child){
+                                            for (var already_selected_index in anyClickGetArry){
+                                                if(refactor_kinds_child[refactor_kinds_child_index].value) {
+                                                    if(refactor_kinds_child[refactor_kinds_child_index].value == anyClickGetArry[already_selected_index].value&&
+                                                        refactor_kinds_child[refactor_kinds_child_index].name == anyClickGetArry[already_selected_index].name){
+                                                        temporary_storage.push(refactor_kinds_child);
+                                                        temporary_storage_last = temporary_storage
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    });
+                }else {
+                    temporary_storage.forEach(function (item) {
+                        for (var item_key in item){
+                            var sku_arrFindSel =item[item_key].value;
+                            if(sku_arrFindSel){
+                                sku_arrFindSel = sku_arrFindSel.replace(/\'|\"/g,"")
+                            }
+                            if(sku_arrFindSel == selected_val){
+                                var active_name = item[item_key].name,  // 用户选择的sku对用的id
+                                    active_value = item[item_key].value,  // 用户选择的sku对应的value值
+                                    exists = false;    // 用于判断数组是否存在重复选择的值
+                                if(already_selected.length != 0) {
+                                    exists = isExists(already_selected,'name',active_name);
+                                    if (exists){
+                                        delOldData(already_selected,'name',active_name);
+                                    }
+                                }
+                                if(anyClickGetArry.length != 0) {
+                                    exists = isExists(anyClickGetArry,'name',active_name);
+                                    if (exists){
+                                        for (var select_i = 0; select_i< anyClickGetArry.length;select_i++){
+                                            if(anyClickGetArry[select_i]["name"] == active_name){
+                                                anyClickGetArry.splice(select_i,1);
+                                            }
+                                        }
+                                    }
+                                }
+                                anyClickGetArry.push({
+                                    name:active_name,
+                                    value:active_value
+                                });
+                                already_selected.push({
+                                    name:active_name,
+                                    value:active_value
+                                });
+                                //    将已选择的数组与原始数组进行对比，查询结果存入临时仓库中
+                                for(var refactor_kinds_index in temporary_storage){
+                                    if(temporary_storage[refactor_kinds_index]) {
+                                        if(temporary_storage[refactor_kinds_index].length == skus_arr_refactor_map_arr.length){
+                                            var refactor_kinds_child = temporary_storage[refactor_kinds_index];
+                                            for (var refactor_kinds_child_index in refactor_kinds_child){
+                                                for (var already_selected_index in anyClickGetArry){
+                                                    if(refactor_kinds_child[refactor_kinds_child_index].value) {
+                                                        if(refactor_kinds_child[refactor_kinds_child_index].value == anyClickGetArry[already_selected_index].value&&
+                                                            refactor_kinds_child[refactor_kinds_child_index].name == anyClickGetArry[already_selected_index].name){
+                                                            temporary_storage = [];
+                                                            temporary_storage.push(refactor_kinds_child);
+                                                            if(!isSameClickBtn){
+                                                                temporary_storage_last = temporary_storage
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    });
                 }
-            });
+            }
             if (temporary_storage.length == 1) {
                 sku_id = temporary_storage[0][0].product_sku_id;
             }
-            //   将搜索的结果进行处理对剩下的select的option选项进行刷新
             var temporary_storage_change1 = [],
                 temporary_storage_change2 = [],
                 temporary_storage_map = {};
-            dataFusion(temporary_storage,temporary_storage_change1);
-            dataFusionClassify(temporary_storage_change1,temporary_storage_change2,temporary_storage_map,'name');
+            if(already_selected.length != skus_arr_refactor_map_arr.length){
+                if(!isSameClickBtn){
+                    dataFusion(temporary_storage,temporary_storage_change1);
+                    dataFusionClassify(temporary_storage_change1,temporary_storage_change2,temporary_storage_map,'name');
+                }else {
+                    dataFusion(temporary_storage_last,temporary_storage_change1);
+                    dataFusionClassify(temporary_storage_change1,temporary_storage_change2,temporary_storage_map,'name');
+                }
+            }else {
+                dataFusion(temporary_storage,temporary_storage_change1);
+                dataFusionClassify(temporary_storage_change1,temporary_storage_change2,temporary_storage_map,'name');
+            }
             var aimSelect ;
             var alreadyOption,
                 alreadyFind = false;
@@ -1350,29 +1557,30 @@
                 aimSelect = $(".sku-choose-store").find("ul[data-name='"+ storage_value.name +"']");
                 $(aimSelect).find("li").removeClass("allow-choose");
                 $(aimSelect).find("li").addClass("forbid-choose");
+                $(aimSelect).find("li").addClass("forbid-choose-style");
                 $.each(storage_value_item,function (storage_value_index,storage_value_content) {
                     $(aimSelect).find("li[data-value='"+ storage_value_content.value.replace(/\'|\"/g,"") +"']").removeClass("forbid-choose");
+                    $(aimSelect).find("li[data-value='"+ storage_value_content.value.replace(/\'|\"/g,"") +"']").removeClass("forbid-choose-style");
                     $(aimSelect).find("li[data-value='"+ storage_value_content.value.replace(/\'|\"/g,"") +"']").addClass("allow-choose");
                 });
                 $.each(already_selected,function (already_selected_key,already_selected_value) {
-                    if(aimSelect.attr("data-index") == already_selected_value.select_index) {
+                    if(aimSelect.attr("data-name") == already_selected_value.name) {
                         if(!$(aimSelect).find("li[data-value='"+ already_selected_value.value.replace(/\'|\"/g,"") +"']").hasClass("forbid-choose")){
                             $(aimSelect).parents(".sku-select-module").find(".sku-select-value-show").html(already_selected_value.value)
                             $(aimSelect).parents(".sku-select-module").find("input").val(already_selected_value.value.replace(/\'|\"/g,""));
                         }else {
                             $(aimSelect).parents(".sku-select-module").find(".sku-select-value-show").html($($(aimSelect).find("li[class='allow-choose']")[0]).html());
                             $(aimSelect).parents(".sku-select-module").find("input").val($($(aimSelect).find("li[class='allow-choose']")[0]).html().replace(/\'|\"/g,""));
-                            if(already_selected.length == skus_map.length){
-                                getSkuId();
-                                $("#product-price").text(sku_price);
-                            }
                         }
                     }
                 });
             })
-            if(already_selected.length == skus_map.length){
+            if(already_selected.length == skus_arr_refactor_map_arr.length){
                 getSkuId();
                 $("#product-price").text(sku_price);
+            }
+            if(isCkickLast !=  sku_parameter.choose_classify_index){
+                isCkickLast = sku_parameter.choose_classify_index;
             }
         })
     </script>

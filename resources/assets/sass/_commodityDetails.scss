@@ -1572,8 +1572,8 @@
     z-index: 1;
     ul {
       padding: 5px 0;
-      width: 104%;
-      max-height: 200px;
+      width: 100%;
+      max-height: 250px;
       overflow-y: auto;
     }
     li {
@@ -1586,7 +1586,7 @@
         color: #fff;
         background-color: $hover-color;
       }
-      &.forbid-choose {
+      &.forbid-choose-style {
         color: #eee;
       }
     }
