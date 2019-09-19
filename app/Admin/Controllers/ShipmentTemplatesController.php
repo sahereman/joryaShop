@@ -123,7 +123,7 @@ class ShipmentTemplatesController extends Controller
         $form->number('min_days', 'Min days');
         $form->number('max_days', 'Max days');
 
-        $form->listbox('free_provinces', 'Free Provinces')->options($country->province_pluck())->rules('required');
+        $form->listbox('free_provinces', 'Free Provinces')->options($country->province_pluck());
 
         return $form;
     }
