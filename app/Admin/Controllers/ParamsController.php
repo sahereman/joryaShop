@@ -148,10 +148,32 @@ class ParamsController extends Controller
         // 定义事件回调，当模型即将保存时会触发这个回调
         $form->saving(function (Form $form) {
             $param = $form->model();
+            $values = $param->values;
             $param_name = request()->input('name');
+            $param_values = request()->input('values');
             if ($param_name != $param->name) {
                 ProductParam::where('name', $param->name)->update(['name' => $param_name]);
             }
+            if ($values && count($param_values) > 0) {
+                foreach ($param_values as $param_value) {
+                    if (!is_null($param_value['id']) && !$param_value['_remove_']) {
+                        $param_value_id = $param_value['id'];
+                        $value = $values->where('id', $param_value_id)->first();
+                        if ($param_value['value'] != $value->value) {
+                            // $value->product_params->update(['value' => $param_value['value']]);
+                            $value->product_params()->update(['value' => $param_value['value']]);
+                        }
+                    } else if (!is_null($param_value['id']) && $param_value['_remove_']) {
+                        $param_value_id = $param_value['id'];
+                        $value = $values->where('id', $param_value_id)->first();
+                        $value->product_params()->delete();
+                    }
+                }
+            }
+        });
+
+        $form->saved(function (Form $form) {
+            //
         });
 
         return $form;

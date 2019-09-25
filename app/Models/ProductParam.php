@@ -14,15 +14,41 @@ class ProductParam extends Model
      */
     protected $fillable = [
         'product_id',
+        'param_value_id',
         'name',
         'value',
         'sort'
     ];
 
+    /* Accessors */
+    /*public function getNameAttribute()
+    {
+        return $this->param_value->param->name;
+    }
+
+    public function getValueAttribute()
+    {
+        return $this->param_value->value;
+    }*/
+
+    /* Mutators */
+    public function setParamValueIdAttribute($value)
+    {
+        $param_value = ParamValue::with('param')->findOrFail($value);
+        $this->attributes['param_value_id'] = $value;
+        $this->attributes['name'] = $param_value->param->name;
+        $this->attributes['value'] = $param_value->value;
+    }
+
     /* Eloquent Relationships */
     public function product()
     {
         return $this->belongsTo(Product::class);
+    }
+
+    public function param_value()
+    {
+        return $this->belongsTo(ParamValue::class);
     }
 
     public static $cache_key;
@@ -37,10 +63,10 @@ class ProductParam extends Model
         return Cache::remember(self::$cache_key, self::$cache_expire_in_minutes, function () {
             $param_name_values = [];
             self::orderByDesc('sort')->get(['name', 'value'])->each(function ($param) use (&$param_name_values) {
-                if (! isset($param_name_values[$param->name])) {
+                if (!isset($param_name_values[$param->name])) {
                     $param_name_values[$param->name] = [];
                 }
-                if (! isset($param_name_values[$param->name][$param->value])) {
+                if (!isset($param_name_values[$param->name][$param->value])) {
                     $param_name_values[$param->name][$param->value] = 1;
                 } else {
                     $param_name_values[$param->name][$param->value] += 1;

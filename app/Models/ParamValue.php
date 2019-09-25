@@ -22,4 +22,9 @@ class ParamValue extends Model
     {
         return $this->belongsTo(Param::class);
     }
+
+    public function product_params()
+    {
+        return $this->hasMany(ProductParam::class);
+    }
 }
