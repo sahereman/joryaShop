@@ -12,6 +12,7 @@ use App\Models\CustomAttr;
 use App\Models\CustomAttrValue;
 use App\Models\EmailLog;
 use App\Models\Param;
+use App\Models\ParamValue;
 use App\Models\Product;
 use App\Models\ProductParam;
 use App\Models\ProductSku;
@@ -164,6 +165,9 @@ class ProductsController extends Controller
         $param_values = [];
         Param::orderByDesc('sort')->get()->each(function (Param $param) use (&$param_values) {
             $param_values[$param->name] = [];
+            $param->values->each(function (ParamValue $paramValue) use (&$param_values, $param) {
+                $param_values[$param->name][$paramValue->value] = 0;
+            });
         });
         $all_products->get()->each(function (Product $product) use (&$param_values) {
             $product->params->each(function (ProductParam $productParam) use (&$param_values) {

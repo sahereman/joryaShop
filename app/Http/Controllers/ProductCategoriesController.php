@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ProductRequest;
 use App\Models\ExchangeRate;
 use App\Models\Param;
+use App\Models\ParamValue;
 use App\Models\Product;
 use App\Models\ProductCategory;
 use App\Models\ProductParam;
@@ -152,6 +153,9 @@ class ProductCategoriesController extends Controller
         $param_values = [];
         Param::orderByDesc('sort')->get()->each(function (Param $param) use (&$param_values) {
             $param_values[$param->name] = [];
+            $param->values->each(function (ParamValue $paramValue) use (&$param_values, $param) {
+                $param_values[$param->name][$paramValue->value] = 0;
+            });
         });
         $all_products->get()->each(function (Product $product) use (&$param_values) {
             $product->params->each(function (ProductParam $productParam) use (&$param_values) {
