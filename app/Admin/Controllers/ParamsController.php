@@ -161,7 +161,10 @@ class ParamsController extends Controller
                         $value = $values->where('id', $param_value_id)->first();
                         if ($param_value['value'] != $value->value) {
                             // $value->product_params->update(['value' => $param_value['value']]);
-                            $value->product_params()->update(['value' => $param_value['value']]);
+                            $value->product_params()->update([
+                                'value' => $param_value['value'],
+                                'sort' => $param_value['sort'],
+                            ]);
                         }
                     } else if (!is_null($param_value['id']) && $param_value['_remove_']) {
                         $param_value_id = $param_value['id'];

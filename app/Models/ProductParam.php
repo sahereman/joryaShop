@@ -38,6 +38,7 @@ class ProductParam extends Model
         $this->attributes['param_value_id'] = $value;
         $this->attributes['name'] = $param_value->param->name;
         $this->attributes['value'] = $param_value->value;
+        $this->attributes['sort'] = $param_value->sort;
     }
 
     /* Eloquent Relationships */
