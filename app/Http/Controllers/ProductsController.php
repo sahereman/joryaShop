@@ -790,6 +790,10 @@ class ProductsController extends Controller
                 }
                 if (!in_array($product_sku_attr_value, $sku_attr_values[$product_attr_name])) {
                     $sku_attr_values[$product_attr_name][] = $product_sku_attr_value;
+                    /*if (count($sku_ids) > 0 && $product_skus->filter(function ($product_sku) {
+                            return $product_sku->stock > 0;
+                        })->whereIn('id', $sku_ids)->isNotEmpty()
+                    ) {*/
                     if (count($sku_ids) > 0 && $product_skus->where('id', $sku_ids[0])->first()->stock > 0) {
                         $data['data'][$product_attr_name][] = [
                             'value' => $product_sku_attr_value,
