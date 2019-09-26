@@ -749,7 +749,7 @@ class ProductsController extends Controller
                 break;
             }
             $product_attr_id = $product_attr_ids[$product_attr_name];
-            $product_sku_ids = $product_sku_attr_value_collection->where('product_attr_id', $product_attr_id)->where('value', $product_sku_attr_value)->pluck('product_sku_id')->toArray();
+            $product_sku_ids = $product_sku_attr_value_collection->whereIn('product_sku_id', $product_sku_ids)->where('product_attr_id', $product_attr_id)->where('value', $product_sku_attr_value)->pluck('product_sku_id')->toArray();
             if (!$product_sku_ids) {
                 break;
             }
