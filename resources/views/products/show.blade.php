@@ -171,7 +171,11 @@
                         @endif
                     </ul>
                     {{-- 动态渲染的skus选择器存放位置 --}}
-                    <div id="sku-choose-store" class="sku-choose-store {{ $product->type == \App\Models\Product::PRODUCT_TYPE_CUSTOM ? ' dis_ni' : '' }}"></div>
+                    <div id="sku-choose-store" class="sku-choose-store {{ $product->type == \App\Models\Product::PRODUCT_TYPE_CUSTOM ? ' dis_ni' : '' }}">
+                        <div class="loading-box">
+                            <img src="{{ asset('img/loading_lord.gif') }}">
+                        </div>
+                    </div>
                     {{-- skus参数数组 --}}
                     <input type="hidden" class="parameter-data" data-url="{{ route('products.search_by_sku_attr', ['product' => $product->id]) }}" value="{{ json_encode($attributes) }}"/>
                     {{--<div class="availableSold {{ $product->type == \App\Models\Product::PRODUCT_TYPE_CUSTOM ? ' dis_ni' : '' }}">--}}
@@ -911,8 +915,8 @@
                 type: "POST",
                 url: searchUrl,
                 data: data,
+                beforeSend: function(){},
                 success: function (json) {
-                    console.log(json)
                     // 进行页面渲染
                     renderPage(json.data);
                     sku_id = json.data.selected.sku.id;
@@ -920,7 +924,11 @@
                     sku_photo_url = json.data.selected.sku.photo_url;
                     var price = json.data.selected.sku.price;
                     $("#product-price").html(price)
-                    magnifyingAdd(sku_photo_url);
+                    console.log(data)
+                    if(data){
+                        console.log("出现图片")
+                        magnifyingAdd(sku_photo_url);
+                    }
                 },
                 error: function (err) {
                     console.log(err)
@@ -933,6 +941,7 @@
                         layer.msg(arr[0][0]);
                     }
                 },
+                complete:function(){},
             });
         }
         GetSkus();

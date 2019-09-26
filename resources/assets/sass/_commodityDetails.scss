@@ -1525,6 +1525,10 @@
   position: relative;
   display: flex;
   flex-direction: column;
+  min-height: 135px;
+  .loading-box {
+    margin: auto;
+  }
   .sku-select {
     position: relative;
     display: flex;
