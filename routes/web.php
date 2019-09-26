@@ -228,6 +228,7 @@ Route::get('products/search_hint', 'ProductsController@searchHint')->name('produ
 Route::get('products/{product}/comment', 'ProductsController@comment')->name('products.comment'); // 获取商品评价 [for Ajax request]
 Route::get('products/{product}/{slug?}', 'ProductsController@show')->name('products.show'); // 商品详情页
 Route::post('products/{product}/share', 'ProductsController@share')->name('products.share'); // 发送商品分享邮件 [for Ajax request]
+Route::post('products/{product}/search_by_sku_attr', 'ProductsController@searchBySkuAttr')->name('products.search_by_sku_attr'); // 筛选可用的 SKU 属性值
 
 /*购物车*/
 Route::get('carts', 'CartsController@index')->name('carts.index'); // 购物车

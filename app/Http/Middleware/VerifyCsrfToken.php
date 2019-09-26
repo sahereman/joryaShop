@@ -16,5 +16,6 @@ class VerifyCsrfToken extends Middleware
         'payments/*/alipay/notify',
         'payments/*/wechat/notify',
         'payments/*/paypal/notify',
+        'products/*/search_by_sku_attr',
     ];
 }

@@ -729,4 +729,68 @@ class ProductsController extends Controller
             'message' => 'success'
         ], 200);
     }
+
+    // POST: 筛选可用的 SKU 属性值
+    public function searchBySkuAttr(ProductRequest $request, Product $product)
+    {
+        $data = [
+            'selected' => [],
+            'data' => [],
+        ];
+        $product_attrs = $product->attrs;
+        $product_attr_names = $product_attrs->pluck('name', 'id')->toArray();
+        $product_attr_ids = $product_attrs->pluck('id', 'name')->toArray();
+        $product_skus = $product->skus()->with('attr_values')->get();
+        $product_sku_ids = $product_skus->pluck('id')->toArray();
+        $product_sku_attr_value_collection = ProductSkuAttrValue::whereIn('product_sku_id', $product_sku_ids)->get();
+        $product_sku_attr_values = $request->input('product_sku_attr_values');
+        foreach ($product_sku_attr_values as $product_attr_name => $product_sku_attr_value) {
+            if (!in_array($product_attr_name, $product_attr_names)) {
+                break;
+            }
+            $product_attr_id = $product_attr_ids[$product_attr_name];
+            $product_sku_ids = $product_sku_attr_value_collection->where('product_attr_id', $product_attr_id)->where('value', $product_sku_attr_value)->pluck('product_sku_id')->toArray();
+            if (!$product_sku_ids) {
+                break;
+            }
+        }
+        if (count($product_sku_ids) > 0) {
+            $selected = $product_skus->where('id', $product_sku_ids[0])->first()->attr_values->pluck('value', 'product_attr_id')->toArray();
+        } else {
+            $selected = $product_skus->first()->attr_values->pluck('value', 'product_attr_id')->toArray();
+        }
+        $product_sku_ids = $product_skus->pluck('id')->toArray();
+        $counter = 0;
+        foreach ($selected as $product_attr_id => $value) {
+            $product_attr_name = $product_attr_names[$product_attr_id];
+            $data['selected'][$product_attr_name] = $value;
+            $product_sku_attr_value_collection->where('product_attr_id', $product_attr_id)->sortByDesc('sort')->each(function (ProductSkuAttrValue $productSkuAttrValue) use (&$data, $product_attr_names, $product_sku_ids, $product_sku_attr_value_collection, $selected, $product_attr_id, $product_attr_name, &$counter) {
+                $counter++;
+                $product_sku_attr_value = $productSkuAttrValue->value;
+                $selected[$product_attr_id] = $product_sku_attr_value;
+                $sku_ids = $product_sku_ids;
+                foreach ($selected as $product_attr_id => $value) {
+                    $sku_ids = $product_sku_attr_value_collection->whereIn('product_sku_id', $sku_ids)->where('product_attr_id', $product_attr_id)->where('value', $value)->pluck('product_sku_id')->toArray();
+                    if (!$sku_ids) {
+                        break;
+                    }
+                }
+                if (count($sku_ids) > 0) {
+                    $data['data'][$product_attr_name][] = [
+                        'value' => $product_sku_attr_value,
+                        'switch' => true,
+                    ];
+                } else {
+                    $data['data'][$product_attr_name][] = [
+                        'value' => $product_sku_attr_value,
+                        'switch' => false,
+                    ];
+                }
+            });
+        }
+        return response()->json([
+            'message' => 'success',
+            'data' => $data,
+        ], 200);
+    }
 }

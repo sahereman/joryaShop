@@ -60,6 +60,11 @@ class ProductRequest extends Request
             return [
                 'custom_attr_value_ids' => 'required|regex:/^\d+(\,\d+)*$/',
             ];
+        } elseif ($this->routeIs('products.search_by_sku_attr')) {
+            return [
+                'product_sku_attr_values' => 'required|array',
+                'product_sku_attr_values.*' => 'required|string',
+            ];
         } else {
             throw new NotFoundHttpException();
         }
