@@ -759,21 +759,30 @@ class ProductsController extends Controller
             }
         }
         if (count($product_sku_ids) > 0) {
-            $selected = $product_skus->where('id', $product_sku_ids[0])->first()->attr_values->pluck('value', 'product_attr_id')->toArray();
+            $selected_sku = $product_skus->filter(function ($product_sku) {
+                return $product_sku->stock > 0;
+            })->where('id', $product_sku_ids[0])->first();
+            $selected_sku_attr_values = $selected_sku->attr_values->pluck('value', 'product_attr_id')->toArray();
         } else {
-            $selected = $product_skus->first()->attr_values->pluck('value', 'product_attr_id')->toArray();
+            $selected_sku = $product_skus->filter(function ($product_sku) {
+                return $product_sku->stock > 0;
+            })->first();
+            $selected_sku_attr_values = $selected_sku->attr_values->pluck('value', 'product_attr_id')->toArray();
         }
         $product_sku_ids = $product_skus->pluck('id')->toArray();
         $sku_attr_values = [];
-        foreach ($selected as $product_attr_id => $value) {
+        foreach ($selected_sku_attr_values as $product_attr_id => $value) {
             $product_attr_name = $product_attr_names[$product_attr_id];
             $sku_attr_values[$product_attr_name] = [];
             $data['selected'][$product_attr_name] = $value;
-            $product_sku_attr_value_collection->where('product_attr_id', $product_attr_id)->sortByDesc('sort')->each(function (ProductSkuAttrValue $productSkuAttrValue) use (&$data, $product_attr_names, $product_skus, $product_sku_ids, $product_sku_attr_value_collection, $selected, $product_attr_id, $product_attr_name, &$sku_attr_values) {
+            $data['selected']['sku_id'] = $selected_sku->id;
+            $data['selected']['stock'] = $selected_sku->stock;
+            $data['selected']['photo_url'] = $selected_sku->photo_url;
+            $product_sku_attr_value_collection->where('product_attr_id', $product_attr_id)->sortByDesc('sort')->each(function (ProductSkuAttrValue $productSkuAttrValue) use (&$data, $product_attr_names, $product_skus, $product_sku_ids, $product_sku_attr_value_collection, $selected_sku_attr_values, $product_attr_id, $product_attr_name, &$sku_attr_values) {
                 $product_sku_attr_value = $productSkuAttrValue->value;
-                $selected[$product_attr_id] = $product_sku_attr_value;
+                $selected_sku_attr_values[$product_attr_id] = $product_sku_attr_value;
                 $sku_ids = $product_sku_ids;
-                foreach ($selected as $product_attr_id => $value) {
+                foreach ($selected_sku_attr_values as $product_attr_id => $value) {
                     $sku_ids = $product_sku_attr_value_collection->whereIn('product_sku_id', $sku_ids)->where('product_attr_id', $product_attr_id)->where('value', $value)->pluck('product_sku_id')->toArray();
                     if (!$sku_ids) {
                         break;
