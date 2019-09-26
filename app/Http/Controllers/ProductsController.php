@@ -744,16 +744,18 @@ class ProductsController extends Controller
         $product_sku_ids = $product_skus->pluck('id')->toArray();
         $product_sku_attr_value_collection = ProductSkuAttrValue::whereIn('product_sku_id', $product_sku_ids)->get();
         $product_sku_attr_values = $request->input('product_sku_attr_values');
-        foreach ($product_sku_attr_values as $product_attr_name => $product_sku_attr_value) {
-            if ($product_sku_attr_value && !in_array($product_attr_name, $product_attr_names)) {
-                break;
-            }
-            if ($product_sku_attr_value) {
-                $product_attr_id = $product_attr_ids[$product_attr_name];
-                $product_sku_ids = $product_sku_attr_value_collection->whereIn('product_sku_id', $product_sku_ids)->where('product_attr_id', $product_attr_id)->where('value', $product_sku_attr_value)->pluck('product_sku_id')->toArray();
-            }
-            if (!$product_sku_ids) {
-                break;
+        if ($product_sku_attr_values) {
+            foreach ($product_sku_attr_values as $product_attr_name => $product_sku_attr_value) {
+                if ($product_sku_attr_value && !in_array($product_attr_name, $product_attr_names)) {
+                    break;
+                }
+                if ($product_sku_attr_value) {
+                    $product_attr_id = $product_attr_ids[$product_attr_name];
+                    $product_sku_ids = $product_sku_attr_value_collection->whereIn('product_sku_id', $product_sku_ids)->where('product_attr_id', $product_attr_id)->where('value', $product_sku_attr_value)->pluck('product_sku_id')->toArray();
+                }
+                if (!$product_sku_ids) {
+                    break;
+                }
             }
         }
         if (count($product_sku_ids) > 0) {
