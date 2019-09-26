@@ -760,12 +760,12 @@ class ProductsController extends Controller
             $selected = $product_skus->first()->attr_values->pluck('value', 'product_attr_id')->toArray();
         }
         $product_sku_ids = $product_skus->pluck('id')->toArray();
-        $counter = 0;
+        $sku_attr_values = [];
         foreach ($selected as $product_attr_id => $value) {
             $product_attr_name = $product_attr_names[$product_attr_id];
+            $sku_attr_values[$product_attr_name] = [];
             $data['selected'][$product_attr_name] = $value;
-            $product_sku_attr_value_collection->where('product_attr_id', $product_attr_id)->sortByDesc('sort')->each(function (ProductSkuAttrValue $productSkuAttrValue) use (&$data, $product_attr_names, $product_sku_ids, $product_sku_attr_value_collection, $selected, $product_attr_id, $product_attr_name, &$counter) {
-                $counter++;
+            $product_sku_attr_value_collection->where('product_attr_id', $product_attr_id)->sortByDesc('sort')->each(function (ProductSkuAttrValue $productSkuAttrValue) use (&$data, $product_attr_names, $product_sku_ids, $product_sku_attr_value_collection, $selected, $product_attr_id, $product_attr_name, &$sku_attr_values) {
                 $product_sku_attr_value = $productSkuAttrValue->value;
                 $selected[$product_attr_id] = $product_sku_attr_value;
                 $sku_ids = $product_sku_ids;
@@ -775,16 +775,19 @@ class ProductsController extends Controller
                         break;
                     }
                 }
-                if (count($sku_ids) > 0) {
-                    $data['data'][$product_attr_name][] = [
-                        'value' => $product_sku_attr_value,
-                        'switch' => true,
-                    ];
-                } else {
-                    $data['data'][$product_attr_name][] = [
-                        'value' => $product_sku_attr_value,
-                        'switch' => false,
-                    ];
+                if (!in_array($product_sku_attr_value, $sku_attr_values[$product_attr_name])) {
+                    $sku_attr_values[$product_attr_name][] = $product_sku_attr_value;
+                    if (count($sku_ids) > 0) {
+                        $data['data'][$product_attr_name][] = [
+                            'value' => $product_sku_attr_value,
+                            'switch' => true,
+                        ];
+                    } else {
+                        $data['data'][$product_attr_name][] = [
+                            'value' => $product_sku_attr_value,
+                            'switch' => false,
+                        ];
+                    }
                 }
             });
         }
