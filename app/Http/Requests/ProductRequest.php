@@ -63,7 +63,7 @@ class ProductRequest extends Request
         } elseif ($this->routeIs('products.search_by_sku_attr')) {
             return [
                 'product_sku_attr_values' => 'required|array',
-                'product_sku_attr_values.*' => 'required|string',
+                'product_sku_attr_values.*' => 'nullable|string',
             ];
         } else {
             throw new NotFoundHttpException();
