@@ -961,13 +961,24 @@
                 skuDomHtml += "</div>"
                 skuDomHtml += "<div class='sku-select-options'>"
                 skuDomHtml += "<ul data-paramId='"+ skuKindsArr_val.paramId +"' data-name='"+ skuKindsArr_val.paramValue +"'>"
-                $.each(skuKindsArr_val,function (sku_map_data_i,sku_map_data_n) {
-                    if(sku_map_data_n.switch) {
-                        skuDomHtml += "<li data-paramId='"+ skuKindsArr_index +"' data-valueId='" + sku_map_data_n.value + "'>"+ sku_map_data_n.value +"</li>"
-                    }else {
-                        skuDomHtml += "<li class='forbid-choose forbid-choose-style' data-paramId='"+ skuKindsArr_index +"' data-valueId='" + sku_map_data_n.value + "'>"+ sku_map_data_n.value +"</li>"
-                    }
-                });
+                if(skuKindsArr_val.true){
+                    $.each(skuKindsArr_val.true,function (sku_map_data_i,sku_map_data_n) {
+                        if(sku_map_data_n.switch) {
+                            skuDomHtml += "<li data-paramId='"+ skuKindsArr_index +"' data-valueId='" + sku_map_data_n.value + "'>"+ sku_map_data_n.value +"</li>"
+                        }else {
+                            skuDomHtml += "<li class='forbid-choose forbid-choose-style' data-paramId='"+ skuKindsArr_index +"' data-valueId='" + sku_map_data_n.value + "'>"+ sku_map_data_n.value +"</li>"
+                        }
+                    });
+                };
+                if(skuKindsArr_val.false){
+                    $.each(skuKindsArr_val.false,function (sku_map_data_i,sku_map_data_n) {
+                        if(sku_map_data_n.switch) {
+                            skuDomHtml += "<li data-paramId='"+ skuKindsArr_index +"' data-valueId='" + sku_map_data_n.value + "'>"+ sku_map_data_n.value +"</li>"
+                        }else {
+                            skuDomHtml += "<li class='forbid-choose forbid-choose-style' data-paramId='"+ skuKindsArr_index +"' data-valueId='" + sku_map_data_n.value + "'>"+ sku_map_data_n.value +"</li>"
+                        }
+                    });
+                }
                 skuDomHtml += "</ul>"
                 skuDomHtml += "</div>"
                 skuDomHtml += "</div>"
