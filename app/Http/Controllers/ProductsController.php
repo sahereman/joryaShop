@@ -776,7 +776,7 @@ class ProductsController extends Controller
             $product_attr_name = $product_attr_names[$product_attr_id];
             $sku_attr_values[$product_attr_name] = [];
             $data['selected'][$product_attr_name] = $value;
-            $product_sku_attr_value_collection->where('product_attr_id', $product_attr_id)->sortByDesc('sort')->each(function (ProductSkuAttrValue $productSkuAttrValue) use (&$data, $product_attr_names, $product_skus, $product_sku_ids, $product_sku_attr_value_collection, $selected_sku_attr_values, $product_attr_id, $product_attr_name, &$sku_attr_values) {
+            $product_sku_attr_value_collection->where('product_attr_id', $product_attr_id)->sortBy('value')->each(function (ProductSkuAttrValue $productSkuAttrValue) use (&$data, $product_attr_names, $product_skus, $product_sku_ids, $product_sku_attr_value_collection, $selected_sku_attr_values, $product_attr_id, $product_attr_name, &$sku_attr_values) {
                 $product_sku_attr_value = $productSkuAttrValue->value;
                 $selected_sku_attr_values[$product_attr_id] = $product_sku_attr_value;
                 $sku_ids = $product_sku_ids;
@@ -793,12 +793,12 @@ class ProductsController extends Controller
                         })->whereIn('id', $sku_ids)->isNotEmpty()
                     ) {*/
                     if (count($sku_ids) > 0 && $product_skus->where('id', $sku_ids[0])->first()->stock > 0) {
-                        $data['data'][$product_attr_name][] = [
+                        $data['data'][$product_attr_name]['true'][] = [
                             'value' => $product_sku_attr_value,
                             'switch' => true,
                         ];
                     } else {
-                        $data['data'][$product_attr_name][] = [
+                        $data['data'][$product_attr_name]['false'][] = [
                             'value' => $product_sku_attr_value,
                             'switch' => false,
                         ];
