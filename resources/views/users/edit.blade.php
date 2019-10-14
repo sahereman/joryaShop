@@ -92,11 +92,11 @@
                                 <span>手机号</span>
                                 <input type="text" name="phone" value="13061295254">
                             </li>-->
-                            <li>
-                                <span>Facebook</span>
-                                <input type="text" name="facebook" value="{{ $user->facebook }}"
-                                       placeholder="@lang('basic.users.Enter_your_Facebook_account')">
-                            </li>
+                            {{--<li>--}}
+                                {{--<span>Facebook</span>--}}
+                                {{--<input type="text" name="facebook" value="{{ $user->facebook }}"--}}
+                                       {{--placeholder="@lang('basic.users.Enter_your_Facebook_account')">--}}
+                            {{--</li>--}}
                             <li>
                                 <span>@lang('basic.users.email_address')</span>
                                 <input type="email" name="email" value="{{ $user->email }}"

@@ -26,6 +26,8 @@ mix.copyDirectory('resources/assets/js/layer', 'public/js/layer');
 mix.copyDirectory('resources/assets/js/shareJS', 'public/js/shareJS');
 mix.copyDirectory('resources/assets/js/lord', 'public/js/lord');
 mix.copyDirectory('resources/assets/js/scrollReveal', 'public/js/scrollReveal');
+mix.copyDirectory('resources/assets/js/slick', 'public/js/slick');
+mix.copyDirectory('resources/assets/js/jqueryCountup', 'public/js/jqueryCountup');
 
 //mix.copyDirectory('resources/assets/js/main.js', 'public/js/');
 

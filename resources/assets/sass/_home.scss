@@ -1,477 +1,436 @@
-.home-page {
-  position: relative;
+// 关于lyrical
+.about-lyrical {
   width: 100%;
-  .swiper-container {
-    img {
-      width: 100%;
-      height: 100%;
-    }
+  height: 640px;
+  background-color: #fff;
+  @media only screen and (max-width: 750px){
+    margin-top: 20px;
+    height: auto;
   }
-  .lyrical-intro-box {
-    width: 100%;
-    min-height: 37.5rem;
-    padding-bottom: 4.64rem;
+  .main-content {
     display: flex;
-    flex-direction: column;
-    @media only screen and (max-width: 767px){
-      padding-bottom: 1rem;
-    }
-  }
-  .lyrical-intro-title {
-    margin: 2.86rem auto;
-    text-align: center;
-    font-size: 2.1rem;
-    color: $hover-color;
-    @media only screen and (max-width: 767px){
-      margin: 1.5rem auto;
-      font-size: 1.5rem;
-    }
-  }
-  .lyrical-intro {
-    width: 100%;
-    display: flex;
-    flex-direction: row;
     justify-content: space-between;
-    @media only screen and (max-width: 767px){
-      flex-direction: column;
+    height: 100%;
+  }
+  // 关于做的简介
+  .lyrical-info {
+    margin: auto;
+    margin-left: 0;
+    width: 40%;
+    text-align: left;
+    @media only screen and (max-width: 750px){
+      margin-bottom: 20px;
+      width: 100%;
     }
-    .lyrical-intro-video {
-      width: 44%;
-      @media only screen and (max-width: 767px){
-        width: 100%;
-        //margin: 0 auto;
-      }
-      #player {
-        width: 100%;
-        height: 330px;
+    .lyrical-info-title {
+      margin-bottom: 39px;
+      @media only screen and (max-width: 750px){
+        margin-bottom: 19px;
         img {
-          width: 100%;
-          height: 100%;
+          width: 80%;
         }
       }
     }
-    .lyrical-intro-text {
-      width: 53%;
-      padding-top: 1rem;
-      padding-left: 1.07rem;
-      font-size: 1.29rem;
-      @media only screen and (max-width: 767px){
-        width: 100%;
-        //margin: 0 auto;
+    .lyrical-info-subtitle {
+      color: #000;
+      font-size:18px;
+      line-height:30px;
+      margin-bottom: 30px;
+      @media only screen and (max-width: 750px){
+        margin-bottom: 15px;
       }
-      p {
-        margin-bottom: 2.86rem;
-        color: #000;
-        opacity: .6;
-        line-height: 1.8rem;
-        span {
-          color: $hover-color;
+    }
+    .lyrical-info-article {
+      margin-bottom: 80px;
+      font-size:16px;
+      line-height:24px;
+      color: #666;
+      @media only screen and (max-width: 750px){
+        margin-bottom: 40px;
+      }
+    }
+    .lyrical-info-link {
+      a {
+        display: inline-block;
+        width:240px;
+        height:50px;
+        background-color: #bf2a24;
+        text-align: center;
+        font-size:14px;
+        color: #fff;
+        line-height:50px;
+        @media only screen and (max-width: 750px){
+          width:120px;
+          height:30px;
+          line-height:30px;
         }
       }
     }
   }
-  .noIdea {
-    position: relative;
-    margin-bottom: 7rem;
-    min-height: 13.64rem;
+  // 关于右侧照片墙
+  .qualification {
+    margin: 50px auto;
+    margin-right: 0;
+    width: 50%;
     display: flex;
-    flex-direction: row;
-    @media only screen and (max-width: 767px){
-      margin-bottom: 2rem;
-      overflow: hidden;
+    @media only screen and (max-width: 750px){
+      display: none;
     }
-    img {
-      position: absolute;
-      top: 0;
-      left: 0;
-      z-index: -1;
-      width: 100%;
-      height: 100%;
-      @media only screen and (max-width: 767px){
-        width: auto;
+    // 照片墙左侧
+    .qualification-left {
+      margin: auto;
+      margin-left: 0;
+      width: 60%;
+      div {
+        display: flex;
+        justify-content: flex-end;
+        .photo-wall-1 {
+          margin: auto;
+          margin-bottom: 17px;
+          margin-right: 16px;
+          width: 100px;
+          height: 80px;
+        }
+        .photo-wall-6 {
+          margin: auto 0;
+          margin-bottom: 11px;
+          width: 329px;
+          height: 169px;
+          @media only screen and (max-width: 1600px){
+            width: 260px;
+            height: 140px;
+          }
+        }
+        .photo-wall-3 {
+          margin-right: 12px;
+          width: 288px;
+          height: 169px;
+          @media only screen and (max-width: 1600px){
+            width: 260px;
+            height: 140px;
+          }
+        }
+        .photo-wall-5 {
+          width: 190px;
+          height: 291px;
+          @media only screen and (max-width: 1600px){
+            width: 190px;
+            height: 240px;
+          }
+        }
       }
     }
-    .content-area {
+    // 照片墙右侧
+    .qualification-right {
       margin: auto;
-      display: flex;
+      margin-right: 0;
+      margin-top: 0;
+      width: 33%;
+      .photo-wall-4 {
+        margin-bottom: 14px;
+        width: 274px;
+        height: 354px;
+        @media only screen and (max-width: 1600px){
+          width: 220px;
+          height: 300px;
+        }
+      }
+      .photo-wall-2 {
+        width: 106px;
+        height: 83px;
+      }
+    }
+  }
+}
+// 数字滚动区
+.countup-area {
+  width: 100%;
+  height: 300px;
+  background: url(../img/Home/countup.png) center no-repeat;
+  background-size: cover;
+  color: #fff;
+  @media only screen and (max-width: 750px){
+    display: none;
+  }
+  ul {
+    display: flex;
+    height: 100%;
+    li {
+      position: relative;
+      flex: 1;
+      margin: auto;
+      text-align: center;
+      &::after {
+        position: absolute;
+        content: '';
+        right: 0;
+        top: -30px;
+        height: 140px;
+        width: 1px;
+        background-color: #fff;
+        opacity: .3;
+      }
+      &:last-of-type {
+        &::after {
+          display: none;
+        }
+      }
+      >span {
+        display: block;
+      }
+      .countup-num {
+        margin-bottom: 23px;
+        font-size:39px;
+        font-weight:bold;
+        line-height:26px;
+      }
+      .countup-text {
+        font-size:18px;
+        line-height:23px;
+        opacity:0.6;
+        @media only screen and (max-width: 1336px){
+          font-size:14px;
+        }
+      }
+    }
+  }
+}
+// Product Zone
+.Product-Zone {
+  padding: 80px 0;
+  width: 100%;
+  @media only screen and (max-width: 750px){
+    padding: 20px 0;
+    width: 100%;
+    height: auto;
+    min-height: 350px;
+  }
+  .part-title {
+    margin-bottom: 41px;
+    text-align: center;
+  }
+  #ProductZone {
+    position: relative;
+    margin-bottom: 87px;
+    @media only screen and (max-width: 750px){
+     display: none;
+    }
+    .item {
+      img {
+        margin: auto;
+        width: 80%;
+      }
+    }
+  }
+  .why-youtube {
+    display: flex;
+    @media only screen and (max-width: 750px){
       flex-direction: column;
-      p {
-        margin: 1.43rem auto;
-        font-size: 1.29rem;
-        @media only screen and (max-width: 767px){
-          padding: 0 2.5rem;
-          text-align: center;
+    }
+    .why-lyrical {
+      margin: auto;
+      margin-left: 0;
+      padding: 50px 0;
+      width: 800px;
+      height: 700px;
+      background: #F5F5F5;
+      overflow: hidden;
+      @media only screen and (max-width: 1680px){
+        width: 48%;
+        height: auto;
+        min-height: 700px;
+      }
+      @media only screen and (max-width: 1600px){
+        width: 48%;
+        height: auto;
+        min-height: 700px;
+      }
+      @media only screen and (max-width: 750px){
+        width: 100%;
+        padding: 0;
+        margin-bottom: 15px;
+      }
+      .why-title {
+        margin-bottom: 40px;
+        width: 50%;
+        height: 60px;
+        line-height: 60px;
+        padding: 0 49px;
+        color: #fff;
+        font-size: 24px;
+        background: #BF2A24;
+        @media only screen and (max-width: 750px){
+          width: 100%;
+          margin-bottom: 20px;
+        }
+      }
+      .why-info {
+        padding-left: 49px;
+        padding-right: 63px;
+        margin-bottom: 40px;
+        font-size: 16px;
+        color: #666;
+        line-height: 30px;
+        @media only screen and (max-width: 750px){
+         padding: 0;
         }
       }
       a {
-        display: block;
-        margin: 0 auto;
-        padding: 10px 25px;
-        border: 2px solid #bc8c61;
-        font-size: 1.29rem;
-        transition: color 300ms ease-in-out,
-                    background-color 300ms ease-in-out;
-        &:hover {
-          color: #fff;
-          background-color: $hover-color;
-        }
-        @media only screen and (max-width: 767px){
-          padding: 5px 10px;
-          border: 1px solid #bc8c61;
-          font-size: 1.1rem;
+        margin-left: 49px;
+        margin-bottom: 50px;
+        display: inline-block;
+        width: 240px;
+        height: 50px;
+        line-height: 50px;
+        text-align: center;
+        color: #fff;
+        font-size: 14px;
+        background: #BF2A24;
+        @media only screen and (max-width: 750px){
+          margin-bottom: 25px;
         }
       }
-    }
-  }
-  // hair system
-  .hair-system-box {
-    margin-bottom: 5rem;
-    @media only screen and (max-width: 767px){
-      margin-bottom: 2rem;
-    }
-    .hair-system-img {
-      margin-bottom: 4.29rem;
-      width: 100%;
-      @media only screen and (max-width: 767px){
-        margin-bottom: 1.29rem;
-      }
-      img {
-        width: 100%;
-      }
-    }
-    .hair-system-classify {
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
-      margin-bottom: 3rem;
-      .hair-system-classify-title {
-        font-size: 1.86rem;
-        color: $hover-color;
-        font-weight: 600;
-        @media only screen and (max-width: 767px){
-          font-size: 1.2rem;
-        }
-      }
-      .hair-system-classify-kinds {
-        position: relative;
+      .why-imgs {
+        padding: 0 50px;
         display: flex;
-        flex-direction: row;
-        justify-content: flex-end;
-        padding: 2px 0;
-        font-size: 1.57rem;
-        @media only screen and (max-width: 767px){
-          display: none;
-        }
-        .classify-kinds-item {
-          position: relative;
-          margin-right: 1.1rem;
-          white-space: nowrap;
-          &:after {
-            position: absolute;
-            font-family: "iconfont" !important;
-            content: "\e600";
-            right: -1.3rem;
-            top: 2px;
-          }
-          &:nth-of-type(3){
-            &:after {
-              display: none;
-            }
-          }
-        }
-        a {
-          transition: color 300ms ease-in-out;
-          &:hover {
-            color: $hover-color;
-          }
-        }
-        .more-kinds-item {
-          position: relative;
-          margin-right: 0;
-          text-align: right;
-          line-height: 120%;
-          overflow: hidden;
-          display: flex;
-        }
-        .iconfont {
-          font-size: 1.57rem;
-        }
-        .more-classify-kinds-box {
-          display: none;
-          width: 200px;
-          overflow-x: hidden;
-          position: absolute;
-          top: 100%;
-          right: 0;
-          background-color: #fff;
-          border: 1px solid #eee;
-          z-index: 20;
-          padding-bottom: 10px;
-        }
-        .more-classify-kinds {
-          //position: absolute;
-          width: 215px;
-          padding: 10px;
-          max-height: 200px;
-          overflow-y: auto;
-          li {
-            padding: 5px 0;
-            white-space: nowrap;
-            text-overflow: ellipsis;
-            overflow: hidden;
-            text-align: center;
-          }
-          a {
-            font-size: 1rem;
-            transition: color 300ms ease-in-out;
-            &:hover {
-              color: $hover-color;
-            }
-          }
-        }
-      }
-    //  移动端展示的分页按钮
-      .classify-kinds-mobile {
-        display: none;
-        position: relative;
-        @media only screen and (max-width: 767px){
-          display: block;
-        }
-        .classify-kinds-mobile-lists {
-          display: none;
-          position: absolute;
-          width: 180px;
-          overflow-x: hidden;
-          top: 100%;
-          right: 0;
-          background-color: #fff;
-          border: 1px solid #eee;
-          z-index: 20;
-          padding: 5px 0;
-          max-height: 200px;
-          overflow-y: auto;
-          li {
-            padding: 5px;
-            white-space: nowrap;
-            text-overflow: ellipsis;
-            overflow: hidden;
-            text-align: center;
-          }
-          a {
-            font-size: 12px;
-            transition: color 300ms ease-in-out;
-            &:hover {
-              color: $hover-color;
-            }
-          }
-        }
-      }
-    }
-    .hair-system-slider {
-      position: relative;
-      text-align: center;
-      .swiper-container {
-        width: 95%;
-        margin: auto;
-        @media only screen and (max-width: 767px){
-          width: 85%;
-        }
-        .swiper-slide {
-          cursor: pointer;
-          .slide-img {
-            width: 100%;
-            //height: 320px;
-            overflow: hidden;
-            img {
-              width: 100%;
-              height: 100%;
-              transition: all 0.3s ease;
-            }
-          }
-          .slide-title {
-            margin-top: 2.57rem;
-            margin-bottom: 1.5rem;
-            @media only screen and (max-width: 767px){
-              margin-top: 1.5rem;
-            }
-            p {
-              height: 2rem;
-              font-size: 1.71rem;
-              overflow: hidden;
-              white-space: nowrap;
-              text-overflow: ellipsis;
-              @media only screen and (max-width: 767px){
-                font-size: 1.3rem;
-              }
-            }
-          }
-          .slide-price {
-            margin-bottom: 4rem;
-            font-size: 1.1rem;
-            @media only screen and (max-width: 767px){
-              margin-bottom: 1.5rem;
-            }
-            .old-price {
-              text-decoration: line-through;
-            }
-            .special-price {
-              color: #ba0707;
-            }
-          }
-          .slide-operation {
-            a {
-              display: block;
-              width: 100%;
-              height: 3.14rem;
-              text-align: center;
-              border: 2px solid $hover-color;
-              line-height: 3.14rem;
-              font-size: 1.29rem;
-              transition: color 300ms ease-in-out,
-                          background-color 300ms ease-in-out;
-            }
-          }
-          &:hover {
-            .slide-img {
-              img {
-                transform: scale(1.2);
-              }
-            }
-            .slide-operation {
-              a {
-                color: #fff;
-                background-color: $hover-color;
-              }
-            }
-          }
-        }
-      }
-      .swiper-button-prev {
-        left: 0;
-        outline: none;
-      }
-      .swiper-button-next {
-        right: 0;
-        outline: none;
-      }
-    }
-  }
-//  Preferential activities
-  .preferential-activities {
-    .preferential-images {
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
-      text-align: center;
-      @media only screen and (max-width: 767px){
-        flex-direction: column;
-      }
-      .preferential-images-left {
-        width: 48%;
-        min-height: 630px;
-        display: flex;
-        flex-direction: column;
-        @media only screen and (max-width: 767px){
-          width: 100%;
-          height: auto;
-        }
-        .images-left-box {
-          width: 100%;
-          max-height: 100%;
+        justify-content: space-between;
+        @media only screen and (max-width: 750px){
+          flex-direction: column;
+          padding: 0 5px;
         }
         img {
-          width: 100%;
-          height: 100%;
-          @media only screen and (max-width: 767px){
+          margin: 0;
+          width: 45%;
+          height: 200px;
+          @media only screen and (max-width: 1600px){
             height: auto;
           }
-        }
-      }
-      .preferential-images-right {
-        width: 48%;
-        @media only screen and (max-width: 767px){
-          width: 100%;
-        }
-        div {
-          &:first-of-type {
-            margin-bottom: 25px;
+          @media only screen and (max-width: 750px){
+            width: 100%;
+            margin-bottom: 10px;
           }
         }
       }
-      .preferential-img {
-        overflow: hidden;
-        img {
-          width: 100%;
-          transition: all 0.3s ease;
-        }
-        &:hover {
-          img {
-            transform: scale(1.2);
-            @media only screen and (max-width: 767px){
-              transform: scale(1);
-            }
-          }
-        }
-      }
-      h2 {
-        @media only screen and (max-width: 767px){
-          font-size: 1.3rem;
-          margin: 1rem;
-        }
-      }
     }
-  }
-  // publicity
-  .publicity {
-    margin: 7.86rem 0;
-    @media only screen and (max-width: 767px){
-      margin: 1.86rem 0;
-    }
-    img {
-      width: 100%;
-    }
-  }
-//  our Team
-  .Team-part {
-    text-align: center;
-    img {
-      width: 100%;
-    }
-    .team-part-title {
-      margin-bottom: 4.29rem;
-      @media only screen and (max-width: 767px){
-        margin-bottom: 1.29rem;
-      }
-      h3 {
-        position: relative;
-        font-size: 2.14rem;
+    .youtube-video {
+      margin: auto;
+      margin-right: 0;
+      width: 800px;
+      height: 700px;
+      @media only screen and (max-width: 1680px){
         margin-top: 0;
-        @media only screen and (max-width: 767px){
-          font-size: 1.5rem;
+        width: 48%;
+        height: auto;
+        min-height: 700px;
+      }
+      @media only screen and (max-width: 1600px){
+        margin-top: 0;
+        width: 48%;
+        height: auto;
+        min-height: 700px;
+      }
+      @media only screen and (max-width: 750px){
+        width: 100%;
+        height: auto;
+        min-height: 350px;
+      }
+      .video-title {
+        padding: 0 49px;
+        width: 100%;
+        height: 70px;
+        color: #fff;
+        background: #BF2A24;
+        font-size: 24px;
+        line-height: 70px;
+      }
+      #player {
+        width: 100%;
+        height: 630px;
+        @media only screen and (max-width: 1680px){
+          height: 645px;
         }
-        &:after {
-          position: absolute;
-          content: '';
-          width: 100px;
-          height: 5px;
-          top: 200%;
-          left: 45%;
-          background-color: $hover-color;
-          @media only screen and (max-width: 767px){
-            display: none;
-          }
+        @media only screen and (max-width: 1600px){
+          height: 650px;
+        }
+        @media only screen and (max-width: 1336){
+          height: 700px;
+        }
+        @media only screen and (max-width: 750px){
+          height: 350px;
         }
       }
     }
-    .team-part-intro {
-      margin-bottom: 6.86rem;
-      font-size: 1.43rem;
-      @media only screen and (max-width: 767px){
-        margin-bottom: 1.86rem;
-        font-size: 1rem;
+  }
+}
+// OUR PRICES
+.our-prices {
+  padding: 80PX 0;
+  width: 100%;
+  background: #f5f5f5;
+  .part-title {
+    margin-bottom: 40px;
+    text-align: center;
+  }
+  ul {
+    display: flex;
+    justify-content: space-between;
+    @media only screen and (max-width: 750px){
+     flex-direction: column;
+    }
+    li {
+      display: flex;
+      flex-direction: column;
+      width: 32%;
+      height: 480px;
+      border:1px solid #D8D8D8;
+      background: #fff;
+      text-align: center;
+      @media only screen and (max-width: 750px){
+        width: 100%;
+        margin-bottom: 5px;
       }
-      p {
-        margin-bottom: 10px;
+      .part-img-box {
+        margin: auto;
+        margin-bottom: 34px;
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        text-align: center;
+        line-height: 80px;
+        background: #7F7F7F;
+        transition: all .3s ease-out 0s;
+      }
+      span {
+        font-size:14px;
+        color: #666;
+        line-height:20px;
+        &.part-img-title {
+          margin-bottom: 30px;
+          font-size:24px;
+          color: #333;
+        }
+      }
+      a {
+        margin: auto;
+        display: inline-block;
+        width: 200px;
+        height: 48px;
+        line-height: 48px;
+        font-size: 14px;
+        color: #666;
+        text-align: center;
+        border: 1px solid #DBDBDB;
+        transition: all .3s ease-out 0s;
+      }
+      &:hover {
+        .part-img-box {
+          background: #BF2A24;
+        }
+        a {
+          color: #fff;
+          background: #BF2A24;
+
+        }
       }
     }
   }

@@ -18,8 +18,9 @@
     <link rel="shortcut icon" href="{{ asset('img/favicon.jpg') }}" type="image/x-icon"/>
     {{--样式--}}
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <link href="{{ asset('js/swiper/css/swiper.css') }}" rel="stylesheet">
+    {{-- <link href="{{ asset('js/swiper/css/swiper.css') }}" rel="stylesheet"> --}}
     <link href="{{ asset('js/shareJS/css/share.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('js/slick/slick.css') }}" rel="stylesheet" type="text/css" />
     {{--@if(App::isLocale('en'))--}}
     <link rel="stylesheet" href="{{ asset('js/lord/colorbox.css') }}">
     <link rel="stylesheet" href="{{ asset('js/lord/cloudzoom.css') }}">
