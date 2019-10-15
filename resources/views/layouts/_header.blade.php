@@ -6,7 +6,7 @@
             <div class="country-language">
                 <div class="country dropdown">
                     <a href="#" class="dropdown-heading cover" type="button" data-toggle="dropdown" aria-haspopup="true"
-                    aria-expanded="false">
+                       aria-expanded="false">
                         <span>
                             <span class="value">{{session('GlobalCurrency') ? session('GlobalCurrency') : 'USD'}}</span>
                             <span class="caret">&nbsp;</span>
@@ -15,7 +15,7 @@
                     <ul class="dropdown-menu" aria-labelledby="dLabel">
                         <li>
                             <a href="{{ route('currency.update', ['currency' => 'USD']) }}">
-                                <span>USD - US Doller</span>
+                                <span>USD - US Dollar</span>
                             </a>
                         </li>
                         @foreach(\App\Models\ExchangeRate::all() as $exchangeRate)
@@ -29,7 +29,7 @@
                 </div>
                 <div class="language dropdown">
                     <a href="#" class="dropdown-heading cover" type="button" data-toggle="dropdown" aria-haspopup="true"
-                        aria-expanded="false">
+                       aria-expanded="false">
                         <span>
                             <span class="value">English</span>
                             <span class="caret">&nbsp;</span>
@@ -49,7 +49,8 @@
             {{-- 登录注册&&购物车等 --}}
             <div class="register-login">
                 <div>
-                    <a href="{{ route('login') }}">Sign in</a><span>/</span><a href="{{ route('register') }}">Register</a>
+                    <a href="{{ route('login') }}">Sign in</a><span>/</span><a
+                            href="{{ route('register') }}">Register</a>
                 </div>
                 <div class="person-center">
                     <a href="{{ route('users.home') }}">
@@ -95,175 +96,71 @@
                 <div class="menu-list">
                     {{-- 一级导航 --}}
                     <ul class="first-menu">
-                        <li class="fisrt-tab">
-                            <a href="javascript:void(0)" class="first-nav">Home</a>
-                            {{-- 二级导航。根据内容变化导航的样式，如果数据过多，固定三列，右侧一张图片,如果内容没有图片没有二级导航则加class—— nav-two-little，参考第二个  --}}
-                            <div class="header-nav-two dis_n">
-                                {{--左侧导航内容--}}
-                                {{-- 根据内容判断该ul显示那个class，有二级详细子分类的现实—— nav-menu-more,没有子分类的显示—— nav-menu-little,具体显示差别查看第一个和第二个的效果--}}
-                                <div class="main-content">
-                                    <ul class="nav-menu-more">
-                                        <li>
-                                            <p class="header-nav-title">MEN'S HAIR</p>
-                                            {{-- 二级菜单跟内容判断是否显示 --}}
-                                            <div class="nav-two-menu">
-                                                <a href="">Stock Hair Systems</a>
-                                                <a href="">Custom Hair Systems</a>
-                                                <a href="">Lace Hair Systems</a>
-                                                <a href="">Lace Front Hair Systems</a>
-                                                <a href="">Skin Hair Systems</a>
-                                                <a href="">Monofilament Hair Systems</a>
-                                                <a href="">African-American Hair Systems</a>
+                        @foreach(\App\Models\Menu::pcMenus() as $menu)
+                            @if($menu->children->isNotEmpty() && $menu->children->first()->children->isNotEmpty())
+                                <li class="first-tab">
+                                    <a href="{{ $menu->link }}" class="first-nav">
+                                        {{ App::isLocale('zh-CN') ? $menu->name_zh : $menu->name_en }}
+                                    </a>
+                                    {{-- 二级导航。根据内容变化导航的样式，如果数据过多，固定三列，右侧一张图片,如果内容没有图片没有二级导航则加class—— nav-two-little，参考第二个  --}}
+                                    <div class="header-nav-two dis_n">
+                                        {{--左侧导航内容--}}
+                                        {{-- 根据内容判断该ul显示那个class，有二级详细子分类的现实—— nav-menu-more,没有子分类的显示—— nav-menu-little,具体显示差别查看第一个和第二个的效果--}}
+                                        <div class="main-content">
+                                            <ul class="nav-menu-more">
+                                                @foreach($menu['children'] as $child)
+                                                    <li>
+                                                        <p class="header-nav-title">{{ App::isLocale('zh-CN') ? $child['name_zh'] : $child['name_en'] }}</p>
+                                                        {{-- 二级菜单跟内容判断是否显示 --}}
+                                                        @if($child->children->isNotEmpty())
+                                                            <div class="nav-two-menu">
+                                                                @foreach($child['children'] as $sub_child)
+                                                                    <a href="{{ $sub_child['link'] }}">
+                                                                        <span>{{ App::isLocale('zh-CN') ? $sub_child['name_zh'] : $sub_child['name_en'] }}</span>
+                                                                    </a>
+                                                                @endforeach
+                                                            </div>
+                                                        @endif
+                                                    </li>
+                                                @endforeach
+                                            </ul>
+                                            {{--右侧图片内容,根据实际内容判断是否显示--}}
+                                            <div class="header-nav-img">
+                                                <img src="{{ asset('img/header/menu-bg.png') }}" alt="lyricalhair">
                                             </div>
-                                        </li>
-                                        <li>
-                                            <p class="header-nav-title">OUR SERVICE</p>
-                                            {{-- 二级菜单跟内容判断是否显示 --}}
-                                            <div class="nav-two-menu">
-                                                <a href="">Repair Service</a>
-                                                <a href="">Duplicate Service</a>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <p class="header-nav-title">PRICE LIST</p>
-                                            {{-- 二级菜单跟内容判断是否显示 --}}
-                                            <div class="nav-two-menu">
-                                                <a href="">Custom Order</a>
-                                                <a href="">Stock Order</a>
-                                                <a href="">Ready to Wear</a>
-                                                <a href="">Repair</a>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                    {{--右侧图片内容,根据实际内容判断是否显示--}}
-                                    <div class="header-nav-img">
-                                        <img src="{{ asset('img/header/menu-bg.png') }}" alt="lyricalhair">
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="fisrt-tab fisrt-tab-little">
-                            <a href="javascript:void(0)" class="first-nav">Hair Systems</a>
-                            {{-- 二级导航。根据内容变化导航的样式，如果数据过多，固定三列，右侧一张图片，菜单少的一部分 --}}
-                            <div class="header-nav-two nav-two-little dis_n">
-                                {{--左侧导航内容--}}
-                                {{-- 根据内容判断该ul显示那个class，有二级详细子分类的现实—— nav-menu-more,没有子分类的显示—— nav-menu-little,具体显示差别查看第一个和第二个的效果--}}
-                                <ul class="nav-menu-little">
-                                    <li>
-                                        <p class="header-nav-title"><a href="">MEN'S HAIR</a></p>
-                                    </li>
-                                    <li>
-                                        <p class="header-nav-title"><a href="">OUR SERVICE</a></p>
-                                    </li>
-                                    <li>
-                                        <p class="header-nav-title"><a href="">PRICE LIST</a></p>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li class="fisrt-tab">
-                            <a href="javascript:void(0)" class="first-nav">Accessories</a>
-                            <div class="header-nav-two dis_n">
-                                {{--左侧导航内容--}}
-                                {{-- 根据内容判断该ul显示那个class，有二级详细子分类的现实—— nav-menu-more,没有子分类的显示—— nav-menu-little,具体显示差别查看第一个和第二个的效果--}}
-                                <div class="main-content">
-                                    <ul class="nav-menu-more">
-                                        <li>
-                                            <p class="header-nav-title">MEN'S HAIR</p>
-                                            {{-- 二级菜单跟内容判断是否显示 --}}
-                                            <div class="nav-two-menu">
-                                                <a href="">Stock Hair Systems</a>
-                                                <a href="">Custom Hair Systems</a>
-                                                <a href="">Lace Hair Systems</a>
-                                                <a href="">Lace Front Hair Systems</a>
-                                                <a href="">Skin Hair Systems</a>
-                                                <a href="">Monofilament Hair Systems</a>
-                                                <a href="">African-American Hair Systems</a>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <p class="header-nav-title">OUR SERVICE</p>
-                                            {{-- 二级菜单跟内容判断是否显示 --}}
-                                            <div class="nav-two-menu">
-                                                <a href="">Repair Service</a>
-                                                <a href="">Duplicate Service</a>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <p class="header-nav-title">PRICE LIST</p>
-                                            {{-- 二级菜单跟内容判断是否显示 --}}
-                                            <div class="nav-two-menu">
-                                                <a href="">Custom Order</a>
-                                                <a href="">Stock Order</a>
-                                                <a href="">Ready to Wear</a>
-                                                <a href="">Repair</a>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                    {{--右侧图片内容,根据实际内容判断是否显示--}}
-                                    <div class="header-nav-img">
-                                        <img src="{{ asset('img/header/menu-bg.png') }}" alt="lyricalhair">
+                                </li>
+                            @elseif($menu->children->isNotEmpty())
+                                <li class="first-tab first-tab-little">
+                                    <a href="{{ $menu->link }}" class="first-nav">
+                                        {{ App::isLocale('zh-CN') ? $menu->name_zh : $menu->name_en }}
+                                    </a>
+                                    {{-- 二级导航。根据内容变化导航的样式，如果数据过多，固定三列，右侧一张图片，菜单少的一部分 --}}
+                                    <div class="header-nav-two nav-two-little dis_n">
+                                        {{--左侧导航内容--}}
+                                        {{-- 根据内容判断该ul显示那个class，有二级详细子分类的现实—— nav-menu-more,没有子分类的显示—— nav-menu-little,具体显示差别查看第一个和第二个的效果--}}
+                                        <ul class="nav-menu-little">
+                                            @foreach($menu['children'] as $child)
+                                                <li>
+                                                    <p class="header-nav-title">
+                                                        <a href="{{ $child['link'] }}">
+                                                            {{ App::isLocale('zh-CN') ? $child['name_zh'] : $child['name_en'] }}
+                                                        </a>
+                                                    </p>
+                                                </li>
+                                            @endforeach
+                                        </ul>
                                     </div>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="fisrt-tab fisrt-tab-little">
-                            <a href="javascript:void(0)" class="first-nav">Videos</a>
-                             {{-- 二级导航。根据内容变化导航的样式，如果数据过多，固定三列，右侧一张图片，菜单少的一部分 --}}
-                             <div class="header-nav-two nav-two-little dis_n">
-                                {{--左侧导航内容--}}
-                                {{-- 根据内容判断该ul显示那个class，有二级详细子分类的现实—— nav-menu-more,没有子分类的显示—— nav-menu-little,具体显示差别查看第一个和第二个的效果--}}
-                                <ul class="nav-menu-little">
-                                    <li>
-                                        <p class="header-nav-title">MEN'S HAIR</p>
-                                    </li>
-                                    <li>
-                                        <p class="header-nav-title">OUR SERVICE</p>
-                                    </li>
-                                    <li>
-                                        <p class="header-nav-title">PRICE LIST</p>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li class="fisrt-tab fisrt-tab-little">
-                            <a href="javascript:void(0)" class="first-nav">Blogs</a>
-                             {{-- 二级导航。根据内容变化导航的样式，如果数据过多，固定三列，右侧一张图片，菜单少的一部分 --}}
-                             <div class="header-nav-two nav-two-little dis_n">
-                                {{--左侧导航内容--}}
-                                {{-- 根据内容判断该ul显示那个class，有二级详细子分类的现实—— nav-menu-more,没有子分类的显示—— nav-menu-little,具体显示差别查看第一个和第二个的效果--}}
-                                <ul class="nav-menu-little">
-                                    <li>
-                                        <p class="header-nav-title">MEN'S HAIR</p>
-                                    </li>
-                                    <li>
-                                        <p class="header-nav-title">OUR SERVICE</p>
-                                    </li>
-                                    <li>
-                                        <p class="header-nav-title">PRICE LIST</p>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li class="fisrt-tab fisrt-tab-little">
-                            <a href="javascript:void(0)" class="first-nav">Welcome Distributors In</a>
-                             {{-- 二级导航。根据内容变化导航的样式，如果数据过多，固定三列，右侧一张图片，菜单少的一部分 --}}
-                             <div class="header-nav-two nav-two-little dis_n">
-                                {{--左侧导航内容--}}
-                                {{-- 根据内容判断该ul显示那个class，有二级详细子分类的现实—— nav-menu-more,没有子分类的显示—— nav-menu-little,具体显示差别查看第一个和第二个的效果--}}
-                                <ul class="nav-menu-little">
-                                    <li>
-                                        <p class="header-nav-title">MEN'S HAIR</p>
-                                    </li>
-                                    <li>
-                                        <p class="header-nav-title">OUR SERVICE</p>
-                                    </li>
-                                    <li>
-                                        <p class="header-nav-title">PRICE LIST</p>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
+                                </li>
+                            @else
+                                <li class="first-tab first-tab-little">
+                                    <a href="{{ $menu->link }}" class="first-nav">
+                                        {{ App::isLocale('zh-CN') ? $menu->name_zh : $menu->name_en }}
+                                    </a>
+                                </li>
+                            @endif
+                        @endforeach
                     </ul>
                 </div>
                 {{-- header搜索 --}}
@@ -284,7 +181,8 @@
         </a>
         <div class="search-group">
             <div class="input-group">
-                <input type="search" data-url="{{ route('products.search_hint') }}" class="selectInput_header" placeholder="Serach..."/>
+                <input type="search" data-url="{{ route('products.search_hint') }}" class="selectInput_header"
+                       placeholder="Serach..."/>
                 <a href="javascript:void(0)">
                     <img src="{{ asset('img/header/search-mask.png') }}" alt="lyricalhair">
                 </a>

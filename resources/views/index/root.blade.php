@@ -48,18 +48,34 @@
                  <div class="qualification-left">
                      {{-- 左侧上部 --}}
                      <div class="qualification-left-up">
-                        <img class="photo-wall-1" src="{{ asset("img/Home/photo-wall-1.png") }}" alt="lyricalhair">
-                        <img class="photo-wall-6" src="{{ asset("img/Home/photo-wall-6.png") }}" alt="lyricalhair">
+                         <img class="photo-wall-1" src="{{ asset("img/Home/photo-wall-1.png") }}" alt="lyricalhair">
+                         @if($poster = \App\Models\Poster::getPosterBySlug('about_lyrical_hair_up'))
+                             <img class="photo-wall-6" src="{{ $poster->image_url }}" alt="lyricalhair">
+                         @else
+                             <img class="photo-wall-6" src="{{ asset("img/Home/photo-wall-6.png") }}" alt="lyricalhair">
+                         @endif
                      </div>
                      {{-- 左侧下部 --}}
                      <div class="qualification-left-down">
-                        <img class="photo-wall-3" src="{{ asset("img/Home/photo-wall-3.png") }}" alt="lyricalhair">
-                        <img class="photo-wall-5" src="{{ asset("img/Home/photo-wall-5.png") }}" alt="lyricalhair">
+                         @if($poster = \App\Models\Poster::getPosterBySlug('about_lyrical_hair_left'))
+                             <img class="photo-wall-3" src="{{ $poster->image_url }}" alt="lyricalhair">
+                         @else
+                             <img class="photo-wall-3" src="{{ asset("img/Home/photo-wall-3.png") }}" alt="lyricalhair">
+                         @endif
+                         @if($poster = \App\Models\Poster::getPosterBySlug('about_lyrical_hair_down'))
+                             <img class="photo-wall-5" src="{{ $poster->image_url }}" alt="lyricalhair">
+                         @else
+                             <img class="photo-wall-5" src="{{ asset("img/Home/photo-wall-5.png") }}" alt="lyricalhair">
+                         @endif
                      </div>
                  </div>
                 {{-- 照片墙右侧 --}}
                 <div class="qualification-right">
-                    <img class="photo-wall-4" src="{{ asset("img/Home/photo-wall-4.png") }}" alt="lyricalhair">
+                    @if($poster = \App\Models\Poster::getPosterBySlug('about_lyrical_hair_right'))
+                        <img class="photo-wall-4" src="{{ $poster->image_url }}" alt="lyricalhair">
+                    @else
+                        <img class="photo-wall-4" src="{{ asset("img/Home/photo-wall-4.png") }}" alt="lyricalhair">
+                    @endif
                     <img class="photo-wall-2" src="{{ asset("img/Home/photo-wall-2.png") }}" alt="lyricalhair">
                 </div>
             </div>
@@ -85,7 +101,7 @@
             </li>
             <li>
                 <span class="countup-num"><span class="counter">30</span>+</span>
-                <span class="countup-text">COUNTRIES ACCROSS</span>
+                <span class="countup-text">COUNTRIES ACROSS</span>
                 <span class="countup-text">THE WORLD</span>
             </li>
             <li>
@@ -129,8 +145,16 @@
                     </div>
                     <a href="{{ route('seo_url', ['slug' => 'why_lyricalhair']) }}">LEARN MORE</a>
                     <div class="why-imgs">
-                        <img src="{{ asset("img/Home/why-1.png") }}" alt="lyricalhair" />
-                        <img src="{{ asset("img/Home/why-2.png") }}" alt="lyricalhair" />
+                        @if($poster = \App\Models\Poster::getPosterBySlug('why_lyrical_hair_1'))
+                            <img src="{{ $poster->image_url }}" alt="lyricalhair">
+                        @else
+                            <img src="{{ asset("img/Home/why-1.png") }}" alt="lyricalhair" />
+                        @endif
+                        @if($poster = \App\Models\Poster::getPosterBySlug('why_lyrical_hair_2'))
+                            <img src="{{ $poster->image_url }}" alt="lyricalhair">
+                        @else
+                            <img src="{{ asset("img/Home/why-2.png") }}" alt="lyricalhair" />
+                        @endif
                     </div>
                 </div>
                 <div class="youtube-video">
@@ -162,7 +186,7 @@
                     <span>We Offer Free Rush Order on Duplicate</span>
                     <span>Super High Definition Hai</span>
                     <span>Half delivery back fee covered</span>
-                    <a href="">LEARN MORE</a>
+                    <a href="{{ route('seo_url', ['slug' => \App\Models\Product::where(['type' => 'custom', 'on_sale' => 1])->first()->slug]) }}">LEARN MORE</a>
                 </li>
                 <li>
                     <div class="part-img-box">
@@ -171,8 +195,8 @@
                     <span class="part-img-title">Repaired Order</span>
                     <span>Highest Quality Hair OnMarket </span>
                     <span>Undetectable Hairline</span>
-                    <span>Invisible Knotsv</span>
-                    <a href="">LEARN MORE</a>
+                    <span>Invisible Knots</span>
+                    <a href="{{ route('seo_url', ['slug' => 'repair-service']) }}">LEARN MORE</a>
                 </li>
                 <li>
                     <div class="part-img-box">
@@ -182,7 +206,7 @@
                     <span>Top Level Care and Craftsmanship</span>
                     <span>Repairs and Hair Adds</span>
                     <span>4-5 weeks leading time</span>
-                    <a href="">LEARN MORE</a>
+                    <a href="{{ route('seo_url', ['slug' => 'duplicate-service']) }}">LEARN MORE</a>
                 </li>
             </ul>
         </div>
@@ -198,7 +222,7 @@
         $(function () {
             // banner初始化
             if (!$.fn.slick) return;
-            //首页 banner
+            // 首页 banner
             $('#banner').slick({
                 autoplay: true,
                 autoplaySpeed: 4000, //以毫秒为单位的自动播放速度
@@ -247,34 +271,35 @@
                 slidesPerRow: 1, //在通过行选项初始化网格模式时，这会设置每个网格行中的幻灯片数量
                 responsive: [
                     {
-                    breakpoint: 768,
-                    settings: {
-                        arrows: false,
-                        centerMode: true,
-                        centerPadding: '40px',
-                        slidesToShow: 3
-                    }
+                        breakpoint: 768,
+                        settings: {
+                            arrows: false,
+                            centerMode: true,
+                            centerPadding: '40px',
+                            slidesToShow: 3
+                        }
                     },
                     {
-                    breakpoint: 480,
-                    settings: {
-                        arrows: false,
-                        centerMode: true,
-                        centerPadding: '40px',
-                        slidesToShow: 1
-                    }
+                        breakpoint: 480,
+                        settings: {
+                            arrows: false,
+                            centerMode: true,
+                            centerPadding: '40px',
+                            slidesToShow: 1
+                        }
                     }
                 ]
             });
         });
-        $(function(){
+        $(function () {
             // 油管视频API搭建
             var tag = document.createElement('script');
             tag.src = "https://www.youtube.com/iframe_api";
             var firstScriptTag = document.getElementsByTagName('script')[0];
             firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
             var player;
-            var videoID =  $("#youtubeVideoID").attr("data-video-id");
+            var videoID = $("#youtubeVideoID").attr("data-video-id");
+
             function onYouTubeIframeAPIReady() {
                 player = new YT.Player('player', {
                     height: '330',
@@ -286,18 +311,22 @@
                     }
                 });
             }
+
             function onPlayerReady(event) {
                 event.target.playVideo();
             }
+
             var done = false;
+
             function onPlayerStateChange(event) {
                 if (event.data == YT.PlayerState.PLAYING && !done) {
                     done = true;
                 }
             }
+
             function stopVideo() {
                 player.stopVideo();
             }
-        })
+        });
     </script>
 @endsection

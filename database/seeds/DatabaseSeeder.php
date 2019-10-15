@@ -61,7 +61,7 @@ class DatabaseSeeder extends Seeder
         $this->call(EmailTemplatesSeeder::class);
 
         // 根据商品名称生成 Slug
-        // $this->call(ProductSlugsSeeder::class);
+        $this->call(ProductSlugsSeeder::class);
 
         // SKU 属性
         $this->call(AttrsSeeder::class);

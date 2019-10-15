@@ -16,7 +16,7 @@ class FeedbackRequest extends Request
     public function rules()
     {
         return [
-            'captcha' => ['bail', 'required', 'captcha'],
+            // 'captcha' => ['bail', 'required', 'captcha'],
             'email' => [
                 'bail', 'required', 'string', 'email', 'max:255',
                 function ($attribute, $value, $fail) {
@@ -49,7 +49,7 @@ class FeedbackRequest extends Request
             return [];
         }
         return [
-            'captcha' => '验证码',
+            // 'captcha' => '验证码',
             'email' => '邮箱地址',
             'type' => '留言类型',
         ];

@@ -697,7 +697,7 @@ $(function () {
 
     // header hover效果
     var tid;
-    $(".first-menu .fisrt-tab").mouseenter(function (event) {
+    $(".first-menu .first-tab").mouseenter(function (event) {
         var _this = $(this);
         tid = setTimeout(function(){
             _this.find(".header-nav-two").fadeIn();

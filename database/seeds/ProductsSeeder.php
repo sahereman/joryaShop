@@ -57,5 +57,6 @@ class ProductsSeeder extends Seeder
             ]));*/
             Product::create($product->toArray());
         });
+        Product::first()->update(['type' => 'custom']);
     }
 }

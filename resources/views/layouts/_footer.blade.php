@@ -12,17 +12,17 @@
                 <img src="{{ asset("img/footer/comments.png") }}" alt="lyricalhair">
                 <span class="part-title">Chat Now</span>
                 <span>Chat online with a hair</span>
-                <span>replcenment consultant</span>
+                <span>replacement consultant</span>
             </li>
             <li>
                 <img src="{{ asset("img/footer/service.png") }}" alt="lyricalhair">
                 <span class="part-title">Call Us</span>
-                <span>Office phone:+86-532-85878587</span>
-                <span>WhatsApp: +8615764271924</span>
+                <span>Office Phone: +86-532-85878587</span>
+                <span>WhatsApp: +86-15764271924</span>
             </li>
             <li>
                 <img src="{{ asset("img/footer/email-us.png") }}" alt="lyricalhair">
-                <span class="part-title">Emall Us</span>
+                <span class="part-title">Email Us</span>
                 <span>Tell Us How We can help</span>
                 <span>Email: support@lyricalhair.com</span>
             </li>
@@ -33,7 +33,7 @@
         <div class="subscribe-form main-content">
             <form>
                 <img src="{{ asset("img/footer/Subscription.png") }}" alt="lyricalhair">
-                <p>Subscribe to get more product information, maintenance knowledg</p>
+                <p>Subscribe to get more product information, maintenance knowledge</p>
                 <p>special offers and important notices.</p>
                 <p id="footer_token_code" class="dis_n">{{ csrf_field() }}</p>
                 <input type="email" name="email" id="footemail" placeholder="Email" required autocomplete="off">
