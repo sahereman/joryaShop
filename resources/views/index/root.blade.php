@@ -9,14 +9,14 @@
                 @foreach($banners as $banner)
                     <div class="item item-1">
                         <a class="img-box" href="{{$banner->link}}">
-                            <img data-lazy="{{ $banner->image_url }}" alt="lyricalhair" />
+                            <img src="{{ $banner->image_url }}" alt="lyricalhair" />
                         </a>
                     </div>
                 @endforeach
             @else
                 <div class="item item-1">
                     <a class="img-box" href="javascript:void (0);">
-                        <img data-lazy="{{ asset('defaults/defaults_pc_banner.jpg') }}" alt="lyricalhair" />
+                        <img src="{{ asset('defaults/defaults_pc_banner.jpg') }}" alt="lyricalhair" />
                     </a>
                 </div>
             @endif
@@ -164,7 +164,7 @@
                     {{-- 油管播放器的页面嵌入，非API式的iframe嵌套 --}}
                     <div class="dis_n" id="youtubeVideoID" data-video-id="M7lc1UVf-VE" >存放youtube视频id的位置</div>
                     <iframe id="player" type="text/html"
-                            src="http://www.youtube.com/embed/ziGD7vQOwl8?showinfo=0&rel=0&autoplay=1" 
+                            src="https://www.youtube.com/embed/ziGD7vQOwl8?showinfo=0&rel=0&autoplay=1" 
                             frameborder="0" allow="autoplay" allowfullscreen>
                     </iframe>
                 </div>
