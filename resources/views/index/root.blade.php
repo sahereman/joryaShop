@@ -257,14 +257,14 @@
                 easing: 'easeOutInCirc',
 				duration: 1000,
 				minScale: 0.6,
-				autoplay: false,
+				autoplay: true,
 				autoplayDuration: 1500,
 				minOpacity: 1,
 				maxOpacity: 1,
 				reflect: false,
 				startingChild: 3,
 				autoplayInitialDelay: 5000,
-				autoplayPauseOnHover: false,
+				autoplayPauseOnHover: true,
 				enableDrag: true,
             });
 
