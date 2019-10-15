@@ -121,19 +121,12 @@ class PostersController extends Controller
     {
         $slugs = [
             /*PC*/
-            'pc_index_left_top' => 'PC站首页新品 LT 图',
-            'pc_index_left_bottom' => 'PC站首页新品 LB 图',
-            'pc_index_right' => 'PC站首页新品 R 图',
-            'pc_index_floor_2' => 'PC站首页楼层 2楼 图',
-            'pc_index_floor_4' => 'PC站首页楼层 4楼 图',
-            'pc_index_floor_6' => 'PC站首页楼层 6楼 图',
-            /*Mobile*/
-            'mobile_index_floor_1' => '手机站首页楼层 1楼 图',
-            'mobile_index_floor_2' => '手机站首页楼层 2楼 图',
-            'mobile_index_floor_3' => '手机站首页楼层 3楼 图',
-            'mobile_index_floor_4' => '手机站首页楼层 4楼 图',
-            'mobile_index_floor_5' => '手机站首页楼层 5楼 图',
-            'mobile_index_floor_6' => '手机站首页楼层 6楼 图',
+            'about_lyrical_hair_up' => 'About LyricalHair - Up',
+            'about_lyrical_hair_down' => 'About LyricalHair - Down',
+            'about_lyrical_hair_left' => 'About LyricalHair - Left',
+            'about_lyrical_hair_right' => 'About LyricalHair - Right',
+            'why_lyrical_hair_1' => 'Why LyricalHair - 1',
+            'why_lyrical_hair_2' => 'Why LyricalHair - 2',
         ];
 
         $form = new Form(new Poster);
