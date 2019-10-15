@@ -9,14 +9,14 @@
                 @foreach($banners as $banner)
                     <div class="item item-1">
                         <a class="img-box" href="{{$banner->link}}">
-                            <img data-lazy="{{ $banner->image_url }}" alt="lyricalhair" />
+                            <img src="{{ $banner->image_url }}" alt="lyricalhair" />
                         </a>
                     </div>
                 @endforeach
             @else
                 <div class="item item-1">
                     <a class="img-box" href="javascript:void (0);">
-                        <img data-lazy="{{ asset('defaults/defaults_pc_banner.jpg') }}" alt="lyricalhair" />
+                        <img src="{{ asset('defaults/defaults_pc_banner.jpg') }}" alt="lyricalhair" />
                     </a>
                 </div>
             @endif
@@ -118,16 +118,18 @@
                 <img src="{{ asset("img/Home/Product_Zone.png") }}" alt="lyricalhair">
             </p>
             {{-- 轮播图 --}}
-            <div class="slick" id="ProductZone">
-                @if($products)
-                    @foreach($products as $product)
-                        <div class="item">
-                            <a class="img-box" href="javascript:void (0);">
-                                <img data-lazy="{{ $product->thumb_url }}" alt="lyricalhair" />
-                            </a>
-                        </div>
-                    @endforeach
-                @endif
+            <div class="roundabout_box" id="ProductZone">
+                <ul>
+                    @if($products)
+                        @foreach($products as $product)
+                            <li>
+                                <a href="{{ route('seo_url', $product->slug) }}">
+                                    <img class="roundabout_img" src="{{ $product->thumb_url }}" alt="lyricalhair">
+                                </a>
+                            </li>
+                        @endforeach
+                    @endif
+                </ul>
             </div>
             {{-- Why Lyricalhair && Lyricalhair Blog --}}
             <div class="why-youtube">
@@ -164,7 +166,7 @@
                     {{-- 油管播放器的页面嵌入，非API式的iframe嵌套 --}}
                     <div class="dis_n" id="youtubeVideoID" data-video-id="M7lc1UVf-VE" >存放youtube视频id的位置</div>
                     <iframe id="player" type="text/html"
-                            src="https://www.youtube.com/embed/ziGD7vQOwl8?showinfo=0&rel=0&autoplay=1"
+                            src="https://www.youtube.com/embed/ziGD7vQOwl8?showinfo=0&rel=0&autoplay=1" 
                             frameborder="0" allow="autoplay" allowfullscreen>
                     </iframe>
                 </div>
@@ -216,6 +218,8 @@
 @section('scriptsAfterJs')
     {{-- 轮播插件 --}}
     <script src="{{ asset('js/slick/slick.min.js') }}"></script>
+    <script src="{{ asset('js/3Dlbt/jquery.roundabout.min.js') }}"></script>
+    <script src="{{ asset('js/3Dlbt/jquery.easing.js') }}"></script>
     {{-- 数字滚动 --}}
     <script src="{{ asset('js/jqueryCountup/jquery.waypoints.min.js') }}"></script>
     <script src="{{ asset('js/jqueryCountup/jquery.countup.min.js') }}"></script>
@@ -248,49 +252,22 @@
             });
             // 数字滚动初始化
             $('.counter').countUp();
-            // product zone轮播图
-            $('#ProductZone').slick({
-                autoplay: true,
-                autoplaySpeed: 4000, //以毫秒为单位的自动播放速度
-                centerMode: true, //居中视图   slidesToShow为双数的时候慎用
-                centerPadding: '0px', //左右两侧padding值
-                arrows: false, //上一下，下一页
-                fade: false, //启用淡入淡出
-                dots: false, //显示点指示符
-                speed: 500, //幻灯片/淡入淡出动画速度
-                cssEase: 'ease', //CSS3动画缓和
-                slidesToShow: 3, //显示的幻灯片数量
-                slidesToScroll: 1, //要滚动的幻灯片数量
-                focusOnSelect: true, //启用选定元素的焦点（单击）
-                touchThreshold: 300, //滑动切换阈值，即滑动多少像素后切换
-                infinite: true, //无限循环
-                swipeToSlide: true, //允许用户将幻灯片直接拖动或滑动到幻灯片
-                lazyLoad: 'ondemand', //接受'ondemand'或'progressive'<img data-lazy="img/lazyfonz1.png"/>
-                variableWidth: false, //幻灯片宽度自适应
-                adaptiveHeight: false, //自适应高度
-                rows: 1, //将其设置为1以上将初始化网格模式。使用slidesPerRow设置每行应放置多少个幻灯片
-                slidesPerRow: 1, //在通过行选项初始化网格模式时，这会设置每个网格行中的幻灯片数量
-                responsive: [
-                    {
-                        breakpoint: 768,
-                        settings: {
-                            arrows: false,
-                            centerMode: true,
-                            centerPadding: '40px',
-                            slidesToShow: 3
-                        }
-                    },
-                    {
-                        breakpoint: 480,
-                        settings: {
-                            arrows: false,
-                            centerMode: true,
-                            centerPadding: '40px',
-                            slidesToShow: 1
-                        }
-                    }
-                ]
+            // product zone3D轮播图
+            $('.roundabout_box ul').roundabout({
+                easing: 'easeOutInCirc',
+				duration: 1000,
+				minScale: 0.6,
+				autoplay: false,
+				autoplayDuration: 1500,
+				minOpacity: 1,
+				maxOpacity: 1,
+				reflect: false,
+				startingChild: 3,
+				autoplayInitialDelay: 5000,
+				autoplayPauseOnHover: false,
+				enableDrag: true,
             });
+
         });
         $(function () {
             // 油管视频API搭建
