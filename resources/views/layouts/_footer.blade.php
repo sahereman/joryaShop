@@ -31,7 +31,7 @@
     {{-- footer中间层 邮箱订阅相关--}}
     <div class="footer-center">
         <div class="subscribe-form main-content">
-            <form>
+            {{-- <form> --}}
                 <img src="{{ asset("img/footer/Subscription.png") }}" alt="lyricalhair">
                 <p>Subscribe to get more product information, maintenance knowledge</p>
                 <p>special offers and important notices.</p>
@@ -41,8 +41,8 @@
                 <input type="hidden" name="type" id="feedback-type" value="subscription">
                 {{-- <input type="text" name="captcha" id="footverCode" class="form-control{{ $errors->has('captcha') ? ' is-invalid' : '' }}" placeholder="Verification Code" required>
                 <img class="thumbnail captcha mt-3 mb-2" src="{{ captcha_src('subscription') }}" onclick="this.src='/captcha/subscription?'+Math.random()" title="点击图片重新获取验证码"> --}}
-                {{-- <button type="button" title="Subscribe" id="subFootCode" data-url="{{ route('feedbacks.store') }}">Subscribe Now</button> --}}
-            </form>
+                <button type="button" class="dis_ni" title="Subscribe" id="subFootCode" data-url="{{ route('feedbacks.store') }}">Subscribe Now</button>
+            {{-- </form> --}}
         </div>
     </div>
     {{-- footer下部分 友情链接相关--}}
