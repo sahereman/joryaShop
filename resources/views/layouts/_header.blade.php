@@ -49,8 +49,19 @@
             {{-- 登录注册&&购物车等 --}}
             <div class="register-login">
                 <div>
-                    <a href="{{ route('login') }}">Sign in</a><span>/</span><a
+                    @guest
+                      <a href="{{ route('login') }}">Sign in</a><span>/</span><a
                             href="{{ route('register') }}">Register</a>
+                    @else
+                      <a class="login-name" href="{{ route('users.home') }}">Hi, {{ Auth::user()->name }}</a>
+                      <span>|</span>
+                      <a href="{{ route('logout') }}" class="login_out_a"
+                         onclick="event.preventDefault();document.getElementById('logout-form').submit();">@lang('app.Sign_out')
+                      </a>
+                      <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        {{ csrf_field() }}
+                      </form>
+                    @endguest
                 </div>
                 <div class="person-center">
                     <a href="{{ route('users.home') }}">

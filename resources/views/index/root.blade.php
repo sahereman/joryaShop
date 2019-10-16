@@ -118,7 +118,7 @@
                 <img src="{{ asset("img/Home/Product_Zone.png") }}" alt="lyricalhair">
             </p>
             {{-- 轮播图 --}}
-            <div class="roundabout_box" id="ProductZone">
+            <div class="roundabout_box main-content" id="ProductZone">
                 <ul>
                     @if($products)
                         @foreach($products as $product)

@@ -135,7 +135,6 @@
                     password: $loginForm.find("input[name='password']").val(),
                     _token: $("#common_login_token_code").find("input").val(),
                 };
-                console.log(data);
                 var url = clickDome.attr('data-url');
                 $.ajax({
                     type: "post",
@@ -143,7 +142,8 @@
                     data: data,
                     success: function (json) {
                         if (json.code == 200) {
-                            window.history.go(-1);
+                            window.location.href=document.referrer;
+                            // window.history.go(-1);
                         } else {
                             layer.alert(json.message);
                         }
