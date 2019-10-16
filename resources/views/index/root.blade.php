@@ -145,18 +145,40 @@
                         <span>We offer this new way to get a hair replacement which is both affordable and easy to</span>
                         <span>order, without ever leaving the comfort of your home. Remember...</span>
                     </div>
-                    <a href="{{ route('seo_url', ['slug' => 'why_lyricalhair']) }}">LEARN MORE</a>
+                    <a class="more-link" href="{{ route('seo_url', ['slug' => 'why_lyricalhair']) }}">LEARN MORE</a>
                     <div class="why-imgs">
-                        @if($poster = \App\Models\Poster::getPosterBySlug('why_lyrical_hair_1'))
-                            <img src="{{ $poster->image_url }}" alt="lyricalhair">
-                        @else
-                            <img src="{{ asset("img/Home/why-1.png") }}" alt="lyricalhair" />
-                        @endif
-                        @if($poster = \App\Models\Poster::getPosterBySlug('why_lyrical_hair_2'))
-                            <img src="{{ $poster->image_url }}" alt="lyricalhair">
-                        @else
-                            <img src="{{ asset("img/Home/why-2.png") }}" alt="lyricalhair" />
-                        @endif
+                        <div class="swiper-container" id="whyImgBanner">
+                            <div class="swiper-wrapper">
+                                <div class="swiper-slide">
+                                    <a href="{{ asset("img/Home/why-1.png") }}" class="zoomColorBoxs">
+                                        <img src="{{ asset("img/Home/why-1.png") }}" alt="lyricalhair">
+                                    </a>
+                                </div>
+                                <div class="swiper-slide">
+                                    <a href="{{ asset("img/Home/why-2.png") }}" class="zoomColorBoxs">
+                                        <img src="{{ asset("img/Home/why-2.png") }}" alt="lyricalhair">
+                                    </a>
+                                </div>
+                                <div class="swiper-slide">
+                                    <a href="{{ asset("img/Home/why-1.png") }}" class="zoomColorBoxs">
+                                        <img src="{{ asset("img/Home/why-1.png") }}" alt="lyricalhair">
+                                    </a>
+                                </div>
+                                <div class="swiper-slide">
+                                    <a href="{{ asset("img/Home/why-2.png") }}" class="zoomColorBoxs">
+                                        <img src="{{ asset("img/Home/why-2.png") }}" alt="lyricalhair">
+                                    </a>
+                                </div>
+                                <div class="swiper-slide">
+                                    <a href="{{ asset("img/Home/why-1.png") }}" class="zoomColorBoxs">
+                                        <img src="{{ asset("img/Home/why-1.png") }}" alt="lyricalhair">
+                                    </a>
+                                </div>
+                            </div>
+                            <!-- 如果需要导航按钮 -->
+                            <div class="swiper-button-prev"></div>
+                            <div class="swiper-button-next"></div>
+                        </div>
                     </div>
                 </div>
                 <div class="youtube-video">
@@ -217,12 +239,15 @@
 @endsection
 @section('scriptsAfterJs')
     {{-- 轮播插件 --}}
+    <script src="{{ asset('js/swiper/js/swiper.min.js') }}"></script>
     <script src="{{ asset('js/slick/slick.min.js') }}"></script>
     <script src="{{ asset('js/3Dlbt/jquery.roundabout.min.js') }}"></script>
     <script src="{{ asset('js/3Dlbt/jquery.easing.js') }}"></script>
     {{-- 数字滚动 --}}
     <script src="{{ asset('js/jqueryCountup/jquery.waypoints.min.js') }}"></script>
     <script src="{{ asset('js/jqueryCountup/jquery.countup.min.js') }}"></script>
+    {{-- 图片弹窗 --}}
+    <script src="{{ asset('js/lord/jquery.colorbox.min.js') }}"></script>
     <script type="text/javascript">
         $(function () {
             // banner初始化
@@ -242,7 +267,7 @@
                 slidesToScroll: 1, //要滚动的幻灯片数量
                 focusOnSelect: true, //启用选定元素的焦点（单击）
                 touchThreshold: 300, //滑动切换阈值，即滑动多少像素后切换
-                infinite: true, //无限循环
+                infinite: false, //无限循环
                 swipeToSlide: true, //允许用户将幻灯片直接拖动或滑动到幻灯片
                 lazyLoad: 'ondemand', //接受'ondemand'或'progressive'<img data-lazy="img/lazyfonz1.png"/>
                 variableWidth: false, //幻灯片宽度自适应
@@ -267,7 +292,33 @@
 				autoplayPauseOnHover: false,
 				enableDrag: true,
             });
-
+            // 图片弹窗
+             //Init lightbox  图片弹窗
+            $(".zoomColorBoxs").colorbox({
+                rel: 'zoomColorBoxs',
+                opacity:0.5,
+                speed: 300,
+                current: '{current} / {total}',
+                previous: '',
+                next: '',
+                close: '',  //No comma here
+                maxWidth: '95%',
+                maxHeight: '95%'
+            });
+            // why lyrical 轮播
+            var mySwiper = new Swiper ('.swiper-container', {
+                slidesPerView: 2,
+                spaceBetween: 30,
+                pagination: {
+                    el: '.swiper-pagination',
+                    clickable: true,
+                },
+                // 如果需要前进后退按钮
+                navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+                }
+            })
         });
         $(function () {
             // 油管视频API搭建
