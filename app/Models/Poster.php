@@ -8,35 +8,79 @@ use Illuminate\Support\Str;
 
 class Poster extends Model
 {
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
     protected $fillable = [
         'name',
         'slug',
         'disk',
-        'image',
+        // 'image',
+        'photos',
         'link',
     ];
 
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'photos' => 'json',
+    ];
+
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
     protected $appends = [
         'image_url',
+        'photo_urls',
     ];
 
     /* Accessors */
     public function getImageUrlAttribute()
     {
-        if ($this->attributes['image']) {
-            // 如果 image 字段本身就已经是完整的 url 就直接返回
-            /*if (Str::startsWith($this->attributes['image'], ['http://', 'https://'])) {
-                return $this->attributes['image'];
-            }
-            return Storage::disk($this->attributes['disk'])->url($this->attributes['image']);*/
-            if ($this->attributes['disk']) {
-                return generate_image_url($this->attributes['image'], $this->attributes['disk']);
-            }
-            return generate_image_url($this->attributes['image'], 'public');
+        $photo_urls = $this->getPhotoUrlsAttribute();
+        if (count($photo_urls) > 0) {
+            return $photo_urls[0];
         }
         return '';
     }
 
+    public function getPhotoUrlsAttribute()
+    {
+        $photo_urls = [];
+        if ($this->attributes['photos']) {
+            $photos = json_decode($this->attributes['photos'], true);
+            if (count($photos) > 0) {
+                foreach ($photos as $photo) {
+                    /*if (Str::startsWith($photo, ['http://', 'https://'])) {
+                        $photo_urls[] = $photo;
+                    }
+                    $photo_urls[] = Storage::disk('public')->url($photo);*/
+                    $photo_urls[] = generate_image_url($photo, 'public');
+                }
+            }
+        }
+        return $photo_urls;
+    }
+
+    /* Mutators */
+    public function setImageUrlAttribute($value)
+    {
+        unset($this->attributes['image_url']);
+    }
+
+    public function setPhotoUrlsAttribute($value)
+    {
+        unset($this->attributes['photo_urls']);
+    }
+
+    /* Public Static Functions */
     public static function getPosterBySlug(string $slug)
     {
         $poster = self::where('slug', $slug)->first();

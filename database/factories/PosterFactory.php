@@ -16,7 +16,8 @@ $factory->define(App\Models\Poster::class, function (Faker $faker) {
         'slug' => $faker->slug,
         'disk' => 'public',
         // 'image' => $faker->image($prefix_path, 640, 480, null, false), // Note: $faker->image() will download an image file into /tmp/ locally.
-        'image' => $faker->imageUrl(640, 480, null, false), // Note: $faker->image() will download an image file into /tmp/ locally.
+        // 'image' => $faker->imageUrl(640, 480, null, false), // Note: $faker->image() will download an image file into /tmp/ locally.
+        'photos' => array(asset('demo/product-' . random_int(1, 46) . '.jpg'), asset('demo/product-' . random_int(1, 46) . '.jpg'), asset('demo/product-' . random_int(1, 46) . '.jpg')),
         'link' => $faker->url,
         'created_at' => $created_at,
         'updated_at' => $updated_at,

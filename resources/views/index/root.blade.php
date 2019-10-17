@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('title', App::isLocale('zh-CN') ? '莱瑞美业' : 'Lyricalhair')
 @section('content')
-{{-- banner --}}
+    {{-- banner --}}
     <div class="banner">
         <div class="slick" id="banner">
             {{-- 接口可用，为了页面展示效果注释，正式版本启用 --}}
@@ -9,14 +9,14 @@
                 @foreach($banners as $banner)
                     <div class="item item-1">
                         <a class="img-box" href="{{$banner->link}}">
-                            <img src="{{ $banner->image_url }}" alt="lyricalhair" />
+                            <img src="{{ $banner->image_url }}" alt="lyricalhair"/>
                         </a>
                     </div>
                 @endforeach
             @else
                 <div class="item item-1">
                     <a class="img-box" href="javascript:void (0);">
-                        <img src="{{ asset('defaults/defaults_pc_banner.jpg') }}" alt="lyricalhair" />
+                        <img src="{{ asset('defaults/defaults_pc_banner.jpg') }}" alt="lyricalhair"/>
                     </a>
                 </div>
             @endif
@@ -44,31 +44,31 @@
             </div>
             {{-- lyrical的资质认证或者活动图片墙,图片只改变路径，不能改变布局，不然达不到设计图想要的效果--}}
             <div class="qualification">
-                 {{-- 照片墙左侧 --}}
-                 <div class="qualification-left">
-                     {{-- 左侧上部 --}}
-                     <div class="qualification-left-up">
-                         <img class="photo-wall-1" src="{{ asset("img/Home/photo-wall-1.png") }}" alt="lyricalhair">
-                         @if($poster = \App\Models\Poster::getPosterBySlug('about_lyrical_hair_up'))
-                             <img class="photo-wall-6" src="{{ $poster->image_url }}" alt="lyricalhair">
-                         @else
-                             <img class="photo-wall-6" src="{{ asset("img/Home/photo-wall-6.png") }}" alt="lyricalhair">
-                         @endif
-                     </div>
-                     {{-- 左侧下部 --}}
-                     <div class="qualification-left-down">
-                         @if($poster = \App\Models\Poster::getPosterBySlug('about_lyrical_hair_left'))
-                             <img class="photo-wall-3" src="{{ $poster->image_url }}" alt="lyricalhair">
-                         @else
-                             <img class="photo-wall-3" src="{{ asset("img/Home/photo-wall-3.png") }}" alt="lyricalhair">
-                         @endif
-                         @if($poster = \App\Models\Poster::getPosterBySlug('about_lyrical_hair_down'))
-                             <img class="photo-wall-5" src="{{ $poster->image_url }}" alt="lyricalhair">
-                         @else
-                             <img class="photo-wall-5" src="{{ asset("img/Home/photo-wall-5.png") }}" alt="lyricalhair">
-                         @endif
-                     </div>
-                 </div>
+                {{-- 照片墙左侧 --}}
+                <div class="qualification-left">
+                    {{-- 左侧上部 --}}
+                    <div class="qualification-left-up">
+                        <img class="photo-wall-1" src="{{ asset("img/Home/photo-wall-1.png") }}" alt="lyricalhair">
+                        @if($poster = \App\Models\Poster::getPosterBySlug('about_lyrical_hair_up'))
+                            <img class="photo-wall-6" src="{{ $poster->image_url }}" alt="lyricalhair">
+                        @else
+                            <img class="photo-wall-6" src="{{ asset("img/Home/photo-wall-6.png") }}" alt="lyricalhair">
+                        @endif
+                    </div>
+                    {{-- 左侧下部 --}}
+                    <div class="qualification-left-down">
+                        @if($poster = \App\Models\Poster::getPosterBySlug('about_lyrical_hair_left'))
+                            <img class="photo-wall-3" src="{{ $poster->image_url }}" alt="lyricalhair">
+                        @else
+                            <img class="photo-wall-3" src="{{ asset("img/Home/photo-wall-3.png") }}" alt="lyricalhair">
+                        @endif
+                        @if($poster = \App\Models\Poster::getPosterBySlug('about_lyrical_hair_down'))
+                            <img class="photo-wall-5" src="{{ $poster->image_url }}" alt="lyricalhair">
+                        @else
+                            <img class="photo-wall-5" src="{{ asset("img/Home/photo-wall-5.png") }}" alt="lyricalhair">
+                        @endif
+                    </div>
+                </div>
                 {{-- 照片墙右侧 --}}
                 <div class="qualification-right">
                     @if($poster = \App\Models\Poster::getPosterBySlug('about_lyrical_hair_right'))
@@ -149,31 +149,41 @@
                     <div class="why-imgs">
                         <div class="swiper-container" id="whyImgBanner">
                             <div class="swiper-wrapper">
-                                <div class="swiper-slide">
-                                    <a href="{{ asset("img/Home/why-1.png") }}" class="zoomColorBoxs">
-                                        <img src="{{ asset("img/Home/why-1.png") }}" alt="lyricalhair">
-                                    </a>
-                                </div>
-                                <div class="swiper-slide">
-                                    <a href="{{ asset("img/Home/why-2.png") }}" class="zoomColorBoxs">
-                                        <img src="{{ asset("img/Home/why-2.png") }}" alt="lyricalhair">
-                                    </a>
-                                </div>
-                                <div class="swiper-slide">
-                                    <a href="{{ asset("img/Home/why-1.png") }}" class="zoomColorBoxs">
-                                        <img src="{{ asset("img/Home/why-1.png") }}" alt="lyricalhair">
-                                    </a>
-                                </div>
-                                <div class="swiper-slide">
-                                    <a href="{{ asset("img/Home/why-2.png") }}" class="zoomColorBoxs">
-                                        <img src="{{ asset("img/Home/why-2.png") }}" alt="lyricalhair">
-                                    </a>
-                                </div>
-                                <div class="swiper-slide">
-                                    <a href="{{ asset("img/Home/why-1.png") }}" class="zoomColorBoxs">
-                                        <img src="{{ asset("img/Home/why-1.png") }}" alt="lyricalhair">
-                                    </a>
-                                </div>
+                                @if($poster = \App\Models\Poster::getPosterBySlug('why_lyrical_hair'))
+                                    @foreach($poster->photo_urls as $photo_url)
+                                        <div class="swiper-slide">
+                                            <a href="{{ $photo_url }}" class="zoomColorBoxs">
+                                                <img src="{{ $photo_url }}" alt="lyricalhair">
+                                            </a>
+                                        </div>
+                                    @endforeach
+                                @else
+                                    <div class="swiper-slide">
+                                        <a href="{{ asset("img/Home/why-1.png") }}" class="zoomColorBoxs">
+                                            <img src="{{ asset("img/Home/why-1.png") }}" alt="lyricalhair">
+                                        </a>
+                                    </div>
+                                    <div class="swiper-slide">
+                                        <a href="{{ asset("img/Home/why-2.png") }}" class="zoomColorBoxs">
+                                            <img src="{{ asset("img/Home/why-2.png") }}" alt="lyricalhair">
+                                        </a>
+                                    </div>
+                                    <div class="swiper-slide">
+                                        <a href="{{ asset("img/Home/why-1.png") }}" class="zoomColorBoxs">
+                                            <img src="{{ asset("img/Home/why-1.png") }}" alt="lyricalhair">
+                                        </a>
+                                    </div>
+                                    <div class="swiper-slide">
+                                        <a href="{{ asset("img/Home/why-2.png") }}" class="zoomColorBoxs">
+                                            <img src="{{ asset("img/Home/why-2.png") }}" alt="lyricalhair">
+                                        </a>
+                                    </div>
+                                    <div class="swiper-slide">
+                                        <a href="{{ asset("img/Home/why-1.png") }}" class="zoomColorBoxs">
+                                            <img src="{{ asset("img/Home/why-1.png") }}" alt="lyricalhair">
+                                        </a>
+                                    </div>
+                                @endif
                             </div>
                             <!-- 如果需要导航按钮 -->
                             <div class="swiper-button-prev"></div>
@@ -186,9 +196,9 @@
                         <span>Lyricalhair Blog</span>
                     </div>
                     {{-- 油管播放器的页面嵌入，非API式的iframe嵌套 --}}
-                    <div class="dis_n" id="youtubeVideoID" data-video-id="M7lc1UVf-VE" >存放youtube视频id的位置</div>
+                    <div class="dis_n" id="youtubeVideoID" data-video-id="M7lc1UVf-VE">存放youtube视频id的位置</div>
                     <iframe id="player" type="text/html"
-                            src="https://www.youtube.com/embed/ziGD7vQOwl8?showinfo=0&rel=0&autoplay=1" 
+                            src="https://www.youtube.com/embed/ziGD7vQOwl8?showinfo=0&rel=0&autoplay=1"
                             frameborder="0" allow="autoplay" allowfullscreen>
                     </iframe>
                 </div>
@@ -237,6 +247,7 @@
         </div>
     </div>
 @endsection
+
 @section('scriptsAfterJs')
     {{-- 轮播插件 --}}
     <script src="{{ asset('js/swiper/js/swiper.min.js') }}"></script>
@@ -280,23 +291,23 @@
             // product zone3D轮播图
             $('.roundabout_box ul').roundabout({
                 easing: 'easeOutInCirc',
-				duration: 1000,
-				minScale: 0.6,
-				autoplay: false,
-				autoplayDuration: 1500,
-				minOpacity: 1,
-				maxOpacity: 1,
-				reflect: false,
-				startingChild: 3,
-				autoplayInitialDelay: 5000,
-				autoplayPauseOnHover: false,
-				enableDrag: true,
+                duration: 1000,
+                minScale: 0.6,
+                autoplay: false,
+                autoplayDuration: 1500,
+                minOpacity: 1,
+                maxOpacity: 1,
+                reflect: false,
+                startingChild: 3,
+                autoplayInitialDelay: 5000,
+                autoplayPauseOnHover: false,
+                enableDrag: true,
             });
             // 图片弹窗
-             //Init lightbox  图片弹窗
+            //Init lightbox  图片弹窗
             $(".zoomColorBoxs").colorbox({
                 rel: 'zoomColorBoxs',
-                opacity:0.5,
+                opacity: 0.5,
                 speed: 300,
                 current: '{current} / {total}',
                 previous: '',
@@ -306,7 +317,7 @@
                 maxHeight: '95%'
             });
             // why lyrical 轮播
-            var mySwiper = new Swiper ('.swiper-container', {
+            var mySwiper = new Swiper('.swiper-container', {
                 slidesPerView: 2,
                 spaceBetween: 30,
                 pagination: {
@@ -315,10 +326,10 @@
                 },
                 // 如果需要前进后退按钮
                 navigation: {
-                nextEl: '.swiper-button-next',
-                prevEl: '.swiper-button-prev',
+                    nextEl: '.swiper-button-next',
+                    prevEl: '.swiper-button-prev',
                 }
-            })
+            });
         });
         $(function () {
             // 油管视频API搭建

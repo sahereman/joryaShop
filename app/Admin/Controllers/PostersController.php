@@ -79,7 +79,8 @@ class PostersController extends Controller
         $grid->disableFilter();
 
         $grid->id('ID');
-        $grid->image('广告图')->image('', 120);
+        // $grid->image('广告图')->image('', 120);
+        $grid->image_url('广告图')->image('', 120);
         $grid->name('名称');
         $grid->slug('标示');
         $grid->link('链接');
@@ -99,7 +100,24 @@ class PostersController extends Controller
         $show = new Show(Poster::findOrFail($id));
 
         $show->id('ID');
-        $show->image('广告图')->image('', 300);;
+        // $show->image('广告图')->image('', 300);
+        /*$show->photos('广告图(单图|多图)')->as(function ($photos) {
+            $text = '';
+            foreach ($photos as $photo) {
+                $url = starts_with($photo, ['http://', 'https://']) ? $photo : Storage::disk('public')->url($photo);
+                $text .= '<img src="' . $url . '" style="margin:0 12px 12px 0;max-width:120px;max-height:200px" class="img">';
+            }
+
+            return $text;
+        });*/
+        $show->photo_urls('广告图(单图|多图)')->as(function ($photo_urls) {
+            $text = '';
+            foreach ($photo_urls as $photo_url) {
+                $text .= '<img src="' . $photo_url . '" style="margin:0 12px 12px 0;max-width:120px;max-height:200px" class="img">';
+            }
+
+            return $text;
+        });
         $show->name('名称');
         $show->slug('标示');
         $show->link('链接');
@@ -121,17 +139,22 @@ class PostersController extends Controller
     {
         $slugs = [
             /*PC*/
-            'about_lyrical_hair_up' => 'About LyricalHair - Up',
-            'about_lyrical_hair_down' => 'About LyricalHair - Down',
-            'about_lyrical_hair_left' => 'About LyricalHair - Left',
-            'about_lyrical_hair_right' => 'About LyricalHair - Right',
-            'why_lyrical_hair_1' => 'Why LyricalHair - 1',
-            'why_lyrical_hair_2' => 'Why LyricalHair - 2',
+            'about_lyrical_hair_up' => 'About LyricalHair - Up (单图)',
+            'about_lyrical_hair_down' => 'About LyricalHair - Down (单图)',
+            'about_lyrical_hair_left' => 'About LyricalHair - Left (单图)',
+            'about_lyrical_hair_right' => 'About LyricalHair - Right (单图)',
+            'why_lyrical_hair' => 'Why LyricalHair (多图)',
         ];
 
         $form = new Form(new Poster);
 
-        $form->image('image', '广告图')->uniqueName()->move('posters')->rules('required|image');
+        // $form->image('image', '广告图')->uniqueName()->move('posters')->rules('required|image');
+        $form->multipleImage('photos', '广告图(单图|多图)')
+            ->deletable(true)
+            ->uniqueName()
+            ->removable()
+            ->move('posters')
+            ->rules('required|image');
 
         $form->text('name', '名称')->rules('required')->help('名称可随意更改');
 
