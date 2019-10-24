@@ -118,18 +118,41 @@
                 <img src="{{ asset("img/Home/Product_Zone.png") }}" alt="lyricalhair">
             </p>
             {{-- 轮播图 --}}
-            <div class="roundabout_box main-content" id="ProductZone">
-                <ul>
-                    @if($products)
-                        @foreach($products as $product)
-                            <li>
-                                <a href="{{ route('seo_url', $product->slug) }}">
-                                    <img class="roundabout_img" src="{{ $product->thumb_url }}" alt="lyricalhair">
-                                </a>
-                            </li>
-                        @endforeach
-                    @endif
-                </ul>
+            <div class="main-content">
+                <div class="swiper-container" id="ProductZone">
+                    <div class="swiper-wrapper">
+                        @if($products)
+                            @foreach($products as $product)
+                                <div class="swiper-slide">
+                                    <div class="slide-img">
+                                        <a href="{{ route('seo_url', $product->slug) }}">
+                                            <img src="{{ $product->thumb_url }}" alt="{{ $product->name_en }}">
+                                        </a>
+                                    </div>
+                                    <div class="slide-title">
+                                        <a href="{{ route('seo_url', $product->slug) }}">
+                                            <p title="{{ $product->name_en }}">{{ mb_strlen($product->name_en) <= 20 ? $product->name_en : substr($product->name_en, 0, 17) . ' ... ' }}</p>
+                                        </a>
+                                    </div>
+                                    <div class="slide-price">
+                                        <p>
+                                            <span class="old-price">{{ get_global_symbol() }} {{ bcmul(get_current_price($product->price), 1.2, 2) }}</span>
+                                            <span class="special-price">{{ get_global_symbol() }} {{ get_current_price($product->price) }}</span>
+                                        </p>
+                                    </div>
+                                    <div class="slide-operation">
+                                        <a href="{{ route('seo_url', $product->slug) }}">
+                                            <span><img src="{{ asset("img/header/shopCar.png") }}" alt="lyricalhair"></span>
+                                            <span>Add to Basket</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            @endforeach
+                        @endif
+                    </div>
+                    <!-- 如果需要分页器 -->
+                    <div class="swiper-pagination ProductZone-pagination"></div>
+                </div>
             </div>
             {{-- Why Lyricalhair && Lyricalhair Blog --}}
             <div class="why-youtube">
@@ -186,8 +209,8 @@
                                 @endif
                             </div>
                             <!-- 如果需要导航按钮 -->
-                            <div class="swiper-button-prev"></div>
-                            <div class="swiper-button-next"></div>
+                            <div class="swiper-button-prev why-button-prev"></div>
+                            <div class="swiper-button-next why-button-next"></div>
                         </div>
                     </div>
                 </div>
@@ -252,8 +275,8 @@
     {{-- 轮播插件 --}}
     <script src="{{ asset('js/swiper/js/swiper.min.js') }}"></script>
     <script src="{{ asset('js/slick/slick.min.js') }}"></script>
-    <script src="{{ asset('js/3Dlbt/jquery.roundabout.min.js') }}"></script>
-    <script src="{{ asset('js/3Dlbt/jquery.easing.js') }}"></script>
+    {{-- <script src="{{ asset('js/3Dlbt/jquery.roundabout.min.js') }}"></script> --}}
+    {{-- <script src="{{ asset('js/3Dlbt/jquery.easing.js') }}"></script> --}}
     {{-- 数字滚动 --}}
     <script src="{{ asset('js/jqueryCountup/jquery.waypoints.min.js') }}"></script>
     <script src="{{ asset('js/jqueryCountup/jquery.countup.min.js') }}"></script>
@@ -289,19 +312,29 @@
             // 数字滚动初始化
             $('.counter').countUp();
             // product zone3D轮播图
-            $('.roundabout_box ul').roundabout({
-                easing: 'easeOutInCirc',
-                duration: 1000,
-                minScale: 0.6,
-                autoplay: false,
-                autoplayDuration: 1500,
-                minOpacity: 1,
-                maxOpacity: 1,
-                reflect: false,
-                startingChild: 3,
-                autoplayInitialDelay: 5000,
-                autoplayPauseOnHover: false,
-                enableDrag: true,
+            // $('.roundabout_box ul').roundabout({
+            //     easing: 'easeOutInCirc',
+            //     duration: 1000,
+            //     minScale: 0.6,
+            //     autoplay: false,
+            //     autoplayDuration: 1500,
+            //     minOpacity: 1,
+            //     maxOpacity: 1,
+            //     reflect: false,
+            //     startingChild: 3,
+            //     autoplayInitialDelay: 5000,
+            //     autoplayPauseOnHover: false,
+            //     enableDrag: true,
+            // });
+            
+            var productZoneswiper = new Swiper('#ProductZone', {
+                autoplay: true,
+                slidesPerView: 4,
+                spaceBetween: 30,
+                pagination: {
+                    el: '.ProductZone-pagination',
+                    clickable: true,
+                }
             });
             // 图片弹窗
             //Init lightbox  图片弹窗
@@ -317,17 +350,13 @@
                 maxHeight: '95%'
             });
             // why lyrical 轮播
-            var mySwiper = new Swiper('.swiper-container', {
+            var mySwiper = new Swiper('#whyImgBanner', {
                 slidesPerView: 2,
                 spaceBetween: 30,
-                pagination: {
-                    el: '.swiper-pagination',
-                    clickable: true,
-                },
                 // 如果需要前进后退按钮
                 navigation: {
-                    nextEl: '.swiper-button-next',
-                    prevEl: '.swiper-button-prev',
+                    nextEl: '.why-button-next',
+                    prevEl: '.why-button-prev',
                 }
             });
         });

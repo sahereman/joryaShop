@@ -210,21 +210,98 @@
     text-align: center;
   }
     #ProductZone{
-      height:675px;
+      height:540px;
       width:100%;
       margin:auto auto 87px auto;
       position:relative;
       @media only screen and (max-width: 750px){
         display: none;
       }
-      ul {
-        li {
-          div {
-            width:100%;
+      .swiper-wrapper {
+        width: 100%;
+        height: 100%;
+      }
+      .swiper-slide {
+        cursor: pointer;
+        .slide-img {
+          width: 100%;
+          //height: 320px;
+          overflow: hidden;
+          img {
+            width: 100%;
             height: 100%;
+            transition: all 0.3s ease;
+          }
+        }
+        .slide-title {
+          margin-top: 1.57rem;
+          margin-bottom: 0.5rem;
+          p {
+            height: 1.5rem;
+            font-size: 16px;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+          }
+        }
+        .slide-price {
+          margin-bottom: 1rem;
+          font-size: 14px;
+          .old-price {
+            text-decoration: line-through;
+            margin-right: 15px;
+            color: #ccc;
+          }
+          .special-price {
+            color: #ba0707;
+          }
+        }
+        .slide-operation {
+          a {
+            color: #ccc;
+            display: flex;
+            width: 100%;
+            line-height: 1rem;
+            font-size: 14px;
+            span {
+              &:first-of-type {
+                display: inline-block;
+                margin-right: 5px;
+                width: 35px;
+                height: 35px;
+                background-color: #f5f5f5;
+                text-align: center;
+                border-radius: 50%;
+              }
+              &:last-of-type {
+                display: inline-block;
+                line-height: 35px;
+              }
+            }
+            img {
+              margin-top: 5px;
+            }
+          }
+        }
+        &:hover {
+          .slide-operation {
+            a {
+              color: #111;
+            }
           }
         }
       }
+      .swiper-pagination-bullets {
+        bottom: 0 !important;
+      }
+      .swiper-pagination-bullet-active {
+        background: #BF2A24 !important;
+      }
+    }
+    .ProductZone-pagination {
+      bottom: 0;
+      left: 0;
+      right: 0;
     }
     .roundabout-holder{
       list-style:none;
@@ -480,7 +557,7 @@
         border-radius: 50%;
         text-align: center;
         line-height: 80px;
-        background: #7F7F7F;
+        background: #BF2A24;
         transition: all .3s ease-out 0s;
       }
       span {
@@ -507,12 +584,12 @@
       }
       &:hover {
         .part-img-box {
-          background: #BF2A24;
+          background: #7F7F7F;
         }
         a {
           color: #fff;
           background: #BF2A24;
-
+          border-color: #BF2A24;
         }
       }
     }
