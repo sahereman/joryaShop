@@ -210,10 +210,11 @@
     text-align: center;
   }
     #ProductZone{
-      height:540px;
+      min-height:540px;
       width:100%;
       margin:auto auto 87px auto;
       position:relative;
+      padding-bottom: 30px;
       @media only screen and (max-width: 750px){
         display: none;
       }
