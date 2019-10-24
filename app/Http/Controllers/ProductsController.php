@@ -761,17 +761,21 @@ class ProductsController extends Controller
         if (count($product_sku_ids) > 0) {
             $selected_sku = $product_skus->filter(function ($product_sku) {
                 return $product_sku->stock > 0;
-            })->where('id', $product_sku_ids[0])->first();
-            $selected_sku_attr_values = $selected_sku->attr_values->pluck('value', 'product_attr_id')->toArray();
+            })->whereIn('id', $product_sku_ids)->first();
         } else {
             $selected_sku = $product_skus->filter(function ($product_sku) {
                 return $product_sku->stock > 0;
             })->first();
+        }
+        if ($selected_sku) {
             $selected_sku_attr_values = $selected_sku->attr_values->pluck('value', 'product_attr_id')->toArray();
+            $data['selected']['sku'] = $selected_sku->toArray();
+        } else {
+            $selected_sku_attr_values = [];
+            $data['selected']['sku'] = [];
         }
         $product_sku_ids = $product_skus->pluck('id')->toArray();
         $sku_attr_values = [];
-        $data['selected']['sku'] = $selected_sku->toArray();
         foreach ($selected_sku_attr_values as $product_attr_id => $value) {
             $product_attr_name = $product_attr_names[$product_attr_id];
             $sku_attr_values[$product_attr_name] = [];
