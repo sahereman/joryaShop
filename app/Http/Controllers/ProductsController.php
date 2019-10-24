@@ -746,7 +746,7 @@ class ProductsController extends Controller
         $product_sku_attr_values = $request->input('product_sku_attr_values');
         $cache_key = '';
         if ($product_sku_attr_values) {
-            sort($product_sku_attr_values);
+            asort($product_sku_attr_values);
             foreach ($product_sku_attr_values as $product_attr_name => $product_sku_attr_value) {
                 $cache_key .= $product_sku_attr_value;
                 if ($product_sku_attr_value && !in_array($product_attr_name, $product_attr_names)) {
@@ -828,7 +828,7 @@ class ProductsController extends Controller
 
         // update product_sku_attr_value_cache
         // Note: 当 sku 的 库存 stock 或 属性值 attr—value 发生变动时，要清空对应商品下的所有缓存 cache
-        if (Cache::has($product->id . 'product_sku_attr_value_cache') && $cache_key) {
+        if ($cache_key) {
             $product_sku_attr_value_cache = Cache::get($product->id . 'product_sku_attr_value_cache', []);
             if (!isset($product_sku_attr_value_cache[$cache_key])) {
                 $product_sku_attr_value_cache[$cache_key] = $data;
