@@ -4,6 +4,7 @@ namespace App\Observers;
 
 use App\Models\OrderItem;
 use App\Models\Product;
+use Illuminate\Support\Facades\Cache;
 
 class OrderItemObserver
 {
@@ -29,5 +30,10 @@ class OrderItemObserver
 
         $orderItem->sku->product->increment('index', $orderItem->number);
         $orderItem->sku->product->increment('heat');
+
+        // flush product_sku_attr_value_cache
+        if (Cache::has($orderItem->sku->product->id . 'product_sku_attr_value_cache')) {
+            Cache::forget($orderItem->sku->product->id . 'product_sku_attr_value_cache');
+        }
     }
 }

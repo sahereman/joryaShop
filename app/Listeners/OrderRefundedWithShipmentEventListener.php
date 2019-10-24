@@ -6,6 +6,7 @@ use App\Events\OrderRefundedWithShipmentEvent;
 use App\Models\Product;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Support\Facades\Cache;
 
 class OrderRefundedWithShipmentEventListener
 {
@@ -37,6 +38,11 @@ class OrderRefundedWithShipmentEventListener
 
                 // 更新 Product +库存
                 $item->sku->product->increment('stock', $item->number);
+
+                // flush product_sku_attr_value_cache
+                if (Cache::has($item->sku->product->id . 'product_sku_attr_value_cache')) {
+                    Cache::forget($item->sku->product->id . 'product_sku_attr_value_cache');
+                }
             }
         }
     }

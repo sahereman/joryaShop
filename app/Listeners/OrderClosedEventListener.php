@@ -8,6 +8,7 @@ use App\Models\Product;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 
 class OrderClosedEventListener
@@ -51,6 +52,11 @@ class OrderClosedEventListener
                 }
                 $item->sku->product->decrement('index', $item->number);
                 $item->sku->product->decrement('heat');
+
+                // flush product_sku_attr_value_cache
+                if (Cache::has($item->sku->product->id . 'product_sku_attr_value_cache')) {
+                    Cache::forget($item->sku->product->id . 'product_sku_attr_value_cache');
+                }
             }
         });
     }

@@ -744,8 +744,11 @@ class ProductsController extends Controller
         $product_sku_ids = $product_skus->pluck('id')->toArray();
         $product_sku_attr_value_collection = ProductSkuAttrValue::whereIn('product_sku_id', $product_sku_ids)->get();
         $product_sku_attr_values = $request->input('product_sku_attr_values');
+        $cache_key = '';
         if ($product_sku_attr_values) {
+            sort($product_sku_attr_values);
             foreach ($product_sku_attr_values as $product_attr_name => $product_sku_attr_value) {
+                $cache_key .= $product_sku_attr_value;
                 if ($product_sku_attr_value && !in_array($product_attr_name, $product_attr_names)) {
                     break;
                 }
@@ -758,6 +761,18 @@ class ProductsController extends Controller
                 }
             }
         }
+
+        // try to retrieve data from product_sku_attr_value_cache
+        if (Cache::has($product->id . 'product_sku_attr_value_cache') && $cache_key) {
+            $product_sku_attr_value_cache = Cache::get($product->id . 'product_sku_attr_value_cache', []);
+            if (isset($product_sku_attr_value_cache[$cache_key])) {
+                return response()->json([
+                    'message' => 'success',
+                    'data' => $product_sku_attr_value_cache[$cache_key],
+                ], 200);
+            }
+        }
+
         if (count($product_sku_ids) > 0) {
             $selected_sku = $product_skus->filter(function ($product_sku) {
                 return $product_sku->stock > 0;
@@ -810,6 +825,17 @@ class ProductsController extends Controller
                 }
             });
         }
+
+        // update product_sku_attr_value_cache
+        // Note: 当 sku 的 库存 stock 或 属性值 attr—value 发生变动时，要清空对应商品下的所有缓存 cache
+        if (Cache::has($product->id . 'product_sku_attr_value_cache') && $cache_key) {
+            $product_sku_attr_value_cache = Cache::get($product->id . 'product_sku_attr_value_cache', []);
+            if (!isset($product_sku_attr_value_cache[$cache_key])) {
+                $product_sku_attr_value_cache[$cache_key] = $data;
+                Cache::forever($product->id . 'product_sku_attr_value_cache', $product_sku_attr_value_cache);
+            }
+        }
+
         return response()->json([
             'message' => 'success',
             'data' => $data,

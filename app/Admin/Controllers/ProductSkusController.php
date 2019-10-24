@@ -20,6 +20,7 @@ use Encore\Admin\Form\Tools;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\MessageBag;
 
@@ -372,6 +373,11 @@ class ProductSkusController extends Controller
                 'stock' => $stock,
                 'sales' => $sales
             ]);
+
+            // flush product_sku_attr_value_cache
+            if (Cache::has($product->id . 'product_sku_attr_value_cache')) {
+                Cache::forget($product->id . 'product_sku_attr_value_cache');
+            }
 
             $attr_value_options = request()->input('attr_value_options');
             $attr_value_count = count($attr_value_options);

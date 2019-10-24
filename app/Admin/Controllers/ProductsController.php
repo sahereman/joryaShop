@@ -32,6 +32,7 @@ use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
 // use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\URL;
@@ -889,6 +890,11 @@ class ProductsController extends Controller
             'stock' => $product->skus->sum('stock'),
         ]);
 
+        // flush product_sku_attr_value_cache
+        if (Cache::has($product->id . 'product_sku_attr_value_cache')) {
+            Cache::forget($product->id . 'product_sku_attr_value_cache');
+        }
+
         return redirect()->route('admin.products.sku_editor_show', ['product' => $product->id]);
 
         /*switch ($product->type)
@@ -971,6 +977,11 @@ class ProductsController extends Controller
         }
 
         $product->update(['stock' => $stock]);
+
+        // flush product_sku_attr_value_cache
+        if (Cache::has($product->id . 'product_sku_attr_value_cache')) {
+            Cache::forget($product->id . 'product_sku_attr_value_cache');
+        }
 
         // return redirect()->route('admin.products.edit', ['product' => $product->id]);
         return redirect()->route('admin.products.sku_editor_show', ['product' => $product->id]);
