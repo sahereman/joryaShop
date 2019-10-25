@@ -172,7 +172,7 @@
                     <div class="why-imgs">
                         <div class="swiper-container" id="whyImgBanner">
                             <div class="swiper-wrapper">
-                                @if($poster = \App\Models\Poster::getPosterBySlug('why_lyrical_hair'))
+                                @if($poster = \App\Models\Poster::getPosterBySlug('why_lyrical'))
                                     @foreach($poster->photo_urls as $photo_url)
                                         <div class="swiper-slide">
                                             <a href="{{ $photo_url }}" class="zoomColorBoxs">
