@@ -308,6 +308,7 @@ class OrdersController extends Controller
         $user = $request->user();
         $province = $request->has('province') ? $request->input('province') : null;
         $total_shipping_fee = 0;
+        $shipment_template = null;
 
         if ($request->has('sku_id') && $request->has('number')) {
             // 来自SKU的订单
@@ -322,6 +323,7 @@ class OrdersController extends Controller
             if ($province) {
                 $shipment_templates = $product->get_allow_shipment_templates($province);
                 if ($shipment_templates) {
+                    $shipment_template = $shipment_templates->first();
                     $total_shipping_fee = $shipment_templates->first()->calc_unit_shipping_fee($number, $province);
                 }
             }
@@ -347,6 +349,7 @@ class OrdersController extends Controller
                     if ($province) {
                         $shipment_templates = $product->get_allow_shipment_templates($province);
                         if ($shipment_templates) {
+                            $shipment_template = $shipment_templates->first();
                             $total_shipping_fee += $shipment_templates->first()->calc_unit_shipping_fee($number, $province);
                         }
                     }
@@ -370,6 +373,7 @@ class OrdersController extends Controller
                     if ($province) {
                         $shipment_templates = $product->get_allow_shipment_templates($province);
                         if ($shipment_templates) {
+                            $shipment_template = $shipment_templates->first();
                             $total_shipping_fee += $shipment_templates->first()->calc_unit_shipping_fee($number, $province);
                         }
                     }
@@ -378,6 +382,7 @@ class OrdersController extends Controller
         }
 
         return response()->json([
+            'shipment_template' => $shipment_template,
             'total_shipping_fee' => $total_shipping_fee,
         ]);
     }
@@ -394,6 +399,7 @@ class OrdersController extends Controller
         $is_nil = true;
         $attr_values = [];
         $product_types = [];
+        $shipment_template = null;
 
         $address = false;
         if ($user) {
@@ -471,6 +477,7 @@ class OrdersController extends Controller
                 $to_province = $address->province;
                 $shipment_templates = $product->get_allow_shipment_templates($to_province);
                 if ($shipment_templates) {
+                    $shipment_template = $shipment_templates->first();
                     $items[0]['shipping_fee'] = $shipment_templates->first()->calc_unit_shipping_fee($number, $to_province);
                     $total_shipping_fee = $items[0]['shipping_fee'];
                 }
@@ -532,6 +539,7 @@ class OrdersController extends Controller
                         $to_province = $address->province;
                         $shipment_templates = $product->get_allow_shipment_templates($to_province);
                         if ($shipment_templates) {
+                            $shipment_template = $shipment_templates->first();
                             $items[$key]['shipping_fee'] = $shipment_templates->first()->calc_unit_shipping_fee($number, $to_province);
                             $total_shipping_fee += $items[$key]['shipping_fee'];
                         }
@@ -589,6 +597,7 @@ class OrdersController extends Controller
                         $to_province = $address->province;
                         $shipment_templates = $product->get_allow_shipment_templates($to_province);
                         if ($shipment_templates) {
+                            $shipment_template = $shipment_templates->first();
                             $total_shipping_fee = $shipment_templates->first()->calc_unit_shipping_fee($number, $to_province);
                         }
                     }*/
@@ -639,9 +648,10 @@ class OrdersController extends Controller
             'total_fee' => $total_fee,
             'saved_fee' => $saved_fee,
             'available_coupons' => $available_coupons,
+            'shipment_template' => $shipment_template,
             'countries' => $countries,
             'provinces' => json_encode($provinces),
-            'attr_values' => $attr_values
+            'attr_values' => $attr_values,
         ]);
     }
 
@@ -707,6 +717,7 @@ class OrdersController extends Controller
                 if ($province) {
                     $shipment_templates = $product->get_allow_shipment_templates($province);
                     if ($shipment_templates) {
+                        $shipment_template = $shipment_templates->first();
                         $total_shipping_fee = $shipment_templates->first()->calc_unit_shipping_fee($number, $province);
                     }
                 }
@@ -771,6 +782,7 @@ class OrdersController extends Controller
                         if ($province) {
                             $shipment_templates = $product->get_allow_shipment_templates($province);
                             if ($shipment_templates) {
+                                $shipment_template = $shipment_templates->first();
                                 $total_shipping_fee += $shipment_templates->first()->calc_unit_shipping_fee($number, $province);
                             }
                         }
@@ -825,6 +837,7 @@ class OrdersController extends Controller
                         if ($province) {
                             $shipment_templates = $product->get_allow_shipment_templates($province);
                             if ($shipment_templates) {
+                                $shipment_template = $shipment_templates->first();
                                 $total_shipping_fee += $shipment_templates->first()->calc_unit_shipping_fee($number, $province);
                             }
                         }

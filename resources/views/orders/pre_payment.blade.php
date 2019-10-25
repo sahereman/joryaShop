@@ -240,10 +240,15 @@
                         {{-- 快递 Choose the Type of shipping--}}
                         <div class="shipping-type">
                             <p class="shipping-type-title">Choose the Type of shipping</p>
-                            <ul>
-                                <li class="active">Free shipping</li>
+                            <ul id="shipment-template">
+                                {{--<li class="active">Free shipping</li>
                                 <li>Fedex</li>
-                                <li>UPS</li>
+                                <li>UPS</li>--}}
+                                @if($shipment_template)
+                                    <li class="active">{{ $shipment_template->name }}</li>
+                                @else
+                                    <li class="active">Free Shipping</li>
+                                @endif
                             </ul>
                         </div>
                     </div>
@@ -382,7 +387,7 @@
                 }
                 return number;
             }
-            //优惠券切换
+            // 优惠券切换
             $(".coupon_selection").on("change",function () {
                 var couponNum = $(this).find("option:selected").attr("data-coupon-num");
                 // 商品最初的总价格
@@ -397,7 +402,7 @@
                 }else {
                     $(".discounts_num").text(js_number_format(newDiscounts/ 100));
                 }
-            //    计算选择优惠券后的总价格
+                // 计算选择优惠券后的总价格
                 $(".total_price").text(js_number_format(newPrice/ 100));
             });
 
@@ -441,12 +446,12 @@
             $(".change-cancel-btn").on("click", function(){
                 $(".changeAddress").addClass("dis_n");
                 $(".address-info-content").removeClass("dis_n");
-            })
+            });
             // 取消新建地址
             $(".new-cancel-btn").on("click", function(){
                 $(".add-new-address").addClass("dis_n");
                 $(".address-info-content").removeClass("dis_n");
-            })
+            });
             // 新建收货地址
             $(".add_new_address").on("click", function () {
                 $(this).parents(".add-new-address-box").addClass("dis_n");
@@ -510,13 +515,13 @@
                             var arr = [];
                             var dataobj = err.responseJSON.errors;
                             for (let i in dataobj) {
-                                arr.push(dataobj[i]); //属性
+                                arr.push(dataobj[i]); // 属性
                             }
                             layer.msg(arr[0][0]);
                         }
                     });
                 }
-            })
+            });
             // 切换地址
             $(".change_address").on("click", function () {
                 if ($(this).hasClass("for-login-show")) {
@@ -613,7 +618,7 @@
                     }
                     getTotalShippingFee(requestData);
                 }
-            })
+            });
             // 获取url,通过判断url中参数sendWay的值来确定从哪个页面进入，1、立即购买，2、购物车
             var loading_animation;
 
@@ -732,7 +737,7 @@
                         window.location.href = json.data.request_url;
                     },
                     error: function (err) {
-                        var arr = []
+                        var arr = [];
                         var dataobj = err.responseJSON.errors;
                         for (var i in dataobj) {
                             arr.push(dataobj[i]); //属性
@@ -776,7 +781,7 @@
                     }
                 }
             };
-        //    根据地址变化获取运费获取运费
+            // 根据地址变化获取运费获取运费
             function getTotalShippingFee(requestData) {
                 var requestUrl = "{{ route('orders.get_total_shipping_fee') }}";
                 var data = requestData;
@@ -785,10 +790,15 @@
                     url: requestUrl,
                     data: data,
                     success: function (json) {
-                        $(".total_shipping_fee").text(json.total_shipping_fee)
+                        $(".total_shipping_fee").text(json.total_shipping_fee);
+                        if (json.shipment_template) {
+                            $("ul#shipment-template").find('li.active').text(json.shipment_template.name);
+                        } else {
+                            $("ul#shipment-template").find('li.active').text('Free Shipping');
+                        }
                     },
                     error: function (err) {
-                        var arr = []
+                        var arr = [];
                         var dataobj = err.responseJSON.errors;
                         for (var i in dataobj) {
                             arr.push(dataobj[i]); //属性

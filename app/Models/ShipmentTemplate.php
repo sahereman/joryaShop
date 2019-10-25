@@ -76,7 +76,8 @@ class ShipmentTemplate extends Model
             }
         }
 
-        return get_global_symbol(). get_current_price($fee);
+        // return get_global_symbol(). get_current_price($fee);
+        return get_current_price($fee);
     }
 
     /* Accessors */
