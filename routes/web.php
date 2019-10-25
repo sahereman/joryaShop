@@ -272,5 +272,9 @@ Route::get('socialites/callback/{socialite}', 'SocialitesController@callback')->
 Route::get('socialites/deauthorize/{socialite}', 'SocialitesController@deauthorize')->name('socialites.deauthorize'); // Socialite Deauthorize Url
 Route::get('socialites/delete/{socialite}', 'SocialitesController@delete')->name('socialites.delete'); // Socialite Delete Url
 
+Route::get('contact_us.html', 'IndexController@contactUs')->name('contact_us');
+Route::get('about_lyrical.html', 'IndexController@aboutLyrical')->name('about_lyrical');
+Route::get('why_lyrical.html', 'IndexController@whyLyrical')->name('why_lyrical');
+
 Route::get('{slug}.html', 'IndexController@seoUrl')->name('seo_url');
 

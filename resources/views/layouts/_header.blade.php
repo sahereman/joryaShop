@@ -37,7 +37,7 @@
                     </a>
                 </div>
                 <div class="contact-us">
-                    <a href="{{ route('seo_url', ['slug' => 'contact_us']) }}">
+                    <a href="{{ route('contact_us') }}">
                         <span class="value">Contact Us</span>
                     </a>
                 </div>

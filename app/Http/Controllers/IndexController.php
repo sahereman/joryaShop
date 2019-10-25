@@ -37,22 +37,19 @@ class IndexController extends Controller
     public function seoUrl(Request $request, $slug)
     {
         $product = Product::where('slug', $slug)->first();
-        if ($product instanceof Product)
-        {
+        if ($product instanceof Product) {
             $product_ctl = new ProductsController();
             return $product_ctl->show($request, $product);
         }
 
         $product_category = ProductCategory::where('slug', $slug)->first();
-        if ($product_category instanceof ProductCategory)
-        {
+        if ($product_category instanceof ProductCategory) {
             $product_category_ctl = new ProductCategoriesController();
             return $product_category_ctl->index($request, $product_category);
         }
 
         $article = Article::where('slug', $slug)->first();
-        if ($article instanceof Article)
-        {
+        if ($article instanceof Article) {
             $article_ctl = new ArticlesController();
             return $article_ctl->show($request, $article->slug);
         }
@@ -142,11 +139,9 @@ class IndexController extends Controller
     public function localeUpdate(Request $request, string $locale = 'en')
     {
         $request->session()->put('GlobalLocale', $locale);
-        if ($locale === 'zh-CN')
-        {
+        if ($locale === 'zh-CN') {
             set_global_currency('CNY');
-        } else
-        {
+        } else {
             set_global_currency('USD');
         }
         return back();
@@ -165,5 +160,23 @@ class IndexController extends Controller
         $request->session()->put('GlobalCurrency', $currency);*/
         set_global_currency($currency);
         return back();
+    }
+
+    // GET contact us
+    public function contactUs(Request $request)
+    {
+        return view('pages.contact_us');
+    }
+
+    // GET about lyrical
+    public function aboutLyrical(Request $request)
+    {
+        return view('pages.about_lyrical');
+    }
+
+    // GET why lyrical
+    public function whyLyrical(Request $request)
+    {
+        return view('pages.why_lyrical');
     }
 }
