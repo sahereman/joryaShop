@@ -39,7 +39,7 @@
                         order, without ever leaving the comfort of your home. Remember...</span>
                 </div>
                 <div class="lyrical-info-link">
-                    <a href="{{ route('about_lyrical') }}">LEARN MORE</a>
+                    <a href="{{ route('about_lyricalhair') }}">LEARN MORE</a>
                 </div>
             </div>
             {{-- lyrical的资质认证或者活动图片墙,图片只改变路径，不能改变布局，不然达不到设计图想要的效果--}}
@@ -172,7 +172,7 @@
                     <div class="why-imgs">
                         <div class="swiper-container" id="whyImgBanner">
                             <div class="swiper-wrapper">
-                                @if($poster = \App\Models\Poster::getPosterBySlug('why_lyrical'))
+                                @if($poster = \App\Models\Poster::getPosterBySlug('why_lyrical_hair'))
                                     @foreach($poster->photo_urls as $photo_url)
                                         <div class="swiper-slide">
                                             <a href="{{ $photo_url }}" class="zoomColorBoxs">

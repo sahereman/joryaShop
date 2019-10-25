@@ -273,8 +273,8 @@ Route::get('socialites/deauthorize/{socialite}', 'SocialitesController@deauthori
 Route::get('socialites/delete/{socialite}', 'SocialitesController@delete')->name('socialites.delete'); // Socialite Delete Url
 
 Route::get('contact_us.html', 'IndexController@contactUs')->name('contact_us');
-Route::get('about_lyrical.html', 'IndexController@aboutLyrical')->name('about_lyrical');
-Route::get('why_lyrical.html', 'IndexController@whyLyrical')->name('why_lyrical');
+Route::get('about_lyricalhair.html', 'IndexController@aboutLyricalhair')->name('about_lyricalhair');
+Route::get('why_lyricalhair.html', 'IndexController@whyLyricalhair')->name('why_lyricalhair');
 
 Route::get('{slug}.html', 'IndexController@seoUrl')->name('seo_url');
 

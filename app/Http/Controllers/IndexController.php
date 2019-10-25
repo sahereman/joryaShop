@@ -169,14 +169,14 @@ class IndexController extends Controller
     }
 
     // GET about lyrical
-    public function aboutLyrical(Request $request)
+    public function aboutLyricalhair(Request $request)
     {
-        return view('pages.about_lyrical');
+        return view('pages.about_lyricalhair');
     }
 
     // GET why lyrical
-    public function whyLyrical(Request $request)
+    public function whyLyricalhair(Request $request)
     {
-        return view('pages.why_lyrical');
+        return view('pages.why_lyricalhair');
     }
 }
