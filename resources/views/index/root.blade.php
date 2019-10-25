@@ -49,7 +49,7 @@
                     {{-- 左侧上部 --}}
                     <div class="qualification-left-up">
                         <img class="photo-wall-1" src="{{ asset("img/Home/photo-wall-1.png") }}" alt="lyricalhair">
-                        @if($poster = \App\Models\Poster::getPosterBySlug('about_lyrical_hair_up'))
+                        @if($poster = \App\Models\Poster::getPosterBySlug('about_lyricalhair_up'))
                             <img class="photo-wall-6" src="{{ $poster->image_url }}" alt="lyricalhair">
                         @else
                             <img class="photo-wall-6" src="{{ asset("img/Home/photo-wall-6.png") }}" alt="lyricalhair">
@@ -57,12 +57,12 @@
                     </div>
                     {{-- 左侧下部 --}}
                     <div class="qualification-left-down">
-                        @if($poster = \App\Models\Poster::getPosterBySlug('about_lyrical_hair_left'))
+                        @if($poster = \App\Models\Poster::getPosterBySlug('about_lyricalhair_left'))
                             <img class="photo-wall-3" src="{{ $poster->image_url }}" alt="lyricalhair">
                         @else
                             <img class="photo-wall-3" src="{{ asset("img/Home/photo-wall-3.png") }}" alt="lyricalhair">
                         @endif
-                        @if($poster = \App\Models\Poster::getPosterBySlug('about_lyrical_hair_down'))
+                        @if($poster = \App\Models\Poster::getPosterBySlug('about_lyricalhair_down'))
                             <img class="photo-wall-5" src="{{ $poster->image_url }}" alt="lyricalhair">
                         @else
                             <img class="photo-wall-5" src="{{ asset("img/Home/photo-wall-5.png") }}" alt="lyricalhair">
@@ -71,7 +71,7 @@
                 </div>
                 {{-- 照片墙右侧 --}}
                 <div class="qualification-right">
-                    @if($poster = \App\Models\Poster::getPosterBySlug('about_lyrical_hair_right'))
+                    @if($poster = \App\Models\Poster::getPosterBySlug('about_lyricalhair_right'))
                         <img class="photo-wall-4" src="{{ $poster->image_url }}" alt="lyricalhair">
                     @else
                         <img class="photo-wall-4" src="{{ asset("img/Home/photo-wall-4.png") }}" alt="lyricalhair">
@@ -172,7 +172,7 @@
                     <div class="why-imgs">
                         <div class="swiper-container" id="whyImgBanner">
                             <div class="swiper-wrapper">
-                                @if($poster = \App\Models\Poster::getPosterBySlug('why_lyrical_hair'))
+                                @if($poster = \App\Models\Poster::getPosterBySlug('why_lyricalhair'))
                                     @foreach($poster->photo_urls as $photo_url)
                                         <div class="swiper-slide">
                                             <a href="{{ $photo_url }}" class="zoomColorBoxs">

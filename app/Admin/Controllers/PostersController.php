@@ -139,11 +139,11 @@ class PostersController extends Controller
     {
         $slugs = [
             /*PC*/
-            'about_lyrical_hair_up' => 'About LyricalHair - Up (单图)',
-            'about_lyrical_hair_down' => 'About LyricalHair - Down (单图)',
-            'about_lyrical_hair_left' => 'About LyricalHair - Left (单图)',
-            'about_lyrical_hair_right' => 'About LyricalHair - Right (单图)',
-            'why_lyrical_hair' => 'Why LyricalHair (多图)',
+            'about_lyricalhair_up' => 'About LyricalHair - Up (单图)',
+            'about_lyricalhair_down' => 'About LyricalHair - Down (单图)',
+            'about_lyricalhair_left' => 'About LyricalHair - Left (单图)',
+            'about_lyricalhair_right' => 'About LyricalHair - Right (单图)',
+            'why_lyricalhair' => 'Why LyricalHair (多图)',
         ];
 
         $form = new Form(new Poster);
