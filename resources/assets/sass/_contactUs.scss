@@ -1,0 +1,69 @@
+// 联系方式
+.contact-information {
+  .contact-information-title {
+    margin-bottom: 28px;
+    font-size:18px;
+    font-family:Arial;
+    font-weight:bold;
+    color:rgba(68,68,68,1);
+    line-height:24px;
+    span {
+      display: inline-block;
+      margin-right: 5px;
+      width: 13px;
+      height: 12px;
+      background-color: #C92324;
+    }
+  }
+  .information-part {
+    padding: 19px 22px;
+    margin-bottom: 32px;
+    width: 100%;
+    border:2px solid rgba(238, 238, 238, 0.96);
+    border-radius:10px;
+    .information-part-name {
+      margin-left: -28px;
+      margin-bottom: 11px;
+      width:284px;
+      height:40px;
+      text-align: center;
+      line-height: 40px;
+      font-size:18px;
+      font-family:Arial;
+      font-weight:bold;
+      color: #fff;
+      background:rgba(68,68,68,1);
+    }
+    .information-part-describe {
+      padding: 13px 23px;
+      margin-bottom: 26px;
+      font-size:14px;
+      font-family:Arial;
+      font-weight:400;
+      color:rgba(68,68,68,1);
+      line-height:32px;
+      background:rgba(245,245,245,1);
+      border-radius:2px;
+    }
+    .information-part-way {
+      li {
+        display: flex;
+        justify-content: flex-start;
+        // margin-bottom: 15px;
+        .icon-masks {
+          margin-right: 10px;
+          display: flex;
+          img {
+            margin: auto;
+          }
+        }
+        span {
+          font-size: 14px;
+          font-weight:400;
+          color: #444;
+          line-height:32px;
+        }
+      }
+    }
+  }
+}
