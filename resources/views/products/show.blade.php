@@ -40,7 +40,7 @@
                                 <div id="surround">
                                     <div class="big-img-box">
                                         <img class="cloudzoom" alt ="Cloud Zoom small image" id ="zoom1" src="{{ $product->photo_urls[0] }}"
-                                             data-cloudzoom='zoomSizeMode:"image",autoInside: true,tintOpacity:0,lensOpacity:0,zoomPosition:"inside",zoomMatchSize:true,zoomFullSize:true'>
+                                             data-cloudzoom='zoomSizeMode:"image",tintOpacity:0,lensOpacity:0,zoomPosition:4,zoomMatchSize:false,zoomFullSize:false'>
                                         <a id="zoom-btn" class="lightbox-group  zoomColorBoxs zoom-btn-small"
                                             href="{{ $product->photo_urls[0] }}"
                                             title="">Zoom</a>
