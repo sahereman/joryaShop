@@ -244,19 +244,25 @@ class ProductsController extends Controller
 
         $product_skus = $product->skus;
         $product_sku_ids = $product_skus->pluck('id');
-        $attr_values = ProductSkuAttrValue::with('sku', 'attr')->whereIn('product_sku_id', $product_sku_ids)->orderByDesc('sort')->get()->map(function (ProductSkuAttrValue $productSkuAttrValue) {
-            $attr_value = [
-                // 'product_sku_id' => $productSkuAttrValue->product_sku_id,
-                'name' => $productSkuAttrValue->name,
-                'value' => $productSkuAttrValue->value,
-                // 'stock' => $productSkuAttrValue->sku->stock,
-                // 'price' => $productSkuAttrValue->sku->price,
-                'delta_price' => $productSkuAttrValue->sku->delta_price,
-            ];
-            if ($productSkuAttrValue->attr->has_photo) {
-                $attr_value['photo_url'] = $productSkuAttrValue->sku->photo_url;
+        $attributes = [];
+        $attr_values = ProductSkuAttrValue::with('sku', 'attr')->whereIn('product_sku_id', $product_sku_ids)->orderByDesc('sort')->get()->map(function (ProductSkuAttrValue $productSkuAttrValue) use (&$attributes) {
+            $attr_name = $productSkuAttrValue->name;
+            $attr_value = $productSkuAttrValue->value;
+            if (!isset($attributes[$attr_name]) || !in_array($attr_value, $attributes[$attr_name])) {
+                $attr_value = [
+                    // 'product_sku_id' => $productSkuAttrValue->product_sku_id,
+                    'name' => $attr_name,
+                    'value' => $attr_value,
+                    // 'stock' => $productSkuAttrValue->sku->stock,
+                    // 'price' => $productSkuAttrValue->sku->price,
+                    'delta_price' => $productSkuAttrValue->sku->delta_price,
+                ];
+                if ($productSkuAttrValue->attr->has_photo) {
+                    $attr_value['photo_url'] = $productSkuAttrValue->sku->photo_url;
+                }
+                $attributes[$attr_name][] = $attr_value;
+                return $attr_value;
             }
-            return $attr_value;
         })->groupBy('name')->toArray();
         /*$product_skus->each(function (ProductSku $productSku) use (&$attr_values) {
             $attr_values[$productSku->id]['stock'] = $productSku->stock;
