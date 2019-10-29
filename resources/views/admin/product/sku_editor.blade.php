@@ -13,7 +13,6 @@
     </div>
 @endif
 
-
 {{--<button onclick="getAttrCombo()">test</button>--}}
 
 <div class="box">
@@ -29,12 +28,12 @@
                         <input type="number" step="0.01" class="form-control" name="delta_price" value="0">
                     </div>
                 </div>
-                <div class="col-lg-6">
+                {{--<div class="col-lg-6">
                     <div class="input-group">
                         <span class="input-group-addon">库存</span>
                         <input type="number" step="1" min="0" class="form-control" name="stock" value="0">
                     </div>
-                </div>
+                </div>--}}
             </div>
 
             <button type="button" class="btn-group pull-right btn btn-primary" id="submit_btn">生成</button>
@@ -114,7 +113,6 @@
     </form>
 </div>
 
-
 <div class="box">
     <div class="box-body table-responsive no-padding">
 
@@ -138,14 +136,13 @@
                             <th>{{ $attr->name }} <i class="fa fa-sort"></i></th>
                         @endforeach
                         <th>Delta Price</th>
-                        <th>Stock</th>
+                        {{--<th>Stock</th>
                         <th>Stock +</th>
-                        <th>Stock -</th>
+                        <th>Stock -</th>--}}
                         <th>Action</th>
                     @endif
                 </tr>
                 </thead>
-
 
                 <tbody>
                 @foreach($skus as $sku)
@@ -168,7 +165,7 @@
                             <input style="width: 80px" class="form-control" type="text" id="skus[{{ $sku->id }}][delta_price]" name="skus[{{ $sku->id }}][delta_price]"
                                    value="{{ $sku->delta_price }}">
                         </td>
-                        <td>
+                        {{--<td>
                             <input style="width: 60px" class="form-control" type="text" id="skus[{{ $sku->id }}][stock]" name="skus[{{ $sku->id }}][stock]"
                                    value="{{ $sku->stock }}">
                         </td>
@@ -179,7 +176,7 @@
                         <td>
                             <input style="width: 60px" class="form-control" type="text" id="skus[{{ $sku->id }}][stock_decrement]" name="skus[{{ $sku->id }}][stock_decrement]"
                                    value="0">
-                        </td>
+                        </td>--}}
                         <td><a class="btn btn-default" onclick="RemoveSku(this)" remove_url="{{route('admin.product_skus.destroy',$sku->id)}}">Remove</a></td>
                     </tr>
                 @endforeach
@@ -191,7 +188,6 @@
 </div>
 
 <script type="text/javascript">
-
     // function getAttrArray() {
     //
     //     var obj = {};
@@ -245,7 +241,6 @@
         $(this).parent().siblings(".table_value").val(text);
         $(this).parents(".skus-select-dropdown").hide();
     });
-    ;
 
     function addCol() {
         var _$this = $(event.target);
@@ -292,9 +287,7 @@
                 // swal(data.message, '', 'success');
             }
         });
-
         $(obj).parent().parent().remove();
-
     }
 
     function UpLoadImg(obj, url) {
@@ -346,7 +339,6 @@
         // $(".table-sort").find('th').eq(3).trigger('click');
         // $(".table-sort").find('th').eq(2).trigger('click');
 
-
         // 表单提交
         $('#submit_btn').on("click", function () {
             var json_str = new Object();
@@ -382,8 +374,5 @@
                 $("form#sku_generator_form").submit();
             }, 500);
         });
-
-
     });
-
 </script>

@@ -22,6 +22,7 @@ use App\Models\Payment;
 use App\Models\Product;
 use App\Models\ProductComment;
 use App\Models\ProductSku;
+use App\Models\ProductSkuAttrValue;
 use App\Models\ShipmentCompany;
 use App\Models\UserAddress;
 use App\Models\UserCoupon;
@@ -146,7 +147,7 @@ class OrdersController extends Controller
         $user = $request->user();
         $order = Order::where('order_sn', $sn)->first();
         if (!$order || ($user && $order->user_id)) {
-            throw new InvalidRequestException('You access to this resource is denied.');
+            throw new InvalidRequestException('Your access to this resource is denied.');
         }
 
         // 订单物流状态
@@ -227,9 +228,9 @@ class OrdersController extends Controller
                     }
                     $number = $cart->number;
                     $sku = $cart->sku;
-                    if ($number > $sku->stock) {
+                    /*if ($number > $sku->stock) {
                         throw new InvalidRequestException(trans('basic.orders.Insufficient_sku_stock'));
-                    }
+                    }*/
                     $product = $sku->product;
                     if (!in_array($product->type, $product_types)) {
                         $product_types[] = $product->type;
@@ -248,9 +249,9 @@ class OrdersController extends Controller
                     }
                     $number = $cart[$sku_id];
                     $sku = ProductSku::with('product')->find($sku_id);
-                    if ($number > $sku->stock) {
+                    /*if ($number > $sku->stock) {
                         throw new InvalidRequestException(trans('basic.orders.Insufficient_sku_stock'));
-                    }
+                    }*/
                     $product = $sku->product;
                     if (!in_array($product->type, $product_types)) {
                         $product_types[] = $product->type;
@@ -315,9 +316,9 @@ class OrdersController extends Controller
             $sku_id = $request->input('sku_id');
             $number = $request->input('number');
             $sku = ProductSku::find($sku_id);
-            if ($number > $sku->stock) {
+            /*if ($number > $sku->stock) {
                 throw new InvalidRequestException(trans('basic.orders.Insufficient_sku_stock'));
-            }
+            }*/
             $product = $sku->product;
             // $total_shipping_fee = bcmul($product->shipping_fee, $number, 2);
             if ($province) {
@@ -341,9 +342,9 @@ class OrdersController extends Controller
                     }
                     $number = $cart->number;
                     $sku = $cart->sku;
-                    if ($number > $sku->stock) {
+                    /*if ($number > $sku->stock) {
                         throw new InvalidRequestException(trans('basic.orders.Insufficient_sku_stock'));
-                    }
+                    }*/
                     $product = $sku->product;
                     // $total_shipping_fee += bcmul($product->shipping_fee, $number, 2);
                     if ($province) {
@@ -365,9 +366,9 @@ class OrdersController extends Controller
                     }
                     $number = $cart[$sku_id];
                     $sku = ProductSku::with('product')->find($sku_id);
-                    if ($number > $sku->stock) {
+                    /*if ($number > $sku->stock) {
                         throw new InvalidRequestException(trans('basic.orders.Insufficient_sku_stock'));
-                    }
+                    }*/
                     $product = $sku->product;
                     // $total_shipping_fee += bcmul($product->shipping_fee, $number, 2);
                     if ($province) {
@@ -437,9 +438,107 @@ class OrdersController extends Controller
             $product = $sku->product;
             $product_types[] = $product->type;
             $number = $request->query('number');
-            if ($number > $sku->stock) {
+            /*if ($number > $sku->stock) {
                 throw new InvalidRequestException(trans('basic.orders.Insufficient_sku_stock'));
+            }*/
+            $price = $sku->price;
+            $discounted_fee = 0;
+            $discounts = $product->discounts()->orderBy('number', 'desc')->get();
+            foreach ($discounts as $discount) {
+                if ($number >= $discount->number) {
+                    $price = bcadd($sku->delta_price, $discount->price, 2);
+                    $discounted_fee = bcsub($sku->product->price, $discount->price, 2);
+                    break;
+                }
             }
+            /*custom product sku attr value sorting*/
+            $sorted_custom_attr_values = collect();
+            if ($product->type == Product::PRODUCT_TYPE_CUSTOM) {
+                $grouped_custom_attr_values = $sku->custom_attr_values->groupBy('type');
+                foreach (CustomAttr::$customAttrTypeMap as $type) {
+                    if (isset($grouped_custom_attr_values[$type])) {
+                        $sorted_custom_attr_values[$type] = $grouped_custom_attr_values[$type];
+                    }
+                }
+                $sorted_custom_attr_values = $sorted_custom_attr_values->flatten(1);
+            }
+            $attr_values[$sku_id] = $product->type == Product::PRODUCT_TYPE_CUSTOM ? $sorted_custom_attr_values : $sku->attr_values;
+            /*custom product sku attr value sorting*/
+            $items[0]['sku'] = $sku;
+            $items[0]['product'] = $product;
+            $items[0]['number'] = $number;
+            $items[0]['price'] = $price;
+            $items[0]['amount'] = bcmul($price, $number, 2);
+            // $items[0]['shipping_fee'] = bcmul($product->shipping_fee, $number, 2);
+            $items[0]['shipping_fee'] = 0;
+            $saved_fee = bcmul($discounted_fee, $number, 2);
+            $total_amount = bcmul($price, $number, 2);
+            // $total_shipping_fee = bcmul($product->shipping_fee, $number, 2);
+            if ($address) {
+                $to_province = $address->province;
+                $shipment_templates = $product->get_allow_shipment_templates($to_province);
+                if ($shipment_templates) {
+                    $shipment_template = $shipment_templates->first();
+                    $items[0]['shipping_fee'] = $shipment_templates->first()->calc_unit_shipping_fee($number, $to_province);
+                    $total_shipping_fee = $items[0]['shipping_fee'];
+                }
+            }
+            $is_nil = false;
+        } elseif ($request->has('product_id') && $request->has('product_sku_attr_values') && $request->has('number')) {
+            $product_id = $request->input('product_id');
+            $product_sku_attr_values = $request->input('product_sku_attr_values');
+            $number = $request->input('number');
+            $product = Product::find($product_id);
+            $product_attrs = $product->attrs;
+            $product_attr_names = $product_attrs->pluck('name', 'id')->toArray();
+            $product_attr_ids = $product_attrs->pluck('id', 'name')->toArray();
+            $product_skus = $product->skus()->with('attr_values')->get();
+            $product_sku_ids = $product_skus->pluck('id')->toArray();
+            $product_sku_attr_value_collection = ProductSkuAttrValue::whereIn('product_sku_id', $product_sku_ids)->get();
+            foreach ($product_sku_attr_values as $product_attr_name => $product_sku_attr_value) {
+                if ($product_sku_attr_value && !in_array($product_attr_name, $product_attr_names)) {
+                    break;
+                }
+                if ($product_sku_attr_value) {
+                    $product_attr_id = $product_attr_ids[$product_attr_name];
+                    $product_sku_ids = $product_sku_attr_value_collection->whereIn('product_sku_id', $product_sku_ids)->where('product_attr_id', $product_attr_id)->where('value', $product_sku_attr_value)->pluck('product_sku_id')->toArray();
+                }
+                if (!$product_sku_ids) {
+                    break;
+                }
+            }
+            if (count($product_sku_ids) > 0) {
+                $sku_id = $product_sku_ids[0];
+            } else {
+                $product_sku = ProductSku::create([
+                    'product_id' => $product->id,
+                    'name_en' => 'custom product sku of lyrical hair',
+                    'name_zh' => 'custom product sku of lyrical hair',
+                    'photo' => '',
+                    'delta_price' => 0,
+                    'stock' => 100, // 暂定数值，占位用，便于客户在购物车内追加购买数量
+                    'sales' => 1,
+                ]);
+                $sku_id = $product_sku->id;
+                $count = count($product_sku_attr_values) + 1;
+                foreach ($product_sku_attr_values as $product_attr_name => $product_sku_attr_value) {
+                    if ($product_sku_attr_value) {
+                        $product_attr_id = $product_attr_ids[$product_attr_name];
+                        ProductSkuAttrValue::create([
+                            'product_sku_id' => $sku_id,
+                            'product_attr_id' => $product_attr_id,
+                            'value' => $product_sku_attr_value,
+                            'sort' => $count - 1,
+                        ]);
+                    }
+                }
+            }
+            $sku = ProductSku::find($sku_id);
+            $product_types[] = $product->type;
+            $number = $request->query('number');
+            /*if ($number > $sku->stock) {
+                throw new InvalidRequestException(trans('basic.orders.Insufficient_sku_stock'));
+            }*/
             $price = $sku->price;
             $discounted_fee = 0;
             $discounts = $product->discounts()->orderBy('number', 'desc')->get();
@@ -495,9 +594,9 @@ class OrdersController extends Controller
                     }
                     $number = $cart->number;
                     $sku = $cart->sku;
-                    if ($number > $sku->stock) {
+                    /*if ($number > $sku->stock) {
                         throw new InvalidRequestException(trans('basic.orders.Insufficient_sku_stock'));
-                    }
+                    }*/
                     $product = $sku->product;
                     if (!in_array($product->type, $product_types)) {
                         $product_types[] = $product->type;
@@ -553,9 +652,9 @@ class OrdersController extends Controller
                     }
                     $number = $cart[$sku_id];
                     $sku = ProductSku::with('product')->find($sku_id);
-                    if ($number > $sku->stock) {
+                    /*if ($number > $sku->stock) {
                         throw new InvalidRequestException(trans('basic.orders.Insufficient_sku_stock'));
-                    }
+                    }*/
                     $product = $sku->product;
                     if (!in_array($product->type, $product_types)) {
                         $product_types[] = $product->type;
@@ -696,9 +795,9 @@ class OrdersController extends Controller
                 $sku_id = $request->input('sku_id');
                 $number = $request->input('number');
                 $sku = ProductSku::find($sku_id);
-                if ($number > $sku->stock) {
+                /*if ($number > $sku->stock) {
                     throw new InvalidRequestException(trans('basic.orders.Insufficient_sku_stock'));
-                }
+                }*/
                 $product = $sku->product;
                 $price = $sku->price;
                 $discounted_fee = 0;
@@ -759,9 +858,9 @@ class OrdersController extends Controller
                         }
                         $number = $cart->number;
                         $sku = $cart->sku;
-                        if ($number > $sku->stock) {
+                        /*if ($number > $sku->stock) {
                             throw new InvalidRequestException(trans('basic.orders.Insufficient_sku_stock'));
-                        }
+                        }*/
                         $product = $sku->product;
                         $price = $sku->price;
                         $discounted_fee = 0;
@@ -814,9 +913,9 @@ class OrdersController extends Controller
                         }
                         $number = $cart[$sku_id];
                         $sku = ProductSku::with('product')->find($sku_id);
-                        if ($number > $sku->stock) {
+                        /*if ($number > $sku->stock) {
                             throw new InvalidRequestException(trans('basic.orders.Insufficient_sku_stock'));
-                        }
+                        }*/
                         $product = $sku->product;
                         $price = $sku->price;
                         $discounted_fee = 0;

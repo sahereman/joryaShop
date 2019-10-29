@@ -249,7 +249,7 @@ class ProductsController extends Controller
                 'product_sku_id' => $productSkuAttrValue->product_sku_id,
                 'name' => $productSkuAttrValue->name,
                 'value' => $productSkuAttrValue->value,
-                'stock' => $productSkuAttrValue->sku->stock,
+                // 'stock' => $productSkuAttrValue->sku->stock,
                 'price' => $productSkuAttrValue->sku->price,
                 'delta_price' => $productSkuAttrValue->sku->delta_price,
             ];
@@ -760,6 +760,8 @@ class ProductsController extends Controller
                     break;
                 }
             }
+        } else {
+            $cache_key = 'initialization';
         }
 
         // try to retrieve data from product_sku_attr_value_cache
@@ -774,13 +776,15 @@ class ProductsController extends Controller
         }
 
         if (count($product_sku_ids) > 0) {
-            $selected_sku = $product_skus->filter(function ($product_sku) {
+            /*$selected_sku = $product_skus->filter(function ($product_sku) {
                 return $product_sku->stock > 0;
-            })->whereIn('id', $product_sku_ids)->first();
+            })->whereIn('id', $product_sku_ids)->first();*/
+            $selected_sku = $product_skus->whereIn('id', $product_sku_ids)->first();
         } else {
-            $selected_sku = $product_skus->filter(function ($product_sku) {
+            /*$selected_sku = $product_skus->filter(function ($product_sku) {
                 return $product_sku->stock > 0;
-            })->first();
+            })->first();*/
+            $selected_sku = $product_skus->first();
         }
         if ($selected_sku) {
             $selected_sku_attr_values = $selected_sku->attr_values->pluck('value', 'product_attr_id')->toArray();
@@ -811,7 +815,8 @@ class ProductsController extends Controller
                             return $product_sku->stock > 0;
                         })->whereIn('id', $sku_ids)->isNotEmpty()
                     ) {*/
-                    if (count($sku_ids) > 0 && $product_skus->where('id', $sku_ids[0])->first()->stock > 0) {
+                    // if (count($sku_ids) > 0 && $product_skus->where('id', $sku_ids[0])->first()->stock > 0) {
+                    if (count($sku_ids) > 0) {
                         $data['data'][$product_attr_name]['true'][] = [
                             'value' => $product_sku_attr_value,
                             'switch' => true,

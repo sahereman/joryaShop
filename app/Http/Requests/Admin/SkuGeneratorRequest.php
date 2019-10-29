@@ -24,7 +24,7 @@ class SkuGeneratorRequest extends FormRequest
     {
         return [
             'delta_price' => ['required', 'numeric'],
-            'stock' => ['required', 'integer', 'min:0'],
+            // 'stock' => ['required', 'integer', 'min:0'],
             'attrs' => ['required', 'json', function ($key, $json, $fail) {
                 $val = json_decode($json, true);
                 if (empty($val)) {
@@ -49,7 +49,7 @@ class SkuGeneratorRequest extends FormRequest
     {
         return [
             'delta_price' => 'SKU 差价',
-            'stock' => 'SKU 库存',
+            // 'stock' => 'SKU 库存',
             'attrs' => 'SKU 参数组合',
         ];
     }

@@ -17,7 +17,57 @@ class CartRequest extends Request
      */
     public function rules()
     {
-        if ($this->routeIs('carts.store') || $this->routeIs('carts.update')) {
+        if ($this->routeIs('carts.store')) {
+            return [
+                'sku_id' => [
+                    'bail',
+                    'required_without:product_id,product_sku_attr_values',
+                    'required_with:number',
+                    'integer',
+                    'exists:product_skus,id',
+                    function ($attribute, $value, $fail) {
+                        $sku = ProductSku::find($value);
+                        if ($sku->product->on_sale == 0) {
+                            $fail(trans('basic.orders.Product_sku_off_sale'));
+                        }
+                        /*if ($sku->stock == 0) {
+                            $fail(trans('basic.orders.Product_sku_out_of_stock'));
+                        }*/
+                        /*if ($sku->stock < $this->input('number')) {
+                            $fail(trans('basic.orders.Insufficient_sku_stock'));
+                        }*/
+                    },
+                ],
+                'product_id' => [
+                    'required_without:sku_id',
+                    'required_with:product_sku_attr_values,number',
+                    'integer',
+                    //'exists:products,id',
+                    Rule::exists('products', 'id')->where(function ($query) {
+                        return $query->where('on_sale', 1);
+                    }),
+                    // Rule::unique('user_favourites')->where('user_id', $user->id),
+                    /*Rule::unique('user_favourites')->where(function ($query) use ($user) {
+                        return $query->where('user_id', $user->id);
+                    }),*/
+                ],
+                'product_sku_attr_values' => 'required_without:sku_id|required_with:product_id,number|array',
+                'product_sku_attr_values.*' => 'required_without:sku_id|required_with:product_id,number|string',
+                'number' => [
+                    // 'bail',
+                    'required',
+                    // 'required_with:sku_id',
+                    'integer',
+                    'min:1',
+                    /*function ($attribute, $value, $fail) {
+                        $sku = ProductSku::find($this->input('sku_id'));
+                        if ($sku->stock < $value) {
+                            $fail(trans('basic.orders.Insufficient_sku_stock'));
+                        }
+                    },*/
+                ],
+            ];
+        } elseif ($this->routeIs('carts.update')) {
             return [
                 'sku_id' => [
                     'bail',
@@ -30,9 +80,9 @@ class CartRequest extends Request
                         if ($sku->product->on_sale == 0) {
                             $fail(trans('basic.orders.Product_sku_off_sale'));
                         }
-                        if ($sku->stock == 0) {
+                        /*if ($sku->stock == 0) {
                             $fail(trans('basic.orders.Product_sku_out_of_stock'));
-                        }
+                        }*/
                         /*if ($sku->stock < $this->input('number')) {
                             $fail(trans('basic.orders.Insufficient_sku_stock'));
                         }*/
@@ -44,12 +94,12 @@ class CartRequest extends Request
                     'required_with:sku_id',
                     'integer',
                     'min:1',
-                    function ($attribute, $value, $fail) {
+                    /*function ($attribute, $value, $fail) {
                         $sku = ProductSku::find($this->input('sku_id'));
                         if ($sku->stock < $value) {
                             $fail(trans('basic.orders.Insufficient_sku_stock'));
                         }
-                    },
+                    },*/
                 ],
             ];
         } elseif ($this->routeIs('carts.destroy')) {

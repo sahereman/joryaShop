@@ -30,17 +30,17 @@ class SkuEditorRequest extends FormRequest
                 Validator::validate($value, [
                     '*.photo' => 'sometimes|image',
                     '*.delta_price' => 'sometimes|numeric',
-                    '*.stock' => 'sometimes|integer|min:0',
+                    // '*.stock' => 'sometimes|integer|min:0',
                     '*.sales' => 'sometimes|integer|min:0',
-                    '*.stock_increment' => 'sometimes|nullable|integer|min:0',
-                    '*.stock_decrement' => 'sometimes|nullable|integer|min:0'
+                    // '*.stock_increment' => 'sometimes|nullable|integer|min:0',
+                    // '*.stock_decrement' => 'sometimes|nullable|integer|min:0'
                 ], [], [
                     '*.photo' => 'SKU-Photo',
                     '*.delta_price' => 'SKU-Delta-Price',
-                    '*.stock' => 'SKU-Stock',
+                    // '*.stock' => 'SKU-Stock',
                     '*.sales' => 'SKU-Sales',
-                    '*.stock_increment' => 'SKU-Stock-Increment',
-                    '*.stock_decrement' => 'SKU-Stock-Decrement'
+                    // '*.stock_increment' => 'SKU-Stock-Increment',
+                    // '*.stock_decrement' => 'SKU-Stock-Decrement'
                 ]);
             }]
         ];

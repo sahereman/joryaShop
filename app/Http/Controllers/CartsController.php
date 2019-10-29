@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\InvalidRequestException;
 use App\Http\Requests\CartRequest;
 use App\Models\Cart;
 use App\Models\CustomAttr;
 use App\Models\Product;
 use App\Models\ProductSku;
+use App\Models\ProductSkuAttrValue;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Session;
@@ -107,8 +109,66 @@ class CartsController extends Controller
     public function store(CartRequest $request)
     {
         $user = $request->user();
-        $sku_id = $request->input('sku_id');
+        $sku_id = false;
+        if ($request->has('sku_id')) {
+            $sku_id = $request->input('sku_id');
+        } else {
+            $product_id = $request->input('product_id');
+            $product_sku_attr_values = $request->input('product_sku_attr_values');
+        }
         $number = $request->input('number');
+
+        if ($sku_id === false && isset($product_id) && isset($product_sku_attr_values)) {
+            $product = Product::find($product_id);
+            $product_attrs = $product->attrs;
+            $product_attr_names = $product_attrs->pluck('name', 'id')->toArray();
+            $product_attr_ids = $product_attrs->pluck('id', 'name')->toArray();
+            $product_skus = $product->skus()->with('attr_values')->get();
+            $product_sku_ids = $product_skus->pluck('id')->toArray();
+            $product_sku_attr_value_collection = ProductSkuAttrValue::whereIn('product_sku_id', $product_sku_ids)->get();
+            foreach ($product_sku_attr_values as $product_attr_name => $product_sku_attr_value) {
+                if ($product_sku_attr_value && !in_array($product_attr_name, $product_attr_names)) {
+                    break;
+                }
+                if ($product_sku_attr_value) {
+                    $product_attr_id = $product_attr_ids[$product_attr_name];
+                    $product_sku_ids = $product_sku_attr_value_collection->whereIn('product_sku_id', $product_sku_ids)->where('product_attr_id', $product_attr_id)->where('value', $product_sku_attr_value)->pluck('product_sku_id')->toArray();
+                }
+                if (!$product_sku_ids) {
+                    break;
+                }
+            }
+            if (count($product_sku_ids) > 0) {
+                $sku_id = $product_sku_ids[0];
+            } else {
+                $product_sku = ProductSku::create([
+                    'product_id' => $product->id,
+                    'name_en' => 'custom product sku of lyrical hair',
+                    'name_zh' => 'custom product sku of lyrical hair',
+                    'photo' => '',
+                    'delta_price' => 0,
+                    'stock' => 100, // 暂定数值，占位用，便于客户在购物车内追加购买数量
+                    'sales' => 1,
+                ]);
+                $sku_id = $product_sku->id;
+                $count = count($product_sku_attr_values) + 1;
+                foreach ($product_sku_attr_values as $product_attr_name => $product_sku_attr_value) {
+                    if ($product_sku_attr_value) {
+                        $product_attr_id = $product_attr_ids[$product_attr_name];
+                        ProductSkuAttrValue::create([
+                            'product_sku_id' => $sku_id,
+                            'product_attr_id' => $product_attr_id,
+                            'value' => $product_sku_attr_value,
+                            'sort' => $count - 1,
+                        ]);
+                    }
+                }
+            }
+        }
+
+        if (!$sku_id) {
+            throw new InvalidRequestException('Your request is denied. Please try it again.');
+        }
 
         if ($user) {
             $cart = Cart::where([

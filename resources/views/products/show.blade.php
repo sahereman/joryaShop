@@ -328,7 +328,7 @@
             <div class="box-additional">
                 <div class="box-additional-title">
                     <h2>Related Products</h2>
-                    <div class="swiper-butrton-box">
+                    <div class="swiper-button-box">
                         <div class="swiper-button-prev swiper-button-black"></div>
                         <div class="swiper-button-next swiper-button-black"></div>
                     </div>
@@ -422,16 +422,16 @@
         {{-- 初始化zoom --}}
         CloudZoom.quickStart();
         // 初始化slider
-        $(function(){
+        $(function () {
             $('#slider1').Thumbelina({
-                $bwdBut:$('#slider1 .left'),
-                $fwdBut:$('#slider1 .right')
+                $bwdBut: $('#slider1 .left'),
+                $fwdBut: $('#slider1 .right')
             });
         });
         //Init lightbox  图片弹窗
         $(".zoomColorBoxs").colorbox({
             rel: 'zoomColorBoxs',
-            opacity:0.5,
+            opacity: 0.5,
             speed: 300,
             current: '{current} / {total}',
             previous: '',
@@ -441,11 +441,11 @@
             maxHeight: '95%'
         });
         // 简介查看更多
-        $("#down-more").on("click",function () {
+        $("#down-more").on("click", function () {
             var _taht = $(this),
-                element = document.getElementById("topArticle"),
-                isHasClass = $(this).hasClass("active");
-            if (isHasClass){
+                    element = document.getElementById("topArticle"),
+                    isHasClass = $(this).hasClass("active");
+            if (isHasClass) {
                 _taht.removeClass("active");
                 $(".std").find("textarea").removeClass("active");
                 // element.style.height = element.scrollHeight + "px";
@@ -457,10 +457,10 @@
             }
         });
         // 社会化分享弹窗
-        $(".socialization-email-btn").on("click",function () {
+        $(".socialization-email-btn").on("click", function () {
             var clickDom = $("#social-email-inp");
             // 将页面可获取的内容进行赋值
-            $(".product-share-img").find("img").prop("src",$("#zoom1").prop("src"));
+            $(".product-share-img").find("img").prop("src", $("#zoom1").prop("src"));
             $(".product-share-title").find("h4").html($(".forstorage_name").html());
             $(".product-share-title").find("p").html($(".small_title").html());
             $(".share-special-price").find("span").html($(".special-price").find("span").html());
@@ -472,7 +472,7 @@
                 area: ['auto', '80%'],
                 content: $('#social-email'),
                 btn: ['Submit'],
-                yes: function(index){
+                yes: function (index) {
                     $.ajax({
                         type: "post",
                         url: $("#social-email-inp-to").attr("data-url"),
@@ -526,12 +526,12 @@
         var next_page;   // 下一页的页码
         var pre_page;   // 上一页的页码
         var country = $("#dLabel").find("span").html();
-        var sku_id = 0, sku_stock = 0, sku_price = 0, sku_original_price = 0,sku_photo_url='';
+        var sku_id = 0, sku_stock = 0, sku_price = 0, sku_original_price = 0, sku_photo_url = '';
         var product = {!! $product !!};
         // 控制商品下单的数量显示
         $(".add").on("click", function () {
             // 获取商品ID及库存数量
-            if(sku_id == 0||sku_stock == 0){
+            if (sku_id == 0 || sku_stock == 0) {
                 layer.msg("The item is temporarily out of stock Please reselect!");
                 return
             }
@@ -560,12 +560,12 @@
         // 点击添加收藏
         $(".add_favourites").on("click", function () {
             var clickDom = $(this), data, url;
-            if(clickDom.hasClass("for_show_login")) {
-                if(!clickDom.hasClass("active")) {
+            if (clickDom.hasClass("for_show_login")) {
+                if (!clickDom.hasClass("active")) {
                     clickDom.find("span").text("Remove from wish list");
                     layer.msg("Added to wish list successfully");
                     clickDom.addClass("active");
-                }else {
+                } else {
                     clickDom.find("span").text("Add to wish list");
                     layer.msg("Remove success from wish list");
                     clickDom.removeClass("active");
@@ -585,7 +585,7 @@
                     success: function (data) {
                         layer.msg("Added to wish list successfully");
                         clickDom.find("span").text("Remove from wish list");
-                        clickDom.attr("data-favourite-code",data.data.favourite.id);
+                        clickDom.attr("data-favourite-code", data.data.favourite.id);
                         clickDom.addClass('active');
                     },
                     error: function (err) {
@@ -651,10 +651,10 @@
         // 加入购物车
         $(".add_carts").on("click", function () {
             var clickDom = $(this);
-            if(product.type == "custom") {
+            if (product.type == "custom") {
                 window.location.href = "{{ route('products.custom.show', ['product' => $product->id]) }}";
-            }else {
-                if(sku_id == 0||sku_stock == 0){
+            } else {
+                if (sku_id == 0 || sku_stock == 0) {
                     layer.msg("The item is temporarily out of stock Please reselect!");
                     return
                 }
@@ -690,11 +690,11 @@
         $(".buy_now").on("click", function () {
             var clickDom = $(this);
             if ($(this).hasClass('for_show_login') == true) {
-            //     // $(".login").click();
+                //     // $(".login").click();
             } else {
                 var url = clickDom.attr('data-url');
                 // getSkuId();
-                if(sku_id == 0||sku_stock == 0){
+                if (sku_id == 0 || sku_stock == 0) {
                     layer.msg("The item is temporarily out of stock Please reselect!");
                     return
                 }
@@ -723,27 +723,27 @@
                     } else {
                         var html = "";
                         $.each(dataObj, function (i, n) {
-                            html+="<dt>"
-                            html+="<span class='heading'>"+ n.title +"</span>Review by <span>"+ n.user.name  +"</span>"
-                            html+="</dt>"
-                            html+="<dd>"
-                            html+="<table class='ratings-table'>"
-                            html+="<colgroup><col width='1'>"
-                            html+="<col>"
-                            html+="</colgroup><tbody>"
-                            html+="<tr>"
-                            html+="<th>Product Rating</th>"
-                            html+="<td>"
-                            html+="<div class='rating-box'>"
-                            html+="<div class='rating' style='width:"+ n.index +"%;'></div>"
-                            html+="</div>"
-                            html+="</td>"
-                            html+="</tr>"
-                            html+="</tbody>"
-                            html+="</table>"
-                            html+="<p>"+ n.content +"</p>"
-                            html+="<small class='date'>(Posted on "+ n.created_at +")</small>"
-                            html+="</dd>"
+                            html += "<dt>";
+                            html += "<span class='heading'>" + n.title + "</span>Review by <span>" + n.user.name + "</span>";
+                            html += "</dt>";
+                            html += "<dd>";
+                            html += "<table class='ratings-table'>";
+                            html += "<colgroup><col width='1'>";
+                            html += "<col>";
+                            html += "</colgroup><tbody>";
+                            html += "<tr>";
+                            html += "<th>Product Rating</th>";
+                            html += "<td>";
+                            html += "<div class='rating-box'>";
+                            html += "<div class='rating' style='width:" + n.index + "%;'></div>";
+                            html += "</div>";
+                            html += "</td>";
+                            html += "</tr>";
+                            html += "</tbody>";
+                            html += "</table>";
+                            html += "<p>" + n.content + "</p>";
+                            html += "<small class='date'>(Posted on " + n.created_at + ")</small>";
+                            html += "</dd>";
                         });
                         $(".comment-items dl").html("");
                         $(".comment-items dl").append(html);
@@ -754,14 +754,14 @@
                         if (json.data.previous_url == false) {
                             $(".pre_page").addClass("not_allow");
                             $(".pre_page").attr("disabled", true);
-                        }else {
+                        } else {
                             $(".pre_page").removeClass("not_allow");
                             $(".pre_page").attr("disabled", false);
                         }
                         if (json.data.next_url == false) {
                             $(".next_page").addClass("not_allow");
                             $(".next_page").attr("disabled", true);
-                        }else {
+                        } else {
                             $(".next_page").removeClass("not_allow");
                             $(".next_page").attr("disabled", false);
                         }
@@ -786,29 +786,29 @@
         // 点击分页
         // 上一页
         $(".pre_page").on("click", function () {
-            if(!$(this).hasClass("not_allow")){
+            if (!$(this).hasClass("not_allow")) {
                 getComments($(this).attr("data-url"));
             }
         });
         // 下一页
         $(".next_page").on("click", function () {
-            if(!$(this).hasClass("not_allow")){
+            if (!$(this).hasClass("not_allow")) {
                 getComments($(this).attr("data-url"));
             }
         });
         // FAQS的标题点击
-        $(".faqs-content").on("click",".faq_ques",function () {
+        $(".faqs-content").on("click", ".faq_ques", function () {
             var clickDom = $(this),
-                index = clickDom.parent(".faq_qus_ans").index();
-            if(clickDom.hasClass("active")){
+                    index = clickDom.parent(".faq_qus_ans").index();
+            if (clickDom.hasClass("active")) {
                 clickDom.removeClass("active");
                 clickDom.parent(".faq_qus_ans").find(".faq_ans").slideUp();
-            }else {
+            } else {
                 // $(".faqs-content").find(".faq_ques").removeClass("active");
                 // $(".faqs-content").find(".faq_ans").slideUp();
                 clickDom.addClass("active");
                 clickDom.parent(".faq_qus_ans").find(".faq_ans").slideDown();
-                var element = document.getElementById("ans_content_"+ index);
+                var element = document.getElementById("ans_content_" + index);
                 element.style.height = element.scrollHeight + "px";
             }
         });
@@ -888,22 +888,22 @@
         var iframe_content = $('.iframe_content').html();
         $('.iframe_content').html("");
         $('#cmsCon').contents().find('body').html(iframe_content);
-        $('#cmsCon').contents().find('body').find("a").css("text-decoration","none");
-        var x = document.getElementById('cmsCon').contentWindow.document.getElementsByTagName('table');   
-        x.border = "1";   
+        $('#cmsCon').contents().find('body').find("a").css("text-decoration", "none");
+        var x = document.getElementById('cmsCon').contentWindow.document.getElementsByTagName('table');
+        x.border = "1";
         autoHeight();  //动态调整高度
         var count = 0;
-        var autoSet = window.setInterval('autoHeight()',500);
-        function autoHeight(){
+        var autoSet = window.setInterval('autoHeight()', 500);
+        function autoHeight() {
             var mainheight;
             count++;
-            if(count == 1){
-                mainheight = $('.cmsCon').contents().find("body").height()+50;
-            }else{
-                mainheight = $('.cmsCon').contents().find("body").height()+24;
+            if (count == 1) {
+                mainheight = $('.cmsCon').contents().find("body").height() + 50;
+            } else {
+                mainheight = $('.cmsCon').contents().find("body").height() + 24;
             }
             $('.cmsCon').height(mainheight);
-            if(count == 5){
+            if (count == 5) {
                 window.clearInterval(autoSet);
             }
         }
@@ -920,18 +920,18 @@
                     // 进行页面渲染
                     renderPage(json.data);
                     sku_id = json.data.selected.sku.id;
-                    sku_stock = json.data.selected.sku.stock;
+                    // sku_stock = json.data.selected.sku.stock;
                     sku_photo_url = json.data.selected.sku.photo_url;
                     var price = json.data.selected.sku.price;
-                    $("#product-price").html(price)
-                    console.log(data)
+                    $("#product-price").html(price);
+                    // console.log(data);
                     if(data){
-                        console.log("出现图片")
+                        // console.log("出现图片")
                         magnifyingAdd(sku_photo_url);
                     }
                 },
                 error: function (err) {
-                    console.log(err)
+                    console.log(err);
                     if (err.status == 422) {
                         var arr = [];
                         var dataobj = err.responseJSON.errors;
@@ -950,39 +950,39 @@
             // 用于页面渲染Dom
             var skuDomHtml = "";
             $.each(searchData.data,function (skuKindsArr_index,skuKindsArr_val) {
-                skuDomHtml += "<div class='sku-select'>"
-                skuDomHtml += "<div class='sku-select-name'>"
-                skuDomHtml += "<span class='dynamic_name' data-paramId='"+ skuKindsArr_index +"' >"+ skuKindsArr_index +" </span>"
-                skuDomHtml += "</div>"
-                skuDomHtml += "<div class='sku-select-module'>"
-                skuDomHtml += "<div data-paramId='"+ skuKindsArr_val.paramId +"'  data-name='"+ skuKindsArr_val.paramValue +"' class='sku-select-value'>"
-                skuDomHtml += "<input type='hidden' readonly data-paramId='"+ skuKindsArr_index +"' value='"+ searchData.selected[skuKindsArr_index] +"' name='"+ searchData.selected[skuKindsArr_index]+"'>"
-                skuDomHtml += "<span class='sku-select-value-show'>"+ searchData.selected[skuKindsArr_index] +"</span>"
-                skuDomHtml += "</div>"
-                skuDomHtml += "<div class='sku-select-options'>"
-                skuDomHtml += "<ul data-paramId='"+ skuKindsArr_val.paramId +"' data-name='"+ skuKindsArr_val.paramValue +"'>"
-                if(skuKindsArr_val.true){
-                    $.each(skuKindsArr_val.true,function (sku_map_data_i,sku_map_data_n) {
-                        if(sku_map_data_n.switch) {
-                            skuDomHtml += "<li data-paramId='"+ skuKindsArr_index +"' data-valueId='" + sku_map_data_n.value + "'>"+ sku_map_data_n.value +"</li>"
-                        }else {
-                            skuDomHtml += "<li class='forbid-choose forbid-choose-style' data-paramId='"+ skuKindsArr_index +"' data-valueId='" + sku_map_data_n.value + "'>"+ sku_map_data_n.value +"</li>"
-                        }
-                    });
-                };
-                if(skuKindsArr_val.false){
-                    $.each(skuKindsArr_val.false,function (sku_map_data_i,sku_map_data_n) {
-                        if(sku_map_data_n.switch) {
-                            skuDomHtml += "<li data-paramId='"+ skuKindsArr_index +"' data-valueId='" + sku_map_data_n.value + "'>"+ sku_map_data_n.value +"</li>"
-                        }else {
-                            skuDomHtml += "<li class='forbid-choose forbid-choose-style' data-paramId='"+ skuKindsArr_index +"' data-valueId='" + sku_map_data_n.value + "'>"+ sku_map_data_n.value +"</li>"
+                skuDomHtml += "<div class='sku-select'>";
+                skuDomHtml += "<div class='sku-select-name'>";
+                skuDomHtml += "<span class='dynamic_name' data-paramId='"+ skuKindsArr_index +"' >"+ skuKindsArr_index +" </span>";
+                skuDomHtml += "</div>";
+                skuDomHtml += "<div class='sku-select-module'>";
+                skuDomHtml += "<div data-paramId='"+ skuKindsArr_val.paramId +"'  data-name='"+ skuKindsArr_val.paramValue +"' class='sku-select-value'>";
+                skuDomHtml += "<input type='hidden' readonly data-paramId='"+ skuKindsArr_index +"' value='"+ searchData.selected[skuKindsArr_index] +"' name='"+ searchData.selected[skuKindsArr_index]+"'>";
+                skuDomHtml += "<span class='sku-select-value-show'>"+ searchData.selected[skuKindsArr_index] +"</span>";
+                skuDomHtml += "</div>";
+                skuDomHtml += "<div class='sku-select-options'>";
+                skuDomHtml += "<ul data-paramId='"+ skuKindsArr_val.paramId +"' data-name='"+ skuKindsArr_val.paramValue +"'>";
+                if (skuKindsArr_val.true) {
+                    $.each(skuKindsArr_val.true, function (sku_map_data_i, sku_map_data_n) {
+                        if (sku_map_data_n.switch) {
+                            skuDomHtml += "<li data-paramId='" + skuKindsArr_index + "' data-valueId='" + sku_map_data_n.value + "'>" + sku_map_data_n.value + "</li>";
+                        } else {
+                            skuDomHtml += "<li class='forbid-choose forbid-choose-style' data-paramId='" + skuKindsArr_index + "' data-valueId='" + sku_map_data_n.value + "'>" + sku_map_data_n.value + "</li>";
                         }
                     });
                 }
-                skuDomHtml += "</ul>"
-                skuDomHtml += "</div>"
-                skuDomHtml += "</div>"
-                skuDomHtml += "</div>"
+                if (skuKindsArr_val.false) {
+                    $.each(skuKindsArr_val.false, function (sku_map_data_i, sku_map_data_n) {
+                        if (sku_map_data_n.switch) {
+                            skuDomHtml += "<li data-paramId='" + skuKindsArr_index + "' data-valueId='" + sku_map_data_n.value + "'>" + sku_map_data_n.value + "</li>";
+                        } else {
+                            skuDomHtml += "<li class='forbid-choose forbid-choose-style' data-paramId='" + skuKindsArr_index + "' data-valueId='" + sku_map_data_n.value + "'>" + sku_map_data_n.value + "</li>";
+                        }
+                    });
+                }
+                skuDomHtml += "</ul>";
+                skuDomHtml += "</div>";
+                skuDomHtml += "</div>";
+                skuDomHtml += "</div>";
             });
             $("#sku-choose-store").html("").append(skuDomHtml);
         }
@@ -1000,7 +1000,7 @@
             }
         });
         // 点击每个下拉菜单中选择项
-        $("#sku-choose-store").on("click","li",function () {
+        $("#sku-choose-store").on("click", "li", function () {
             var _that = $(this),
                 selected_val = _that.attr("data-valueId"),
                 _that_parent = _that.parent("ul");
@@ -1009,14 +1009,14 @@
             $("#sku-choose-store").find(".sku-select-value").removeClass("active");
             $("#sku-choose-store").find(".sku-select-options").slideUp();
             $("#pro_num").val("1");
-        //    根据所选择的内容，获取sku接口
-            var data = {}
-            if(_that.hasClass("forbid-choose")){
-                data["product_sku_attr_values["+_that.attr("data-paramid")+"]"] = _that.attr("data-valueid");
-            }else {
+            // 根据所选择的内容，获取sku接口
+            var data = {};
+            if (_that.hasClass("forbid-choose")) {
+                data["product_sku_attr_values[" + _that.attr("data-paramid") + "]"] = _that.attr("data-valueid");
+            } else {
                 var allChooseInput = $("#sku-choose-store").find("input[type='hidden']");
-                $.each(allChooseInput,function (i,n) {
-                    data["product_sku_attr_values["+$(n).attr("data-paramid")+"]"] = $(n).val()
+                $.each(allChooseInput, function (i, n) {
+                    data["product_sku_attr_values[" + $(n).attr("data-paramid") + "]"] = $(n).val()
                 })
             }
             GetSkus(data)
@@ -1030,14 +1030,14 @@
                 pop.find(".sku-select-value").removeClass("active");
             }
         });
-    //    放大镜图片增加方法
-        function magnifyingAdd(zoomImgUrl){
+        // 放大镜图片增加方法
+        function magnifyingAdd(zoomImgUrl) {
             $(".for-choose-img").removeClass("dis_ni");
-            $(".for-choose-img").find("a").prop("href",zoomImgUrl);
-            $(".for-choose-img").find("img").prop("src",zoomImgUrl);
-            $(".for-choose-img").find("img").attr("data-cloudzoom" ,"useZoom:'.cloudzoom', image:'"+ zoomImgUrl +"' ");
-            $("#zoom1").prop("src",zoomImgUrl);
-            $("#zoom-btn").prop("href",zoomImgUrl);
+            $(".for-choose-img").find("a").prop("href", zoomImgUrl);
+            $(".for-choose-img").find("img").prop("src", zoomImgUrl);
+            $(".for-choose-img").find("img").attr("data-cloudzoom", "useZoom:'.cloudzoom', image:'" + zoomImgUrl + "' ");
+            $("#zoom1").prop("src", zoomImgUrl);
+            $("#zoom-btn").prop("href", zoomImgUrl);
             $("#slider1").find(".firstzoomColorBoxs").addClass("zoomColorBoxs");
             $("#slider1").find(".firstzoomColorBoxs").addClass("cboxElement");
             // 插入新节点后重新初始化放大镜插件
@@ -1045,7 +1045,7 @@
             //插入新节点后重新初始化zoom弹窗
             $(".zoomColorBoxs").colorbox({
                 rel: 'zoomColorBoxs',
-                opacity:0.5,
+                opacity: 0.5,
                 speed: 300,
                 current: '{current} / {total}',
                 previous: '',

@@ -58,10 +58,10 @@ class AutoCloseOrderJob implements ShouldQueue
                 // 定制商品忽略库存变动
                 if ($item->sku->product->type != Product::PRODUCT_TYPE_CUSTOM) {
                     // 更新 Sku +库存
-                    $item->sku->increment('stock', $item->number);
+                    // $item->sku->increment('stock', $item->number);
 
                     // 更新 Product +库存
-                    $item->sku->product->increment('stock', $item->number);
+                    // $item->sku->product->increment('stock', $item->number);
 
                     // flush product_sku_attr_value_cache
                     if (Cache::has($item->sku->product->id . 'product_sku_attr_value_cache')) {

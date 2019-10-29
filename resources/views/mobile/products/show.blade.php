@@ -31,7 +31,7 @@
                     {{--: @lang('basic.currency.symbol') {{ App::isLocale('en') ? $product->shipping_fee_in_usd : $product->shipping_fee }}</span>--}}
                     : {{ get_global_symbol() }} {{ get_current_price($product->shipping_fee) }}</span>
                 <span>@lang('product.product_details.sales'): {{ $product->sales }}</span>
-                <span>@lang('product.product_details.stock'): {{ $product->stock }}</span>
+                {{--<span>@lang('product.product_details.stock'): {{ $product->stock }}</span>--}}
             </div>
             @if(App::isLocale('zh-CN'))
                 <div class="gExplain">
@@ -130,13 +130,14 @@
                             {{--@lang('basic.currency.symbol')
                             <span id="sku_price_in_usd" class="pro_price">{{ App::isLocale('en') ? $skus[0]->price_in_usd : $skus[0]->price }}</span>--}}
                             {{ get_global_symbol() }}
-                            <span id="sku_price_in_usd"
-                                  class="pro_price">{{ get_current_price($skus[0]->price) }}</span>
+                            <span id="sku_price_in_usd" class="pro_price">
+                                {{ get_current_price($skus[0]->price) }}
+                            </span>
                         </label>
-                        <p>
+                        {{--<p>
                             @lang('product.product_details.stock'):
                             <span id="sku_stock">{{ $skus[0]->stock }}</span>
-                        </p>
+                        </p>--}}
                         {{--<span class="pro_name">
                             @lang('product.product_details.Choose')
                             :{{ App::isLocale('en') ? $skus[0]->name_en : $skus[0]->name_zh }}
@@ -228,7 +229,8 @@
         });
         var which_click = 0; // 通过判断which_click的值来确定是什么功能,0:选择规格,1:添加收藏，2：加入购物车，3：立即购买
         // var clickDom, sku_id, sku_stock, sku_price_in_usd;
-        var clickDom, sku_id, sku_stock, sku_price;
+        // var clickDom, sku_id, sku_stock, sku_price;
+        var clickDom, sku_id, sku_price;
         // 点击透明阴影关闭弹窗
         $(".mask").on("click", function () {
             $(this).parents(".skuBox").css("display", "none");
@@ -257,7 +259,9 @@
                 // });
                 // } else {
                 count = parseInt($(this).prev().html());
-                if (parseInt(count) < sku_stock) {
+                count += 1;
+                $(this).prev().html(count);
+                /*if (parseInt(count) < sku_stock) {
                     count += 1;
                     $(this).prev().html(count);
                 } else {
@@ -266,7 +270,7 @@
                         skin: 'msg',
                         time: 2, // 2秒后自动关闭
                     });
-                }
+                }*/
                 // }
             }
         });
@@ -592,7 +596,7 @@
             skus_arr.push(JSON.parse($(skus_hide[skus_i]).val()));
         }
         sku_id = skus_arr[0].id;
-        sku_stock = skus_arr[0].stock;
+        // sku_stock = skus_arr[0].stock;
         //根据三个select的值进行数组查询
         function map_search(search_size, search_colour, search_density) {
             return skus_arr.map(function (item, index) {
@@ -600,7 +604,7 @@
                         && item.hair_colour_en == search_colour
                         && item.hair_density_en == search_density
                 ) {
-//                  return skus_arr[index];
+                    // return skus_arr[index];
                     var search_result = skus_arr[index];
                     if (search_result.length != 0) {
                         $("#sku_price_in_usd").html(search_result.price);
@@ -610,13 +614,13 @@
                         sku_price = get_current_price(search_result.price);
                         sku_original_price = get_current_price(old_price);
                         sku_id = search_result.id;
-                        sku_stock = search_result.stock;
-                        var stock = search_result.stock || 0,
-                                sales = search_result.sales || 0;
-                        $("#sku_stock").html(stock);
+                        // sku_stock = search_result.stock;
+                        // var stock = search_result.stock || 0;
+                        var sales = search_result.sales || 0;
+                        // $("#sku_stock").html(stock);
                         $(".gStock span").eq(0).html("Freight：" + global_symbol + search_result.product.shipping_fee);
                         $(".gStock span").eq(1).html("Sales：" + sales);
-                        $(".gStock span").eq(2).html("Stock：" + stock);
+                        // $(".gStock span").eq(2).html("Stock：" + stock);
                         var sku_photo = search_result.photo_url;
                         if (sku_photo != "") {
                             $(".skuGoods img").attr("src", sku_photo);

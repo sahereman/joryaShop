@@ -177,7 +177,7 @@ class ProductsController extends Controller
             return "<span>{$type_names[$type]}</span>";
         })->sortable();
         $grid->price('价格')->sortable();
-        $grid->stock('库存')->sortable();
+        // $grid->stock('库存')->sortable();
         $grid->sales('销量')->sortable();
         $grid->index('综合指数')->sortable();
         $grid->heat('人气')->sortable();
@@ -291,7 +291,7 @@ class ProductsController extends Controller
             return $item ? '<span class="label label-primary">ON</span>' : '<span class="label label-default">OFF</span>';
         });
         $show->price('展示价格');
-        $show->stock('总库存');
+        // $show->stock('总库存');
         $show->sales('总销量');
         $show->index('综合指数');
         $show->heat('人气');
@@ -363,7 +363,7 @@ class ProductsController extends Controller
                 });
 
                 $sku->price('单价');
-                $sku->stock('库存');
+                // $sku->stock('库存');
                 $sku->sales('销量');
                 $sku->attr_value_string('SKU 属性概况');
             });
@@ -530,7 +530,7 @@ class ProductsController extends Controller
         // $form->display('price', '展示价格')->setWidth(2);
         // $form->decimal('price', '展示价格')->setWidth(2)->default(0.01)->rules('required|numeric|min:0.01');
         $form->currency('price', '展示价格')->setWidth(2)->symbol('$')->default(0.01)->rules('required|numeric|min:0.01');
-        $form->display('stock', '总库存')->setWidth(2);
+        // $form->display('stock', '总库存')->setWidth(2);
         $form->display('sales', '总销量')->setWidth(2);
         // $form->currency('shipping_fee', '运费')->symbol('￥')->rules('required');
         // $form->currency('shipping_fee', '运费')->symbol('$')->default(0);
@@ -870,7 +870,7 @@ class ProductsController extends Controller
             $sku_data['name_zh'] = 'lyrical';
             $sku_data['photo'] = isset($option['photo']) ? $option['photo'] : '';
             $sku_data['delta_price'] = $request->input('delta_price', 0.00);
-            $sku_data['stock'] = $request->input('stock', $product->stock);
+            // $sku_data['stock'] = $request->input('stock', $product->stock);
             $sku_data['created_at'] = $now_date;
             $sku_data['last_generated'] = true;
             $sku = ProductSku::create($sku_data);
@@ -885,10 +885,10 @@ class ProductsController extends Controller
                 ]);
             }
         }
-        $product->update([
+        /*$product->update([
             // 'price' => $request->input('price', $product->price),
-            'stock' => $product->skus->sum('stock'),
-        ]);
+            // 'stock' => $product->skus->sum('stock'),
+        ]);*/
 
         // flush product_sku_attr_value_cache
         if (Cache::has($product->id . 'product_sku_attr_value_cache')) {
@@ -948,14 +948,14 @@ class ProductsController extends Controller
 
     public function skuEditorStore(SkuEditorRequest $request, Product $product, ImageUploadHandler $handler)
     {
-        $stock = 0;
+        // $stock = 0;
         $skus = $request->input('skus');
         $files = $request->file('skus');
         if (!$files) {
             $files = [];
         }
 
-        foreach ($skus as $sku_id => $sku) {
+        /*foreach ($skus as $sku_id => $sku) {
             if ($sku['stock_increment']) {
                 $sku['stock'] += $sku['stock_increment'];
             }
@@ -966,7 +966,7 @@ class ProductsController extends Controller
             unset($sku['stock_decrement']);
             ProductSku::find($sku_id)->update($sku);
             $stock += $sku['stock'];
-        }
+        }*/
 
         foreach ($files as $sku_id => $file) {
             $path = $handler->uploadOriginal($file['photo']);
@@ -976,7 +976,7 @@ class ProductsController extends Controller
             ]);
         }
 
-        $product->update(['stock' => $stock]);
+        // $product->update(['stock' => $stock]);
 
         // flush product_sku_attr_value_cache
         if (Cache::has($product->id . 'product_sku_attr_value_cache')) {

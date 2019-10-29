@@ -324,7 +324,7 @@
             <div class="box-additional">
                 <div class="box-additional-title">
                     <h2>Related Products</h2>
-                    <div class="swiper-butrton-box">
+                    <div class="swiper-button-box">
                         <div class="swiper-button-prev swiper-button-black"></div>
                         <div class="swiper-button-next swiper-button-black"></div>
                     </div>
@@ -522,7 +522,8 @@
         var next_page;   // 下一页的页码
         var pre_page;   // 上一页的页码
         var country = $("#dLabel").find("span").html();
-        var sku_id = 0, sku_stock = 0, sku_price = 0, sku_original_price = 0;
+        // var sku_id = 0, sku_stock = 0, sku_price = 0, sku_original_price = 0;
+        var sku_id = 0, sku_price = 0, sku_original_price = 0;
         var product = {!! $product !!};
         // 控制商品下单的数量显示
         $(".add").on("click", function () {
@@ -1928,7 +1929,7 @@
                     "valueId": "710004"
                 }]
             }
-        }
+        };
 
         // 将原始数据进行处理
         // 用于连接数组下标的分隔符
@@ -1952,7 +1953,7 @@
         var hasSelectedList = [];
         // 当前选中的 sku属性对应的价格
         // 当前选中的 sku属性总库存
-        var currentSeletedPrice = 0;
+        var currentSelectedPrice = 0;
         var currentTotalCount = 0;
         var skuRankList = [];
         // 当前选择的 sku属性对应的库存、价格、spuDId等信息
@@ -1993,7 +1994,7 @@
                     spuDId: item.spudId,
                     paramIdJoin: spudSortParams.map(function (v) { return v.paramId + joinKVStr + v.valueId; }).join(joinAttrStr),
                     priceRange: [item.minPrice, item.maxPrice],
-                    count: +item.stock
+                    // count: +item.stock
                 };
             }));
         }
@@ -2108,15 +2109,15 @@
          * @param mArr 数据源信息
          * @param n 取数的个数
          * @param arr 递归使用，外部调用不需要传此项
-         * @param hasSeletedArr 递归使用，外部调用不需要传此项
+         * @param hasSelectedArr 递归使用，外部调用不需要传此项
          * @param rootArr 递归使用，外部调用不需要传此项
          */
-        function composeMArrN(mArr, n, arr, hasSeletedArr, rootArr) {
+        function composeMArrN(mArr, n, arr, hasSelectedArr, rootArr) {
             if (arr === void 0) {
                 arr = [];
             }
-            if (hasSeletedArr === void 0) {
-                hasSeletedArr = [];
+            if (hasSelectedArr === void 0) {
+                hasSelectedArr = [];
             }
             if (rootArr === void 0) {
                 rootArr = [];
@@ -2126,9 +2127,9 @@
             }
             for (var i = 0; i < mArr.length; i++) {
                 // 当前层级已经存在选中项了
-                if (hasSeletedArr.includes(i)) continue;
-                hasSeletedArr = hasSeletedArr.slice();
-                hasSeletedArr.push(i);
+                if (hasSelectedArr.includes(i)) continue;
+                hasSelectedArr = hasSelectedArr.slice();
+                hasSelectedArr.push(i);
                 for (var j = 0; j < mArr[i]; j++) {
                     var arr1 = completeArr(arr, i - arr.length, -1);
                     arr1.push(j);
@@ -2136,7 +2137,7 @@
                         arr1 = completeArr(arr1, mArr.length - arr1.length, -1);
                         rootArr.push(arr1);
                     } else {
-                        composeMArrN(mArr, n - 1, arr1, hasSeletedArr, rootArr);
+                        composeMArrN(mArr, n - 1, arr1, hasSelectedArr, rootArr);
                     }
                 }
             }
@@ -2290,22 +2291,22 @@
          * @param m 数据总数
          * @param n 取数个数
          * @param arr 递归使用，外部调用不需要传此项
-         * @param hasSeletedArr 递归使用，外部调用不需要传此项
+         * @param hasSelectedArr 递归使用，外部调用不需要传此项
          * @param rootArr 递归使用，外部调用不需要传此项
          */
-        function composeMN(m, n, arr, hasSeletedArr, rootArr) {
+        function composeMN(m, n, arr, hasSelectedArr, rootArr) {
             if (arr === void 0) { arr = []; }
-            if (hasSeletedArr === void 0) { hasSeletedArr = []; }
+            if (hasSelectedArr === void 0) { hasSelectedArr = []; }
             if (rootArr === void 0) { rootArr = []; }
             for (var i = 0; i < m; i++) {
-                if (hasSeletedArr.includes(i))
+                if (hasSelectedArr.includes(i))
                     continue;
-                hasSeletedArr = hasSeletedArr.slice();
-                hasSeletedArr.push(i);
+                hasSelectedArr = hasSelectedArr.slice();
+                hasSelectedArr.push(i);
                 var arr1 = arr.slice();
                 arr1.push(i);
                 if (n !== 1) {
-                    composeMN(m, n - 1, arr1, hasSeletedArr, rootArr);
+                    composeMN(m, n - 1, arr1, hasSelectedArr, rootArr);
                 }
                 else {
                     rootArr.push(arr1);
@@ -2313,7 +2314,7 @@
             }
             return rootArr;
         }
-        function excuteBySeleted(activeSpuTagMap) {
+        function executeBySelected(activeSpuTagMap) {
             // 从小到大排序
             var activeSpuTagMapKeyList = Object.keys(activeSpuTagMap).filter(function (item) {
                 return activeSpuTagMap[item];
@@ -2361,12 +2362,12 @@
         }
         // 获取库存为 0 的sku属性，依赖于 currentSelectSkuRst
         function getEmptyMap(){
-            console.log("进入获取库存为0的函数处理")
+            // console.log("进入获取库存为0的函数处理");
             var kv = null
             // key 为 paramId，值为以 valueId 组成的数组，在这个数组中的 valueId 就是需要置灰的
             var emptyMap ={};
             // ['10_100', '20_200']
-            console.log(currentSelectSkuRst)
+            // console.log(currentSelectSkuRst);
             currentSelectSkuRst.nextEmptyKV.forEach(function (item) {
                 kv = item.split(joinKVStr);
                 emptyMap[kv[0]] = (emptyMap[kv[0]] || []).concat(kv[1]);
@@ -2375,20 +2376,20 @@
         }
         // activeSkuMap 发生改变
         function activeSkuMapUpdate (){
-            currentSelectSkuRst = excuteBySeleted(activeSkuTagMap);
+            currentSelectSkuRst = executeBySelected(activeSkuTagMap);
             var hasSelectedListArr = [];
             var valueInfo = null;
-            console.log("确认skuKindsArr是否存在valueList",skuKindsArr)
-            console.log("activeSkuTagMap确认",activeSkuTagMap)
+            // console.log("确认skuKindsArr是否存在valueList",skuKindsArr);
+            // console.log("activeSkuTagMap确认",activeSkuTagMap);
             skuKindsArr.forEach(function (item) {
                 valueInfo = item.valueList.filter(function (v) { 
-                    console.log(activeSkuTagMap[item])
-                    console.log(item)
-                    console.log(item.paramId)
-                    console.log("测试一下详细查找", activeSkuTagMap[item.paramId])
+                    // console.log(activeSkuTagMap[item]);
+                    // console.log(item);
+                    // console.log(item.paramId);
+                    // console.log("测试一下详细查找", activeSkuTagMap[item.paramId]);
                   return v.valueId === activeSkuTagMap[item.paramId]; 
                 })[0];
-                console.log("valueInfo内容",valueInfo)
+                // console.log("valueInfo内容",valueInfo);
                 if (valueInfo) {
                     hasSelectedListArr.push({
                         paramId: item.paramId,
@@ -2398,15 +2399,15 @@
                 }
             });
             hasSelectedList = hasSelectedListArr;
-            console.log("hasSelectedListArr",hasSelectedListArr)
-            console.log("this.hasSelectedList的内容",hasSelectedList)
-            console.log("getEmptyMap执行开始")
+            // console.log("hasSelectedListArr",hasSelectedListArr);
+            // console.log("this.hasSelectedList的内容",hasSelectedList);
+            // console.log("getEmptyMap执行开始");
             emptyMap = getEmptyMap();
-            console.log("getEmptyMap执行完")
+            // console.log("getEmptyMap执行完");
             // 取最低价格进行显示
-            currentSeletedPrice = currentSelectSkuRst.currentRst ? (Math.min.apply(Math, currentSelectSkuRst.currentRst.priceArr)) : 0;
+            currentSelectedPrice = currentSelectSkuRst.currentRst ? (Math.min.apply(Math, currentSelectSkuRst.currentRst.priceArr)) : 0;
             currentTotalCount = currentSelectSkuRst.currentRst ? (currentSelectSkuRst.currentRst.totalCount) : 0;
-            console.log('tag change done:', emptyMap, currentSelectSkuRst);
+            // console.log('tag change done:', emptyMap, currentSelectSkuRst);;
         }
         // 需要对skuManage进行的操作
         function init() {
@@ -2421,30 +2422,30 @@
             init();
             activeSkuMapUpdate();
         }
-        created()
+        created();
         
         // 页面渲染函数
         function renderPage(){
             $.each(skuKindsArr,function (skuKindsArr_index,skuKindsArr_val) {
-                skuDomHtml += "<div class='sku-select'>"
-                skuDomHtml += "<div class='sku-select-name'>"
-                skuDomHtml += "<span class='dynamic_name' data-paramId='"+ skuKindsArr_val.paramId +"' >"+ skuKindsArr_val.paramValue +" </span>"
-                skuDomHtml += "</div>"
-                skuDomHtml += "<div class='sku-select-module'>"
-                skuDomHtml += "<div data-paramId='"+ skuKindsArr_val.paramId +"'  data-name='"+ skuKindsArr_val.paramValue +"' class='sku-select-value'>"
-                skuDomHtml += "<input type='hidden' readonly name='"+ skuKindsArr_val.paramValue +"'>"
-                skuDomHtml += "<span class='sku-select-value-show'>Please Select</span>"
-                skuDomHtml += "</div>"
-                skuDomHtml += "<div class='sku-select-options'>"
-                skuDomHtml += "<ul data-paramId='"+ skuKindsArr_val.paramId +"' data-name='"+ skuKindsArr_val.paramValue +"'>"
+                skuDomHtml += "<div class='sku-select'>";
+                skuDomHtml += "<div class='sku-select-name'>";
+                skuDomHtml += "<span class='dynamic_name' data-paramId='"+ skuKindsArr_val.paramId +"' >"+ skuKindsArr_val.paramValue +" </span>";
+                skuDomHtml += "</div>";
+                skuDomHtml += "<div class='sku-select-module'>";
+                skuDomHtml += "<div data-paramId='"+ skuKindsArr_val.paramId +"'  data-name='"+ skuKindsArr_val.paramValue +"' class='sku-select-value'>";
+                skuDomHtml += "<input type='hidden' readonly name='"+ skuKindsArr_val.paramValue +"'>";
+                skuDomHtml += "<span class='sku-select-value-show'>Please Select</span>";
+                skuDomHtml += "</div>";
+                skuDomHtml += "<div class='sku-select-options'>";
+                skuDomHtml += "<ul data-paramId='"+ skuKindsArr_val.paramId +"' data-name='"+ skuKindsArr_val.paramValue +"'>";
                 $.each(skuKindsArr_val.valueList,function (sku_map_data_i,sku_map_data_n) {
-                    skuDomHtml += "<li data-paramId='"+ skuKindsArr_val.paramId +"' data-valueId='" + sku_map_data_n.valueId + "'>"+ sku_map_data_n.valueValue +"</li>"
+                    skuDomHtml += "<li data-paramId='"+ skuKindsArr_val.paramId +"' data-valueId='" + sku_map_data_n.valueId + "'>"+ sku_map_data_n.valueValue +"</li>";
                 });
-                skuDomHtml += "</ul>"
-                skuDomHtml += "</div>"
-                skuDomHtml += "</div>"
-                skuDomHtml += "</div>"
-            })
+                skuDomHtml += "</ul>";
+                skuDomHtml += "</div>";
+                skuDomHtml += "</div>";
+                skuDomHtml += "</div>";
+            });
             fatherDomBox.html("").append(skuDomHtml);
         }
         // 进行页面渲染
@@ -2474,13 +2475,13 @@
             $("#sku-choose-store").find(".sku-select-value").removeClass("active");
             $("#sku-choose-store").find(".sku-select-options").slideUp();
             $("#pro_num").val("1");
-            selectTag(paramId,valueId)
+            selectTag(paramId,valueId);
         });
 
         // 每个选项点击时判断按钮的状态
         function selectTag (paramId, valueId) {
-            console.log('selectTag', paramId, valueId);
-            console.log("应该置灰的不可点击按钮", emptyMap);
+            // console.log('selectTag', paramId, valueId);;
+            // console.log("应该置灰的不可点击按钮", emptyMap);;
             if (emptyMap && emptyMap[paramId] && emptyMap[paramId].some(function (item) { return item === valueId; })) {
                 // 当前点击按钮已经被置灰，不做响应
                 return;
@@ -2491,29 +2492,14 @@
             }
             else {
                 // this.$set(activeSkuTagMap, paramId, valueId);
-                activeSkuTagMap[paramId] = valueId
-                console.log(activeSkuTagMap)
-                console.log("点击是新的选项")
+                activeSkuTagMap[paramId] = valueId;
+                // console.log(activeSkuTagMap);;
+                // console.log("点击是新的选项");;
             }
             activeSkuMapUpdate();
         }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        // -********************************** sku数据选择器的相关内容 ************************************
+        // ********************************** sku数据选择器的相关内容 ************************************
         // map方法的兼容性写法
         /**
          * map遍历数组
@@ -2567,7 +2553,7 @@
             }
         }
         var skus_arr = [],   // 后台返回数据转json的存放数组
-            skus_arr_Arry = [],
+            skus_arr_Array = [],
             skus_arr_coalesce = [], // 存放json第一次循环后的混合数组
             map = {},  // 定义一个map对象用于数组中具有相同name值得数据进行合并  // 根据数组的name属性对数据进行map操作与数组整合
             skus_map = [],  // 经过
@@ -2588,7 +2574,7 @@
         for (var skus_arr_index in skus_arr) {
             var  skus_arr_object = {};
             skus_arr_object[skus_arr_index] = skus_arr[skus_arr_index];
-            skus_arr_Arry.push(skus_arr_object)
+            skus_arr_Array.push(skus_arr_object)
         }
         // 原始数组进行重构
         var skus_arr_refactor = [];  // 将原始数组进行重构
@@ -2599,7 +2585,7 @@
             skus_arr_object.product_sku_id = skus_arr[skus_arr_index][0].product_sku_id;
             skus_arr_object.delta_price = skus_arr[skus_arr_index][0].delta_price;
             skus_arr_object.price = skus_arr[skus_arr_index][0].price;
-            skus_arr_object.stock = skus_arr[skus_arr_index][0].stock;
+            // skus_arr_object.stock = skus_arr[skus_arr_index][0].stock;
             for(var skus_arr_child_index in skus_arr[skus_arr_index]){
                 if(skus_arr[skus_arr_index][skus_arr_child_index].value){
                     if(skus_arr[skus_arr_index][skus_arr_child_index].photo_url) {
@@ -2665,40 +2651,40 @@
         //   对处理过后的数据进行循环，动态生成相应的DOM节点
         function renderingNode(){
             $.each(skus_arr_refactor_map_arr,function (sku_map_i,sku_map_n) {
-                sku_parameter.html += "<div class='sku-select'>"
-                sku_parameter.html += "<div class='sku-select-name'>"
+                sku_parameter.html += "<div class='sku-select'>";
+                sku_parameter.html += "<div class='sku-select-name'>";
                 if(sku_map_n.name == "Hair Color"){
                     sku_parameter.html += "<span class='dynamic_name' data-type='Hair Color'>"+ sku_map_n.name +
                         " <a target='_blank' href='{{ asset('img/HairColor.jpg') }}'>"+
-                        "<img src='{{ asset('img/photo-choose.png') }}'></a></span>"
+                        "<img src='{{ asset('img/photo-choose.png') }}'></a></span>";
                 }else if(sku_map_n.name == "Hair Density"){
                     sku_parameter.html += "<span class='dynamic_name'>"+ sku_map_n.name +
                         " <a target='_blank' href='{{ asset('img/HairDensity.jpg') }}'>"+
-                        "<img src='{{ asset('img/photo-choose.png') }}'></a></span>"
+                        "<img src='{{ asset('img/photo-choose.png') }}'></a></span>";
                 }else{
-                    sku_parameter.html += "<span class='dynamic_name'>"+ sku_map_n.name +" </span>"
+                    sku_parameter.html += "<span class='dynamic_name'>"+ sku_map_n.name +" </span>";
                 }
-                sku_parameter.html += "</div>"
-                sku_parameter.html += "<div class='sku-select-module'>"
-                sku_parameter.html += "<div data-index='"+ sku_map_i +"'  data-name='"+ sku_map_n.name +"' class='sku-select-value'>"
-                sku_parameter.html += "<input type='hidden' readonly name='"+ sku_map_n.name +"'>"
-                sku_parameter.html += "<span class='sku-select-value-show'>Please Select</span>"
-                sku_parameter.html += "</div>"
-                sku_parameter.html += "<div class='sku-select-options'>"
-                sku_parameter.html += "<ul data-index='"+ sku_map_i +"' data-name='"+ sku_map_n.name +"'>"
+                sku_parameter.html += "</div>";
+                sku_parameter.html += "<div class='sku-select-module'>";
+                sku_parameter.html += "<div data-index='"+ sku_map_i +"'  data-name='"+ sku_map_n.name +"' class='sku-select-value'>";
+                sku_parameter.html += "<input type='hidden' readonly name='"+ sku_map_n.name +"'>";
+                sku_parameter.html += "<span class='sku-select-value-show'>Please Select</span>";
+                sku_parameter.html += "</div>";
+                sku_parameter.html += "<div class='sku-select-options'>";
+                sku_parameter.html += "<ul data-index='"+ sku_map_i +"' data-name='"+ sku_map_n.name +"'>";
                 var sku_map_item =arrayUnique2(sku_map_n.data,'value');
                 sku_map_item.sort(compare("value"));
                 $.each(sku_map_item,function (sku_map_data_i,sku_map_data_n) {
                     if(sku_map_n.name == "Hair Color") {
-                        sku_parameter.html += "<li data-value='" + sku_map_data_n.value.replace(/\'|\"/g,"") + "' data-img='"+ sku_map_data_n.photo_url +"'>"+ sku_map_data_n.value +"</li>"
+                        sku_parameter.html += "<li data-value='" + sku_map_data_n.value.replace(/\'|\"/g,"") + "' data-img='"+ sku_map_data_n.photo_url +"'>"+ sku_map_data_n.value +"</li>";
                     }else {
-                        sku_parameter.html += "<li data-value='" + sku_map_data_n.value.replace(/\'|\"/g,"") + "'>"+ sku_map_data_n.value +"</li>"
+                        sku_parameter.html += "<li data-value='" + sku_map_data_n.value.replace(/\'|\"/g,"") + "'>"+ sku_map_data_n.value +"</li>";
                     }
                 });
-                sku_parameter.html += "</ul>"
-                sku_parameter.html += "</div>"
-                sku_parameter.html += "</div>"
-                sku_parameter.html += "</div>"
+                sku_parameter.html += "</ul>";
+                sku_parameter.html += "</div>";
+                sku_parameter.html += "</div>";
+                sku_parameter.html += "</div>";
             });
         }
         // renderingNode();
@@ -2722,7 +2708,7 @@
         function getSkuId(){
             // 初始化sku_id的值为0，每次判断是否为0，来判断是否有该商品
             sku_id = 0;
-            sku_stock = 0;
+            // sku_stock = 0;
             var searchArr = [],
                 newSkuArray = [],
                 childSkuArr = [],
@@ -2781,25 +2767,25 @@
             $.each(finalArray,function (finalArray_i,finalArray_n) {
                 if(finalArray_n.data.length == aimLength) {
                     sku_id = finalArray_n.name;
-                    sku_stock = skus_arr[sku_id][0].stock;
+                    // sku_stock = skus_arr[sku_id][0].stock;
                     sku_price = skus_arr[sku_id][0].price;
                     $("#product-price").text(sku_price);
                 }
             });
-            console.log(sku_id)
+            // console.log(sku_id);
         }
         // sku_parameter.sku_choose_store.html("").append(sku_parameter.html);
         // 重置筛选条件
         $(".Reset-filter").on("click",function () {
-            already_selected = []
+            already_selected = [];
             $("#sku-choose-store").find("select").val("select");
             $("#sku-choose-store").find("option").prop("disabled",false);
             $("#sku-choose-store").find("option[value='select']").prop("disabled",true);
         });
 
-    //    自定义下拉菜单
+        // 自定义下拉菜单
         var isFirstChooseClick = null;   //    定义一个参数用来判断点击的是否为第一个选择器的第一次点击
-        var isCkickLast = null; // 判断点击的选择器与上一次点击的选择器是否相同
+        var isClickLast = null; // 判断点击的选择器与上一次点击的选择器是否相同
         var isFirstSameBtn = false; // 判断是否连续点击的第一个
         // $("#sku-choose-store").on("click",".sku-select-value",function () {
         //     var clickDom = $(this);

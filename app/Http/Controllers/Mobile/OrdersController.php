@@ -134,7 +134,7 @@ class OrdersController extends Controller
         $user = $request->user();
         $order = Order::where('order_sn', $sn)->first();
         if (!$order || ($user && $order->user_id)) {
-            throw new InvalidRequestException('You access to this resource is denied.');
+            throw new InvalidRequestException('Your access to this resource is denied.');
         }
 
         // 订单物流状态
@@ -207,9 +207,9 @@ class OrdersController extends Controller
                 }
                 $number = $cart->number;
                 $sku = $cart->sku;
-                if ($number > $sku->stock) {
+                /*if ($number > $sku->stock) {
                     throw new InvalidRequestException(trans('basic.orders.Insufficient_sku_stock'));
-                }
+                }*/
                 $product = $sku->product;
                 if (!in_array($product->type, $product_types)) {
                     $product_types[] = $product->type;
