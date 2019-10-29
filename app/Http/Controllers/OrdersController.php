@@ -440,7 +440,14 @@ class OrdersController extends Controller
             }
         }
 
-        return redirect(route('orders.pre_payment_by_sku_attr') . "?sku_id=" . $sku_id . "&number=" . $number . "&sendWay=1");
+        // return redirect(route('orders.pre_payment_by_sku_attr') . "?sku_id=" . $sku_id . "&number=" . $number . "&sendWay=1");
+        return response()->json([
+            'code' => 200,
+            'message' => 'success',
+            'data' => [
+                'sku_id' => $sku_id,
+            ],
+        ]);
     }
 
     // GET 选择地址+币种页面
