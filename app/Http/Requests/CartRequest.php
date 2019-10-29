@@ -21,7 +21,7 @@ class CartRequest extends Request
             return [
                 'sku_id' => [
                     'bail',
-                    'required_without:product_id,product_sku_attr_values',
+                    // 'required_without:product_id,product_sku_attr_values',
                     'required_with:number',
                     'integer',
                     'exists:product_skus,id',
@@ -38,8 +38,23 @@ class CartRequest extends Request
                         }*/
                     },
                 ],
+                'number' => [
+                    // 'bail',
+                    'required',
+                    'required_with:sku_id',
+                    'integer',
+                    'min:1',
+                    /*function ($attribute, $value, $fail) {
+                        $sku = ProductSku::find($this->input('sku_id'));
+                        if ($sku->stock < $value) {
+                            $fail(trans('basic.orders.Insufficient_sku_stock'));
+                        }
+                    },*/
+                ],
+            ];
+        } elseif ($this->routeIs('carts.store_by_sku_attr')) {
+            return [
                 'product_id' => [
-                    'required_without:sku_id',
                     'required_with:product_sku_attr_values,number',
                     'integer',
                     //'exists:products,id',
@@ -51,12 +66,12 @@ class CartRequest extends Request
                         return $query->where('user_id', $user->id);
                     }),*/
                 ],
-                'product_sku_attr_values' => 'required_without:sku_id|required_with:product_id,number|array',
-                'product_sku_attr_values.*' => 'required_without:sku_id|required_with:product_id,number|string',
+                'product_sku_attr_values' => 'required_with:product_id,number|array',
+                'product_sku_attr_values.*' => 'required_with:product_id,number|string',
                 'number' => [
                     // 'bail',
                     'required',
-                    // 'required_with:sku_id',
+                    'required_with:product_id,product_sku_attr_values',
                     'integer',
                     'min:1',
                     /*function ($attribute, $value, $fail) {

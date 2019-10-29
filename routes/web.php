@@ -234,6 +234,7 @@ Route::post('products/{product}/search_by_sku_attr', 'ProductsController@searchB
 /*购物车*/
 Route::get('carts', 'CartsController@index')->name('carts.index'); // 购物车
 Route::post('carts', 'CartsController@store')->name('carts.store'); // 加入购物车
+Route::post('carts/store_by_sku_attr', 'CartsController@storeBySkuAttr')->name('carts.store_by_sku_attr'); // 根据 SKU 参数组合 加入购物车
 Route::patch('carts/update', 'CartsController@update')->name('carts.update'); // 更新 (增减数量)
 Route::delete('carts/delete', 'CartsController@destroy')->name('carts.destroy'); // 删除
 Route::delete('carts/flush', 'CartsController@flush')->name('carts.flush'); // 清空

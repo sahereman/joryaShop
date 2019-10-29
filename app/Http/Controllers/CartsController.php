@@ -206,6 +206,101 @@ class CartsController extends Controller
         ]);
     }
 
+    // POST 根据 SKU 参数组合 加入购物车
+    public function storeBySkuAttr(CartRequest $request)
+    {
+        $user = $request->user();
+        $sku_id = false;
+        $product_id = $request->input('product_id');
+        $product_sku_attr_values = $request->input('product_sku_attr_values');
+        $number = $request->input('number');
+
+        $product = Product::find($product_id);
+        $product_attrs = $product->attrs;
+        $product_attr_names = $product_attrs->pluck('name', 'id')->toArray();
+        $product_attr_ids = $product_attrs->pluck('id', 'name')->toArray();
+        $product_skus = $product->skus()->with('attr_values')->get();
+        $product_sku_ids = $product_skus->pluck('id')->toArray();
+        $product_sku_attr_value_collection = ProductSkuAttrValue::whereIn('product_sku_id', $product_sku_ids)->get();
+        foreach ($product_sku_attr_values as $product_attr_name => $product_sku_attr_value) {
+            if ($product_sku_attr_value && !in_array($product_attr_name, $product_attr_names)) {
+                break;
+            }
+            if ($product_sku_attr_value) {
+                $product_attr_id = $product_attr_ids[$product_attr_name];
+                $product_sku_ids = $product_sku_attr_value_collection->whereIn('product_sku_id', $product_sku_ids)->where('product_attr_id', $product_attr_id)->where('value', $product_sku_attr_value)->pluck('product_sku_id')->toArray();
+            }
+            if (!$product_sku_ids) {
+                break;
+            }
+        }
+        if (count($product_sku_ids) > 0) {
+            $sku_id = $product_sku_ids[0];
+        } else {
+            $product_sku = ProductSku::create([
+                'product_id' => $product->id,
+                'name_en' => 'custom product sku of lyrical hair',
+                'name_zh' => 'custom product sku of lyrical hair',
+                'photo' => '',
+                'delta_price' => 0,
+                'stock' => 100, // 暂定数值，占位用，便于客户在购物车内追加购买数量
+                'sales' => 1,
+            ]);
+            $sku_id = $product_sku->id;
+            $count = count($product_sku_attr_values) + 1;
+            foreach ($product_sku_attr_values as $product_attr_name => $product_sku_attr_value) {
+                if ($product_sku_attr_value) {
+                    $product_attr_id = $product_attr_ids[$product_attr_name];
+                    ProductSkuAttrValue::create([
+                        'product_sku_id' => $sku_id,
+                        'product_attr_id' => $product_attr_id,
+                        'value' => $product_sku_attr_value,
+                        'sort' => $count - 1,
+                    ]);
+                }
+            }
+        }
+
+        if (!$sku_id) {
+            throw new InvalidRequestException('Your request is denied. Please try it again.');
+        }
+
+        if ($user) {
+            $cart = Cart::where([
+                'user_id' => $user->id,
+                'product_sku_id' => $sku_id
+            ])->first();
+            if ($cart) {
+                $cart->increment('number', $number);
+                $cart->save();
+            } else {
+                Cart::create([
+                    'user_id' => $user->id,
+                    'product_sku_id' => $sku_id,
+                    'number' => $number
+                ]);
+            }
+        } else {
+            $cart = session('cart', []);
+            // $cart = Session::get('cart', []);
+
+            if (isset($cart[$sku_id])) {
+                $cart[$sku_id] += $number;
+            } else {
+                $cart[$sku_id] = $number;
+            }
+
+            session(['cart' => $cart]);
+            // Session::put('cart', $cart);
+            // Session::put(['cart' => $cart]);
+        }
+
+        return response()->json([
+            'code' => 200,
+            'message' => 'success',
+        ]);
+    }
+
     // PATCH 更新 (增减数量)
     public function update(CartRequest $request)
     {
