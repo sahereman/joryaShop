@@ -171,67 +171,45 @@
                         @endif
                     </ul>
                     {{-- 动态渲染的skus选择器存放位置 --}}
-                    <div id="sku-choose-store" class="sku-choose-store {{ $product->type == \App\Models\Product::PRODUCT_TYPE_CUSTOM ? ' dis_ni' : '' }}">
-                            <div id="sku-choose-store" class="sku-choose-store ">
-                                    <div class="sku-select">
-                                        <div class="sku-select-name">
-                                            <span class="dynamic_name" data-paramid="Base Size">Base Size </span>
-                                        </div>
-                                        <div class="sku-select-module">
-                                            <div data-paramid="undefined" data-name="undefined" class="sku-select-value">
-                                                <input type="hidden" readonly="" data-paramid="Base Size" value="6*8inch" name="6*8inch">
-                                                <span class="sku-select-value-show">6*8inch</span>
-                                            </div>
-                                            <div class="sku-select-options" style="display: none;">
-                                                <ul data-paramid="undefined" data-name="undefined">
-                                                    <li data-paramid="Base Size" data-valueid="6*8inch">6*8inch</li>
-                                                    <li data-paramid="Base Size" data-valueid="6*9inch">6*9inch</li>
-                                                    <li data-paramid="Base Size" data-valueid="7*10inch">7*10inch</li>
-                                                </ul>
-                                            </div>
-                                        </div>
+                    @if($attr_values)
+                        <div id="sku-choose-store" class="sku-choose-store {{ $product->type == \App\Models\Product::PRODUCT_TYPE_CUSTOM ? ' dis_ni' : '' }}" price="{{ $product->price }}">
+                            @foreach($attr_values as $attr_name => $values)
+                                <div class="sku-select">
+                                    <div class="sku-select-name">
+                                        <span class="dynamic_name" data-paramid="{{ $attr_name }}">{{ $attr_name }}</span>
                                     </div>
-                                    <div class="sku-select">
-                                        <div class="sku-select-name">
-                                            <span class="dynamic_name" data-paramid="Hair Color">Hair Color </span>
+                                    <div class="sku-select-module">
+                                        <div data-paramid="undefined" data-name="undefined" class="sku-select-value">
+                                            <input type="hidden" readonly="" data-paramid="{{ $attr_name }}"
+                                                   value="{{ $values[0]['value'] }}"
+                                                   name="{{ $values[0]['value'] }}"
+                                                   photo-url="{{ isset($values[0]['photo_url']) ? $values[0]['photo_url'] : '' }}"
+                                                   delta-price="{{ $values[0]['delta_price'] }}">
+                                            <span class="sku-select-value-show">{{ $values[0]['value'] }}</span>
                                         </div>
-                                        <div class="sku-select-module">
-                                            <div data-paramid="undefined" data-name="undefined" class="sku-select-value">
-                                                <input type="hidden" readonly="" data-paramid="Hair Color" value="#1B Off Black" name="#1B Off Black">
-                                                <span class="sku-select-value-show">#1B Off Black</span>
-                                            </div>
-                                            <div class="sku-select-options">
-                                                <ul data-paramid="undefined" data-name="undefined">
-                                                    <li data-paramid="Hair Color" data-valueid="#1B Off Black">#1B Off Black</li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="sku-select">
-                                        <div class="sku-select-name">
-                                            <span class="dynamic_name" data-paramid="Hair Density">Hair Density </span>
-                                        </div>
-                                        <div class="sku-select-module">
-                                            <div data-paramid="undefined" data-name="undefined" class="sku-select-value">
-                                                <input type="hidden" readonly="" data-paramid="Hair Density" 
-                                                       value="120% Med-light to Medium Density" name="120% Med-light to Medium Density">
-                                                <span class="sku-select-value-show">120% Med-light to Medium Density</span>
-                                            </div>
-                                            <div class="sku-select-options">
-                                                <ul data-paramid="undefined" data-name="undefined">
-                                                    <li data-paramid="Hair Density"
-                                                        data-valueid="120% Med-light to Medium Density">120% Med-light to Medium Density</li>
-                                                </ul>
-                                            </div>
+                                        <div class="sku-select-options" style="display: none;">
+                                            <ul data-paramid="undefined" data-name="undefined">
+                                                @foreach($values as $value)
+                                                    <li data-paramid="{{ $attr_name }}"
+                                                        data-valueid="{{ $value['value'] }}"
+                                                        photo-url="{{ isset($value['photo_url']) ? $value['photo_url'] : '' }}"
+                                                        delta-price="{{ $value['delta_price'] }}">
+                                                        {{ $value['value'] }}
+                                                    </li>
+                                                @endforeach
+                                            </ul>
                                         </div>
                                     </div>
                                 </div>
-                        {{-- <div class="loading-box">
-                            <img src="{{ asset('img/loading_lord.gif') }}">
-                        </div> --}}
-                    </div>
+                            @endforeach
+                        </div>
+                    @endif
+                    {{-- <div class="loading-box">
+                        <img src="{{ asset('img/loading_lord.gif') }}">
+                    </div> --}}
+                </div>
                     {{-- skus参数数组 --}}
-                    {{-- <input type="hidden" class="parameter-data" data-url="{{ route('products.search_by_sku_attr', ['product' => $product->id]) }}" value="{{ json_encode($attributes) }}"/> --}}
+                    {{-- <input type="hidden" class="parameter-data" data-url="{{ route('products.search_by_sku_attr', ['product' => $product->id]) }}" value="{{ json_encode($attr_values) }}"/> --}}
                     {{--<div class="availableSold {{ $product->type == \App\Models\Product::PRODUCT_TYPE_CUSTOM ? ' dis_ni' : '' }}">--}}
                         {{--<button class="Reset-filter">Reset Select</button>--}}
                     {{--</div>--}}
