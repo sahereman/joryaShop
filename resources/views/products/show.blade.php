@@ -40,7 +40,7 @@
                                 <div id="surround">
                                     <div class="big-img-box">
                                         <img class="cloudzoom" alt ="Cloud Zoom small image" id ="zoom1" src="{{ $product->photo_urls[0] }}"
-                                             data-cloudzoom='zoomSizeMode:"image",tintOpacity:0,lensOpacity:0,zoomPosition:4,zoomMatchSize:false,zoomFullSize:false'>
+                                             data-cloudzoom='zoomSizeMode:"image"'>
                                         <a id="zoom-btn" class="lightbox-group  zoomColorBoxs zoom-btn-small"
                                             href="{{ $product->photo_urls[0] }}"
                                             title="">Zoom</a>
@@ -172,12 +172,66 @@
                     </ul>
                     {{-- 动态渲染的skus选择器存放位置 --}}
                     <div id="sku-choose-store" class="sku-choose-store {{ $product->type == \App\Models\Product::PRODUCT_TYPE_CUSTOM ? ' dis_ni' : '' }}">
-                        <div class="loading-box">
+                            <div id="sku-choose-store" class="sku-choose-store ">
+                                    <div class="sku-select">
+                                        <div class="sku-select-name">
+                                            <span class="dynamic_name" data-paramid="Base Size">Base Size </span>
+                                        </div>
+                                        <div class="sku-select-module">
+                                            <div data-paramid="undefined" data-name="undefined" class="sku-select-value">
+                                                <input type="hidden" readonly="" data-paramid="Base Size" value="6*8inch" name="6*8inch">
+                                                <span class="sku-select-value-show">6*8inch</span>
+                                            </div>
+                                            <div class="sku-select-options" style="display: none;">
+                                                <ul data-paramid="undefined" data-name="undefined">
+                                                    <li data-paramid="Base Size" data-valueid="6*8inch">6*8inch</li>
+                                                    <li data-paramid="Base Size" data-valueid="6*9inch">6*9inch</li>
+                                                    <li data-paramid="Base Size" data-valueid="7*10inch">7*10inch</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="sku-select">
+                                        <div class="sku-select-name">
+                                            <span class="dynamic_name" data-paramid="Hair Color">Hair Color </span>
+                                        </div>
+                                        <div class="sku-select-module">
+                                            <div data-paramid="undefined" data-name="undefined" class="sku-select-value">
+                                                <input type="hidden" readonly="" data-paramid="Hair Color" value="#1B Off Black" name="#1B Off Black">
+                                                <span class="sku-select-value-show">#1B Off Black</span>
+                                            </div>
+                                            <div class="sku-select-options">
+                                                <ul data-paramid="undefined" data-name="undefined">
+                                                    <li data-paramid="Hair Color" data-valueid="#1B Off Black">#1B Off Black</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="sku-select">
+                                        <div class="sku-select-name">
+                                            <span class="dynamic_name" data-paramid="Hair Density">Hair Density </span>
+                                        </div>
+                                        <div class="sku-select-module">
+                                            <div data-paramid="undefined" data-name="undefined" class="sku-select-value">
+                                                <input type="hidden" readonly="" data-paramid="Hair Density" 
+                                                       value="120% Med-light to Medium Density" name="120% Med-light to Medium Density">
+                                                <span class="sku-select-value-show">120% Med-light to Medium Density</span>
+                                            </div>
+                                            <div class="sku-select-options">
+                                                <ul data-paramid="undefined" data-name="undefined">
+                                                    <li data-paramid="Hair Density"
+                                                        data-valueid="120% Med-light to Medium Density">120% Med-light to Medium Density</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                        {{-- <div class="loading-box">
                             <img src="{{ asset('img/loading_lord.gif') }}">
-                        </div>
+                        </div> --}}
                     </div>
                     {{-- skus参数数组 --}}
-                    <input type="hidden" class="parameter-data" data-url="{{ route('products.search_by_sku_attr', ['product' => $product->id]) }}" value="{{ json_encode($attributes) }}"/>
+                    {{-- <input type="hidden" class="parameter-data" data-url="{{ route('products.search_by_sku_attr', ['product' => $product->id]) }}" value="{{ json_encode($attributes) }}"/> --}}
                     {{--<div class="availableSold {{ $product->type == \App\Models\Product::PRODUCT_TYPE_CUSTOM ? ' dis_ni' : '' }}">--}}
                         {{--<button class="Reset-filter">Reset Select</button>--}}
                     {{--</div>--}}
@@ -200,10 +254,11 @@
                                 {{--@lang('app.Add to Shopping Cart')--}}
                             {{--</a>--}}
                         @else
-                            <a class="buy_now" data-url="{{ route('orders.pre_payment') }}">
+                            <a class="buy_now" data-url="{{ route('orders.pre_payment') }}" data-url2="{{ route('orders.pre_payment_by_sku_attr') }}" code="{{ $product->id }}">
                                 @lang('product.product_details.Buy now')
                             </a>
-                            <a class="add_carts" data-url="{{ route('carts.store') }}">
+                            {{-- <a class="add_carts" data-url="{{ route('carts.store') }}" code="{{ $product->id }}"> --}}
+                            <a class="add_carts" data-url="{{ route('carts.store_by_sku_attr') }}" code="{{ $product->id }}">
                                 @lang('app.Add to Shopping Cart')
                             </a>
                             @guest
@@ -531,20 +586,20 @@
         // 控制商品下单的数量显示
         $(".add").on("click", function () {
             // 获取商品ID及库存数量
-            if (sku_id == 0 || sku_stock == 0) {
-                layer.msg("The item is temporarily out of stock Please reselect!");
-                return
-            }
+            // if (sku_id == 0 || sku_stock == 0) {
+            //     layer.msg("The item is temporarily out of stock Please reselect!");
+            //     return
+            // }
             // if ($(".kindOfPro").find("li").hasClass('active') != true) {
             // layer.msg("@lang('product.product_details.Please select specifications')");
             // } else {
             $(".reduce").removeClass('no_allow');
-            if (parseInt($("#pro_num").val()) < sku_stock) {
+            // if (parseInt($("#pro_num").val()) < sku_stock) {
                 var num = parseInt($("#pro_num").val()) + 1;
                 $("#pro_num").val(num);
-            } else {
-                layer.msg("@lang('order.Cannot add more quantities')");
-            }
+            // } else {
+            //     layer.msg("@lang('order.Cannot add more quantities')");
+            // }
         });
         $(".reduce").on("click", function () {
             if ($(this).hasClass('no_allow') != true && $("#pro_num").val() > 1) {
@@ -653,17 +708,24 @@
             var clickDom = $(this);
             if (product.type == "custom") {
                 window.location.href = "{{ route('products.custom.show', ['product' => $product->id]) }}";
-            } else {
-                if (sku_id == 0 || sku_stock == 0) {
-                    layer.msg("The item is temporarily out of stock Please reselect!");
-                    return
-                }
-            }
+            } 
+            // else {
+                // if (sku_id == 0 || sku_stock == 0) {
+                //     layer.msg("The item is temporarily out of stock Please reselect!");
+                //     return
+                // }
+            // }
             var data = {
                 _token: "{{ csrf_token() }}",
-                sku_id: sku_id,
+                // sku_id: sku_id,
+                product_id: clickDom.attr("code"),
                 number: $("#pro_num").val(),
             };
+            var allChooseSkus = $("#sku-choose-store").find("input[type='hidden']");
+            $.each(allChooseSkus, function (i, n) {
+                data["product_sku_attr_values[" + $(n).attr("data-paramid") + "]"] = $(n).val()
+            })
+            // console.log(data)
             var url = clickDom.attr('data-url');
             $.ajax({
                 type: "post",
@@ -693,12 +755,38 @@
                 //     // $(".login").click();
             } else {
                 var url = clickDom.attr('data-url');
-                // getSkuId();
-                if (sku_id == 0 || sku_stock == 0) {
-                    layer.msg("The item is temporarily out of stock Please reselect!");
-                    return
-                }
-                window.location.href = url + "?sku_id=" + sku_id + "&number=" + $("#pro_num").val() + "&sendWay=1";
+                var url2 = clickDom.attr('data-url2');
+                var data = {
+                    _token: "{{ csrf_token() }}",
+                    // sku_id: sku_id,
+                    product_id: clickDom.attr("code"),
+                    number: $("#pro_num").val(),
+                };
+                var allChooseSkus = $("#sku-choose-store").find("input[type='hidden']");
+                $.each(allChooseSkus, function (i, n) {
+                    data["product_sku_attr_values[" + $(n).attr("data-paramid") + "]"] = $(n).val()
+                })
+                $.ajax({
+                    type: "post",
+                    url: url2,
+                    data: data,
+                    success: function (data) {
+                        window.location.href = url + "?sku_id=" + data.data.sku_id + "&number=" + $("#pro_num").val() + "&sendWay=1";
+                        // layer.msg("@lang('product.product_details.Shopping cart added successfully')");
+                        // var oldCartNum = parseInt($(".shop_cart_num").html());
+                        // var newCartNum = oldCartNum + parseInt($("#pro_num").val())
+                        // $(".shop_cart_num").html(newCartNum);
+                        // $(".for_cart_num").load(location.href + " .shop_cart_num");
+                    },
+                    error: function (err) {
+                        var arr = [];
+                        var dataobj = err.responseJSON.errors;
+                        for (let i in dataobj) {
+                            arr.push(dataobj[i]); //属性
+                        }
+                        layer.msg(arr[0][0]);
+                    }
+                });
             }
         });
         // 获取评价内容
@@ -917,6 +1005,7 @@
                 data: data,
                 beforeSend: function(){},
                 success: function (json) {
+                    console.log(json)
                     // 进行页面渲染
                     renderPage(json.data);
                     sku_id = json.data.selected.sku.id;
@@ -944,9 +1033,10 @@
                 complete:function(){},
             });
         }
-        GetSkus();
+        // GetSkus();
         // 页面渲染函数
         function renderPage(searchData){
+            console.log(searchData)
             // 用于页面渲染Dom
             var skuDomHtml = "";
             $.each(searchData.data,function (skuKindsArr_index,skuKindsArr_val) {
@@ -966,7 +1056,7 @@
                         if (sku_map_data_n.switch) {
                             skuDomHtml += "<li data-paramId='" + skuKindsArr_index + "' data-valueId='" + sku_map_data_n.value + "'>" + sku_map_data_n.value + "</li>";
                         } else {
-                            skuDomHtml += "<li class='forbid-choose forbid-choose-style' data-paramId='" + skuKindsArr_index + "' data-valueId='" + sku_map_data_n.value + "'>" + sku_map_data_n.value + "</li>";
+                            skuDomHtml += "<li class='forbid-choose' data-paramId='" + skuKindsArr_index + "' data-valueId='" + sku_map_data_n.value + "'>" + sku_map_data_n.value + "</li>";
                         }
                     });
                 }
@@ -975,7 +1065,7 @@
                         if (sku_map_data_n.switch) {
                             skuDomHtml += "<li data-paramId='" + skuKindsArr_index + "' data-valueId='" + sku_map_data_n.value + "'>" + sku_map_data_n.value + "</li>";
                         } else {
-                            skuDomHtml += "<li class='forbid-choose forbid-choose-style' data-paramId='" + skuKindsArr_index + "' data-valueId='" + sku_map_data_n.value + "'>" + sku_map_data_n.value + "</li>";
+                            skuDomHtml += "<li class='forbid-choose' data-paramId='" + skuKindsArr_index + "' data-valueId='" + sku_map_data_n.value + "'>" + sku_map_data_n.value + "</li>";
                         }
                     });
                 }
@@ -1010,16 +1100,17 @@
             $("#sku-choose-store").find(".sku-select-options").slideUp();
             $("#pro_num").val("1");
             // 根据所选择的内容，获取sku接口
-            var data = {};
-            if (_that.hasClass("forbid-choose")) {
-                data["product_sku_attr_values[" + _that.attr("data-paramid") + "]"] = _that.attr("data-valueid");
-            } else {
-                var allChooseInput = $("#sku-choose-store").find("input[type='hidden']");
-                $.each(allChooseInput, function (i, n) {
-                    data["product_sku_attr_values[" + $(n).attr("data-paramid") + "]"] = $(n).val()
-                })
-            }
-            GetSkus(data)
+            // var data = {};
+            // if (_that.hasClass("forbid-choose")) {
+            //     data["product_sku_attr_values[" + _that.attr("data-paramid") + "]"] = _that.attr("data-valueid");
+            // } else {
+            //     var allChooseInput = $("#sku-choose-store").find("input[type='hidden']");
+            //     $.each(allChooseInput, function (i, n) {
+            //         data["product_sku_attr_values[" + $(n).attr("data-paramid") + "]"] = $(n).val()
+            //     })
+            // }
+            // console.log(data)
+            // GetSkus(data)
         });
 
         // 点击空白处关闭弹窗
