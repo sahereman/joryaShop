@@ -3,12 +3,14 @@
     <div class="footer-top">
         <ul class="main-content">
             <li>
+                <a href="skype:live:info_1104672?call"></a>
                 <img src="{{ asset("img/footer/video.png") }}" alt="lyricalhair">
                 <span class="part-title">Video Chat</span>
                 <span>Schedule an appointment with a hair</span>
                 <span>replacement consultant</span>
             </li>
             <li>
+                <a href="skype:live:info_1104672?chat"></a>
                 <img src="{{ asset("img/footer/comments.png") }}" alt="lyricalhair">
                 <span class="part-title">Chat Now</span>
                 <span>Chat online with a hair</span>
@@ -41,7 +43,7 @@
                 <input type="hidden" name="type" id="feedback-type" value="subscription">
                 {{-- <input type="text" name="captcha" id="footverCode" class="form-control{{ $errors->has('captcha') ? ' is-invalid' : '' }}" placeholder="Verification Code" required>
                 <img class="thumbnail captcha mt-3 mb-2" src="{{ captcha_src('subscription') }}" onclick="this.src='/captcha/subscription?'+Math.random()" title="点击图片重新获取验证码"> --}}
-                <button type="button" class="dis_ni" title="Subscribe" id="subFootCode" data-url="{{ route('feedbacks.store') }}">Subscribe Now</button>
+                <button type="button" title="Subscribe" id="subFootCode" data-url="{{ route('feedbacks.store') }}">Subscribe</button>
             {{-- </form> --}}
         </div>
     </div>

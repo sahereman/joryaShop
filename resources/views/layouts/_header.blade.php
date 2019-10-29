@@ -108,7 +108,7 @@
                     {{-- 一级导航 --}}
                     <ul class="first-menu">
                         <li class="img_menu">
-                            <a href="{{ route('root') }}">HOME</a>
+                            <a class="first-nav" href="{{ route('root') }}">HOME</a>
                         </li>
                         @foreach(\App\Models\Menu::pcMenus() as $menu)
                             @if($menu->children->isNotEmpty() && $menu->children->first()->children->isNotEmpty())

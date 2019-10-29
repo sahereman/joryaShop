@@ -696,16 +696,45 @@ $(function () {
     });
 
     // header hover效果
-    var tid;
-    $(".first-menu .first-tab").mouseenter(function (event) {
-        var _this = $(this);
-        tid = setTimeout(function(){
-            _this.find(".header-nav-two").fadeIn();
-        }, 300);
-    }).mouseleave(function (event) {
-        clearTimeout(tid);
-        $(this).find(".header-nav-two").fadeOut();
+    // var tid;
+    // $(".first-menu .first-tab").mouseenter(function (event) {
+    //     var _this = $(this);
+    //     tid = setTimeout(function(){
+    //         _this.find(".header-nav-two").fadeIn();
+    //     }, 300);
+    // }).mouseleave(function (event) {
+    //     clearTimeout(tid);
+    //     $(this).find(".header-nav-two").fadeOut();
+    // });
+    function moveDirection(tag, e) {
+        var w = $(tag).width();
+        var h = $(tag).height();
+        var offset = $(tag).offset();
+        var x = (e.pageX - offset.left - (w / 2)) * (w > h ? (h / w) : 1);
+        var y = (e.pageY - offset.top - (h / 2)) * (h > w ? (w / h) : 1);
+        var direction = Math.round((((Math.atan2(y, x) * (180 / Math.PI)) + 180) / 90) + 3) % 4;
+        return direction;
+    }
+
+    $(".first-menu").on("mouseenter", ".first-tab", function (event) {
+        if (winW < 1200) return;
+        var me2 = $(this).find(".header-nav-two");
+        me2.stop().slideDown("slow");
+    }).on("mouseleave", ".first-tab", function (event) {
+        if (winW < 1200) return;
+        var direction = moveDirection(this, event);
+        console.log(direction)
+        if (direction != 2) {
+            $(this).find(".header-nav-two").stop().slideUp("slow");
+        }
     });
+    $(".header-nav-two").on("mouseleave", function () {
+        $(".header-nav-two").stop().slideUp("slow");
+    });
+
+
+
+    
 
     // 点击搜索按钮弹出弹出层
     $(".header-search").on("click",function(){

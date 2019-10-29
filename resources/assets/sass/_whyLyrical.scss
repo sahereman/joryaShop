@@ -33,7 +33,7 @@
       width: 48%;
       margin-left: 0;
     }
-    span {
+    a {
       margin: auto 0;
       line-height: 24px;
     }
@@ -66,6 +66,13 @@
       font-size: 14px;
       line-height: 24px;
     }
+  }
+  .target-fix {
+    position: relative;
+    top: -55px; // 偏移值
+    display: block;
+    height: 0;
+    overflow: hidden;
   }
 }
 // 模块三

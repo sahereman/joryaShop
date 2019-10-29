@@ -31,12 +31,14 @@
                     <img src="{{ asset("img/Home/About_lyricalhair.png") }}" alt="lyricalhair">
                 </div>
                 <div class="lyrical-info-subtitle">
-                    <span>Lyricalhair is a hair replacement system manufacturer and global online Retailer. Our first factory was established in 1999.</span>
+                    {{-- <span>Lyricalhair is a hair replacement system manufacturer and global online Retailer. Our first factory was established in 1999.</span> --}}
+                    <span>We would like to express our deep appreciation for our loyal customers and to our new visitors.It is our hope that this outline of our history, services and mission, will demonstrate to you the great responsibility we feel towards all those who try our products.</span>
                 </div>
                 <div class="lyrical-info-article">
-                    <span>We also offer significant savings because we are an internet based business; our overhead costs are much lower and we pass 
+                    {{-- <span>We also offer significant savings because we are an internet based business; our overhead costs are much lower and we pass 
                         these additional savings on to you. We offer this new way to get a hair replacement which is both affordable and easy to 
-                        order, without ever leaving the comfort of your home. Remember...</span>
+                        order, without ever leaving the comfort of your home. Remember...</span> --}}
+                    <span>LyricalHair has been providing dependable hair replacement system manufacturing services to our customers since 1999. During the past 20 years we have been operating from three branches located in China, Dubai, and The United States. Our brand is currently able to ship to over 30 countries. </span>
                 </div>
                 <div class="lyrical-info-link">
                     <a href="{{ route('about_lyricalhair') }}">LEARN MORE</a>
@@ -157,10 +159,10 @@
             {{-- Why Lyricalhair && Lyricalhair Blog --}}
             <div class="why-youtube">
                 <div class="why-lyrical">
-                    <div class="why-title">
+                    {{-- <div class="why-title">
                         <span>Why Lyricalhair ?</span>
-                    </div>
-                    <div class="why-info">
+                    </div> --}}
+                    {{-- <div class="why-info">
                         <span>Lyricalhair is a hair replacement system manufacturer and global online</span>
                         <span>Retailer. Our first factory was established in 1999.</span>
                         <span>We also offer significant savings because we are an internet based business;</span>
@@ -168,8 +170,8 @@
                         <span>We offer this new way to get a hair replacement which is both affordable and easy to</span>
                         <span>order, without ever leaving the comfort of your home. Remember...</span>
                     </div>
-                    <a class="more-link" href="{{ route('why_lyricalhair') }}">LEARN MORE</a>
-                    <div class="why-imgs">
+                    <a class="more-link" href="{{ route('why_lyricalhair') }}">LEARN MORE</a> --}}
+                    {{-- <div class="why-imgs">
                         <div class="swiper-container" id="whyImgBanner">
                             <div class="swiper-wrapper">
                                 @if($poster = \App\Models\Poster::getPosterBySlug('why_lyricalhair'))
@@ -211,6 +213,41 @@
                             <!-- 如果需要导航按钮 -->
                             <div class="swiper-button-prev why-button-prev"></div>
                             <div class="swiper-button-next why-button-next"></div>
+                        </div>
+                    </div> --}}
+                    <div class="why-lyrical-left">
+                        <div class="why-lyrical-item">
+                            <a href="{{ route('why_lyricalhair') }}#part2Item1">Non-Surgical Hair Replacement</a>
+                        </div>
+                        <div class="why-lyrical-item">
+                            <a href="{{ route('why_lyricalhair') }}#part2Item2">Ready To Wear</a>
+                        </div>
+                        <div class="why-lyrical-item">
+                            <a href="{{ route('why_lyricalhair') }}#part2Item3">Affordable Factory Prices</a>
+                        </div>
+                        <div class="why-lyrical-item">
+                            <a href="{{ route('why_lyricalhair') }}#part2Item4">30-Day Money-Back Guarantee</a>
+                        </div>
+                    </div>
+                    <div class="why-lyrical-center">
+                        <img src="{{ asset("img/Home/hair.png") }}" alt="lyricalhair">
+                        <p>Why Lyricalhair</p>
+                    </div>
+                    <div class="why-lyrical-right">
+                        <div class="why-lyrical-item">
+                            <a href="{{ route('why_lyricalhair') }}#part2Item5">Easy To Order Online</a>
+                        </div>
+                        <div class="why-lyrical-item">
+                            <a href="{{ route('why_lyricalhair') }}#part2Item6">Safe Online Payment</a>
+                        </div>
+                        <div class="why-lyrical-item">
+                            <a href="{{ route('why_lyricalhair') }}#part2Item7">Fast Worldwide Free Shipping</a>
+                        </div>
+                        <div class="why-lyrical-item">
+                            <a href="{{ route('why_lyricalhair') }}#part2Item8">Professional Customer Service</a>
+                        </div>
+                        <div class="why-lyrical-item">
+                            <a href="{{ route('why_lyricalhair') }}#part2Item9">Frequent Order Status Updates</a>
                         </div>
                     </div>
                 </div>
