@@ -81,6 +81,7 @@ Route::post('login', 'Auth\LoginController@login')->name('login.post'); // form�
 
 /*订单*/
 Route::get('orders/pre_payment', 'OrdersController@prePayment')->name('orders.pre_payment'); // 订单预支付页面：选择地址+币种页面
+Route::post('orders/pre_payment_by_sku_attr', 'OrdersController@prePaymentBySkuAttr')->name('orders.pre_payment_by_sku_attr'); // 根据 SKU 参数组合 跳转至订单预支付页面
 Route::get('orders/search_by_sn/{sn}', 'OrdersController@searchBySn')->name('orders.search_by_sn'); // 根据订单序列号查看订单详情
 Route::post('orders', 'OrdersController@store')->name('orders.store'); // 提交订单
 Route::post('orders/integrate', 'OrdersController@integrate')->name('orders.integrate'); // 多个订单聚合支付

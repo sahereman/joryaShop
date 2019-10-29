@@ -104,7 +104,7 @@ class PostOrderRequest extends Request
             return [
                 'sku_id' => [
                     'bail',
-                    'required_without:product_id,product_sku_attr_values,sku_ids',
+                    'required_without:sku_ids',
                     'required_with:number',
                     'integer',
                     'exists:product_skus,id',
@@ -121,25 +121,10 @@ class PostOrderRequest extends Request
                         }*/
                     },
                 ],
-                'product_id' => [
-                    'required_without:sku_id,sku_ids',
-                    'required_with:product_sku_attr_values,number',
-                    'integer',
-                    //'exists:products,id',
-                    Rule::exists('products', 'id')->where(function ($query) {
-                        return $query->where('on_sale', 1);
-                    }),
-                    // Rule::unique('user_favourites')->where('user_id', $user->id),
-                    /*Rule::unique('user_favourites')->where(function ($query) use ($user) {
-                        return $query->where('user_id', $user->id);
-                    }),*/
-                ],
-                'product_sku_attr_values' => 'required_without:sku_id,sku_ids|required_with:product_id,number|array',
-                'product_sku_attr_values.*' => 'required_without:sku_id,sku_ids|required_with:product_id,number|string',
                 'number' => [
                     'bail',
                     'required_without:sku_ids',
-                    'required_with:sku_id,product_id,product_sku_attr_values',
+                    'required_with:sku_id',
                     'integer',
                     'min:1',
                     /*function ($attribute, $value, $fail) {
@@ -151,9 +136,38 @@ class PostOrderRequest extends Request
                 ],
                 'sku_ids' => [
                     'bail',
-                    'required_without_all:sku_id,product_id,product_sku_attr_values,number',
+                    'required_without_all:sku_id,number',
                     'string',
                     'regex:/^\d+(\,\d+)*$/',
+                ],
+            ];
+        } elseif ($this->routeIs('orders.pre_payment_by_sku_attr')) {
+            return [
+                'product_id' => [
+                    'required_with:product_sku_attr_values,number',
+                    'integer',
+                    //'exists:products,id',
+                    Rule::exists('products', 'id')->where(function ($query) {
+                        return $query->where('on_sale', 1);
+                    }),
+                    // Rule::unique('user_favourites')->where('user_id', $user->id),
+                    /*Rule::unique('user_favourites')->where(function ($query) use ($user) {
+                        return $query->where('user_id', $user->id);
+                    }),*/
+                ],
+                'product_sku_attr_values' => 'required_with:product_id,number|array',
+                'product_sku_attr_values.*' => 'required_with:product_id,number|string',
+                'number' => [
+                    'bail',
+                    'required_with:product_id,product_sku_attr_values',
+                    'integer',
+                    'min:1',
+                    /*function ($attribute, $value, $fail) {
+                        $sku = ProductSku::find($this->input('sku_id'));
+                        if ($sku->stock < $value) {
+                            $fail(trans('basic.orders.Insufficient_sku_stock'));
+                        }
+                    },*/
                 ],
             ];
         } elseif ($this->routeIs('orders.get_available_coupons')) {
@@ -223,6 +237,8 @@ class PostOrderRequest extends Request
         return [
             'currency' => '币种',
             'sku_id' => '商品SKU-ID',
+            'product_id' => '商品ID',
+            'product_sku_attr_values' => '商品SKU参数组合',
             'number' => '商品购买数量',
             'sku_ids' => '商品SKU-IDs',
             'address_id' => '用户地址ID',

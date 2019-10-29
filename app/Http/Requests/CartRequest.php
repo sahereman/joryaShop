@@ -125,6 +125,8 @@ class CartRequest extends Request
         }
         return [
             'sku_id' => '商品SKU-ID',
+            'product_id' => '商品ID',
+            'product_sku_attr_values' => '商品SKU参数组合',
             'number' => '商品购买数量',
         ];
     }
