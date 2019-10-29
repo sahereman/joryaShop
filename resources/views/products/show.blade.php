@@ -202,12 +202,11 @@
                                     </div>
                                 </div>
                             @endforeach
-                        </div>
-                    @endif
-                    {{-- <div class="loading-box">
-                        <img src="{{ asset('img/loading_lord.gif') }}">
-                    </div> --}}
-                </div>
+                        {{-- <div class="loading-box">
+                            <img src="{{ asset('img/loading_lord.gif') }}">
+                        </div> --}}
+                    </div>
+                @endif
                     {{-- skus参数数组 --}}
                     {{-- <input type="hidden" class="parameter-data" data-url="{{ route('products.search_by_sku_attr', ['product' => $product->id]) }}" value="{{ json_encode($attr_values) }}"/> --}}
                     {{--<div class="availableSold {{ $product->type == \App\Models\Product::PRODUCT_TYPE_CUSTOM ? ' dis_ni' : '' }}">--}}
@@ -1068,15 +1067,46 @@
             }
         });
         // 点击每个下拉菜单中选择项
+
+        // 原始基础价格
+
+        var _INITIALPRICE = float_multiply_by_100($("#sku-choose-store").attr("price"));
+
+        // 计算后新的价格数
+
+        var _NEWPRICE = float_multiply_by_100($("#sku-choose-store").attr("price"));    // 新的价格数
+
+        // 临时数据存储
+
+        var _CHOOSEPRICEARR = [];            // 用来存储所有选择的价格的数组
+
         $("#sku-choose-store").on("click", "li", function () {
             var _that = $(this),
                 selected_val = _that.attr("data-valueId"),
                 _that_parent = _that.parent("ul");
             _that.parents(".sku-select-module").find(".sku-select-value-show").html(_that.html());
             _that.parents(".sku-select-module").find("input").val(selected_val);
+            _that.parents(".sku-select-module").find("input").attr("delta-price",_that.attr("delta-price"));
             $("#sku-choose-store").find(".sku-select-value").removeClass("active");
             $("#sku-choose-store").find(".sku-select-options").slideUp();
             $("#pro_num").val("1");
+            var photo_url = _that.attr("photo-url");
+            if(photo_url != ""){
+                magnifyingAdd(photo_url)
+            }
+
+            // 所有sku选择器中input的价格数组
+            _CHOOSEPRICEARR = [];
+            var sku_input_prices = $("#sku-choose-store").find("input[type='hidden']")
+            $.each(sku_input_prices,function(i,n){
+                _CHOOSEPRICEARR.push( float_multiply_by_100($(n).attr("delta-price")))
+            })
+            var addPrice = _CHOOSEPRICEARR.reduce(function(a, b) {
+                return Math.max(a, b);
+            });
+            _NEWPRICE = _INITIALPRICE + addPrice;
+            $("#product-price").text(js_number_format(_NEWPRICE/100));
+            
             // 根据所选择的内容，获取sku接口
             // var data = {};
             // if (_that.hasClass("forbid-choose")) {
@@ -1125,6 +1155,42 @@
             });
             $("#slider1").find("img").removeClass("cloudzoom-gallery-active");
             $(".for-choose-img").find("img").addClass("cloudzoom-gallery-active");
+        }
+        //数据计算方法
+        function float_multiply_by_100(float) {
+            float = String(float);
+            // float = float.toString();
+            var index_of_dec_point = float.indexOf('.');
+            if (index_of_dec_point == -1) {
+                float += '00';
+            } else {
+                var float_splitted = float.split('.');
+                var dec_length = float_splitted[1].length;
+                if (dec_length == 1) {
+                    float_splitted[1] += '0';
+                } else if (dec_length > 2) {
+                    float_splitted[1] = float_splitted[1].substring(0, 1);
+                }
+                float = float_splitted.join('');
+            }
+            return Number(float);
+        }
+        function js_number_format(number) {
+            number = String(number);
+            var index_of_dec_point = number.indexOf('.');
+            if (index_of_dec_point == -1) {
+                number += '.00';
+            } else {
+                var number_splitted = number.split('.');
+                var dec_length = number_splitted[1].length;
+                if (dec_length == 1) {
+                    number += '0';
+                } else if (dec_length > 2) {
+                    number_splitted[1] = number_splitted[1].substring(0, 2);
+                    number = number_splitted.join('.');
+                }
+            }
+            return number;
         }
     </script>
 @endsection

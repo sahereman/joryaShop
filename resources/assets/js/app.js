@@ -723,7 +723,6 @@ $(function () {
     }).on("mouseleave", ".first-tab", function (event) {
         if (winW < 1200) return;
         var direction = moveDirection(this, event);
-        console.log(direction)
         if (direction != 2) {
             $(this).find(".header-nav-two").stop().slideUp("slow");
         }

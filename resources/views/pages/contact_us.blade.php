@@ -35,7 +35,7 @@
              {{-- 模块一 --}}
             <div class="about-us-part1">
               <div class="aboutus-part1-left">
-                <img src="{{ asset('img/articles/about-1.png') }}" alt="Lyricalhair">
+                <img src="{{ asset('img/articles/contact_us.png') }}" alt="Lyricalhair">
               </div>
               <div class="aboutus-part1-right">
                 <img src="{{ asset('img/articles/ContactUs-title.png') }}" alt="Lyricalhair">
