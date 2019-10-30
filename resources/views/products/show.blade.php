@@ -40,7 +40,7 @@
                                 <div id="surround">
                                     <div class="big-img-box">
                                         <img class="cloudzoom" alt ="Cloud Zoom small image" id ="zoom1" src="{{ $product->photo_urls[0] }}"
-                                             data-cloudzoom='zoomSizeMode:"image"'>
+                                             data-cloudzoom='zoomSizeMode:"image",zoomSizeMode: "image",zoomPosition: 3,startMagnification: 2'>
                                         <a id="zoom-btn" class="lightbox-group  zoomColorBoxs zoom-btn-small"
                                             href="{{ $product->photo_urls[0] }}"
                                             title="">Zoom</a>
@@ -158,21 +158,19 @@
                         @endif
 
                     </div>
-                    {{-- 商品价格优惠 --}}
-                    <ul class="tier-prices product-pricing">
-                        @if($product->discounts->isNotEmpty())
-                            @foreach($product->discounts as $discount)
-                                <li class="tier-price tier-0">
-                                    Buy<strong class="benefit"> {{ $discount->number }} for <span class="price">{{ get_global_symbol() . ' ' . get_current_price($discount->price) }}</span> each</strong>
-                                    and&nbsp;<span>save&nbsp;<span class="percent tier-0">{{ $discount->discount }}</span>%</span>
-                                    <span class="msrp-price-hide-message"></span>
-                                </li>
-                            @endforeach
-                        @endif
-                    </ul>
                     {{-- 动态渲染的skus选择器存放位置 --}}
                     @if($attributes)
                         <div id="sku-choose-store" class="sku-choose-store {{ $product->type == \App\Models\Product::PRODUCT_TYPE_CUSTOM ? ' dis_ni' : '' }}" price="{{ $product->price }}">
+                            <div class="sku-select">
+                                <div class="sku-select-name">
+                                    <span class="dynamic_name">Condition</span>
+                                </div>
+                                <div class="sku-select-module">
+                                    <div class="sku-select-value">
+                                        <span class="sku-select-value-show">New with tags</span>
+                                    </div>
+                                </div>
+                            </div>
                             @foreach($attributes as $attr_name => $attr_values)
                                 <div class="sku-select">
                                     <div class="sku-select-name">
@@ -212,6 +210,18 @@
                     {{--<div class="availableSold {{ $product->type == \App\Models\Product::PRODUCT_TYPE_CUSTOM ? ' dis_ni' : '' }}">--}}
                         {{--<button class="Reset-filter">Reset Select</button>--}}
                     {{--</div>--}}
+                    {{-- 商品价格优惠 --}}
+                    <ul class="tier-prices product-pricing">
+                        @if($product->discounts->isNotEmpty())
+                            @foreach($product->discounts as $discount)
+                                <li class="tier-price tier-0" data-product-num="{{ $discount->number }}">
+                                    <p>Buy {{ $discount->number }}</p>
+                                    <p class="benefit"><span class="price">{{ get_global_symbol() . ' ' . get_current_price($discount->price) }}</span> /ea</p>
+                                    <span class="msrp-price-hide-message"></span>
+                                </li>
+                            @endforeach
+                        @endif
+                    </ul>
                     {{-- 商品数量相关 --}}
                     <div class="priceOfpro {{ $product->type == \App\Models\Product::PRODUCT_TYPE_CUSTOM ? ' dis_ni' : '' }}">
                         <span class="buy_numbers">@lang('product.product_details.Quantity'):</span>
@@ -1192,5 +1202,17 @@
             }
             return number;
         }
+        // 选择优惠价格
+        $(".tier-prices").on("click","li",function(){
+            if($(this).hasClass("active")){
+                $(".tier-prices").find("li").removeClass("active");
+                $("#pro_num").val(1);
+            }else {
+                $(".tier-prices").find("li").removeClass("active");
+                $(this).addClass("active");
+                var tierNum = $(this).attr("data-product-num");
+                $("#pro_num").val(tierNum);
+            }
+        })
     </script>
 @endsection
