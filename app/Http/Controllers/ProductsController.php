@@ -261,10 +261,20 @@ class ProductsController extends Controller
                 if ($productSkuAttrValue->attr->has_photo) {
                     $attribute['photo_url'] = $productSkuAttrValue->sku->photo_url;
                 }
-                $attributes[$attr_name][] = $attribute;
+                $attributes[$attr_name][$attr_value] = $attribute;
                 $attr_values[$attr_name][] = $attr_value;
             }
         });
+        ksort($attributes);
+        foreach ($attributes as $attr_name => &$attr_values) {
+            $attr_keys = array_keys($attr_values);
+            if (preg_match('/^\d+/', $attr_keys[0])) {
+                ksort($attr_values, SORT_NUMERIC);
+            } else {
+                ksort($attr_values, SORT_REGULAR);
+            }
+            $attr_values = array_values($attr_values);
+        }
         /*$product_skus->each(function (ProductSku $productSku) use (&$attributes) {
             $attributes[$productSku->id]['stock'] = $productSku->stock;
             $attributes[$productSku->id]['price'] = $productSku->price;
