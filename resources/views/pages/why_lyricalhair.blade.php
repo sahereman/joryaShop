@@ -11,15 +11,18 @@
         <div class="navigation-box">
             <div class="article-navigation">
               <div class="navigation-type">
-                <img src="{{ asset('img/articles/about-logo-active.png') }}" alt="Lyricalhair">
+                <img class="normal-logo" src="{{ asset('img/articles/about-logo.png') }}" alt="Lyricalhair">
+                <img class="active-logo" src="{{ asset('img/articles/about-logo-active.png') }}" alt="Lyricalhair">
                 <a href="{{ route('about_lyricalhair') }}">About Us</a>
               </div>
               <div class="navigation-type">
-                <img src="{{ asset('img/articles/contact-logo.png') }}" alt="Lyricalhair">
+                <img class="normal-logo" src="{{ asset('img/articles/contact-logo.png') }}" alt="Lyricalhair">
+                <img class="active-logo" src="{{ asset('img/articles/contact-logo-active.png') }}" alt="Lyricalhair">
                 <a href="{{ route('seo_url', ['slug' => 'contact_us']) }}">Contact Us</a>
               </div>
               <div class="navigation-type active">
-                <img src="{{ asset('img/articles/why-logo.png') }}" alt="Lyricalhair">
+                <img class="normal-logo" src="{{ asset('img/articles/why-logo.png') }}" alt="Lyricalhair">
+                <img class="active-logo" src="{{ asset('img/articles/why-logo-active.png') }}" alt="Lyricalhair">
                 <a href="{{ route('why_lyricalhair') }}">Why Lyricalhair</a>
               </div>
             </div>
@@ -32,7 +35,7 @@
           </div>
           {{-- 具体文本 --}}
           <div class="nvarchar-modules">
-            <img class="why-title" src="{{ asset('img/articles/why-title.png') }}" alt="Lyricalhair">
+            <p class="why-title"><span>Why Lyricalhair</span></p>
             {{-- 模块一 --}}
             <div class="why-part1">
               <div class="why-part-item"><a href="#part2Item1"><span>Non-Surgical Hair Replacement</span></a></div>

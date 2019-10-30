@@ -11,21 +11,23 @@
       <div class="navigation-box">
           <div class="article-navigation">
             <div class="navigation-type active">
-              <img src="{{ asset('img/articles/about-logo-active.png') }}" alt="Lyricalhair">
+              <img class="normal-logo" src="{{ asset('img/articles/about-logo-active.png') }}" alt="Lyricalhair">
               <a href="{{ route('about_lyricalhair') }}">About Us</a>
             </div>
             <div class="navigation-type">
-              <img src="{{ asset('img/articles/contact-logo.png') }}" alt="Lyricalhair">
+              <img class="normal-logo" src="{{ asset('img/articles/contact-logo.png') }}" alt="Lyricalhair">
+              <img class="active-logo" src="{{ asset('img/articles/contact-logo-active.png') }}" alt="Lyricalhair">
               <a href="{{ route('seo_url', ['slug' => 'contact_us']) }}">Contact Us</a>
             </div>
             <div class="navigation-type">
-              <img src="{{ asset('img/articles/why-logo.png') }}" alt="Lyricalhair">
+              <img class="normal-logo" src="{{ asset('img/articles/why-logo.png') }}" alt="Lyricalhair">
+              <img class="active-logo" src="{{ asset('img/articles/contact-logo-active.png') }}" alt="Lyricalhair">
               <a href="{{ route('why_lyricalhair') }}">Why Lyricalhair</a>
             </div>
           </div>
       </div>
       {{-- 文章内容 --}}
-      <div class="article-nvarchar">
+      <div class="article-nvarchar main-content">
         {{-- 文章大标题 --}}
         <div class="nvarchar-title">
           <span>About Us</span>
@@ -38,7 +40,7 @@
               <img src="{{ asset('img/articles/about-1.png') }}" alt="Lyricalhair">
             </div>
             <div class="aboutus-part1-right">
-              <img src="{{ asset('img/articles/AboutUs-title.png') }}" alt="Lyricalhair">
+              <p><span>About Us</span></p>
               <p>We would like to express our deep appreciation for our loyal customers and to our new visitors.</p>
               <p>It is our hope that this outline of our history, services and mission, will demonstrate to you the great responsibility we feel towards all those who try our products.</p>
               <p>We are compassionate and diligent about solving your hair-loss problems. Per our reputation our services have proved invaluable to those who take advantage of this special opportunity.</p>
@@ -68,7 +70,7 @@
           </div>
           {{-- 模块三 --}}
           <div class="our-services">
-            <img class="services-title" src="{{ asset('img/articles/Ourservices-title.png') }}" alt="Lyricalhair">
+            <p class="services-title"><span>Our services</span></p>
             <div class="services-nvarchar">
               <img src="{{ asset('img/articles/services.png') }}" alt="Lyricalhair">
               <div class="services-words">
@@ -81,20 +83,23 @@
           </div>
           {{-- 模块四 --}}
           <div class="our-mission">
-            <img class="mission-title" src="{{ asset('img/articles/Ourmission-title.png') }}" alt="Lyricalhair">
+            <p class="mission-title"><span>Our mission</span></p>
             <div class="mission-types">
               <div class="mission-type">
-                <img src="{{ asset('img/articles/mission-tip-1.png') }}" alt="Lyricalhair">
+                <img class="normal" src="{{ asset('img/articles/mission-tip-1.png') }}" alt="Lyricalhair">
+                <img class="hover-show" src="{{ asset('img/articles/mission-tip-1-white.png') }}" alt="Lyricalhair">
                 <p class="mission-type-title">Your passion is our interest because it is a reference to your uniqueness.</p>
                 <p class="mission-type-text">Looking your best has never been easier than with Lyrical Hair replacements. A younger, fresher, more exciting look at your finger tips.</p>
               </div>
               <div class="mission-type">
-                <img src="{{ asset('img/articles/mission-tip-2.png') }}" alt="Lyricalhair">
+                <img class="normal" src="{{ asset('img/articles/mission-tip-2.png') }}" alt="Lyricalhair">
+                <img class="hover-show" src="{{ asset('img/articles/mission-tip-2-white.png') }}" alt="Lyricalhair">
                 <p class="mission-type-title">At LyricalHair</p>
                 <p class="mission-type-text">Our mission is to provide our customers what they need to be their confident self. Our products undergo intense inspection in order to vet out any imperfections and provide you with and outstanding experience.</p>
               </div>
               <div class="mission-type">
-                <img src="{{ asset('img/articles/mission-tip-3.png') }}" alt="Lyricalhair">
+                <img class="normal" src="{{ asset('img/articles/mission-tip-3.png') }}" alt="Lyricalhair">
+                <img class="hover-show" src="{{ asset('img/articles/mission-tip-3-white.png') }}" alt="Lyricalhair">
                 <p class="mission-type-text">We at Lyrical Hair are offering not only a service an experience. The opportunity define your look on your terms is too good to pass up. We are willing to negotiate to fulfill your needs. In this way we are sure that we can be there for you not only in this moment but for all of your future hair replacement requests.</p>
               </div>
             </div>

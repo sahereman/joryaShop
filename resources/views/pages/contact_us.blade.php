@@ -11,15 +11,18 @@
         <div class="navigation-box">
             <div class="article-navigation">
               <div class="navigation-type">
-                <img src="{{ asset('img/articles/about-logo-active.png') }}" alt="Lyricalhair">
+                <img class="normal-logo" src="{{ asset('img/articles/about-logo.png') }}" alt="Lyricalhair">
+                <img class="active-logo" src="{{ asset('img/articles/about-logo-active.png') }}" alt="Lyricalhair">
                 <a href="{{ route('about_lyricalhair') }}">About Us</a>
               </div>
               <div class="navigation-type active">
-                <img src="{{ asset('img/articles/contact-logo.png') }}" alt="Lyricalhair">
+                <img class="normal-logo" src="{{ asset('img/articles/contact-logo.png') }}" alt="Lyricalhair">
+                <img class="active-logo" src="{{ asset('img/articles/contact-logo-active.png') }}" alt="Lyricalhair">
                 <a href="{{ route('seo_url', ['slug' => 'contact_us']) }}">Contact Us</a>
               </div>
               <div class="navigation-type">
-                <img src="{{ asset('img/articles/why-logo.png') }}" alt="Lyricalhair">
+                <img class="normal-logo" src="{{ asset('img/articles/why-logo.png') }}" alt="Lyricalhair">
+                <img class="active-logo" src="{{ asset('img/articles/why-logo-active.png') }}" alt="Lyricalhair">
                 <a href="{{ route('why_lyricalhair') }}">Why Lyricalhair</a>
               </div>
             </div>
@@ -38,7 +41,7 @@
                 <img src="{{ asset('img/articles/contact_us.png') }}" alt="Lyricalhair">
               </div>
               <div class="aboutus-part1-right">
-                <img src="{{ asset('img/articles/ContactUs-title.png') }}" alt="Lyricalhair">
+                <p><span>Contact Us</span></p>
                 <p>Welcome! Lyricalhair has a dedicated online customer service team, so we guarantee a fast and accurate response to your inquiry.</p>
                 <p>Lyricalhair is based in China with branches in the US and Dubai.Our contact hours are from Monday to Friday from 8:30 am to 5:30 pm. You will receive an immediate response at this local time.</p>
                 <p>During weekends and public holidays, email support continues, and we endeavor to answer all emails within 12 hours.</p>
@@ -50,8 +53,13 @@
               <div class="lyrical-ch information-part">
                 <div class="information-part-name">LYRICALHAIR CHINA</div>
                 <div class="information-part-describe">
-                  <p>Factory Add: Laixi Jianshan Industry Zone, Qingdao,China</p> 
-                  <p>Office Add: Apartment 1-2-201 NO.9, Mai Dao Rd., Laoshan District,Qingdao,China,Zipcode:266000</p>
+                  <div class="local-info">
+                    <img src="{{ asset('img/articles/local-info.png') }}" alt="Lyricalhair">
+                  </div>
+                  <div>
+                    <p>Factory Add: Laixi Jianshan Industry Zone, Qingdao,China</p> 
+                    <p>Office Add: Apartment 1-2-201 NO.9, Mai Dao Rd., Laoshan District,Qingdao,China,Zipcode:266000</p>
+                  </div>
                 </div>
                 <ul class="information-part-way">
                   <li>
@@ -83,7 +91,12 @@
               <div class="lyrical-usa information-part">
                 <div class="information-part-name">LYRICALHAIR USA</div>
                 <div class="information-part-describe">
-                  <p>Add: 2001 Santa Anita Ave.,#101,South El Monte Los Angelos, CA9</p>
+                  <div class="local-info">
+                    <img src="{{ asset('img/articles/local-info.png') }}" alt="Lyricalhair">
+                  </div>
+                  <div>
+                    <p>Add: 2001 Santa Anita Ave.,#101,South El Monte Los Angelos, CA9</p>
+                  </div>
                 </div>
                 <ul class="information-part-way">
                   <li>
@@ -109,8 +122,13 @@
               <div class="lyrical-dubai information-part">
                 <div class="information-part-name">LYRICALHAIR DUBAI</div>
                 <div class="information-part-describe">
-                  <p>Add: Shop No: 3 ABDUL RAHMAN BIN SALEH BUILDING,NEAR CITY STAR HOTEL,</p>
-                  <p> SALAHUDHEEN STREET,DEIRA Dubai .</p>
+                  <div class="local-info">
+                    <img src="{{ asset('img/articles/local-info.png') }}" alt="Lyricalhair">
+                  </div>
+                  <div>
+                      <p>Add: Shop No: 3 ABDUL RAHMAN BIN SALEH BUILDING,NEAR CITY STAR HOTEL,</p>
+                      <p>SALAHUDHEEN STREET,DEIRA Dubai .</p>
+                  </div>
                 </div>
                 <ul class="information-part-way">
                   <li>
