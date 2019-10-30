@@ -171,9 +171,9 @@
                         @endif
                     </ul>
                     {{-- 动态渲染的skus选择器存放位置 --}}
-                    @if($attr_values)
+                    @if($attributes)
                         <div id="sku-choose-store" class="sku-choose-store {{ $product->type == \App\Models\Product::PRODUCT_TYPE_CUSTOM ? ' dis_ni' : '' }}" price="{{ $product->price }}">
-                            @foreach($attr_values as $attr_name => $values)
+                            @foreach($attributes as $attr_name => $attr_values)
                                 <div class="sku-select">
                                     <div class="sku-select-name">
                                         <span class="dynamic_name" data-paramid="{{ $attr_name }}">{{ $attr_name }}</span>
@@ -181,20 +181,20 @@
                                     <div class="sku-select-module">
                                         <div data-paramid="undefined" data-name="undefined" class="sku-select-value">
                                             <input type="hidden" readonly="" data-paramid="{{ $attr_name }}"
-                                                   value="{{ $values[0]['value'] }}"
-                                                   name="{{ $values[0]['value'] }}"
-                                                   photo-url="{{ isset($values[0]['photo_url']) ? $values[0]['photo_url'] : '' }}"
-                                                   delta-price="{{ $values[0]['delta_price'] }}">
-                                            <span class="sku-select-value-show">{{ $values[0]['value'] }}</span>
+                                                   value="{{ $attr_values[0]['value'] }}"
+                                                   name="{{ $attr_values[0]['value'] }}"
+                                                   photo-url="{{ isset($attr_values[0]['photo_url']) ? $attr_values[0]['photo_url'] : '' }}"
+                                                   delta-price="{{ $attr_values[0]['delta_price'] }}">
+                                            <span class="sku-select-value-show">{{ $attr_values[0]['value'] }}</span>
                                         </div>
                                         <div class="sku-select-options" style="display: none;">
                                             <ul data-paramid="undefined" data-name="undefined">
-                                                @foreach($values as $value)
+                                                @foreach($attr_values as $attr_value)
                                                     <li data-paramid="{{ $attr_name }}"
-                                                        data-valueid="{{ $value['value'] }}"
-                                                        photo-url="{{ isset($value['photo_url']) ? $value['photo_url'] : '' }}"
-                                                        delta-price="{{ $value['delta_price'] }}">
-                                                        {{ $value['value'] }}
+                                                        data-valueid="{{ $attr_value['value'] }}"
+                                                        photo-url="{{ isset($attr_value['photo_url']) ? $attr_value['photo_url'] : '' }}"
+                                                        delta-price="{{ $attr_value['delta_price'] }}">
+                                                        {{ $attr_value['value'] }}
                                                     </li>
                                                 @endforeach
                                             </ul>
@@ -202,13 +202,13 @@
                                     </div>
                                 </div>
                             @endforeach
-                        {{-- <div class="loading-box">
-                            <img src="{{ asset('img/loading_lord.gif') }}">
-                        </div> --}}
-                    </div>
-                @endif
+                            {{-- <div class="loading-box">
+                                <img src="{{ asset('img/loading_lord.gif') }}">
+                            </div> --}}
+                        </div>
+                    @endif
                     {{-- skus参数数组 --}}
-                    {{-- <input type="hidden" class="parameter-data" data-url="{{ route('products.search_by_sku_attr', ['product' => $product->id]) }}" value="{{ json_encode($attr_values) }}"/> --}}
+                    {{-- <input type="hidden" class="parameter-data" data-url="{{ route('products.search_by_sku_attr', ['product' => $product->id]) }}" value="{{ json_encode($attributes) }}"/> --}}
                     {{--<div class="availableSold {{ $product->type == \App\Models\Product::PRODUCT_TYPE_CUSTOM ? ' dis_ni' : '' }}">--}}
                         {{--<button class="Reset-filter">Reset Select</button>--}}
                     {{--</div>--}}

@@ -245,11 +245,12 @@ class ProductsController extends Controller
         $product_skus = $product->skus;
         $product_sku_ids = $product_skus->pluck('id');
         $attributes = [];
-        $attr_values = ProductSkuAttrValue::with('sku', 'attr')->whereIn('product_sku_id', $product_sku_ids)->orderByDesc('sort')->get()->map(function (ProductSkuAttrValue $productSkuAttrValue) use (&$attributes) {
+        $attr_values = [];
+        ProductSkuAttrValue::with('sku', 'attr')->whereIn('product_sku_id', $product_sku_ids)->orderByDesc('sort')->get()->each(function (ProductSkuAttrValue $productSkuAttrValue) use (&$attributes, &$attr_values) {
             $attr_name = $productSkuAttrValue->name;
             $attr_value = $productSkuAttrValue->value;
-            if (!isset($attributes[$attr_name]) || !in_array($attr_value, $attributes[$attr_name])) {
-                $attr_value = [
+            if (!isset($attr_values[$attr_name]) || !in_array($attr_value, $attr_values[$attr_name])) {
+                $attribute = [
                     // 'product_sku_id' => $productSkuAttrValue->product_sku_id,
                     'name' => $attr_name,
                     'value' => $attr_value,
@@ -258,16 +259,16 @@ class ProductsController extends Controller
                     'delta_price' => $productSkuAttrValue->sku->delta_price,
                 ];
                 if ($productSkuAttrValue->attr->has_photo) {
-                    $attr_value['photo_url'] = $productSkuAttrValue->sku->photo_url;
+                    $attribute['photo_url'] = $productSkuAttrValue->sku->photo_url;
                 }
-                $attributes[$attr_name][] = $attr_value;
-                return $attr_value;
+                $attributes[$attr_name][] = $attribute;
+                $attr_values[$attr_name][] = $attr_value;
             }
-        })->groupBy('name')->toArray();
-        /*$product_skus->each(function (ProductSku $productSku) use (&$attr_values) {
-            $attr_values[$productSku->id]['stock'] = $productSku->stock;
-            $attr_values[$productSku->id]['price'] = $productSku->price;
-            $attr_values[$productSku->id]['delta_price'] = $productSku->delta_price;
+        });
+        /*$product_skus->each(function (ProductSku $productSku) use (&$attributes) {
+            $attributes[$productSku->id]['stock'] = $productSku->stock;
+            $attributes[$productSku->id]['price'] = $productSku->price;
+            $attributes[$productSku->id]['delta_price'] = $productSku->delta_price;
         });*/
 
         // shipment_template
@@ -282,7 +283,7 @@ class ProductsController extends Controller
             'category' => $category,
             'product' => $product->makeVisible(['content_en', 'content_zh']),
             // 'product_skus' => $product_skus,
-            'attr_values' => $attr_values,
+            'attributes' => $attributes,
             'comment_count' => $comment_count,
             'guesses' => $guesses,
             // 'hot_sales' => $hot_sales,
