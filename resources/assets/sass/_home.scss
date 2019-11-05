@@ -216,7 +216,7 @@
       position:relative;
       padding-bottom: 30px;
       @media only screen and (max-width: 750px){
-        display: none;
+        // display: none;
       }
       .swiper-wrapper {
         width: 100%;
@@ -382,6 +382,7 @@
         min-height: 700px;
       }
       @media only screen and (max-width: 750px){
+        flex-direction: column;
         width: 100%;
         padding: 0;
         margin-bottom: 15px;
@@ -478,11 +479,21 @@
       .why-lyrical-left {
         margin: auto;
         width: 30%;
+        @media only screen and (max-width: 750px){
+          margin-bottom: 10px;
+          width: 95%;
+          display: flex;
+          flex-wrap: wrap;
+
+        }
       }
       .why-lyrical-center {
         margin: auto;
         width: 30%;
         text-align: center;
+        @media only screen and (max-width: 750px){
+          display: none;
+        }
         img {
           margin-bottom: 20px;
         }
@@ -494,6 +505,12 @@
       .why-lyrical-right {
         margin: auto;
         width: 30%;
+        @media only screen and (max-width: 750px){
+          margin-top: 0;
+          width: 95%;
+          display: flex;
+          flex-wrap: wrap;
+        }
       }
       .why-lyrical-item {
         display: flex;

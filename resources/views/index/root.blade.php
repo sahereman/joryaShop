@@ -371,6 +371,23 @@
                 pagination: {
                     el: '.ProductZone-pagination',
                     clickable: true,
+                },
+                breakpoints: { 
+                    //当宽度小于等于320
+                    320: {
+                    slidesPerView: 1,
+                    spaceBetween: 10
+                    },
+                //当宽度小于等于480
+                    480: { 
+                    slidesPerView: 1,
+                    spaceBetween: 20
+                    },
+                    //当宽度小于等于640
+                    640: {
+                    slidesPerView: 1,
+                    spaceBetween: 30
+                    }
                 }
             });
             // 图片弹窗
