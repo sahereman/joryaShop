@@ -311,7 +311,7 @@
         margin-bottom: 0;
         transition: all .3s;
         @media only screen and (max-width: 750px){
-          display: none;
+          display: none !important;
         }
         &.normal-logo {
           display: inline-block;

@@ -26,6 +26,7 @@
       margin-bottom: 39px;
       @media only screen and (max-width: 750px){
         margin-bottom: 19px;
+        text-align: center;
         img {
           width: 80%;
         }
@@ -50,6 +51,9 @@
       }
     }
     .lyrical-info-link {
+      @media only screen and (max-width: 750px){
+       text-align: center;
+      }
       a {
         display: inline-block;
         width:240px;
@@ -386,6 +390,7 @@
         width: 100%;
         padding: 0;
         margin-bottom: 15px;
+        min-height: 500px;
       }
       .why-title {
         margin-bottom: 40px;
@@ -534,6 +539,9 @@
           margin: auto 0;
           line-height: 24px;
           font-size: 16px;
+          @media only screen and (max-width: 750px){
+            font-size: 12px;
+          }
         }
         &:hover {
           background-color: #BE2A24;
@@ -571,6 +579,9 @@
         background: #BF2A24;
         font-size: 24px;
         line-height: 70px;
+        @media only screen and (max-width: 750px){
+          text-align: center;
+        }
       }
       #player {
         width: 100%;

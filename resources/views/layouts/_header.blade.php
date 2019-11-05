@@ -89,6 +89,31 @@
                         <img src="{{ asset('img/header/message.png') }}" alt="lyricalhair">
                     </a>
                 </div>
+                {{-- 移动端menu --}}
+                <div class="mobile-menu mobile-nav">
+                    <a href="javascript:void(0)">
+                        <span class="iconfont">&#xe604;</span>
+                    </a>
+                    {{-- 移动menu的内容 --}}
+                    <div class="mobile-menu-content mobile-nav-list">
+                        <div class="mobile-list-item">
+                            <a href="{{ route('carts.index') }}">Car</a>
+                        </div>
+                        <div class="mobile-list-item">
+                            <a href="{{ route('user_favourites.index') }}">Wishlist</a>
+                        </div>
+                        {{-- <div class="mobile-list-item">
+                            @guest
+                                <a href="{{ route('login') }}">@lang('app.Log_In')</a>
+                            @else
+                                <a href="{{ route('users.home') }}">Hi, {{ Auth::user()->name }}</a>
+                            @endguest
+                        </div> --}}
+                        <div class="mobile-list-item">
+                            <a href="{{ route('articles.show', ['slug' => 'contact_us']) }}">@lang('app.Contact_Us')</a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
