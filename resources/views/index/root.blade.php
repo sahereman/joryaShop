@@ -115,50 +115,73 @@
     </div>
     {{-- Product Zone  --}}
     <div class="Product-Zone">
-        <div class="main-content">
+        <div class="">
             <p class="part-title">
                 <img src="{{ asset("img/Home/Product_Zone.png") }}" alt="lyricalhair">
             </p>
-            {{-- 轮播图 --}}
-            <div class="main-content">
-                <div class="swiper-container" id="ProductZone">
-                    <div class="swiper-wrapper">
-                        @if($products)
-                            @foreach($products as $product)
-                                <div class="swiper-slide">
-                                    <div class="slide-img">
-                                        <a href="{{ route('seo_url', $product->slug) }}">
-                                            <img src="{{ $product->thumb_url }}" alt="{{ $product->name_en }}">
-                                        </a>
-                                    </div>
-                                    <div class="slide-title">
-                                        <a href="{{ route('seo_url', $product->slug) }}">
-                                            <p title="{{ $product->name_en }}">{{ mb_strlen($product->name_en) <= 20 ? $product->name_en : substr($product->name_en, 0, 17) . ' ... ' }}</p>
-                                        </a>
-                                    </div>
-                                    <div class="slide-price">
-                                        <p>
-                                            <span class="old-price">{{ get_global_symbol() }} {{ bcmul(get_current_price($product->price), 1.2, 2) }}</span>
-                                            <span class="special-price">{{ get_global_symbol() }} {{ get_current_price($product->price) }}</span>
-                                        </p>
-                                    </div>
-                                    <div class="slide-operation">
-                                        <a href="{{ route('seo_url', $product->slug) }}">
-                                            <span><img src="{{ asset("img/header/shopCar.png") }}" alt="lyricalhair"></span>
-                                            <span>Add to Basket</span>
-                                        </a>
-                                    </div>
+            @if($products)                    
+                {{-- 分类块 --}}
+                <div class="Product-Zone-classify main-content">
+                    <div class="classify-box">
+                        @foreach($products as $key => $product_set)
+                            <div class="Zone-classify-item {{ $key == 0 ? 'active' : '' }}">
+                                <a href="javascript:void(0)" data-id="Product-Zone-{{ $key }}">{{ $product_set['category']->name_en }}</a>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+                    {{-- 轮播图 --}}
+                <div class="main-content">
+                    @foreach($products as $key => $product_set)
+                        <div class="Zone-classify-imgs {{ $key == 0 ? 'active' : '' }}" id="Product-Zone-{{ $key }}">
+                            @foreach($product_set['products'] as $product)
+                                <div class="Zone-classify-img">
+                                    <a href="{{ route('seo_url', $product->slug) }}">
+                                        <img src="{{ $product->thumb_url }}" alt="lyricalhair">
+                                    </a>
                                 </div>
                             @endforeach
-                        @endif
-                    </div>
-                    <!-- 如果需要分页器 -->
-                    <div class="swiper-pagination ProductZone-pagination"></div>
+                        </div>
+                        {{-- <div class="swiper-container" id="ProductZone">
+                            <div class="swiper-wrapper">
+                                @if($products)
+                                    @foreach($products as $product)
+                                        <div class="swiper-slide">
+                                            <div class="slide-img">
+                                                <a href="{{ route('seo_url', $product->slug) }}">
+                                                    <img src="{{ $product->thumb_url }}" alt="{{ $product->name_en }}">
+                                                </a>
+                                            </div>
+                                            <div class="slide-title">
+                                                <a href="{{ route('seo_url', $product->slug) }}">
+                                                    <p title="{{ $product->name_en }}">{{ mb_strlen($product->name_en) <= 20 ? $product->name_en : substr($product->name_en, 0, 17) . ' ... ' }}</p>
+                                                </a>
+                                            </div>
+                                            <div class="slide-price">
+                                                <p>
+                                                    <span class="old-price">{{ get_global_symbol() }} {{ bcmul(get_current_price($product->price), 1.2, 2) }}</span>
+                                                    <span class="special-price">{{ get_global_symbol() }} {{ get_current_price($product->price) }}</span>
+                                                </p>
+                                            </div>
+                                            <div class="slide-operation">
+                                                <a href="{{ route('seo_url', $product->slug) }}">
+                                                    <span><img src="{{ asset("img/header/shopCar.png") }}" alt="lyricalhair"></span>
+                                                    <span>Add to Basket</span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                @endif
+                            </div>
+                            <div class="swiper-pagination ProductZone-pagination"></div>
+                        </div> --}}
+                    @endforeach
                 </div>
-            </div>
+            @endif
             {{-- Why Lyricalhair && Lyricalhair Blog --}}
             <div class="why-youtube">
                 <div class="why-lyrical">
+                    {{-- 第一版 --}}
                     {{-- <div class="why-title">
                         <span>Why Lyricalhair ?</span>
                     </div> --}}
@@ -215,7 +238,8 @@
                             <div class="swiper-button-next why-button-next"></div>
                         </div>
                     </div> --}}
-                    <div class="why-lyrical-left">
+                    {{-- 第二版 --}}
+                    {{-- <div class="why-lyrical-left">
                         <div class="why-lyrical-item">
                             <a href="{{ route('why_lyricalhair') }}#part2Item1">Non-Surgical Hair Replacement</a>
                         </div>
@@ -249,9 +273,93 @@
                         <div class="why-lyrical-item">
                             <a href="{{ route('why_lyricalhair') }}#part2Item9">Frequent Order Status Updates</a>
                         </div>
+                    </div> --}}
+                    {{-- 第三版 --}}
+                    <div class="why-lyrical-top main-content">
+                        <div class="top-text">
+                            <p class="why-lyrical-title">Why Lyricalhair ?</p>
+                            <a class="why-lyrical-link" href="{{ route('why_lyricalhair') }}">see details >></a>
+                            <div class="why-lyrical-top-info">
+                                <p>Lyricalhair operates globally through our online platform to provide hair replacement solutions at the best price available. Our solutions are pain-free, long-term, and without the hassle of visiting consultants or salons. Orders can be placed at any time and location if your convenience. Just shop from our online selection in a few days you will have hair that can be easily attached by yourself.</p>
+                            </div>
+                        </div>
+                        <div class="top-icons">
+                            <div class="top-icons-item top-icon-first">
+                                <a href="{{ route('why_lyricalhair') }}#part2Item1">
+                                    <div>
+                                        <img src="{{ asset("img/Home/why_icon1.png") }}" alt="lyricalhair">
+                                    </div>
+                                    <span>Non-Surgical Hair Replacement</span>
+                                </a>
+                            </div>
+                            <div class="top-icons-item top-icon-first">
+                                <a href="{{ route('why_lyricalhair') }}#part2Item2">
+                                    <div>
+                                        <img src="{{ asset("img/Home/why_icon2.png") }}" alt="lyricalhair">
+                                    </div>
+                                    <span>Ready To Wear</span>
+                                </a>
+                            </div>
+                            <div class="top-icons-item top-icon-first">
+                                <a href="{{ route('why_lyricalhair') }}#part2Item3">
+                                    <div>
+                                        <img src="{{ asset("img/Home/why_icon3.png") }}" alt="lyricalhair">
+                                    </div>
+                                    <span>Affordable Factory Prices</span>
+                                </a>
+                            </div>
+                            <div class="top-icons-item top-icon-first">
+                                <a href="{{ route('why_lyricalhair') }}#part2Item4">
+                                    <div>
+                                        <img src="{{ asset("img/Home/why_icon4.png") }}" alt="lyricalhair">
+                                    </div>
+                                    <span>30-Day Money-Back Guarantee</span>
+                                </a>
+                            </div>
+                            <div class="top-icons-item">
+                                <a href="{{ route('why_lyricalhair') }}#part2Item5">
+                                    <div>
+                                        <img src="{{ asset("img/Home/why_icon5.png") }}" alt="lyricalhair">
+                                    </div>
+                                    <span>Easy To Order Online</span>
+                                </a>
+                            </div>
+                            <div class="top-icons-item">
+                                <a href="{{ route('why_lyricalhair') }}#part2Item6">
+                                    <div>
+                                        <img src="{{ asset("img/Home/why_icon6.png") }}" alt="lyricalhair">
+                                    </div>
+                                    <span>Safe Online Payment</span>
+                                </a>
+                            </div>
+                            <div class="top-icons-item">
+                                <a href="{{ route('why_lyricalhair') }}#part2Item7">
+                                    <div>
+                                        <img src="{{ asset("img/Home/why_icon7.png") }}" alt="lyricalhair">
+                                    </div>
+                                    <span>Fast Worldwide Free Shipping</span>
+                                </a>
+                            </div>
+                            <div class="top-icons-item">
+                                <a href="{{ route('why_lyricalhair') }}#part2Item8">
+                                    <div>
+                                        <img src="{{ asset("img/Home/why_icon8.png") }}" alt="lyricalhair">
+                                    </div>
+                                    <span>Professional Customer Service</span>
+                                </a>
+                            </div>
+                            <div class="top-icons-item">
+                                <a href="{{ route('why_lyricalhair') }}#part2Item9">
+                                    <div>
+                                        <img src="{{ asset("img/Home/why_icon9.png") }}" alt="lyricalhair">
+                                    </div>
+                                    <span>Frequent Order Status Updates</span>
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="youtube-video">
+                <div class="youtube-video main-content">
                     <div class="video-title">
                         <span>Lyricalhair Blog</span>
                     </div>
@@ -413,6 +521,17 @@
                     prevEl: '.why-button-prev',
                 }
             });
+            // 分类中心点击切换不同的图片
+            $(".classify-box").on("click",".Zone-classify-item",function(){
+                var clickDom = $(this);
+                if(!clickDom.hasClass("active")){
+                    $(".classify-box").find(".Zone-classify-item").removeClass("active");
+                    clickDom.addClass("active");
+                    $(".Zone-classify-imgs").removeClass("active");
+                    var active_id = "#" + clickDom.find("a").attr("data-id");
+                    $(active_id).addClass("active");
+                }
+            })
         });
         $(function () {
             // 油管视频API搭建

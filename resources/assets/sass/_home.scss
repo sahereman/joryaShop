@@ -213,15 +213,64 @@
     margin-bottom: 41px;
     text-align: center;
   }
+
+  .classify-box {
+    margin: auto;
+    margin-bottom: 60px;
+    width: 80%;
+    display: flex;
+    @media only screen and (max-width: 750px){
+      flex-wrap: wrap;
+      width: 100%;
+      justify-content: flex-start;
+      margin-bottom: 10px;
+    }
+  }
+  .Zone-classify-item {
+    padding: 20px 0;
+    width: 23%;
+    margin: auto;
+    text-align: center;
+    border: 1px solid #efefef;
+    color: #000;
+    font-size: 18px;
+    &:hover,
+    &.active {
+      border-color: #c2322d;
+      color: #c2322d;
+    }
+    @media only screen and (max-width: 750px){
+      width: 30%;
+      padding: 10px 0;
+      font-size: 14px;
+    }
+  }
+  .Zone-classify-imgs {
+    display: none;
+    margin-bottom: 100px;
+    .Zone-classify-img {
+      width: 23%;
+      margin: auto;
+      @media only screen and (max-width: 750px){
+        width: 100%;
+      }
+      img {
+        width: 100%;
+      }
+    }
+    &.active {
+      display: flex;
+      @media only screen and (max-width: 750px){
+        flex-direction: column;
+      }
+    }
+  }
     #ProductZone{
       min-height:540px;
       width:100%;
       margin:auto auto 87px auto;
       position:relative;
       padding-bottom: 30px;
-      @media only screen and (max-width: 750px){
-        // display: none;
-      }
       .swiper-wrapper {
         width: 100%;
         height: 100%;
@@ -362,26 +411,30 @@
   // }
   .why-youtube {
     display: flex;
+    flex-direction: column;
     @media only screen and (max-width: 750px){
       flex-direction: column;
     }
     .why-lyrical {
       margin: auto;
-      margin-left: 0;
+      margin-bottom: 260px;
       padding: 50px 0;
-      width: 800px;
-      height: 700px;
-      background: #F5F5F5;
+      padding-top: 90px;
+      padding-bottom: 160px;
+      width: 100%;
+      min-height: 700px;
       overflow: hidden;
       // 新加的
       display: flex;
+      background: url(../img/Home/why_bg.jpg) center no-repeat;
+      background-size: cover;
       @media only screen and (max-width: 1680px){
-        width: 48%;
+        // width: 48%;
         height: auto;
         min-height: 700px;
       }
       @media only screen and (max-width: 1600px){
-        width: 48%;
+        // width: 48%;
         height: auto;
         min-height: 700px;
       }
@@ -480,7 +533,7 @@
           }
         }
       }
-      // 新版的
+      // 第二版的
       .why-lyrical-left {
         margin: auto;
         width: 30%;
@@ -548,11 +601,81 @@
           color: #fff;
         }
       }
+      // 第三版
+      .why-lyrical-top {
+        color: #fff;
+        .top-text {
+          margin-bottom: 100px;
+          text-align: center;
+        }
+        .why-lyrical-title {
+          font-size: 50px;
+          font-weight: bold;
+          line-height: 70px;
+          @media only screen and (max-width: 750px){
+            font-size: 25px;
+          }
+        }
+        .why-lyrical-link {
+          margin: 15px auto;
+          display: block;
+          width: 200px;
+          height: 40px;
+          border-radius: 20px;
+          border: 1px solid #fff;
+          text-align: center;
+          line-height: 40px;
+          font-size: 18px;
+        }
+        .why-lyrical-top-info {
+          margin: auto;
+          width: 60%;
+          opacity: .6;
+        }
+        .top-icons {
+          display: flex;
+          flex-wrap: wrap;
+          @media only screen and (max-width: 750px){
+            display: none;
+          }
+          .top-icons-item {
+            width: 20%;
+            &.top-icon-first {
+              margin-bottom: 40px;
+              width: 21%;
+              &:first-of-type {
+                margin-left: 8%;
+              }
+            }
+            a {
+              display: flex;
+              flex-direction: column;
+              text-align: center;
+              div {
+                margin: auto;
+                margin-bottom: 30px;
+                width: 120px;
+                height: 120px;
+                background-color: #fff;
+                border-radius: 50%;
+                text-align: center;
+                line-height: 120px;
+              }
+              span {
+                font-size: 18px;
+                display: block;
+                width: 175px;
+                margin: auto;
+                line-height: 24px;
+              }
+            }
+          }
+        }
+      }
     }
     .youtube-video {
       margin: auto;
-      margin-right: 0;
-      width: 800px;
+      // width: 800px;
       height: 700px;
       @media only screen and (max-width: 1680px){
         margin-top: 0;
@@ -579,6 +702,7 @@
         background: #BF2A24;
         font-size: 24px;
         line-height: 70px;
+        text-align: center;
         @media only screen and (max-width: 750px){
           text-align: center;
         }
