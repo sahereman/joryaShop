@@ -60,8 +60,11 @@ class IndexController extends Controller
     public function root(Request $request)
     {
         $banners = Banner::where('type', 'index')->orderBy('sort')->get();
-        $products = Product::where('is_index', 1)->orderByDesc('index')->limit(8)->get();
-        $categories = ProductCategory::where('parent_id', '<>', 0)->where('is_index', 1)->orderBy('sort')->limit(12)->get();
+        $products = [];
+        $categories = ProductCategory::where('parent_id', '<>', 0)->where('is_index', 1)->orderBy('sort')->limit(4)->get()->each(function (ProductCategory $category) use (&$products) {
+            $products[$category->id]['category'] = $category;
+            $products[$category->id]['products'] = $category->products()->where('is_index', 1)->orderByDesc('index')->limit(4)->get();
+        });
 
         return view('index.root', [
             'banners' => $banners,
