@@ -171,8 +171,8 @@ class IndexController extends Controller
         return view('pages.contact_us');
     }
 
-    // GET about lyrical
-    public function aboutLyricalhair(Request $request)
+    // GET about us
+    public function aboutUs(Request $request)
     {
         return view('pages.about_lyricalhair');
     }
