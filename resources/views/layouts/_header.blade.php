@@ -44,7 +44,7 @@
             </div>
             {{-- 服务口号 --}}
             <div class="service-commitment">
-                <span>30-Day Money BackGuarantee</span>
+                <span>Be Comfortably Beautiful</span>
             </div>
             {{-- 登录注册&&购物车等 --}}
             <div class="register-login">
