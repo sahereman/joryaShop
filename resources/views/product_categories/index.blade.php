@@ -4,7 +4,7 @@
 @section('title', $category->seo_title ? : $category->name_en . ' - ' . \App\Models\Config::config('title'))
 @section('content')
     <div class="productCate my_orders">
-        <div class="container main productCate-content">
+        <div class="main-content main productCate-content">
             <div class="col-left">
                 {{-- 搜索页不显示 --}}
                 <div class="block block-layered-nav">

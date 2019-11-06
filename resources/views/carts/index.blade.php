@@ -2,7 +2,7 @@
 @section('title', (App::isLocale('zh-CN') ? '购物车' : 'Cart') . ' - ' . \App\Models\Config::config('title'))
 @section('content')
     <div class="shopping_cart">
-        <div class="container m-wrapper">
+        <div class="main-content">
             <div class="carts">
                 @if(!count($carts) > 0)
                     <div class="empty_shopping_cart">

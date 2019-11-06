@@ -2,7 +2,7 @@
 @section('title', (App::isLocale('zh-CN') ? '选择支付方式' : 'Choosing A Payment Method') . ' - ' . \App\Models\Config::config('title'))
 @section('content')
     <div class="payment_method">
-        <div class="m-wrapper">
+        <div class="main-content">
             <div class="methods">
                 <p class="trade_number">@lang('order.Order_serial_number')：<span>{{ $order->order_sn }}</span></p>
                 <div class="methods_choose">

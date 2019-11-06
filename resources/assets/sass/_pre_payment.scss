@@ -57,16 +57,17 @@
             display: flex;
             width: 79%;
             .product-img {
-              width: 80px;
+              width: 120px;
               margin-right: 17px;
               img {
                 width: 100%;
               }
             }
             .product-info {
-              width: calc(100% - 100px);
+              width: calc(100% - 130px);
               color: #666;
               line-height: 24px;
+              font-size: 14px;
             }
           }
           .product-qty {
@@ -74,6 +75,7 @@
             text-align: right;
             color: #666;
             line-height: 24px;
+            font-size: 14px;
           }
           .product-amount {
             width: 10%;
@@ -81,11 +83,12 @@
             color: #CE1020;
             line-height: 24px;
             font-weight: 400;
+            font-size: 14px;
           }
         }
         // 详情
         .cart-item-bottom {
-          width: calc(100% - 100px);
+          width: calc(100% - 130px);
           margin: auto;
           margin-right: 0;
           .order-detail-title {
@@ -117,10 +120,12 @@
               line-height: 30px;
               .order-detail-name {
                 width: 50%;
+                font-size: 14px;
               }
               .order-detail-value {
                 width: 50%;
                 text-align: right;
+                font-size: 14px;
               }
             }
           }

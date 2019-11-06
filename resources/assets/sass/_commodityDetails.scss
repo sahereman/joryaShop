@@ -269,6 +269,7 @@
       }
       /* div that surrounds Cloud Zoom image and content slider. */
       #surround {
+        margin: auto;
         width:100%;
         min-width: 256px;
         max-width: 480px;
@@ -327,9 +328,10 @@
       }
     }
     .parameters_content {
-      width: 52%;
+      width: 35%;
       float: left;
-      margin: 0;
+      margin: 0 auto;
+      margin-left: 0;
       padding: 0 2px;
       @media only screen and (max-width: 767px){
         width: 100%;

@@ -623,6 +623,7 @@ $(function () {
                         "query": $(".selectInput_header").val()
                     },
                     success: function (json) {
+                        console.log(json)
                         var html = "";
                         var name;
                         $.each(json.data.products, function (i, n) {

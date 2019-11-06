@@ -6,7 +6,7 @@
 @section('title', $product->seo_title ? : (App::isLocale('zh-CN') ? $product->name_zh : $product->name_en) . ' - ' . \App\Models\Config::config('title'))
 @section('content')
     <div class="commodity-details">
-        <div class="m-wrapper container">
+        <div class="main-content">
             <!--面包屑-->
             <div>
                 <p class="Crumbs">

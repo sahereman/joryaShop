@@ -6,6 +6,7 @@
   .page-title {
     margin-bottom: 20px;
     font-size: .8em;
+    text-align: center;
     h1 {
       margin: 0;
       min-height: 1.3125em;
@@ -17,6 +18,9 @@
         font-size: 1.5em;
       }
     }
+  }
+  .cart-empty {
+    text-align: center;
   }
   // 购物城为空的样式
   .empty_shopping_cart {
@@ -275,6 +279,7 @@
     .cart-foot {
       width: 98%;
       margin: auto;
+      overflow: hidden;
       .cart-foot-points {
         display: flex;
         flex-direction: row;

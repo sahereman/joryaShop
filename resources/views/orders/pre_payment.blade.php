@@ -2,7 +2,7 @@
 @section('title', (App::isLocale('zh-CN') ? '确认订单' : 'Confirm The Order') . ' - ' . \App\Models\Config::config('title'))
 @section('content')
     <div class="pre-payment">
-        <div class="m-wrapper">
+        <div class="main-content">
             {{-- 面包屑导航 --}}
             <div class="Crumbs">
                 <a href="{{ route('root') }}">@lang('basic.home')</a>

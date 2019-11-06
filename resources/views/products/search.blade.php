@@ -2,7 +2,7 @@
 @section('title', (App::isLocale('zh-CN') ? '搜索结果' : 'Search results') . ' - ' . \App\Models\Config::config('title'))
 @section('content')
     <div class="productCate my_orders">
-        <div class="container main productCate-content">
+        <div class="main-content main productCate-content">
             <div class="col-left">
                 <div class="block block-layered-nav">
                     <div class="block-title">

@@ -11,18 +11,25 @@
       <div class="navigation-box">
           <div class="article-navigation">
             <div class="navigation-type active">
-              <img class="normal-logo" src="{{ asset('img/articles/about-logo-active.png') }}" alt="Lyricalhair">
-              <a href="{{ route('about_lyricalhair') }}">About Us</a>
+              <a href="{{ route('about_lyricalhair') }}">
+                <img class="normal-logo" src="{{ asset('img/articles/about-logo.png') }}" alt="Lyricalhair">
+                <img class="active-logo" src="{{ asset('img/articles/about-logo-active.png') }}" alt="Lyricalhair">
+                <p class="link-button">About Us</p>
+              </a>
             </div>
             <div class="navigation-type">
-              <img class="normal-logo" src="{{ asset('img/articles/contact-logo.png') }}" alt="Lyricalhair">
-              <img class="active-logo" src="{{ asset('img/articles/contact-logo-active.png') }}" alt="Lyricalhair">
-              <a href="{{ route('seo_url', ['slug' => 'contact_us']) }}">Contact Us</a>
+              <a href="{{ route('seo_url', ['slug' => 'contact_us']) }}">
+                <img class="normal-logo" src="{{ asset('img/articles/contact-logo.png') }}" alt="Lyricalhair">
+                <img class="active-logo" src="{{ asset('img/articles/contact-logo-active.png') }}" alt="Lyricalhair">
+                <p class="link-button">Contact Us</p>
+              </a>
             </div>
             <div class="navigation-type">
-              <img class="normal-logo" src="{{ asset('img/articles/why-logo.png') }}" alt="Lyricalhair">
-              <img class="active-logo" src="{{ asset('img/articles/contact-logo-active.png') }}" alt="Lyricalhair">
-              <a href="{{ route('why_lyricalhair') }}">Why Lyricalhair</a>
+              <a href="{{ route('why_lyricalhair') }}">
+                <img class="normal-logo" src="{{ asset('img/articles/why-logo.png') }}" alt="Lyricalhair">
+                <img class="active-logo" src="{{ asset('img/articles/why-logo-active.png') }}" alt="Lyricalhair">
+                <p class="link-button">Why Lyricalhair</p>
+              </a>
             </div>
           </div>
       </div>
