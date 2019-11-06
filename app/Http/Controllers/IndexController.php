@@ -165,16 +165,16 @@ class IndexController extends Controller
         return back();
     }
 
+    // GET about us
+    public function aboutUs(Request $request)
+    {
+        return view('pages.about_us');
+    }
+
     // GET contact us
     public function contactUs(Request $request)
     {
         return view('pages.contact_us');
-    }
-
-    // GET about us
-    public function aboutUs(Request $request)
-    {
-        return view('pages.about_lyricalhair');
     }
 
     // GET why lyrical
