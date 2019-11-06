@@ -80,13 +80,56 @@
           font-weight:600;
           color:#444;
           line-height:24px;
+          &:nth-of-type(2) {
+            margin-bottom: auto;
+          }
+        }
+        .aboutus-part2-circles {
+          width: 100%;
+          display: flex;
+          @media only screen and (max-width: 750px){
+            display: none;
+          }
+          .part2-circle {
+            margin: auto;
+            display: flex;
+            flex-direction: column;
+            width: 120px;
+            height: 120px;
+            background-color: #fff;
+            border: 2px solid #c92324;
+            border-radius: 50%;
+            text-align: center;
+            span {
+              display: block;
+              margin: auto;
+              background-color: transparent;
+              &.describe {
+                margin-bottom: 12px;
+                font-size:14px;
+                font-family:Helvetica;
+                font-weight:400;
+                color:rgba(68,68,68,1);
+                line-height:23px;
+              }
+              &.num {
+                margin-top: 0;
+                font-size:30px;
+                font-family:DINCondensed;
+                font-weight:bold;
+                color:#c92324;
+                line-height:23px;
+              }
+            }
+          }
         }
       }
     }
     .about-us-part2 {
       margin-bottom: 55px;
       padding: 60px 45px;
-      width: 100%;
+      // width: 100%;
+      width: calc(100% - 240px);
       background-color: #c92324;
       border-radius: 10px;
       @media only screen and (max-width: 750px){
@@ -99,43 +142,6 @@
         font-weight:400;
         color:#fff;
         line-height:24px;
-      }
-      .aboutus-part2-circles {
-        width: 100%;
-        display: flex;
-        @media only screen and (max-width: 750px){
-          display: none;
-        }
-        .part2-circle {
-          margin: auto;
-          display: flex;
-          flex-direction: column;
-          width: 120px;
-          height: 120px;
-          background-color: #fff;
-          border-radius: 50%;
-          text-align: center;
-          span {
-            display: block;
-            margin: auto;
-            &.describe {
-              margin-bottom: 12px;
-              font-size:14px;
-              font-family:Helvetica;
-              font-weight:400;
-              color:rgba(68,68,68,1);
-              line-height:23px;
-            }
-            &.num {
-              margin-top: 0;
-              font-size:30px;
-              font-family:DINCondensed;
-              font-weight:bold;
-              color:#c92324;
-              line-height:23px;
-            }
-          }
-        }
       }
     }
     // our-services
@@ -204,16 +210,19 @@
       }
       .mission-types {
         display: flex;
+        flex-direction: column;
         justify-content: space-between;
         @media only screen and (max-width: 750px){
           flex-direction: column;
         }
         .mission-type {
           margin: auto;
-          padding: 30px;
-          width: 30%;
-          height: 366px;
-          background-color: #f5f5f5;
+          // padding: 30px;
+          padding: 15px 0;
+          // width: 30%;
+          width: 100%;
+          // height: 366px;
+          // background-color: #f5f5f5;
           transition: all .3s;
           border-radius: 4px;
           @media only screen and (max-width: 750px){
@@ -252,22 +261,28 @@
           &:last-of-type {
             margin-right: 0;
           }
-          &:hover {
-            background-color: #bf2a24;
-            img {
-              &.normal {
-                display: none;
-              }
-              &.hover-show {
-                display: inline-block;
-              }
-            }
-            .mission-type-title,
-            .mission-type-text {
-              color: #fff;
-            }
-          }
+          // &:hover {
+          //   background-color: #bf2a24;
+          //   img {
+          //     &.normal {
+          //       display: none;
+          //     }
+          //     &.hover-show {
+          //       display: inline-block;
+          //     }
+          //   }
+          //   .mission-type-title,
+          //   .mission-type-text {
+          //     color: #fff;
+          //   }
+          // }
         }
+      }
+    }
+    // certificate-by
+    .certificate-by {
+      img {
+        max-width: 100%;
       }
     }
   }

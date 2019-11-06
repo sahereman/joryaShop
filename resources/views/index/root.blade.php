@@ -41,7 +41,7 @@
                     <span>LyricalHair has been providing dependable hair replacement system manufacturing services to our customers since 1999. During the past 20 years we have been operating from three branches located in China, Dubai, and The United States. Our brand is currently able to ship to over 30 countries. </span>
                 </div>
                 <div class="lyrical-info-link">
-                    <a href="{{ route('about_lyricalhair') }}">LEARN MORE</a>
+                    <a href="{{ route('about_us') }}">LEARN MORE</a>
                 </div>
             </div>
             {{-- lyrical的资质认证或者活动图片墙,图片只改变路径，不能改变布局，不然达不到设计图想要的效果--}}

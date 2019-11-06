@@ -11,7 +11,7 @@
         <div class="navigation-box">
             <div class="article-navigation">
               <div class="navigation-type">
-                <a href="{{ route('about_lyricalhair') }}">
+                <a href="{{ route('about_us') }}">
                   <img class="normal-logo" src="{{ asset('img/articles/about-logo.png') }}" alt="Lyricalhair">
                   <img class="active-logo" src="{{ asset('img/articles/about-logo-active.png') }}" alt="Lyricalhair">
                   <p class="link-button">About Us</p>
