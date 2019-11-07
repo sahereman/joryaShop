@@ -223,7 +223,7 @@
                                         </div>
                                         <div class="slide-title">
                                             <a href="{{ route('seo_url', $product->slug) }}">
-                                                <p title="{{ $product->name_en }}">{{ mb_strlen($product->name_en) <= 20 ? $product->name_en : substr($product->name_en, 0, 17) . ' ... ' }}</p>
+                                                <p title="{{ $product->name_en }}">{{ mb_strlen($product->name_en) <= 100 ? $product->name_en : substr($product->name_en, 0, 97) . ' ... ' }}</p>
                                             </a>
                                         </div>
                                     </div>
