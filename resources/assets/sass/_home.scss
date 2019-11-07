@@ -431,11 +431,12 @@
           p {
             position: relative;
             margin: auto;
-            height: 1.5rem;
+            // height: 1.5rem;
             font-size: 16px;
-            overflow: hidden;
-            white-space: nowrap;
-            text-overflow: ellipsis;
+            padding: 0 15px;
+            // overflow: hidden;
+            // white-space: nowrap;
+            // text-overflow: ellipsis;
             color: #fff;
             z-index: 1;
           }
