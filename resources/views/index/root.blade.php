@@ -97,27 +97,27 @@
     <div class="countup-area">
         <ul class="main-content">
             <li>
-                <span class="countup-num"><span class="counter">100</span>+</span>
+                <span class="countup-num"><span class="counter">{{ \App\Models\Config::config('in_house_staffs_and_workers') }}</span>+</span>
                 <span class="countup-text">IN-HOUSE STAFFS</span>
                 <span class="countup-text">AND WORKERS</span>
             </li>
             <li>
-                <span class="countup-num"><span class="counter">50</span>+</span>
+                <span class="countup-num"><span class="counter">{{ \App\Models\Config::config('machines_working_at_the_same_time') }}</span>+</span>
                 <span class="countup-text">MACHINES WORKING AT</span>
                 <span class="countup-text">THE SAME TIME</span>
             </li>
             <li>
-                <span class="countup-num"><span class="counter">70000</span>+</span>
+                <span class="countup-num"><span class="counter">{{ \App\Models\Config::config('hair_systems_produced_and_delivered_last_year') }}</span>+</span>
                 <span class="countup-text">HAIR SYSTEMS PRODUCED</span>
                 <span class="countup-text">AND DELIVERED LAST YEAR</span>
             </li>
             <li>
-                <span class="countup-num"><span class="counter">30</span>+</span>
+                <span class="countup-num"><span class="counter">{{ \App\Models\Config::config('countries_across_the_world') }}</span>+</span>
                 <span class="countup-text">COUNTRIES ACROSS</span>
                 <span class="countup-text">THE WORLD</span>
             </li>
             <li>
-                <span class="countup-num"><span class="counter">72</span>%</span>
+                <span class="countup-num"><span class="counter">{{ \App\Models\Config::config('client_retention_rate') }}</span>%</span>
                 <span class="countup-text">CLIENT</span>
                 <span class="countup-text">RETENTION RATE</span>
             </li>
@@ -127,36 +127,69 @@
     <div class="classify-type main-content">
         <div class="classify-type-men classify-type-part">
             {{-- 对应男士分类跳转 --}}
-            <a href="">
-                {{-- 展示的图片 --}}
-                <img src="{{ asset("img/Home/classify_men.png") }}" alt="lyricalhair">
-                {{-- 底部遮罩层 --}}
-                <div class="classify-type-mask">
-                    <span>Men's wig</span>
-                </div>
-            </a>
+            @if($poster = \App\Models\Poster::getPosterBySlug('mens_wig'))
+                <a href="{{ $poster->link }}">
+                    {{-- 展示的图片 --}}
+                    <img src="{{ $poster->image_url }}" alt="lyricalhair">
+                    {{-- 底部遮罩层 --}}
+                    <div class="classify-type-mask">
+                        <span>{{ $poster->description }}</span>
+                    </div>
+                </a>
+            @else
+                <a href="javascript:void(0);">
+                    {{-- 展示的图片 --}}
+                    <img src="{{ asset("img/Home/classify_men.png") }}" alt="lyricalhair">
+                    {{-- 底部遮罩层 --}}
+                    <div class="classify-type-mask">
+                        <span>Men's Wig</span>
+                    </div>
+                </a>
+            @endif
         </div>
         <div class="classify-type-lady classify-type-part">
             {{-- 对应女士分类的跳转 --}}
-            <a href="">
-                {{-- 展示的图片 --}}
-                <img src="{{ asset("img/Home/classify_women.png") }}" alt="lyricalhair">
-                {{-- 底部遮罩层 --}}
-                <div class="classify-type-mask">
-                    <span>Lady wig</span>
-                </div>
-            </a>
+            @if($poster = \App\Models\Poster::getPosterBySlug('ladies_wig'))
+                <a href="{{ $poster->link }}">
+                    {{-- 展示的图片 --}}
+                    <img src="{{ $poster->image_url }}" alt="lyricalhair">
+                    {{-- 底部遮罩层 --}}
+                    <div class="classify-type-mask">
+                        <span>{{ $poster->description }}</span>
+                    </div>
+                </a>
+            @else
+                <a href="javascript:void(0);">
+                    {{-- 展示的图片 --}}
+                    <img src="{{ asset("img/Home/classify_women.png") }}" alt="lyricalhair">
+                    {{-- 底部遮罩层 --}}
+                    <div class="classify-type-mask">
+                        <span>Ladies' Wig</span>
+                    </div>
+                </a>
+            @endif
         </div>
         <div class="classify-type-wig classify-type-part">
             {{-- 对应配件分类的跳转 --}}
-            <a href="">
-                {{-- 展示的图片 --}}
-                <img src="{{ asset("img/Home/classify_wig.png") }}" alt="lyricalhair">
-                {{-- 底部遮罩层 --}}
-                <div class="classify-type-mask">
-                    <span>Wig accessories</span>
-                </div>
-            </a>
+            @if($poster = \App\Models\Poster::getPosterBySlug('wig_accessories'))
+                <a href="{{ $poster->link }}">
+                    {{-- 展示的图片 --}}
+                    <img src="{{ $poster->image_url }}" alt="lyricalhair">
+                    {{-- 底部遮罩层 --}}
+                    <div class="classify-type-mask">
+                        <span>{{ $poster->description }}</span>
+                    </div>
+                </a>
+            @else
+                <a href="javascript:void(0);">
+                    {{-- 展示的图片 --}}
+                    <img src="{{ asset("img/Home/classify_wig.png") }}" alt="lyricalhair">
+                    {{-- 底部遮罩层 --}}
+                    <div class="classify-type-mask">
+                        <span>Wig Accessories</span>
+                    </div>
+                </a>
+            @endif
         </div>
     </div>
     {{-- Product Zone  --}}
@@ -221,22 +254,26 @@
                                 <div class="swiper-container Certificate" id="Certificate">
                                     <div class="swiper-wrapper">
                                         {{-- 循环的内容 --}}
-                                        {{-- @if($products)
-                                            @foreach($products as $product) --}}
+                                        @if($poster = \App\Models\Poster::getPosterBySlug('why_lyricalhair'))
+                                            @foreach($poster->photo_urls as $photo_url)
                                                 <div class="swiper-slide">
-                                                    <img src="{{ asset("img/Home/photo-wall-5.png") }}" alt="lyricalhair">
+                                                    <img src="{{ $photo_url }}" alt="lyricalhair">
                                                 </div>
-                                                <div class="swiper-slide">
-                                                    <img src="{{ asset("img/Home/photo-wall-5.png") }}" alt="lyricalhair">
-                                                </div>
-                                                <div class="swiper-slide">
-                                                    <img src="{{ asset("img/Home/photo-wall-5.png") }}" alt="lyricalhair">
-                                                </div>
-                                                <div class="swiper-slide">
-                                                    <img src="{{ asset("img/Home/photo-wall-5.png") }}" alt="lyricalhair">
-                                                </div>
-                                            {{-- @endforeach
-                                        @endif --}}
+                                            @endforeach
+                                        @else
+                                            <div class="swiper-slide">
+                                                <img src="{{ asset("img/Home/photo-wall-3.png") }}" alt="lyricalhair">
+                                            </div>
+                                            <div class="swiper-slide">
+                                                <img src="{{ asset("img/Home/photo-wall-4.png") }}" alt="lyricalhair">
+                                            </div>
+                                            <div class="swiper-slide">
+                                                <img src="{{ asset("img/Home/photo-wall-5.png") }}" alt="lyricalhair">
+                                            </div>
+                                            <div class="swiper-slide">
+                                                <img src="{{ asset("img/Home/photo-wall-6.png") }}" alt="lyricalhair">
+                                            </div>
+                                        @endif
                                     </div>
                                     <div class="swiper-button-prev certificate-prev"></div>
                                     <div class="swiper-button-next certificate-next"></div>

@@ -20,6 +20,7 @@ class Poster extends Model
         // 'image',
         'photos',
         'link',
+        'description',
     ];
 
     /**

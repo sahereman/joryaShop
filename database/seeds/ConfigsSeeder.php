@@ -59,6 +59,21 @@ class ConfigsSeeder extends Seeder
                     ]
             ],
 
+            // 首页营销数据
+            [
+                'name' => '首页营销数据',
+                'type' => "group",
+                'sort' => 4000,
+                'configs' =>
+                    [
+                        ['name' => 'IN-HOUSE STAFFS AND WORKERS', 'code' => 'in_house_staffs_and_workers', 'type' => "text", 'sort' => 10, 'value' => 100],
+                        ['name' => 'MACHINES WORKING AT THE SAME TIME', 'code' => 'machines_working_at_the_same_time', 'type' => "text", 'sort' => 20, 'value' => 50],
+                        ['name' => 'HAIR SYSTEMS PRODUCED AND DELIVERED LAST YEAR', 'code' => 'hair_systems_produced_and_delivered_last_year', 'type' => "text", 'sort' => 30, 'value' => 70000],
+                        ['name' => 'COUNTRIES ACROSS THE WORLD', 'code' => 'countries_across_the_world', 'type' => "text", 'sort' => 40, 'value' => 30],
+                        ['name' => 'CLIENT RETENTION RATE', 'code' => 'client_retention_rate', 'type' => "text", 'sort' => 50, 'value' => 72],
+                    ]
+            ],
+
             // 站点设置2
             /*[
                 'name' => '站点设置2',

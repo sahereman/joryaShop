@@ -14,11 +14,15 @@ class PostersSeeder extends Seeder
         // Poster::truncate();
         $slug_arr = [
             /*PC*/
-            ['About LyricalHair - Up', 'about_lyricalhair_up'],
-            ['About LyricalHair - Down', 'about_lyricalhair_down'],
-            ['About LyricalHair - Left', 'about_lyricalhair_left'],
-            ['About LyricalHair - Right', 'about_lyricalhair_right'],
+            // ['About LyricalHair - Up', 'about_lyricalhair_up'],
+            // ['About LyricalHair - Down', 'about_lyricalhair_down'],
+            // ['About LyricalHair - Left', 'about_lyricalhair_left'],
+            // ['About LyricalHair - Right', 'about_lyricalhair_right'],
+            ["Men's Wig", 'mens_wig'],
+            ["Ladies' Wig", 'ladies_wig'],
+            ["Wig Accessories", 'wig_accessories'],
             ['Why LyricalHair', 'why_lyricalhair'],
+            ['About Us', 'about_us'],
         ];
 
         foreach ($slug_arr as $item) {

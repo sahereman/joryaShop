@@ -121,6 +121,7 @@ class PostersController extends Controller
         $show->name('名称');
         $show->slug('标示');
         $show->link('链接');
+        $show->description('文字说明');
         $show->created_at('创建时间');
         $show->updated_at('更新时间');
 
@@ -139,11 +140,15 @@ class PostersController extends Controller
     {
         $slugs = [
             /*PC*/
-            'about_lyricalhair_up' => 'About LyricalHair - Up (单图)',
-            'about_lyricalhair_down' => 'About LyricalHair - Down (单图)',
-            'about_lyricalhair_left' => 'About LyricalHair - Left (单图)',
-            'about_lyricalhair_right' => 'About LyricalHair - Right (单图)',
+            // 'about_lyricalhair_up' => 'About LyricalHair - Up (单图)',
+            // 'about_lyricalhair_down' => 'About LyricalHair - Down (单图)',
+            // 'about_lyricalhair_left' => 'About LyricalHair - Left (单图)',
+            // 'about_lyricalhair_right' => 'About LyricalHair - Right (单图)',
+            'mens_wig' => "Men's Wig (单图)",
+            'ladies_wig' => "Ladies' Wig (单图)",
+            'wig_accessories' => "Wig Accessories (单图)",
             'why_lyricalhair' => 'Why LyricalHair (多图)',
+            'about_us' => 'About Us (多图)',
         ];
 
         $form = new Form(new Poster);
@@ -168,6 +173,7 @@ class PostersController extends Controller
             'pc_index_2f_1');*/
 
         $form->text('link', '链接');
+        $form->text('description', 'Description')->default('');
 
         // $form->switch('is_show', '是否显示');
 
