@@ -224,11 +224,33 @@
                     </ul>
                     {{-- 商品数量相关 --}}
                     <div class="priceOfpro {{ $product->type == \App\Models\Product::PRODUCT_TYPE_CUSTOM ? ' dis_ni' : '' }}">
-                        <span class="buy_numbers">@lang('product.product_details.Quantity'):</span>
-                        <div class="quantity_control">
-                            <span class="reduce no_allow"><i>-</i></span>
-                            <input type="number" name="number" id="pro_num" value="1" min="1" max="99">
-                            <span class="add"><i>+</i></span>
+                        <div class="priceOfpro-left">
+                            <span class="buy_numbers">@lang('product.product_details.Quantity'):</span>
+                            <div class="quantity_control">
+                                <span class="reduce no_allow"><i>-</i></span>
+                                <input type="number" name="number" id="pro_num" value="1" min="1" max="99">
+                                <span class="add"><i>+</i></span>
+                            </div>
+                        </div>
+                        <div class="priceOfpro-right">
+                            @if($product->type == \App\Models\Product::PRODUCT_TYPE_CUSTOM)
+                                
+                            @else
+                                @guest
+                                    <a class="add_favourites for_show_login" >
+                                        <img src="{{ asset('img/favorite-eye.png') }}" alt="">
+                                        <span>Add to wish list</span>
+                                    </a>
+                                @else
+                                    <a class="add_favourites {{ $favourite ? 'active' : '' }}" code="{{ $product->id }}"
+                                    data-url="{{ route('user_favourites.store') }}"
+                                    data-url_2="{{ route('user_favourites.destroy') }}"
+                                    data-favourite-code="{{ $favourite ? $favourite->id : '' }}">
+                                        <img src="{{ asset('img/favorite-eye.png') }}" alt="">
+                                        <span>{{ $favourite ? 'Remove from wish list' : 'Add to wish list' }}</span>
+                                    </a>
+                                @endguest
+                            @endif
                         </div>
                     </div>
                     <!--添加购物车与立即购买-->
@@ -248,7 +270,7 @@
                             <a class="add_carts" data-url="{{ route('carts.store_by_sku_attr') }}" code="{{ $product->id }}">
                                 @lang('app.Add to Shopping Cart')
                             </a>
-                            @guest
+                            {{-- @guest
                                 <a class="add_favourites for_show_login" >
                                     <img src="{{ asset('img/favorite-eye.png') }}" alt="">
                                     <span>Add to wish list</span>
@@ -258,11 +280,10 @@
                                    data-url="{{ route('user_favourites.store') }}"
                                    data-url_2="{{ route('user_favourites.destroy') }}"
                                    data-favourite-code="{{ $favourite ? $favourite->id : '' }}">
-                                    {{--<span class="favourites_img"></span>--}}
                                     <img src="{{ asset('img/favorite-eye.png') }}" alt="">
                                     <span>{{ $favourite ? 'Remove from wish list' : 'Add to wish list' }}</span>
                                 </a>
-                            @endguest
+                            @endguest --}}
                         @endif
                     </div>
                     {{-- 运费等介绍 --}}
