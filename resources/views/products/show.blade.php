@@ -140,22 +140,22 @@
                         <div class="std">
                             <textarea class="std-content" name="" id="topArticle" cols="30" readonly>{!! App::isLocale('zh-CN') ? $product->description_zh : $product->description_en !!}</textarea>
                         </div>
-                        <a href="javascript:void(0)" class="down-more" id="down-more">
+                        {{-- <a href="javascript:void(0)" class="down-more" id="down-more">
                             <img src=" {{ asset('img/down-more.png') }}" alt="">
-                        </a>
+                        </a> --}}
                     </div>
                     {{-- 新版价格存放位置 --}}
                     <div class="product-price">
-                        <p class="old-price">
-                            <span class="price" id="old-price-695"><i>{{ get_global_symbol() }} </i>{{ bcmul(get_current_price($product->price), 1.2, 2) }}</span>
-                        </p>
                         <p class="special-price">
                             <span class="price" id="product-price-695"><i>{{ get_global_symbol() }} </i><span id="product-price">{{ get_current_price($product->price) }}</span></span>
                         </p>
+                        <p class="old-price">
+                            <span class="price" id="old-price-695"><i>{{ get_global_symbol() }} </i>{{ bcmul(get_current_price($product->price), 1.2, 2) }}</span>
+                        </p>
                         <div class="clear"></div>
-                        @if($shipment_template == null)
+                        {{-- @if($shipment_template == null)
                             <div class="free-shipping">FREE SHIPPING</div>
-                        @endif
+                        @endif --}}
 
                     </div>
                     {{-- 动态渲染的skus选择器存放位置 --}}
