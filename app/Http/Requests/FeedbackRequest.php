@@ -17,7 +17,10 @@ class FeedbackRequest extends Request
     {
         return [
             // 'captcha' => ['bail', 'required', 'captcha'],
-            'email' => [
+            'name' => 'string|nullable|max:255',
+            'phone' => 'string|nullable|max:255',
+            'email' => 'bail|required|string|email|max:255',
+            /*'email' => [
                 'bail', 'required', 'string', 'email', 'max:255',
                 function ($attribute, $value, $fail) {
                     if ($this->input('type') === 'subscription') {
@@ -34,7 +37,8 @@ class FeedbackRequest extends Request
                         }
                     }
                 }
-            ],
+            ],*/
+            'content' => 'string|nullable|max:255',
             'type' => ['bail', 'required', 'string', Rule::in(['subscription', 'consultancy'])],
         ];
     }

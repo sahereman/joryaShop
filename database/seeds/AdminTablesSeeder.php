@@ -24,7 +24,7 @@ class AdminTablesSeeder extends Seeder
                 'name' => '产品管理',
                 'slug' => 'products',
                 'http_method' => '',
-                'http_path' => "/attrs\r\n/params\r\n/product_categories\r\n/products\r\n/product_locations\r\n/product_services\r\n/coupons\r\n/custom_attrs",
+                'http_path' => "/attrs\r\n/params\r\n/product_categories\r\n/products\r\n/product_locations\r\n/product_services\r\n/coupons\r\n/custom_attrs\r\n/fake_reviews",
             ],
             [
                 'name' => '订单管理',
@@ -249,6 +249,13 @@ class AdminTablesSeeder extends Seeder
                 'title' => '定制商品 SKU 属性',
                 'icon' => 'fa-asterisk',
                 'uri' => 'custom_attrs',
+            ],
+            [
+                'parent_id' => 14,
+                'order' => 9,
+                'title' => '首页用户评论',
+                'icon' => 'fa-comments',
+                'uri' => 'fake_reviews',
             ],
 
             // 订单

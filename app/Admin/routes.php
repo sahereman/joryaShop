@@ -140,6 +140,9 @@ Route::group([
     /*Email Log*/
     $router->resource('email_logs', EmailLogsController::class)->names('admin.email_logs');
 
+    /*Fake Review*/
+    $router->resource('fake_reviews', FakeReviewsController::class)->names('admin.fake_reviews');
+
     // $router->resource('example', ExampleController::class)->names('admin.example');
     // $router->get('example', 'ExampleController@index')->name('admin.example.index');
     // $router->get('example/create', 'ExampleController@create')->name('admin.example.create');

@@ -13,6 +13,8 @@ class FeedbacksController extends Controller
     public function store(FeedbackRequest $request)
     {
         $data = [];
+        $data['name'] = $request->input('name');
+        $data['phone'] = $request->input('phone');
         $data['email'] = $request->input('email');
         $data['content'] = $request->input('content');
         $data['type'] = $request->input('type');
