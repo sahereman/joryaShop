@@ -43,13 +43,13 @@
                         {!! $crumbs !!}
                     </p>
                 </div>
-                <div class="category-image">
+                {{-- <div class="category-image">
                     @if(!empty($category->banner))
                         <img src="{{ $category->banner_url }}">
                     @else
                         <img src="{{ asset('defaults/defaults_pc_category_banner.png') }}">
                     @endif
-                </div>
+                </div> --}}
                 <div class="page-title category-title">
                     <h1>{{ $category->name_en }}</h1>
                 </div>

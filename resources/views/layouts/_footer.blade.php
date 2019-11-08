@@ -36,14 +36,48 @@
             {{-- <form> --}}
                 <img src="{{ asset("img/footer/Subscription.png") }}" alt="lyricalhair">
                 <p>Subscribe to get more product information, maintenance knowledge</p>
-                <p>special offers and important notices.</p>
-                <p id="footer_token_code" class="dis_n">{{ csrf_field() }}</p>
-                <input type="email" name="email" id="footemail" placeholder="Email" required autocomplete="off">
-                <input type="hidden" name="content" id="feedback-content" value="Subscribe to get product information, maintenance knowledge, special offers and important notices.">
-                <input type="hidden" name="type" id="feedback-type" value="subscription">
+                <p class="last-subscribe">special offers and important notices.</p>
+                <a href="javascript:viod(0)" class="Start-subscribe">Start From 1 Piece</a>
+                {{-- 自定义订阅弹窗 --}}
+                <div class="popup-wrap">
+                    <div class="the-popup">
+                        <a class="close-popup" href="javascript:void(0)"><img src="{{ asset('img/close_btn.png') }}" alt="lyricalhair"></a>
+                        <h3>Contact For A FREE Quote</h3>
+                        <div class="wpcf7" role="form" id="wpcf7-f145-o1" lang="en-US" dir="ltr">
+                            <div class="screen-reader-response"></div>
+                            <form action="">
+                                <p id="footer_token_code" class="dis_n">{{ csrf_field() }}</p>
+                                <input type="hidden" name="type" id="feedback-type" value="subscription">
+                                <ul>
+                                    <li>
+                                        <p>Name*</p>
+                                        <input type="text" name="name" id="footname" placeholder="Please enter your name" required autocomplete="off">
+                                    </li>
+                                    <li>
+                                        <p>Phone & Whatsapp</p>
+                                        <input type="text" name="phone" id="footphone" required autocomplete="off">
+                                    </li>
+                                    <li>
+                                        <p>Email*</p>
+                                        <input type="email" name="email" id="footemail" placeholder="Please enter your email" required autocomplete="off">
+                                    </li>
+                                    <li class="textarea-li">
+                                        <p>Your Message*</p>
+                                        <textarea name="content" cols="40" rows="10" aria-required="true" aria-invalid="false" placeholder="Your Message"></textarea>
+                                    </li>
+                                    <li>
+                                        <button type="button" title="Subscribe" id="subFootCode" data-url="{{ route('feedbacks.store') }}">Subscribe</button>
+                                    </li>
+                                </ul>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                {{-- <input type="hidden" name="content" id="feedback-content" value="Subscribe to get product information, maintenance knowledge, special offers and important notices."> --}}
+                {{-- <input type="hidden" name="type" id="feedback-type" value="subscription"> --}}
                 {{-- <input type="text" name="captcha" id="footverCode" class="form-control{{ $errors->has('captcha') ? ' is-invalid' : '' }}" placeholder="Verification Code" required>
                 <img class="thumbnail captcha mt-3 mb-2" src="{{ captcha_src('subscription') }}" onclick="this.src='/captcha/subscription?'+Math.random()" title="点击图片重新获取验证码"> --}}
-                <button type="button" title="Subscribe" id="subFootCode" data-url="{{ route('feedbacks.store') }}">Subscribe</button>
+                {{-- <button type="button" class="dis_n" title="Subscribe" id="subFootCode" data-url="{{ route('feedbacks.store') }}">Subscribe</button> --}}
             {{-- </form> --}}
         </div>
     </div>

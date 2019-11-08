@@ -54,19 +54,23 @@
               <p>LyricalHair has been providing dependable hair replacement system manufacturing services to our customers since 1999. During the past 20 years we have been operating from three branches located in China, Dubai, and The United States. Our brand is currently able to ship to over 30 countries. As members of the Wig Association and being highly rated by the Better Business Bureau (BBB) our customers are sure to receive the highest quality product available. Our charitable works include generous donations to such deserving causes as: Cancer Battles Supporters, Hello Generous!, Everybody Gets to Eat Inc. and many more. Our company is currently exporting stock at a rate of 6,000 orders per month and looking forward to reaching our goal of 10,000 per month soon.</p>
               <div class="aboutus-part2-circles">
                 <div class="part2-circle">
-                  <span class="describe">since</span>
+                  <img src="{{ asset('img/articles/A-1.png') }}" alt="Lyricalhair">
+                  <span class="describe">Since</span>
                   <span class="num">1999</span>
                 </div>
                 <div class="part2-circle">
-                  <span class="describe">countries</span>
+                  <img src="{{ asset('img/articles/A-2.png') }}" alt="Lyricalhair">
+                  <span class="describe">Countries</span>
                   <span class="num">30</span>
                 </div>
                 <div class="part2-circle">
-                  <span class="describe">orders now</span>
+                  <img src="{{ asset('img/articles/A-3.png') }}" alt="Lyricalhair">
+                  <span class="describe">Orders now</span>
                   <span class="num">6000</span>
                 </div>
                 <div class="part2-circle">
-                  <span class="describe">orders goal</span>
+                  <img src="{{ asset('img/articles/A-4.png') }}" alt="Lyricalhair">
+                  <span class="describe">Orders goal</span>
                   <span class="num">10000</span>
                 </div>
               </div>
@@ -158,10 +162,6 @@
       slidesPerView: 4,
       spaceBetween: 30,
       loop : true,
-      pagination: {
-          el: '.ProductZone-pagination',
-          clickable: true,
-      },
       breakpoints: { 
           //当宽度小于等于320
           320: {

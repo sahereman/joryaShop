@@ -13,7 +13,7 @@
     justify-content: flex-start;
     .col-left {
       margin: 0 auto;
-      width: 25%;
+      width: 20%;
       @media screen and (max-width:768px){
         display: none;
       }
@@ -107,7 +107,7 @@
     .col-right {
       margin: auto;
       margin-top: 0;
-      width: 75%;
+      width: 80%;
       @media screen and (max-width:768px){
         width: 100%;
       }

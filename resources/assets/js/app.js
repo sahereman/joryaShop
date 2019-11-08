@@ -776,6 +776,12 @@ $(function () {
         enter_event = "subscription";
     });
     // footer订阅功能
+    $(".Start-subscribe").on("click",function(){
+        $(".popup-wrap").addClass("active");
+    })
+    $(".close-popup").on("click",function(){
+        $(".popup-wrap").removeClass("active");
+    })
     $("#subFootCode").on("click", function () {
         var dataUrl = $(this).attr("data-url");
         if ($("#footemail").val() == "") {
@@ -787,14 +793,17 @@ $(function () {
             email: $("#footemail").val(),
             content: $("#feedback-content").val(),
             type: $("#feedback-type").val(),
+            phone: $("#footphone").val(),
+            name: $("#footename").val()
         };
         $.ajax({
             type: "post",
             url: dataUrl,
             data: data,
             success: function (data) {
-                layer.msg("Subscription success!");
-                $("#footemail").val("");
+                $(".popup-wrap").removeClass("active");
+                $(".the-popup").find("input").val("");
+                $(".the-popup").find("textarea").val("");
             },
             error: function (err) {
                 if (err.status != 200) {

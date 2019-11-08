@@ -38,7 +38,7 @@
                     {{-- <span>We also offer significant savings because we are an internet based business; our overhead costs are much lower and we pass 
                         these additional savings on to you. We offer this new way to get a hair replacement which is both affordable and easy to 
                         order, without ever leaving the comfort of your home. Remember...</span> --}}
-                    <span>LyricalHair has been providing dependable hair replacement system manufacturing services to our customers since 1999. During the past 20 years we have been operating from three branches located in China, Dubai, and The United States. Our brand is currently able to ship to over 30 countries. </span>
+                    <span>LyricalHair has been providing dependable hair replacement system manufacturing services to our customers since 1999. During the past 20 years we have been operating from three branches located in China, Dubai, and The United States. Our brand is currently able to ship to over 30 countries...</span>
                 </div>
                 <div class="lyrical-info-link">
                     <a href="{{ route('about_us') }}">LEARN MORE</a>
@@ -236,6 +236,14 @@
                     @endforeach
                 </div>
             @endif
+            {{-- 文档预览 --}}
+            <div class="download-Catalog main-content">
+                <img src="{{ asset("img/Home/download.png") }}" alt="lyricalhair">
+                <a href="#" class="download-btn" target="_blank">
+                    <img src="{{ asset("img/Home/download-btn.png") }}" alt="lyricalhair">
+                    <span>Download Our Catalog</span>
+                </a>
+            </div>
             {{-- Why Lyricalhair && Lyricalhair Blog --}}
             <div class="why-youtube">
                 <div class="why-lyrical">
@@ -245,7 +253,7 @@
                             <p class="why-lyrical-title">WHY CHOOSE LYRICALHAIR</p>
                             <a class="why-lyrical-link" href="{{ route('why_lyricalhair') }}">More details >></a>
                             <div class="why-lyrical-top-info">
-                                <p>LyricalHair operates globally through our online platforms to provide hair replacement systems. Before this online mall was founded, we mainly carried out B2B business with wholesaler and distributors.We are a mature enterprise with 20 years of rich production experience.With the development of cross-border e-commerce, more and more individuals will bypass intermediaries and go directly from shopping online. To cater to these customers, we have also gradually tried the platform marketing of eBay,Amazon and Ali Express in different brand names.So far, good results have been achieved on these platforms with eBay and Amazon being two of our major channels that cater to these digitally-inclined individuals. For more and more customers to better enjoy our LyricalHair brand service, we now built our own online mall.</p>
+                                <p>Lyricalhair operates globally through our online platforms to provide hair replacement systems at the best price available. Before we established this online mall, we mainly carried out B2B transactions with wholesalers and distributors but with the development of cross-border e-commerce, more and more individuals will bypass intermediaries and go directly to shopping online. To cater to these customers, we gradually immersed into the platform marketing of eBay, Amazon, and ALI Express using different brand names. So far good results have been achieved on these platforms with eBay and Amazon being two of our major channels having the largest number of reach on today's digitally-inclined market. For more and more customers to better enjoy our LyricalHairbrand service, we now build our own online mall.</p>
                             </div>
                         </div>
                         <div class="Certificate-anchor">
@@ -285,13 +293,13 @@
                                     <div class="icon-shell">
                                         <img src="{{ asset("img/Home/why_icon1.png") }}" alt="lyricalhair">
                                     </div>
-                                    <span>Non-Surgical Hair Replacement</span>
+                                    <span>Exquisite Manufacturing Expertise</span>
                                 </a>
                                 <a href="{{ route('why_lyricalhair') }}#part2Item2">
                                     <div class="icon-shell">
                                         <img src="{{ asset("img/Home/why_icon2.png") }}" alt="lyricalhair">
                                     </div>
-                                    <span>Ready To Wear</span>
+                                    <span>Guaranteed High Quality Products</span>
                                 </a>
                                 <a href="{{ route('why_lyricalhair') }}#part2Item3">
                                     <div class="icon-shell">
@@ -303,31 +311,31 @@
                                     <div class="icon-shell">
                                         <img src="{{ asset("img/Home/why_icon4.png") }}" alt="lyricalhair">
                                     </div>
-                                    <span>30-Day Money-Back Guarantee</span>
+                                    <span>Customer-centric Services</span>
                                 </a>
                                 <a href="{{ route('why_lyricalhair') }}#part2Item5">
                                     <div class="icon-shell">
                                         <img src="{{ asset("img/Home/why_icon5.png") }}" alt="lyricalhair">
-                                    </div>    
-                                    <span>Easy To Order Online</span>
+                                    </div>
+                                    <span>Ready To Wear</span>
                                 </a>
                                 <a href="{{ route('why_lyricalhair') }}#part2Item6">
                                     <div class="icon-shell">
                                         <img src="{{ asset("img/Home/why_icon6.png") }}" alt="lyricalhair">
-                                    </div>
-                                    <span>Safe Online Payment</span>
+                                    </div>    
+                                    <span>Easy To Order Online</span>
                                 </a>
                                 <a href="{{ route('why_lyricalhair') }}#part2Item7">
                                     <div class="icon-shell">
                                         <img src="{{ asset("img/Home/why_icon7.png") }}" alt="lyricalhair">
                                     </div>
-                                    <span>Fast Worldwide Free Shipping</span>
+                                    <span>Safe Online Payment</span>
                                 </a>
                                 <a href="{{ route('why_lyricalhair') }}#part2Item8">
                                     <div class="icon-shell">
                                         <img src="{{ asset("img/Home/why_icon8.png") }}" alt="lyricalhair">
                                     </div>
-                                    <span>Professional Customer Service</span>
+                                    <span>Fast Worldwide Shipping</span>
                                 </a>
                                 <a href="{{ route('why_lyricalhair') }}#part2Item9">
                                     <div class="icon-shell">
@@ -335,8 +343,59 @@
                                     </div>
                                     <span>Frequent Order Status Updates</span>
                                 </a>
+                                <a href="{{ route('why_lyricalhair') }}#part2Item10">
+                                    <div class="icon-shell">
+                                        <img src="{{ asset("img/Home/why_icon10.png") }}" alt="lyricalhair">
+                                    </div>
+                                    <span>Professional Customer Service</span>
+                                </a>
+                                <a href="{{ route('why_lyricalhair') }}#part2Item11">
+                                    <div class="icon-shell">
+                                        <img src="{{ asset("img/Home/why_icon11.png") }}" alt="lyricalhair">
+                                    </div>
+                                    <span>30-Day Money-Back Guarantee</span>
+                                </a>
+                                <a href="{{ route('why_lyricalhair') }}#part2Item12">
+                                    <div class="icon-shell">
+                                        <img src="{{ asset("img/Home/why_icon12.png") }}" alt="lyricalhair">
+                                    </div>
+                                    <span>We Pay It Forward</span>
+                                </a>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+            {{-- 评论展示 --}}
+            <div class="clients-say">
+                <div class="clients-content main-content">
+                    <p class="part-title">
+                        <img src="{{ asset("img/Home/what-say.png") }}" alt="lyricalhair">
+                    </p>
+                    <p class="clients-say-sub">With over 20 years of experience in the hair industry, we have already served (number of clients) around the world. Most of them became repeat customers and some even turned into our loyal partners. It is our greatest satisfaction to be able to build such strong connections with the community we cater to and thus we are forever grateful to be considered as a trusted supplier of hair replacement systems and be highly rated by the Better Business Bureau (BBB). For this we assure you that we will continue on delivering the highest quality products available to you and will keep helping you all to Be Comfortably Beautiful.</p>
+                    <p class="clients-say-sub">Look on what else our customers have to say down below:</p>
+                    {{-- 评论轮播 --}}
+                    <div class="clientsSay-swiper">
+                        <div class="swiper-container clientsSay" id="clientsSay">
+                            <div class="swiper-wrapper clientsSay-wrapper">
+                                {{-- 循环的内容 --}}
+                                <div class="swiper-slide">
+                                    <img src="{{ asset("img/Home/clientsSay-review.png") }}" alt="lyricalhair">
+                                </div>
+                                <div class="swiper-slide">
+                                    <img src="{{ asset("img/Home/clientsSay-review.png") }}" alt="lyricalhair">
+                                </div>
+                                <div class="swiper-slide">
+                                    <img src="{{ asset("img/Home/clientsSay-review.png") }}" alt="lyricalhair">
+                                </div>
+                                <div class="swiper-slide">
+                                    <img src="{{ asset("img/Home/clientsSay-review.png") }}" alt="lyricalhair">
+                                </div>
+    
+                            </div>
+                        </div>
+                        <div class="swiper-button-prev clientsSay-prev"></div>
+                        <div class="swiper-button-next clientsSay-next"></div>
                     </div>
                 </div>
             </div>
@@ -415,7 +474,7 @@
                 slidesToScroll: 1, //要滚动的幻灯片数量
                 focusOnSelect: true, //启用选定元素的焦点（单击）
                 touchThreshold: 300, //滑动切换阈值，即滑动多少像素后切换
-                infinite: false, //无限循环
+                infinite: true, //无限循环
                 swipeToSlide: true, //允许用户将幻灯片直接拖动或滑动到幻灯片
                 lazyLoad: 'ondemand', //接受'ondemand'或'progressive'<img data-lazy="img/lazyfonz1.png"/>
                 variableWidth: false, //幻灯片宽度自适应
@@ -444,6 +503,7 @@
             function initSwiper (DomId) {
                 var productZoneswiper = new Swiper(DomId, {
                     // autoplay: true,
+                    loop: true,
                     slidesPerView: 4,
                     spaceBetween: 30,
                     navigation: {
@@ -474,10 +534,39 @@
             var Certificateswiper = new Swiper('#Certificate', {
                 // slidesPerView: 1,
                 // // spaceBetween: 30,
+                loop: true,
                 navigation: {
                     nextEl: '.certificate-next',
                     prevEl: '.certificate-prev',
                 },
+            });
+            // 评论展示轮播
+            var clientsSayswiper = new Swiper("#clientsSay", {
+                // autoplay: true,
+                loop: true,
+                slidesPerView: 2,
+                spaceBetween: 30,
+                navigation: {
+                    nextEl: '.clientsSay-next',
+                    prevEl: '.clientsSay-prev',
+                },
+                breakpoints: { 
+                    //当宽度小于等于320
+                    320: {
+                    slidesPerView: 1,
+                    spaceBetween: 10
+                    },
+                //当宽度小于等于480
+                    480: { 
+                    slidesPerView: 1,
+                    spaceBetween: 20
+                    },
+                    //当宽度小于等于640
+                    640: {
+                    slidesPerView: 1,
+                    spaceBetween: 30
+                    }
+                }
             });
             // 图片弹窗
             //Init lightbox  图片弹窗

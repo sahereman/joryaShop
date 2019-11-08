@@ -19,9 +19,12 @@
   display: flex;
   justify-content: flex-start;
   flex-wrap: wrap;
-  width: 85%;
-  @media only screen and (max-width: 750px){
-    width: 100%;
+  width: 100%;
+  p {
+    color: #444;
+    font-size: 14px;
+    line-height: 30px;
+    font-weight: 600;
   }
   .why-part-item {
     display: flex;
@@ -54,27 +57,37 @@
 }
 // 模块二
 .why-part2 {
-  background: url(../img/articles/why-bg.png) center no-repeat;
+  // background: url(../img/articles/why-bg.png) center no-repeat;
   .why-part2-item {
     margin-bottom: 30px;
     .why-part2-item-title {
+      display: flex;
       margin-bottom: 15px;
       padding: 0 5px;
       width: 222px;
-      height: 30px;
+      // height: 30px;
       line-height: 30px;
-      background-color: #bf2a24;
-      color: #fff;
+      // background-color: #bf2a24;
+      color: #444;
       font-size: 13px;
       font-family: ArialMT;
       font-weight: bold;
       min-width: max-content;
+      .item-title-img {
+        width: 42px;
+        height: 42px;
+        text-align: left;
+      }
+      span {
+        margin: auto 0;
+        margin-left: 15px;
+      }
     }
     .why-part2-item-content {
       color: #444;
       font-size: 14px;
       line-height: 24px;
-      font-weight: 600;
+      // font-weight: 600;
     }
   }
   .target-fix {
@@ -90,14 +103,30 @@
   display: flex;
   margin-bottom: 49px;
   width: 100%;
+  .Factory-by {
+    width: 100%;
+    overflow: hidden;
+  }
+  .swiper-slide {
+    .slide-img {
+      width: 100%;
+      height: 100%;
+      display: flex;
+    }
+  }
   img {
     width: auto;
     margin: auto;
+    transition: all .3s;
+    cursor: pointer;
     @media only screen and (max-width: 1200px){
       width: 100%;
     }
     @media only screen and (max-width: 750px){
       width: 100%;
+    }
+    &:hover {
+      transform: scale(1.2);
     }
   }
 }

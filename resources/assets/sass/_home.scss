@@ -39,7 +39,7 @@
       color: #747474;
       font-size:16px;
       line-height:30px;
-      margin-bottom: 30px;
+      // margin-bottom: 30px;
       @media only screen and (max-width: 750px){
         margin-bottom: 15px;
       }
@@ -299,6 +299,7 @@
     background-image: url(../img/Home/zone-next.png) !important;
     background-size: auto;
     top: 30%;
+    outline: none;
     @media only screen and (max-width: 750px){
       display: none;
     }
@@ -311,6 +312,7 @@
     background-image: url(../img/Home/zone-prev.png) !important;
     background-size: auto;
     top: 30%;
+    outline: none;
     @media only screen and (max-width: 750px){
       display: none;
     }
@@ -550,6 +552,35 @@
       }
     }
   // }
+  // 文档下载
+  .download-Catalog {
+    position: relative;
+    display: flex;
+    margin: 105px auto;
+    width: 100%;
+    height: 245px;
+    @media only screen and (max-width: 750px){
+      display: none;
+    }
+    >img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+    a {
+      margin: auto;
+      margin-bottom: 50px;
+      position: relative;
+      display: block;
+      padding: 15px 25px;
+      color: #40464d;
+      font-size: 24px;
+      font-family: 'AvenirNext';
+      background: #fff;
+    }
+  }
   .why-youtube {
     display: flex;
     flex-direction: column;
@@ -801,6 +832,10 @@
                   // width: 100% !important;
                   // margin: auto;
                   text-align: center;
+                  img {
+                    max-width: 190px;
+                    max-height: 250px;
+                  }
                 }
               }
               .certificate-prev {
@@ -840,7 +875,7 @@
               display: flex;
               flex-direction: column;
               width: 145px;
-              margin: 0 5%;
+              margin: 0 3%;
               margin-bottom: 35px;
               padding: 10px 0;
               transition: all .3s;
@@ -919,6 +954,64 @@
         }
         @media only screen and (max-width: 750px){
           height: 350px;
+        }
+      }
+    }
+  }
+  // 评论展示
+  .clients-say {
+    position:relative;
+    padding: 100px 0;
+    width: 100%;
+    background-color: #fff;
+    .clients-say-sub {
+      margin: auto;
+      margin-bottom: 30px;
+      width: 80%;
+      text-align: center;
+      font-size: 16px;
+      color: #666;
+      line-height: 25px;
+    }
+    .clientsSay {
+      width:80%;
+      margin:auto;
+      position:relative;
+      @media only screen and (max-width: 750px){
+        width:100%;
+      }
+      .swiper-slide {
+        img {
+          width: 100%;
+        }
+      }
+    }
+    .clientsSay-swiper {
+      position:relative;
+      .clientsSay-prev {
+        margin-left: 1%;
+        width: 54px;
+        height: 130px;
+        background-color: #eee;
+        background-image: url(../img/Home/zone-prev.png) !important;
+        background-size: auto;
+        top: 30%;
+        outline: none;
+        @media only screen and (max-width: 750px){
+          display: none;
+        }
+      }
+      .clientsSay-next {
+        margin-right: 1%;
+        width: 54px;
+        height: 130px;
+        background-color: #eee;
+        background-image: url(../img/Home/zone-next.png) !important;
+        background-size: auto;
+        top: 30%;
+        outline: none;
+        @media only screen and (max-width: 750px){
+          display: none;
         }
       }
     }
