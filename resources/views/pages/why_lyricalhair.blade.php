@@ -237,7 +237,7 @@
 <script src="{{ asset('js/swiper/js/swiper.min.js') }}"></script>
 <script type="text/javascript">
   var FactoryBywiper = new Swiper('#FactoryBy', {
-      // autoplay: true,
+      autoplay: true,
       // slidesPerView: 4,
       // spaceBetween: 30,
       loop : true,
@@ -259,5 +259,13 @@
           }
       }
   });
+  // 鼠标移入停止自动滚动
+$('.swiper-slide').mouseenter(function() {
+  FactoryBywiper.autoplay.stop();
+})
+// 鼠标移出开始自动滚动
+$('.swiper-slide').mouseleave(function() {
+  FactoryBywiper.autoplay.start();
+})
 </script>
 @endsection
