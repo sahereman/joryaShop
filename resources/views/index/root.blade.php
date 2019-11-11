@@ -239,7 +239,7 @@
             {{-- 文档预览 --}}
             <div class="download-Catalog main-content">
                 <img src="{{ asset("img/Home/download.png") }}" alt="lyricalhair">
-                <a href="#" class="download-btn" target="_blank">
+                <a href="https://www.lyricalhair.com/storage/Download-Our-Catalog.pdf" class="download-btn" target="_blank">
                     <img src="{{ asset("img/Home/download-btn.png") }}" alt="lyricalhair">
                     <span>Download Our Catalog</span>
                 </a>

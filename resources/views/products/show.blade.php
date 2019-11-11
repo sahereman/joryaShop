@@ -166,7 +166,7 @@
                                     <span class="dynamic_name">Condition</span>
                                 </div>
                                 <div class="sku-select-module">
-                                    <div class="sku-select-value">
+                                    <div class="sku-select-value select-for-show">
                                         <span class="sku-select-value-show">New with tags</span>
                                     </div>
                                 </div>

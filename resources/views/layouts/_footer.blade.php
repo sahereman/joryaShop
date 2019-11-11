@@ -35,8 +35,10 @@
         <div class="subscribe-form main-content">
             {{-- <form> --}}
                 <img src="{{ asset("img/footer/Subscription.png") }}" alt="lyricalhair">
-                <p>Subscribe to get more product information, maintenance knowledge</p>
-                <p class="last-subscribe">special offers and important notices.</p>
+                {{-- Subscribe to get more product information, maintenance knowledge --}}
+                <p>Cant't Find Any Stock Hairpiece For Your Specific Requirements ?</p>
+                {{-- special offers and important notices. --}}
+                <p class="last-subscribe">Order our custom hair piece today & Receive it in 6 Weeks!</p>
                 <a href="javascript:viod(0)" class="Start-subscribe">Start From 1 Piece</a>
                 {{-- 自定义订阅弹窗 --}}
                 <div class="popup-wrap">

@@ -1595,6 +1595,10 @@
       text-overflow: ellipsis;
       color: #5b5b5b;
     }
+    &.select-for-show {
+      background: none;
+      border: 0;
+    }
   }
   .sku-select-options {
     display: none;
