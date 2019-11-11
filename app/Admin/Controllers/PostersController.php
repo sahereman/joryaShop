@@ -147,7 +147,7 @@ class PostersController extends Controller
             'mens_wig' => "Men's Wig (单图)",
             'ladies_wig' => "Ladies' Wig (单图)",
             'wig_accessories' => "Wig Accessories (单图)",
-            'why_lyricalhair' => 'Why LyricalHair (多图)',
+            'why_lyricalhair' => 'Why LyricalHair (多图) (建议图片尺寸：190 * 250)',
             'about_us' => 'About Us (多图)',
         ];
 
