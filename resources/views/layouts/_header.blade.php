@@ -132,7 +132,7 @@
                 <div class="menu-list">
                     {{-- 一级导航 --}}
                     <ul class="first-menu">
-                        <li class="img_menu">
+                        <li class="img_menu first-tab">
                             <a class="first-nav" href="{{ route('root') }}">HOME</a>
                         </li>
                         @foreach(\App\Models\Menu::pcMenus() as $menu)

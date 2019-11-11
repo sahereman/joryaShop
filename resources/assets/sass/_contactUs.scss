@@ -77,7 +77,12 @@
         }
       }
     }
+    .mapinfo {
+      display: flex;
+      justify-content: space-between;
+    }
     .information-part-way {
+      width: 50%;
       li {
         display: flex;
         justify-content: flex-start;

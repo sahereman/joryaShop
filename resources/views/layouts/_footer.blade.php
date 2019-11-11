@@ -17,12 +17,13 @@
                 <span>replacement consultant</span>
             </li>
             <li>
+                <a href="skype:live:info_1104672?chat"></a>
                 <img src="{{ asset("img/footer/service.png") }}" alt="lyricalhair">
-                <span class="part-title">Call Us</span>
+                <span class="part-title">Skype Call Us</span>
                 <span>Office Phone: +86-532-85878587</span>
                 <span>WhatsApp: +86-15764271924</span>
             </li>
-            <li>
+            <li class="Start-subscribe">
                 <img src="{{ asset("img/footer/email-us.png") }}" alt="lyricalhair">
                 <span class="part-title">Email Us</span>
                 <span>Tell Us How We can help</span>

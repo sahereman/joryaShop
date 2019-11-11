@@ -38,7 +38,7 @@
                     {{-- <span>We also offer significant savings because we are an internet based business; our overhead costs are much lower and we pass 
                         these additional savings on to you. We offer this new way to get a hair replacement which is both affordable and easy to 
                         order, without ever leaving the comfort of your home. Remember...</span> --}}
-                    <span>LyricalHair has been providing dependable hair replacement system manufacturing services to our customers since 1999. During the past 20 years we have been operating from three branches located in China, Dubai, and The United States. Our brand is currently able to ship to over 30 countries...</span>
+                    <span>LyricalHair has been providing dependable hair replacement system manufacturing services to our customers since 1999...</span>
                 </div>
                 <div class="lyrical-info-link">
                     <a href="{{ route('about_us') }}">LEARN MORE</a>
@@ -240,7 +240,8 @@
             <div class="download-Catalog main-content">
                 <img src="{{ asset("img/Home/download.png") }}" alt="lyricalhair">
                 <a href="https://www.lyricalhair.com/storage/Download-Our-Catalog.pdf" class="download-btn" target="_blank">
-                    <img src="{{ asset("img/Home/download-btn.png") }}" alt="lyricalhair">
+                    <img class="normal_icon" src="{{ asset("img/Home/download-btn.png") }}" alt="lyricalhair">
+                    <img class="active_icon" src="{{ asset("img/Home/download_white.png") }}" alt="lyricalhair">
                     <span>Download Our Catalog</span>
                 </a>
             </div>
@@ -250,7 +251,10 @@
                     {{-- 第三版 --}}
                     <div class="why-lyrical-top main-content">
                         <div class="top-text">
-                            <p class="why-lyrical-title">WHY CHOOSE LYRICALHAIR</p>
+                            {{-- <p class="why-lyrical-title">WHY CHOOSE LYRICALHAIR</p> --}}
+                            <p class="part-title">
+                                <img src="{{ asset("img/Home/WHYCHOOSELYRICALHAIR.png") }}" alt="lyricalhair">
+                            </p>
                             <a class="why-lyrical-link" href="{{ route('why_lyricalhair') }}">More details >></a>
                             <div class="why-lyrical-top-info">
                                 <p>Lyricalhair operates globally through our online platforms to provide hair replacement systems at the best price available. Before we established this online mall, we mainly carried out B2B transactions with wholesalers and distributors but with the development of cross-border e-commerce, more and more individuals will bypass intermediaries and go directly to shopping online. To cater to these customers, we gradually immersed into the platform marketing of eBay, Amazon, and ALI Express using different brand names. So far good results have been achieved on these platforms with eBay and Amazon being two of our major channels having the largest number of reach on today's digitally-inclined market. For more and more customers to better enjoy our LyricalHairbrand service, we now build our own online mall.</p>
@@ -379,19 +383,11 @@
                         <div class="swiper-container clientsSay" id="clientsSay">
                             <div class="swiper-wrapper clientsSay-wrapper">
                                 {{-- 循环的内容 --}}
-                                <div class="swiper-slide">
-                                    <img src="{{ asset("img/Home/clientsSay-review.png") }}" alt="lyricalhair">
-                                </div>
-                                <div class="swiper-slide">
-                                    <img src="{{ asset("img/Home/clientsSay-review.png") }}" alt="lyricalhair">
-                                </div>
-                                <div class="swiper-slide">
-                                    <img src="{{ asset("img/Home/clientsSay-review.png") }}" alt="lyricalhair">
-                                </div>
-                                <div class="swiper-slide">
-                                    <img src="{{ asset("img/Home/clientsSay-review.png") }}" alt="lyricalhair">
-                                </div>
-    
+                                <?php $_ii=1; while ($_ii++ < 14): ?>
+                                    <div class="swiper-slide">
+                                        <img src="{{ asset("img/review/$_ii.png") }}" alt="lyricalhair">
+                                    </div>
+                                <?php endwhile; ?>
                             </div>
                         </div>
                         <div class="swiper-button-prev clientsSay-prev"></div>

@@ -138,7 +138,8 @@
                     {{-- 简介 --}}
                     <div class="short-description">
                         <div class="std">
-                            <textarea class="std-content" name="" id="topArticle" cols="30" readonly>{!! App::isLocale('zh-CN') ? $product->description_zh : $product->description_en !!}</textarea>
+                            {{-- <textarea class="std-content" name="" id="topArticle" cols="30" readonly>{!! App::isLocale('zh-CN') ? $product->description_zh : $product->description_en !!}</textarea> --}}
+                            <p class="std-content" id="topArticle" readonly>{!! App::isLocale('zh-CN') ? $product->description_zh : $product->description_en !!}</p>
                         </div>
                         {{-- <a href="javascript:void(0)" class="down-more" id="down-more">
                             <img src=" {{ asset('img/down-more.png') }}" alt="">
