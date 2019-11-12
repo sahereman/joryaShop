@@ -44,7 +44,9 @@
             </div>
             {{-- 服务口号 --}}
             <div class="service-commitment">
+                <img class="reserve" src="{{ asset('img/header/figure.png') }}" alt="lyricalhair">
                 <span>Be Comfortably Beautiful</span>
+                <img src="{{ asset('img/header/figure.png') }}" alt="lyricalhair">
             </div>
             {{-- 登录注册&&购物车等 --}}
             <div class="register-login">

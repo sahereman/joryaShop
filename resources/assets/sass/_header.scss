@@ -68,6 +68,11 @@ header {
     @media only screen and (max-width: 750px){
       display: none;
     }
+    img {
+      &.reserve {
+        transform: rotateY(180deg);
+      }
+    }
   }
   .register-login {
     margin: auto;
