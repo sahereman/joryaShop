@@ -1180,12 +1180,14 @@
                       .info_table_tbody {
                         display: flex;
                         flex-wrap: wrap;
+                        justify-content: flex-start;
                         li {
                           display: flex;
                           margin: auto;
                           margin-top: 0;
+                          margin-left: 0;
                           width: 50%;
-                          line-height: 30px;
+                          line-height: 25px;
                           span {
                             display: inline-block;
                           }
