@@ -349,6 +349,23 @@
                         @endif
                     </ul>
                     <div class="mc tabcon product_info">
+                        {{-- 商品详情信息 --}}
+                        <div class="product_info_table">
+                            <h2 class="info_table_title">Item specifics</h2>
+                            <ul class="info_table_tbody">
+                                {{-- 这个也是循环内容为了查看样式单独拿出来，正式循环时包括在下面的循环里 --}}
+                                <li>
+                                    <span class="info_table_name">Condition:</span>
+                                    <span class="info_table_content">A brand-new, unused, and unworn item (including handmade items) in the original packaging (such as </span>
+                                </li>
+                                <?php $_ii=1; while ($_ii++ < 14): ?>
+                                    <li>
+                                        <span class="info_table_name">Gender:</span>
+                                        <span class="info_table_content">Men</span>
+                                    </li>
+                                <?php endwhile; ?>
+                            </ul>
+                        </div>
                         {{--商品详情部分iframe--}}
                         <div class="iframe_content dis_ni">
                             {{-- 用来存放后台返回的的iframe的数据或者富文本 --}}
