@@ -90,6 +90,7 @@
       padding: 30px 25px;
       background-color: #bf2a24;
       @media only screen and (max-width: 750px){
+        width: 100%;
         padding: 15px 10px;
       }
       .video-title {
@@ -854,17 +855,23 @@
                 .swiper-slide {
                   // width: 100% !important;
                   // margin: auto;
+                  padding: 25px 0;
                   text-align: center;
                   img {
                     max-width: 190px;
                     max-height: 250px;
+                    transition: all .3s;
+                    &:hover {
+                      transform: scale(1.2);
+                    }
                   }
                 }
               }
               .certificate-prev {
                 width: 54px;
                 height: 130px;
-                background-color: #63686d;
+                // background-color: #63686d;
+                background-color: #BF2A24;
                 background-image: url(../img/Home/why-prev.png) !important;
                 background-size: auto;
                 top: 30%;
@@ -878,7 +885,8 @@
               .certificate-next {
                 width: 54px;
                 height: 130px;
-                background-color: #63686d;
+                // background-color: #63686d;
+                background-color: #BF2A24;
                 background-image: url(../img/Home/why-next.png) !important;
                 background-size: auto;
                 top: 30%;

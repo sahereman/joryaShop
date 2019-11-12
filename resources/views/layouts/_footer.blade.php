@@ -35,7 +35,7 @@
     <div class="footer-center">
         <div class="subscribe-form main-content">
             {{-- <form> --}}
-                <img src="{{ asset("img/footer/Subscription.png") }}" alt="lyricalhair">
+                <img src="{{ asset("img/footer/CanFind.png") }}" alt="lyricalhair">
                 {{-- Subscribe to get more product information, maintenance knowledge --}}
                 <p>Cant't Find Any Stock Hairpiece For Your Specific Requirements ?</p>
                 {{-- special offers and important notices. --}}

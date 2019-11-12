@@ -50,11 +50,19 @@ footer {
       >img {
         margin-top: 71px;
         margin-bottom: 30px;
+        @media only screen and (max-width: 750px){
+          display: none;
+        }
       }
       >p {
+        display: none;
         font-size: 14px;
         color: #fff;
         opacity: .6;
+        @media only screen and (max-width: 750px){
+          display: block;
+          margin-top: 25px;
+        }
         &.last-subscribe {
           margin-bottom: 44px;
         }

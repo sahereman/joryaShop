@@ -376,7 +376,7 @@
                     <p class="part-title">
                         <img src="{{ asset("img/Home/what-say.png") }}" alt="lyricalhair">
                     </p>
-                    <p class="clients-say-sub">With over 20 years of experience in the hair industry, we have already served (number of clients) around the world. Most of them became repeat customers and some even turned into our loyal partners. It is our greatest satisfaction to be able to build such strong connections with the community we cater to and thus we are forever grateful to be considered as a trusted supplier of hair replacement systems and be highly rated by the Better Business Bureau (BBB). For this we assure you that we will continue on delivering the highest quality products available to you and will keep helping you all to Be Comfortably Beautiful.</p>
+                    <p class="clients-say-sub">With over 20 years of experience in the hair industry, we have already served number of clients around the world. Most of them became repeat customers and some even turned into our loyal partners. It is our greatest satisfaction to be able to build such strong connections with the community we cater to and thus we are forever grateful to be considered as a trusted supplier of hair replacement systems and be highly rated by the Better Business Bureau (BBB). For this we assure you that we will continue on delivering the highest quality products available to you and will keep helping you all to Be Comfortably Beautiful.</p>
                     <p class="clients-say-sub">Look on what else our customers have to say down below:</p>
                     {{-- 评论轮播 --}}
                     <div class="clientsSay-swiper">
