@@ -472,6 +472,38 @@ class ProductsController extends Controller
             ]);
         });
 
+        /*$delta_price = 0;
+        $custom_attr_values = $request->input('custom_attr_values');
+        // $custom_attr_values = explode(',', $custom_attr_values);
+
+        foreach ($custom_attr_values as $custom_attr_value) {
+            $delta_price = bcadd($delta_price, $custom_attr_value['delta_price'], 2);
+        }
+
+        $product_sku = ProductSku::create([
+            'product_id' => $product->id,
+            'name_en' => 'custom product sku of lyrical hair',
+            'name_zh' => 'custom product sku of lyrical hair',
+            'photo' => '',
+            'delta_price' => $delta_price,
+            'stock' => 100, // 暂定数值，占位用，便于客户在购物车内追加购买数量
+            'sales' => 1,
+        ]);
+
+        $product_sku_id = $product_sku->id;
+        // $custom_attr_value_count = count($custom_attr_values);
+
+        foreach ($custom_attr_values as $key => $custom_attr_value) {
+            ProductSkuCustomAttrValue::create([
+                'product_sku_id' => $product_sku_id,
+                'type' => $custom_attr_value['type'],
+                'name' => $custom_attr_value['name'],
+                'value' => $custom_attr_value['value'],
+                // 'sort' => (integer)($custom_attr_value_count - $key)
+                'sort' => $custom_attr_value['sort']
+            ]);
+        }*/
+
         if ($user) {
             Cart::create([
                 'user_id' => $user->id,
@@ -533,7 +565,7 @@ class ProductsController extends Controller
 
         $delta_price = 0;
         $duplicate_attr_values = $request->input('duplicate_attr_values');
-        $duplicate_attr_values = explode(',', $duplicate_attr_values);
+        // $duplicate_attr_values = explode(',', $duplicate_attr_values);
 
         foreach ($duplicate_attr_values as $duplicate_attr_value) {
             $delta_price = bcadd($delta_price, $duplicate_attr_value['delta_price'], 2);
@@ -619,7 +651,7 @@ class ProductsController extends Controller
 
         $delta_price = 0;
         $repair_attr_values = $request->input('repair_attr_values');
-        $repair_attr_values = explode(',', $repair_attr_values);
+        // $repair_attr_values = explode(',', $repair_attr_values);
 
         foreach ($repair_attr_values as $repair_attr_value) {
             $delta_price = bcadd($delta_price, $repair_attr_value['delta_price'], 2);

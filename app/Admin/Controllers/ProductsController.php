@@ -545,7 +545,8 @@ class ProductsController extends Controller
         Attr::orderByDesc('sort')->get()->each(function (Attr $attr) use (&$attr_options) {
             $attr_options[$attr->name] = $attr->name;
         });
-        $form->checkbox('attr_names', 'SKU 属性选择 :')->options($attr_options);
+        // $form->checkbox('attr_names', 'SKU 属性选择 :')->options($attr_options);
+        $form->multipleSelect('attr_names', 'SKU 属性选择 :')->options($attr_options);
 
         /* 商品参数 */
         $form->divider();
@@ -555,7 +556,8 @@ class ProductsController extends Controller
             foreach ($param->values as $value) {
                 $param_options[$param->name][$value->value] = $value->value;
             }
-            $form->checkbox("grouped_param_values.{$param->name}", "商品参数 {$param->name} :")->options($param_options[$param->name]);
+            // $form->checkbox("grouped_param_values.{$param->name}", "商品参数 {$param->name} :")->options($param_options[$param->name]);
+            $form->multipleSelect("grouped_param_values.{$param->name}", "{$param->name} :")->options($param_options[$param->name]);
         }
 
         // })->tab('商品详细', function (Form $form) {

@@ -185,7 +185,7 @@ class Product extends Model
         $grouped_param_value_string = [];
         $this->params()->get(['name', 'value'])->each(function (ProductParam $param) use (&$grouped_param_value_string) {
             if (isset($grouped_param_value_string[$param->name])) {
-                $grouped_param_value_string[$param->name] .= ' . ' . $param->value;
+                $grouped_param_value_string[$param->name] .= ', ' . $param->value;
             } else {
                 $grouped_param_value_string[$param->name] = $param->value;
             }
