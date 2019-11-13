@@ -553,12 +553,13 @@ class ProductsController extends Controller
         $param_options = [];
         $params = Param::all();
         foreach ($params as $param) {
+            $param_name = str_replace(' ', '___', $param->name);
             foreach ($param->values as $value) {
-                $param_options[$param->name][$value->value] = $value->value;
+                $param_options[$param_name][$value->value] = $value->value;
             }
+            // $form->checkbox("grouped_param_values.{$param->name}", "商品参数 {$param->name} :")->options($param_options[$param->name]);
+            $form->multipleSelect("grouped_param_values.{$param_name}", "{$param->name} :")->options($param_options[$param_name]);
         }
-        // $form->checkbox("grouped_param_values.{$param->name}", "商品参数 {$param->name} :")->options($param_options[$param->name]);
-        $form->multipleSelect("grouped_param_values.{$param->name}", "{$param->name} :")->options($param_options[$param->name]);
 
         // })->tab('商品详细', function (Form $form) {
 
@@ -639,7 +640,8 @@ class ProductsController extends Controller
             /* 商品参数 */
             $grouped_param_values = request()->input('grouped_param_values', []);
             $product->params->each(function (ProductParam $param) use ($grouped_param_values) {
-                if (!in_array($param->name, $grouped_param_values) || !in_array($param->value, $grouped_param_values[$param->name])) {
+                $param_name = str_replace(' ', '___', $param->name);
+                if (!in_array($param_name, $grouped_param_values) || !in_array($param->value, $grouped_param_values[$param_name])) {
                     $param->delete();
                 }
             });
@@ -648,7 +650,7 @@ class ProductsController extends Controller
                     if ((!in_array($name, $grouped_param_values) || !in_array($value, $grouped_param_values[$name])) && !is_null($value)) {
                         ProductParam::create([
                             'product_id' => $product_id,
-                            'name' => $name,
+                            'name' => str_replace('___', ' ', $name),
                             'value' => $value
                         ]);
                     }

@@ -175,7 +175,7 @@ class Product extends Model
     {
         $grouped_param_values = [];
         $this->params()->get(['name', 'value'])->each(function (ProductParam $param) use (&$grouped_param_values) {
-            $grouped_param_values[$param->name][$param->value] = $param->value;
+            $grouped_param_values[str_replace(' ', '___', $param->name)][$param->value] = $param->value;
         });
         return $grouped_param_values;
     }
