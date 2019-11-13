@@ -148,6 +148,7 @@ class ProductCategoriesController extends Controller
             $products = $products->orderByDesc('index');
             // $all_products = $all_products->orderByDesc('index');
         }
+        $all_products = $products;
         $products = $products->simplePaginate(12);
 
         $param_values = [];
