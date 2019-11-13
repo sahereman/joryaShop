@@ -224,7 +224,7 @@
             <div class="input-group">
                 <input type="search" data-url="{{ route('products.search_hint') }}" class="selectInput_header"
                        placeholder="Search..."/>
-                <a href="javascript:void(0)">
+                <a href="javascript:void(0)" class="search_btn">
                     <img src="{{ asset('img/header/search-mask.png') }}" alt="lyricalhair">
                 </a>
             </div>
