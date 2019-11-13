@@ -63,7 +63,7 @@ class ProductCategoriesController extends Controller
         }*/
 
         $products = Product::where('on_sale', 1)->whereIn('product_category_id', $category_ids);
-        $all_products = Product::where('on_sale', 1)->whereIn('product_category_id', $category_ids);
+        // $all_products = Product::where('on_sale', 1)->whereIn('product_category_id', $category_ids);
 
         if ($is_by_param == 1 && count($query_param_values) > 0) {
             $query_data['is_by_param'] = $is_by_param;
