@@ -89,11 +89,11 @@ class FeedbacksController extends Controller
 
         $grid->id('Id');
         // $grid->user_id('User ID');
-        // $grid->name('Name');
+        $grid->name('Name');
         // $grid->gender('Gender');
         $grid->email('Email');
-        // $grid->phone('Phone');
-        // $grid->content('Content');
+        $grid->phone('Phone & Whatsapp');
+        $grid->content('Message');
         // $grid->type('Type');
         $grid->created_at('Created at')->sortable();
         // $grid->updated_at('Updated at');
@@ -117,11 +117,11 @@ class FeedbacksController extends Controller
 
         $show->id('Id');
         // $show->user_id('User ID');
-        // $show->name('Name');
+        $show->name('Name');
         // $show->gender('Gender');
         $show->email('Email');
-        // $show->phone('Phone');
-        // $show->content('Content');
+        $show->phone('Phone & Whatsapp');
+        $show->content('Message');
         // $show->type('Type');
         $show->created_at('Created at');
         // $show->updated_at('Updated at');
