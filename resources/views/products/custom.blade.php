@@ -113,12 +113,12 @@
                 {{-- SERVICE模块 --}}
                 <div class="customizations-slide-content active" id="tab-SERVICE">
                     <input type="hidden" class="addToCartSuccess" value="https://lyricalhair.com/carts">
-                    <input type="hidden" value="https://lyricalhair.com/products/custom/208" id="addToCartUrl">
+                    <input type="hidden" value="{{ route('products.custom.store', ['product' => $product->id]) }}" id="addToCartUrl">
                     <ul>
                         <li class="top-level">
                             <h6 class="block-title required">
                             <span class="red iconfont"></span>                                       
-                                <span class="select-title" title="Production Time">Production Time</span>
+                                <span class="select-title" data-type="Service" title="Production Time">Production Time</span>
                                 <span class="selected-option" title="Rush service 4-5 weeks" data-id="90"></span>
                                 <span class="opener iconfont"></span>
                             </h6>
@@ -149,7 +149,7 @@
                         <li class="top-level">    
                             <h6 class="block-title required">
                                 <span class="red iconfont"></span>                                
-                                <span class="select-title" title="Hair Cut">Hair Cut</span>
+                                <span class="select-title" data-type="Service" title="Hair Cut">Hair Cut</span>
                                 <span class="selected-option" title="Yes,have hair cut-in and styled" data-id="84"></span>
                                 <span class="opener iconfont"></span>
                             </h6>
@@ -182,12 +182,12 @@
                 {{-- BASE模块 --}}
                 <div class="customizations-slide-content" id="tab-BASE">
                     <input type="hidden" class="addToCartSuccess" value="http://joryashop.test/carts">
-                    <input type="hidden" value="http://joryashop.test/products/custom/1" id="addToCartUrl">
+                    <input type="hidden" value="{{ route('products.custom.store', ['product' => $product->id]) }}" id="addToCartUrl">
                     <ul>
                         <li class="top-level">
                             <h6 class="block-title required">
                                 <span class="red iconfont"></span>
-                                <span class="select-title" title="Base Size">Base Size</span>
+                                <span class="select-title" data-type="Base" title="Base Size">Base Size</span>
                                 <span class="selected-option" title=""></span>
                                 <span class="opener iconfont"></span>
                             </h6>
@@ -231,7 +231,7 @@
                         <li class="top-level">
                             <h6 class="block-title required">
                                 <span class="red iconfont"></span>
-                                <span class="select-title" title="Base Design">Base Design</span>
+                                <span class="select-title" data-type="Base" title="Base Design">Base Design</span>
                                 <span class="selected-option" title=""></span>
                                 <span class="opener iconfont"></span>
                             </h6>
@@ -324,7 +324,7 @@
                         <li class="top-level">
                             <h6 class="block-title required">
                                 <span class="red iconfont"></span>
-                                <span class="select-title" title="Base Material Color">Base Material Color</span>
+                                <span class="select-title" data-type="Base" title="Base Material Color">Base Material Color</span>
                                 <span class="selected-option" title=""></span>
                                 <span class="opener iconfont"></span>
                             </h6>
@@ -368,7 +368,7 @@
                         <li class="top-level">
                             <h6 class="block-title required">
                                 <span class="red iconfont">&#xe613;</span>
-                                <span class="select-title" title="Scallop Front">Scallop Front</span>
+                                <span class="select-title" data-type="Base" title="Scallop Front">Scallop Front</span>
                                 <span class="selected-option" title=""></span>
                                 <span class="opener iconfont">&#xe60f;</span>
                             </h6>
@@ -426,7 +426,7 @@
                         <li class="top-level">
                             <h6 class="block-title required">
                                 <span class="red iconfont"></span>
-                                <span class="select-title" title="Front Contour">Front Contour</span>
+                                <span class="select-title" data-type="Base" title="Front Contour">Front Contour</span>
                                 <span class="selected-option" title=""></span>
                                 <span class="opener iconfont"></span>
                             </h6>
@@ -472,12 +472,12 @@
                 {{-- hair模块 --}}
                 <div class="customizations-slide-content" id="tab-HAIR">
                     <input type="hidden" class="addToCartSuccess" value="https://lyricalhair.com/carts">
-                    <input type="hidden" value="https://lyricalhair.com/products/custom/208" id="addToCartUrl">
+                    <input type="hidden" value="{{ route('products.custom.store', ['product' => $product->id]) }}" id="addToCartUrl">
                     <ul>
                         <li class="top-level">
                             <h6 class="block-title required">
                                 <span class="red iconfont"></span>                            
-                                <span class="select-title" title="Hair Direction">Hair Direction</span>
+                                <span class="select-title" data-type="Hair" title="Hair Direction">Hair Direction</span>
                                 <span class="selected-option" title=""></span>
                                 <span class="opener iconfont"></span>
                             </h6>
@@ -558,7 +558,7 @@
                         <li class="top-level">
                             <h6 class="block-title required">
                                 <span class="red iconfont"></span>                                      
-                                <span class="select-title" title="Curl &amp; Wave">Curl &amp; Wave</span>
+                                <span class="select-title" data-type="Hair" title="Curl &amp; Wave">Curl &amp; Wave</span>
                                 <span class="selected-option" title=""></span>
                                 <span class="opener iconfont"></span>
                             </h6>
@@ -652,7 +652,7 @@
                         <li class="top-level">
                             <h6 class="block-title required">
                                 <span class="red iconfont"></span>           
-                                <span class="select-title" title="Hair Density">Hair Density</span>
+                                <span class="select-title" data-type="Hair" title="Hair Density">Hair Density</span>
                                 <span class="selected-option" title=""></span>
                                 <span class="opener iconfont"></span>
                             </h6>
@@ -718,7 +718,7 @@
                         <li class="top-level">
                             <h6 class="block-title required">
                                 <span class="red iconfont"></span>                                        
-                                <span class="select-title" title="Hair Length">Hair Length</span>
+                                <span class="select-title" data-type="Hair" title="Hair Length">Hair Length</span>
                                 <span class="selected-option" title=""></span>
                                 <span class="opener iconfont"></span>
                             </h6>
@@ -812,7 +812,7 @@
                         <li class="top-level hair-color-tip">
                             <h6 class="block-title required">
                                 <span class="red iconfont"></span>           
-                                <span class="select-title" title="Hair Color">Hair Color</span>
+                                <span class="select-title" data-type="Hair" title="Hair Color">Hair Color</span>
                                 <span class="selected-option hairColorOption" title=""></span>
                                 <span class="opener iconfont"></span>
                             </h6>
@@ -871,7 +871,7 @@
                         <li class="top-level">
                             <h6 class="block-title required">
                                 <span class="red iconfont"></span>           
-                                <span class="select-title" title="Hair Type">Hair Type</span>
+                                <span class="select-title" data-type="Hair" title="Hair Type">Hair Type</span>
                                 <span class="selected-option" title=""></span>
                                 <span class="opener iconfont"></span>
                             </h6>
@@ -923,7 +923,7 @@
                         <li class="top-level">
                             <h6 class="block-title required">
                                 <span class="red iconfont"></span>           
-                                <span class="select-title" title="Grey Hair">Grey Hair</span>
+                                <span class="select-title" data-type="Hair" title="Grey Hair">Grey Hair</span>
                                 <span class="selected-option" title=""></span>
                                 <span class="opener iconfont"></span>
                             </h6>
@@ -1182,7 +1182,7 @@
                         <li class="top-level">
                             <h6 class="block-title required">
                                 <span class="red iconfont"></span>           
-                                <span class="select-title" title="Highlight">Highlight</span>
+                                <span class="select-title" data-type="Hair" title="Highlight">Highlight</span>
                                 <span class="selected-option" title=""></span>
                                 <span class="opener iconfont"></span>
                             </h6>
@@ -1661,7 +1661,7 @@
                         <li class="top-level">
                             <h6 class="block-title required">
                                 <span class="red iconfont"></span>           
-                                <span class="select-title" title="Bleached Knot">Bleached Knot</span>
+                                <span class="select-title" data-type="Hair" title="Bleached Knot">Bleached Knot</span>
                                 <span class="selected-option" title=""></span>
                                 <span class="opener iconfont"></span>
                             </h6>
@@ -1701,7 +1701,7 @@
                         <li class="top-level">
                             <h6 class="block-title required">
                                 <span class="red iconfont"></span>           
-                                <span class="select-title" title="Under Knotting">Under Knotting</span>
+                                <span class="select-title" data-type="Hair" title="Under Knotting">Under Knotting</span>
                                 <span class="selected-option" title=""></span>
                                 <span class="opener iconfont"></span>
                             </h6>
@@ -1747,7 +1747,7 @@
                         </li>
                         <li class="top-level">
                             <h6 class="block-title">                    
-                                <span class="select-title" title="Baby Hair">Baby Hair</span>
+                                <span class="select-title" data-type="Hair" title="Baby Hair">Baby Hair</span>
                                 <span class="selected-option" title=""></span>
                                 <span class="opener iconfont"></span>
                             </h6>
@@ -1778,67 +1778,66 @@
 @endsection
 @section('scriptsAfterJs')
     <script type="text/javascript">
-        // {{-- 验证当前选项卡的必选项是否已经全部被选中 --}}
+        // 验证当前选项卡的必选项是否已经全部被选中
         function isALLChoosed(domId) {
-        var notSelect = true;
-        // domId是当前活跃的选项卡的ID
-        // 当前dom节点面板下的所有必填项的集合
-        var requiredAll = $(domId).find(".required");
-        $.each(requiredAll, function (i, n) {
-            if ($(n).find(".selected-option").html() == "") {
-                notSelect = false
-                return notSelect;
+            var notSelect = true;
+            // domId是当前活跃的选项卡的ID
+            // 当前dom节点面板下的所有必填项的集合
+            var requiredAll = $(domId).find(".required");
+            $.each(requiredAll, function (i, n) {
+                if ($(n).find(".selected-option").html() == "") {
+                    notSelect = false;
+                    return notSelect;
+                }
+            });
+            // 判断是否填写完成如果填写完成这再次点击此选项卡时不需要判断当前页面是否已经填写完成
+            if (notSelect == true) {
+                $(".custom-title-center").find("a[data-href='" + domId + "']").addClass("Completed");
+            }
+            return notSelect;
+        }
+        // 点击选项卡切换对应的页面内容
+        $(".custom-title-center").on("click", "a", function () {
+            var _that = $(this);
+            //  页面切换的时候进行验证，验证用户是否已选择了所有的必选项,如果已经选择了则进行下一步，如果不可以则提示
+            var nowactiveDom = $(".custom-title-center").find("li.active").find("a").attr("data-href"), // 当前活跃的选项卡的ID
+                    activeDom = $(this).attr("data-href"); // 即将要切换到的选项卡的ID
+            var getResult = isALLChoosed(nowactiveDom);
+            if ($(this).hasClass("Completed") != true) {
+                // 如果点击的选项卡不存在已完成的class则需要判断当前页面是否已经填写完成，
+                // 如果包含已经完成的标志，则直接跳转即可
+                if (getResult == false) {
+                    layer.alert("Please make sure that you have set every REQUIRED custom attribute");
+                    return;
+                }
+                // else {
+                // // 如果当前页面的所有的必填选项都已经选择完成则所有的选择拼接为一个小字符串
+                // var getCheckedVal = $(nowactiveDom).find(".selected-option");
+                // $.each(getCheckedVal,function (i,n) {
+                // if($(n).text()!=""){
+                // console.log($(n).text());
+                // }
+                // });
+                // }
+            }
+            var total_tabs = $(".custom-title-center").find("li").length;
+            var active_num = $(this).parent("li").index();
+            $(".custom-title-center").find("li").removeClass("active");
+            $(this).parents("li").addClass("active");
+            $(".customizations-slide").find(".customizations-slide-content").removeClass("active")
+            $(activeDom).addClass("active");
+            // 判断当前页是否是第一页，如果不是第一页则上一页按钮不显示
+            if (active_num != 0) {
+                $(".previous").css("display", "inline-block");
+                $(".next").css("display", "inline-block");
+                $(".addtocart").css("display", "none");
+            }
+            if (active_num == total_tabs - 1) {
+                // 添加购物车按钮显示
+                $(".addtocart").css("display", "inline-block");
+                $(".next").css("display", "none");
             }
         });
-        // 判断是否填写完成如果填写完成这再次点击此选项卡时不需要判断当前页面是否已经填写完成
-        if (notSelect == true) {
-            $(".custom-title-center").find("a[data-href='" + domId + "']").addClass("Completed");
-        }
-        return notSelect;
-        }
-        // {{-- 点击选项卡切换对应的页面内容 --}}
-        $(".custom-title-center").on("click", "a", function () {
-        var _that = $(this);
-        //  页面切换的时候进行验证，验证用户是否已选择了所有的必选项,如果已经选择了则进行下一步，如果不可以则提示
-        var nowactiveDom = $(".custom-title-center").find("li.active").find("a").attr("data-href"), // 当前活跃的选项卡的ID
-            activeDom = $(this).attr("data-href"); // 即将要切换到的选项卡的ID
-        var getResult = isALLChoosed(nowactiveDom);
-        if ($(this).hasClass("Completed") != true) {
-            //    如果点击的选项卡不存在已完成的clas则需要判断当前页面是否已经填写完成，
-            //    如果包含已经完成的标志，则直接跳转即可
-            if (getResult == false) {
-                layer.alert("Please make sure that you have set every REQUIRED custom attribute");
-                return;
-            }
-            // else {
-            // //    如果当前页面的所有的必填选项都已经选择完成则所有的选择拼接为一个小字符串
-            //     var getCheckedVal = $(nowactiveDom).find(".selected-option");
-            //     $.each(getCheckedVal,function (i,n) {
-            //         if($(n).text()!=""){
-            //             console.log($(n).text());
-            //         }
-            //     })
-            // };
-        }
-        var total_tabs = $(".custom-title-center").find("li").length;
-        var active_num = $(this).parent("li").index();
-        $(".custom-title-center").find("li").removeClass("active");
-        $(this).parents("li").addClass("active");
-        $(".customizations-slide").find(".customizations-slide-content").removeClass("active")
-        $(activeDom).addClass("active");
-        // 判断当前页是否是第一页，如果不是第一页则上一页按钮不显示
-        if (active_num != 0) {
-            $(".previous").css("display", "inline-block");
-            $(".next").css("display", "inline-block");
-            $(".addtocart").css("display", "none");
-        }
-        if (active_num == total_tabs - 1) {
-            // 添加购物车按钮显示
-            $(".addtocart").css("display", "inline-block");
-            $(".next").css("display", "none");
-        }
-        })
-        ;
         // 点击下一页按钮
         $(".next").on("click", function () {
             var index_active = $(".custom-title-center").find("li.active").index() + 1;
@@ -1892,7 +1891,7 @@
             })
         });
         // 点击添加到购物车
-        var dataString = {};  // 用于存储数据提交的字符串
+        var custom_attr_values_json = [];  // 用于存储数据提交的字符串
         $(".addtocart").on("click", function () {
             // 点击添加到购物车同时判断最后一页的内容中的必选项是否已经选择完成
             var index_active = $(".custom-title-center").find("li.active").index() + 1;
@@ -1907,68 +1906,205 @@
             var getCheckedVal = $(".customizations-slide").find(".block-title");
             $.each(getCheckedVal, function (i, n) {
                 if ($(n).text() != "") {
-                    // dataString += $(n).attr("data-id") + ","
-                    dataString[$(n).find(".select-title").text()] = $(n).find(".selected-option").text()
+                    // custom_attr_values_json += $(n).attr("data-id") + ","
+                    // custom_attr_values_json[$(n).find(".select-title").text()] = $(n).find(".selected-option").text();
+                    custom_attr_values_json.push({
+                        type: $(n).find(".select-title").attr('data-type'),
+                        name: $(n).find(".select-title").text(),
+                        value: $(n).find(".selected-option").text(),
+                        delta_price: 0,
+                    });
                 }
             });
-            // dataString = dataString.substring(0, dataString.length - 1);
+            // custom_attr_values_json = custom_attr_values_json.substring(0, custom_attr_values_json.length - 1);
             // 对特殊多选情况进行判断
             // Hair Color   Hair Color
             // Grey Hair 判断选中的内容是否为Customize my grey distribution and percentage
             // 判断Grey Hair的选择结果
             var GHairFirstChoose = $("input[name='Grey Hair']:checked").hasClass("hasChildTwo");  // 判断是否有子菜单，如果有子菜单进行下一类判断
-            if(GHairFirstChoose){
+            if (GHairFirstChoose) {
                 // 有子菜单
-                dataString["Grey Hair"] = "I want grey hair";
-                dataString["Grey Hair Type"] = $("input[name='Choose Grey Hair Type']:checked").parents("label").find(".val-text").text();
+                // custom_attr_values_json["Grey Hair"] = "I want grey hair";
+                custom_attr_values_json.push({
+                    type: 'Hair',
+                    name: 'Grey Hair',
+                    value: 'I want grey hair',
+                    delta_price: 0,
+                });
+                // custom_attr_values_json["Grey Hair Type"] = $("input[name='Choose Grey Hair Type']:checked").parents("label").find(".val-text").text();
+                custom_attr_values_json.push({
+                    type: 'Hair',
+                    name: 'Grey Hair Type',
+                    value: $("input[name='Choose Grey Hair Type']:checked").parents("label").find(".val-text").text(),
+                    delta_price: 0,
+                });
                 var GhairSecondChoose = $("input[name='Need Grey Hair Type']:checked").hasClass("Customize-percentage");
-                if(GhairSecondChoose){
-                    dataString["Grey Hair Need"] = $("input[name='Need Grey Hair Type']:checked").parents("label").find(".val-text").text();
-                    dataString["Grey Hair Need Front"] = $("select[name='Front']").val();
-                    dataString["Grey Hair Need Top"] = $("select[name='Top']").val();
-                    dataString["Grey Hair Need Crown"] = $("select[name='Crown']").val();
-                    dataString["Grey Hair Need Back"] = $("select[name='Back']").val();
-                    dataString["Grey Hair Need Temples"] = $("select[name='Temples']").val();
-                    dataString["Grey Hair Need Sides"] = $("select[name='Sides']").val();
-                    dataString["Grey Hair Need Note"] = $(".Highlight-Instruction").val();
-                }else {
-                    dataString["Grey Hair Need"] = $("input[name='Need Grey Hair Type']:checked").parents("label").find(".val-text").text();
+                if (GhairSecondChoose) {
+                    // custom_attr_values_json["Grey Hair Need"] = $("input[name='Need Grey Hair Type']:checked").parents("label").find(".val-text").text();
+                    custom_attr_values_json.push({
+                        type: 'Hair',
+                        name: 'Grey Hair Need',
+                        value: $("input[name='Need Grey Hair Type']:checked").parents("label").find(".val-text").text(),
+                        delta_price: 0,
+                    });
+                    // custom_attr_values_json["Grey Hair Need Front"] = $("select[name='Front']").val();
+                    custom_attr_values_json.push({
+                        type: 'Hair',
+                        name: 'Grey Hair Need Front',
+                        value: $("select[name='Front']").val(),
+                        delta_price: 0,
+                    });
+                    // custom_attr_values_json["Grey Hair Need Top"] = $("select[name='Top']").val();
+                    custom_attr_values_json.push({
+                        type: 'Hair',
+                        name: 'Grey Hair Need Top',
+                        value: $("select[name='Top']").val(),
+                        delta_price: 0,
+                    });
+                    // custom_attr_values_json["Grey Hair Need Crown"] = $("select[name='Crown']").val();
+                    custom_attr_values_json.push({
+                        type: 'Hair',
+                        name: 'Grey Hair Need Crown',
+                        value: $("select[name='Crown']").val(),
+                        delta_price: 0,
+                    });
+                    // custom_attr_values_json["Grey Hair Need Back"] = $("select[name='Back']").val();
+                    custom_attr_values_json.push({
+                        type: 'Hair',
+                        name: 'Grey Hair Need Back',
+                        value: $("select[name='Back']").val(),
+                        delta_price: 0,
+                    });
+                    // custom_attr_values_json["Grey Hair Need Temples"] = $("select[name='Temples']").val();
+                    custom_attr_values_json.push({
+                        type: 'Hair',
+                        name: 'Grey Hair Need Temples',
+                        value: $("select[name='Temples']").val(),
+                        delta_price: 0,
+                    });
+                    // custom_attr_values_json["Grey Hair Need Sides"] = $("select[name='Sides']").val();
+                    custom_attr_values_json.push({
+                        type: 'Hair',
+                        name: 'Grey Hair Need Sides',
+                        value: $("select[name='Sides']").val(),
+                        delta_price: 0,
+                    });
+                    // custom_attr_values_json["Grey Hair Need Note"] = $(".Highlight-Instruction").val();
+                    custom_attr_values_json.push({
+                        type: 'Hair',
+                        name: 'Grey Hair Need Note',
+                        value: $(".Highlight-Instruction").val(),
+                        delta_price: 0,
+                    });
+                } else {
+                    // custom_attr_values_json["Grey Hair Need"] = $("input[name='Need Grey Hair Type']:checked").parents("label").find(".val-text").text();
+                    custom_attr_values_json.push({
+                        type: 'Hair',
+                        name: 'Grey Hair Need',
+                        value: $("input[name='Need Grey Hair Type']:checked").parents("label").find(".val-text").text(),
+                        delta_price: 0,
+                    });
                 }
-                
-            }else {
+            } else {
                 // 没有子菜单
-                dataString["Grey Hair"] = "No need grey hair";
+                // custom_attr_values_json["Grey Hair"] = "No need grey hair";
+                custom_attr_values_json.push({
+                    type: 'Hair',
+                    name: 'Grey Hair',
+                    value: 'No need grey hair',
+                    delta_price: 0,
+                });
             }
             // Highlight 判断选中的内容是否为 I want to customize highlight和Choose the color code
             var HighlightFirstChoose = $("input[name='Highlight']:checked").hasClass("hasChildTwo");  // 判断是否有子菜单，如果有子菜单进行下一类判断
-            if(HighlightFirstChoose){
+            if (HighlightFirstChoose) {
                 // 有子菜单
-                dataString["Highlight"] = "I want highlights to my hair";
+                // custom_attr_values_json["Highlight"] = "I want highlights to my hair";
+                custom_attr_values_json.push({
+                    type: 'Hair',
+                    name: 'Highlight',
+                    value: 'I want highlights to my hair',
+                    delta_price: 0,
+                });
                 var HighlightSecondChoose = $("input[name='Highlight Type']:checked").hasClass("customize-highlight");
-                if(HighlightSecondChoose){
-                    dataString["Highlight Type"] = "I want to customize highlight";
+                if (HighlightSecondChoose) {
+                    // custom_attr_values_json["Highlight Type"] = "I want to customize highlight";
+                    custom_attr_values_json.push({
+                        type: 'Hair',
+                        name: 'Highlight Type',
+                        value: 'I want to customize highlight',
+                        delta_price: 0,
+                    });
                     var HighlightthreeChoose = $("input[name='Highlight Color']:checked").hasClass("color-codes");
-                    if(HighlightthreeChoose) {
-                        dataString["Highlight Color"] = "Choose the color code"
-                        dataString["hairColorChart"] = $("input[name='hairColorChart']:checked").parents("label").find(".val-text").text()
-                    }else {
-                        dataString["Highlight Color"] = $("input[name='Highlight Color']:checked").parents("label").find(".val-text").text();
+                    if (HighlightthreeChoose) {
+                        // custom_attr_values_json["Highlight Color"] = "Choose the color code";
+                        custom_attr_values_json.push({
+                            type: 'Hair',
+                            name: 'Highlight Color',
+                            value: "Choose the color code",
+                            delta_price: 0,
+                        });
+                        // custom_attr_values_json["hairColorChart"] = $("input[name='hairColorChart']:checked").parents("label").find(".val-text").text();
+                        custom_attr_values_json.push({
+                            type: 'Hair',
+                            name: 'hairColorChart',
+                            value: $("input[name='hairColorChart']:checked").parents("label").find(".val-text").text(),
+                            delta_price: 0,
+                        });
+                    } else {
+                        // custom_attr_values_json["Highlight Color"] = $("input[name='Highlight Color']:checked").parents("label").find(".val-text").text();
+                        custom_attr_values_json.push({
+                            type: 'Hair',
+                            name: 'Highlight Color',
+                            value: $("input[name='Highlight Color']:checked").parents("label").find(".val-text").text(),
+                            delta_price: 0,
+                        });
                     }
-                    dataString["Highlight Percentage"] = $("input[name='hp']").val();
-                    dataString["EvenlySpot"] = $("input[name='EvenlySpot']:checked").parents("label").find(".val-text").text();
-                    dataString["Highlight Note"] = $("input[name='EvenlySpot']:checked").parents("label").find(".val-text").text();
+                    // custom_attr_values_json["Highlight Percentage"] = $("input[name='hp']").val();
+                    custom_attr_values_json.push({
+                        type: 'Hair',
+                        name: 'Highlight Percentage',
+                        value: $("input[name='hp']").val(),
+                        delta_price: 0,
+                    });
+                    // custom_attr_values_json["EvenlySpot"] = $("input[name='EvenlySpot']:checked").parents("label").find(".val-text").text();
+                    custom_attr_values_json.push({
+                        type: 'Hair',
+                        name: 'EvenlySpot',
+                        value: $("input[name='EvenlySpot']:checked").parents("label").find(".val-text").text(),
+                        delta_price: 0,
+                    });
+                    // custom_attr_values_json["Highlight Note"] = $("input[name='EvenlySpot']:checked").parents("label").find(".val-text").text();
+                    custom_attr_values_json.push({
+                        type: 'Hair',
+                        name: 'Highlight Note',
+                        value: $("input[name='EvenlySpot']:checked").parents("label").find(".val-text").text(),
+                        delta_price: 0,
+                    });
 
-                }else {
-                    dataString["Highlight Type"] = $("input[name='Highlight Type']:checked").parents("label").find(".val-text").text();
+                } else {
+                    // custom_attr_values_json["Highlight Type"] = $("input[name='Highlight Type']:checked").parents("label").find(".val-text").text();
+                    custom_attr_values_json.push({
+                        type: 'Hair',
+                        name: 'Highlight Type',
+                        value: $("input[name='Highlight Type']:checked").parents("label").find(".val-text").text(),
+                        delta_price: 0,
+                    });
                 }
-            }else {
+            } else {
                 // 没有子菜单
-                dataString["Highlight"] = "No need highlights";
+                // custom_attr_values_json["Highlight"] = "No need highlights";
+                custom_attr_values_json.push({
+                    type: 'Hair',
+                    name: 'Highlight',
+                    value: "No need highlights",
+                    delta_price: 0,
+                });
             }
-            console.log(dataString)
+            console.log(custom_attr_values_json);
             var data = {
                 _token: "{{ csrf_token() }}",
-                custom_attr_value_ids: dataString
+                custom_attr_values: custom_attr_values_json,
             };
             $.ajax({
                 type: "post",
@@ -2032,31 +2168,31 @@
             return number;
         }
 
-        // {{--点击title出现一级列表--}}
+        // 点击title出现一级列表
         $(".customizations-slide").on("click", ".block-title", function () {
-        var img_url_default = "{{ $product->photo_urls[0] }}";
-        var img_url = $(this).parents(".top-level").find(".block-list").attr("data-url");
-        var isOpened = $(this).hasClass("opened");
-        if (isOpened) {
-            $(this).removeClass("opened");
-            $(".customizations-slide").find(".block-content").slideUp();
-            $(".customizations-img").find("img").prop("src", img_url_default);
-        } else {
-            $(".customizations-slide").find(".block-title").removeClass("opened");
-            $(".customizations-slide").find(".block-content").slideUp();
-            $(this).addClass("opened");
-            $(this).parents("li").find(".block-content").slideDown();
-            if (img_url != "") {
-                $(".customizations-img").find("img").prop("src", img_url);
+            var img_url_default = "{{ $product->photo_urls[0] }}";
+            var img_url = $(this).parents(".top-level").find(".block-list").attr("data-url");
+            var isOpened = $(this).hasClass("opened");
+            if (isOpened) {
+                $(this).removeClass("opened");
+                $(".customizations-slide").find(".block-content").slideUp();
+                $(".customizations-img").find("img").prop("src", img_url_default);
+            } else {
+                $(".customizations-slide").find(".block-title").removeClass("opened");
+                $(".customizations-slide").find(".block-content").slideUp();
+                $(this).addClass("opened");
+                $(this).parents("li").find(".block-content").slideDown();
+                if (img_url != "") {
+                    $(".customizations-img").find("img").prop("src", img_url);
+                }
             }
-        }
-        // 对hair color进行特殊处理
-        if($(".hairColorOption").text() == ""&&$("#tab-HAIR").hasClass("active")) {
-            var hairColorChoosed = $(".hair-color-tip").find("input[name='Hair Color']:checked").hasClass("hairColorNote");
-            if(hairColorChoosed) {
-                $(".hairColorOption").text($(".hair-color-note").val());
+            // 对hair color进行特殊处理
+            if ($(".hairColorOption").text() == "" && $("#tab-HAIR").hasClass("active")) {
+                var hairColorChoosed = $(".hair-color-tip").find("input[name='Hair Color']:checked").hasClass("hairColorNote");
+                if (hairColorChoosed) {
+                    $(".hairColorOption").text($(".hair-color-note").val());
+                }
             }
-        }
         });
         // 用于价格记录的计算变量参数
         var _CHOOSEPRICE = 0,
@@ -2087,7 +2223,7 @@
             _this.parents(".top-level").find(".selected-option").attr("data-id", _this.val());
             // 判断是否有价格参数
             priceTotal(_this)
-        })
+        });
         // 点击二级出现三级 hasChild
         $(".block-list-level-2").on("click",".block-list-level2-input",function(){
             var isHasChild = $(this).hasClass("hasChild");
@@ -2125,7 +2261,7 @@
             _this.parents(".top-level").find(".selected-option").attr("data-id", _this.val());
             // 判断是否有价格参数
             priceTotal(_this);
-        })
+        });
         // 点击三级分类出现四级分类
         $(".block-list-level-3").on("click",".block-list-level3-input",function(){
             var isHasChild = $(this).hasClass("hasChildThree");
@@ -2164,7 +2300,7 @@
             _this.parents(".top-level").find(".selected-option").attr("data-id", _this.val());
             // 判断是否有价格参数
             priceTotal(_this);
-        })
+        });
         // 价格合计函数
         function priceTotal(Dom){
             // 判断是否有价格参数
