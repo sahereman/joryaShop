@@ -1912,7 +1912,8 @@
                         type: $(n).find(".select-title").attr('data-type'),
                         name: $(n).find(".select-title").text(),
                         value: $(n).find(".selected-option").text(),
-                        delta_price: 0,
+                        // delta_price: Number($(n).find(".selected-option").attr("data-price")),
+                        delta_price: $(n).find(".selected-option").attr("data-price"),
                     });
                 }
             });
@@ -1929,14 +1930,15 @@
                     type: 'Hair',
                     name: 'Grey Hair',
                     value: 'I want grey hair',
-                    delta_price: 0,
+                    delta_price: '0',
                 });
                 // custom_attr_values_json["Grey Hair Type"] = $("input[name='Choose Grey Hair Type']:checked").parents("label").find(".val-text").text();
                 custom_attr_values_json.push({
                     type: 'Hair',
                     name: 'Grey Hair Type',
                     value: $("input[name='Choose Grey Hair Type']:checked").parents("label").find(".val-text").text(),
-                    delta_price: 0,
+                    // delta_price: Number($("input[name='Choose Grey Hair Type']:checked").parents("label").find(".price").attr("data-price")),
+                    delta_price:$("input[name='Choose Grey Hair Type']:checked").parents("label").find(".price").attr("data-price"),
                 });
                 var GhairSecondChoose = $("input[name='Need Grey Hair Type']:checked").hasClass("Customize-percentage");
                 if (GhairSecondChoose) {
@@ -1945,56 +1947,56 @@
                         type: 'Hair',
                         name: 'Grey Hair Need',
                         value: $("input[name='Need Grey Hair Type']:checked").parents("label").find(".val-text").text(),
-                        delta_price: 0,
+                        delta_price: '0',
                     });
                     // custom_attr_values_json["Grey Hair Need Front"] = $("select[name='Front']").val();
                     custom_attr_values_json.push({
                         type: 'Hair',
                         name: 'Grey Hair Need Front',
                         value: $("select[name='Front']").val(),
-                        delta_price: 0,
+                        delta_price: '0',
                     });
                     // custom_attr_values_json["Grey Hair Need Top"] = $("select[name='Top']").val();
                     custom_attr_values_json.push({
                         type: 'Hair',
                         name: 'Grey Hair Need Top',
                         value: $("select[name='Top']").val(),
-                        delta_price: 0,
+                        delta_price: '0',
                     });
                     // custom_attr_values_json["Grey Hair Need Crown"] = $("select[name='Crown']").val();
                     custom_attr_values_json.push({
                         type: 'Hair',
                         name: 'Grey Hair Need Crown',
                         value: $("select[name='Crown']").val(),
-                        delta_price: 0,
+                        delta_price: '0',
                     });
                     // custom_attr_values_json["Grey Hair Need Back"] = $("select[name='Back']").val();
                     custom_attr_values_json.push({
                         type: 'Hair',
                         name: 'Grey Hair Need Back',
                         value: $("select[name='Back']").val(),
-                        delta_price: 0,
+                        delta_price: '0',
                     });
                     // custom_attr_values_json["Grey Hair Need Temples"] = $("select[name='Temples']").val();
                     custom_attr_values_json.push({
                         type: 'Hair',
                         name: 'Grey Hair Need Temples',
                         value: $("select[name='Temples']").val(),
-                        delta_price: 0,
+                        delta_price: '0',
                     });
                     // custom_attr_values_json["Grey Hair Need Sides"] = $("select[name='Sides']").val();
                     custom_attr_values_json.push({
                         type: 'Hair',
                         name: 'Grey Hair Need Sides',
                         value: $("select[name='Sides']").val(),
-                        delta_price: 0,
+                        delta_price: '0',
                     });
                     // custom_attr_values_json["Grey Hair Need Note"] = $(".Highlight-Instruction").val();
                     custom_attr_values_json.push({
                         type: 'Hair',
                         name: 'Grey Hair Need Note',
                         value: $(".Highlight-Instruction").val(),
-                        delta_price: 0,
+                        delta_price: '0',
                     });
                 } else {
                     // custom_attr_values_json["Grey Hair Need"] = $("input[name='Need Grey Hair Type']:checked").parents("label").find(".val-text").text();
@@ -2002,7 +2004,7 @@
                         type: 'Hair',
                         name: 'Grey Hair Need',
                         value: $("input[name='Need Grey Hair Type']:checked").parents("label").find(".val-text").text(),
-                        delta_price: 0,
+                        delta_price: '0',
                     });
                 }
             } else {
@@ -2012,7 +2014,7 @@
                     type: 'Hair',
                     name: 'Grey Hair',
                     value: 'No need grey hair',
-                    delta_price: 0,
+                    delta_price: '0',
                 });
             }
             // Highlight 判断选中的内容是否为 I want to customize highlight和Choose the color code
@@ -2024,7 +2026,7 @@
                     type: 'Hair',
                     name: 'Highlight',
                     value: 'I want highlights to my hair',
-                    delta_price: 0,
+                    delta_price: '0',
                 });
                 var HighlightSecondChoose = $("input[name='Highlight Type']:checked").hasClass("customize-highlight");
                 if (HighlightSecondChoose) {
@@ -2033,7 +2035,7 @@
                         type: 'Hair',
                         name: 'Highlight Type',
                         value: 'I want to customize highlight',
-                        delta_price: 0,
+                        delta_price: '0',
                     });
                     var HighlightthreeChoose = $("input[name='Highlight Color']:checked").hasClass("color-codes");
                     if (HighlightthreeChoose) {
@@ -2042,14 +2044,14 @@
                             type: 'Hair',
                             name: 'Highlight Color',
                             value: "Choose the color code",
-                            delta_price: 0,
+                            delta_price: '0',
                         });
                         // custom_attr_values_json["hairColorChart"] = $("input[name='hairColorChart']:checked").parents("label").find(".val-text").text();
                         custom_attr_values_json.push({
                             type: 'Hair',
                             name: 'hairColorChart',
                             value: $("input[name='hairColorChart']:checked").parents("label").find(".val-text").text(),
-                            delta_price: 0,
+                            delta_price: '0',
                         });
                     } else {
                         // custom_attr_values_json["Highlight Color"] = $("input[name='Highlight Color']:checked").parents("label").find(".val-text").text();
@@ -2057,7 +2059,7 @@
                             type: 'Hair',
                             name: 'Highlight Color',
                             value: $("input[name='Highlight Color']:checked").parents("label").find(".val-text").text(),
-                            delta_price: 0,
+                            delta_price: '0',
                         });
                     }
                     // custom_attr_values_json["Highlight Percentage"] = $("input[name='hp']").val();
@@ -2065,21 +2067,21 @@
                         type: 'Hair',
                         name: 'Highlight Percentage',
                         value: $("input[name='hp']").val(),
-                        delta_price: 0,
+                        delta_price: '0',
                     });
                     // custom_attr_values_json["EvenlySpot"] = $("input[name='EvenlySpot']:checked").parents("label").find(".val-text").text();
                     custom_attr_values_json.push({
                         type: 'Hair',
                         name: 'EvenlySpot',
                         value: $("input[name='EvenlySpot']:checked").parents("label").find(".val-text").text(),
-                        delta_price: 0,
+                        delta_price: '0',
                     });
                     // custom_attr_values_json["Highlight Note"] = $("input[name='EvenlySpot']:checked").parents("label").find(".val-text").text();
                     custom_attr_values_json.push({
                         type: 'Hair',
                         name: 'Highlight Note',
                         value: $("input[name='EvenlySpot']:checked").parents("label").find(".val-text").text(),
-                        delta_price: 0,
+                        delta_price: '0',
                     });
 
                 } else {
@@ -2088,7 +2090,7 @@
                         type: 'Hair',
                         name: 'Highlight Type',
                         value: $("input[name='Highlight Type']:checked").parents("label").find(".val-text").text(),
-                        delta_price: 0,
+                        delta_price: '0',
                     });
                 }
             } else {
@@ -2098,7 +2100,7 @@
                     type: 'Hair',
                     name: 'Highlight',
                     value: "No need highlights",
-                    delta_price: 0,
+                    delta_price: '0',
                 });
             }
             console.log(custom_attr_values_json);
@@ -2220,7 +2222,7 @@
             // 将选中的选项的值赋值给option
             _this.parents(".top-level").find(".selected-option").text(chooseText);
             _this.parents(".top-level").find(".selected-option").prop("title", chooseText);
-            _this.parents(".top-level").find(".selected-option").attr("data-id", _this.val());
+            _this.parents(".top-level").find(".selected-option").attr("data-price", _this.parent("label").find(".price").attr("data-price"));
             // 判断是否有价格参数
             priceTotal(_this)
         });
