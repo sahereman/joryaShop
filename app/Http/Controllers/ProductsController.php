@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Events\UserBrowsingHistoryEvent;
 use App\Exceptions\InvalidRequestException;
 use App\Http\Requests\ProductRequest;
-// use App\Models\ExchangeRate;
 use App\Mail\SendShareEmail;
 use App\Models\Cart;
 use App\Models\CustomAttr;
@@ -14,10 +13,9 @@ use App\Models\EmailLog;
 use App\Models\Param;
 use App\Models\ParamValue;
 use App\Models\Product;
+use App\Models\ProductComment;
 use App\Models\ProductParam;
 use App\Models\ProductSku;
-// use App\Models\ProductCategory;
-use App\Models\ProductComment;
 use App\Models\ProductSkuAttrValue;
 use App\Models\ProductSkuCustomAttrValue;
 use App\Models\ProductSkuDuplicateAttrValue;
@@ -26,7 +24,6 @@ use App\Models\User;
 use App\Models\UserFavourite;
 use App\Models\UserHistory;
 use Illuminate\Http\Request;
-// use Illuminate\Support\Carbon;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
@@ -34,6 +31,10 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
+
+// use App\Models\ExchangeRate;
+// use App\Models\ProductCategory;
+// use Illuminate\Support\Carbon;
 
 class ProductsController extends Controller
 {
@@ -429,7 +430,7 @@ class ProductsController extends Controller
     {
         $user = $request->user();
 
-        $delta_price = 0;
+        /*$delta_price = 0;
         $custom_attr_value_ids = $request->input('custom_attr_value_ids');
         $custom_attr_value_ids = explode(',', $custom_attr_value_ids);
 
@@ -470,13 +471,13 @@ class ProductsController extends Controller
                 'value' => $customAttrValue->value,
                 'sort' => ($customAttrValue->sort + $customAttrValue->attr->sort)
             ]);
-        });
+        });*/
 
-        /*$delta_price = 0;
+        $delta_price = 0;
         $custom_attr_values = $request->input('custom_attr_values');
         // $custom_attr_values = explode(',', $custom_attr_values);
 
-        foreach ($custom_attr_values as $custom_attr_value) {
+        foreach ($custom_attr_values as $key => $custom_attr_value) {
             $delta_price = bcadd($delta_price, $custom_attr_value['delta_price'], 2);
         }
 
@@ -491,7 +492,7 @@ class ProductsController extends Controller
         ]);
 
         $product_sku_id = $product_sku->id;
-        // $custom_attr_value_count = count($custom_attr_values);
+        $custom_attr_value_count = count($custom_attr_values);
 
         foreach ($custom_attr_values as $key => $custom_attr_value) {
             ProductSkuCustomAttrValue::create([
@@ -499,10 +500,10 @@ class ProductsController extends Controller
                 'type' => $custom_attr_value['type'],
                 'name' => $custom_attr_value['name'],
                 'value' => $custom_attr_value['value'],
-                // 'sort' => (integer)($custom_attr_value_count - $key)
-                'sort' => $custom_attr_value['sort']
+                'sort' => (integer)($custom_attr_value_count - $key)
+                // 'sort' => $custom_attr_value['sort']
             ]);
-        }*/
+        }
 
         if ($user) {
             Cart::create([

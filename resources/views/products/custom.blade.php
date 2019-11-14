@@ -112,13 +112,13 @@
                 @endforeach --}}
                 {{-- SERVICE模块 --}}
                 <div class="customizations-slide-content active" id="tab-SERVICE">
-                    <input type="hidden" class="addToCartSuccess" value="https://lyricalhair.com/carts">
+                    <input type="hidden" class="addToCartSuccess" value="{{ route('carts.index') }}">
                     <input type="hidden" value="{{ route('products.custom.store', ['product' => $product->id]) }}" id="addToCartUrl">
                     <ul>
                         <li class="top-level">
                             <h6 class="block-title required">
                             <span class="red iconfont"></span>                                       
-                                <span class="select-title" data-type="Service" title="Production Time">Production Time</span>
+                                <span class="select-title" data-type="SERVICE" title="Production Time">Production Time</span>
                                 <span class="selected-option" title="Rush service 4-5 weeks" data-id="90"></span>
                                 <span class="opener iconfont"></span>
                             </h6>
@@ -141,15 +141,15 @@
                                     </li>
                                 </ul>
                                 {{-- 对应的图片的位置 --}}
-                                <div class="block-img">
+                                {{--<div class="block-img">
                                     <img src="https://www.lyricalhair.com/storage/original/201909/HD-0.jpg" alt="lyricalhair.com">
-                                </div>
+                                </div>--}}
                             </div>
                         </li>
                         <li class="top-level">    
                             <h6 class="block-title required">
                                 <span class="red iconfont"></span>                                
-                                <span class="select-title" data-type="Service" title="Hair Cut">Hair Cut</span>
+                                <span class="select-title" data-type="SERVICE" title="Hair Cut">Hair Cut</span>
                                 <span class="selected-option" title="Yes,have hair cut-in and styled" data-id="84"></span>
                                 <span class="opener iconfont"></span>
                             </h6>
@@ -172,22 +172,22 @@
                                     </li>
                                 </ul>
                                 {{-- 对应的图片的位置 --}}
-                                <div class="block-img">
+                                {{--<div class="block-img">
                                     <img src="https://www.lyricalhair.com/storage/original/201909/HD-0.jpg" alt="lyricalhair.com">
-                                </div>
+                                </div>--}}
                             </div>
                         </li>
                     </ul>
                 </div>
                 {{-- BASE模块 --}}
                 <div class="customizations-slide-content" id="tab-BASE">
-                    <input type="hidden" class="addToCartSuccess" value="http://joryashop.test/carts">
+                    <input type="hidden" class="addToCartSuccess" value="{{ route('carts.index') }}">
                     <input type="hidden" value="{{ route('products.custom.store', ['product' => $product->id]) }}" id="addToCartUrl">
                     <ul>
                         <li class="top-level">
                             <h6 class="block-title required">
                                 <span class="red iconfont"></span>
-                                <span class="select-title" data-type="Base" title="Base Size">Base Size</span>
+                                <span class="select-title" data-type="BASE" title="Base Size">Base Size</span>
                                 <span class="selected-option" title=""></span>
                                 <span class="opener iconfont"></span>
                             </h6>
@@ -196,7 +196,7 @@
                                     <li class="block-list-level">
                                         <label>
                                             <input type="radio" class="block-list-level-input" value="4" name="Base Size">
-                                            <span class="val-text" title="size ≥ 10"x10", or area ≥ 100 square inches">size ≥ 10"x10", or area ≥ 100 square inches</span>
+                                            <span class="val-text" title='size ≥ 10"x10", or area ≥ 100 square inches'>size ≥ 10"x10", or area ≥ 100 square inches</span>
                                             <span class="price red" data-price="14.00"><i>USD</i><i class="price_num">14.00</i></span>
                                         </label>
                                     </li>
@@ -223,15 +223,15 @@
                                     </li>
                                 </ul>
                                 {{-- 对应的图片的位置 --}}
-                                <div class="block-img">
+                                {{--<div class="block-img">
                                     <img src="https://www.lyricalhair.com/storage/original/201909/HD-0.jpg" alt="lyricalhair.com">
-                                </div>
+                                </div>--}}
                             </div>
                         </li>
                         <li class="top-level">
                             <h6 class="block-title required">
                                 <span class="red iconfont"></span>
-                                <span class="select-title" data-type="Base" title="Base Design">Base Design</span>
+                                <span class="select-title" data-type="BASE" title="Base Design">Base Design</span>
                                 <span class="selected-option" title=""></span>
                                 <span class="opener iconfont"></span>
                             </h6>
@@ -316,15 +316,15 @@
                                     </li>
                                 </ul>
                                 {{-- 对应的图片的位置 --}}
-                                <div class="block-img">
+                                {{--<div class="block-img">
                                     <img src="https://www.lyricalhair.com/storage/original/201909/HD-0.jpg" alt="lyricalhair.com">
-                                </div>
+                                </div>--}}
                             </div>
                         </li>
                         <li class="top-level">
                             <h6 class="block-title required">
                                 <span class="red iconfont"></span>
-                                <span class="select-title" data-type="Base" title="Base Material Color">Base Material Color</span>
+                                <span class="select-title" data-type="BASE" title="Base Material Color">Base Material Color</span>
                                 <span class="selected-option" title=""></span>
                                 <span class="opener iconfont"></span>
                             </h6>
@@ -360,15 +360,15 @@
                                     </li>
                                 </ul>
                                 {{-- 对应的图片的位置 --}}
-                                <div class="block-img">
+                                {{--<div class="block-img">
                                     <img src="https://www.lyricalhair.com/storage/original/201909/HD-0.jpg" alt="lyricalhair.com">
-                                </div>
+                                </div>--}}
                             </div>
                         </li>
                         <li class="top-level">
                             <h6 class="block-title required">
                                 <span class="red iconfont">&#xe613;</span>
-                                <span class="select-title" data-type="Base" title="Scallop Front">Scallop Front</span>
+                                <span class="select-title" data-type="BASE" title="Scallop Front">Scallop Front</span>
                                 <span class="selected-option" title=""></span>
                                 <span class="opener iconfont">&#xe60f;</span>
                             </h6>
@@ -418,15 +418,15 @@
                                     </li>
                                 </ul>
                                 {{-- 对应的图片的位置 --}}
-                                <div class="block-img">
+                                {{--<div class="block-img">
                                     <img src="https://www.lyricalhair.com/storage/original/201909/HD-0.jpg" alt="lyricalhair.com">
-                                </div>
+                                </div>--}}
                             </div>
                         </li>
                         <li class="top-level">
                             <h6 class="block-title required">
                                 <span class="red iconfont"></span>
-                                <span class="select-title" data-type="Base" title="Front Contour">Front Contour</span>
+                                <span class="select-title" data-type="BASE" title="Front Contour">Front Contour</span>
                                 <span class="selected-option" title=""></span>
                                 <span class="opener iconfont"></span>
                             </h6>
@@ -462,16 +462,16 @@
                                     </li>
                                 </ul>
                                 {{-- 对应的图片的位置 --}}
-                                <div class="block-img">
+                                {{--<div class="block-img">
                                     <img src="https://www.lyricalhair.com/storage/original/201909/HD-0.jpg" alt="lyricalhair.com">
-                                </div>
+                                </div>--}}
                             </div>
                         </li>
                     </ul>
                 </div>
                 {{-- hair模块 --}}
                 <div class="customizations-slide-content" id="tab-HAIR">
-                    <input type="hidden" class="addToCartSuccess" value="https://lyricalhair.com/carts">
+                    <input type="hidden" class="addToCartSuccess" value="{{ route('carts.index') }}">
                     <input type="hidden" value="{{ route('products.custom.store', ['product' => $product->id]) }}" id="addToCartUrl">
                     <ul>
                         <li class="top-level">
@@ -550,9 +550,9 @@
                                     </li>
                                 </ul>
                                 {{-- 对应的图片的位置 --}}
-                                <div class="block-img">
+                                {{--<div class="block-img">
                                     <img src="https://www.lyricalhair.com/storage/original/201909/HD-0.jpg" alt="lyricalhair.com">
-                                </div>
+                                </div>--}}
                             </div>
                         </li>
                         <li class="top-level">
@@ -644,9 +644,9 @@
                                     </li>
                                 </ul>
                                 {{-- 对应的图片的位置 --}}
-                                <div class="block-img">
+                                {{--<div class="block-img">
                                     <img src="https://www.lyricalhair.com/storage/original/201909/HD-0.jpg" alt="lyricalhair.com">
-                                </div>
+                                </div>--}}
                             </div>
                         </li>
                         <li class="top-level">
@@ -710,9 +710,9 @@
                                     </li>
                                 </ul>
                                 {{-- 对应的图片的位置 --}}
-                                <div class="block-img">
+                                {{--<div class="block-img">
                                     <img src="https://www.lyricalhair.com/storage/original/201909/HD-0.jpg" alt="lyricalhair.com">
-                                </div>
+                                </div>--}}
                             </div>
                         </li>
                         <li class="top-level">
@@ -804,9 +804,9 @@
                                     </li>
                                 </ul>
                                  {{-- 对应的图片的位置 --}}
-                                <div class="block-img">
+                                {{--<div class="block-img">
                                     <img src="https://www.lyricalhair.com/storage/original/201909/HD-0.jpg" alt="lyricalhair.com">
-                                </div>
+                                </div>--}}
                             </div>
                         </li>
                         <li class="top-level hair-color-tip">
@@ -863,9 +863,9 @@
                                     </li>
                                 </ul>
                                  {{-- 对应的图片的位置 --}}
-                                <div class="block-img">
+                                {{--<div class="block-img">
                                     <img src="https://www.lyricalhair.com/storage/original/201909/HD-0.jpg" alt="lyricalhair.com">
-                                </div>
+                                </div>--}}
                             </div>
                         </li>
                         <li class="top-level">
@@ -915,9 +915,9 @@
                                     </li>
                                 </ul>
                                 {{-- 对应的图片的位置 --}}
-                                <div class="block-img">
+                                {{--<div class="block-img">
                                     <img src="https://www.lyricalhair.com/storage/original/201909/HD-0.jpg" alt="lyricalhair.com">
-                                </div>
+                                </div>--}}
                             </div>
                         </li>
                         <li class="top-level">
@@ -1888,7 +1888,7 @@
                     $(".customizations-slide").find(".customizations-slide-content").removeClass("active");
                     $(activeDomNext_pre).addClass("active");
                 }
-            })
+            });
         });
         // 点击添加到购物车
         var custom_attr_values_json = [];  // 用于存储数据提交的字符串
@@ -1938,7 +1938,7 @@
                     name: 'Grey Hair Type',
                     value: $("input[name='Choose Grey Hair Type']:checked").parents("label").find(".val-text").text(),
                     // delta_price: Number($("input[name='Choose Grey Hair Type']:checked").parents("label").find(".price").attr("data-price")),
-                    delta_price:$("input[name='Choose Grey Hair Type']:checked").parents("label").find(".price").attr("data-price"),
+                    delta_price: $("input[name='Choose Grey Hair Type']:checked").parents("label").find(".price").attr("data-price"),
                 });
                 var GhairSecondChoose = $("input[name='Need Grey Hair Type']:checked").hasClass("Customize-percentage");
                 if (GhairSecondChoose) {
@@ -1995,7 +1995,7 @@
                     custom_attr_values_json.push({
                         type: 'Hair',
                         name: 'Grey Hair Need Note',
-                        value: $(".Highlight-Instruction").val(),
+                        value: $(".Grey-Hair-Instruction").val(),
                         delta_price: '0',
                     });
                 } else {
@@ -2066,7 +2066,7 @@
                     custom_attr_values_json.push({
                         type: 'Hair',
                         name: 'Highlight Percentage',
-                        value: $("input[name='hp']").val(),
+                        value: $("input[name='hp']").val() + '%',
                         delta_price: '0',
                     });
                     // custom_attr_values_json["EvenlySpot"] = $("input[name='EvenlySpot']:checked").parents("label").find(".val-text").text();
@@ -2080,7 +2080,7 @@
                     custom_attr_values_json.push({
                         type: 'Hair',
                         name: 'Highlight Note',
-                        value: $("input[name='EvenlySpot']:checked").parents("label").find(".val-text").text(),
+                        value: $(".Highlight-Instruction").val(),
                         delta_price: '0',
                     });
 
@@ -2178,15 +2178,15 @@
             if (isOpened) {
                 $(this).removeClass("opened");
                 $(".customizations-slide").find(".block-content").slideUp();
-                $(".customizations-img").find("img").prop("src", img_url_default);
+                // $(".customizations-img").find("img").prop("src", img_url_default);
             } else {
                 $(".customizations-slide").find(".block-title").removeClass("opened");
                 $(".customizations-slide").find(".block-content").slideUp();
                 $(this).addClass("opened");
                 $(this).parents("li").find(".block-content").slideDown();
-                if (img_url != "") {
+                /*if (img_url != "") {
                     $(".customizations-img").find("img").prop("src", img_url);
-                }
+                }*/
             }
             // 对hair color进行特殊处理
             if ($(".hairColorOption").text() == "" && $("#tab-HAIR").hasClass("active")) {
@@ -2198,23 +2198,23 @@
         });
         // 用于价格记录的计算变量参数
         var _CHOOSEPRICE = 0,
-            _INITIALPRICE = float_multiply_by_100($(".custom-price").attr("data-price")),  // 页面的初始价格
-            _NEWPRICE = float_multiply_by_100($(".custom-price").attr("data-price")),    // 新的价格数
-            _CHOOSEPRICEARR = [],            // 用来存储所有选择的价格的数组
-            _PRECHOOSENAME = "";  // 记录上一次选择的
+                _INITIALPRICE = float_multiply_by_100($(".custom-price").attr("data-price")), // 页面的初始价格
+                _NEWPRICE = float_multiply_by_100($(".custom-price").attr("data-price")), // 新的价格数
+                _CHOOSEPRICEARR = [], // 用来存储所有选择的价格的数组
+                _PRECHOOSENAME = ""; // 记录上一次选择的
         // 点击一级分类，判断是否有二级分类如果有二级分类显示二级分类，没有则将该选项内容添加到标题中
-        $(".block-list-level").on("click",".block-list-level-input",function(){
+        $(".block-list-level").on("click", ".block-list-level-input", function () {
             var isHasChild = $(this).hasClass("hasChildTwo");
             var _this = $(this);
             var chooseText = '';
-            if(isHasChild){
+            if (isHasChild) {
                 // 如果有二级菜单 ，显示子菜单
                 _this.parents(".block-list").find(".block-list-level-2").slideUp();
                 _this.parents(".block-list-level").find(".block-list-level-2").slideDown();
-                if(_this.prop("name") == "Grey Hair") {
+                if (_this.prop("name") == "Grey Hair") {
                     chooseText = _this.parent("label").find(".val-text").text();
                 }
-            }else {
+            } else {
                 // 没有子菜单，直接将内容显示并计算价格,并收起所有的二级子菜单,并将选中的值赋值给option
                 chooseText = _this.parent("label").find(".val-text").text();
                 _this.parents(".block-list").find(".block-list-level-2").slideUp();
@@ -2227,35 +2227,34 @@
             priceTotal(_this)
         });
         // 点击二级出现三级 hasChild
-        $(".block-list-level-2").on("click",".block-list-level2-input",function(){
+        $(".block-list-level-2").on("click", ".block-list-level2-input", function () {
             var isHasChild = $(this).hasClass("hasChild");
             var _this = $(this);
             var chooseText = '';
-            if(isHasChild){
+            if (isHasChild) {
                 // 如果有二级菜单 ，显示子菜单
                 _this.parents(".block-list").find(".block-list-level-3").slideUp();
                 _this.parents(".block-list-level-2").find(".block-list-level-3").slideDown();
-                if(_this.prop("name") == "Need Grey Hair Type") {
-                    chooseText = $("select[name='Front']").val()+
-                                 $("select[name='Top']").val()+ 
-                                 $("select[name='Crown']").val()+ 
-                                 $("select[name='Back']").val()+ 
-                                 $("select[name='Temples']").val()+ 
-                                 $("select[name='Sides']").val()+ 
-                                 $(".Grey-Hair-Instruction").val()+
-                                 _this.parent("label").find(".val-text").text();
+                if (_this.prop("name") == "Need Grey Hair Type") {
+                    chooseText = $("select[name='Front']").val() +
+                            $("select[name='Top']").val() +
+                            $("select[name='Crown']").val() +
+                            $("select[name='Back']").val() +
+                            $("select[name='Temples']").val() +
+                            $("select[name='Sides']").val() +
+                            $(".Grey-Hair-Instruction").val() +
+                            _this.parent("label").find(".val-text").text();
                 }
-                
-            }else {
+            } else {
                 // 没有子菜单，直接将内容显示并计算价格,并收起所有的二级子菜单
                 chooseText = _this.parent("label").find(".val-text").text();
                 _this.parents(".block-list").find(".block-list-level-3").slideUp();
             }
             // 将选中的选项的值赋值给option
-            if(_this.prop("name") == "Choose Grey Hair Type") {
+            if (_this.prop("name") == "Choose Grey Hair Type") {
                 chooseText = chooseText + $(".Choose-grey-hair-text").text();
             }
-            if(_this.prop("name") == "Grey Hair Type") {
+            if (_this.prop("name") == "Grey Hair Type") {
                 chooseText = chooseText + "I want highlights to my hair";
             }
             _this.parents(".top-level").find(".selected-option").text(chooseText);
@@ -2265,37 +2264,37 @@
             priceTotal(_this);
         });
         // 点击三级分类出现四级分类
-        $(".block-list-level-3").on("click",".block-list-level3-input",function(){
+        $(".block-list-level-3").on("click", ".block-list-level3-input", function () {
             var isHasChild = $(this).hasClass("hasChildThree");
             var _this = $(this);
             var chooseText = '';
-            if(isHasChild){
+            if (isHasChild) {
                 // 如果有二级菜单 ，显示子菜单
                 _this.parents(".block-list").find(".block-list-level-4").slideUp();
                 _this.parents(".block-list-level-3").find(".block-list-level-4").slideDown();
-                if(_this.prop("name") == "color-codes") {
+                if (_this.prop("name") == "color-codes") {
                     chooseText = _this.parent("label").find(".val-text").text();
                 }
-            }else {
+            } else {
                 // 没有子菜单，直接将内容显示并计算价格,并收起所有的二级子菜单
                 chooseText = _this.parent("label").find(".val-text").text();
                 _this.parents(".block-list").find(".block-list-level-4").slideUp();
             }
             // 将选中的选项的值赋值给option color-codes
-            if(_this.prop("name") == "Highlight Color") {
+            if (_this.prop("name") == "Highlight Color") {
                 chooseText = chooseText + "I want to customize highlight";
             }
-            if(_this.prop("name") == "EvenlySpot") {
-                chooseText = chooseText + 
-                            $("input[name='Highlight Color']:checked").parents("label").find(".val-text").text() + 
-                            $("input[name='hp']").val()+
-                            "I want to customize highlight";
+            if (_this.prop("name") == "EvenlySpot") {
+                chooseText = chooseText +
+                        $("input[name='Highlight Color']:checked").parents("label").find(".val-text").text() +
+                        $("input[name='hp']").val() +
+                        "I want to customize highlight";
             }
-            if(_this.prop("name") == "color-codes") {
-                chooseText = chooseText + 
-                            $("input[name='Highlight Color']:checked").parents("label").find(".val-text").text() + 
-                            $("input[name='hp']").val()+
-                            "I want to customize highlight";
+            if (_this.prop("name") == "color-codes") {
+                chooseText = chooseText +
+                        $("input[name='Highlight Color']:checked").parents("label").find(".val-text").text() +
+                        $("input[name='hp']").val() +
+                        "I want to customize highlight";
             }
             _this.parents(".top-level").find(".selected-option").text(chooseText);
             _this.parents(".top-level").find(".selected-option").prop("title", chooseText);
@@ -2304,7 +2303,7 @@
             priceTotal(_this);
         });
         // 价格合计函数
-        function priceTotal(Dom){
+        function priceTotal(Dom) {
             // 判断是否有价格参数
             var isExist = false;
             if (Dom.parent("label").find(".price").length != 0) {
@@ -2332,7 +2331,7 @@
                         // _CHOOSEPRICE = Number(_inputThat.parent("label").find(".price").attr("data-price"));
                         _CHOOSEPRICE = float_multiply_by_100(_inputThat.parent("label").find(".price").attr("data-price"));
                         _NEWPRICE = _CHOOSEPRICE + _NEWPRICE;
-                        _CHOOSEPRICEARR.push({"name": _inputThat.prop("name"), "price": _CHOOSEPRICE})
+                        _CHOOSEPRICEARR.push({"name": _inputThat.prop("name"), "price": _CHOOSEPRICE});
                     }
                 }
             }
@@ -2340,27 +2339,27 @@
             $(".custom-price").attr("data-price", js_number_format(_NEWPRICE / 100));
         }
         // $("select[name='Front']")
-        $("select").on("change",function(){
-           var _this = $(this);
-           var chooseText = $("select[name='Front']").val()+
-                            $("select[name='Top']").val()+ 
-                            $("select[name='Crown']").val()+ 
-                            $("select[name='Back']").val()+ 
-                            $("select[name='Temples']").val()+ 
-                            $("select[name='Sides']").val()+ 
-                            $(".Grey-Hair-Instruction").val()+
-                            _this.parents(".Customize-percentage").find(".val-text").text();
-            _this.parents(".top-level").find(".selected-option").text(chooseText);
-            _this.parents(".top-level").find(".selected-option").prop("title", chooseText);
-        })
-        $("input[name='hp']").on("change",function(){
+        $("select").on("change", function () {
             var _this = $(this);
-            var chooseText =$("input[name='EvenlySpot']:checked").parents("label").find(".val-text").text() + 
-                            $("input[name='Highlight Color']:checked").parents("label").find(".val-text").text() + 
-                            $("input[name='hp']").val()+
-                            "I want to customize highlight";
+            var chooseText = $("select[name='Front']").val() +
+                    $("select[name='Top']").val() +
+                    $("select[name='Crown']").val() +
+                    $("select[name='Back']").val() +
+                    $("select[name='Temples']").val() +
+                    $("select[name='Sides']").val() +
+                    $(".Grey-Hair-Instruction").val() +
+                    _this.parents(".Customize-percentage").find(".val-text").text();
             _this.parents(".top-level").find(".selected-option").text(chooseText);
             _this.parents(".top-level").find(".selected-option").prop("title", chooseText);
-        })
+        });
+        $("input[name='hp']").on("change", function () {
+            var _this = $(this);
+            var chooseText = $("input[name='EvenlySpot']:checked").parents("label").find(".val-text").text() +
+                    $("input[name='Highlight Color']:checked").parents("label").find(".val-text").text() +
+                    $("input[name='hp']").val() +
+                    "I want to customize highlight";
+            _this.parents(".top-level").find(".selected-option").text(chooseText);
+            _this.parents(".top-level").find(".selected-option").prop("title", chooseText);
+        });
     </script>
 @endsection

@@ -22,7 +22,8 @@ class OrderPaidEvent
         $this->order = $order;
     }
 
-    public function getOrder(){
+    public function getOrder()
+    {
         return $this->order;
     }
 
