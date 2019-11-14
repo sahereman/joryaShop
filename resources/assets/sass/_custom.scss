@@ -170,11 +170,11 @@
           padding-bottom: 10px;
           border-bottom: 1px solid #fff;
           overflow: hidden;
-          padding-left: 15%;
+          padding-left: 5%;
           position: relative;
           margin-top: 0;
           &.active {
-            display: block;
+            display: flex;
           }
           label {
             font-weight: normal;
@@ -185,6 +185,35 @@
             margin-top: 6px;
             display: none;
             font-size: 14px;
+            padding-left: 35px;
+            textarea {
+              padding: 8px;
+              text-overflow: ellipsis;
+              background: #fff;
+              border: 1px solid #ddd;
+              color: #888;
+            }
+          }
+          .block-list-level-3 {
+            display: none;
+            margin-top: 6px;
+            padding-left: 35px;
+            &.select-groups {
+              li {
+                margin: 10px auto;
+                span {
+                  display: inline-block;
+                  min-width: 100px;
+                }
+                select {
+                  width: 100px;
+                }
+              }
+            }
+          }
+          .block-list-level-4 {
+            display: none;
+            margin-top: 6px;
             padding-left: 35px;
           }
           input {
@@ -210,6 +239,80 @@
                 height: 11px;
                 width: 11px;
               }
+            }
+          }
+          // .val-text {
+          //   display: inline-block;
+          //   max-width: 50%;
+          //   overflow: hidden;
+          //   white-space: nowrap;
+          //   text-overflow: ellipsis;
+          //   line-height: 10px;
+          // }
+          // 左侧选择框
+          ul {
+            width: 50%;
+            float: left;
+            // 文本域位置
+            &.hair-color-textarea {
+              width: 100%;
+            }
+            // 存在多级菜单
+            &.multilevel-menu {
+              width: 100%;
+              ul {
+                float: none;
+                width: 100%;
+                select {
+                  padding: 5px;
+                  background: #fff;
+                  border: 1px solid #ddd;
+                  color: #888;
+                }
+              }
+            }
+            // Highlight-Color
+            &.Highlight-Color {
+              margin-top: 6px;
+              padding-left: 35px;
+            }
+            // 颜色选择表
+            &.color-choose-list {
+              width: 100%;
+            }
+          }
+          // 颜色选择表
+          .Color-choose-table {
+            display: none;
+            margin-top: 6px;
+            padding-left: 35px;
+            ul {
+              display: flex;
+              flex-wrap: wrap;
+              justify-content: flex-start;
+              li {
+                // margin: auto;
+                width: 25%;
+              }
+            }
+          }
+          // Highlight Percentage
+          .percentInp {
+            margin: 10px 0;
+            input {
+              border: none;
+              width: 60px;
+              margin-left: 20px;
+              color: #888;
+              background-color: #fff;
+            }
+          }
+          // 右侧图片展示
+          .block-img {
+            width: 50%;
+            float: left;
+            img {
+              width: 100%;
             }
           }
         }
