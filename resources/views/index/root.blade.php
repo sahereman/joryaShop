@@ -409,9 +409,9 @@
                         <img src="{{ asset("img/Home/customOrder.png") }}" alt="lyricalhair">
                     </div>
                     <span class="part-img-title">Custom Order</span>
-                    <span>We Offer Free Rush Order on Duplicate</span>
-                    <span>Super High Definition Hai</span>
-                    <span>Half delivery back fee covered</span>
+                    <span>Unique hair replacement system Features specifically created just for You</span>
+                    <span>High Quality Craftsmanship</span>
+                    <span>Wear it like it is Your Own hair</span>
                     {{--<a href="{{ route('seo_url', ['slug' => \App\Models\Product::where(['type' => 'custom', 'on_sale' => 1])->first()->slug]) }}">LEARN MORE</a>--}}
                     <a href="{{ route('seo_url', ['slug' => 'custom-hair-systems']) }}">LEARN MORE</a>
                 </li>
@@ -420,9 +420,10 @@
                         <img src="{{ asset("img/Home/repairedOrder.png") }}" alt="lyricalhair">
                     </div>
                     <span class="part-img-title">Repaired Order</span>
-                    <span>Highest Quality Hair OnMarket </span>
-                    <span>Undetectable Hairline</span>
-                    <span>Invisible Knots</span>
+                    <span>Got a damaged Hair Replacement System?</span>
+                    <span>We are here to the rescue!</span>
+                    <span>Base System Repair, Hair Additions, and more</span>
+                    <span>Get it back like it's Brand New</span>
                     <a href="{{ route('seo_url', ['slug' => 'repair-service']) }}">LEARN MORE</a>
                 </li>
                 <li>
@@ -430,9 +431,9 @@
                         <img src="{{ asset("img/Home/DuplicatedOrder.png") }}" alt="lyricalhair">
                     </div>
                     <span class="part-img-title">Duplicated Order</span>
-                    <span>Top Level Care and Craftsmanship</span>
-                    <span>Repairs and Hair Adds</span>
-                    <span>4-5 weeks leading time</span>
+                    <span>Now you can have two or more of your Favorite Hair Replacement Systems</span>
+                    <span>Identitical from the Base to the Tips of your Hair</span>
+                    <span>Free Rush Order and Half Delivery Back Fee</span>
                     <a href="{{ route('seo_url', ['slug' => 'duplicate-service']) }}">LEARN MORE</a>
                 </li>
             </ul>
