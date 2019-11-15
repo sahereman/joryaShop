@@ -3,9 +3,11 @@
 namespace App\Listeners;
 
 use App\Events\OrderPaidEvent;
+use App\Mail\SendOrderEmail;
 use App\Models\Order;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Support\Facades\Mail;
 
 class OrderPaidEventListener
 {
@@ -31,5 +33,11 @@ class OrderPaidEventListener
         $order->update([
             'status' => Order::ORDER_STATUS_SHIPPING
         ]);
+        if ($order->email) {
+            $user = $order->user;
+            $user->email = $order->email;
+            $subject = 'Thanks for shopping at LYRICALHAIR.com';
+            Mail::to($user)->queue(new SendOrderEmail($order, $subject));
+        }
     }
 }

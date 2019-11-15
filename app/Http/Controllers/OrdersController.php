@@ -1077,6 +1077,7 @@ class OrdersController extends Controller
                 'saved_fee' => $saved_fee,
                 'rate' => $rate,
                 'remark' => $request->has('remark') ? $request->input('remark') : '',
+                'email' => $request->has('email') ? $request->input('email') : '',
                 'to_be_closed_at' => Carbon::now()->addSeconds(Order::getSecondsToCloseOrder())->toDateTimeString(),
             ]);
 

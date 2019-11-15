@@ -66,6 +66,7 @@ class Order extends Model
         'saved_fee',
         'rate',
         'remark',
+        'email',
         // 'paid_at',
         'closed_at',
         'to_be_closed_at',

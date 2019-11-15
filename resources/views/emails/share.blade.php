@@ -17,7 +17,7 @@
             <p>{{ $body }}</p>
         @else
             <p>
-                I love this product on <a href="https://www.lyricalhair.com/" style="text-decoration: underline;color: #0000cc">LYRICALHAIR.COM</a> andthought you might too!
+                I love this product on <a href="https://www.lyricalhair.com/" style="text-decoration: underline;color: #0000cc">LYRICALHAIR.COM</a> and thought you might too!
             </p>
         @endif
         <img src="{{ $product->photo_urls[0] }}" alt="lyricalhair.com">

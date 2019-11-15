@@ -99,6 +99,7 @@ class PostOrderRequest extends Request
                 'address' => 'bail|sometimes|nullable|string',
                 'province' => 'bail|required|string',
                 'remark' => 'bail|sometimes|nullable|string',
+                'email' => 'bail|sometimes|nullable|string',
             ];
         } elseif ($this->routeIs('orders.pre_payment')) {
             return [
