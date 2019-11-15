@@ -1922,6 +1922,12 @@
             // Hair Color   Hair Color
             // Grey Hair 判断选中的内容是否为Customize my grey distribution and percentage
             // 判断Grey Hair的选择结果
+            var GHairFirstChLength = $("input[name='Grey Hair']:checked").length;
+            if(GHairFirstChLength == 0) {
+                layer.alert("Please select Grey Hair!!");
+                custom_attr_values_json = [];
+                return;
+            }
             var GHairFirstChoose = $("input[name='Grey Hair']:checked").hasClass("hasChildTwo");  // 判断是否有子菜单，如果有子菜单进行下一类判断
             if (GHairFirstChoose) {
                 // 有子菜单
@@ -1933,6 +1939,12 @@
                     delta_price: '0',
                 });
                 // custom_attr_values_json["Grey Hair Type"] = $("input[name='Choose Grey Hair Type']:checked").parents("label").find(".val-text").text();
+                var ChooseGreyHairTypeLen = $("input[name='Choose Grey Hair Type']:checked").length;
+                if(ChooseGreyHairTypeLen == 0) {
+                    layer.alert("Please select Choose grey hair type!!");
+                    custom_attr_values_json = [];
+                    return;
+                }
                 custom_attr_values_json.push({
                     type: 'Hair',
                     name: 'Grey Hair Type',
@@ -1940,6 +1952,12 @@
                     // delta_price: Number($("input[name='Choose Grey Hair Type']:checked").parents("label").find(".price").attr("data-price")),
                     delta_price: $("input[name='Choose Grey Hair Type']:checked").parents("label").find(".price").attr("data-price"),
                 });
+                var GhairSecondChLength = $("input[name='Need Grey Hair Type']:checked").length;
+                if(GhairSecondChLength == 0) {
+                    layer.alert("Please select How much grey hair do you need!!");
+                    custom_attr_values_json = [];
+                    return;
+                }
                 var GhairSecondChoose = $("input[name='Need Grey Hair Type']:checked").hasClass("Customize-percentage");
                 if (GhairSecondChoose) {
                     // custom_attr_values_json["Grey Hair Need"] = $("input[name='Need Grey Hair Type']:checked").parents("label").find(".val-text").text();
@@ -1992,6 +2010,11 @@
                         delta_price: '0',
                     });
                     // custom_attr_values_json["Grey Hair Need Note"] = $(".Highlight-Instruction").val();
+                    if($(".Grey-Hair-Instruction").val() == "") {
+                        layer.alert("Please type in your special instruction!!");
+                        custom_attr_values_json = [];
+                        return;
+                    }
                     custom_attr_values_json.push({
                         type: 'Hair',
                         name: 'Grey Hair Need Note',
@@ -2018,6 +2041,12 @@
                 });
             }
             // Highlight 判断选中的内容是否为 I want to customize highlight和Choose the color code
+            var HighlightFirstChLength = $("input[name='Highlight']:checked").length;
+            if(GhairSecondChLength == 0) {
+                layer.alert("Please select Highlight!!");
+                custom_attr_values_json = [];
+                return;
+            }
             var HighlightFirstChoose = $("input[name='Highlight']:checked").hasClass("hasChildTwo");  // 判断是否有子菜单，如果有子菜单进行下一类判断
             if (HighlightFirstChoose) {
                 // 有子菜单
@@ -2028,6 +2057,12 @@
                     value: 'I want highlights to my hair',
                     delta_price: '0',
                 });
+                var HighlightSecondChLen = $("input[name='Highlight Type']:checked").length;
+                if(HighlightSecondChLen == 0) {
+                    layer.alert("Please select Highlight!!");
+                    custom_attr_values_json = [];
+                    return;
+                }
                 var HighlightSecondChoose = $("input[name='Highlight Type']:checked").hasClass("customize-highlight");
                 if (HighlightSecondChoose) {
                     // custom_attr_values_json["Highlight Type"] = "I want to customize highlight";
@@ -2037,6 +2072,12 @@
                         value: 'I want to customize highlight',
                         delta_price: '0',
                     });
+                    var HighlightthreeChLen = $("input[name='Highlight Color']:checked").length;
+                    if(HighlightthreeChLen == 0) {
+                        layer.alert("Please select Highlight Color!!");
+                        custom_attr_values_json = [];
+                        return;
+                    }
                     var HighlightthreeChoose = $("input[name='Highlight Color']:checked").hasClass("color-codes");
                     if (HighlightthreeChoose) {
                         // custom_attr_values_json["Highlight Color"] = "Choose the color code";
@@ -2063,13 +2104,25 @@
                         });
                     }
                     // custom_attr_values_json["Highlight Percentage"] = $("input[name='hp']").val();
+                    var hpValue = $("input[name='hp']").val();
+                    if($("input[name='hp']").val() == "") {
+                        hpValue = 0;
+                    }else {
+                        hpValue = $("input[name='hp']").val()
+                    }
                     custom_attr_values_json.push({
                         type: 'Hair',
                         name: 'Highlight Percentage',
-                        value: $("input[name='hp']").val() + '%',
+                        value: hpValue + '%',
                         delta_price: '0',
                     });
                     // custom_attr_values_json["EvenlySpot"] = $("input[name='EvenlySpot']:checked").parents("label").find(".val-text").text();
+                    var EvenlySpotLen = $("input[name='EvenlySpot']:checked").length;
+                    if(EvenlySpotLen == 0) {
+                        layer.alert("Please select Evenly Blend or Spot/Dot!!");
+                        custom_attr_values_json = [];
+                        return;
+                    }
                     custom_attr_values_json.push({
                         type: 'Hair',
                         name: 'EvenlySpot',
@@ -2077,6 +2130,11 @@
                         delta_price: '0',
                     });
                     // custom_attr_values_json["Highlight Note"] = $("input[name='EvenlySpot']:checked").parents("label").find(".val-text").text();
+                    if($(".Highlight-Instruction").val() == "") {
+                        layer.alert("Please type in your special instruction!!");
+                        custom_attr_values_json = [];
+                        return;
+                    }
                     custom_attr_values_json.push({
                         type: 'Hair',
                         name: 'Highlight Note',
@@ -2192,7 +2250,11 @@
             if ($(".hairColorOption").text() == "" && $("#tab-HAIR").hasClass("active")) {
                 var hairColorChoosed = $(".hair-color-tip").find("input[name='Hair Color']:checked").hasClass("hairColorNote");
                 if (hairColorChoosed) {
-                    $(".hairColorOption").text($(".hair-color-note").val());
+                    if($(".hair-color-note").val() == "") {
+                        layer.alert("please refer to my special instructions!!");
+                    }else {
+                        $(".hairColorOption").text($(".hair-color-note").val());
+                    }
                 }
             }
         });

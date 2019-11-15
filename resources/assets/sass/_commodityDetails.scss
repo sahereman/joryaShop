@@ -1659,6 +1659,7 @@
       overflow-y: auto;
     }
     li {
+      display: flex;
       padding: 5px;
       cursor: pointer;
       white-space: nowrap;
@@ -1667,10 +1668,22 @@
       color: #5b5b5b;
       &:hover {
         color: #fff;
-        background-color: $hover-color;
+        background-color: #ca0a15;
       }
       &.forbid-choose-style {
         color: #eee;
+      }
+      .text-span {
+        margin-right: 5px;
+        display: inline-block;
+        max-width: 80%;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+      .price-span {
+        display: inline-block;
+        color: #E50012;
       }
     }
   }

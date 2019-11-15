@@ -40,7 +40,7 @@
                                 <div id="surround">
                                     <div class="big-img-box">
                                         <img class="cloudzoom" alt ="Cloud Zoom small image" id ="zoom1" src="{{ $product->photo_urls[0] }}"
-                                             data-cloudzoom='zoomSizeMode:"image",zoomSizeMode: "image",zoomPosition: 3,startMagnification: 2'>
+                                             data-cloudzoom='zoomSizeMode:"zoom",zoomPosition: 3,startMagnification: 2'>
                                         <a id="zoom-btn" class="lightbox-group  zoomColorBoxs zoom-btn-small"
                                             href="{{ $product->photo_urls[0] }}"
                                             title="">Zoom</a>
@@ -160,51 +160,62 @@
 
                     </div>
                     {{-- 动态渲染的skus选择器存放位置 --}}
-                    @if($attributes)
-                        <div id="sku-choose-store" class="sku-choose-store {{ $product->type == \App\Models\Product::PRODUCT_TYPE_CUSTOM ? ' dis_ni' : '' }}" price="{{ $product->price }}">
-                            <div class="sku-select">
-                                <div class="sku-select-name">
-                                    <span class="dynamic_name">Condition</span>
-                                </div>
-                                <div class="sku-select-module">
-                                    <div class="sku-select-value select-for-show">
-                                        <span class="sku-select-value-show">New with tags</span>
-                                    </div>
-                                </div>
-                            </div>
-                            @foreach($attributes as $attr_name => $attr_values)
+                    {{-- 修复引入 --}}
+                    @if(false)
+                      @include('products._repair')
+                    @endif
+                    {{-- 复制引入 --}}
+                    @if(true)
+                      @include('products._duplicate')
+                    @endif
+                    {{-- 正常商品 --}}
+                    @if(false)
+                        @if($attributes)
+                            <div id="sku-choose-store" class="sku-choose-store {{ $product->type == \App\Models\Product::PRODUCT_TYPE_CUSTOM ? ' dis_ni' : '' }}" price="{{ $product->price }}">
                                 <div class="sku-select">
                                     <div class="sku-select-name">
-                                        <span class="dynamic_name" data-paramid="{{ $attr_name }}">{{ $attr_name }}</span>
+                                        <span class="dynamic_name">Condition</span>
                                     </div>
                                     <div class="sku-select-module">
-                                        <div data-paramid="undefined" data-name="undefined" class="sku-select-value">
-                                            <input type="hidden" readonly="" data-paramid="{{ $attr_name }}"
-                                                   value="{{ $attr_values[0]['value'] }}"
-                                                   name="{{ $attr_values[0]['value'] }}"
-                                                   photo-url="{{ isset($attr_values[0]['photo_url']) ? $attr_values[0]['photo_url'] : '' }}"
-                                                   delta-price="{{ $attr_values[0]['delta_price'] }}">
-                                            <span class="sku-select-value-show">{{ $attr_values[0]['value'] }}</span>
-                                        </div>
-                                        <div class="sku-select-options" style="display: none;">
-                                            <ul data-paramid="undefined" data-name="undefined">
-                                                @foreach($attr_values as $attr_value)
-                                                    <li data-paramid="{{ $attr_name }}"
-                                                        data-valueid="{{ $attr_value['value'] }}"
-                                                        photo-url="{{ isset($attr_value['photo_url']) ? $attr_value['photo_url'] : '' }}"
-                                                        delta-price="{{ $attr_value['delta_price'] }}">
-                                                        {{ $attr_value['value'] }}
-                                                    </li>
-                                                @endforeach
-                                            </ul>
+                                        <div class="sku-select-value select-for-show">
+                                            <span class="sku-select-value-show">New with tags</span>
                                         </div>
                                     </div>
                                 </div>
-                            @endforeach
-                            {{-- <div class="loading-box">
-                                <img src="{{ asset('img/loading_lord.gif') }}">
-                            </div> --}}
-                        </div>
+                                @foreach($attributes as $attr_name => $attr_values)
+                                    <div class="sku-select">
+                                        <div class="sku-select-name">
+                                            <span class="dynamic_name" data-paramid="{{ $attr_name }}">{{ $attr_name }}</span>
+                                        </div>
+                                        <div class="sku-select-module">
+                                            <div data-paramid="undefined" data-name="undefined" class="sku-select-value">
+                                                <input type="hidden" readonly="" data-paramid="{{ $attr_name }}"
+                                                    value="{{ $attr_values[0]['value'] }}"
+                                                    name="{{ $attr_values[0]['value'] }}"
+                                                    photo-url="{{ isset($attr_values[0]['photo_url']) ? $attr_values[0]['photo_url'] : '' }}"
+                                                    delta-price="{{ $attr_values[0]['delta_price'] }}">
+                                                <span class="sku-select-value-show">{{ $attr_values[0]['value'] }}</span>
+                                            </div>
+                                            <div class="sku-select-options" style="display: none;">
+                                                <ul data-paramid="undefined" data-name="undefined">
+                                                    @foreach($attr_values as $attr_value)
+                                                        <li data-paramid="{{ $attr_name }}"
+                                                            data-valueid="{{ $attr_value['value'] }}"
+                                                            photo-url="{{ isset($attr_value['photo_url']) ? $attr_value['photo_url'] : '' }}"
+                                                            delta-price="{{ $attr_value['delta_price'] }}">
+                                                            {{ $attr_value['value'] }}
+                                                        </li>
+                                                    @endforeach
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                                {{-- <div class="loading-box">
+                                    <img src="{{ asset('img/loading_lord.gif') }}">
+                                </div> --}}
+                            </div>
+                        @endif
                     @endif
                     {{-- skus参数数组 --}}
                     {{-- <input type="hidden" class="parameter-data" data-url="{{ route('products.search_by_sku_attr', ['product' => $product->id]) }}" value="{{ json_encode($attributes) }}"/> --}}
@@ -1141,18 +1152,25 @@
             if(photo_url != ""){
                 magnifyingAdd(photo_url)
             }
-
-            // 所有sku选择器中input的价格数组
-            _CHOOSEPRICEARR = [];
-            var sku_input_prices = $("#sku-choose-store").find("input[type='hidden']")
-            $.each(sku_input_prices,function(i,n){
-                _CHOOSEPRICEARR.push( float_multiply_by_100($(n).attr("delta-price")))
-            })
-            var addPrice = _CHOOSEPRICEARR.reduce(function(a, b) {
-                return Math.max(a, b);
-            });
-            _NEWPRICE = _INITIALPRICE + addPrice;
-            $("#product-price").text(js_number_format(_NEWPRICE/100));
+            if(_that.find(".text-span").length!=0){
+                // 修复商品
+                // $("#product-price").text(_that.attr("delta-price"));
+                priceTotal(_that)
+                _that.parents(".sku-select-module").find("input").attr("delta-property",_that.attr("delta-price"));
+            }else {
+                // 非修复和复制商品
+                // 所有sku选择器中input的价格数组
+                _CHOOSEPRICEARR = [];
+                var sku_input_prices = $("#sku-choose-store").find("input[type='hidden']")
+                $.each(sku_input_prices,function(i,n){
+                    _CHOOSEPRICEARR.push( float_multiply_by_100($(n).attr("delta-price")))
+                })
+                var addPrice = _CHOOSEPRICEARR.reduce(function(a, b) {
+                    return Math.max(a, b);
+                });
+                _NEWPRICE = _INITIALPRICE + addPrice;
+                $("#product-price").text(js_number_format(_NEWPRICE/100));
+            }
             
             // 根据所选择的内容，获取sku接口
             // var data = {};
@@ -1251,5 +1269,36 @@
                 $("#pro_num").val(tierNum);
             }
         })
+        // 价格合计函数 (修复商品和复制商品使用)
+        var hasChoosePrice = [];  // 已经选择的sku相关数组
+        var initialPrice = float_multiply_by_100($("#sku-choose-store").attr("price"));  // 商品的原始价格
+        var newPrice = initialPrice; //商品进行选择后的价格计算结果，默认值为商品默认价格
+        var choosePrice = 0; //选择的商品价格
+
+        function priceTotal(Dom){
+            // 判断是否有价格参数
+            var isExist = false;
+            if(hasChoosePrice.length == 0){
+                choosePrice = float_multiply_by_100(Dom.attr("delta-price"))
+                newPrice = choosePrice + newPrice;
+                hasChoosePrice.push({"name": Dom.parents(".sku-select-module").find("input").attr("data-paramid"), "price": choosePrice});
+            }else {
+                for (var i in hasChoosePrice) {
+                    if (hasChoosePrice[i].name == Dom.parents(".sku-select-module").find("input").attr("data-paramid")) {
+                        isExist = true;
+                        newPrice = newPrice - hasChoosePrice[i].price;
+                        choosePrice = float_multiply_by_100(Dom.attr("delta-price"));
+                        hasChoosePrice[i].price = choosePrice;
+                        newPrice = choosePrice + newPrice;
+                    }
+                }
+                if (!isExist) {
+                    choosePrice = float_multiply_by_100(Dom.attr("delta-price"));
+                    newPrice = choosePrice + newPrice;
+                    hasChoosePrice.push({"name": Dom.parents(".sku-select-module").find("input").attr("data-paramid"), "price": choosePrice});
+                }
+            }
+            $("#product-price").text(js_number_format(newPrice / 100));
+        }
     </script>
 @endsection
