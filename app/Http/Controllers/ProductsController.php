@@ -13,6 +13,7 @@ use App\Models\EmailLog;
 use App\Models\Param;
 use App\Models\ParamValue;
 use App\Models\Product;
+use App\Models\ProductCategory;
 use App\Models\ProductComment;
 use App\Models\ProductParam;
 use App\Models\ProductSku;
@@ -230,6 +231,7 @@ class ProductsController extends Controller
 
         $shipment_template = null;
         $category = $product->category()->with('parent')->first();
+        $sub_categories = ProductCategory::where('parent_id', '<>', 0)->get();
         $comment_count = $product->comments->count();
         $guesses = Product::where(['is_index' => 1, 'on_sale' => 1])->orderByDesc('index')->limit(9)->get();
         // $hot_sales = Product::where(['is_index' => 1, 'on_sale' => 1])->orderByDesc('heat')->limit(8)->get();
@@ -292,6 +294,7 @@ class ProductsController extends Controller
 
         return view('products.show', [
             'category' => $category,
+            'sub_categories' => $sub_categories,
             'product' => $product->makeVisible(['content_en', 'content_zh']),
             // 'product_skus' => $product_skus,
             'attributes' => $attributes,

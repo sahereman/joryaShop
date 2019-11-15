@@ -397,13 +397,20 @@
                         <p class="category-iframe-title">Category</p>
                         <div class="category-iframe">
                             {{-- 分类导航 --}}
-                            <div class="particulars-category">
-                                <ul>
-                                    <?php $_ii=1; while ($_ii++ < 14): ?>
-                                      <li><span>&#8226;</span><a href="">SALE SALE SALE !!</a></li>
-                                    <?php endwhile; ?>
-                                </ul>
-                            </div>
+                            @if($sub_categories)
+                                <div class="particulars-category">
+                                    <ul>
+                                        @foreach($sub_categories as $sub_category)
+                                            <li>
+                                                <span>&#8226;</span>
+                                                <a href="{{ route('seo_url', ['slug' => $sub_category->slug]) }}">
+                                                    {{ $sub_category->name_en }}
+                                                </a>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
                             {{-- 详情内容 --}}
                             <div class="particulars-content">
                                 {{-- 页面实际展示的部分，用js进行页面渲染 --}}
