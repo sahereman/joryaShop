@@ -475,7 +475,6 @@ class ProductsController extends Controller
 
         $delta_price = 0;
         $custom_attr_values = $request->input('custom_attr_values');
-        // $custom_attr_values = explode(',', $custom_attr_values);
 
         foreach ($custom_attr_values as $key => $custom_attr_value) {
             $delta_price = bcadd($delta_price, $custom_attr_value['delta_price'], 2);
@@ -500,7 +499,7 @@ class ProductsController extends Controller
                 'type' => $custom_attr_value['type'],
                 'name' => $custom_attr_value['name'],
                 'value' => $custom_attr_value['value'],
-                'sort' => (integer)($custom_attr_value_count - $key)
+                'sort' => (integer)($custom_attr_value_count - $key),
                 // 'sort' => $custom_attr_value['sort']
             ]);
         }
@@ -528,34 +527,46 @@ class ProductsController extends Controller
 
         return response()->json([
             'code' => 200,
-            'message' => 'success'
+            'message' => 'success',
+            'data' => [
+                'product_id' => $product->id,
+                'product_sku_id' => $product_sku_id,
+            ],
         ]);
     }
 
     // PUT: 定制商品修改
     public function customUpdate(Request $request, Product $product)
     {
-        // $product_sku = ProductSku::with('custom_attr_values')->find($request->input('product_sku_id'));
-        foreach ($request->input('custom_attr_values') as $custom_attr_value) {
-            $custom_attr_value_model = CustomAttrValue::first(['value' => $custom_attr_value['value']]);
+        $product_sku_id = $request->input('product_sku_id');
+        $custom_attr_values = $request->input('custom_attr_values');
+        $custom_attr_value_count = count($custom_attr_values);
+        // $product_sku = ProductSku::with('custom_attr_values')->find($product_sku_id);
+        foreach ($custom_attr_values as $key => $custom_attr_value) {
             $product_sku_custom_attr_value = ProductSkuCustomAttrValue::firstOrCreate([
-                'product_sku_id' => $request->input('product_sku_id'),
+                'product_sku_id' => $product_sku_id,
                 'name' => $custom_attr_value['name']
             ], [
                 'value' => $custom_attr_value['value'],
-                'sort' => $custom_attr_value_model->sort
+                'sort' => (integer)($custom_attr_value_count - $key)
+                // 'sort' => $custom_attr_value['sort']
             ]);
             if ($product_sku_custom_attr_value->value != $custom_attr_value['value']) {
                 $product_sku_custom_attr_value->update([
                     'value' => $custom_attr_value['value'],
-                    'sort' => $custom_attr_value_model->sort
+                    'sort' => (integer)($custom_attr_value_count - $key),
+                    // 'sort' => $custom_attr_value['sort']
                 ]);
             }
         }
 
         return response()->json([
             'code' => 200,
-            'message' => 'success'
+            'message' => 'success',
+            'data' => [
+                'product_id' => $product->id,
+                'product_sku_id' => $product_sku_id,
+            ],
         ]);
     }
 
@@ -566,7 +577,6 @@ class ProductsController extends Controller
 
         $delta_price = 0;
         $duplicate_attr_values = $request->input('duplicate_attr_values');
-        // $duplicate_attr_values = explode(',', $duplicate_attr_values);
 
         foreach ($duplicate_attr_values as $duplicate_attr_value) {
             $delta_price = bcadd($delta_price, $duplicate_attr_value['delta_price'], 2);
@@ -583,15 +593,15 @@ class ProductsController extends Controller
         ]);
 
         $product_sku_id = $product_sku->id;
-        // $duplicate_attr_value_count = count($duplicate_attr_values);
+        $duplicate_attr_value_count = count($duplicate_attr_values);
 
         foreach ($duplicate_attr_values as $key => $duplicate_attr_value) {
             ProductSkuDuplicateAttrValue::create([
                 'product_sku_id' => $product_sku_id,
                 'name' => $duplicate_attr_value['name'],
                 'value' => $duplicate_attr_value['value'],
-                // 'sort' => (integer)($duplicate_attr_value_count - $key)
-                'sort' => $duplicate_attr_value['sort']
+                'sort' => (integer)($duplicate_attr_value_count - $key),
+                // 'sort' => $duplicate_attr_value['sort']
             ]);
         }
 
@@ -618,30 +628,42 @@ class ProductsController extends Controller
 
         return response()->json([
             'code' => 200,
-            'message' => 'success'
+            'message' => 'success',
+            'data' => [
+                'product_id' => $product->id,
+                'product_sku_id' => $product_sku_id,
+            ],
         ]);
     }
 
     // PUT: 复制商品修改
     public function duplicateUpdate(Request $request, Product $product)
     {
-        // $product_sku = ProductSku::with('duplicate_attr_values')->find($request->input('product_sku_id'));
-        foreach ($request->input('duplicate_attr_values') as $duplicate_attr_value) {
+        $product_sku_id = $request->input('product_sku_id');
+        $duplicate_attr_values = $request->input('duplicate_attr_values');
+        $duplicate_attr_value_count = count($duplicate_attr_values);
+        // $product_sku = ProductSku::with('duplicate_attr_values')->find($product_sku_id);
+        foreach ($duplicate_attr_values as $key => $duplicate_attr_value) {
             $product_sku_duplicate_attr_value = ProductSkuDuplicateAttrValue::first([
-                'product_sku_id' => $request->input('product_sku_id'),
+                'product_sku_id' => $product_sku_id,
                 'name' => $duplicate_attr_value['name']
             ]);
             if ($product_sku_duplicate_attr_value->value != $duplicate_attr_value['value']) {
                 $product_sku_duplicate_attr_value->update([
                     'value' => $duplicate_attr_value['value'],
-                    'sort' => $duplicate_attr_value['sort']
+                    'sort' => (integer)($duplicate_attr_value_count - $key),
+                    // 'sort' => $duplicate_attr_value['sort']
                 ]);
             }
         }
 
         return response()->json([
             'code' => 200,
-            'message' => 'success'
+            'message' => 'success',
+            'data' => [
+                'product_id' => $product->id,
+                'product_sku_id' => $product_sku_id,
+            ],
         ]);
     }
 
@@ -652,7 +674,6 @@ class ProductsController extends Controller
 
         $delta_price = 0;
         $repair_attr_values = $request->input('repair_attr_values');
-        // $repair_attr_values = explode(',', $repair_attr_values);
 
         foreach ($repair_attr_values as $repair_attr_value) {
             $delta_price = bcadd($delta_price, $repair_attr_value['delta_price'], 2);
@@ -669,15 +690,15 @@ class ProductsController extends Controller
         ]);
 
         $product_sku_id = $product_sku->id;
-        // $repair_attr_value_count = count($repair_attr_values);
+        $repair_attr_value_count = count($repair_attr_values);
 
         foreach ($repair_attr_values as $key => $repair_attr_value) {
             ProductSkuRepairAttrValue::create([
                 'product_sku_id' => $product_sku_id,
                 'name' => $repair_attr_value['name'],
                 'value' => $repair_attr_value['value'],
-                // 'sort' => (integer)($repair_attr_value_count - $key)
-                'sort' => $repair_attr_value['sort']
+                'sort' => (integer)($repair_attr_value_count - $key),
+                // 'sort' => $repair_attr_value['sort']
             ]);
         }
 
@@ -704,23 +725,31 @@ class ProductsController extends Controller
 
         return response()->json([
             'code' => 200,
-            'message' => 'success'
+            'message' => 'success',
+            'data' => [
+                'product_id' => $product->id,
+                'product_sku_id' => $product_sku_id,
+            ],
         ]);
     }
 
     // PUT: 修复商品修改
     public function repairUpdate(Request $request, Product $product)
     {
-        // $product_sku = ProductSku::with('repair_attr_values')->find($request->input('product_sku_id'));
-        foreach ($request->input('repair_attr_values') as $repair_attr_value) {
+        $product_sku_id = $request->input('product_sku_id');
+        $repair_attr_values = $request->input('repair_attr_values');
+        $repair_attr_value_count = count($repair_attr_values);
+        // $product_sku = ProductSku::with('repair_attr_values')->find($product_sku_id);
+        foreach ($request->input('repair_attr_values') as $key => $repair_attr_value) {
             $product_sku_repair_attr_value = ProductSkuRepairAttrValue::first([
-                'product_sku_id' => $request->input('product_sku_id'),
+                'product_sku_id' => $product_sku_id,
                 'name' => $repair_attr_value['name']
             ]);
             if ($product_sku_repair_attr_value->value != $repair_attr_value['value']) {
                 $product_sku_repair_attr_value->update([
                     'value' => $repair_attr_value['value'],
-                    'sort' => $repair_attr_value['sort']
+                    'sort' => (integer)($repair_attr_value_count - $key),
+                    // 'sort' => $repair_attr_value['sort']
                 ]);
             }
         }

@@ -160,16 +160,14 @@
 
                     </div>
                     {{-- 动态渲染的skus选择器存放位置 --}}
-                    {{-- 修复引入 --}}
-                    @if(false)
-                      @include('products._repair')
-                    @endif
-                    {{-- 复制引入 --}}
-                    @if(true)
-                      @include('products._duplicate')
-                    @endif
-                    {{-- 正常商品 --}}
-                    @if(false)
+                    @if($product->type == \App\Models\Product::PRODUCT_TYPE_DUPLICATE)
+                        {{-- 复制引入 --}}
+                        @include('products._duplicate')
+                    @elseif($product->type == \App\Models\Product::PRODUCT_TYPE_REPAIR)
+                        {{-- 修复引入 --}}
+                        @include('products._repair')
+                    @else
+                        {{-- 正常商品 --}}
                         @if($attributes)
                             <div id="sku-choose-store" class="sku-choose-store {{ $product->type == \App\Models\Product::PRODUCT_TYPE_CUSTOM ? ' dis_ni' : '' }}" price="{{ $product->price }}">
                                 <div class="sku-select">
@@ -189,20 +187,15 @@
                                         </div>
                                         <div class="sku-select-module">
                                             <div data-paramid="undefined" data-name="undefined" class="sku-select-value">
-                                                <input type="hidden" readonly="" data-paramid="{{ $attr_name }}"
-                                                    value="{{ $attr_values[0]['value'] }}"
-                                                    name="{{ $attr_values[0]['value'] }}"
-                                                    photo-url="{{ isset($attr_values[0]['photo_url']) ? $attr_values[0]['photo_url'] : '' }}"
-                                                    delta-price="{{ $attr_values[0]['delta_price'] }}">
+                                                <input type="hidden" readonly="" data-paramid="{{ $attr_name }}" value="{{ $attr_values[0]['value'] }}" name="{{ $attr_values[0]['value'] }}"
+                                                       photo-url="{{ isset($attr_values[0]['photo_url']) ? $attr_values[0]['photo_url'] : '' }}" delta-price="{{ $attr_values[0]['delta_price'] }}">
                                                 <span class="sku-select-value-show">{{ $attr_values[0]['value'] }}</span>
                                             </div>
                                             <div class="sku-select-options" style="display: none;">
                                                 <ul data-paramid="undefined" data-name="undefined">
                                                     @foreach($attr_values as $attr_value)
-                                                        <li data-paramid="{{ $attr_name }}"
-                                                            data-valueid="{{ $attr_value['value'] }}"
-                                                            photo-url="{{ isset($attr_value['photo_url']) ? $attr_value['photo_url'] : '' }}"
-                                                            delta-price="{{ $attr_value['delta_price'] }}">
+                                                        <li data-paramid="{{ $attr_name }}" data-valueid="{{ $attr_value['value'] }}"
+                                                            photo-url="{{ isset($attr_value['photo_url']) ? $attr_value['photo_url'] : '' }}" delta-price="{{ $attr_value['delta_price'] }}">
                                                             {{ $attr_value['value'] }}
                                                         </li>
                                                     @endforeach
@@ -245,19 +238,15 @@
                             </div>
                         </div>
                         <div class="priceOfpro-right">
-                            @if($product->type == \App\Models\Product::PRODUCT_TYPE_CUSTOM)
-                                
-                            @else
+                            @if($product->type != \App\Models\Product::PRODUCT_TYPE_CUSTOM)
                                 @guest
                                     <a class="add_favourites for_show_login" >
                                         <img src="{{ asset('img/favorite-eye.png') }}" alt="">
                                         <span>Add to wish list</span>
                                     </a>
                                 @else
-                                    <a class="add_favourites {{ $favourite ? 'active' : '' }}" code="{{ $product->id }}"
-                                    data-url="{{ route('user_favourites.store') }}"
-                                    data-url_2="{{ route('user_favourites.destroy') }}"
-                                    data-favourite-code="{{ $favourite ? $favourite->id : '' }}">
+                                    <a class="add_favourites {{ $favourite ? 'active' : '' }}" code="{{ $product->id }}" data-url="{{ route('user_favourites.store') }}"
+                                       data-url_2="{{ route('user_favourites.destroy') }}" data-favourite-code="{{ $favourite ? $favourite->id : '' }}">
                                         <img src="{{ asset('img/favorite-eye.png') }}" alt="">
                                         <span>{{ $favourite ? 'Remove from wish list' : 'Add to wish list' }}</span>
                                     </a>
@@ -308,20 +297,24 @@
                                 </div>
                                 <div class="info-content">
                                     {{--{{dd()}}--}}
-                                    <p> <span class="info-content-price">{{$shipment_template->calc_unit_shipping_fee(1,Auth::user()->default_address->province)}}
-                                        </span>{{$shipment_template->name}}  {{$shipment_template->sub_name}} | <a class="info-content-details" href="javascrpt:void(0)">See details</a></p>
+                                    <p>
+                                        <span class="info-content-price">
+                                            {{ $shipment_template->calc_unit_shipping_fee(1, Auth::user()->default_address->province) }}
+                                        </span>
+                                        {{ $shipment_template->name }}  {{ $shipment_template->sub_name }} | <a class="info-content-details" href="javascrpt:void(0)">See details</a>
+                                    </p>
                                 </div>
                             </div>
                             <div class="content-box">
                                 <div class="info-content">
-                                    <p>{{$shipment_template->description}}</p>
+                                    <p>{{ $shipment_template->description }}</p>
                                 </div>
                             </div>
                             <div class="content-box">
                                 <div class="info-content">
-                                    <p>tem location:</p>
-                                    <p>{{$product->location}}</p>
-                                    <p>Ships to: <span>{{Auth::user()->default_address->province}}</span></p>
+                                    <p>Item Location:</p>
+                                    <p>{{ $product->location }}</p>
+                                    <p>Ships to: <span>{{ Auth::user()->default_address->province }}</span></p>
                                 </div>
                             </div>
                         @endif
@@ -710,7 +703,7 @@
                             var arr = [];
                             var dataobj = err.responseJSON.errors;
                             for (let i in dataobj) {
-                                arr.push(dataobj[i]); //属性
+                                arr.push(dataobj[i]); // 属性
                             }
                             layer.msg(arr[0][0]);
                         }
@@ -720,7 +713,7 @@
         });
         // Tab控制函数
         function tabs(tabId, tabNum) {
-            //设置点击后的切换样式
+            // 设置点击后的切换样式
             $(tabId + " .tab li").removeClass("curr");
             $(tabId + " .tab li").eq(tabNum).addClass("curr");
             //根据参数决定显示内容
@@ -759,7 +752,7 @@
             var allChooseSkus = $("#sku-choose-store").find("input[type='hidden']");
             $.each(allChooseSkus, function (i, n) {
                 data["product_sku_attr_values[" + $(n).attr("data-paramid") + "]"] = $(n).val()
-            })
+            });
             // console.log(data)
             var url = clickDom.attr('data-url');
             $.ajax({
@@ -769,7 +762,7 @@
                 success: function (data) {
                     layer.msg("@lang('product.product_details.Shopping cart added successfully')");
                     var oldCartNum = parseInt($(".shop_cart_num").html());
-                    var newCartNum = oldCartNum + parseInt($("#pro_num").val())
+                    var newCartNum = oldCartNum + parseInt($("#pro_num").val());
                     $(".shop_cart_num").html(newCartNum);
                     // $(".for_cart_num").load(location.href + " .shop_cart_num");
                 },
@@ -777,7 +770,7 @@
                     var arr = [];
                     var dataobj = err.responseJSON.errors;
                     for (let i in dataobj) {
-                        arr.push(dataobj[i]); //属性
+                        arr.push(dataobj[i]); // 属性
                     }
                     layer.msg(arr[0][0]);
                 }
@@ -787,7 +780,7 @@
         $(".buy_now").on("click", function () {
             var clickDom = $(this);
             if ($(this).hasClass('for_show_login') == true) {
-                //     // $(".login").click();
+                // $(".login").click();
             } else {
                 var url = clickDom.attr('data-url');
                 var url2 = clickDom.attr('data-url2');
@@ -800,7 +793,7 @@
                 var allChooseSkus = $("#sku-choose-store").find("input[type='hidden']");
                 $.each(allChooseSkus, function (i, n) {
                     data["product_sku_attr_values[" + $(n).attr("data-paramid") + "]"] = $(n).val()
-                })
+                });
                 $.ajax({
                     type: "post",
                     url: url2,
@@ -1040,7 +1033,7 @@
                 data: data,
                 beforeSend: function(){},
                 success: function (json) {
-                    console.log(json)
+                    console.log(json);
                     // 进行页面渲染
                     renderPage(json.data);
                     sku_id = json.data.selected.sku.id;
@@ -1071,7 +1064,7 @@
         // GetSkus();
         // 页面渲染函数
         function renderPage(searchData){
-            console.log(searchData)
+            console.log(searchData);
             // 用于页面渲染Dom
             var skuDomHtml = "";
             $.each(searchData.data,function (skuKindsArr_index,skuKindsArr_val) {
@@ -1268,7 +1261,7 @@
                 var tierNum = $(this).attr("data-product-num");
                 $("#pro_num").val(tierNum);
             }
-        })
+        });
         // 价格合计函数 (修复商品和复制商品使用)
         var hasChoosePrice = [];  // 已经选择的sku相关数组
         var initialPrice = float_multiply_by_100($("#sku-choose-store").attr("price"));  // 商品的原始价格
@@ -1279,7 +1272,7 @@
             // 判断是否有价格参数
             var isExist = false;
             if(hasChoosePrice.length == 0){
-                choosePrice = float_multiply_by_100(Dom.attr("delta-price"))
+                choosePrice = float_multiply_by_100(Dom.attr("delta-price"));
                 newPrice = choosePrice + newPrice;
                 hasChoosePrice.push({"name": Dom.parents(".sku-select-module").find("input").attr("data-paramid"), "price": choosePrice});
             }else {

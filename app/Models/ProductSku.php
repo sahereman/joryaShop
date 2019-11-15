@@ -175,4 +175,14 @@ class ProductSku extends Model
     {
         return $this->hasMany(ProductSkuCustomAttrValue::class)->orderByDesc('sort');
     }
+
+    public function duplicate_attr_values()
+    {
+        return $this->hasMany(ProductSkuDuplicateAttrValue::class)->orderByDesc('sort');
+    }
+
+    public function repair_attr_values()
+    {
+        return $this->hasMany(ProductSkuRepairAttrValue::class)->orderByDesc('sort');
+    }
 }
