@@ -8,7 +8,7 @@
     <div class="commodity-details">
         <div class="main-content">
             <!--面包屑-->
-            <div>
+            <div class="Crumbs-box">
                 <p class="Crumbs">
                     <a href="{{ route('root') }}">@lang('basic.home')</a>
                     @if($category->parent)
@@ -113,28 +113,6 @@
                             {{--<span class="service-kind"><i>•</i>@lang('product.product_details.Quick refund in 48 hours')</span>--}}
                         </p>
                     </div>
-                    {{-- 评价 --}}
-                    <div class="ratings dis_ni">
-                        <div class="rating-box">
-                            {{-- 商品星级评价，
-                            按照之前的设定分为：
-                             1星：width:20%
-                             2星：width:40%
-                             3星：width:60%
-                             4星：width:80%
-                             5星：width:100% --}}
-                            @if($product->comment_count == 0)
-                                <div class="rating" style="width: 98%;"></div>
-                            @else
-                                <div class="rating" style="width: {{ (int)bcmul(bcdiv(bcdiv($product->index, $product->comment_count, 2), 5, 2), 100, 0) }}%;"></div>
-                            @endif
-                        </div>
-                        <p class="rating-links">
-                            <a id="goto-reviews" href="#customer-reviews">{{ $product->comment_count }} Review(s)</a>
-                            <span class="separator">|</span>
-                            <a id="goto-reviews-form" href="#customer-reviews">Add Your Review</a>
-                        </p>
-                    </div>
                     {{-- 简介 --}}
                     <div class="short-description">
                         <div class="std">
@@ -144,6 +122,28 @@
                         {{-- <a href="javascript:void(0)" class="down-more" id="down-more">
                             <img src=" {{ asset('img/down-more.png') }}" alt="">
                         </a> --}}
+                    </div>
+                    {{-- 评价 --}}
+                    <div class="ratings">
+                        <div class="rating-box dis_ni">
+                            {{-- 商品星级评价，
+                            按照之前的设定分为：
+                                1星：width:20%
+                                2星：width:40%
+                                3星：width:60%
+                                4星：width:80%
+                                5星：width:100% --}}
+                            @if($product->comment_count == 0)
+                                <div class="rating" style="width: 98%;"></div>
+                            @else
+                                <div class="rating" style="width: {{ (int)bcmul(bcdiv(bcdiv($product->index, $product->comment_count, 2), 5, 2), 100, 0) }}%;"></div>
+                            @endif
+                        </div>
+                        <p class="rating-links">
+                            <a id="goto-reviews" href="#customer-reviews">Review({{ $product->comment_count }})</a>
+                            {{-- <span class="separator">|</span> --}}
+                            {{-- <a id="goto-reviews-form" href="#customer-reviews">Add Your Review</a> --}}
+                        </p>
                     </div>
                     {{-- 新版价格存放位置 --}}
                     <div class="product-price">
@@ -263,12 +263,32 @@
                             {{--<a class="add_carts for_show_login" href="{{ route('products.custom.show', ['product' => $product->id]) }}">--}}
                                 {{--@lang('app.Add to Shopping Cart')--}}
                             {{--</a>--}}
+                        @elseif($product->type == \App\Models\Product::PRODUCT_TYPE_DUPLICATE)
+                            {{-- 复制引入 --}}
+                            <a class="buy_now duplicateType" data-url="{{ route('orders.pre_payment') }}" data-url2="{{ route('orders.pre_payment') }}" 
+                               data-url-sku="{{ route('products.duplicate.store', ['product' => $product->id]) }}" code="{{ $product->id }}">
+                                @lang('product.product_details.Buy now')
+                            </a>
+                            <a class="add_carts duplicateType" data-url="{{ route('carts.store') }}" 
+                               data-url-sku="{{ route('products.duplicate.store', ['product' => $product->id]) }}" code="{{ $product->id }}">
+                                @lang('app.Add to Shopping Cart')
+                            </a>
+                        @elseif($product->type == \App\Models\Product::PRODUCT_TYPE_REPAIR)
+                            {{-- 修复引入 --}}
+                            <a class="buy_now repairType" data-url="{{ route('orders.pre_payment') }}" data-url2="{{ route('orders.pre_payment') }}"
+                               data-url-sku="{{ route('products.repair.store', ['product' => $product->id]) }}" code="{{ $product->id }}">
+                                    @lang('product.product_details.Buy now')
+                            </a>
+                            <a class="add_carts repairType" data-url="{{ route('carts.store') }}"
+                               data-url-sku="{{ route('products.repair.store', ['product' => $product->id]) }}" code="{{ $product->id }}">
+                                @lang('app.Add to Shopping Cart')
+                            </a>
                         @else
-                            <a class="buy_now" data-url="{{ route('orders.pre_payment') }}" data-url2="{{ route('orders.pre_payment_by_sku_attr') }}" code="{{ $product->id }}">
+                            <a class="buy_now normalType" data-url="{{ route('orders.pre_payment') }}" data-url2="{{ route('orders.pre_payment_by_sku_attr') }}" code="{{ $product->id }}">
                                 @lang('product.product_details.Buy now')
                             </a>
                             {{-- <a class="add_carts" data-url="{{ route('carts.store') }}" code="{{ $product->id }}"> --}}
-                            <a class="add_carts" data-url="{{ route('carts.store_by_sku_attr') }}" code="{{ $product->id }}">
+                            <a class="add_carts normalType" data-url="{{ route('carts.store_by_sku_attr') }}" code="{{ $product->id }}">
                                 @lang('app.Add to Shopping Cart')
                             </a>
                             {{-- @guest
@@ -324,7 +344,7 @@
                                 <span>Payments:</span>
                             </div>
                             <div class="info-content">
-                                <img src="{{ asset('img/payment-all.png') }}" alt="">
+                                <img src="{{ asset('img/payment-all.png') }}" alt="Lyricalhair.com">
                             </div>
                         </div>
                         {{--Return--}}
@@ -355,8 +375,9 @@
                     <div class="mc tabcon product_info">
                         {{-- 商品详情信息 --}}
                         @if($product->grouped_param_value_string)
+                            <p class="category-iframe-title">Item specifics</p>
                             <div class="product_info_table">
-                                <h2 class="info_table_title">Item specifics</h2>
+                                {{-- <h2 class="info_table_title"></h2> --}}
                                 <ul class="info_table_tbody">
                                     {{-- 这个也是循环内容为了查看样式单独拿出来，正式循环时包括在下面的循环里 --}}
                                     @foreach($product->grouped_param_value_string as $key => $value)
@@ -373,8 +394,23 @@
                             {{-- 用来存放后台返回的的iframe的数据或者富文本 --}}
                             {!! $product->content_en !!}
                         </div>
-                        {{-- 页面实际展示的部分，用js进行页面渲染 --}}
-                        <iframe name="cmsCon" id="cmsCon" class="cmsCon" frameborder="0" width="100%" scrolling="no" height="auto"></iframe>
+                        <p class="category-iframe-title">Category</p>
+                        <div class="category-iframe">
+                            {{-- 分类导航 --}}
+                            <div class="particulars-category">
+                                <ul>
+                                    <?php $_ii=1; while ($_ii++ < 14): ?>
+                                      <li><span>&#8226;</span><a href="">SALE SALE SALE !!</a></li>
+                                    <?php endwhile; ?>
+                                </ul>
+                            </div>
+                            {{-- 详情内容 --}}
+                            <div class="particulars-content">
+                                {{-- 页面实际展示的部分，用js进行页面渲染 --}}
+                                <h3>Item description</h3>
+                                <iframe name="cmsCon" id="cmsCon" class="cmsCon" frameborder="0" width="100%" scrolling="no" height="auto"></iframe>
+                            </div>
+                        </div>
                     </div>
                     <div class="mc tabcon dis_n" id="customer-reviews">
                         <div class="comment-items">
@@ -502,7 +538,10 @@
     <script src="{{ asset('js/lord/thumbelina.js') }}"></script>
 
     <script type="text/javascript">
-        {{-- 初始化zoom --}}
+    // 修改当前页面的header底色
+        $(".header-top").css("background-color","#fff");
+        $(".header-bottom").css("background-color","#f6f6f6");
+        // 初始化zoom
         CloudZoom.quickStart();
         // 初始化slider
         $(function () {
@@ -731,30 +770,123 @@
             $(".changePrice_num").html("{{ get_global_symbol() }}" + $(this).attr('code_price'));
             $("#pro_num").val("1");
         });
-        // 加入购物车
-        $(".add_carts").on("click", function () {
-            var clickDom = $(this);
-            if (product.type == "custom") {
-                window.location.href = "{{ route('products.custom.show', ['product' => $product->id]) }}";
-            } 
-            // else {
-                // if (sku_id == 0 || sku_stock == 0) {
-                //     layer.msg("The item is temporarily out of stock Please reselect!");
-                //     return
-                // }
-            // }
-            var data = {
-                _token: "{{ csrf_token() }}",
-                // sku_id: sku_id,
-                product_id: clickDom.attr("code"),
-                number: $("#pro_num").val(),
-            };
+        // 修复商品传递相关选项参数 data-url-sku
+        function repairParameters(Dom,Operate){
+            var repair_attr_values_json = [];
+            // custom_attr_values_json.push({
+            //     type: 'Hair',
+            //     name: 'Grey Hair Need',
+            //     value: $("input[name='Need Grey Hair Type']:checked").parents("label").find(".val-text").text(),
+            //     delta_price: '0',
+            // });
             var allChooseSkus = $("#sku-choose-store").find("input[type='hidden']");
             $.each(allChooseSkus, function (i, n) {
-                data["product_sku_attr_values[" + $(n).attr("data-paramid") + "]"] = $(n).val()
+                repair_attr_values_json.push({
+                    name: $(n).attr("data-paramid"),
+                    value: $(n).val(),
+                    delta_price: $(n).attr("delta-price"),
+                });
             });
+            var data = {
+                _token: "{{ csrf_token() }}",
+                repair_attr_values: repair_attr_values_json,
+            };
+            $.ajax({
+                type: "post",
+                url: $(Dom).attr("data-url-sku"),
+                data: data,
+                success: function (data) {
+                    console.log(data)
+                    // window.location.href = $(".addToCartSuccess").val();
+                    var product_sku_id = data.data.product_sku_id;
+                    if(Operate == "Cart") {
+                        addCarts(Dom,product_sku_id)
+                    }else {
+                        BuyNow(Dom,product_sku_id)
+                    }
+                },
+                error: function (err) {
+                    if (err.status == 422) {
+                        var exception = err.responseJSON.exception;
+                        if (exception) {
+                            layer.msg(exception.message);
+                        }
+                        var arr = [];
+                        var errors = err.responseJSON.errors;
+                        for (let i in errors) {
+                            arr.push(errors[i]); //属性
+                        }
+                        layer.msg(arr[0][0]);
+                    }
+                },
+            });
+        }
+        // 复制商品传递相关选项参数 data-url-sku
+        function duplicateParameters(Dom,Operate){
+            var duplicate_attr_values_json = [];
+            var allChooseSkus = $("#sku-choose-store").find("input[type='hidden']");
+            $.each(allChooseSkus, function (i, n) {
+                duplicate_attr_values_json.push({
+                    name: $(n).attr("data-paramid"),
+                    value: $(n).val(),
+                    delta_price: $(n).attr("delta-price"),
+                });
+            });
+            var data = {
+                _token: "{{ csrf_token() }}",
+                duplicate_attr_values: duplicate_attr_values_json,
+            };
+            $.ajax({
+                type: "post",
+                url: $(Dom).attr("data-url-sku"),
+                data: data,
+                success: function (data) {
+                    // window.location.href = $(".addToCartSuccess").val();
+                    var product_sku_id = data.data.product_sku_id;
+                    if(Operate == "Cart") {
+                        addCarts(Dom,product_sku_id)
+                    }else {
+                        BuyNow(Dom,product_sku_id)
+                    }
+                },
+                error: function (err) {
+                    if (err.status == 422) {
+                        var exception = err.responseJSON.exception;
+                        if (exception) {
+                            layer.msg(exception.message);
+                        }
+                        var arr = [];
+                        var errors = err.responseJSON.errors;
+                        for (let i in errors) {
+                            arr.push(errors[i]); //属性
+                        }
+                        layer.msg(arr[0][0]);
+                    }
+                },
+            });
+        }
+        // 加入购物车函数
+        function addCarts(Dom,SkuId){
+            if(SkuId) {
+                var data = {
+                    _token: "{{ csrf_token() }}",
+                    sku_id: SkuId,
+                    number: $("#pro_num").val(),
+                };
+            }else {
+                var data = {
+                    _token: "{{ csrf_token() }}",
+                    // sku_id: sku_id,
+                    product_id: Dom.attr("code"),
+                    number: $("#pro_num").val(),
+                };
+                var allChooseSkus = $("#sku-choose-store").find("input[type='hidden']");
+                $.each(allChooseSkus, function (i, n) {
+                    data["product_sku_attr_values[" + $(n).attr("data-paramid") + "]"] = $(n).val()
+                });
+            }
             // console.log(data)
-            var url = clickDom.attr('data-url');
+            var url = Dom.attr('data-url');
             $.ajax({
                 type: "post",
                 url: url,
@@ -775,46 +907,86 @@
                     layer.msg(arr[0][0]);
                 }
             });
-        });
-        // 立即购买
-        $(".buy_now").on("click", function () {
-            var clickDom = $(this);
-            if ($(this).hasClass('for_show_login') == true) {
-                // $(".login").click();
-            } else {
-                var url = clickDom.attr('data-url');
-                var url2 = clickDom.attr('data-url2');
+        }
+        // 立即购买函数
+        function BuyNow(Dom,SkuId){
+            var url = Dom.attr('data-url');
+            var url2 = Dom.attr('data-url2');
+            var method = "post"
+            if(SkuId) {
+                var data = {
+                    _token: "{{ csrf_token() }}",
+                    sku_id: SkuId,
+                    number: $("#pro_num").val(),
+                };
+                method = "get"
+            }else {
                 var data = {
                     _token: "{{ csrf_token() }}",
                     // sku_id: sku_id,
-                    product_id: clickDom.attr("code"),
+                    product_id: Dom.attr("code"),
                     number: $("#pro_num").val(),
                 };
                 var allChooseSkus = $("#sku-choose-store").find("input[type='hidden']");
                 $.each(allChooseSkus, function (i, n) {
                     data["product_sku_attr_values[" + $(n).attr("data-paramid") + "]"] = $(n).val()
                 });
-                $.ajax({
-                    type: "post",
-                    url: url2,
-                    data: data,
-                    success: function (data) {
+                method = "post"
+            }
+            $.ajax({
+                type: method,
+                url: url2,
+                data: data,
+                success: function (data) {
+                    if(SkuId) {
+                        window.location.href = url + "?sku_id=" + SkuId + "&number=" + $("#pro_num").val() + "&sendWay=1";
+                    }else {
                         window.location.href = url + "?sku_id=" + data.data.sku_id + "&number=" + $("#pro_num").val() + "&sendWay=1";
-                        // layer.msg("@lang('product.product_details.Shopping cart added successfully')");
-                        // var oldCartNum = parseInt($(".shop_cart_num").html());
-                        // var newCartNum = oldCartNum + parseInt($("#pro_num").val())
-                        // $(".shop_cart_num").html(newCartNum);
-                        // $(".for_cart_num").load(location.href + " .shop_cart_num");
-                    },
-                    error: function (err) {
-                        var arr = [];
-                        var dataobj = err.responseJSON.errors;
-                        for (let i in dataobj) {
-                            arr.push(dataobj[i]); //属性
-                        }
-                        layer.msg(arr[0][0]);
                     }
-                });
+                    // layer.msg("@lang('product.product_details.Shopping cart added successfully')");
+                    // var oldCartNum = parseInt($(".shop_cart_num").html());
+                    // var newCartNum = oldCartNum + parseInt($("#pro_num").val())
+                    // $(".shop_cart_num").html(newCartNum);
+                    // $(".for_cart_num").load(location.href + " .shop_cart_num");
+                },
+                error: function (err) {
+                    var arr = [];
+                    var dataobj = err.responseJSON.errors;
+                    for (let i in dataobj) {
+                        arr.push(dataobj[i]); //属性
+                    }
+                    layer.msg(arr[0][0]);
+                }
+            });
+        }
+        // 加入购物车
+        $(".add_carts").on("click", function () {
+            var clickDom = $(this);
+            if (product.type == "custom") {
+                window.location.href = "{{ route('products.custom.show', ['product' => $product->id]) }}";
+            } 
+            if(clickDom.hasClass("repairType")){
+                repairParameters(clickDom,"Cart");
+            }
+            if(clickDom.hasClass("duplicateType")){
+                duplicateParameters(clickDom,"Cart")
+            }
+            if(clickDom.hasClass("normalType")){
+                addCarts(clickDom,false)
+            }
+            
+        });
+        // 立即购买
+        $(".buy_now").on("click", function () {
+            var clickDom = $(this);
+            if(clickDom.hasClass("repairType")){
+                repairParameters(clickDom,"Buy");
+            }
+            if(clickDom.hasClass("duplicateType")){
+                duplicateParameters(clickDom,"Buy");
+            }
+            if(clickDom.hasClass("normalType")){
+                BuyNow(clickDom,false);
             }
         });
         // 获取评价内容

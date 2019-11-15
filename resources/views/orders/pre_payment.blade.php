@@ -109,7 +109,30 @@
                                 <div class="primary">primary</div>
                             @else
                                 {{-- 没有地址，新建收货地址 --}}
-                                <button class="add_new_address"><span class="iconfont">&#xe602;</span>Add New Address</button>
+                                <button class="add_new_address no-address-add"><span class="iconfont">&#xe602;</span>Add New Address</button>
+                                <div class="NewAddressShow dis_n">
+                                    <div class="address-name">
+                                        <span class="address_name"></span>
+                                    </div>
+                                    <div class="address-fullAddress">
+                                        <span class="address_location"></span>
+                                    </div>
+                                    <div class="address-phone">
+                                        <span class="address_phone"></span>
+                                    </div>
+                                    {{-- 修改按钮，切换收货地址 --}}
+                                    <div class="edit-address">
+                                        @guest
+                                            <a class="change_address for-login-show" data-url="{{ route('user_addresses.list_all') }}"
+                                            href="javascript:void(0);"><span class="iconfont">&#xe616;</span>Edit</a>
+                                        @else
+                                            <a class="change_address" data-url="{{ route('user_addresses.list_all') }}"
+                                            href="javascript:void(0);"><span class="iconfont">&#xe616;</span>Edit</a>
+                                        @endguest
+                                    </div>
+                                    {{-- 默认地址 --}}
+                                    <div class="primary">primary</div>
+                                </div>
                             @endif
                         </div>
                         {{-- 更换地址 --}}
@@ -259,6 +282,22 @@
                     <div class="order-note">
                         <p class="order-note-title">Order note</p>
                         <textarea class="remark" placeholder="Optional, leave a message to the seller"></textarea>
+                    </div>
+                    {{-- 邮件 --}}
+                    <div class="order-email">
+                        <p class="order-email-title">Order email</p>
+                        <div class="email-detail">
+                            <p class="email-question">Do you want to send this order information to email?</p>
+                            <p class="inputBox">
+                                <label><input type="radio" name="emailChoose" value="0"><span>No, Thank you</span></label>
+                            </p>
+                            <p class="inputBox">
+                                <label><input type="radio" name="emailChoose" value="1"><span>Yes, I do</span></label>
+                            </p>
+                            <p class="dis_n email-int">
+                                <input type="email" class="order-email-num" placeholder="Please enter the email address">
+                            </p>
+                        </div>
                     </div>
                     {{-- 费用 --}}
                     <div class="order-fee">
@@ -488,6 +527,10 @@
                             document.getElementById("creat-form").reset();
                             $(".add-new-address").addClass("dis_n");
                             $(".address-info-content").removeClass("dis_n");
+                            if($(".NewAddressShow")) {
+                                $(".NewAddressShow").removeClass("dis_n")
+                                $(".no-address-add").addClass("dis_n");
+                            }
                         //    新建地址保存成功后调用获取运费的接口
                             var sendWay = getUrlVars("sendWay");
                             var requestData ;
@@ -634,6 +677,10 @@
             }
 
             $(".payment_btn").on("click", function () {
+                if(!$("input[name='emailChoose']:checked").val()){
+                    layer.msg("Please select whether to send order information");
+                    return
+                }
                 var address_name = $(".address_name_bottom").html();
                 var address_phone = $(".address_phone_bottom").html();
                 var address_location = $(".address_location_bottom").html();
@@ -657,7 +704,14 @@
                     }
                 }
             });
-
+            // 监听邮件发送选项
+            $("input[name='emailChoose']").on("change",function(){
+                if($(this).val() == 1){
+                    $(".email-int").removeClass("dis_n");
+                }else {
+                    $(".email-int").addClass("dis_n");
+                }
+            })
             // 第一类创建订单（直接下单）
             function payment_one(sku_id, number, url) {
                 var data = {
@@ -670,6 +724,7 @@
                     address: $('.address_location_bottom').text(),
                     province: $('.address_province_bottom').text(),
                     remark: $(".remark").val(),
+                    email: $(".order-email-num").val(),
                     currency: $(".currency_selection").find("a.active").attr("country"),
                     // coupon_id : $(".coupon_selection option:selected").val()
                 };
@@ -715,6 +770,7 @@
                     address: $('.address_location_bottom').text(),
                     province: $('.address_province_bottom').text(),
                     remark: $(".remark").val(),
+                    email: $(".order-email-num").val(),
                     currency: $(".currency_selection").find("a.active").attr("country"),
                     // coupon_id : $(".coupon_selection option:selected").val()
                 };

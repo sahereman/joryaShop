@@ -14,8 +14,8 @@
 /* CSS for zoom window. */
 .cloudzoom-zoom {
     border:1px solid #888;
-    width:600px;
-    height:200px;
+    width:48%;
+    height:700px;
     box-shadow: -0px -0px 10px rgba(0,0,0,0.40);
 	z-index: 9999;
 }

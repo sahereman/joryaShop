@@ -206,9 +206,15 @@
 
 //商品详情
 .commodity-details {
-    background-color: transparent;
+    background-color: #f6f6f6;
     position: relative;
+    .main-content {
+      width: 1366px;
+    }
     // 面包屑
+    .Crumbs-box {
+      overflow: hidden;
+    }
     .Crumbs {
         a {
             &:last-of-type {
@@ -272,11 +278,11 @@
         margin: auto;
         width:100%;
         min-width: 256px;
-        max-width: 480px;
+        // max-width: 480px;
         .big-img-box {
           position: relative;
           margin-bottom: 15px;
-          padding: 5px;
+          // padding: 5px;
           width: 100%;
           //height: 530px;
           line-height: 530px;
@@ -328,10 +334,9 @@
       }
     }
     .parameters_content {
-      width: 35%;
-      float: left;
+      width: 45%;
       margin: 0 auto;
-      margin-left: 0;
+      margin-right: 0;
       padding: 0 2px;
       @media only screen and (max-width: 767px){
         width: 100%;
@@ -417,6 +422,7 @@
       .ratings {
         line-height: 15px;
         margin: 15px 0 15px;
+        color: #8d8d8d;
         .rating-box {
           display: inline-block;
           vertical-align: middle;
@@ -475,7 +481,7 @@
           }
           &.std-content {
             font-size: 1rem;
-            margin-bottom: 30px;
+            margin-bottom: 10px;
             color: #8d8d8d;
             height: auto;
           }
@@ -898,6 +904,7 @@
         margin-top: 30px;
         margin-bottom: 40px;
         overflow: hidden;
+        background-color: #fff;
         .comments_details_left {
             width: 211px;
             background: #fff;
@@ -961,33 +968,38 @@
         .comments_details_right {
             width: 100%;
             >ul {
+              padding: 20px 50px;
+              padding-bottom: 0;
               position: relative;
               border-bottom: 1px solid #e5e5e5;
               display: flex;
               flex-direction: row;
               justify-content: flex-start;
               li {
-                font-size: 18px;
+                font-size: 14px;
                 cursor: pointer;
                 min-width: 120px;
                 text-align: center;
                 line-height: 38px;
                 background-color: transparent;
                 padding: 4px 10px;
+                transition: all .3s;
                 &.curr {
                   position: relative;
-                  border: 1px solid #e5e5e5;
-                  border-bottom: 1px solid #fff;
-                  color: $hover-color;
-                  &:before,
-                  &:after {
-                    position: absolute;
-                    left: 0;
-                    bottom: -1px;
+                  color: #fff;
+                  background-color: #cf0a14;
+                  &::after {
                     content: '';
-                    width: 100%;
-                    height: 1px;
-                    background-color: transparent;
+                    position: absolute;
+                    bottom: -20px;
+                    left: 0;
+                    right: 0;
+                    margin: auto;
+                    width: 10px;
+                    border: 10px solid #cf0a14;
+                    border-left-color: transparent;
+                    border-right-color: transparent;
+                    border-bottom-color: transparent;
                   }
                 }
               }
@@ -1159,7 +1171,7 @@
                 }
                 &.product_info {
                     background-color: #fff;
-                    padding: 25px;
+                    padding: 35px 50px;
                     min-height: 1000px;
                     overflow: hidden;
                     img {
@@ -1168,9 +1180,10 @@
                     // 详情表格
                     .product_info_table {
                       padding: 10px 20px 10px 20px;
-                      margin-bottom: 10px;
+                      margin-bottom: 50px;
                       width: 100%;
                       border: 1px solid #ccc;
+                      background-color: #f6f6f6;
                       .info_table_title {
                         margin: 0;
                         padding-bottom: 10px;
@@ -1188,16 +1201,68 @@
                           margin-left: 0;
                           width: 50%;
                           line-height: 25px;
+                          // border: 1px solid #ccc;
                           span {
                             display: inline-block;
                           }
                           .info_table_name {
                             min-width: 135px;
+                            font-weight: 600;
                           }
                           .info_table_content {
                             width: calc(100% - 145px);
                             padding: 0 10px;
                           }
+                        }
+                      }
+                    }
+                    // 详情内的导航
+                    .category-iframe-title {
+                      position: relative;
+                      padding: 0 20px;
+                      margin-bottom: 25px;
+                      font-size: 20px;
+                      &::before {
+                        content: '';
+                        position: absolute;
+                        width: 10px;
+                        height: 20px;
+                        background-color: #c30e15;
+                        top: 0;
+                        left: 0;
+                      }
+                    }
+                    .category-iframe {
+                      display: flex;
+                      .particulars-category {
+                        margin: 0 auto;
+                        margin-left: 0;
+                        width: 240px;
+                        background-color: #f6f6f6;
+                        color: #7a7a7a;
+                        padding: 30px 20px;
+                        font-size: 16px;
+                        height: max-content;
+                        ul {
+                          width: 100%;
+                          li {
+                            margin: 10px 0px;
+                            width: 100%;
+                            white-space: nowrap;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                            span {
+                              margin-right: 5px;
+                            }
+                          }
+                        }
+                      }
+                      .particulars-content {
+                        margin: 0 auto;
+                        margin-right: 0;
+                        width: calc(100% - 260px);
+                        h3 {
+                          margin-top: 0;
                         }
                       }
                     }

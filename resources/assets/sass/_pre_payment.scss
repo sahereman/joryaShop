@@ -5,11 +5,12 @@
   .m-wrapper {
     position: relative;
     overflow: hidden;
-    .Crumbs {
-      margin-top: 25px;
-      margin-bottom: 10px;
-      color: #666;
-    }
+  }
+  .Crumbs {
+    margin-top: 25px;
+    margin-bottom: 10px;
+    color: #666;
+    float: left;
   }
   .orders-content {
     width: 100%;
@@ -76,6 +77,10 @@
             color: #666;
             line-height: 24px;
             font-size: 14px;
+            input {
+              width: 100%;
+              text-align: right;
+            }
           }
           .product-amount {
             width: 10%;
@@ -423,6 +428,33 @@
         width: 100%;
         height: 120px;
         background-color: #f5f5f5;
+      }
+    }
+    // 邮件
+    .order-email {
+      margin-bottom: 30px;
+      .order-email-title {
+        margin-bottom: 11px;
+        color: #111;
+        font-weight: bold;
+      }
+      .email-detail {
+        p {
+          margin-bottom: 10px;
+          color: #888;
+          label {
+            display: flex;
+            cursor: pointer;
+            input {
+              margin-right: 5px;
+            }
+          }
+          .order-email-num {
+            padding: 10px;
+            width: 100%;
+            border: 1px solid #eee;
+          }
+        }
       }
     }
     .order-fee {
