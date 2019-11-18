@@ -409,9 +409,9 @@
                         <img src="{{ asset("img/Home/customOrder.png") }}" alt="lyricalhair">
                     </div>
                     <span class="part-img-title">Custom Order</span>
-                    <span>Unique hair replacement system Features specifically created just for You</span>
-                    <span>High Quality Craftsmanship</span>
-                    <span>Wear it like it is Your Own hair</span>
+                    <span>Unique hair replacement system</span>
+                    <span>Features specifically created just for You </span>
+                    <span>High Quality Craftsmanship Wear it like it is Your Own hair</span>
                     {{--<a href="{{ route('seo_url', ['slug' => \App\Models\Product::where(['type' => 'custom', 'on_sale' => 1])->first()->slug]) }}">LEARN MORE</a>--}}
                     <a href="{{ route('seo_url', ['slug' => 'custom-hair-systems']) }}">LEARN MORE</a>
                 </li>
@@ -431,7 +431,8 @@
                         <img src="{{ asset("img/Home/DuplicatedOrder.png") }}" alt="lyricalhair">
                     </div>
                     <span class="part-img-title">Duplicated Order</span>
-                    <span>Now you can have two or more of your Favorite Hair Replacement Systems</span>
+                    <span>Now you can have two or more of your</span>
+                    <span>Favorite Hair Replacement Systems</span>
                     <span>Identitical from the Base to the Tips of your Hair</span>
                     <span>Free Rush Order and Half Delivery Back Fee</span>
                     <a href="{{ route('seo_url', ['slug' => 'duplicate-service']) }}">LEARN MORE</a>
