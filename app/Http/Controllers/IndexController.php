@@ -31,6 +31,10 @@ class IndexController extends Controller
 
     public function test(Request $request)
     {
+        $order = Order::latest()->first();
+        return view('emails.order', [
+            'order' => $order
+        ]);
         dd('test');
     }
 
