@@ -411,7 +411,8 @@
                     <span class="part-img-title">Custom Order</span>
                     <span>Unique hair replacement system</span>
                     <span>Features specifically created just for You </span>
-                    <span>High Quality Craftsmanship Wear it like it is Your Own hair</span>
+                    <span>High Quality Craftsmanship</span>
+                    <span>Wear it like it is Your Own hair</span>
                     {{--<a href="{{ route('seo_url', ['slug' => \App\Models\Product::where(['type' => 'custom', 'on_sale' => 1])->first()->slug]) }}">LEARN MORE</a>--}}
                     <a href="{{ route('seo_url', ['slug' => 'custom-hair-systems']) }}">LEARN MORE</a>
                 </li>
