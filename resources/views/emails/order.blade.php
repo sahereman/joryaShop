@@ -5,9 +5,9 @@
         <div class="main-content">
             {{-- 面包屑导航 --}}
             <div class="Crumbs">
-                <a href="{{ route('root') }}">@lang('basic.home')</a>
-                <span>></span>
-                <a href="javascript:void(0);">@lang('order.Confirm Order')</a>
+                <a class="dis_ni" href="{{ route('root') }}">@lang('basic.home')</a>
+                <span class="dis_ni">></span>
+                <a class="dis_ni" href="javascript:void(0);">@lang('order.Confirm Order')</a>
             </div>
             {{-- 订单内容 --}}
             <div class="orders-content">
@@ -261,4 +261,10 @@
             </div>
         </div>
     </div>
+@endsection
+@section('scriptsAfterJs')
+<script type="text/javascript">
+  $("header").css("display","none");
+  $("footer").css("display","none");
+</script>
 @endsection
