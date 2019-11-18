@@ -236,6 +236,12 @@
                                 <input type="number" name="number" id="pro_num" value="1" min="1" max="99">
                                 <span class="add"><i>+</i></span>
                             </div>
+                            {{-- 多件优惠 --}}
+                            @if($product->discounts->isNotEmpty())
+                                <span class="more-price">
+                                    {{ $product->discounts->last()->number }} or more for {{ get_current_price($product->discounts->last()->price) }} /ea
+                                </span>
+                            @endif
                         </div>
                         <div class="priceOfpro-right">
                             @if($product->type != \App\Models\Product::PRODUCT_TYPE_CUSTOM)

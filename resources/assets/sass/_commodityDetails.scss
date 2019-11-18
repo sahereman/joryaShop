@@ -581,6 +581,9 @@
           justify-content: space-between;
           margin-top: 10px;
           margin-bottom: 5px;
+          @media only screen and (max-width: 750px){
+            flex-direction: column;
+          }
           span {
             display: inline-block;
             min-width: 50px;
@@ -693,6 +696,12 @@
                 text-align: center;
                 color: #888;
               }
+          }
+          .priceOfpro-left {
+            display: flex;
+            .more-price {
+              margin: auto 10px;
+            }
           }
           .priceOfpro-right {
             margin: auto 0;
