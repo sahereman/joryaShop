@@ -83,13 +83,13 @@ class ProductsController extends Controller
                 // ->orWhere('description_zh', 'like', '%' . $query . '%')
                 ->orWhere('content_en', 'like', '%' . $query . '%');
             // ->orWhere('content_zh', 'like', '%' . $query . '%');
-            $all_products = $all_products->where('name_en', 'like', '%' . $query . '%')
-                // ->orWhere('name_zh', 'like', '%' . $query . '%')
-                ->orWhere('sub_name_en', 'like', '%' . $query . '%')
-                // ->orWhere('sub_name_zh', 'like', '%' . $query . '%')
-                ->orWhere('description_en', 'like', '%' . $query . '%')
-                // ->orWhere('description_zh', 'like', '%' . $query . '%')
-                ->orWhere('content_en', 'like', '%' . $query . '%');
+            // $all_products = $all_products->where('name_en', 'like', '%' . $query . '%')
+            // ->orWhere('name_zh', 'like', '%' . $query . '%')
+            // ->orWhere('sub_name_en', 'like', '%' . $query . '%')
+            // ->orWhere('sub_name_zh', 'like', '%' . $query . '%')
+            // ->orWhere('description_en', 'like', '%' . $query . '%')
+            // ->orWhere('description_zh', 'like', '%' . $query . '%')
+            // ->orWhere('content_en', 'like', '%' . $query . '%');
             // ->orWhere('content_zh', 'like', '%' . $query . '%');
         }
 
@@ -162,10 +162,11 @@ class ProductsController extends Controller
             $products = $products->orderByDesc('index');
             // $all_products = $all_products->orderByDesc('index');
         }
+        $all_products = $products;
         $products = $products->simplePaginate(12);
 
         $param_values = [];
-        Param::orderByDesc('sort')->get()->each(function (Param $param) use (&$param_values) {
+        Param::where('is_sorted_by', 1)->orderByDesc('sort')->get()->each(function (Param $param) use (&$param_values) {
             $param_values[$param->name] = [];
             $param->values->each(function (ParamValue $paramValue) use (&$param_values, $param) {
                 $param_values[$param->name][$paramValue->value] = 0;
@@ -173,13 +174,12 @@ class ProductsController extends Controller
         });
         $all_products->get()->each(function (Product $product) use (&$param_values) {
             $product->params->each(function (ProductParam $productParam) use (&$param_values) {
-                if (!isset($param_values[$productParam->name])) {
-                    $param_values[$productParam->name] = [];
-                }
-                if (!isset($param_values[$productParam->name][$productParam->value])) {
-                    $param_values[$productParam->name][$productParam->value] = 1;
-                } else {
-                    $param_values[$productParam->name][$productParam->value] += 1;
+                if (isset($param_values[$productParam->name])) {
+                    if (!isset($param_values[$productParam->name][$productParam->value])) {
+                        $param_values[$productParam->name][$productParam->value] = 1;
+                    } else {
+                        $param_values[$productParam->name][$productParam->value] += 1;
+                    }
                 }
             });
         });

@@ -87,6 +87,13 @@ class ParamsController extends Controller
         $grid->id('Id');
         $grid->name('商品参数名称')->sortable();
         $grid->sort('排序值')->sortable();
+        /*$grid->is_sorted_by('是否用于商品筛选')->display(function ($is_sorted_by) {
+            return $is_sorted_by ? '<span class="label label-primary">是</span>' : '<span class="label label-default">否</span>';
+        });*/
+        $grid->is_sorted_by('是否用于商品筛选')->sortable()->switch([
+            'on' => ['value' => 1, 'text' => 'YES', 'color' => 'primary'],
+            'off' => ['value' => 0, 'text' => 'NO', 'color' => 'default'],
+        ]);
         // $grid->created_at('Created at');
         // $grid->updated_at('Updated at');
 
@@ -108,6 +115,9 @@ class ParamsController extends Controller
         // $show->id('Id');
         $show->name('商品参数名称');
         $show->sort('排序值');
+        $show->is_sorted_by('是否用于商品筛选')->as(function ($is_sorted_by) {
+            return $is_sorted_by ? '<span class="label label-primary">YES</span>' : '<span class="label label-default">NO</span>';
+        });
         // $show->created_at('Created at');
         // $show->updated_at('Updated at');
 
@@ -139,6 +149,7 @@ class ParamsController extends Controller
 
         $form->text('name', '商品参数名称');
         $form->number('sort', '排序值')->default(9)->rules('required|integer|min:0')->help('默认倒序排列：数值越大越靠前');
+        $form->switch('is_sorted_by', '是否用于商品筛选')->default(1);
 
         $form->hasMany('values', '商品参数值 - 列表', function (NestedForm $form) {
             $form->text('value', '商品参数值');
@@ -147,6 +158,9 @@ class ParamsController extends Controller
 
         // 定义事件回调，当模型即将保存时会触发这个回调
         $form->saving(function (Form $form) {
+            if (count(request()->input()) == 3 && request()->has('is_sorted_by')) {
+                return $form;
+            }
             $param = $form->model();
             $values = $param->values;
             $param_name = request()->input('name');

@@ -263,7 +263,7 @@
                             padding-bottom: 10px;
                             border-bottom: 1px solid #eee;
                             color: #111;
-                            font-weight: bold;">Order Fee</p>
+                            font-weight: bold;">Order fee</p>
                         <div class="amount-detail" 
                              style="padding-bottom: 15px;
                                 margin-bottom: 19px;

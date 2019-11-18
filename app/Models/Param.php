@@ -13,7 +13,8 @@ class Param extends Model
      */
     protected $fillable = [
         'name',
-        'sort'
+        'sort',
+        'is_sorted_by'
     ];
 
     /* Eloquent Relationships */

@@ -188,7 +188,7 @@ class Order extends Model
 
     public function getPaymentAmountAttribute()
     {
-        return bcmul(bcsub(bcadd($this->attributes['total_amount'], $this->attributes['total_shipping_fee'], 2), $this->attributes['saved_fee'], 2), $this->attributes['rate']);
+        return bcmul(bcsub(bcadd($this->attributes['total_amount'], $this->attributes['total_shipping_fee'], 2), $this->attributes['saved_fee'], 2), $this->attributes['rate'], 2);
     }
 
     /* Mutators */
