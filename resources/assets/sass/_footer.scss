@@ -346,6 +346,7 @@ footer {
       margin: auto 0;
       height: 104px;
       li {
+        position: relative;
         margin-bottom: 2px;
         cursor: pointer;
         width: 50px;
@@ -355,6 +356,40 @@ footer {
         background: #000;
         &:hover {
           background: #BF2A24;
+        }
+      }
+      .qr_info {
+        display: none;
+        width: 160px;
+        min-height: 150px;
+        position: relative;
+        right: 165px;
+        top: -50px;
+        border-radius: 2px;
+        background-color: #fff;
+        text-align: center;
+        transition: all .2s;
+        padding-bottom: 10px;
+        box-shadow: 0px 0px 5px #999;
+        img {
+            margin-top: 15px;
+            width: 120px;
+        }
+        a {
+            display: block;
+            width: 160px;
+            height: 38px;
+            color: #fff;
+            background-color: #80ad26;
+            border-radius: 19px;
+            line-height: 38px;
+            font-size: 16px;
+            margin: 15px auto;
+        }
+        p {
+            font-size: 12px;
+            color: #999;
+            text-align: center;
         }
       }
   }

@@ -185,6 +185,15 @@
 <!--右侧导航栏-->
 <div class="right_navigation">
     <ul>
+        <li class="qr-code show_qr">
+            <a>
+                <img src="{{ asset('img/qr_tip.png') }}">
+            </a>
+            <div class="qr_info">
+                <img src="{{ \App\Models\Config::config('mobile_website_qr_code') ? : config('app.url') . '/defaults/mobile_website_qr_code.png' }}">
+                <p>Mobile quick access</p>
+            </div>
+        </li>
         <li class="skype">
             <a href="skype:live:info_1104672?call">
                 <img src="{{ asset("img/footer/skype-fill.png") }}" alt="lyricalhair">
