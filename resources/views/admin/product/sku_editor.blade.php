@@ -265,7 +265,6 @@
     function addImg(obj) {
         var imgs = $(obj).parent().parent().find('img.img-thumbnail');
         var img = $(imgs[0]);
-        console.log(img);
         // var filePath = $(obj).val();
         var url = $(obj).attr("data-url");
         var formData = new FormData();
