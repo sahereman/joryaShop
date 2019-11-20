@@ -70,6 +70,7 @@ Route::group([
     $router->post('products/{product}/sku_generator', 'ProductsController@skuGeneratorStore')->name('admin.products.sku_generator_store');
     $router->get('products/{product}/sku_editor', 'ProductsController@skuEditorShow')->name('admin.products.sku_editor_show');
     $router->post('products/{product}/sku_editor', 'ProductsController@skuEditorStore')->name('admin.products.sku_editor_store');
+    $router->put('product_skus/{sku}/del_img', 'ProductSkusController@delImg')->name('admin.product_skus.del_img');
 
     /*产品SKU*/
     $router->resource('product_skus', ProductSkusController::class)->names('admin.product_skus');

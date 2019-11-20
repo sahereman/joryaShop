@@ -35,10 +35,9 @@
                     </div>
                 </div>--}}
             </div>
-
             <button type="button" class="btn-group pull-right btn btn-primary" id="submit_btn">生成</button>
             <div class="btn-group pull-right" style="margin-right: 15px">
-                <a href="{{route('admin.products.edit',$product->id)}}" class="btn btn-default">&nbsp;返回</a>
+                <a href="{{ route('admin.products.edit', $product->id) }}" class="btn btn-default">&nbsp;返回</a>
             </div>
         </div>
         <div class="box-body">
@@ -46,38 +45,33 @@
                 <div class="row" style="display: flex;justify-content: flex-start;flex-wrap: wrap;">
                     <!--col-md-4这个class值不是固定的。要根据不同的数目的表格来进行区分，总数为12，现在有3类每一类占4分，-->
                     @foreach($product->attrs as $attr)
-
                         <div class="col-md-4">
                             <table class="table photo_tab attr_table" name="{{ $attr->name }}" attr_name="{{ $attr->id }}">
                                 {{--Head--}}
                                 <tr>
                                     <th>{{ $attr->name }}</th>
                                 </tr>
-
                                 {{--Data--}}
                                 <tr>
                                     <td>
                                         <div class="input-group">
                                             @if($attr->has_photo)
                                                 <span class="input-group-btn pic_btn" style="overflow: hidden;">
-                                                            <img src="{{asset('img/pic_upload.png') }}"
-                                                                 style="height: 34px;border: 1px solid #ccc;padding: 2px;">
-                                                            <input type="file" name="image" data-url="{{ route('image.upload') }}"
-                                                                   style="opacity: 0;position: absolute;top: 0;width: 100%;height: 100%;" onchange="imgChange(this)">
-                                                        </span>
-                                                <input type="text" name="{{ $attr->id }}" data_path=''
-                                                       class="form-control table_value" value="" autocomplete="off">
+                                                    <img src="{{asset('img/pic_upload.png') }}" style="height: 34px; border: 1px solid #ccc; padding: 2px;">
+                                                    <input type="file" name="image" data-url="{{ route('image.upload') }}"
+                                                           style="opacity: 0; position: absolute; top: 0; width: 100%; height: 100%;" onchange="imgChange(this)">
+                                                </span>
+                                                <input type="text" name="{{ $attr->id }}" data_path='' class="form-control table_value" value="" autocomplete="off">
                                                 <span class="tip-l"></span>
                                                 <ul class="skus-select-dropdown" style="display: none;">
                                                     @if($attr->basic_attr)
                                                         @foreach($attr->basic_attr->values as $value)
-                                                            <li>{{$value->value}}</li>
+                                                            <li>{{ $value->value }}</li>
                                                         @endforeach
                                                     @endif
                                                 </ul>
                                             @else
-                                                <input type="text" name="{{ $attr->id }}" data_path=''
-                                                       class="form-control table_value" value="" autocomplete="off">
+                                                <input type="text" name="{{ $attr->id }}" data_path='' class="form-control table_value" value="" autocomplete="off">
                                                 <span class="tip-l"></span>
                                                 <ul class="skus-select-dropdown" style="display: none;">
                                                     @if($attr->basic_attr)
@@ -88,14 +82,13 @@
                                                 </ul>
                                             @endif
                                             <span class="input-group-btn">
-                                                        <button class="btn btn-danger" type="button" onclick="delCol()">
-                                                            <span class="glyphicon glyphicon-remove"></span>
-                                                        </button>
-                                                    </span>
+                                                <button class="btn btn-danger" type="button" onclick="delCol()">
+                                                    <span class="glyphicon glyphicon-remove"></span>
+                                                </button>
+                                            </span>
                                         </div>
                                     </td>
                                 </tr>
-
                                 {{--Button--}}
                                 <tr>
                                     <td>
@@ -112,24 +105,21 @@
         </div>
     </form>
 </div>
-
 <div class="box">
     <div class="box-body table-responsive no-padding">
-
         <form id="sku_editor_form" role="form" method="POST" enctype="multipart/form-data" action="{{ route('admin.products.sku_editor_store', ['product' => $product->id]) }}">
             <div class="box-header">
                 <h4>
                     <span class="pull-left">SKU 列表</span>
-                    <span class="pull-left" style="margin-left: 20px;color: #666">{{$product->sub_name_en}}</span>
+                    <span class="pull-left" style="margin-left: 20px;color: #666">{{ $product->sub_name_en }}</span>
                     <button type="submit" class="btn btn-primary  pull-right">提交并修改</button>
                 </h4>
-
             </div>
             {{ csrf_field() }}
             <table class="table table-hover table-sort">
                 <thead>
                 <tr>
-                    @if($skus->first())
+                    @if($skus->isNotEmpty())
                         <th>Photo</th>
                         <th>Created at <i class="fa fa-sort"></i></th>
                         @foreach($product->attrs as $attr)
@@ -143,7 +133,6 @@
                     @endif
                 </tr>
                 </thead>
-
                 <tbody>
                 @foreach($skus as $sku)
                     <tr>
@@ -151,9 +140,15 @@
                             <img src="{{ $sku->photo_url }}" style="min-width:40px;min-height:40px;max-width:40px;max-height:40px" class="img img-thumbnail">
                             <div class="changeImgArea" style="position: absolute;width: 60px;height:30px;overflow: hidden;top: 16px;left: 50px;">
                                 <input type="file" id="skus[{{ $sku->id }}][photo]" name="skus[{{ $sku->id }}][photo]" value=""
-                                       style="width: 75px;position: absolute;top: 0;z-index: 5;opacity: 0">
-                                <button type="button" class="btn-group btn btn-primary btn-xs" aria-label="Left Align" style="width:30px;;position: absolute;top: 0;">
+                                       style="width: 75px; position: absolute; top: 0; z-index: 5; opacity: 0"
+                                       data-url="{{ route('image.upload') }}" onchange="addImg(this)">
+                                {{--<button type="button" class="btn-group btn btn-primary btn-xs" aria-label="Left Align" style="width:30px; position: absolute; top: 0;">--}}
+                                <button type="button" class="btn-group btn btn-primary btn-xs" aria-label="Left Align" style="width: 25px; position: absolute; top: 0;">
                                     <span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span>
+                                </button>
+                                <button type="button" class="btn-group btn btn-primary btn-xs" aria-label="Left Align" onclick="delImg(this)" data-id="{{ $sku->id }}"
+                                   data-url="{{ route('admin.product_skus.del_img', ['sku' => $sku->id]) }}" style="position: absolute; left: 32px; z-index: 9;">
+                                    <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                                 </button>
                             </div>
                         </td>
@@ -162,51 +157,45 @@
                             <td style="@if($sku->last_generated) font-weight: bold; @endif">{{$value['value']}}</td>
                         @endforeach
                         <td>
-                            <input style="width: 80px" class="form-control" type="text" id="skus[{{ $sku->id }}][delta_price]" name="skus[{{ $sku->id }}][delta_price]"
-                                   value="{{ $sku->delta_price }}">
+                            <input style="width: 80px" class="form-control" type="text" id="skus[{{ $sku->id }}][delta_price]"
+                                   name="skus[{{ $sku->id }}][delta_price]" value="{{ $sku->delta_price }}">
                         </td>
                         {{--<td>
-                            <input style="width: 60px" class="form-control" type="text" id="skus[{{ $sku->id }}][stock]" name="skus[{{ $sku->id }}][stock]"
-                                   value="{{ $sku->stock }}">
+                            <input style="width: 60px" class="form-control" type="text" id="skus[{{ $sku->id }}][stock]"
+                                   name="skus[{{ $sku->id }}][stock]" value="{{ $sku->stock }}">
                         </td>
                         <td>
-                            <input style="width: 60px" class="form-control" type="text" id="skus[{{ $sku->id }}][stock_increment]" name="skus[{{ $sku->id }}][stock_increment]"
-                                   value="0">
+                            <input style="width: 60px" class="form-control" type="text" id="skus[{{ $sku->id }}][stock_increment]"
+                                   name="skus[{{ $sku->id }}][stock_increment]" value="0">
                         </td>
                         <td>
-                            <input style="width: 60px" class="form-control" type="text" id="skus[{{ $sku->id }}][stock_decrement]" name="skus[{{ $sku->id }}][stock_decrement]"
-                                   value="0">
+                            <input style="width: 60px" class="form-control" type="text" id="skus[{{ $sku->id }}][stock_decrement]"
+                                   name="skus[{{ $sku->id }}][stock_decrement]" value="0">
                         </td>--}}
-                        <td><a class="btn btn-default" onclick="RemoveSku(this)" remove_url="{{route('admin.product_skus.destroy',$sku->id)}}">Remove</a></td>
+                        <td>
+                            <a class="btn btn-default" onclick="RemoveSku(this)" remove_url="{{route('admin.product_skus.destroy', $sku->id)}}">
+                                Remove
+                            </a>
+                        </td>
                     </tr>
                 @endforeach
                 </tbody>
-
             </table>
         </form>
     </div>
 </div>
 
 <script type="text/javascript">
-    // function getAttrArray() {
-    //
+    // function getAttrArray () {
     //     var obj = {};
-    //
-    //     $('.attr_table').each(function(i)
-    //     {
+    //     $('.attr_table').each(function (i) {
     //         var attr_name = $(this).attr('name');
     //         obj[attr_name] = [];
-    //
     //         console.log();
-    //         $(this).find('.table_value').each(function(i)
-    //         {
+    //         $(this).find('.table_value').each(function (i) {
     //             obj[attr_name].push($(this).val());
-    //
     //         });
     //     });
-    //
-    //
-    //
     //     return obj;
     // }
 
@@ -215,8 +204,8 @@
     // });
     // 表格中的input输入框select的选择事件
     var isBox = false; // 定义一个触发焦点事件的开关，默认为不开启状态 || 也可以给input设置一个属性，来判断
-    var tableName = $(".attr_table")
-    selectDom = tableName.find(".skus-select-dropdown"),
+    var tableName = $(".attr_table"),
+        selectDom = tableName.find(".skus-select-dropdown"),
         inputDom = tableName.find(".table_value"),
         inputBox = tableName.find(".input-group");
     selectDom.hide();
@@ -271,6 +260,63 @@
         // } else {
         UpLoadImg(obj, url);
         // }
+    }
+
+    function addImg(obj) {
+        var imgs = $(obj).parent().parent().find('img.img-thumbnail');
+        var img = $(imgs[0]);
+        console.log(img);
+        // var filePath = $(obj).val();
+        var url = $(obj).attr("data-url");
+        var formData = new FormData();
+        formData.append('image', $(obj)[0].files[0]);
+        formData.append('_token', "{{ csrf_token() }}");
+        $.ajax({
+            url: url,
+            data: formData,
+            dataType: 'json',
+            cache: false,
+            contentType: false, // 必须false才会避开jQuery对 formdata 的默认处理 XMLHttpRequest会对 formdata 进行正确的处理
+            processData: false, // 必须false才会自动加上正确的Content-Type
+            type: 'post',
+            success: function (data) {
+                img.attr("src", data.preview);
+                // $(obj).val(data.path);
+            },
+            error: function (e) {
+                console.log(e)
+            },
+        });
+    }
+
+    function delImg(obj) {
+        var imgs = $(obj).parent().parent().find('img.img-thumbnail');
+        var img = $(imgs[0]);
+        var files = $(obj).parent().find('input[type="file"]');
+        var file = $(files[0]);
+        url = $(obj).attr('data-url');
+        id = $(obj).attr('data-id');
+        if (img.attr('src') && url && id) {
+            sku_data = {};
+            sku_data.sku_id = id;
+            sku_data._token = '{{ csrf_token() }}';
+            $.ajax({
+                url: url,
+                data: sku_data,
+                dataType: 'json',
+                // cache: false,
+                // contentType: false, // 必须false才会避开jQuery对 formdata 的默认处理 XMLHttpRequest会对 formdata 进行正确的处理
+                // processData: false, // 必须false才会自动加上正确的Content-Type
+                type: 'put',
+                success: function (data) {
+                    img.attr('src', '');
+                    file.val('');
+                },
+                error: function (e) {
+                    console.log(e)
+                },
+            });
+        }
     }
 
     function RemoveSku(obj) {

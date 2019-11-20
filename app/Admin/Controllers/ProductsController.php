@@ -219,7 +219,7 @@ class ProductsController extends Controller
                     . '</a>'
                     . '</div>&nbsp;'
                     . '<div class="btn-group pull-right" style="margin-right: 5px">'
-                    . '<a href="' . route('admin.product_faqs.index', ['product_id' => $id])  . '" class="btn btn-sm btn-success">'
+                    . '<a href="' . route('admin.product_faqs.index', ['product_id' => $id]) . '" class="btn btn-sm btn-success">'
                     . '<i class="fa fa-list"></i>&nbsp;FAQ - 列表'
                     . '</a>'
                     . '</div>&nbsp;'

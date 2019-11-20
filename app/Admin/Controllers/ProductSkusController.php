@@ -454,4 +454,14 @@ class ProductSkusController extends Controller
 
         return $form;
     }
+
+    public function delImg(Request $request, ProductSku $sku)
+    {
+        $sku->update(['photo' => '']);
+
+        return response()->json([
+            'code' => 200,
+            'message' => 'success',
+        ]);
+    }
 }
