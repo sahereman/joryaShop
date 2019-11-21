@@ -551,7 +551,7 @@ class ProductsController extends Controller
         /* 商品参数 */
         $form->divider();
         $param_options = [];
-        $params = Param::all();
+        $params = Param::orderByDesc('sort')->get();
         foreach ($params as $param) {
             $param_name = str_replace(' ', '___', $param->name);
             foreach ($param->values as $value) {
