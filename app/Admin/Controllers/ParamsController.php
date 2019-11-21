@@ -149,7 +149,10 @@ class ParamsController extends Controller
 
         $form->text('name', '商品参数名称');
         $form->number('sort', '排序值')->default(9)->rules('required|integer|min:0')->help('默认倒序排列：数值越大越靠前');
-        $form->switch('is_sorted_by', '是否用于商品筛选')->default(1);
+        $form->switch('is_sorted_by', '是否用于商品筛选')->states([
+            'on'  => ['value' => 1, 'text' => 'YES', 'color' => 'primary'],
+            'off' => ['value' => 0, 'text' => 'NO', 'color' => 'default'],
+        ])->default(0);
 
         $form->hasMany('values', '商品参数值 - 列表', function (NestedForm $form) {
             $form->text('value', '商品参数值');
