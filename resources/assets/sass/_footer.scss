@@ -243,7 +243,8 @@ footer {
       ul {
         display: flex;
         @media only screen and (max-width: 750px){
-          display: none;
+          width: 100%;
+          flex-direction: column;
         }
         li {
           margin: auto 0;
@@ -252,10 +253,24 @@ footer {
           @media only screen and (max-width: 1440px){
             margin-right: 50px;
           }
+          @media only screen and (max-width: 750px){
+            margin: 10px 0;
+            width: 100%;
+          }
           p {
             margin-bottom: 29px;
             font-size:16px;
             color: #000;
+            @media only screen and (max-width: 750px){
+              margin-bottom: 10px;
+            }
+            .iconfont {
+              float: right;
+              display: none;
+              @media only screen and (max-width: 750px){
+                display: inline-block;
+              }
+            }
           }
         }
         .footer-block-content {
@@ -264,7 +279,11 @@ footer {
           font-size: 14px;
           color: #666;
           line-height: 30px;
+          @media only screen and (max-width: 750px){
+            display: none;
+          }
           a {
+            display: block;
             transition: all .3s;
             &:hover {
               color: #bf2a24;

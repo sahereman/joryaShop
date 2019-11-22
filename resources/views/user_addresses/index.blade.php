@@ -2,8 +2,8 @@
 @section('title', (App::isLocale('zh-CN') ? '个人中心 - 收货地址' : 'Personal Center - Shipping Address') . ' - ' . \App\Models\Config::config('title'))
 @section('content')
     <div class="User_addresses">
-        <div class="m-wrapper">
-            <div>
+        <div class="main-content">
+            <div class="Crumbs-box">
                 <p class="Crumbs">
                     <a href="{{ route('root') }}">@lang('basic.home')</a>
                     <span>></span>
@@ -12,80 +12,82 @@
                     <a href="javascript:void(0);">@lang('basic.users.Receiving_address')</a>
                 </p>
             </div>
-            <!--左侧导航栏-->
-            @include('users._left_navigation')
-                    <!--右侧内容-->
-            <div class="user_addresses_content">
-                @if($addresses->isEmpty())
-                        <!--当没有收货地址列表时显示,如需显示当前内容需要调整一下样式-->
-                <div class="no_addressList">
-                    <img src="{{ asset('img/location.png') }}">
-                    <p>@lang('basic.users.shipping address yet')</p>
-                    <a class="new_address">@lang('basic.users.Set up a new shipping address')</a>
-                </div>
-                @else
-                        <!--存在收货地址列表-->
-                <div class="receive_address">
-                    <div class="address_note">
-                        <div class="pull-left">
-                            <p>
-                                @lang('basic.users.Stored shipping address')
-                                （@lang('basic.users.Up to'){{ $max }}
-                                @lang('basic.users.addresses_and can save')
-                                <span class="residual">{{ $max - $count }}</span>）
-                            </p>
-                        </div>
-                        <div class="pull-right">
-                            <a class="new_address">+@lang('basic.address.The new address')</a>
-                        </div>
+            <div class="address-content">
+                <!--左侧导航栏-->
+                 @include('users._left_navigation')
+                <!--右侧内容-->
+                <div class="user_addresses_content">
+                    @if($addresses->isEmpty())
+                            <!--当没有收货地址列表时显示,如需显示当前内容需要调整一下样式-->
+                    <div class="no_addressList">
+                        <img src="{{ asset('img/location.png') }}">
+                        <p>@lang('basic.users.shipping address yet')</p>
+                        <a class="new_address">@lang('basic.users.Set up a new shipping address')</a>
                     </div>
-                    <!--地址列表-->
-                    <div class="address_list">
-                        <table>
-                            <thead>
-                            <tr>
-                                <th class="address_name">@lang('basic.address.The consignee')</th>
-                                <th class="address_info">@lang('basic.address.address')</th>
-                                <th class="address_tel">@lang('basic.address.Contact')</th>
-                                <th class="address_operation">@lang('basic.users.operating')</th>
-                                <th class="default_address"></th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            @foreach($addresses as $address)
+                    @else
+                            <!--存在收货地址列表-->
+                    <div class="receive_address">
+                        <div class="address_note">
+                            <div class="pull-left">
+                                <p>
+                                    @lang('basic.users.Stored shipping address')
+                                    （@lang('basic.users.Up to'){{ $max }}
+                                    @lang('basic.users.addresses_and can save')
+                                    <span class="residual">{{ $max - $count }}</span>）
+                                </p>
+                            </div>
+                            <div class="pull-right">
+                                <a class="new_address">+@lang('basic.address.The new address')</a>
+                            </div>
+                        </div>
+                        <!--地址列表-->
+                        <div class="address_list">
+                            <table>
+                                <thead>
                                 <tr>
-                                    <td class="address_name">{{ $address->name }}</td>
-                                    <td class="address_info">{{ $address->full_address }}</td>
-                                    <!--新增用于修改是显示-->
-                                    <td class="dis_n address_country">{{ $address->country }}</td>
-                                    <td class="dis_n address_city">{{ $address->city }}</td>
-                                    <td class="dis_n address_province">{{ $address->province }}</td>
-                                    <td class="dis_n address_detail">{{ $address->address }}</td>
-                                    <td class="dis_n address_zip">{{ $address->zip }}</td>
-                                    <!--电话建议后台正则处理前端处理容易泄露-->
-                                    <td class="address_tel">{{ $address->phone }}</td>
-                                    <td class="address_operation">
-                                        <a url="{{ route('user_addresses.update', ['address' => $address->id]) }}"
-                                           class="edit_address">@lang('basic.address.edit')</a>
-                                        <a url="{{ route('user_addresses.destroy', ['address' => $address->id]) }}"
-                                           class="delete_address">@lang('basic.delete')</a>
-                                    </td>
-                                    <td class="default_address">
-                                        <!--两种情况，正式情况只能显示一种，且默认地址只有一个-->
-                                        @if($address->is_default)
-                                            <a class="setDefaultAddress haddefault">@lang('basic.address.Default address')</a>
-                                        @else
-                                            <a url="{{ route('user_addresses.set_default', ['address' => $address->id]) }}"
-                                               class="setDefaultAddress">@lang('basic.address.Set to the default')</a>
-                                        @endif
-                                    </td>
+                                    <th class="address_name">@lang('basic.address.The consignee')</th>
+                                    <th class="address_info">@lang('basic.address.address')</th>
+                                    <th class="address_tel">@lang('basic.address.Contact')</th>
+                                    <th class="address_operation">@lang('basic.users.operating')</th>
+                                    <th class="default_address"></th>
                                 </tr>
-                            @endforeach
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                @foreach($addresses as $address)
+                                    <tr>
+                                        <td class="address_name">{{ $address->name }}</td>
+                                        <td class="address_info">{{ $address->full_address }}</td>
+                                        <!--新增用于修改是显示-->
+                                        <td class="dis_n address_country">{{ $address->country }}</td>
+                                        <td class="dis_n address_city">{{ $address->city }}</td>
+                                        <td class="dis_n address_province">{{ $address->province }}</td>
+                                        <td class="dis_n address_detail">{{ $address->address }}</td>
+                                        <td class="dis_n address_zip">{{ $address->zip }}</td>
+                                        <!--电话建议后台正则处理前端处理容易泄露-->
+                                        <td class="address_tel">{{ $address->phone }}</td>
+                                        <td class="address_operation">
+                                            <a url="{{ route('user_addresses.update', ['address' => $address->id]) }}"
+                                            class="edit_address">@lang('basic.address.edit')</a>
+                                            <a url="{{ route('user_addresses.destroy', ['address' => $address->id]) }}"
+                                            class="delete_address">@lang('basic.delete')</a>
+                                        </td>
+                                        <td class="default_address">
+                                            <!--两种情况，正式情况只能显示一种，且默认地址只有一个-->
+                                            @if($address->is_default)
+                                                <a class="setDefaultAddress haddefault">@lang('basic.address.Default address')</a>
+                                            @else
+                                                <a url="{{ route('user_addresses.set_default', ['address' => $address->id]) }}"
+                                                class="setDefaultAddress">@lang('basic.address.Set to the default')</a>
+                                            @endif
+                                        </td>
+                                    </tr>
+                                @endforeach
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
+                    @endif
                 </div>
-                @endif
             </div>
         </div>
     </div>

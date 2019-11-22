@@ -1,12 +1,19 @@
 .User_addresses {
     background-color: #f8f8f8;
     position: relative;
+    .Crumbs-box {
+        overflow: hidden;
+    }
+    .address-content {
+        display: flex;
+    }
     .user_addresses_content {
         min-height: 595px;
         background-color: #fff;
-        width: 1000px;
-        float: right;
+        width: calc(100% - 250px);
+        margin: auto;
         margin-bottom: 55px;
+        margin-right: 0;
         .no_addressList {
             width: 100%;
             text-align: center;
@@ -108,9 +115,7 @@
                                     margin: 0 13px;
                                     &.haddefault {
                                         display: inline-block;
-                                        width: 110px;
-                                        height: 28px;
-                                        line-height: 28px;
+                                        padding: 5px 10px;
                                         color: #c59c79;
                                         border: 1px solid #c59c79;
                                         border-radius: 2px;

@@ -1,11 +1,18 @@
 .evaluate_commont {
     background-color: #f8f8f8;
     position: relative;
+    .Crumbs-box {
+        overflow: hidden;
+    }
+    .evaluate-commont-content {
+        display: flex;
+    }
     .comment_content {
-        width: 1000px;
+        width: calc(100% - 250px);
         float: right;
         min-height: 595px;
         background-color: #fff;
+        margin: auto;
         margin-bottom: 40px;
         .evaluation_order {
             width: 100%;

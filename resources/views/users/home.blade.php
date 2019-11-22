@@ -2,317 +2,323 @@
 @section('title', (App::isLocale('zh-CN') ? '个人中心' : 'Personal Center') . ' - ' . \App\Models\Config::config('title'))
 @section('content')
     <div class="User_center">
-        <div class="m-wrapper">
-            <div>
+        <div class="main-content">
+            <div class="Crumbs-box">
                 <p class="Crumbs">
                     <a href="{{ route('root') }}">@lang('basic.home')</a>
                     <span>></span>
                     <a href="javascript:void(0);">@lang('basic.users.Personal_Center')</a>
                 </p>
             </div>
-            <!--左侧导航栏-->
-            @include('users._left_navigation')
-                    <!--右侧内容-->
-            <div class="UserInfo_content">
-                <ul class="userInfo_list">
-                    @auth
-                    <li>
-                        <div class="user_img">
-                            <img src="{{ $user->avatar_url }}">
-                        </div>
-                        <div class="user_name">
-                            <span>@lang('basic.users.nickname')：{{ $user->name }}</span>
-                            <a href="{{ route('users.edit', ['user' => $user->id]) }}">
-                                @lang('basic.users.Modify_Personal_Information') >
-                            </a>
-                        </div>
-                    </li>
-                    <li>
-                        <a href="{{ route('user_favourites.index') }}">
-                            <span>@lang('basic.users.My_collection')</span>
-                            <img src="{{ asset('img/collection.png') }}">
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{ route('user_addresses.index') }}">
-                            <span>@lang('basic.users.Receiving_address')</span>
-                            <img src="{{ asset('img/receive_address.png') }}">
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{ route('orders.index') }}">
-                            <span>@lang('basic.users.My_order')</span>
-                            <img src="{{ asset('img/record.png') }}">
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{ route('user_histories.index') }}">
-                            <span>@lang('basic.users.Browse_history')</span>
-                            <img src="{{ asset('img/history_record.png') }}">
-                        </a>
-                    </li>
-                    @endauth
-                </ul>
-                <ul class="order_classification">
-                    <li>
-                        <a href="{{ route('orders.index') . '?status=' . \App\Models\Order::ORDER_STATUS_PAYING }}">
-                            <img src="{{ asset('img/tobe_paid.png') }}">
-                            <span>@lang('basic.users.Pending_payment')</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{ route('orders.index') . '?status=' . \App\Models\Order::ORDER_STATUS_UNCOMMENTED }}">
-                            <img src="{{ asset('img/tobe_evaluated.png') }}">
-                            <span>@lang('basic.users.Pending_feedback')</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{ route('orders.index') . '?status=' . \App\Models\Order::ORDER_STATUS_RECEIVING }}">
-                            <img src="{{ asset('img/tobe_received.png') }}">
-                            <span>@lang('basic.users.On_the_receiving_line')</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{ route('orders.index') . '?status=' . \App\Models\Order::ORDER_STATUS_REFUNDING }}">
-                            <img src="{{ asset('img/after-sale.png') }}">
-                            <span>@lang('basic.users.After_sales_order')</span>
-                        </a>
-                    </li>
-                </ul>
-                <ul class="ordertable_title" style="height: 0;">
-                    {{--<li class="order_details">
-                        <span>@lang('basic.users.The_order_details')</span>
-                    </li>
-                    <li class="order_price">
-                        <span>@lang('basic.users.The_unit_price')</span>
-                    </li>
-                    <li class="order_num">
-                        <span>@lang('basic.users.quantity')</span>
-                    </li>
-                    <li class="order_pay">
-                        <span>@lang('basic.users.The_final_payment')</span>
-                    </li>
-                    <li class="order_status">
-                        <span>@lang('basic.users.Order_Status')</span>
-                    </li>
-                    <li class="order_operation">
-                        <span>@lang('basic.users.operating')</span>
-                    </li>--}}
-                </ul>
-                <!--订单列表分为两部分，1、暂无订单时展现其他时候隐藏。2、存在订单时显示.需进行判断-->
-                <div class="order_list">
-                    @if($orders->isEmpty())
-                            <!--暂无订单部分-->
-                    <div class="no_order">
-                        <img src="{{ asset('img/no_order.png') }}">
-                        <p>@lang('basic.users.No_orders_yet')</p>
-                        <a href="{{ route('root') }}">@lang('product.shopping_cart.Go_shopping')</a>
-                    </div>
-                    @else
-                            <!--订单部分-->
-                    <div class="order-group">
-                        @foreach($orders as $order)
-                            <div class="order-group-item">
-                                <div class="o-info">
-                                    <div class="col-info pull-left">
-                                     <span class="o-no">
-                                         @lang('basic.users.Order_number')：
-                                         <a href="{{ route('orders.show', ['order' => $order->id]) }}">{{ $order->order_sn }}</a>
-                                     </span>
-                                    </div>
-                                    @if(in_array($order->status, [\App\Models\Order::ORDER_STATUS_CLOSED, \App\Models\Order::ORDER_STATUS_COMPLETED]))
-                                        <div class="col-delete pull-right"
-                                             code="{{ route('orders.destroy', ['order' => $order->id]) }}">
-                                            <a>
-                                                <img src="{{ asset('img/delete.png') }}">
-                                            </a>
-                                        </div>
-                                    @endif
+            {{-- 内容区域 --}}
+            <div class="home-content">
+                <!--左侧导航栏-->
+                @include('users._left_navigation')
+                <!--右侧内容-->
+                <div class="UserInfo_content">
+                    {{-- 个人信息 --}}
+                    <div class="UserInfo-box">
+                        @auth
+                            <div class="userInfo-info">
+                                <div class="user_img">
+                                    <img src="{{ $user->avatar_url }}">
                                 </div>
-                                <div class="o-pro">
-                                    <table border="0" cellpadding="0" cellspacing="0">
-                                        <tbody>
-                                        @foreach($order->items as $key => $item)
-                                        @if($key == 0)
-                                                <!--当循环的子订单数量为1时第一个tr整体作为一个单独的模板进行渲染，超过两个时请看第二个tr前的注释-->
-                                        <tr>
-                                            <td class="col-pro-img">
-                                                <p class="p-img">
-                                                    <a href="{{ route('seo_url', $item->sku->product->slug) }}">
-                                                        <img src="{{ $item->sku->product->thumb_url }}">
-                                                    </a>
-                                                </p>
-                                            </td>
-                                            <td class="col-pro-info">
-                                                <p class="p-info">
-                                                    <a code="{{ $item->sku->id }}"
-                                                       href="{{ route('seo_url', $item->sku->product->slug) }}">{{ App::isLocale('zh-CN') ? $item->sku->product->name_zh : $item->sku->product->name_en }}</a>
-                                                </p>
-                                            </td>
-                                            <td class="col-price">
-                                                <p class="p-price">
-                                                    {{--<em>{{ $order->currency == 'USD' ? '&#36;' : '&#165;' }}</em>--}}
-                                                    <em>{{ get_symbol_by_currency($order->currency) }} </em>
-                                                    <span>{{ $item->price }}</span>
-                                                </p>
-                                            </td>
-                                            <td class="col-quty">{{ $item->number }}</td>
-                                            <td rowspan="{{ $order->items->count() }}" class="col-pay">
-                                                <p>
-                                                    {{--<em>{{ $order->currency == 'USD' ? '&#36;' : '&#165;' }}</em>--}}
-                                                    <em>{{ get_symbol_by_currency($order->currency) }} </em>
-                                                    <span>{{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}</span>
-                                                    <br>
-                                                    <span>(@lang('order.Postage included'))</span>
-                                                </p>
-                                            </td>
-                                            <td rowspan="{{ $order->items->count() }}" class="col-status">
-                                                @if($order->status == \App\Models\Order::ORDER_STATUS_PAYING)
-                                                    <p>@lang('basic.orders.Pending payment')</p>
-                                                @elseif($order->status == \App\Models\Order::ORDER_STATUS_CLOSED)
-                                                    <p>@lang('basic.orders.Closed')</p>
-                                                @elseif($order->status == \App\Models\Order::ORDER_STATUS_SHIPPING)
-                                                    <p>@lang('basic.orders.Pending shipment')</p>
-                                                @elseif($order->status == \App\Models\Order::ORDER_STATUS_RECEIVING)
-                                                    <p>@lang('basic.orders.Pending reception')</p>
-                                                @elseif($order->status == \App\Models\Order::ORDER_STATUS_COMPLETED && $order->commented_at == null)
-                                                    <p>@lang('basic.orders.Pending comment')</p>
-                                                @elseif($order->status == \App\Models\Order::ORDER_STATUS_COMPLETED && $order->commented_at != null)
-                                                    <p>@lang('basic.orders.Completed')</p>
-                                                @elseif($order->status == \App\Models\Order::ORDER_STATUS_REFUNDING)
-                                                    <p>@lang('basic.orders.After-sale order')</p>
-                                                @endif
-                                                <p>
-                                                    <a href="{{ route('orders.show', ['order' => $order->id]) }}">@lang('app.see details')</a>
-                                                </p>
-                                            </td>
-                                            <td rowspan="{{ $order->items->count() }}" class="col-operate">
-                                                <p class="p-button">
-                                                    @if($order->status == \App\Models\Order::ORDER_STATUS_PAYING)
-                                                            <!--订单待支付-->
-                                                    <!--付款或再次购买隐藏显示取消订单-->
-                                                    <!--系统自动关闭订单倒计时-->
-                                                    <span id="{{ $order->order_sn }}" mark="{{ $order->order_sn }}"
-                                                          class="paying_time count_down"
-                                                          created_at="{{ strtotime($order->created_at) }}"
-                                                          time_to_close_order="{{ \App\Models\Config::config('time_to_close_order') * 60 }}"
-                                                          seconds_to_close_order="{{ (strtotime($order->created_at) + \App\Models\Order::getSecondsToCloseOrder() - time()) > 0 ? (strtotime($order->created_at) + \App\Models\Order::getSecondsToCloseOrder() - time()) : 0 }}">
-                                                        {{ generate_order_ttl_message($order->create_at, \App\Models\Order::ORDER_STATUS_PAYING) }}
-                                                    </span>
-                                                    <a class="payment"
-                                                       href="{{ route('payments.method', ['payment' => $order->payment_id]) }}">@lang('basic.orders.payment')</a>
-                                                    <a class="cancellation"
-                                                       code="{{ route('orders.close', ['order' => $order->id]) }}">@lang('basic.orders.cancel order')</a>
-                                                    @elseif($order->status == \App\Models\Order::ORDER_STATUS_CLOSED)
-                                                            <!--再次购买-->
-                                                    <a class="Buy_again"
-                                                       data-url="{{ route('carts.store') }}">@lang('basic.orders.buy again')</a>
-                                                    @elseif($order->status == \App\Models\Order::ORDER_STATUS_SHIPPING)
-                                                            <!--订单待发货-->
-                                                    <a class="reminding_shipments">@lang('basic.orders.Remind shipments')</a>
-                                                    @elseif($order->status == \App\Models\Order::ORDER_STATUS_RECEIVING)
-                                                            <!--订单待收货-->
-                                                    <!--确认收货-->
-                                                    <!--系统自动确认订单倒计时-->
-                                                    <span id="{{ $order->order_sn }}" mark="{{ $order->order_sn }}"
-                                                          class="tobe_received_count count_down"
-                                                          shipped_at="{{ strtotime($order->shipped_at) }}"
-                                                          time_to_complete_order="{{ \App\Models\Config::config('time_to_complete_order') * 3600 * 24 }}"
-                                                          seconds_to_complete_order="{{ (strtotime($order->shipped_at) + \App\Models\Order::getSecondsToCompleteOrder() - time()) > 0 ? (strtotime($order->shipped_at) + \App\Models\Order::getSecondsToCompleteOrder() - time()) : 0 }}">
-                                                        {{ generate_order_ttl_message($order->shipped_at, \App\Models\Order::ORDER_STATUS_RECEIVING) }}
-                                                    </span>
-                                                    <a class="confirmation_receipt"
-                                                       code="{{ route('orders.complete', ['order' => $order->id]) }}">@lang('basic.orders.Confirm reception')</a>
-                                                    @elseif($order->status == \App\Models\Order::ORDER_STATUS_COMPLETED && $order->commented_at == null)
-                                                            <!--订单待评价-->
-                                                    <a class="evaluate"
-                                                       href="{{ route('orders.create_comment', ['order' => $order->id]) }}">@lang('basic.orders.To comment')</a>
-                                                    <!--再次购买-->
-                                                    <a class="buy_more"
-                                                       data-url="{{ route('carts.store') }}">@lang('basic.orders.buy again')</a>
-                                                    @elseif($order->status == \App\Models\Order::ORDER_STATUS_COMPLETED && $order->commented_at != null)
-                                                            <!--订单已评价-->
-                                                    <!--查看评价-->
-                                                    <a class="View_evaluation"
-                                                       href="{{  route('orders.show_comment', ['order' => $order->id]) }}">@lang('basic.orders.View comments')</a>
-                                                    <!--再次购买-->
-                                                    <a class="buy_more"
-                                                       data-url="{{ route('carts.store') }}">@lang('basic.orders.buy again')</a>
-                                                    @elseif($order->status == \App\Models\Order::ORDER_STATUS_REFUNDING)
-                                                            <!--再次购买-->
-                                                    <a class="Buy_again"
-                                                       data-url="{{ route('carts.store') }}">@lang('basic.orders.buy again')</a>
-                                                    @endif
-                                                </p>
-                                            </td>
-                                        </tr>
-                                        @endif
-                                        @if($key > 0)
-                                                <!--当循环的数据中超过两个子订单时从第二个子订单开始采用这种布局-->
-                                        <tr class="order_top">
-                                            <td class="col-pro-img">
-                                                <p class="p-img">
-                                                    <a href="{{ route('seo_url', $item->sku->product->slug) }}">
-                                                        <img src="{{ $item->sku->product->thumb_url }}">
-                                                    </a>
-                                                </p>
-                                            </td>
-                                            <td class="col-pro-info">
-                                                <p class="p-info">
-                                                    <a code="{{ $item->sku->id }}"
-                                                       href="{{ route('seo_url', $item->sku->product->slug) }}">{{ App::isLocale('zh-CN') ? $item->sku->product->name_zh : $item->sku->product->name_en }}</a>
-                                                </p>
-                                            </td>
-                                            <td class="col-price">
-                                                <p class="p-price">
-                                                    {{--<em>{{ $order->currency == 'USD' ? '&#36;' : '&#165;' }}</em>--}}
-                                                    <em>{{ get_symbol_by_currency($order->currency) }} </em>
-                                                    <span>{{ $item->price }}</span>
-                                                </p>
-                                            </td>
-                                            <td class="col-quty">{{ $item->number }}</td>
-                                        </tr>
-                                        @endif
-                                        @endforeach
-                                        </tbody>
-                                    </table>
+                                <div class="user_name">
+                                    <span>@lang('basic.users.nickname')：{{ $user->name }}</span>
+                                    <a href="{{ route('users.edit', ['user' => $user->id]) }}">
+                                        @lang('basic.users.Modify_Personal_Information') >
+                                    </a>
                                 </div>
                             </div>
-                        @endforeach
-                    </div>
-                    <!--分页-->
-                    <!--<div class="paging_box">
-                        <a class="pre_page" href="javascript:void(0);">上一页</a>
-                        <a class="next_page" href="javascript:void(0);">下一页</a>
-                    </div>-->
-                    @endif
-                </div>
-                <!--猜你喜欢-->
-                <div class="guess_like">
-                    <div class="ordertable_title">
-                        <p>@lang('app.you may also like')</p>
-                    </div>
-                    <div class="guess_like_content">
-                        <ul>
-                            @foreach($guesses as $guess)
-                                <li>
-                                    <div class="collection_shop_img">
-                                        <img class="lazy" data-src="{{ $guess->thumb_url }}">
-                                    </div>
-                                    <p class="commodity_title" title="{{ App::isLocale('zh-CN') ? $guess->name_zh : $guess->name_en }}">
-                                        {{ App::isLocale('zh-CN') ? $guess->name_zh : $guess->name_en }}
-                                    </p>
-                                    <p class="collection_price">
-                                        {{--<span class="new_price">{{ App::isLocale('en') ? '&#36;' : '&#165;' }} {{ App::isLocale('en') ? $guess->price_in_usd : $guess->price }}</span>--}}
-                                        {{--<span class="old_price">{{ App::isLocale('en') ? '&#36;' : '&#165;' }} {{  App::isLocale('en') ? bcmul($guess->price_in_usd, 1.2, 2) : bcmul($guess->price, 1.2, 2) }}</span>--}}
-                                        <span class="new_price">{{ get_global_symbol() }} {{ get_current_price($guess->price) }}</span>
-                                        <span class="old_price">{{ get_global_symbol() }} {{ bcmul(get_current_price($guess->price), 1.2, 2) }}</span>
-                                    </p>
-                                    <a class="add_to_cart"
-                                       href="{{ route('seo_url', $guess->slug) }}">@lang('app.see details')</a>
-                                </li>
-                            @endforeach
+                        @endauth
+                        <ul class="userInfo_list">
+                            <li>
+                                <a href="{{ route('user_favourites.index') }}">
+                                    <span>@lang('basic.users.My_collection')</span>
+                                    <img src="{{ asset('img/collection.png') }}">
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('user_addresses.index') }}">
+                                    <span>@lang('basic.users.Receiving_address')</span>
+                                    <img src="{{ asset('img/receive_address.png') }}">
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('orders.index') }}">
+                                    <span>@lang('basic.users.My_order')</span>
+                                    <img src="{{ asset('img/record.png') }}">
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('user_histories.index') }}">
+                                    <span>@lang('basic.users.Browse_history')</span>
+                                    <img src="{{ asset('img/history_record.png') }}">
+                                </a>
+                            </li>
                         </ul>
+                    </div>
+                    <ul class="order_classification">
+                        <li>
+                            <a href="{{ route('orders.index') . '?status=' . \App\Models\Order::ORDER_STATUS_PAYING }}">
+                                <img src="{{ asset('img/tobe_paid.png') }}">
+                                <span>@lang('basic.users.Pending_payment')</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('orders.index') . '?status=' . \App\Models\Order::ORDER_STATUS_UNCOMMENTED }}">
+                                <img src="{{ asset('img/tobe_evaluated.png') }}">
+                                <span>@lang('basic.users.Pending_feedback')</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('orders.index') . '?status=' . \App\Models\Order::ORDER_STATUS_RECEIVING }}">
+                                <img src="{{ asset('img/tobe_received.png') }}">
+                                <span>@lang('basic.users.On_the_receiving_line')</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('orders.index') . '?status=' . \App\Models\Order::ORDER_STATUS_REFUNDING }}">
+                                <img src="{{ asset('img/after-sale.png') }}">
+                                <span>@lang('basic.users.After_sales_order')</span>
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="ordertable_title" style="height: 0;">
+                        {{--<li class="order_details">
+                            <span>@lang('basic.users.The_order_details')</span>
+                        </li>
+                        <li class="order_price">
+                            <span>@lang('basic.users.The_unit_price')</span>
+                        </li>
+                        <li class="order_num">
+                            <span>@lang('basic.users.quantity')</span>
+                        </li>
+                        <li class="order_pay">
+                            <span>@lang('basic.users.The_final_payment')</span>
+                        </li>
+                        <li class="order_status">
+                            <span>@lang('basic.users.Order_Status')</span>
+                        </li>
+                        <li class="order_operation">
+                            <span>@lang('basic.users.operating')</span>
+                        </li>--}}
+                    </ul>
+                    <!--订单列表分为两部分，1、暂无订单时展现其他时候隐藏。2、存在订单时显示.需进行判断-->
+                    <div class="order_list">
+                        @if($orders->isEmpty())
+                                <!--暂无订单部分-->
+                        <div class="no_order">
+                            <img src="{{ asset('img/no_order.png') }}">
+                            <p>@lang('basic.users.No_orders_yet')</p>
+                            <a href="{{ route('root') }}">@lang('product.shopping_cart.Go_shopping')</a>
+                        </div>
+                        @else
+                                <!--订单部分-->
+                        <div class="order-group">
+                            @foreach($orders as $order)
+                                <div class="order-group-item">
+                                    <div class="o-info">
+                                        <div class="col-info pull-left">
+                                        <span class="o-no">
+                                            @lang('basic.users.Order_number')：
+                                            <a href="{{ route('orders.show', ['order' => $order->id]) }}">{{ $order->order_sn }}</a>
+                                        </span>
+                                        </div>
+                                        @if(in_array($order->status, [\App\Models\Order::ORDER_STATUS_CLOSED, \App\Models\Order::ORDER_STATUS_COMPLETED]))
+                                            <div class="col-delete pull-right"
+                                                code="{{ route('orders.destroy', ['order' => $order->id]) }}">
+                                                <a>
+                                                    <img src="{{ asset('img/delete.png') }}">
+                                                </a>
+                                            </div>
+                                        @endif
+                                    </div>
+                                    <div class="o-pro">
+                                        <table border="0" cellpadding="0" cellspacing="0">
+                                            <tbody>
+                                            @foreach($order->items as $key => $item)
+                                            @if($key == 0)
+                                                    <!--当循环的子订单数量为1时第一个tr整体作为一个单独的模板进行渲染，超过两个时请看第二个tr前的注释-->
+                                            <tr>
+                                                <td class="col-pro-img">
+                                                    <p class="p-img">
+                                                        <a href="{{ route('seo_url', $item->sku->product->slug) }}">
+                                                            <img src="{{ $item->sku->product->thumb_url }}">
+                                                        </a>
+                                                    </p>
+                                                </td>
+                                                <td class="col-pro-info">
+                                                    <p class="p-info">
+                                                        <a code="{{ $item->sku->id }}"
+                                                        href="{{ route('seo_url', $item->sku->product->slug) }}">{{ App::isLocale('zh-CN') ? $item->sku->product->name_zh : $item->sku->product->name_en }}</a>
+                                                    </p>
+                                                </td>
+                                                <td class="col-price">
+                                                    <p class="p-price">
+                                                        {{--<em>{{ $order->currency == 'USD' ? '&#36;' : '&#165;' }}</em>--}}
+                                                        <em>{{ get_symbol_by_currency($order->currency) }} </em>
+                                                        <span>{{ $item->price }}</span>
+                                                    </p>
+                                                </td>
+                                                <td class="col-quty">{{ $item->number }}</td>
+                                                <td rowspan="{{ $order->items->count() }}" class="col-pay">
+                                                    <p>
+                                                        {{--<em>{{ $order->currency == 'USD' ? '&#36;' : '&#165;' }}</em>--}}
+                                                        <em>{{ get_symbol_by_currency($order->currency) }} </em>
+                                                        <span>{{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}</span>
+                                                        <br>
+                                                        <span>(@lang('order.Postage included'))</span>
+                                                    </p>
+                                                </td>
+                                                <td rowspan="{{ $order->items->count() }}" class="col-status">
+                                                    @if($order->status == \App\Models\Order::ORDER_STATUS_PAYING)
+                                                        <p>@lang('basic.orders.Pending payment')</p>
+                                                    @elseif($order->status == \App\Models\Order::ORDER_STATUS_CLOSED)
+                                                        <p>@lang('basic.orders.Closed')</p>
+                                                    @elseif($order->status == \App\Models\Order::ORDER_STATUS_SHIPPING)
+                                                        <p>@lang('basic.orders.Pending shipment')</p>
+                                                    @elseif($order->status == \App\Models\Order::ORDER_STATUS_RECEIVING)
+                                                        <p>@lang('basic.orders.Pending reception')</p>
+                                                    @elseif($order->status == \App\Models\Order::ORDER_STATUS_COMPLETED && $order->commented_at == null)
+                                                        <p>@lang('basic.orders.Pending comment')</p>
+                                                    @elseif($order->status == \App\Models\Order::ORDER_STATUS_COMPLETED && $order->commented_at != null)
+                                                        <p>@lang('basic.orders.Completed')</p>
+                                                    @elseif($order->status == \App\Models\Order::ORDER_STATUS_REFUNDING)
+                                                        <p>@lang('basic.orders.After-sale order')</p>
+                                                    @endif
+                                                    <p>
+                                                        <a href="{{ route('orders.show', ['order' => $order->id]) }}">@lang('app.see details')</a>
+                                                    </p>
+                                                </td>
+                                                <td rowspan="{{ $order->items->count() }}" class="col-operate">
+                                                    <p class="p-button">
+                                                        @if($order->status == \App\Models\Order::ORDER_STATUS_PAYING)
+                                                                <!--订单待支付-->
+                                                        <!--付款或再次购买隐藏显示取消订单-->
+                                                        <!--系统自动关闭订单倒计时-->
+                                                        <span id="{{ $order->order_sn }}" mark="{{ $order->order_sn }}"
+                                                            class="paying_time count_down"
+                                                            created_at="{{ strtotime($order->created_at) }}"
+                                                            time_to_close_order="{{ \App\Models\Config::config('time_to_close_order') * 60 }}"
+                                                            seconds_to_close_order="{{ (strtotime($order->created_at) + \App\Models\Order::getSecondsToCloseOrder() - time()) > 0 ? (strtotime($order->created_at) + \App\Models\Order::getSecondsToCloseOrder() - time()) : 0 }}">
+                                                            {{ generate_order_ttl_message($order->create_at, \App\Models\Order::ORDER_STATUS_PAYING) }}
+                                                        </span>
+                                                        <a class="payment"
+                                                        href="{{ route('payments.method', ['payment' => $order->payment_id]) }}">@lang('basic.orders.payment')</a>
+                                                        <a class="cancellation"
+                                                        code="{{ route('orders.close', ['order' => $order->id]) }}">@lang('basic.orders.cancel order')</a>
+                                                        @elseif($order->status == \App\Models\Order::ORDER_STATUS_CLOSED)
+                                                                <!--再次购买-->
+                                                        <a class="Buy_again"
+                                                        data-url="{{ route('carts.store') }}">@lang('basic.orders.buy again')</a>
+                                                        @elseif($order->status == \App\Models\Order::ORDER_STATUS_SHIPPING)
+                                                                <!--订单待发货-->
+                                                        <a class="reminding_shipments">@lang('basic.orders.Remind shipments')</a>
+                                                        @elseif($order->status == \App\Models\Order::ORDER_STATUS_RECEIVING)
+                                                                <!--订单待收货-->
+                                                        <!--确认收货-->
+                                                        <!--系统自动确认订单倒计时-->
+                                                        <span id="{{ $order->order_sn }}" mark="{{ $order->order_sn }}"
+                                                            class="tobe_received_count count_down"
+                                                            shipped_at="{{ strtotime($order->shipped_at) }}"
+                                                            time_to_complete_order="{{ \App\Models\Config::config('time_to_complete_order') * 3600 * 24 }}"
+                                                            seconds_to_complete_order="{{ (strtotime($order->shipped_at) + \App\Models\Order::getSecondsToCompleteOrder() - time()) > 0 ? (strtotime($order->shipped_at) + \App\Models\Order::getSecondsToCompleteOrder() - time()) : 0 }}">
+                                                            {{ generate_order_ttl_message($order->shipped_at, \App\Models\Order::ORDER_STATUS_RECEIVING) }}
+                                                        </span>
+                                                        <a class="confirmation_receipt"
+                                                        code="{{ route('orders.complete', ['order' => $order->id]) }}">@lang('basic.orders.Confirm reception')</a>
+                                                        @elseif($order->status == \App\Models\Order::ORDER_STATUS_COMPLETED && $order->commented_at == null)
+                                                                <!--订单待评价-->
+                                                        <a class="evaluate"
+                                                        href="{{ route('orders.create_comment', ['order' => $order->id]) }}">@lang('basic.orders.To comment')</a>
+                                                        <!--再次购买-->
+                                                        <a class="buy_more"
+                                                        data-url="{{ route('carts.store') }}">@lang('basic.orders.buy again')</a>
+                                                        @elseif($order->status == \App\Models\Order::ORDER_STATUS_COMPLETED && $order->commented_at != null)
+                                                                <!--订单已评价-->
+                                                        <!--查看评价-->
+                                                        <a class="View_evaluation"
+                                                        href="{{  route('orders.show_comment', ['order' => $order->id]) }}">@lang('basic.orders.View comments')</a>
+                                                        <!--再次购买-->
+                                                        <a class="buy_more"
+                                                        data-url="{{ route('carts.store') }}">@lang('basic.orders.buy again')</a>
+                                                        @elseif($order->status == \App\Models\Order::ORDER_STATUS_REFUNDING)
+                                                                <!--再次购买-->
+                                                        <a class="Buy_again"
+                                                        data-url="{{ route('carts.store') }}">@lang('basic.orders.buy again')</a>
+                                                        @endif
+                                                    </p>
+                                                </td>
+                                            </tr>
+                                            @endif
+                                            @if($key > 0)
+                                                    <!--当循环的数据中超过两个子订单时从第二个子订单开始采用这种布局-->
+                                            <tr class="order_top">
+                                                <td class="col-pro-img">
+                                                    <p class="p-img">
+                                                        <a href="{{ route('seo_url', $item->sku->product->slug) }}">
+                                                            <img src="{{ $item->sku->product->thumb_url }}">
+                                                        </a>
+                                                    </p>
+                                                </td>
+                                                <td class="col-pro-info">
+                                                    <p class="p-info">
+                                                        <a code="{{ $item->sku->id }}"
+                                                        href="{{ route('seo_url', $item->sku->product->slug) }}">{{ App::isLocale('zh-CN') ? $item->sku->product->name_zh : $item->sku->product->name_en }}</a>
+                                                    </p>
+                                                </td>
+                                                <td class="col-price">
+                                                    <p class="p-price">
+                                                        {{--<em>{{ $order->currency == 'USD' ? '&#36;' : '&#165;' }}</em>--}}
+                                                        <em>{{ get_symbol_by_currency($order->currency) }} </em>
+                                                        <span>{{ $item->price }}</span>
+                                                    </p>
+                                                </td>
+                                                <td class="col-quty">{{ $item->number }}</td>
+                                            </tr>
+                                            @endif
+                                            @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                        <!--分页-->
+                        <!--<div class="paging_box">
+                            <a class="pre_page" href="javascript:void(0);">上一页</a>
+                            <a class="next_page" href="javascript:void(0);">下一页</a>
+                        </div>-->
+                        @endif
+                    </div>
+                    <!--猜你喜欢-->
+                    <div class="guess_like">
+                        <div class="ordertable_title">
+                            <p>@lang('app.you may also like')</p>
+                        </div>
+                        <div class="guess_like_content">
+                            <ul>
+                                @foreach($guesses as $guess)
+                                    <li>
+                                        <div class="collection_shop_img">
+                                            <img class="lazy" data-src="{{ $guess->thumb_url }}">
+                                        </div>
+                                        <p class="commodity_title" title="{{ App::isLocale('zh-CN') ? $guess->name_zh : $guess->name_en }}">
+                                            {{ App::isLocale('zh-CN') ? $guess->name_zh : $guess->name_en }}
+                                        </p>
+                                        <p class="collection_price">
+                                            {{--<span class="new_price">{{ App::isLocale('en') ? '&#36;' : '&#165;' }} {{ App::isLocale('en') ? $guess->price_in_usd : $guess->price }}</span>--}}
+                                            {{--<span class="old_price">{{ App::isLocale('en') ? '&#36;' : '&#165;' }} {{  App::isLocale('en') ? bcmul($guess->price_in_usd, 1.2, 2) : bcmul($guess->price, 1.2, 2) }}</span>--}}
+                                            <span class="new_price">{{ get_global_symbol() }} {{ get_current_price($guess->price) }}</span>
+                                            <span class="old_price">{{ get_global_symbol() }} {{ bcmul(get_current_price($guess->price), 1.2, 2) }}</span>
+                                        </p>
+                                        <a class="add_to_cart"
+                                        href="{{ route('seo_url', $guess->slug) }}">@lang('app.see details')</a>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>

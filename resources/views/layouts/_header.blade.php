@@ -97,7 +97,7 @@
                         <span class="iconfont">&#xe604;</span>
                     </a>
                     {{-- 移动menu的内容 --}}
-                    <div class="mobile-menu-content mobile-nav-list">
+                    <div class="mobile-nav-list">
                         <div class="mobile-list-item">
                             <a href="{{ route('carts.index') }}">Car</a>
                         </div>
@@ -122,6 +122,56 @@
     {{-- header下部分 --}}
     <div class="header-bottom">
         <div class="main-content">
+            {{--Mobile Menu--}}
+            <div class="navbar-mobile">
+                <div class="mobile-menun">
+                    <a href="javascript:void (0)" class="mobile-menu-btn">
+                        <span class="iconfont">&#xe604;Menu</span>
+                    </a>
+                    <div class="mobile-menu-content">
+                        @foreach(\App\Models\Menu::pcMenus() as $menu)
+                            @if($menu->children->isNotEmpty())
+                                <div class="first_menu">
+                                    <a href="javascript:void(0)" class="mobile-nav-one">
+                                    {{--<a href="{{ $menu->link or 'javascript:void(0)' }}">--}}
+                                        {{ App::isLocale('zh-CN') ? $menu->name_zh : $menu->name_en }}
+                                        <span class="iconfont">&#xe605;</span>
+                                    </a>
+                                    <!--二级菜单内容-->
+                                    <div class="mobile-nav-panel">
+                                        @foreach($menu['children'] as $key => $child)
+                                            <div class="nav-column">
+                                                <a class="nav-panel-one" href="javascript:void(0)">
+                                                {{--<a class="nav-panel-one" href="{{ $child['link'] or 'javascript:void(0)' }}">--}}
+                                                    <span>{{ App::isLocale('zh-CN') ? $child['name_zh'] : $child['name_en'] }}</span>
+                                                    @if($child->children->isNotEmpty())
+                                                        <span class="iconfont">&#xe605;</span>
+                                                    @endif
+                                                </a>
+                                                @if($child->children->isNotEmpty())
+                                                    <div class="nav-panel-two">
+                                                        @foreach($child['children'] as $sub_child)
+                                                            <div class="nav-two-item">
+                                                                <a href="{{ $sub_child['link'] or 'javascript:void(0)'  }}">
+                                                                    <span>{{ App::isLocale('zh-CN') ? $sub_child['name_zh'] : $sub_child['name_en'] }}</span>
+                                                                </a>
+                                                            </div>
+                                                        @endforeach
+                                                    </div>
+                                                @endif
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            @else
+                                <div class="first_menu">
+                                    <a href="{{ $menu->link or 'javascript:void(0)' }}">{{ App::isLocale('zh-CN') ? $menu->name_zh : $menu->name_en }}</a>
+                                </div>
+                            @endif
+                        @endforeach
+                    </div>
+                </div>
+            </div>
             {{-- header logo部分 --}}
             <div class="header-logo">
                 <a href="{{ route('root') }}">

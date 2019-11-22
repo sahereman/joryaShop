@@ -844,8 +844,8 @@ $(".mobile-nav").on("click",function () {
 $(".mobile-menu-btn").on("click",function () {
     var isClicked = $(this).hasClass("click-active");
     if(isClicked) {
-        $(this).removeClass("click-active");
         $(".mobile-menu-content").slideUp();
+        $(this).removeClass("click-active");
     }else {
         $(this).addClass("click-active");
         $(".mobile-menu-content").slideDown();
@@ -887,6 +887,7 @@ $(document).mouseup(function(e) {
 });
 // footer移动时展示
 $(".mobile-dropdown-menu").on("click",function () {
+   if (winW > 1200) return;
    var isHadClick = $(this).hasClass("active");
    if(isHadClick) {
        $(this).removeClass("active");

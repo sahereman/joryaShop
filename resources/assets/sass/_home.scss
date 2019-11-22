@@ -197,16 +197,26 @@
   background-size: cover;
   color: #fff;
   @media only screen and (max-width: 750px){
-    display: none;
+    // display: none;
+    height: auto;
   }
   ul {
     display: flex;
     height: 100%;
+    @media only screen and (max-width: 750px){
+      flex-wrap: wrap;
+    }
     li {
       position: relative;
       flex: 1;
       margin: auto;
       text-align: center;
+      @media only screen and (max-width: 750px){
+        flex: inherit;
+        width: 50%;
+        margin: 15px auto;
+        margin-left: 0;
+      }
       &::after {
         position: absolute;
         content: '';
@@ -216,6 +226,9 @@
         width: 1px;
         background-color: #fff;
         opacity: .3;
+        @media only screen and (max-width: 750px){
+          display: none;
+        }
       }
       &:last-of-type {
         &::after {
@@ -237,6 +250,9 @@
         opacity:0.6;
         @media only screen and (max-width: 1336px){
           font-size:14px;
+        }
+        @media only screen and (max-width: 750px){
+          font-size:12px;
         }
       }
     }
@@ -341,6 +357,17 @@
   .part-title {
     margin-bottom: 41px;
     text-align: center;
+    img {
+      @media only screen and (max-width: 750px){
+        width: 50%;
+      }
+      &.why-lyrical-img {
+        @media only screen and (max-width: 750px){
+          margin-top: 25px;
+          width: 100%;
+        }
+      }
+    }
   }
 
   .classify-box {
@@ -401,6 +428,9 @@
       margin:auto auto 87px auto;
       position:relative;
       padding-bottom: 30px;
+      @media only screen and (max-width: 750px){
+        margin:auto auto 20px auto;
+      }
       .swiper-wrapper {
         width: 100%;
         height: 100%;
@@ -570,7 +600,9 @@
     width: 100%;
     height: 245px;
     @media only screen and (max-width: 750px){
-      display: none;
+      // display: none;
+      margin: auto;
+      height: auto;
     }
     >img {
       position: absolute;
@@ -578,6 +610,9 @@
       left: 0;
       width: 100%;
       height: 100%;
+      @media only screen and (max-width: 750px){
+        display: none;
+      }
     }
     a {
       margin: auto;
@@ -589,8 +624,20 @@
       font-size: 24px;
       font-family: 'AvenirNext';
       background: #fff;
+      @media only screen and (max-width: 750px){
+        background-color: #BF2A24;
+        color: #fff;
+      }
+      .normal_icon {
+        @media only screen and (max-width: 750px){
+          display: none;
+        }
+      }
       .active_icon {
         display: none;
+        @media only screen and (max-width: 750px){
+          display: inline-block;
+        }
       }
       &:hover {
         background-color: #BF2A24;
@@ -1001,6 +1048,9 @@
     padding: 100px 0;
     width: 100%;
     background-color: #fff;
+    @media only screen and (max-width: 750px){
+      padding: 30px 0;
+    }
     .clients-say-sub {
       margin: auto;
       margin-bottom: 30px;
@@ -1071,12 +1121,20 @@
 }
 // OUR PRICES
 .our-prices {
-  padding: 80PX 0;
+  padding: 80px 0;
   width: 100%;
   background: #f5f5f5;
+  @media only screen and (max-width: 750px){
+    padding: 40px 0;
+  }
   .part-title {
     margin-bottom: 40px;
     text-align: center;
+    img {
+      @media only screen and (max-width: 750px){
+        width: 50%;
+      }
+    }
   }
   ul {
     display: flex;

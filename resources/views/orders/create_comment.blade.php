@@ -2,8 +2,8 @@
 @section('title', (App::isLocale('zh-CN') ? '个人中心 - 我的订单' : 'Personal Center - My Orders') . ' - ' . \App\Models\Config::config('title'))
 @section('content')
     <div class="evaluate_commont">
-        <div class="m-wrapper">
-            <div>
+        <div class="main-content">
+            <div class="Crumbs-box">
                 <p class="Crumbs">
                     <a href="{{ route('root') }}">@lang('basic.home')</a>
                     <span>></span>
@@ -16,189 +16,191 @@
                     <a href="javascript:void(0);">@lang('basic.users.feedback')</a>
                 </p>
             </div>
-            <!--左侧导航栏-->
-            @include('users._left_navigation')
-                    <!--右侧内容-->
-            <div class="comment_content">
-                <form method="POST" action="{{ route('orders.store_comment', ['order' => $order->id]) }}"
-                      enctype="multipart/form-data" id="creat_comment_form">
-                    {{ csrf_field() }}
-                    <input type="hidden" name="order_id" value="{{ $order->id }}">
-                    @foreach($order->snapshot as $order_item)
-                        <div class="evaluation_order">
-                            <table>
-                                <thead>
-                                <th></th>
-                                <th>@lang('product.comments.commodity')</th>
-                                <th>@lang('product.comments.specification')</th>
-                                {{--<th>@lang('product.comments.Unit Price')</th>--}}
-                                <th>@lang('product.comments.Quantity')</th>
-                                <th>@lang('product.comments.Subtotal')</th>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                    <td class="col-pro-img">
-                                        <a href="{{ route('seo_url', $order_item['sku']['product']['slug']) }}">
-                                            <img src="{{ $order_item['sku']['product']['thumb_url'] }}">
-                                        </a>
-                                    </td>
-                                    <td class="col-pro-info">
-                                        <p class="p-info">
-                                            <a class="commodity_description"
-                                               href="{{ route('seo_url', $order_item['sku']['product']['slug']) }}">
-                                                {{ App::isLocale('zh-CN') ? $order_item['sku']['product']['name_zh'] : $order_item['sku']['product']['name_en'] }}
+            <div class="evaluate-commont-content">
+                <!--左侧导航栏-->
+                @include('users._left_navigation')
+                <!--右侧内容-->
+                <div class="comment_content">
+                    <form method="POST" action="{{ route('orders.store_comment', ['order' => $order->id]) }}"
+                        enctype="multipart/form-data" id="creat_comment_form">
+                        {{ csrf_field() }}
+                        <input type="hidden" name="order_id" value="{{ $order->id }}">
+                        @foreach($order->snapshot as $order_item)
+                            <div class="evaluation_order">
+                                <table>
+                                    <thead>
+                                    <th></th>
+                                    <th>@lang('product.comments.commodity')</th>
+                                    <th>@lang('product.comments.specification')</th>
+                                    {{--<th>@lang('product.comments.Unit Price')</th>--}}
+                                    <th>@lang('product.comments.Quantity')</th>
+                                    <th>@lang('product.comments.Subtotal')</th>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td class="col-pro-img">
+                                            <a href="{{ route('seo_url', $order_item['sku']['product']['slug']) }}">
+                                                <img src="{{ $order_item['sku']['product']['thumb_url'] }}">
                                             </a>
-                                        </p>
-                                    </td>
-                                    {{--<td class="col-pro-speci">
-                                        <p class="p-info">
-                                            <a class="specifications"
-                                               href="{{ route('seo_url', $order_item['sku']['product']['slug']) }}">
-                                                --}}{{--{{ App::isLocale('en') ? $order_item['sku']['name_en'] : $order_item['sku']['name_zh'] }}--}}{{--
-                                                @if($order_item['sku']['product']['type'] == \App\Models\Product::PRODUCT_TYPE_CUSTOM)
-                                                    {{ $order_item['sku']['custom_attr_value_string'] }}
-                                                @else
-                                                    {{ $order_item['sku']['attr_value_string'] }}
-                                                @endif
-                                            </a>
-                                        </p>
-                                    </td>--}}
-                                    <td class="col-price">
-                                        <p class="p-price">
-                                            {{--<span>{{ $order->currency == "USD" ? '&#36;' : '&#165;' }}</span>--}}
-                                            <span>{{ get_symbol_by_currency($order->currency) }}</span>
-                                            <span>{{ $order_item['price'] }}</span>
-                                        </p>
-                                    </td>
-                                    <td class="col-quty">
-                                        <p>{{ $order_item['number'] }}</p>
-                                    </td>
-                                    <td class="col-pay">
-                                        <p>
-                                            {{--<span>{{ $order->currency == "USD" ? '&#36;' : '&#165;' }}</span>--}}
-                                            <span>{{ get_symbol_by_currency($order->currency) }}</span>
-                                            <span>{{ bcmul($order_item['price'], $order_item['number'], 2) }}</span>
-                                        </p>
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
-                            <div class="evaluation_content">
-                                <p class="evaluat_title">@lang('product.comments.Please fill in your valuable suggestions')</p>
-                                {{--**
-                                    * 注：循环是请把下面的所有的{{ $order_item->id }}切换成对应循环的下标值，即第几个否则评价的五星会失效
-                                    * 切记！！！！
-                                    * --}}
-                                <div class="five_star_evaluation">
-                                    <div class="five_star_one star_area">
-                                        <p>
-                                            <i>*</i>
-                                            <span>@lang('product.composite_index')</span>
-                                        </p>
-                                        <div class="starability-basic">
+                                        </td>
+                                        <td class="col-pro-info">
+                                            <p class="p-info">
+                                                <a class="commodity_description"
+                                                href="{{ route('seo_url', $order_item['sku']['product']['slug']) }}">
+                                                    {{ App::isLocale('zh-CN') ? $order_item['sku']['product']['name_zh'] : $order_item['sku']['product']['name_en'] }}
+                                                </a>
+                                            </p>
+                                        </td>
+                                        {{--<td class="col-pro-speci">
+                                            <p class="p-info">
+                                                <a class="specifications"
+                                                href="{{ route('seo_url', $order_item['sku']['product']['slug']) }}">
+                                                    --}}{{--{{ App::isLocale('en') ? $order_item['sku']['name_en'] : $order_item['sku']['name_zh'] }}--}}{{--
+                                                    @if($order_item['sku']['product']['type'] == \App\Models\Product::PRODUCT_TYPE_CUSTOM)
+                                                        {{ $order_item['sku']['custom_attr_value_string'] }}
+                                                    @else
+                                                        {{ $order_item['sku']['attr_value_string'] }}
+                                                    @endif
+                                                </a>
+                                            </p>
+                                        </td>--}}
+                                        <td class="col-price">
+                                            <p class="p-price">
+                                                {{--<span>{{ $order->currency == "USD" ? '&#36;' : '&#165;' }}</span>--}}
+                                                <span>{{ get_symbol_by_currency($order->currency) }}</span>
+                                                <span>{{ $order_item['price'] }}</span>
+                                            </p>
+                                        </td>
+                                        <td class="col-quty">
+                                            <p>{{ $order_item['number'] }}</p>
+                                        </td>
+                                        <td class="col-pay">
+                                            <p>
+                                                {{--<span>{{ $order->currency == "USD" ? '&#36;' : '&#165;' }}</span>--}}
+                                                <span>{{ get_symbol_by_currency($order->currency) }}</span>
+                                                <span>{{ bcmul($order_item['price'], $order_item['number'], 2) }}</span>
+                                            </p>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <div class="evaluation_content">
+                                    <p class="evaluat_title">@lang('product.comments.Please fill in your valuable suggestions')</p>
+                                    {{--**
+                                        * 注：循环是请把下面的所有的{{ $order_item->id }}切换成对应循环的下标值，即第几个否则评价的五星会失效
+                                        * 切记！！！！
+                                        * --}}
+                                    <div class="five_star_evaluation">
+                                        <div class="five_star_one star_area">
+                                            <p>
+                                                <i>*</i>
+                                                <span>@lang('product.composite_index')</span>
+                                            </p>
+                                            <div class="starability-basic">
 
-                                            <input type="radio" id="rate5-1_{{ $order_item['id'] }}"
-                                                   name="composite_index[{{ $order_item['id'] }}]" value="5"/>
-                                            <label for="rate5-1_{{ $order_item['id'] }}" title="Amazing"></label>
+                                                <input type="radio" id="rate5-1_{{ $order_item['id'] }}"
+                                                    name="composite_index[{{ $order_item['id'] }}]" value="5"/>
+                                                <label for="rate5-1_{{ $order_item['id'] }}" title="Amazing"></label>
 
-                                            <input type="radio" id="rate4-1_{{ $order_item['id'] }}"
-                                                   name="composite_index[{{ $order_item['id'] }}]" value="4"/>
-                                            <label for="rate4-1_{{ $order_item['id'] }}" title="Very good"></label>
+                                                <input type="radio" id="rate4-1_{{ $order_item['id'] }}"
+                                                    name="composite_index[{{ $order_item['id'] }}]" value="4"/>
+                                                <label for="rate4-1_{{ $order_item['id'] }}" title="Very good"></label>
 
-                                            <input type="radio" id="rate3-1_{{ $order_item['id'] }}"
-                                                   name="composite_index[{{ $order_item['id'] }}]" value="3"/>
-                                            <label for="rate3-1_{{ $order_item['id'] }}" title="Average"></label>
+                                                <input type="radio" id="rate3-1_{{ $order_item['id'] }}"
+                                                    name="composite_index[{{ $order_item['id'] }}]" value="3"/>
+                                                <label for="rate3-1_{{ $order_item['id'] }}" title="Average"></label>
 
-                                            <input type="radio" id="rate2-1_{{ $order_item['id'] }}"
-                                                   name="composite_index[{{ $order_item['id'] }}]" value="2"/>
-                                            <label for="rate2-1_{{ $order_item['id'] }}" title="Not good"></label>
+                                                <input type="radio" id="rate2-1_{{ $order_item['id'] }}"
+                                                    name="composite_index[{{ $order_item['id'] }}]" value="2"/>
+                                                <label for="rate2-1_{{ $order_item['id'] }}" title="Not good"></label>
 
-                                            <input type="radio" id="rate1-1_{{ $order_item['id'] }}"
-                                                   name="composite_index[{{ $order_item['id'] }}]" value="1"/>
-                                            <label for="rate1-1_{{ $order_item['id'] }}" title="Terrible"></label>
+                                                <input type="radio" id="rate1-1_{{ $order_item['id'] }}"
+                                                    name="composite_index[{{ $order_item['id'] }}]" value="1"/>
+                                                <label for="rate1-1_{{ $order_item['id'] }}" title="Terrible"></label>
+                                            </div>
                                         </div>
+                                        {{--<div class="five_star_two star_area">
+                                            <p>
+                                                <i>*</i>
+                                                <span>@lang('product.description_index')</span>
+                                            </p>
+                                            <div class="starability-basic">
+                                                <input type="radio" id="rate5-2_{{ $order_item['id'] }}"
+                                                    name="description_index[{{ $order_item['id'] }}]" value="5"/>
+                                                <label for="rate5-2_{{ $order_item['id'] }}" title="Amazing"></label>
+
+                                                <input type="radio" id="rate4-2_{{ $order_item['id'] }}"
+                                                    name="description_index[{{ $order_item['id'] }}]" value="4"/>
+                                                <label for="rate4-2_{{ $order_item['id'] }}" title="Very good"></label>
+
+                                                <input type="radio" id="rate3-2_{{ $order_item['id'] }}"
+                                                    name="description_index[{{ $order_item['id'] }}]" value="3"/>
+                                                <label for="rate3-2_{{ $order_item['id'] }}" title="Average"></label>
+
+                                                <input type="radio" id="rate2-2_{{ $order_item['id'] }}"
+                                                    name="description_index[{{ $order_item['id'] }}]" value="2"/>
+                                                <label for="rate2-2_{{ $order_item['id'] }}" title="Not good"></label>
+
+                                                <input type="radio" id="rate1-2_{{ $order_item['id'] }}"
+                                                    name="description_index[{{ $order_item['id'] }}]" value="1"/>
+                                                <label for="rate1-2_{{ $order_item['id'] }}" title="Terrible"></label>
+                                            </div>
+                                        </div>
+                                        <div class="five_star_three star_area">
+                                            <p>
+                                                <i>*</i>
+                                                <span>@lang('product.shipping_index')</span>
+                                            </p>
+                                            <div class="starability-basic">
+                                                <input type="radio" id="rate5-3_{{ $order_item['id'] }}"
+                                                    name="shipment_index[{{ $order_item['id'] }}]" value="5"/>
+                                                <label for="rate5-3_{{ $order_item['id'] }}" title="Amazing"></label>
+
+                                                <input type="radio" id="rate4-3_{{ $order_item['id'] }}"
+                                                    name="shipment_index[{{ $order_item['id'] }}]" value="4"/>
+                                                <label for="rate4-3_{{ $order_item['id'] }}" title="Very good"></label>
+
+                                                <input type="radio" id="rate3-3_{{ $order_item['id'] }}"
+                                                    name="shipment_index[{{ $order_item['id'] }}]" value="3"/>
+                                                <label for="rate3-3_{{ $order_item['id'] }}" title="Average"></label>
+
+                                                <input type="radio" id="rate2-3_{{ $order_item['id'] }}"
+                                                    name="shipment_index[{{ $order_item['id'] }}]" value="2"/>
+                                                <label for="rate2-3_{{ $order_item['id'] }}" title="Not good"></label>
+
+                                                <input type="radio" id="rate1-3_{{ $order_item['id'] }}"
+                                                    name="shipment_index[{{ $order_item['id'] }}]" value="1"/>
+                                                <label for="rate1-3_{{ $order_item['id'] }}" title="Terrible"></label>
+                                            </div>
+                                        </div>--}}
                                     </div>
-                                    {{--<div class="five_star_two star_area">
+                                    <textarea name="content[{{ $order_item['id'] }}]" maxlength="200"
+                                            placeholder="@lang('product.comments.Please enter a product evaluation of less than 200 words')">{{ old('content')[$order_item['id']] }}</textarea>
+                                    {{--<input id="imgPath-[{{ $order_item['id'] }}]" type="hidden" name="photos[{{ $order_item['id'] }}]"--}}
+                                    <div class="picture_area">
+                                        <input id="imgPath-[{{ $order_item['id'] }}]" type="hidden"
+                                            name="photos[{{ $order_item['id'] }}]" value="">
                                         <p>
                                             <i>*</i>
-                                            <span>@lang('product.description_index')</span>
+                                            <span>@lang('app.upload image')</span>
                                         </p>
-                                        <div class="starability-basic">
-                                            <input type="radio" id="rate5-2_{{ $order_item['id'] }}"
-                                                   name="description_index[{{ $order_item['id'] }}]" value="5"/>
-                                            <label for="rate5-2_{{ $order_item['id'] }}" title="Amazing"></label>
-
-                                            <input type="radio" id="rate4-2_{{ $order_item['id'] }}"
-                                                   name="description_index[{{ $order_item['id'] }}]" value="4"/>
-                                            <label for="rate4-2_{{ $order_item['id'] }}" title="Very good"></label>
-
-                                            <input type="radio" id="rate3-2_{{ $order_item['id'] }}"
-                                                   name="description_index[{{ $order_item['id'] }}]" value="3"/>
-                                            <label for="rate3-2_{{ $order_item['id'] }}" title="Average"></label>
-
-                                            <input type="radio" id="rate2-2_{{ $order_item['id'] }}"
-                                                   name="description_index[{{ $order_item['id'] }}]" value="2"/>
-                                            <label for="rate2-2_{{ $order_item['id'] }}" title="Not good"></label>
-
-                                            <input type="radio" id="rate1-2_{{ $order_item['id'] }}"
-                                                   name="description_index[{{ $order_item['id'] }}]" value="1"/>
-                                            <label for="rate1-2_{{ $order_item['id'] }}" title="Terrible"></label>
-                                        </div>
-                                    </div>
-                                    <div class="five_star_three star_area">
-                                        <p>
-                                            <i>*</i>
-                                            <span>@lang('product.shipping_index')</span>
-                                        </p>
-                                        <div class="starability-basic">
-                                            <input type="radio" id="rate5-3_{{ $order_item['id'] }}"
-                                                   name="shipment_index[{{ $order_item['id'] }}]" value="5"/>
-                                            <label for="rate5-3_{{ $order_item['id'] }}" title="Amazing"></label>
-
-                                            <input type="radio" id="rate4-3_{{ $order_item['id'] }}"
-                                                   name="shipment_index[{{ $order_item['id'] }}]" value="4"/>
-                                            <label for="rate4-3_{{ $order_item['id'] }}" title="Very good"></label>
-
-                                            <input type="radio" id="rate3-3_{{ $order_item['id'] }}"
-                                                   name="shipment_index[{{ $order_item['id'] }}]" value="3"/>
-                                            <label for="rate3-3_{{ $order_item['id'] }}" title="Average"></label>
-
-                                            <input type="radio" id="rate2-3_{{ $order_item['id'] }}"
-                                                   name="shipment_index[{{ $order_item['id'] }}]" value="2"/>
-                                            <label for="rate2-3_{{ $order_item['id'] }}" title="Not good"></label>
-
-                                            <input type="radio" id="rate1-3_{{ $order_item['id'] }}"
-                                                   name="shipment_index[{{ $order_item['id'] }}]" value="1"/>
-                                            <label for="rate1-3_{{ $order_item['id'] }}" title="Terrible"></label>
-                                        </div>
-                                    </div>--}}
-                                </div>
-                                <textarea name="content[{{ $order_item['id'] }}]" maxlength="200"
-                                          placeholder="@lang('product.comments.Please enter a product evaluation of less than 200 words')">{{ old('content')[$order_item['id']] }}</textarea>
-                                {{--<input id="imgPath-[{{ $order_item['id'] }}]" type="hidden" name="photos[{{ $order_item['id'] }}]"--}}
-                                <div class="picture_area">
-                                    <input id="imgPath-[{{ $order_item['id'] }}]" type="hidden"
-                                           name="photos[{{ $order_item['id'] }}]" value="">
-                                    <p>
-                                        <i>*</i>
-                                        <span>@lang('app.upload image')</span>
-                                    </p>
-                                    <div class="pictures" code="{{ $order_item['id'] }}">
-                                        <div class="pictures_btn" code="{{ $order_item['id'] }}">
-                                            <img src="{{ asset('img/pic_upload.png') }}">
-                                            <input type="file" name="image" value=""
-                                                   data-url="{{ route('comment_image.upload') }}"
-                                                   id="{{ $order_item['id'] }}" onchange="imgChange(this)"/>
+                                        <div class="pictures" code="{{ $order_item['id'] }}">
+                                            <div class="pictures_btn" code="{{ $order_item['id'] }}">
+                                                <img src="{{ asset('img/pic_upload.png') }}">
+                                                <input type="file" name="image" value=""
+                                                    data-url="{{ route('comment_image.upload') }}"
+                                                    id="{{ $order_item['id'] }}" onchange="imgChange(this)"/>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                        @endforeach
+                        <div class="sub_evaluation_area">
+                            <a class="sub_evaluation">@lang('app.submit')</a>
                         </div>
-                    @endforeach
-                    <div class="sub_evaluation_area">
-                        <a class="sub_evaluation">@lang('app.submit')</a>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
         </div>
     </div>

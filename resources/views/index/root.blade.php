@@ -253,7 +253,7 @@
                         <div class="top-text">
                             {{-- <p class="why-lyrical-title">WHY CHOOSE LYRICALHAIR</p> --}}
                             <p class="part-title">
-                                <img src="{{ asset("img/Home/WHYCHOOSELYRICALHAIR.png") }}" alt="lyricalhair">
+                                <img class="why-lyrical-img" src="{{ asset("img/Home/WHYCHOOSELYRICALHAIR.png") }}" alt="lyricalhair">
                             </p>
                             <a class="why-lyrical-link" href="{{ route('why_lyricalhair') }}">More details >></a>
                             <div class="why-lyrical-top-info">
@@ -482,7 +482,10 @@
                 slidesPerRow: 1, //在通过行选项初始化网格模式时，这会设置每个网格行中的幻灯片数量
             });
             // 数字滚动初始化
-            $('.counter').countUp();
+            if(/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
+            } else {
+                $('.counter').countUp();
+            }
             // product zone3D轮播图
             // $('.roundabout_box ul').roundabout({
             //     easing: 'easeOutInCirc',

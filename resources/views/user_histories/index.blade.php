@@ -2,8 +2,8 @@
 @section('title', (App::isLocale('zh-CN') ? '个人中心-浏览历史' : 'Personal Center - Browsing History') . ' - ' . \App\Models\Config::config('title'))
 @section('content')
     <div class="User_history">
-        <div class="m-wrapper">
-            <div>
+        <div class="main-content">
+            <div class="Crumbs-box">
                 <p class="Crumbs">
                     <a href="{{ route('root') }}">@lang('basic.home')</a>
                     <span>></span>
@@ -12,69 +12,71 @@
                     <a href="javascript:void(0);">@lang('basic.users.Browse_history')</a>
                 </p>
             </div>
-            <!--左侧导航栏-->
-            @include('users._left_navigation')
-                    <!--右侧内容-->
-            <div class="user_collection_content">
-                @if($histories->isEmpty())
-                        <!--当没有收藏列表时显示,如需显示当前内容需要调整一下样式-->
-                <div class="no_collectionList">
-                    <img src="{{ asset('img/no_history.png') }}">
-                    <p>@lang('product.No footprint yet')</p>
-                    <a class="new_address" href="{{ route('root') }}">@lang('product.shop_now')</a>
-                </div>
-                @else
+            <div class="collection-content">
+                <!--左侧导航栏-->
+                @include('users._left_navigation')
+                <!--右侧内容-->
+                <div class="user_collection_content">
+                    @if($histories->isEmpty())
+                            <!--当没有收藏列表时显示,如需显示当前内容需要调整一下样式-->
+                    <div class="no_collectionList">
+                        <img src="{{ asset('img/no_history.png') }}">
+                        <p>@lang('product.No footprint yet')</p>
+                        <a class="new_address" href="{{ route('root') }}">@lang('product.shop_now')</a>
+                    </div>
+                    @else
+                            <!--浏览历史列表-->
+                    <div class="receive_collection">
+                        <div class="history_operation_area">
+                            <a class="history_empty pull-right" data-url="{{ route('user_histories.flush') }}">
+                                <img src="{{ asset('img/empty_history.png') }}">
+                                <span>@lang('product.Clear all browsing history')</span>
+                            </a>
+                        </div>
                         <!--浏览历史列表-->
-                <div class="receive_collection">
-                    <div class="history_operation_area">
-                        <a class="history_empty pull-right" data-url="{{ route('user_histories.flush') }}">
-                            <img src="{{ asset('img/empty_history.png') }}">
-                            <span>@lang('product.Clear all browsing history')</span>
-                        </a>
+                        <div class="address_list">
+                            @foreach($histories as $key => $historySet)
+                                <div class="Timeline">
+                                    <!--<img  src="{{ asset('img/timeline.png') }}">-->
+                                    <span>{{ $key }}</span>
+                                </div>
+                                <ul>
+                                    @foreach($historySet as $history)
+                                        <li>
+                                            <div class="collection_shop_img">
+                                                <img class="lazy" data-src="{{ $history->product->thumb_url }}">
+                                            </div>
+                                            <p class="commodity_title">{{ App::isLocale('zh-CN') ? $history->product->name_zh : $history->product->name_en }}</p>
+                                            <p class="collection_price">
+                                                {{--<span class="new_price">@lang('basic.currency.symbol') {{ App::isLocale('en') ? $history->product->price_in_usd : $history->product->price }}</span>--}}
+                                                {{--<span class="old_price">@lang('basic.currency.symbol') {{ App::isLocale('en') ? bcmul($history->product->price_in_usd, 1.2, 2) : bcmul($history->product->price, 1.2, 2) }}</span>--}}
+                                                <span class="new_price">{{ get_global_symbol() }} {{ get_current_price($history->product->price) }}</span>
+                                                <span class="old_price">{{ get_global_symbol() }} {{ bcmul(get_current_price($history->product->price), 1.2, 2) }}</span>
+                                            </p>
+                                            <a class="add_to_cart"
+                                            href="{{ route('seo_url', $history->product->slug) }}">@lang('app.see details')</a>
+                                            <a class="delete_mark"
+                                            code="{{ route('user_histories.destroy', ['history' => $history->id]) }}"
+                                            title="@lang('app.Click to remove the item')"></a>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            @endforeach
+                        </div>
                     </div>
-                    <!--浏览历史列表-->
-                    <div class="address_list">
-                        @foreach($histories as $key => $historySet)
-                            <div class="Timeline">
-                                <!--<img  src="{{ asset('img/timeline.png') }}">-->
-                                <span>{{ $key }}</span>
-                            </div>
-                            <ul>
-                                @foreach($historySet as $history)
-                                    <li>
-                                        <div class="collection_shop_img">
-                                            <img class="lazy" data-src="{{ $history->product->thumb_url }}">
-                                        </div>
-                                        <p class="commodity_title">{{ App::isLocale('zh-CN') ? $history->product->name_zh : $history->product->name_en }}</p>
-                                        <p class="collection_price">
-                                            {{--<span class="new_price">@lang('basic.currency.symbol') {{ App::isLocale('en') ? $history->product->price_in_usd : $history->product->price }}</span>--}}
-                                            {{--<span class="old_price">@lang('basic.currency.symbol') {{ App::isLocale('en') ? bcmul($history->product->price_in_usd, 1.2, 2) : bcmul($history->product->price, 1.2, 2) }}</span>--}}
-                                            <span class="new_price">{{ get_global_symbol() }} {{ get_current_price($history->product->price) }}</span>
-                                            <span class="old_price">{{ get_global_symbol() }} {{ bcmul(get_current_price($history->product->price), 1.2, 2) }}</span>
-                                        </p>
-                                        <a class="add_to_cart"
-                                           href="{{ route('seo_url', $history->product->slug) }}">@lang('app.see details')</a>
-                                        <a class="delete_mark"
-                                           code="{{ route('user_histories.destroy', ['history' => $history->id]) }}"
-                                           title="@lang('app.Click to remove the item')"></a>
-                                    </li>
-                                @endforeach
-                            </ul>
-                        @endforeach
+                    <div class="paging_box">
+                        <!--自定义分页-->
+                        @if($previous_page)
+                            <a class="pre_page"
+                            href="{{ route('user_histories.index') . '?page=' . $previous_page }}">@lang('app.Previous page')</a>
+                        @endif
+                        @if($next_page)
+                            <a class="next_page"
+                            href="{{ route('user_histories.index') . '?page=' . $next_page }}">@lang('app.Next page')</a>
+                        @endif
                     </div>
-                </div>
-                <div class="paging_box">
-                    <!--自定义分页-->
-                    @if($previous_page)
-                        <a class="pre_page"
-                           href="{{ route('user_histories.index') . '?page=' . $previous_page }}">@lang('app.Previous page')</a>
-                    @endif
-                    @if($next_page)
-                        <a class="next_page"
-                           href="{{ route('user_histories.index') . '?page=' . $next_page }}">@lang('app.Next page')</a>
                     @endif
                 </div>
-                @endif
             </div>
         </div>
     </div>

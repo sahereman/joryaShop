@@ -2,8 +2,8 @@
 @section('title', (App::isLocale('zh-CN') ? '个人中心 - 账户信息' : 'Personal Center - Account Information') . ' - ' . \App\Models\Config::config('title'))
 @section('content')
     <div class="User_center_edit User_center">
-        <div class="m-wrapper">
-            <div>
+        <div class="main-content">
+            <div class="Crumbs-box">
                 <p class="Crumbs">
                     <a href="{{ route('root') }}">@lang('basic.home')</a>
                     <span>></span>
@@ -12,132 +12,134 @@
                     <a href="javascript:void(0);">@lang('basic.users.Account_information')</a>
                 </p>
             </div>
-            <!--左侧导航栏-->
-            @include('users._left_navigation')
-                    <!--右侧内容-->
-            <div class="UserInfo_content">
-                <div class="UserInfo_content_title">
-                    <p>@lang('basic.users.Edit_account_information')</p>
-                </div>
-                <div class="edit_content">
-                    <form method="POST" action="{{ route('users.update', ['user' => $user->id]) }}"
-                          enctype="multipart/form-data" id="img_form">
-                        {{ csrf_field() }}
-                        {{ method_field('PUT') }}
-                        <ul>
-                            <li class="user_header_img">
-                                <span>@lang('basic.users.User_profile_picture')</span>
-                                <div class="user_Avatar">
-                                    <img src="{{ $user->avatar_url }}" width="80">
-                                    <input type="file" name="avatar" value="{{ $user->avatar_url }}"
-                                           data-url="{{ route('image.avatar_preview') }}" id="upload_head"
-                                           onchange="imgChange(this)">
-                                </div>
-                                <img src="{{ asset('img/photograph.png') }}" class="photograph">
-                            </li>
-                            <li>
-                                <span>@lang('basic.users.Username')</span>
-                                <input type="text" name="name" value="{{ $user->name }}"
-                                       placeholder="@lang('basic.users.Username')" readonly
-                                       required>
-                            </li>
-                            <li class="user_password">
-                                <span>Password</span>
-                                <a href="{{ route('users.password', ['user' => Auth::id()]) }}">@lang('basic.users.Change_Password')</a>
-                            </li>
-                            {{--<li>
-                                <span>@lang('basic.users.Real_name')</span>
-                                <input type="text" name="real_name" value="{{ $user->real_name }}"
-                                       placeholder="@lang('basic.users.Real_name')">
-                            </li>--}}
-                            <li class="sexChoose">
-                                <span>@lang('basic.users.Gender')</span>
-                                <div>
-                                    @if($user->gender == null || $user->gender == 'male')
-                                        <label>
-                                            <input type="radio" name="gender" value="male" class="radioclass" checked>
-                                            @lang('basic.users.Male')
-                                        </label>
-                                        <label>
-                                            <input type="radio" name="gender" value="female" class="radioclass">
-                                            @lang('basic.users.Female')
-                                        </label>
-                                    @else
-                                        <label>
-                                            <input type="radio" name="gender" value="male" class="radioclass">
-                                            @lang('basic.users.Male')
-                                        </label>
-                                        <label>
-                                            <input type="radio" name="gender" value="female" class="radioclass" checked>
-                                            @lang('basic.users.Female')
-                                        </label>
-                                    @endif
-                                </div>
-                            </li>
-                            {{--<li>
-                                <span>QQ</span>
-                                <input type="text" name="qq" value="{{ $user->qq }}"
-                                       placeholder="@lang('basic.users.Enter_QQ_account')">
-                            </li>
-                            <li>
-                                <span>@lang('basic.users.Wechat')</span>
-                                <input type="text" name="wechat" value="{{ $user->wechat }}"
-                                       placeholder="@lang('basic.users.Enter_WeChat_account')">
-                            </li>--}}
-                            <!--<li>
-                                <span>国家|地区码</span>
-                                <input type="text" name="country_code" value="86">
-                            </li>-->
-                            <!--<li>
-                                <span>手机号</span>
-                                <input type="text" name="phone" value="13061295254">
-                            </li>-->
-                            {{--<li>--}}
-                                {{--<span>Facebook</span>--}}
-                                {{--<input type="text" name="facebook" value="{{ $user->facebook }}"--}}
-                                       {{--placeholder="@lang('basic.users.Enter_your_Facebook_account')">--}}
-                            {{--</li>--}}
-                            <li>
-                                <span>@lang('basic.users.email_address')</span>
-                                <input type="email" name="email" value="{{ $user->email }}"
-                                       placeholder="@lang('basic.users.Enter_email_address')"
-                                       required>
-                            </li>
-                            <!--<li>
-                            <span>密码</span>
-                            <input type="password" name="password" value="{{ $user->password }}">
-                        </li>
-                        <li>
-                            <label>确认密码</label>
-                            <input type="password" name="password_confirmation" value="{{ $user->password }}">
-                        </li>-->
-                        <li class="user_phone">
-                            <span class="sel_click">@lang('app.Mobile phone number')</span>
-                            <label class="reset_email">
-                                <!--<img  class="sel_click" src="{{ asset('img/sanjiao.png') }}">-->
-                                <select class="choose_tel_area" name="country_code">
-                                    @foreach(\App\Models\CountryCode::countryCodes() as $country_code)
-                                        @if($user->country_code == $country_code->country_code)
-                                        <option selected="selected" value="{{ $country_code->country_code }}">{{ $country_code->country_name }}</option>
+            <div class="home-content">
+                <!--左侧导航栏-->
+                @include('users._left_navigation')
+                <!--右侧内容-->
+                <div class="UserInfo_content">
+                    <div class="UserInfo_content_title">
+                        <p>@lang('basic.users.Edit_account_information')</p>
+                    </div>
+                    <div class="edit_content">
+                        <form method="POST" action="{{ route('users.update', ['user' => $user->id]) }}"
+                            enctype="multipart/form-data" id="img_form">
+                            {{ csrf_field() }}
+                            {{ method_field('PUT') }}
+                            <ul>
+                                <li class="user_header_img">
+                                    <span>@lang('basic.users.User_profile_picture')</span>
+                                    <div class="user_Avatar">
+                                        <img src="{{ $user->avatar_url }}" width="80">
+                                        <input type="file" name="avatar" value="{{ $user->avatar_url }}"
+                                            data-url="{{ route('image.avatar_preview') }}" id="upload_head"
+                                            onchange="imgChange(this)">
+                                    </div>
+                                    <img src="{{ asset('img/photograph.png') }}" class="photograph">
+                                </li>
+                                <li>
+                                    <span>@lang('basic.users.Username')</span>
+                                    <input type="text" name="name" value="{{ $user->name }}"
+                                        placeholder="@lang('basic.users.Username')" readonly
+                                        required>
+                                </li>
+                                <li class="user_password">
+                                    <span>Password</span>
+                                    <a href="{{ route('users.password', ['user' => Auth::id()]) }}">@lang('basic.users.Change_Password')</a>
+                                </li>
+                                {{--<li>
+                                    <span>@lang('basic.users.Real_name')</span>
+                                    <input type="text" name="real_name" value="{{ $user->real_name }}"
+                                        placeholder="@lang('basic.users.Real_name')">
+                                </li>--}}
+                                <li class="sexChoose">
+                                    <span>@lang('basic.users.Gender')</span>
+                                    <div>
+                                        @if($user->gender == null || $user->gender == 'male')
+                                            <label>
+                                                <input type="radio" name="gender" value="male" class="radioclass" checked>
+                                                @lang('basic.users.Male')
+                                            </label>
+                                            <label>
+                                                <input type="radio" name="gender" value="female" class="radioclass">
+                                                @lang('basic.users.Female')
+                                            </label>
                                         @else
-                                        <option value="{{ $country_code->country_code }}">{{ $country_code->country_name }}</option>
+                                            <label>
+                                                <input type="radio" name="gender" value="male" class="radioclass">
+                                                @lang('basic.users.Male')
+                                            </label>
+                                            <label>
+                                                <input type="radio" name="gender" value="female" class="radioclass" checked>
+                                                @lang('basic.users.Female')
+                                            </label>
                                         @endif
-                                    @endforeach
-                                </select>
-                                <!--<span class="areaCode_choosed"></span>-->
-                                <input id="email" type="phone" name="phone" value="{{ $user->phone }}" required
-                                       placeholder="@lang('app.Please select a country first')">
-                            </label>
-                            @if ($errors->has('phone'))
-                                <span class="help-block">
-                                <img src="{{ asset('img/error_fork.png') }}">
-                                <strong>{{ $errors->first('phone') }}</strong>
-                            </span>
-                            @endif
-                        </li>
-                        </ul>
-                        <button type="submit">@lang('basic.users.Save')</button>
-                    </form>
+                                    </div>
+                                </li>
+                                {{--<li>
+                                    <span>QQ</span>
+                                    <input type="text" name="qq" value="{{ $user->qq }}"
+                                        placeholder="@lang('basic.users.Enter_QQ_account')">
+                                </li>
+                                <li>
+                                    <span>@lang('basic.users.Wechat')</span>
+                                    <input type="text" name="wechat" value="{{ $user->wechat }}"
+                                        placeholder="@lang('basic.users.Enter_WeChat_account')">
+                                </li>--}}
+                                <!--<li>
+                                    <span>国家|地区码</span>
+                                    <input type="text" name="country_code" value="86">
+                                </li>-->
+                                <!--<li>
+                                    <span>手机号</span>
+                                    <input type="text" name="phone" value="13061295254">
+                                </li>-->
+                                {{--<li>--}}
+                                    {{--<span>Facebook</span>--}}
+                                    {{--<input type="text" name="facebook" value="{{ $user->facebook }}"--}}
+                                        {{--placeholder="@lang('basic.users.Enter_your_Facebook_account')">--}}
+                                {{--</li>--}}
+                                <li>
+                                    <span>@lang('basic.users.email_address')</span>
+                                    <input type="email" name="email" value="{{ $user->email }}"
+                                        placeholder="@lang('basic.users.Enter_email_address')"
+                                        required>
+                                </li>
+                                <!--<li>
+                                <span>密码</span>
+                                <input type="password" name="password" value="{{ $user->password }}">
+                            </li>
+                            <li>
+                                <label>确认密码</label>
+                                <input type="password" name="password_confirmation" value="{{ $user->password }}">
+                            </li>-->
+                            <li class="user_phone">
+                                <span class="sel_click">@lang('app.Mobile phone number')</span>
+                                <label class="reset_email">
+                                    <!--<img  class="sel_click" src="{{ asset('img/sanjiao.png') }}">-->
+                                    <select class="choose_tel_area" name="country_code">
+                                        @foreach(\App\Models\CountryCode::countryCodes() as $country_code)
+                                            @if($user->country_code == $country_code->country_code)
+                                            <option selected="selected" value="{{ $country_code->country_code }}">{{ $country_code->country_name }}</option>
+                                            @else
+                                            <option value="{{ $country_code->country_code }}">{{ $country_code->country_name }}</option>
+                                            @endif
+                                        @endforeach
+                                    </select>
+                                    <!--<span class="areaCode_choosed"></span>-->
+                                    <input id="email" type="phone" name="phone" value="{{ $user->phone }}" required
+                                        placeholder="@lang('app.Please select a country first')">
+                                </label>
+                                @if ($errors->has('phone'))
+                                    <span class="help-block">
+                                    <img src="{{ asset('img/error_fork.png') }}">
+                                    <strong>{{ $errors->first('phone') }}</strong>
+                                </span>
+                                @endif
+                            </li>
+                            </ul>
+                            <button type="submit">@lang('basic.users.Save')</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>

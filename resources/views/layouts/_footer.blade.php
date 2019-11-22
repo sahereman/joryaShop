@@ -93,7 +93,7 @@
             <div class="footer-menu">
                 <ul>
                     <li>
-                        <p class="mobile-dropdown-menu"><span>@lang('app.Company_Info')</span></p>
+                        <p class="mobile-dropdown-menu"><span>@lang('app.Company_Info')</span><span class="iconfont">&#xe605;</span></p>
                         <div class="footer-block-content">
                             <a href="{{ route('seo_url', ['slug' => 'about_us']) }}">@lang('app.About_Us')</a>
                             <a href="{{ route('seo_url', ['slug' => 'contact_us']) }}">@lang('app.Contact_Us')</a>
@@ -103,7 +103,7 @@
                         </div>
                     </li>
                     <li>
-                        <p class="mobile-dropdown-menu"><span>@lang('app.WARRANTY_SERVICES')</span></p>
+                        <p class="mobile-dropdown-menu"><span>@lang('app.WARRANTY_SERVICES')</span><span class="iconfont">&#xe605;</span></p>
                         <div class="footer-block-content">
                             <a href="{{ route('seo_url', ['slug' => 'drop_shipment']) }}">@lang('app.Drop_Shipment')</a>
                             <a href="{{ route('seo_url', ['slug' => 'production_time_&_delivery']) }}">@lang('app.Production_Time_&_Delivery')</a>
@@ -114,7 +114,7 @@
                         </div>
                     </li>
                     <li>
-                        <p class="mobile-dropdown-menu"><span>@lang('app.Help_&_Support')</span></p>
+                        <p class="mobile-dropdown-menu"><span>@lang('app.Help_&_Support')</span><span class="iconfont">&#xe605;</span></p>
                         <div class="footer-block-content">
                             <a href="{{ route('seo_url', ['slug' => 'FAQs']) }}">@lang('app.FAQs')</a>
                             <a href="{{ route('seo_url', ['slug' => 'track_my_order']) }}">@lang('app.Track_My_Order')</a>
@@ -125,7 +125,7 @@
                         </div>
                     </li>
                     <li>
-                        <p class="mobile-dropdown-menu"><span>@lang('app.MY_ACCOUNT')</span></p>
+                        <p class="mobile-dropdown-menu"><span>@lang('app.MY_ACCOUNT')</span><span class="iconfont">&#xe605;</span></p>
                         <div class="footer-block-content">
                             <a href="{{ route('seo_url', ['slug' => 'my_orders']) }}">@lang('app.My_Orders')</a>
                             <a href="{{ route('seo_url', ['slug' => 'my_coupon']) }}">@lang('app.My_Coupon')</a>
@@ -135,7 +135,7 @@
                     </li>
 
                     <li>
-                        <p class="mobile-dropdown-menu"><span>@lang('app.CUSTOM_OPTIONS')</span></p>
+                        <p class="mobile-dropdown-menu"><span>@lang('app.CUSTOM_OPTIONS')</span><span class="iconfont">&#xe605;</span></p>
                         <div class="footer-block-content">
                             <a href="{{ route('seo_url', ['slug' => 'ordering_guide']) }}">@lang('app.Ordering_Guide')</a>
                             <a href="{{ route('seo_url', ['slug' => 'how_to_make_template']) }}">@lang('app.How_to_Make_Template')</a>
