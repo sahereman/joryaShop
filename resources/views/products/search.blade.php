@@ -34,7 +34,7 @@
                     <p class="Crumbs">
                         <a href="{{ route('root') }}">@lang('basic.home')</a>
                         <span>/</span>
-                        <a  class="dynamic-path" href="javascript:void(0);"></a>
+                        <a class="dynamic-path" href="javascript:void(0);"></a>
                     </p>
                 <div class="page-title category-title">
                     {{-- 引号内添加用户搜索的关键词 --}}

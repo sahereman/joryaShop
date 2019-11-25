@@ -39,7 +39,8 @@ class ProductCategoriesController extends Controller
         $child = $category;
         while ($parent = $child->parent) {
             $crumbs = '&nbsp;<span>&nbsp;&gt;&nbsp;</span>&nbsp;<a href="'
-                . route('seo_url', ['slug' => $parent->slug])
+                // . route('seo_url', ['slug' => $parent->slug])
+                . 'javascript:void(0);'
                 . '">' . $parent->name_en . '</a>' . $crumbs;
             $child = $parent;
         }

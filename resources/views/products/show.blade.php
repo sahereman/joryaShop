@@ -13,7 +13,8 @@
                     <a href="{{ route('root') }}">@lang('basic.home')</a>
                     @if($category->parent)
                         <span>/&nbsp;</span>
-                        <a href="{{ route('seo_url', $category->parent->slug) }}">
+                        {{--<a href="{{ route('seo_url', $category->parent->slug) }}">--}}
+                        <a href="javascript:void(0);">
                             {{ App::isLocale('zh-CN') ? $category->parent->name_zh : $category->parent->name_en }}
                         </a>
                     @endif
