@@ -142,7 +142,7 @@
                     <img src="{{ asset("img/Home/classify_men.png") }}" alt="lyricalhair">
                     {{-- 底部遮罩层 --}}
                     <div class="classify-type-mask">
-                        <span>Men's Wig</span>
+                        <span>Men's Hair Systems</span>
                     </div>
                 </a>
             @endif
@@ -164,7 +164,7 @@
                     <img src="{{ asset("img/Home/classify_women.png") }}" alt="lyricalhair">
                     {{-- 底部遮罩层 --}}
                     <div class="classify-type-mask">
-                        <span>Ladies' Wig</span>
+                        <span>Women's Wigs</span>
                     </div>
                 </a>
             @endif
@@ -505,7 +505,7 @@
             function initSwiper (DomId) {
                 var productZoneswiper = new Swiper(DomId, {
                     // autoplay: true,
-                    loop: true,
+                    loop: false,
                     slidesPerView: 4,
                     spaceBetween: 30,
                     navigation: {

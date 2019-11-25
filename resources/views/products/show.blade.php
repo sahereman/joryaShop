@@ -177,7 +177,7 @@
                                     </div>
                                     <div class="sku-select-module">
                                         <div class="sku-select-value select-for-show">
-                                            <span class="sku-select-value-show">In Stock</span>
+                                            <span class="sku-select-value-show">In Stock, New with Tags</span>
                                         </div>
                                     </div>
                                 </div>
