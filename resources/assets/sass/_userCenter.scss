@@ -13,11 +13,18 @@
         margin: auto;
         margin-right: 0;
         margin-bottom: 55px;
+        @media only screen and (max-width: 750px){
+          width: 100%;
+        }
         .UserInfo-box {
             display: flex;
             width: 100%;
-            height: 160px;
+            // height: 160px;
             background-color: #fff;
+            @media only screen and (max-width: 750px){
+                padding: 10px 0;
+                flex-direction: column;
+            }
         }
         .userInfo-info {
             position: relative;
@@ -26,7 +33,10 @@
             margin-right: 5px;
             width: 280px;
             text-align: left;
-    
+            @media only screen and (max-width: 750px){
+                margin-left: 0;
+                width: 100%;
+            }
             &:after{
                 content: "";
                 height: 100px;
@@ -43,6 +53,10 @@
                 border-radius: 50%;
                 overflow: hidden;
                 margin: auto;
+                @media only screen and (max-width: 750px){
+                    margin: auto 0;
+                    margin-right: 10px;
+                }
                 img {
                     width: 100%;
                     height: 100%;
@@ -52,6 +66,9 @@
                 display: flex;
                 flex-direction: column;
                 margin: auto;
+                @media only screen and (max-width: 750px){
+                    margin-left: 0;
+                }
                 span {
                     margin-bottom: 20px;
                 }
@@ -65,7 +82,11 @@
             width: calc(100% - 300px);
             height: 160px;
             background-color: #fff;
-            overflow: hidden;
+            // overflow: hidden;
+            @media only screen and (max-width: 750px){
+                width: 100%;
+                height: auto;
+            }
             li {
                 width: 25%;
                 height: 98px;
@@ -75,9 +96,15 @@
                 transition: all .2s;
                 // padding: 0 10px;
                 cursor: pointer;
+                @media only screen and (max-width: 750px){
+                    height: auto;
+                }
                 span {
                     margin: 20px 0;
                     display: block;
+                    @media only screen and (max-width: 750px){
+                        height: 36px;
+                    }
                 } 
                 // &:hover {
                 //     box-shadow: 0 0 10px rgba(204,204,204,0.3);
@@ -102,6 +129,9 @@
                 span {
                     display: block;
                     margin-top: 10px;
+                    @media only screen and (max-width: 750px){
+                        height: 36px;
+                    }
                 }
                 img {
                     width: 56px;
@@ -196,6 +226,9 @@
                         table {
                             width: 100%;
                             text-align: center;
+                            @media only screen and (max-width: 750px){
+                                display: none;
+                            }
                             .col-pro-img {
                                 p {
                                     width: 80px;
@@ -319,6 +352,75 @@
                                 border-top: 1px solid #ebebeb;
                             }
                         }
+                        .mobile-table-show {
+                            display: none;
+                            padding: 15px 0;
+                            @media only screen and (max-width: 750px){
+                                display: block;
+                            }
+                            .mobile-table-item {
+                                display: flex;
+                                flex-direction: column;
+                                margin-bottom: 10px;
+                            }
+                            .mobile-item-info {
+                                display: flex;
+                                .item-info-img {
+                                    margin: auto;
+                                    margin-left: 10px;
+                                    width: 80px;
+                                    height: 80px;
+                                    img {
+                                        width: 100%;
+                                        height: 100%;
+                                    }
+                                }
+                                .item-info-intro {
+                                    margin: 0 auto;
+                                    width: 35%;
+                                    p {
+                                        overflow: hidden;
+                                        text-overflow: ellipsis;
+                                        display: -webkit-box;
+                                        -webkit-line-clamp: 3;
+                                        -webkit-box-orient: vertical;
+                                    }
+                                }
+                                .item-info-price {
+                                    margin: 0 auto;
+                                    margin-right: 10px;
+                                    text-align: right;
+                                }
+                            }
+                            .mobile-item-status {
+                                .total-price {
+                                    margin: 20px 0;
+                                    font-weight: 600;
+                                    text-align: right;
+                                    font-size: 14px;
+                                }
+                                .item-status {
+                                    display: flex;
+                                    justify-content: space-between;
+                                    a {
+                                        margin-left: 5px;
+                                        padding: 5px 8px;
+                                        border: 1px solid #ccc;
+                                        border-radius: 15px;
+                                        cursor: pointer;
+                                    }
+                                    .status-des {
+                                        display: flex;
+                                        span {
+                                            margin: auto;
+                                        }
+                                    }
+                                    .status-operate {
+                                        display: flex;
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -361,12 +463,18 @@
                     // overflow: hidden;
                     padding: 0 20px;
                     margin-bottom: 20px;
+                    @media only screen and (max-width: 750px){
+                        padding: 0;
+                    }
                     li {
                         position: relative;
                         width: 24%;
                         margin: 25px 5px;
                         text-align: center;
                         float: left;
+                        @media only screen and (max-width: 750px){
+                            width: 47%;
+                        }
                         .collection_shop_img {
                             width: 100%;
                             max-height: 321px;
@@ -409,6 +517,9 @@
                             border-radius: 4px;
                             margin: auto;
                             transition: all .2s;
+                            @media only screen and (max-width: 750px){
+                                width: 100%;
+                            }
                             &:hover {
                                 background-color: $hover-color;
                                 color: #fff;
@@ -443,12 +554,21 @@
         height: 75px;
         border-bottom: 1px solid #ebebeb;
         overflow: hidden;
+        @media only screen and (max-width: 750px){
+            padding: 10px 0;
+            padding-top: 0;
+            height: auto;
+        }
         p {
             font-size: 16px;
             color: #333;
             margin-left: 60px;
             margin-top: 40px;
             float: left;
+            @media only screen and (max-width: 750px){
+                margin-left: 10px;
+                margin-top: 0;
+            }
         }
     }
 }
@@ -458,6 +578,10 @@
     .UserInfo_content {
         height: 670px;
         background-color: #fff;
+        @media only screen and (max-width: 750px){
+            padding: 20px 0;
+            height: auto;
+        }
         .edit_content {
             form {
                 ul {
@@ -473,6 +597,9 @@
                             margin-left: 60px;
                             font-size: 14px;
                             color: #333;
+                            @media only screen and (max-width: 750px){
+                                margin-left: 0;
+                            }
                             &.help-block {
                                 width: 300px;
                                 margin-left: 15px;
@@ -527,6 +654,9 @@
                                 top: 50px;
                                 left: 230px;
                                 cursor: pointer;
+                                @media only screen and (max-width: 750px){
+                                    left: 170px;
+                                }
                             }
                         }
                         &.sexChoose {
@@ -624,6 +754,9 @@
                     background-color: $commom-color;
                     margin-left: 177px;
                     font-size: 16px;
+                    @media only screen and (max-width: 750px){
+                        margin-left: 10%;
+                    }
                 }
             }
         }
@@ -635,6 +768,10 @@
     .UserInfo_content {
         height: 595px;
         background-color: #fff;
+        @media only screen and (max-width: 750px){
+            padding: 20px 0;
+            height: auto;
+        }
         .psw_edit_content {
             form {
                 ul {
@@ -650,6 +787,9 @@
                             margin-left: 60px;
                             font-size: 14px;
                             color: #333;
+                            @media only screen and (max-width: 750px){
+                                margin-left: 0;
+                            }
                             &.help-block {
                                 width: 200px;
                                 margin-left: 15px;
@@ -694,6 +834,9 @@
                     background-color: $commom-color;
                     margin-left: 177px;
                     font-size: 16px;
+                    @media only screen and (max-width: 750px){
+                        margin-left: 10%;
+                    }
                 }
             }
         }

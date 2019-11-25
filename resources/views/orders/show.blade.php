@@ -339,6 +339,60 @@
                             @endforeach
                             </tbody>
                         </table>
+                        {{-- 移动端展示 --}}
+                        <div class="mobile-table-show">
+                            @foreach($order->snapshot as $key => $order_item)
+                                <div class="mobile-table-item">
+                                    <div class="mobile-item-info">
+                                        <div class="item-info-img">
+                                            <a href="{{ route('seo_url', $order_item['sku']['product']['slug']) }}">
+                                                <img src="{{ $order_item['sku']['product']['thumb_url'] }}">
+                                            </a>
+                                        </div>
+                                        <div class="item-info-intro">
+                                            <p>
+                                                <a class="commodity_description"
+                                                href="{{ route('seo_url', $order_item['sku']['product']['slug']) }}">
+                                                    {{ App::isLocale('zh-CN') ? $order_item['sku']['product']['name_zh'] : $order_item['sku']['product']['name_en'] }}
+                                                </a>
+                                            </p>
+                                        </div>
+                                        <div class="item-info-price">
+                                            <p class="p-price">
+                                                <span>{{ get_symbol_by_currency($order->currency) }}</span>
+                                                <span>{{ $order_item['price'] }}</span>
+                                            </p>
+                                            <p class="p-number">
+                                                <span>&#215;</span>
+                                                <span>{{ $order_item['number'] }}</span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                            <div class="mobile-item-status">
+                                <div class="item-status">
+                                    <div class="status-des">
+                                        <span>Order Status：</span>
+                                        @if($order->status == \App\Models\Order::ORDER_STATUS_PAYING)
+                                            <span>@lang('basic.orders.Pending payment')</span>
+                                        @elseif($order->status == \App\Models\Order::ORDER_STATUS_CLOSED)
+                                            <span>@lang('basic.orders.Closed')</span>
+                                        @elseif($order->status == \App\Models\Order::ORDER_STATUS_SHIPPING)
+                                            <span>@lang('basic.orders.Pending shipment')</span>
+                                        @elseif($order->status == \App\Models\Order::ORDER_STATUS_RECEIVING)
+                                            <span>@lang('basic.orders.Pending reception')</span>
+                                        @elseif($order->status == \App\Models\Order::ORDER_STATUS_COMPLETED && $order->commented_at == null)
+                                            <span>@lang('basic.orders.Pending comment')</span>
+                                        @elseif($order->status == \App\Models\Order::ORDER_STATUS_COMPLETED && $order->commented_at != null)
+                                            <span>@lang('basic.orders.Completed')</span>
+                                        @elseif($order->status == \App\Models\Order::ORDER_STATUS_REFUNDING)
+                                            <span>@lang('basic.orders.After-sale order')</span>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <div class="order_settlement">
                             <p class="commodity_cost">
                                 <span class="title">@lang('order.Total product')：</span>

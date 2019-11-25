@@ -28,7 +28,7 @@
                             <!--存在收货地址列表-->
                     <div class="receive_address">
                         <div class="address_note">
-                            <div class="pull-left">
+                            <div class="note-left">
                                 <p>
                                     @lang('basic.users.Stored shipping address')
                                     （@lang('basic.users.Up to'){{ $max }}
@@ -36,7 +36,7 @@
                                     <span class="residual">{{ $max - $count }}</span>）
                                 </p>
                             </div>
-                            <div class="pull-right">
+                            <div class="">
                                 <a class="new_address">+@lang('basic.address.The new address')</a>
                             </div>
                         </div>

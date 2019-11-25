@@ -16,10 +16,16 @@
     width: 100%;
     display: flex;
     padding-bottom: 100px;
+    @media only screen and (max-width: 750px){
+      flex-direction: column;
+    }
   }
   .orders-left {
     margin: 0 auto 0 0;
     width: 75%;
+    @media only screen and (max-width: 750px){
+      width: 100%;
+    }
     // 商品相关
     .products-part {
       padding: 20px;
@@ -37,9 +43,20 @@
           display: inline-block;
           width: 10%;
           text-align: right;
+          @media only screen and (max-width: 750px){
+            width: 20%;
+          }
           &.products-title-item {
-            width: 79%;
+            width: 68%;
             text-align: left;
+            @media only screen and (max-width: 750px){
+              width: 57%;
+            }
+          }
+          &.products-title-amount {
+            @media only screen and (max-width: 750px){
+              display: none;
+            }
           }
         }
       }
@@ -56,10 +73,14 @@
           margin-bottom: 15px;
           .product {
             display: flex;
-            width: 79%;
+            width: 69%;
             .product-img {
               width: 120px;
               margin-right: 17px;
+              @media only screen and (max-width: 750px){
+                width: 60px;
+                margin-right: 10px;
+              }
               img {
                 width: 100%;
               }
@@ -69,6 +90,29 @@
               color: #666;
               line-height: 24px;
               font-size: 14px;
+              @media only screen and (max-width: 750px){
+                width: calc(100% - 80px);
+              }
+              span,
+              p {
+                @media only screen and (max-width: 750px){
+                  overflow: hidden;
+                  text-overflow: ellipsis;
+                  display: -webkit-box;
+                  -webkit-line-clamp: 2;
+                  -webkit-box-orient: vertical;
+                }
+              }
+            }
+          }
+          .product-Spec {
+            width: 10%;
+            text-align: right;
+            color: #666;
+            line-height: 24px;
+            font-size: 14px;
+            @media only screen and (max-width: 750px){
+              width: 18%;
             }
           }
           .product-qty {
@@ -89,6 +133,9 @@
             line-height: 24px;
             font-weight: 400;
             font-size: 14px;
+            @media only screen and (max-width: 750px){
+              display: none;
+            }
           }
         }
         // 详情
@@ -96,6 +143,9 @@
           width: calc(100% - 130px);
           margin: auto;
           margin-right: 0;
+          @media only screen and (max-width: 750px){
+            width: 100%;
+          }
           .order-detail-title {
             height: 40px;
             background-color: #eee;
@@ -416,6 +466,9 @@
     width: 23%;
     background-color: #fff;
     height: fit-content;
+    @media only screen and (max-width: 750px){
+      width: 100%;
+    }
     .order-note {
       margin-bottom: 30px;
       .order-note-title {

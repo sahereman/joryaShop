@@ -18,6 +18,7 @@
                         {{-- 标题 --}}
                         <div class="products-part-title">
                             <span class="products-title-item">Item</span>
+                            <span class="products-title-Spec">Specification</span>
                             <span class="products-title-qty">QTY</span>
                             <span class="products-title-amount">AMount</span>
                         </div>
@@ -38,7 +39,15 @@
                                             <div class="product-info">
                                                 <a class="cur_p" href="javascript:void (0)">
                                                     <span>{{ App::isLocale('zh-CN') ? $item['product']->name_zh : $item['product']->name_en }}</span>
+                                                    <p>{!! App::isLocale('zh-CN') ? $item['product']->sub_name_zh : $item['product']->sub_name_en !!}</p>
                                                 </a>
+                                            </div>
+                                        </div>
+                                        {{-- 商品单价 Specification--}}
+                                        <div class="product-Spec">
+                                            <div class="amount-price">
+                                                <span>{{ get_global_symbol() }}</span>
+                                                <span class="single-price">{{ $item['sku']->price }}</span>
                                             </div>
                                         </div>
                                         {{-- 商品数量 --}}

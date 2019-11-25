@@ -2,8 +2,8 @@
 @section('title', (App::isLocale('zh-CN') ? '个人中心 - 我的订单' : 'Personal Center - My Orders') . ' - ' . \App\Models\Config::config('title'))
 @section('content')
     <div class="evaluate_commont">
-        <div class="m-wrapper">
-            <div>
+        <div class="main-content">
+            <div class="Crumbs-box">
                 <p class="Crumbs">
                     <a href="{{ route('root') }}">@lang('basic.home')</a>
                     <span>></span>
@@ -16,117 +16,149 @@
                     <a href="javascript:void(0);">@lang('basic.users.feedback')</a>
                 </p>
             </div>
-            <!--左侧导航栏-->
-            @include('users._left_navigation')
-                    <!--右侧内容-->
-            <div class="comment_content">
-                @foreach ($order->snapshot as $order_item)
-                    <div class="evaluation_order">
-                        <table>
-                            <thead>
-                            <th></th>
-                            <th>@lang('product.comments.commodity')</th>
-                            <th>@lang('product.comments.specification')</th>
-                            {{--<th>@lang('product.comments.Unit Price')</th>--}}
-                            <th>@lang('product.comments.Quantity')</th>
-                            <th>@lang('product.comments.Subtotal')</th>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <td class="col-pro-img">
-                                    <a href="{{ route('seo_url', $order_item['sku']['product']['slug']) }}">
-                                        <img src="{{ $order_item['sku']['product']['thumb_url'] }}">
-                                    </a>
-                                </td>
-                                <td class="col-pro-info">
-                                    <p class="p-info">
-                                        <a class="commodity_description"
-                                           href="{{ route('seo_url', $order_item['sku']['product']['slug']) }}">
-                                            {{ App::isLocale('zh-CN') ? $order_item['sku']['product']['name_zh'] : $order_item['sku']['product']['name_en'] }}
+            <div class="evaluate-commont-content">
+                <!--左侧导航栏-->
+                @include('users._left_navigation')
+                <!--右侧内容-->
+                <div class="comment_content">
+                    @foreach ($order->snapshot as $order_item)
+                        <div class="evaluation_order">
+                            <table>
+                                <thead>
+                                <th></th>
+                                <th>@lang('product.comments.commodity')</th>
+                                <th>@lang('product.comments.specification')</th>
+                                {{--<th>@lang('product.comments.Unit Price')</th>--}}
+                                <th>@lang('product.comments.Quantity')</th>
+                                <th>@lang('product.comments.Subtotal')</th>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td class="col-pro-img">
+                                        <a href="{{ route('seo_url', $order_item['sku']['product']['slug']) }}">
+                                            <img src="{{ $order_item['sku']['product']['thumb_url'] }}">
                                         </a>
-                                    </p>
-                                </td>
-                                {{--<td class="col-pro-speci">--}}
-                                    {{--<p class="p-info">--}}
-                                        {{--<a class="specifications"--}}
-                                           {{--href="{{ route('seo_url', $order_item['sku']['product']['slug']) }}">--}}
+                                    </td>
+                                    <td class="col-pro-info">
+                                        <p class="p-info">
+                                            <a class="commodity_description"
+                                            href="{{ route('seo_url', $order_item['sku']['product']['slug']) }}">
+                                                {{ App::isLocale('zh-CN') ? $order_item['sku']['product']['name_zh'] : $order_item['sku']['product']['name_en'] }}
+                                            </a>
+                                        </p>
+                                    </td>
+                                    {{--<td class="col-pro-speci">--}}
+                                        {{--<p class="p-info">--}}
+                                            {{--<a class="specifications"--}}
+                                            {{--href="{{ route('seo_url', $order_item['sku']['product']['slug']) }}">--}}
+                                                {{--{{ App::isLocale('en') ? $order_item['sku']['name_en'] : $order_item['sku']['name_zh'] }}--}}
+                                                {{--@if($order_item['sku']['product']['type'] == \App\Models\Product::PRODUCT_TYPE_CUSTOM)--}}
+                                                    {{--{{ $order_item['sku']['custom_attr_value_string'] }}--}}
+                                                {{--@else--}}
+                                                    {{--{{ $order_item['sku']['attr_value_string'] }}--}}
+                                                {{--@endif--}}
+                                            {{--</a>--}}
+                                        {{--</p>--}}
+                                    {{--</td>--}}
+                                    <td class="col-price">
+                                        <p class="p-price">
+                                            {{--<em>{{ App::isLocale('en') ? '&#36;' : '&#165;' }}</em>--}}
+                                            <em>{{ get_symbol_by_currency($order->currency) }}</em>
+                                            <span>{{ $order_item['price'] }}</span>
+                                        </p>
+                                    </td>
+                                    <td class="col-quty">
+                                        <p>{{ $order_item['number'] }}</p>
+                                    </td>
+                                    <td class="col-pay">
+                                        <p>
+                                            {{--<em>{{ App::isLocale('en') ? '&#36;' : '&#165;' }}</em>--}}
+                                            <em>{{ get_symbol_by_currency($order->currency) }}</em>
+                                            <span>{{ $order_item['price'] * $order_item['number'] }}</span>
+                                        </p>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            {{-- 移动端展示 --}}
+                            <div class="mobile-table-show">
+                                <div class="mobile-table-item">
+                                    <div class="mobile-item-info">
+                                        <div class="item-info-img">
+                                            <a href="{{ route('seo_url', $order_item['sku']['product']['slug']) }}">
+                                                <img src="{{ $order_item['sku']['product']['thumb_url'] }}">
+                                            </a>
+                                        </div>
+                                        <div class="item-info-intro">
+                                            <p>
+                                                <a class="commodity_description"
+                                                href="{{ route('seo_url', $order_item['sku']['product']['slug']) }}">
+                                                    {{ App::isLocale('zh-CN') ? $order_item['sku']['product']['name_zh'] : $order_item['sku']['product']['name_en'] }}
+                                                </a>
+                                            </p>
+                                        </div>
+                                        <div class="item-info-price">
+                                            <p class="p-price">
+                                                <span>{{ get_symbol_by_currency($order->currency) }}</span>
+                                                <span>{{ $order_item['price'] }}</span>
+                                            </p>
+                                            <p class="p-number">
+                                                <span>&#215;</span>
+                                                <span>{{ $order_item['number'] }}</span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="evaluation_results">
+                                <div class="evaluation_results_left">
+                                    <div class="eva_user_img">
+                                        <img src="{{ $user->avatar_url }}">
+                                    </div>
+                                    <span>{{ $user->name }}</span>
+                                </div>
+                                <div class="evaluation_results_right">
+                                    <div class="five_star_evaluation">
+                                        <div class="five_star_one star_area">
+                                            <div class="starability-basic">
+                                                <img src="{{ asset('img/star-' . $comments[$order_item['id']][0]['composite_index'] . '.png') }}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {{--<p class="product_parameters">--}}
+                                        {{--<span>--}}
                                             {{--{{ App::isLocale('en') ? $order_item['sku']['name_en'] : $order_item['sku']['name_zh'] }}--}}
                                             {{--@if($order_item['sku']['product']['type'] == \App\Models\Product::PRODUCT_TYPE_CUSTOM)--}}
                                                 {{--{{ $order_item['sku']['custom_attr_value_string'] }}--}}
                                             {{--@else--}}
                                                 {{--{{ $order_item['sku']['attr_value_string'] }}--}}
                                             {{--@endif--}}
-                                        {{--</a>--}}
+                                        {{--</span>--}}
                                     {{--</p>--}}
-                                {{--</td>--}}
-                                <td class="col-price">
-                                    <p class="p-price">
-                                        {{--<em>{{ App::isLocale('en') ? '&#36;' : '&#165;' }}</em>--}}
-                                        <em>{{ get_symbol_by_currency($order->currency) }}</em>
-                                        <span>{{ $order_item['price'] }}</span>
-                                    </p>
-                                </td>
-                                <td class="col-quty">
-                                    <p>{{ $order_item['number'] }}</p>
-                                </td>
-                                <td class="col-pay">
-                                    <p>
-                                        {{--<em>{{ App::isLocale('en') ? '&#36;' : '&#165;' }}</em>--}}
-                                        <em>{{ get_symbol_by_currency($order->currency) }}</em>
-                                        <span>{{ $order_item['price'] * $order_item['number'] }}</span>
-                                    </p>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
-                        <div class="evaluation_results">
-                            <div class="evaluation_results_left">
-                                <div class="eva_user_img">
-                                    <img src="{{ $user->avatar_url }}">
-                                </div>
-                                <span>{{ $user->name }}</span>
-                            </div>
-                            <div class="evaluation_results_right">
-                                <div class="five_star_evaluation">
-                                    <div class="five_star_one star_area">
-                                        <div class="starability-basic">
-                                            <img src="{{ asset('img/star-' . $comments[$order_item['id']][0]['composite_index'] . '.png') }}">
-                                        </div>
+                                    <p class="eva_text">{{ $comments[$order_item['id']][0]->content }}</p>
+                                    <div class="tm-m-photos">
+                                        <ul class="evaluation_img">
+                                            @foreach($comments[$order_item['id']][0]->photo_urls as $photo_url)
+                                                <li class="eva_img" data-src="{{ $photo_url }}">
+                                                    <img src="{{ $photo_url }}">
+                                                    <b class="tm-photos-arrow"></b>
+                                                </li>
+                                            @endforeach
+                                        </ul>
+                                        {{--<div class="evaluation_img_viewer">
+                                            <img src="{{ asset('img/eva_img.png') }}">
+                                            <a class="tm-m-photo-viewer-navleft" style="cursor: default;"> <i class="tm-m-photo-viewer-navicon arrow-left">&lt;</i> </a>
+                                            <a class="tm-m-photo-viewer-navright" style="cursor: pointer;"> <i class="tm-m-photo-viewer-navicon arrow-right">&gt;</i> </a>
+                                        </div>--}}
                                     </div>
+                                    <p class="eva_time">
+                                        {{ $comments[$order_item['id']][0]->created_at }}
+                                    </p>
                                 </div>
-                                {{--<p class="product_parameters">--}}
-                                    {{--<span>--}}
-                                        {{--{{ App::isLocale('en') ? $order_item['sku']['name_en'] : $order_item['sku']['name_zh'] }}--}}
-                                        {{--@if($order_item['sku']['product']['type'] == \App\Models\Product::PRODUCT_TYPE_CUSTOM)--}}
-                                            {{--{{ $order_item['sku']['custom_attr_value_string'] }}--}}
-                                        {{--@else--}}
-                                            {{--{{ $order_item['sku']['attr_value_string'] }}--}}
-                                        {{--@endif--}}
-                                    {{--</span>--}}
-                                {{--</p>--}}
-                                <p class="eva_text">{{ $comments[$order_item['id']][0]->content }}</p>
-                                <div class="tm-m-photos">
-                                    <ul class="evaluation_img">
-                                        @foreach($comments[$order_item['id']][0]->photo_urls as $photo_url)
-                                            <li class="eva_img" data-src="{{ $photo_url }}">
-                                                <img src="{{ $photo_url }}">
-                                                <b class="tm-photos-arrow"></b>
-                                            </li>
-                                        @endforeach
-                                    </ul>
-                                    {{--<div class="evaluation_img_viewer">
-                                        <img src="{{ asset('img/eva_img.png') }}">
-                                        <a class="tm-m-photo-viewer-navleft" style="cursor: default;"> <i class="tm-m-photo-viewer-navicon arrow-left">&lt;</i> </a>
-                                        <a class="tm-m-photo-viewer-navright" style="cursor: pointer;"> <i class="tm-m-photo-viewer-navicon arrow-right">&gt;</i> </a>
-                                    </div>--}}
-                                </div>
-                                <p class="eva_time">
-                                    {{ $comments[$order_item['id']][0]->created_at }}
-                                </p>
                             </div>
                         </div>
-                    </div>
-                @endforeach
+                    @endforeach
+                </div>
             </div>
         </div>
     </div>

@@ -281,6 +281,121 @@
                                             @endforeach
                                             </tbody>
                                         </table>
+                                        {{-- 移动端展示 --}}
+                                        <div class="mobile-table-show">
+                                            @foreach($order->items as $key => $item)
+                                                <div class="mobile-table-item">
+                                                    <div class="mobile-item-info">
+                                                        <div class="item-info-img">
+                                                            <a href="{{ route('seo_url', $item->sku->product->slug) }}">
+                                                                <img src="{{ $item->sku->product->thumb_url }}">
+                                                            </a>
+                                                        </div>
+                                                        <div class="item-info-intro">
+                                                            <p>
+                                                                <a code="{{ $item->sku->id }}"
+                                                                    href="{{ route('seo_url', $item->sku->product->slug) }}">{{ App::isLocale('zh-CN') ? $item->sku->product->name_zh : $item->sku->product->name_en }}</a>
+                                                            </p>
+                                                        </div>
+                                                        <div class="item-info-price">
+                                                            <p class="p-price">
+                                                                <em>{{ get_symbol_by_currency($order->currency) }} </em>
+                                                                <span>{{ $item->price }}</span>
+                                                            </p>
+                                                            <p class="p-number">
+                                                                <span>&#215;</span>
+                                                                <span>{{ $item->number }}</span>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            @endforeach
+                                            <div class="mobile-item-status">
+                                                <div class="total-price">
+                                                    <p>
+                                                        <em>{{ get_symbol_by_currency($order->currency) }} </em>
+                                                        <span>{{ bcadd($order->total_amount, $order->total_shipping_fee, 2) }}</span>
+                                                        <span>(@lang('order.Postage included'))</span>
+                                                    </p>
+                                                </div>
+                                                <div class="item-status">
+                                                    <div class="status-des">
+                                                        @if($order->status == \App\Models\Order::ORDER_STATUS_PAYING)
+                                                            <span>@lang('basic.orders.Pending payment')</span>
+                                                        @elseif($order->status == \App\Models\Order::ORDER_STATUS_CLOSED)
+                                                            <span>@lang('basic.orders.Closed')</span>
+                                                        @elseif($order->status == \App\Models\Order::ORDER_STATUS_SHIPPING)
+                                                            <span>@lang('basic.orders.Pending shipment')</span>
+                                                        @elseif($order->status == \App\Models\Order::ORDER_STATUS_RECEIVING)
+                                                            <span>@lang('basic.orders.Pending reception')</span>
+                                                        @elseif($order->status == \App\Models\Order::ORDER_STATUS_COMPLETED && $order->commented_at == null)
+                                                            <span>@lang('basic.orders.Pending comment')</span>
+                                                        @elseif($order->status == \App\Models\Order::ORDER_STATUS_COMPLETED && $order->commented_at != null)
+                                                            <span>@lang('basic.orders.Completed')</span>
+                                                        @elseif($order->status == \App\Models\Order::ORDER_STATUS_REFUNDING)
+                                                            <span>@lang('basic.orders.After-sale order')</span>
+                                                        @endif
+                                                    </div>
+                                                    <div class="status-operate">
+                                                        @if($order->status == \App\Models\Order::ORDER_STATUS_PAYING)
+                                                            <!--订单待支付-->
+                                                        <!--付款或再次购买隐藏显示取消订单-->
+                                                        <!--系统自动关闭订单倒计时-->
+                                                        {{-- <span id="{{ $order->order_sn }}" mark="{{ $order->order_sn }}"
+                                                            class="paying_time count_down"
+                                                            created_at="{{ strtotime($order->created_at) }}"
+                                                            time_to_close_order="{{ \App\Models\Config::config('time_to_close_order') * 60 }}"
+                                                            seconds_to_close_order="{{ (strtotime($order->created_at) + \App\Models\Order::getSecondsToCloseOrder() - time()) > 0 ? (strtotime($order->created_at) + \App\Models\Order::getSecondsToCloseOrder() - time()) : 0 }}">
+                                                            {{ generate_order_ttl_message($order->create_at, \App\Models\Order::ORDER_STATUS_PAYING) }}
+                                                        </span> --}}
+                                                        <a class="payment"
+                                                        href="{{ route('payments.method', ['payment' => $order->payment_id]) }}">@lang('basic.orders.payment')</a>
+                                                        <a class="cancellation"
+                                                        code="{{ route('orders.close', ['order' => $order->id]) }}">@lang('basic.orders.cancel order')</a>
+                                                        @elseif($order->status == \App\Models\Order::ORDER_STATUS_CLOSED)
+                                                                <!--再次购买-->
+                                                        <a class="Buy_again"
+                                                        data-url="{{ route('carts.store') }}">@lang('basic.orders.buy again')</a>
+                                                        @elseif($order->status == \App\Models\Order::ORDER_STATUS_SHIPPING)
+                                                                <!--订单待发货-->
+                                                        <a class="reminding_shipments">@lang('basic.orders.Remind shipments')</a>
+                                                        @elseif($order->status == \App\Models\Order::ORDER_STATUS_RECEIVING)
+                                                                <!--订单待收货-->
+                                                        <!--确认收货-->
+                                                        <!--系统自动确认订单倒计时-->
+                                                        {{-- <span id="{{ $order->order_sn }}" mark="{{ $order->order_sn }}"
+                                                            class="tobe_received_count count_down"
+                                                            shipped_at="{{ strtotime($order->shipped_at) }}"
+                                                            time_to_complete_order="{{ \App\Models\Config::config('time_to_complete_order') * 3600 * 24 }}"
+                                                            seconds_to_complete_order="{{ (strtotime($order->shipped_at) + \App\Models\Order::getSecondsToCompleteOrder() - time()) > 0 ? (strtotime($order->shipped_at) + \App\Models\Order::getSecondsToCompleteOrder() - time()) : 0 }}">
+                                                            {{ generate_order_ttl_message($order->shipped_at, \App\Models\Order::ORDER_STATUS_RECEIVING) }}
+                                                        </span> --}}
+                                                        <a class="confirmation_receipt"
+                                                        code="{{ route('orders.complete', ['order' => $order->id]) }}">@lang('basic.orders.Confirm reception')</a>
+                                                        @elseif($order->status == \App\Models\Order::ORDER_STATUS_COMPLETED && $order->commented_at == null)
+                                                                <!--订单待评价-->
+                                                        <a class="evaluate"
+                                                        href="{{ route('orders.create_comment', ['order' => $order->id]) }}">@lang('basic.orders.To comment')</a>
+                                                        <!--再次购买-->
+                                                        <a class="buy_more"
+                                                        data-url="{{ route('carts.store') }}">@lang('basic.orders.buy again')</a>
+                                                        @elseif($order->status == \App\Models\Order::ORDER_STATUS_COMPLETED && $order->commented_at != null)
+                                                                <!--订单已评价-->
+                                                        <!--查看评价-->
+                                                        <a class="View_evaluation"
+                                                        href="{{  route('orders.show_comment', ['order' => $order->id]) }}">@lang('basic.orders.View comments')</a>
+                                                        <!--再次购买-->
+                                                        <a class="buy_more"
+                                                        data-url="{{ route('carts.store') }}">@lang('basic.orders.buy again')</a>
+                                                        @elseif($order->status == \App\Models\Order::ORDER_STATUS_REFUNDING)
+                                                                <!--再次购买-->
+                                                        <a class="Buy_again"
+                                                        data-url="{{ route('carts.store') }}">@lang('basic.orders.buy again')</a>
+                                                        @endif
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             @endforeach

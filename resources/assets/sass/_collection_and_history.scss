@@ -16,6 +16,9 @@
         // float: right;
         margin: auto;
         margin-bottom: 55px;
+        @media only screen and (max-width: 750px){
+            width: 100%;
+        }
         .no_collectionList {
             width: 100%;
             text-align: center;
@@ -38,12 +41,18 @@
                     overflow: hidden;
                     padding: 0 20px;
                     margin-bottom: 20px;
+                    @media only screen and (max-width: 750px){
+                        padding: 0;
+                    }
                     li {
                         position: relative;
                         width: 23%;
                         margin: 25px 5px;
                         text-align: center;
                         float: left;
+                        @media only screen and (max-width: 750px){
+                            width: 47%;
+                        }
                         .collection_shop_img {
                             width: 100%;
 //                          height: 230px;
@@ -87,6 +96,9 @@
                             border-radius: 4px;
                             margin: auto;
                             transition: all .2s;
+                            @media only screen and (max-width: 750px){
+                                width: 100%;
+                            }
                             &:hover {
                                 background-color: $hover-color;
                                 color: #fff;

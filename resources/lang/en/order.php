@@ -62,6 +62,7 @@ return [
     'Delete order' => 'Delete order',
     'View comments' => 'View comments',
     'Transaction closed' => 'Transaction closed',
+    'Transaction complete' => 'Transaction complete',
     'After sale' => 'After sale',
     'View after sales status' => 'View after sales status',
     'Revoke the refund application' => 'Revoke the refund application',

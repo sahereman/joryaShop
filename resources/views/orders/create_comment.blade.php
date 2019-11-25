@@ -84,6 +84,36 @@
                                     </tr>
                                     </tbody>
                                 </table>
+                                 {{-- 移动端展示 --}}
+                                <div class="mobile-table-show">
+                                    <div class="mobile-table-item">
+                                        <div class="mobile-item-info">
+                                            <div class="item-info-img">
+                                                <a href="{{ route('seo_url', $order_item['sku']['product']['slug']) }}">
+                                                    <img src="{{ $order_item['sku']['product']['thumb_url'] }}">
+                                                </a>
+                                            </div>
+                                            <div class="item-info-intro">
+                                                <p>
+                                                    <a class="commodity_description"
+                                                    href="{{ route('seo_url', $order_item['sku']['product']['slug']) }}">
+                                                        {{ App::isLocale('zh-CN') ? $order_item['sku']['product']['name_zh'] : $order_item['sku']['product']['name_en'] }}
+                                                    </a>
+                                                </p>
+                                            </div>
+                                            <div class="item-info-price">
+                                                <p class="p-price">
+                                                    <span>{{ get_symbol_by_currency($order->currency) }}</span>
+                                                    <span>{{ $order_item['price'] }}</span>
+                                                </p>
+                                                <p class="p-number">
+                                                    <span>&#215;</span>
+                                                    <span>{{ $order_item['number'] }}</span>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="evaluation_content">
                                     <p class="evaluat_title">@lang('product.comments.Please fill in your valuable suggestions')</p>
                                     {{--**
