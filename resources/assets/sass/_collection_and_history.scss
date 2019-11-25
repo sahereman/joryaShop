@@ -149,17 +149,17 @@
                     width: 17px;
                     height: 17px;
                     left: 25px;
-                    top: 8px;
+                    top: 2px;
                 }
-                &:after {
-                    content: '';
-                    position: absolute;
-                    width: 805px;
-                    height: 1px;
-                    border-top: 1px solid #ebebeb;
-                    right: 25px;
-                    top: 18px;
-                }
+                // &:after {
+                //     content: '';
+                //     position: absolute;
+                //     width: 805px;
+                //     height: 1px;
+                //     border-top: 1px solid #ebebeb;
+                //     right: 25px;
+                //     top: 18px;
+                // }
             }
         }
         .paging_box {

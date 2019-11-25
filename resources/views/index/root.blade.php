@@ -252,7 +252,7 @@
                     <div class="why-lyrical-top main-content">
                         <div class="top-text">
                             {{-- <p class="why-lyrical-title">WHY CHOOSE LYRICALHAIR</p> --}}
-                            <p class="part-title">
+                            <p class="part-title why-lyrical-title">
                                 <img class="why-lyrical-img" src="{{ asset("img/Home/WHYCHOOSELYRICALHAIR.png") }}" alt="lyricalhair">
                             </p>
                             <a class="why-lyrical-link" href="{{ route('why_lyricalhair') }}">More details >></a>
