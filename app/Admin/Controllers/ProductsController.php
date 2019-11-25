@@ -959,18 +959,18 @@ class ProductsController extends Controller
             $files = [];
         }
 
-        /*foreach ($skus as $sku_id => $sku) {
-            if ($sku['stock_increment']) {
+        foreach ($skus as $sku_id => $sku) {
+            /*if ($sku['stock_increment']) {
                 $sku['stock'] += $sku['stock_increment'];
             }
             if ($sku['stock_decrement']) {
                 $sku['stock'] -= $sku['stock_decrement'];
-            }
+            }*/
             unset($sku['stock_increment']);
             unset($sku['stock_decrement']);
             ProductSku::find($sku_id)->update($sku);
-            $stock += $sku['stock'];
-        }*/
+            // $stock += $sku['stock'];
+        }
 
         foreach ($files as $sku_id => $file) {
             $path = $handler->uploadOriginal($file['photo']);
