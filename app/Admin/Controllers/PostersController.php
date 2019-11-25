@@ -159,7 +159,8 @@ class PostersController extends Controller
             ->uniqueName()
             ->removable()
             ->move('posters')
-            ->rules('required|image');
+            // ->rules('required|image');
+            ->rules('image');
 
         $form->text('name', '名称')->rules('required')->help('名称可随意更改');
 
