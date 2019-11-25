@@ -401,7 +401,10 @@
                             {{-- 用来存放后台返回的的iframe的数据或者富文本 --}}
                             {!! $product->content_en !!}
                         </div>
-                        <p class="category-iframe-title">Category</p>
+                        <div class="category-description-title">
+                            <p class="category-iframe-title">Category</p>
+                            <p class="category-iframe-title title-description">Item description</p>
+                        </div>
                         <div class="category-iframe">
                             {{-- 分类导航 --}}
                             @if($sub_categories)
@@ -421,7 +424,6 @@
                             {{-- 详情内容 --}}
                             <div class="particulars-content">
                                 {{-- 页面实际展示的部分，用js进行页面渲染 --}}
-                                <h3>Item description</h3>
                                 <iframe name="cmsCon" id="cmsCon" class="cmsCon" frameborder="0" width="100%" scrolling="no" height="auto"></iframe>
                             </div>
                         </div>

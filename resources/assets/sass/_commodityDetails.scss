@@ -1233,6 +1233,7 @@
                           }
                           .info_table_name {
                             min-width: 135px;
+                            max-width: 135px;
                             font-weight: 600;
                             @media only screen and (max-width: 750px){
                               min-width: 65px;
@@ -1246,11 +1247,18 @@
                       }
                     }
                     // 详情内的导航
+                    .category-description-title {
+                      display: flex;
+                    }
                     .category-iframe-title {
                       position: relative;
                       padding: 0 20px;
                       margin-bottom: 25px;
+                      width: 240px;
                       font-size: 20px;
+                      @media only screen and (max-width: 750px){
+                        display: none;
+                      }
                       &::before {
                         content: '';
                         position: absolute;
@@ -1259,6 +1267,13 @@
                         background-color: #c30e15;
                         top: 0;
                         left: 0;
+                      }
+                      &.title-description {
+                        margin-left: 30px;
+                        @media only screen and (max-width: 750px){
+                          margin-left: 10px;
+                          display: block;
+                        }
                       }
                     }
                     .category-iframe {

@@ -164,7 +164,7 @@
                     <img src="{{ asset("img/Home/classify_women.png") }}" alt="lyricalhair">
                     {{-- 底部遮罩层 --}}
                     <div class="classify-type-mask">
-                        <span>Women's Wigs</span>
+                        <span>Women's Wigs and Hairpieces</span>
                     </div>
                 </a>
             @endif
