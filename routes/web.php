@@ -230,7 +230,7 @@ Route::get('products/{product}/comment', 'ProductsController@comment')->name('pr
 Route::get('products/{product}/{slug?}', 'ProductsController@show')->name('products.show'); // 商品详情页
 Route::post('products/{product}/share', 'ProductsController@share')->name('products.share'); // 发送商品分享邮件 [for Ajax request]
 Route::post('products/{product}/search_by_sku_attr', 'ProductsController@searchBySkuAttr')->name('products.search_by_sku_attr'); // 筛选可用的 SKU 属性值
-Route::get('products/{product}/get_shipping_fee', 'ProductsController@getShippingFee')->name('products.get_shipping_fee'); // 获得在某地址下购买某数量商品的运费 [for Ajax request]
+Route::post('products/{product}/get_shipping_fee', 'ProductsController@getShippingFee')->name('products.get_shipping_fee'); // 获得在某地址下购买某数量商品的运费 [for Ajax request]
 
 /*购物车*/
 Route::get('carts', 'CartsController@index')->name('carts.index'); // 购物车

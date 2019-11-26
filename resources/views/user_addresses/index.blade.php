@@ -84,6 +84,22 @@
                                 @endforeach
                                 </tbody>
                             </table>
+                            {{-- 移动端展示 --}}
+                            <div class="mobile-table">
+                                <ul class="address-list-items">
+                                    @foreach($addresses as $address)
+                                      <li>
+                                          <div class="item-name-phone">
+                                              <div class="item-address-name address_name">{{ $address->name }}</div>
+                                              <div class="item-address-tel address_tel">{{ $address->phone }}</div>
+                                          </div>
+                                          <div class="item-address-info">
+                                              <div class="address_info">{{ $address->full_address }}</div>
+                                          </div>
+                                      </li>
+                                    @endforeach
+                                </ul>
+                            </div>
                         </div>
                     </div>
                     @endif
@@ -446,7 +462,12 @@
 
             //点击新建收货地址
             $(".new_address").on("click", function () {
-                var areaWidth = ['900px', '500px']
+                var areaWidth = ['900px', '500px'];
+                if(/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
+                    areaWidth = ['100%','500px'];
+                } else {
+                    areaWidth = ['900px', '500px'];
+                }
                 layer.open({
                     title: ["The new address", "font-size: 18px;"],
                     type: 1,
@@ -489,11 +510,17 @@
                 } else {
                     $(".edit_harvest_address").find("#edit_default").attr("checked", false);
                 }
+                var areaWidth = ['900px', '500px'];
+                if(/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
+                    areaWidth = ['100%','500px'];
+                } else {
+                    areaWidth = ['900px', '500px'];
+                }
                 layer.open({
                     title: ["The new address", "font-size: 18px;"],
                     type: 1,
                     btn: ['Confirm', 'Cancel'],
-                    area: ['900px', '500px'],
+                    area: areaWidth,
                     content: $('#editNewAddress'),
                     yes: function (index, layero) {
                         if ($("#edit-form").valid()) {
@@ -536,6 +563,7 @@
             });*/
             // 点击表格中的设为默认按钮
             $(".address_list table").on("click", ".setDefaultAddress", function () {
+                alert('1111')
                 if (!$(this).hasClass('haddefault')) {
                     var data = {
                         _method: "PATCH",

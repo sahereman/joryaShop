@@ -984,6 +984,6 @@ class ProductsController extends Controller
                 'shipment_template' => $shipment_template,
                 'shipping_fee' => $shipping_fee,
             ]
-        ]);
+        ], 200);
     }
 }

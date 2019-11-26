@@ -118,7 +118,7 @@
                         <div class="footer-block-content">
                             <a href="{{ route('seo_url', ['slug' => 'FAQs']) }}">@lang('app.FAQs')</a>
                             <a href="{{ route('seo_url', ['slug' => 'track_my_order']) }}">@lang('app.Track_My_Order')</a>
-                            <a href="{{ route('seo_url', ['slug' => 'download_order_form']) }}">@lang('app.Download_Order_Form')</a>
+                            <a href="https://www.lyricalhair.com/storage/Base-Order-Form.doc">@lang('app.Download_Order_Form')</a>
                             <a href="{{ route('seo_url', ['slug' => 'download_catalogue']) }}">@lang('app.Download_Catalogue')</a>
                             <a href="{{ route('seo_url', ['slug' => 'currency_rates']) }}">@lang('app.Currency_Rates')</a>
                             <a href="{{ route('seo_url', ['slug' => 'hair_care']) }}">@lang('app.Hair_Care')</a>

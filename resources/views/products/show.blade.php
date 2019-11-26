@@ -378,7 +378,9 @@
                         @if($product->faqs->isNotEmpty())
                         <li onclick="tabs('#comments_details',2)" class="comments_faqs">FAQS</li>
                         @endif
+                        @if($default_province && $shipment_template && $country_province_string && $country_province_options)
                         <li onclick="tabs('#comments_details',3)" class="comments_Shipping">Shipping and payments</li>
+                        @endif
                     </ul>
                     <div class="mc tabcon product_info">
                         {{-- 商品详情信息 --}}
@@ -483,7 +485,7 @@
                                 <div class="country-quantity" data-url="{{ route('products.get_shipping_fee', ['product' => $product->id]) }}">
                                     <div class="Quantity-part">
                                         <span>Quantity:</span>
-                                        <input name="number" type="number" value="0">
+                                        <input class="Quantity-num" name="number" type="number" value="0" min="0">
                                     </div>
                                     <div class="country-part">
                                         <span>Change country or region:</span>
@@ -495,7 +497,7 @@
                                         </select>
                                     </div>
                                     <div class="button-part">
-                                        <a href="javascript:void(0);">Get Rates</a>
+                                        <a class="Get-Rates" href="javascript:void(0);">Get Rates</a>
                                     </div>
                                 </div>
                                 {{-- Shipping and handling table --}}
@@ -508,11 +510,11 @@
                                         <div class="part-title-td ship-delivery">Delivery*</div>
                                     </div>
                                     <div class="part-title-tr">
-                                        <div class="part-title-td shop-hand">US $23.86 for quantity 2</div>
+                                        <div class="part-title-td shop-hand">{{ get_global_symbol() }}<span class="shop-hand-price">0</span> for quantity <span class="shop-hand-num">0</span></div>
                                         <div class="part-title-td import-change">See import charges at checkout</div>
-                                        <div class="part-title-td tolocal">China</div>
+                                        <div class="part-title-td tolocal tolocal-text"></div>
                                         <div class="part-title-td ship-servive">International Priority Shipping</div>
-                                        <div class="part-title-td ship-delivery">Estimated between Tue. Dec. 10 and Mon. Dec. 16</div>
+                                        <div class="part-title-td ship-delivery">Estimated in <span class="delivery-min">4</span> to <span class="delivery-max">0</span> days</div>
                                     </div>
                                     <p class="table-intro">* <a href="javascript:void(0);">Estimated delivery dates</a>- opens in a new window or tab include seller's handling time, origin ZIP Code, destination ZIP Code and time of acceptance and will depend on shipping service selected and receipt of <a href="javascript:void(0)">cleared payment</a>- opens in a new window or tab. Delivery times may vary, especially during peak periods.</p>
                                 </div>
@@ -1565,5 +1567,40 @@
             }
             $("#product-price").text(js_number_format(newPrice / 100));
         }
+        // 详情中点击获取运费
+        $(".Get-Rates").on("click",function(){
+            var requestUrl = $(".country-quantity").attr("data-url");
+            var data = {}
+            if($(".Quantity-num").val()==0||$("#shCountry").val()==-99) {
+                layer.msg("Please select quantity and country!");
+            }else {
+                data = {
+                    _token: "{{ csrf_token() }}",
+                    number: $(".Quantity-num").val(),
+                    province: $("#shCountry").val()
+                };
+            }
+            $.ajax({
+                type: "post",
+                url: requestUrl,
+                data: data,
+                success: function (json) {
+                    console.log(json)
+                    $(".shop-hand-price").text(json.data.shipping_fee);
+                    $(".shop-hand-num").text($(".Quantity-num").val());
+                    $(".tolocal-text").html($("#shCountry").val());
+                    $(".delivery-min").html(json.data.shipment_template.min_days);
+                    $(".delivery-max").html(json.data.shipment_template.max_days);
+                },
+                error: function (err) {
+                    var arr = [];
+                    var dataobj = err.responseJSON.errors;
+                    for (var i in dataobj) {
+                        arr.push(dataobj[i]); //属性
+                    }
+                    layer.msg(arr[0][0]);
+                }
+            });
+        })
     </script>
 @endsection
