@@ -231,7 +231,7 @@ class ProductsController extends Controller
 
         $shipment_template = null;
         $category = $product->category()->with('parent')->first();
-        $sub_categories = ProductCategory::where('parent_id', '<>', 0)->get();
+        $sub_categories = ProductCategory::where('parent_id', '<>', 0)->orderBy('sort')->get();
         $comment_count = $product->comments->count();
         $guesses = Product::where(['is_index' => 1, 'on_sale' => 1])->orderByDesc('index')->limit(9)->get();
         // $hot_sales = Product::where(['is_index' => 1, 'on_sale' => 1])->orderByDesc('heat')->limit(8)->get();
