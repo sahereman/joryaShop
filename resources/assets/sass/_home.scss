@@ -970,6 +970,13 @@
                   background-color: #BF2A24;
                 }
               }
+              .certificate-pagination {
+                display: none;
+                bottom: 0;
+                @media only screen and (max-width: 750px){
+                  display: block;
+                }
+              }
             }
           }
           // 锚点

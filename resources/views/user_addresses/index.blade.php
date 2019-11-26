@@ -446,11 +446,12 @@
 
             //点击新建收货地址
             $(".new_address").on("click", function () {
+                var areaWidth = ['900px', '500px']
                 layer.open({
                     title: ["The new address", "font-size: 18px;"],
                     type: 1,
                     btn: ['Confirm', 'Cancel'],
-                    area: ['900px', '500px'],
+                    area: areaWidth,
                     content: $('#addNewAddress'),
                     yes: function (index, layero) {
                         if ($("#creat-form").valid()) {

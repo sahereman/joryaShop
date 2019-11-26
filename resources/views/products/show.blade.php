@@ -378,6 +378,7 @@
                         @if($product->faqs->isNotEmpty())
                         <li onclick="tabs('#comments_details',2)" class="comments_faqs">FAQS</li>
                         @endif
+                        <li onclick="tabs('#comments_details',3)" class="comments_Shipping">Shipping and payments</li>
                     </ul>
                     <div class="mc tabcon product_info">
                         {{-- 商品详情信息 --}}
@@ -457,6 +458,168 @@
                             @endforeach
                         </div>
                     @endif
+                    <div class="mc tabcon dis_n Shipping-content">
+                        <p class="reademoresp">Seller assumes all responsibility for this listing.</p>
+                        {{-- Shipping and handling --}}
+                        <div class="Shipping-handling Shipping-part">
+                            <p class="Shipping-part-title">Shipping and handling</p>
+                            {{-- Item location --}}
+                            <p class="location-word">Item location: <span>South El Monte, California, United States</span></p>
+                            {{-- Shipping to --}}
+                            <div class="Shipping-countries">
+                                <div class="countries-part">
+                                    <p><span>Shipping to: </span>United States, Canada, United Kingdom, Denmark, Romania, Slovakia, Bulgaria, Czech Republic, Finland, Hungary, Latvia, Lithuania, Malta, Estonia, Australia, Greece, Portugal, Cyprus, Slovenia, Japan, China, Sweden, Korea, South, Indonesia, Taiwan, South Africa, Thailand, Belgium, France, Hong Kong, Ireland, Netherlands, Poland, Spain, Italy, Germany, Austria, Bahamas, Israel, Mexico, New Zealand, Philippines, Singapore, Switzerland, Norway, Saudi Arabia, Ukraine, United Arab Emirates, Qatar, Kuwait, Bahrain, Croatia, Republic of, Malaysia, Chile, Colombia, Costa Rica, Dominican Republic, Panama, Trinidad and Tobago, Guatemala, El Salvador, Honduras, Jamaica, Antigua and Barbuda, Aruba, Belize, Dominica, Grenada, Saint Kitts-Nevis, Saint Lucia, Turks and Caicos Islands, Barbados, Bangladesh, Bermuda, Ecuador, Egypt, French Guiana, Gibraltar, Iceland, Jordan, Cayman Islands, Sri Lanka, Luxembourg, Maldives, Oman, Peru, Pakistan, Paraguay, Vietnam, Uruguay, Russian Federation</p>
+                                </div>
+                                <div class="intro-part">
+                                    <img src="{{ asset('img/logo_gsp_77x66.png') }}" alt="Lyricalhair.com">
+                                    <p class="intro-part-words">This item will be shipped through the Global Shipping Program and includes international tracking.</p>
+                                </div>
+                            </div>
+                            {{-- country choose --}}
+                            <div class="country-quantity">
+                                <div class="Quantity-part">
+                                    <span>Quantity:</span>
+                                    <input type="number" value="0">
+                                </div>
+                                <div class="country-part">
+                                    <span>Change country or region:</span>
+                                    <select name="country" id="shCountry" class="sh-TxtCnt sh-InlCnt">
+                                        <option value="-99" selected="">-Select-</option>
+                                        <option value="11">Antigua and Barbuda</option>
+                                        <option value="14">Aruba</option>
+                                        <option value="15">Australia</option>
+                                        <option value="16">Austria</option>
+                                        <option value="18">Bahamas</option>
+                                        <option value="19">Bahrain</option>
+                                        <option value="20">Bangladesh</option>
+                                        <option value="21">Barbados</option>
+                                        <option value="23">Belgium</option>
+                                        <option value="24">Belize</option>
+                                        <option value="26">Bermuda</option>
+                                        <option value="34">Bulgaria</option>
+                                        <option value="2">Canada</option>
+                                        <option value="41">Cayman Islands</option>
+                                        <option value="44">Chile</option>
+                                        <option value="45">China</option>
+                                        <option value="46">Colombia</option>
+                                        <option value="51">Costa Rica</option>
+                                        <option value="53">Croatia, Republic of</option>
+                                        <option value="55">Cyprus</option>
+                                        <option value="56">Czech Republic</option>
+                                        <option value="57">Denmark</option>
+                                        <option value="59">Dominica</option>
+                                        <option value="60">Dominican Republic</option>
+                                        <option value="61">Ecuador</option>
+                                        <option value="62">Egypt</option>
+                                        <option value="63">El Salvador</option>
+                                        <option value="66">Estonia</option>
+                                        <option value="70">Finland</option>
+                                        <option value="71">France</option>
+                                        <option value="72">French Guiana</option>
+                                        <option value="77">Germany</option>
+                                        <option value="79">Gibraltar</option>
+                                        <option value="80">Greece</option>
+                                        <option value="82">Grenada</option>
+                                        <option value="85">Guatemala</option>
+                                        <option value="91">Honduras</option>
+                                        <option value="92">Hong Kong</option>
+                                        <option value="93">Hungary</option>
+                                        <option value="94">Iceland</option>
+                                        <option value="96">Indonesia</option>
+                                        <option value="99">Ireland</option>
+                                        <option value="100">Israel</option>
+                                        <option value="101">Italy</option>
+                                        <option value="102">Jamaica</option>
+                                        <option value="104">Japan</option>
+                                        <option value="106">Jordan</option>
+                                        <option value="111">Korea, South</option>
+                                        <option value="112">Kuwait</option>
+                                        <option value="115">Latvia</option>
+                                        <option value="121">Lithuania</option>
+                                        <option value="122">Luxembourg</option>
+                                        <option value="127">Malaysia</option>
+                                        <option value="128">Maldives</option>
+                                        <option value="130">Malta</option>
+                                        <option value="136">Mexico</option>
+                                        <option value="146">Netherlands</option>
+                                        <option value="149">New Zealand</option>
+                                        <option value="154">Norway</option>
+                                        <option value="155">Oman</option>
+                                        <option value="156">Pakistan</option>
+                                        <option value="158">Panama</option>
+                                        <option value="160">Paraguay</option>
+                                        <option value="161">Peru</option>
+                                        <option value="162">Philippines</option>
+                                        <option value="163">Poland</option>
+                                        <option value="164">Portugal</option>
+                                        <option value="166">Qatar</option>
+                                        <option value="167">Romania</option>
+                                        <option value="168">Russian Federation</option>
+                                        <option value="171">Saint Kitts-Nevis</option>
+                                        <option value="172">Saint Lucia</option>
+                                        <option value="176">Saudi Arabia</option>
+                                        <option value="180">Singapore</option>
+                                        <option value="181">Slovakia</option>
+                                        <option value="182">Slovenia</option>
+                                        <option value="185">South Africa</option>
+                                        <option value="186">Spain</option>
+                                        <option value="187">Sri Lanka</option>
+                                        <option value="192">Sweden</option>
+                                        <option value="193">Switzerland</option>
+                                        <option value="196">Taiwan</option>
+                                        <option value="199">Thailand</option>
+                                        <option value="202">Trinidad and Tobago</option>
+                                        <option value="206">Turks and Caicos Islands</option>
+                                        <option value="209">Ukraine</option>
+                                        <option value="210">United Arab Emirates</option>
+                                        <option value="3">United Kingdom</option>
+                                        <option value="1">United States</option>
+                                        <option value="211">Uruguay</option>
+                                        <option value="216">Vietnam</option>
+                                    </select>
+                                </div>
+                                <div class="button-part">
+                                    <a href="javascript:void(0)">Get Rates</a>
+                                </div>
+                            </div>
+                            {{-- Shipping and handling table --}}
+                            <div class="country-quantity-table">
+                                <div class="part-title-th">
+                                    <div class="part-title-td shop-hand">Shipping and handling</div>
+                                    <div class="part-title-td import-change">import charges</div>
+                                    <div class="part-title-td tolocal">To</div>
+                                    <div class="part-title-td ship-servive">Service</div>
+                                    <div class="part-title-td ship-delivery">Delivery*</div>
+                                </div>
+                                <div class="part-title-tr">
+                                    <div class="part-title-td shop-hand">US $23.86 for quantity 2</div>
+                                    <div class="part-title-td import-change">See import charges at checkout</div>
+                                    <div class="part-title-td tolocal">China</div>
+                                    <div class="part-title-td ship-servive">International Priority Shipping</div>
+                                    <div class="part-title-td ship-delivery">Estimated between Tue. Dec. 10 and Mon. Dec. 16</div>
+                                </div>
+                                <p class="table-intro">* <a href="javascript:void(0)">Estimated delivery dates</a>- opens in a new window or tab include seller's handling time, origin ZIP Code, destination ZIP Code and time of acceptance and will depend on shipping service selected and receipt of <a href="javascript:void(0)">cleared payment</a>- opens in a new window or tab. Delivery times may vary, especially during peak periods.</p>
+                            </div>
+                        </div>
+                        <div class="Return-policy Shipping-part">
+                            <p class="Shipping-part-title">Return policy</p>
+                            <div class="part-title-th">
+                                <p>Return policy details</p>
+                            </div>
+                            <div class="part-title-tr">
+                                <p>No returns or exchanges, but item is covered by the <a href="javascript:void(0)">Money Back Guarantee</a>.</p>
+                            </div>
+                        </div>
+                        <div class="Payment-details Shipping-part">
+                            <p class="Shipping-part-title">Payment details</p>
+                            <div class="part-title-th">
+                                <p>Payment methods</p>
+                            </div>
+                            <div class="part-title-tr">
+                                <img src="{{ asset('img/payment-all.png') }}" alt="Lyricalhair.com">
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             {{-- 友情推荐 --}}
@@ -769,6 +932,10 @@
         // Tab控制函数
         function tabs(tabId, tabNum) {
             // 设置点击后的切换样式
+            var alltabs = $(tabId + " .tab").find("li");
+            if(tabNum == 3){
+                tabNum = alltabs.length -1;
+            }
             $(tabId + " .tab li").removeClass("curr");
             $(tabId + " .tab li").eq(tabNum).addClass("curr");
             //根据参数决定显示内容

@@ -289,6 +289,7 @@
                                     </div>
                                     <div class="swiper-button-prev certificate-prev"></div>
                                     <div class="swiper-button-next certificate-next"></div>
+                                    <div class="swiper-pagination certificate-pagination"></div>
                                 </div>
                             </div>
                             {{-- 锚点跳转 --}}
@@ -540,6 +541,9 @@
                 navigation: {
                     nextEl: '.certificate-next',
                     prevEl: '.certificate-prev',
+                },
+                pagination: {
+                    el: '.certificate-pagination',
                 },
             });
             // 评论展示轮播
