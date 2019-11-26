@@ -288,7 +288,7 @@ class ProductsController extends Controller
 
         // shipment_template
         $default_province = '';
-        if ($request->user() && $request->user()->default_address) {
+        if ($request->user() && $request->user()->default_address && $request->user()->default_address->province) {
             $default_province = $request->user()->default_address->province;
             $shipment_templates = $product->get_allow_shipment_templates($default_province);
             if ($shipment_templates) {
