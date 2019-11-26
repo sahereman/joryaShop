@@ -7,6 +7,7 @@ use App\Exceptions\InvalidRequestException;
 use App\Http\Requests\ProductRequest;
 use App\Mail\SendShareEmail;
 use App\Models\Cart;
+use App\Models\CountryProvince;
 use App\Models\CustomAttr;
 use App\Models\CustomAttrValue;
 use App\Models\EmailLog;
@@ -21,6 +22,7 @@ use App\Models\ProductSkuAttrValue;
 use App\Models\ProductSkuCustomAttrValue;
 use App\Models\ProductSkuDuplicateAttrValue;
 use App\Models\ProductSkuRepairAttrValue;
+use App\Models\ShipmentTemplatePlan;
 use App\Models\User;
 use App\Models\UserFavourite;
 use App\Models\UserHistory;
@@ -285,11 +287,39 @@ class ProductsController extends Controller
         });*/
 
         // shipment_template
+        $default_province = '';
         if ($request->user() && $request->user()->default_address) {
-            $shipment_template = $product->get_allow_shipment_templates($request->user()->default_address->province);
-            if ($shipment_template) {
-                $shipment_template = $shipment_template->first();
+            $default_province = $request->user()->default_address->province;
+            $shipment_templates = $product->get_allow_shipment_templates($default_province);
+            if ($shipment_templates) {
+                $shipment_template = $shipment_templates->first();
+            } else {
+                $shipment_template = $product->shipment_templates()->first();
             }
+        } else {
+            $shipment_template = $product->shipment_templates()->first();
+            if ($shipment_template) {
+                $default_province = $shipment_template->free_provinces->first()->name_en;
+                if (!$default_province) {
+                    $default_province = $shipment_template->plans->first()->country_provinces->first()->name_en;
+                }
+            }
+        }
+
+        $country_province_ids = [];
+        $country_province_options = [];
+        $country_province_string = '';
+        if ($shipment_template) {
+            $country_province_ids = $shipment_template->free_provinces->pluck('id')->toArray();
+            $shipment_template->plans->each(function (ShipmentTemplatePlan $plan) use (&$country_province_ids) {
+                $country_provinces = $plan->country_provinces->pluck('id')->toArray();
+                $country_province_ids = array_merge($country_province_ids, $country_provinces);
+            });
+        }
+        if (count($country_province_ids) > 0) {
+            $country_province_options = CountryProvince::whereIn('id', $country_province_ids)->get()->sortBy('full_name')->pluck('full_name', 'name_en')->toArray();
+            $country_provinces = CountryProvince::whereIn('id', $country_province_ids)->get()->sortBy('name_en')->pluck('name_en')->toArray();
+            $country_province_string = join(', ', $country_provinces);
         }
 
         return view('products.show', [
@@ -303,7 +333,10 @@ class ProductsController extends Controller
             // 'hot_sales' => $hot_sales,
             // 'best_sellers' => $best_sellers,
             'favourite' => $favourite,
+            'default_province' => $default_province,
             'shipment_template' => $shipment_template,
+            'country_province_string' => $country_province_string,
+            'country_province_options' => $country_province_options,
         ]);
     }
 

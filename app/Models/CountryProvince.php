@@ -11,7 +11,12 @@ class CountryProvince extends Model
      * @var array
      */
     protected $fillable = [
-        'parent_id', 'type', 'name_zh', 'name_en', 'code', 'sort'
+        'parent_id',
+        'type',
+        'name_zh',
+        'name_en',
+        'code',
+        'sort'
     ];
 
     /**
@@ -33,15 +38,34 @@ class CountryProvince extends Model
      * @var array
      */
     protected $appends = [
-
+        'full_name'
     ];
 
     public $timestamps = false;
 
-
-    public function getNameAttribute($value)
+    // Accessors
+    public function getNameAttribute()
     {
         return $this->attributes['name_en'] . ' - ' . $this->attributes['name_zh'];
+    }
+
+    public function getFullNameAttribute()
+    {
+        if ($this->attributes['parent_id'] == 0) {
+            $full_name = $this->attributes['name_en'];
+        } else {
+            $child_country_province = $this;
+            // $parent_country_province = $this;
+            $full_name = $this->attributes['name_en'];
+            while ($child_country_province->parent_id != 0) {
+                $parent_country_province = $child_country_province->parent;
+                if ($parent_country_province->name_en != $child_country_province->name_en) {
+                    $full_name = $parent_country_province->name_en . ' - ' . $full_name;
+                }
+                $child_country_province = $parent_country_province;
+            }
+        }
+        return $full_name;
     }
 
     public function country_options()
