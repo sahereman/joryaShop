@@ -7,7 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class ShipmentTemplatePlanProvince extends Model
 {
     protected $fillable = [
-        'shipment_template_id', 'country_province_id'
+        'shipment_template_id',
+        'country_province_id'
     ];
 
     /**

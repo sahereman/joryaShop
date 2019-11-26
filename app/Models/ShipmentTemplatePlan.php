@@ -7,7 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 class ShipmentTemplatePlan extends Model
 {
     protected $fillable = [
-        'shipment_template_id', 'base_unit', 'base_price', 'join_price'
+        'shipment_template_id',
+        'base_unit',
+        'base_price',
+        'join_price'
     ];
 
     /**

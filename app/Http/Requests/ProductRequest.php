@@ -65,6 +65,18 @@ class ProductRequest extends Request
                 'product_sku_attr_values' => 'nullable|array',
                 'product_sku_attr_values.*' => 'nullable|string',
             ];
+        } elseif ($this->routeIs('products.get_shipping_fee')) {
+            return [
+                /*'product_id' => [
+                    'required',
+                    'integer',
+                    Rule::exists('products', 'id')->where(function ($query) {
+                        return $query->where('on_sale', 1);
+                    }),
+                ],*/
+                'number' => 'required|integer|min:1',
+                'province' => 'bail|required|string',
+            ];
         } else {
             throw new NotFoundHttpException();
         }

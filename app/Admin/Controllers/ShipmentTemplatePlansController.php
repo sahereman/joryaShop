@@ -146,7 +146,7 @@ class ShipmentTemplatePlansController extends Controller
         });
 
         $form->hidden('shipment_template_id')->default(request()->input('tid'));
-        $form->listbox('country_provinces', 'To Provinces')->options($country->province_pluck($this->template_id, $this->id))->rules('required');;
+        $form->listbox('country_provinces', 'To Provinces')->options($country->province_options($this->template_id, $this->id))->rules('required');;
 
         $form->text('base_unit', '首件(/包)以内')->setWidth(2)->default(1);
         $form->currency('base_price', '首件(/包)以内费用')->symbol('$')->default(1.00);

@@ -928,4 +928,29 @@ class ProductsController extends Controller
             'data' => $data,
         ], 200);
     }
+
+    // GET 获得在某地址下购买某数量商品的运费 [for Ajax request]
+    public function getShippingFee(ProductRequest $request, Product $product)
+    {
+        $shipping_fee = 0;
+        $shipment_template = null;
+        $number = $request->input('number');
+        $province = $request->input('province');
+        // $product_id = $request->input('product_id');
+        // $product = Product::find($product_id);
+        $shipment_templates = $product->get_allow_shipment_templates($province);
+        if ($shipment_templates) {
+            $shipment_template = $shipment_templates->first();
+            $shipping_fee = $shipment_templates->first()->calc_unit_shipping_fee($number, $province);
+        }
+
+        return response()->json([
+            'code' => 200,
+            'message' => 'success',
+            'data' => [
+                'shipment_template' => $shipment_template,
+                'shipping_fee' => $shipping_fee,
+            ]
+        ]);
+    }
 }

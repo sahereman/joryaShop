@@ -8,7 +8,12 @@ use Illuminate\Support\Facades\DB;
 class ShipmentTemplate extends Model
 {
     protected $fillable = [
-        'name', 'sub_name', 'description', 'from_country_id', 'min_days', 'max_days'
+        'name',
+        'sub_name',
+        'description',
+        'from_country_id',
+        'min_days',
+        'max_days'
     ];
 
     /**

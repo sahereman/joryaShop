@@ -44,14 +44,14 @@ class CountryProvince extends Model
         return $this->attributes['name_en'] . ' - ' . $this->attributes['name_zh'];
     }
 
-    public function country_pluck()
+    public function country_options()
     {
         $country = $this->where('type', 'country')->get();
 
         return $country->pluck('name', 'id');
     }
 
-    public function province_pluck($template_id = null, $plan_id = null)
+    public function province_options($template_id = null, $plan_id = null)
     {
         $country_ids = collect();
 
@@ -86,11 +86,11 @@ class CountryProvince extends Model
         }
 
         $province->transform(function ($item) {
-            $item->nameAll = $item->parent->name_en . ' - ' . $item->name_en;
+            $item->full_name = $item->parent->name_en . ' - ' . $item->name_en;
             return $item;
         });
 
-        return $province->pluck('nameAll', 'id');
+        return $province->pluck('full_name', 'id');
     }
 
     /* Eloquent Relationships */

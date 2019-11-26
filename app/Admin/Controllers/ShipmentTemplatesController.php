@@ -119,11 +119,11 @@ class ShipmentTemplatesController extends Controller
         $form->text('name', 'Name');
         $form->text('sub_name', 'Sub name');
         $form->text('description', 'Description');
-        $form->select('from_country_id', 'From country')->options($country->country_pluck());
+        $form->select('from_country_id', 'From country')->options($country->country_options());
         $form->number('min_days', 'Min days');
         $form->number('max_days', 'Max days');
 
-        $form->listbox('free_provinces', 'Free Provinces')->options($country->province_pluck());
+        $form->listbox('free_provinces', 'Free Provinces')->options($country->province_options());
 
         return $form;
     }
