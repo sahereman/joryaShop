@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\CountryProvince;
 use Faker\Generator as Faker;
 
 $factory->define(App\Models\UserAddress::class, function (Faker $faker) {
@@ -12,6 +13,9 @@ $factory->define(App\Models\UserAddress::class, function (Faker $faker) {
     return [
         'name' => $faker->name,
         'phone' => $faker->phoneNumber,
+        'country' => CountryProvince::where('type', 'country')->get()->random()->name_en,
+        'province' => CountryProvince::where('type', 'province')->get()->random()->name_en,
+        'city' => CountryProvince::where('type', 'city')->get()->random()->name_en,
         'address' => $faker->address,
         'is_default' => false,
         'created_at' => $created_at,

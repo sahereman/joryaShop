@@ -288,21 +288,56 @@ class ProductsController extends Controller
 
         // shipment_template
         $default_province = '';
-        if ($request->user() && $request->user()->default_address && $request->user()->default_address->province) {
-            $default_province = $request->user()->default_address->province;
-            $shipment_templates = $product->get_allow_shipment_templates($default_province);
-            if ($shipment_templates) {
-                $shipment_template = $shipment_templates->first();
+        if ($request->user()) {
+            $default_address = $request->user()->default_address;
+            if ($default_address) {
+                $default_province = $default_address->province;
+            }
+            if ($default_province) {
+                $shipment_templates = $product->get_allow_shipment_templates($default_province);
+                if ($shipment_templates) {
+                    $shipment_template = $shipment_templates->first();
+                } else {
+                    $shipment_template = $product->shipment_templates()->first();
+                }
             } else {
                 $shipment_template = $product->shipment_templates()->first();
+                if ($shipment_template) {
+                    $free_province = $shipment_template->free_provinces->first();
+                    if ($free_province) {
+                        $default_province = $free_province->name_en;
+                    } else {
+                        $plan = $shipment_template->plans->first();
+                        if ($plan) {
+                            $country_province = $plan->country_provinces->first();
+                            if ($country_province) {
+                                $default_province = $country_province->name_en;
+                            }
+                        }
+                    }
+                    /*if (!$default_province) {
+                        $default_province = $shipment_template->plans->first()->country_provinces->first()->name_en;
+                    }*/
+                }
             }
         } else {
             $shipment_template = $product->shipment_templates()->first();
             if ($shipment_template) {
-                $default_province = $shipment_template->free_provinces->first()->name_en;
-                if (!$default_province) {
-                    $default_province = $shipment_template->plans->first()->country_provinces->first()->name_en;
+                $free_province = $shipment_template->free_provinces->first();
+                if ($free_province) {
+                    $default_province = $free_province->name_en;
+                } else {
+                    $plan = $shipment_template->plans->first();
+                    if ($plan) {
+                        $country_province = $plan->country_provinces->first();
+                        if ($country_province) {
+                            $default_province = $country_province->name_en;
+                        }
+                    }
                 }
+                /*if (!$default_province) {
+                    $default_province = $shipment_template->plans->first()->country_provinces->first()->name_en;
+                }*/
             }
         }
 

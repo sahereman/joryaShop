@@ -29,6 +29,7 @@ class PostersSeeder extends Seeder
             factory(Poster::class)->create([
                 'name' => $item[0],
                 'slug' => $item[1],
+                'description' => $item[0],
             ]);
         }
     }
