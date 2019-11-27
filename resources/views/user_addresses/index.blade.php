@@ -89,13 +89,38 @@
                                 <ul class="address-list-items">
                                     @foreach($addresses as $address)
                                       <li>
+                                          {{-- 用户名字电话 --}}
                                           <div class="item-name-phone">
                                               <div class="item-address-name address_name">{{ $address->name }}</div>
                                               <div class="item-address-tel address_tel">{{ $address->phone }}</div>
                                           </div>
+                                          {{-- 详细地址信息 --}}
                                           <div class="item-address-info">
                                               <div class="address_info">{{ $address->full_address }}</div>
                                           </div>
+                                          {{-- 操作区 --}}
+                                          <div class="item-address-operating">
+                                              <div class="item-default-address default_address">
+                                                    @if($address->is_default)
+                                                        <a class="setDefaultAddress haddefault">@lang('basic.address.Default address')</a>
+                                                    @else
+                                                        <a url="{{ route('user_addresses.set_default', ['address' => $address->id]) }}"
+                                                        class="setDefaultAddress">@lang('basic.address.Set to the default')</a>
+                                                    @endif
+                                              </div>
+                                              <div class="item-operating-button address_operation"">
+                                                    <a url="{{ route('user_addresses.update', ['address' => $address->id]) }}"
+                                                       class="edit_address">@lang('basic.address.edit')</a>
+                                                    <a url="{{ route('user_addresses.destroy', ['address' => $address->id]) }}"
+                                                       class="delete_address">@lang('basic.delete')</a>
+                                              </div>
+                                          </div>
+                                          <!--新增用于修改是显示-->
+                                          <div class="dis_n address_country">{{ $address->country }}</div>
+                                          <div class="dis_n address_city">{{ $address->city }}</div>
+                                          <div class="dis_n address_province">{{ $address->province }}</div>
+                                          <div class="dis_n address_detail">{{ $address->address }}</div>
+                                          <div class="dis_n address_zip">{{ $address->zip }}</div>
                                       </li>
                                     @endforeach
                                 </ul>
@@ -530,6 +555,45 @@
                 });
                 // $(".edit_harvest_address").show();
             });
+            // 移动端点击表格中的编辑
+            $(".mobile-table").on("click", ".edit_address", function () {
+                $("#edit-form").prop("action", $(this).attr("url"));
+                $(".edit_harvest_address").find(".user_name").val($(this).parents("li").find(".address_name").html());
+                $(".edit_harvest_address").find(".user_tel").val($(this).parents("li").find(".address_tel").html());
+                $(".edit_harvest_address").find(".user_detailed").val($(this).parents("li").find(".address_detail").html());
+                //address_country
+                $(".edit_harvest_address").find(".user_country").val($(this).parents("li").find(".address_country").html());
+                // 修改时获取省份列表
+                $("#edit_user_country").trigger("change")
+                $(".edit_harvest_address").find(".user_city").val($(this).parents("li").find(".address_city").html());
+                $(".edit_harvest_address").find(".user_province").val($(this).parents("li").find(".address_province").html());
+                $(".edit_harvest_address").find(".user_zip").val($(this).parents("li").find(".address_zip").html());
+                var isdefault = $(this).parents("li").find(".setDefaultAddress ").hasClass("haddefault");
+                if (isdefault == true) {
+                    $(".edit_harvest_address").find("#edit_default").attr("checked", true);
+                } else {
+                    $(".edit_harvest_address").find("#edit_default").attr("checked", false);
+                }
+                var areaWidth = ['900px', '500px'];
+                if(/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
+                    areaWidth = ['100%','500px'];
+                } else {
+                    areaWidth = ['900px', '500px'];
+                }
+                layer.open({
+                    title: ["The new address", "font-size: 18px;"],
+                    type: 1,
+                    btn: ['Confirm', 'Cancel'],
+                    area: areaWidth,
+                    content: $('#editNewAddress'),
+                    yes: function (index, layero) {
+                        if ($("#edit-form").valid()) {
+                            $('#edit-form').submit();
+                        }
+                    }
+                });
+                // $(".edit_harvest_address").show();
+            });
             // 编辑收货地址时进行表单验证
             $("#edit-form").validate({
                 rules: {
@@ -563,7 +627,28 @@
             });*/
             // 点击表格中的设为默认按钮
             $(".address_list table").on("click", ".setDefaultAddress", function () {
-                alert('1111')
+                if (!$(this).hasClass('haddefault')) {
+                    var data = {
+                        _method: "PATCH",
+                        _token: "{{ csrf_token() }}",
+                        is_default: 1
+                    };
+                    var url = $(this).attr('url');
+                    $.ajax({
+                        type: "post",
+                        url: url,
+                        data: data,
+                        success: function (data) {
+                            window.location.reload();
+                        },
+                        error: function (err) {
+                            console.log(err);
+                        },
+                    });
+                }
+            });
+            // 移动端点击设为默认
+            $(".mobile-table").on("click", ".setDefaultAddress", function () {
                 if (!$(this).hasClass('haddefault')) {
                     var data = {
                         _method: "PATCH",
@@ -586,6 +671,11 @@
             });
             // 点击表格中的删除
             $(".address_list table").on("click", ".delete_address", function () {
+                $(".textarea_content span").attr('url', $(this).attr('url'));
+                $(".confirm_delete").show();
+            });
+            // 移动端点击删除
+            $(".mobile-table").on("click", ".delete_address", function () {
                 $(".textarea_content span").attr('url', $(this).attr('url'));
                 $(".confirm_delete").show();
             });

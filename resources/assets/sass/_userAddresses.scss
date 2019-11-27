@@ -16,6 +16,8 @@
         margin-right: 0;
         @media only screen and (max-width: 750px){
             width: 100%;
+            min-height: auto;
+            height: auto;
         }
         .no_addressList {
             width: 100%;
@@ -63,6 +65,9 @@
                 border-top: 1px solid #ebebeb;
                 width: 100%;
                 font-size: 14px;
+                @media only screen and (max-width: 750px){
+                    display: none;
+                }
                 thead {
                     background: #f0f0f0;
                     tr {
@@ -142,6 +147,63 @@
                         }
                     }
                 } 
+            }
+            // 移动端展示
+            .mobile-table {
+                display: none;
+                @media only screen and (max-width: 750px){
+                    display: block;
+                }
+                ul {
+                    li {
+                        margin-bottom: 10px;
+                        border-bottom: 1px solid #ccc;
+                        .item-name-phone {
+                            display: flex;
+                            margin-bottom: 10px;
+                            padding: 5px 0;
+                            .item-address-name {
+                                margin: auto 0;
+                                margin-right: 10px;
+                                font-size: 16px;
+                                font-weight: 600;
+                            }
+                            .item-address-tel {
+                                margin: auto 0;
+                                margin-top: 5px;
+                            }
+                        }
+                        .item-address-info {
+                            padding: 5px 0;
+                            margin-bottom: 10px;
+                        }
+                        .item-address-operating {
+                            display: flex;
+                            justify-content: space-between;
+                            padding: 10px 0;
+                            .setDefaultAddress {
+                                color: $commom-color;
+                                cursor: pointer;
+                            }
+                            .haddefault {
+                                display: inline-block;
+                                padding: 5px 10px;
+                                color: #c59c79;
+                                border: 1px solid #c59c79;
+                                border-radius: 2px;
+                                background-color: #fdf4ec;
+                            }
+                            .item-operating-button {
+                                a {
+                                    margin-left: 10px;
+                                    padding: 5px 10px;
+                                    border: 1px solid #ccc;
+                                    border-radius: 15px;
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
     }
@@ -242,22 +304,45 @@
             }   
         }
 }
+.confirm_delete {
+    .dialog_content {
+        @media only screen and (max-width: 750px){
+            min-width: 90%;
+            width: 95%;
+            left: 2%;
+            margin: -100px 0 0 0;
+        }
+    }
+}
 
 .address-info-form {
     width: 100%;
+    @media only screen and (max-width: 750px){
+        padding: 0 20px;
+    }
     li {
         display: flex;
         flex-direction: row;
         justify-content: flex-start;
         padding: 25px 45px;
+        @media only screen and (max-width: 750px){
+          flex-direction: column;
+          padding: 10px 5px;
+        }
         p {
             display: flex;
             flex-direction: row;
             justify-content: flex-start;
+            @media only screen and (max-width: 750px){
+                flex-direction: column;
+            }
             span {
                 font-size: 16px;
                 //font-weight: bold;
                 color: #000;
+                @media only screen and (max-width: 750px){
+                    margin-bottom: 5px;
+                }
                 i {
                     color: red;
                 }
@@ -266,19 +351,43 @@
                 width: 200px;
                 border: 0;
                 border-bottom: 1px solid #e5e5e5;
+                @media only screen and (max-width: 750px){
+                    width: 100%;
+                    height: 25px;
+                    outline: none;
+                }
             }
             select {
                 width: 200px;
                 border: 0;
                 border-bottom: 1px solid #e5e5e5;
+                @media only screen and (max-width: 750px){
+                    width: 100%;
+                    height: 30px;
+                    outline: none;
+                }
             }
         }
         &.city-state-zip {
+            @media only screen and (max-width: 750px){
+                padding: 0;
+            }
+            p {
+                @media only screen and (max-width: 750px){
+                    padding: 10px 0;
+                }
+            }
             input {
                 width: 150px;
+                @media only screen and (max-width: 750px){
+                    width: 100%;
+                }
             }
             select {
               width: 150px;
+              @media only screen and (max-width: 750px){
+                width: 100%;
+              }
             }
         }
         &.contact-number {
@@ -286,6 +395,9 @@
                 position: relative;
                 input {
                   width: 340px;
+                  @media only screen and (max-width: 750px){
+                    width: 100%;
+                  }
                 }
                 &:after {
                     content: "We only use this number if there's a shipping issue";

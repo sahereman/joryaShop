@@ -3,20 +3,38 @@
 @section('content')
     {{-- banner --}}
     <div class="banner">
+        {{-- pc --}}
         <div class="slick" id="banner">
-            {{-- 接口可用，为了页面展示效果注释，正式版本启用 --}}
             @if(isset($banners) && $banners->isNotEmpty())
                 @foreach($banners as $banner)
-                    <div class="item item-1">
+                    <div class="item item-1 slick-pc">
                         <a class="img-box" href="{{$banner->link}}">
-                            <img src="{{ $banner->image_url }}" alt="lyricalhair"/>
+                            <img class="banner-imgpc" src="{{ $banner->image_url }}" alt="lyricalhair"/>
                         </a>
                     </div>
                 @endforeach
             @else
                 <div class="item item-1">
                     <a class="img-box" href="javascript:void (0);">
-                        <img src="{{ asset('defaults/defaults_pc_banner.jpg') }}" alt="lyricalhair"/>
+                        <img class="banner-imgpc" src="{{ asset('defaults/defaults_pc_banner.jpg') }}" alt="lyricalhair"/>
+                    </a>
+                </div>
+            @endif
+        </div>
+        {{-- 移动 --}}
+        <div class="slick" id="bannerMobile">
+            @if(isset($banners) && $banners->isNotEmpty())
+                @foreach($banners as $banner)
+                    <div class="item item-1 slick-mobile">
+                        <a class="img-box" href="{{$banner->link}}">
+                            <img class="banner-imgmobile" src="{{ $banner->image_url }}" alt="lyricalhair">
+                        </a>
+                    </div>
+                @endforeach
+            @else
+                <div class="item item-1">
+                    <a class="img-box" href="javascript:void (0);">
+                        <img class="banner-imgmobile" src="{{ asset('defaults/defaults_pc_banner.jpg') }}" alt="lyricalhair"/>
                     </a>
                 </div>
             @endif
@@ -50,9 +68,9 @@
                         <span>Lyricalhair Video introduction</span>
                     </div>
                     {{-- 油管播放器的页面嵌入，非API式的iframe嵌套 --}}
-                    <div class="dis_n" id="youtubeVideoID" data-video-id="M7lc1UVf-VE">存放youtube视频id的位置</div>
+                    <div class="dis_n" id="youtubeVideoID" data-video-id="PblMmV3O74U">存放youtube视频id的位置</div>
                     <iframe id="player" type="text/html"
-                            src="https://www.youtube.com/embed/ziGD7vQOwl8?showinfo=0&rel=0&autoplay=1"
+                            src="https://www.youtube.com/embed/PblMmV3O74U?showinfo=0&rel=0&autoplay=1"
                             frameborder="0" allow="autoplay" allowfullscreen>
                     </iframe>
                 </div>
@@ -461,6 +479,28 @@
             if (!$.fn.slick) return;
             // 首页 banner
             $('#banner').slick({
+                autoplay: true,
+                autoplaySpeed: 4000, //以毫秒为单位的自动播放速度
+                centerMode: true, //居中视图   slidesToShow为双数的时候慎用
+                centerPadding: '0px', //左右两侧padding值
+                arrows: false, //上一下，下一页
+                fade: false, //启用淡入淡出
+                dots: true, //显示点指示符
+                speed: 500, //幻灯片/淡入淡出动画速度
+                cssEase: 'ease', //CSS3动画缓和
+                slidesToShow: 1, //显示的幻灯片数量
+                slidesToScroll: 1, //要滚动的幻灯片数量
+                focusOnSelect: true, //启用选定元素的焦点（单击）
+                touchThreshold: 300, //滑动切换阈值，即滑动多少像素后切换
+                infinite: true, //无限循环
+                swipeToSlide: true, //允许用户将幻灯片直接拖动或滑动到幻灯片
+                lazyLoad: 'ondemand', //接受'ondemand'或'progressive'<img data-lazy="img/lazyfonz1.png"/>
+                variableWidth: false, //幻灯片宽度自适应
+                adaptiveHeight: false, //自适应高度
+                rows: 1, //将其设置为1以上将初始化网格模式。使用slidesPerRow设置每行应放置多少个幻灯片
+                slidesPerRow: 1, //在通过行选项初始化网格模式时，这会设置每个网格行中的幻灯片数量
+            });
+            $('#bannerMobile').slick({
                 autoplay: true,
                 autoplaySpeed: 4000, //以毫秒为单位的自动播放速度
                 centerMode: true, //居中视图   slidesToShow为双数的时候慎用

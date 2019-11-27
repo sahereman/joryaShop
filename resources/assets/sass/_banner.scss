@@ -15,10 +15,31 @@
       width: 100%;
       // margin-left: -20%;
     }
+    &#banner {
+      @media only screen and (max-width: 750px){
+        display: none;
+      }
+    }
+    &#bannerMobile {
+      display: none;
+      @media only screen and (max-width: 750px){
+        height: 350px;
+        display: block;
+      }
+    }
     img {
       width: 100%;
-      @media only screen and (max-width: 750px){
-        width: 100%;
+      &.banner-imgpc {
+        @media only screen and (max-width: 750px){
+          display: none;
+        }
+      }
+      &.banner-imgmobile {
+        display: none;
+        @media only screen and (max-width: 750px){
+          height: 350px;
+          display: block;
+        }
       }
     }
   }

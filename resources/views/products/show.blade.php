@@ -323,7 +323,6 @@
                                     <span>Shipping:</span>
                                 </div>
                                 <div class="info-content">
-                                    {{--{{dd()}}--}}
                                     <p>
                                         <span class="info-content-price">
                                             {{ $shipment_template->calc_unit_shipping_fee(1, $default_province) }}
@@ -333,15 +332,27 @@
                                 </div>
                             </div>
                             <div class="content-box">
+                                {{-- <div class="info-title">
+                                    <span>Item Location:</span>
+                                </div> --}}
                                 <div class="info-content">
                                     <p>{{ $shipment_template->description }}</p>
                                 </div>
                             </div>
                             <div class="content-box">
+                                <div class="info-title">
+                                    <span>Item Location:</span>
+                                </div>
                                 <div class="info-content">
-                                    <p>Item Location:</p>
                                     <p>{{ $product->location }}</p>
-                                    <p>Ships to: <span>{{ $default_province }}</span></p>
+                                </div>
+                            </div>
+                            <div class="content-box">
+                                <div class="info-title">
+                                    <span>Ships to: </span>
+                                </div>
+                                <div class="info-content">
+                                    <p><span>{{ $default_province }}</span></p>
                                 </div>
                             </div>
                         @endif
@@ -370,19 +381,19 @@
             <div class="comments_details">
                 <div class="comments_details_right pull-left" id="comments_details">
                     <ul class="tab nav nav-tabs" role="tablist">
-                        <li onclick="tabs('#comments_details',0)"
+                        <li onclick="tabs('#comments_details','#productInfo','#productInfotab')" id=productInfotab
                             class="active curr">@lang('product.product_details.Commodity details')</li>
-                        <li onclick="tabs('#comments_details',1)" class="shopping_eva"
+                        @if($default_province && $shipment_template && $country_province_string && $country_province_options)
+                        <li onclick="tabs('#comments_details','#Shipping','#Shippingtab')" class="comments_Shipping" id=Shippingtab>Shipping and payments</li>
+                        @endif
+                        <li onclick="tabs('#comments_details','#customer-reviews','#customer-reviewstab')" class="shopping_eva" id=customer-reviewstab
                             data-url="{{ route('products.comment', ['product' => $product->id]) }}">@lang('product.product_details.Commodity feedback')
                         </li>
                         @if($product->faqs->isNotEmpty())
-                        <li onclick="tabs('#comments_details',2)" class="comments_faqs">FAQS</li>
-                        @endif
-                        @if($default_province && $shipment_template && $country_province_string && $country_province_options)
-                        <li onclick="tabs('#comments_details',3)" class="comments_Shipping">Shipping and payments</li>
+                        <li onclick="tabs('#comments_details','#faqs','#faqstab')" class="comments_faqs" id=faqstab>FAQS</li>
                         @endif
                     </ul>
-                    <div class="mc tabcon product_info">
+                    <div class="mc tabcon product_info" id="productInfo">
                         {{-- 商品详情信息 --}}
                         @if($product->grouped_param_value_string)
                             <p class="category-iframe-title">Item specifics</p>
@@ -431,43 +442,14 @@
                             </div>
                         </div>
                     </div>
-                    <div class="mc tabcon dis_n" id="customer-reviews">
-                        <div class="comment-items">
-                            <!--暂无评价-->
-                            <div class="no_eva dis_n">
-                                <p>@lang('product.product_details.No evaluation information yet')</p>
-                            </div>
-                            <dl></dl>
-                        </div>
-                        <!--分页-->
-                        <div class="paging_box">
-                            <a class="pre_page" href="javascript:void(0);">@lang('app.Previous page')</a>
-                            <a class="next_page" href="javascript:void(0);">@lang('app.Next page')</a>
-                        </div>
-                    </div>
-                    @if($product->faqs->isNotEmpty())
-                        <div class="mc tabcon dis_n faqs-content">
-                            @foreach($product->faqs as $key => $faq)
-                                <div class="faq_qus_ans">
-                                    <h3 class="faq_ques">
-                                        {{ ($key + 1) . '. ' . $faq->question }}
-                                        <span class="iconfont">&#xe60f;</span>
-                                    </h3>
-                                    <div class="faq_ans">
-                                        <textarea class="faq_ans_content" name="" id="ans_content_{{ $key }}" cols="30" readonly>{{ $faq->answer }}</textarea>
-                                    </div>
-                                </div>
-                            @endforeach
-                        </div>
-                    @endif
                     @if($default_province && $shipment_template && $country_province_string && $country_province_options)
-                        <div class="mc tabcon dis_n Shipping-content">
+                        <div class="mc tabcon dis_n Shipping-content" id="Shipping">
                             <p class="reademoresp">Seller assumes all responsibility for this listing.</p>
                             {{-- Shipping and handling --}}
                             <div class="Shipping-handling Shipping-part">
                                 <p class="Shipping-part-title">Shipping and handling</p>
                                 {{-- Item location --}}
-                                <p class="location-word">Item location: <span>{{ $default_province }}</span></p>
+                                <p class="location-word">Item Location: <span>{{ $product->location }}</span></p>
                                 {{-- Shipping to --}}
                                 <div class="Shipping-countries">
                                     <div class="countries-part">
@@ -537,6 +519,35 @@
                                     <img src="{{ asset('img/payment-all.png') }}" alt="Lyricalhair.com">
                                 </div>
                             </div>
+                        </div>
+                    @endif
+                    <div class="mc tabcon dis_n" id="customer-reviews">
+                        <div class="comment-items">
+                            <!--暂无评价-->
+                            <div class="no_eva dis_n">
+                                <p>@lang('product.product_details.No evaluation information yet')</p>
+                            </div>
+                            <dl></dl>
+                        </div>
+                        <!--分页-->
+                        <div class="paging_box">
+                            <a class="pre_page" href="javascript:void(0);">@lang('app.Previous page')</a>
+                            <a class="next_page" href="javascript:void(0);">@lang('app.Next page')</a>
+                        </div>
+                    </div>
+                    @if($product->faqs->isNotEmpty())
+                        <div class="mc tabcon dis_n faqs-content" id="faqs">
+                            @foreach($product->faqs as $key => $faq)
+                                <div class="faq_qus_ans">
+                                    <h3 class="faq_ques">
+                                        {{ ($key + 1) . '. ' . $faq->question }}
+                                        <span class="iconfont">&#xe60f;</span>
+                                    </h3>
+                                    <div class="faq_ans">
+                                        <textarea class="faq_ans_content" name="" id="ans_content_{{ $key }}" cols="30" readonly>{{ $faq->answer }}</textarea>
+                                    </div>
+                                </div>
+                            @endforeach
                         </div>
                     @endif
                 </div>
@@ -849,17 +860,14 @@
             }
         });
         // Tab控制函数
-        function tabs(tabId, tabNum) {
+        function tabs(tabId, tabNum,tabliId) {
             // 设置点击后的切换样式
-            var alltabs = $(tabId + " .tab").find("li");
-            if(tabNum == 3){
-                tabNum = alltabs.length -1;
-            }
+            // var alltabs = $(tabId + " .tab").find("li");
             $(tabId + " .tab li").removeClass("curr");
-            $(tabId + " .tab li").eq(tabNum).addClass("curr");
+            $(tabId + " .tab").find(tabliId).addClass("curr");
             //根据参数决定显示内容
             $(tabId + " .tabcon").hide();
-            $(tabId + " .tabcon").eq(tabNum).show();
+            $(tabId).find(tabNum).show();
             if (tabNum == 1) {
                 var url = $(".shopping_eva").attr("data-url");
                 getComments(url);
@@ -1601,6 +1609,14 @@
                     layer.msg(arr[0][0]);
                 }
             });
+        })
+        // 点击查看详情跳转锚点
+        $(".info-content-details").on("click",function(){
+            var ishasshipping = $("#comments_details").find("#Shippingtab");
+            if(ishasshipping.length !=0){
+                $('html, body').animate({scrollTop: $('#comments_details').offset().top-50}, 1000);
+                $("#Shippingtab").trigger("click");
+            }
         })
     </script>
 @endsection
