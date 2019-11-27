@@ -5,11 +5,11 @@
     <div class="banner">
         {{-- pc --}}
         <div class="slick" id="banner">
-            @if(isset($banners) && $banners->isNotEmpty())
-                @foreach($banners as $banner)
+            @if(isset($pc_banners) && $pc_banners->isNotEmpty())
+                @foreach($pc_banners as $pc_banner)
                     <div class="item item-1 slick-pc">
-                        <a class="img-box" href="{{$banner->link}}">
-                            <img class="banner-imgpc" src="{{ $banner->image_url }}" alt="lyricalhair"/>
+                        <a class="img-box" href="{{ $pc_banner->link }}">
+                            <img class="banner-imgpc" src="{{ $pc_banner->image_url }}" alt="lyricalhair"/>
                         </a>
                     </div>
                 @endforeach
@@ -23,11 +23,11 @@
         </div>
         {{-- 移动 --}}
         <div class="slick" id="bannerMobile">
-            @if(isset($banners) && $banners->isNotEmpty())
-                @foreach($banners as $banner)
+            @if(isset($mobile_banners) && $mobile_banners->isNotEmpty())
+                @foreach($mobile_banners as $mobile_banner)
                     <div class="item item-1 slick-mobile">
-                        <a class="img-box" href="{{$banner->link}}">
-                            <img class="banner-imgmobile" src="{{ $banner->image_url }}" alt="lyricalhair">
+                        <a class="img-box" href="{{ $mobile_banner->link }}">
+                            <img class="banner-imgmobile" src="{{ $mobile_banner->image_url }}" alt="lyricalhair">
                         </a>
                     </div>
                 @endforeach

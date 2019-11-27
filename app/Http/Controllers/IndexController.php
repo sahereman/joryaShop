@@ -63,7 +63,8 @@ class IndexController extends Controller
 
     public function root(Request $request)
     {
-        $banners = Banner::where('type', 'index')->orderBy('sort')->get();
+        $pc_banners = Banner::where('type', 'index')->orderBy('sort')->get();
+        $mobile_banners = Banner::where('type', 'mobile')->orderBy('sort')->get();
         $products = [];
         $categories = ProductCategory::where('parent_id', '<>', 0)->where('is_index', 1)->orderBy('sort')->limit(4)->get()->each(function (ProductCategory $category, $key) use (&$products) {
             $products[$key]['category'] = $category;
@@ -71,7 +72,8 @@ class IndexController extends Controller
         });
 
         return view('index.root', [
-            'banners' => $banners,
+            'pc_banners' => $pc_banners,
+            'mobile_banners' => $mobile_banners,
             'products' => $products,
             'categories' => $categories,
         ]);

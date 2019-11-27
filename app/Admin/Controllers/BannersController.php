@@ -75,7 +75,7 @@ class BannersController extends Controller
     protected function grid()
     {
         $grid = new Grid(new Banner);
-        $grid->model()->orderBy('type', 'desc'); // 设置初始排序条件
+        $grid->model()->orderBy('type', 'desc')->orderBy('sort'); // 设置初始排序条件
 
 
         $grid->id('ID');
