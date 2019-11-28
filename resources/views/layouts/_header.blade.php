@@ -81,9 +81,9 @@
                     </a>
                     {{-- 购物车商品数量 --}}
                     @if(isset($cart_count))
-                        <span class="count shop_cart_num">{{ $cart_count }}</span>
-                    @else
-                        <span class="count shop_cart_num">0</span>
+                       @if($cart_count != 0)
+                         <span class="count shop_cart_num">{{ $cart_count }}</span>
+                       @endif
                     @endif
                 </div>
                 <div class="message">

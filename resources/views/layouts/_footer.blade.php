@@ -40,7 +40,7 @@
                 <p>Cant't Find Any Stock Hairpiece For Your Specific Requirements ?</p>
                 {{-- special offers and important notices. --}}
                 <p class="last-subscribe">Order our custom hair piece today & Receive it in 6 Weeks!</p>
-                <a href="javascript:viod(0)" class="Start-subscribe">Start From 1 Piece</a>
+                <a href="javascript:viod(0)" class="Start-subscribe">Make an Inquiry</a>
                 {{-- 自定义订阅弹窗 --}}
                 <div class="popup-wrap">
                     <div class="the-popup">
