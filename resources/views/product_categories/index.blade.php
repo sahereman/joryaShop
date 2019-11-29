@@ -361,7 +361,7 @@
         // $('.iframe_content_description').html("");
         // $('#cmsConDescription').contents().find('body').html(iframe_content_description);
         $('#cmsConDescription').css({"color":"#333","margin":0,"line-height":"130%","box-sizing":"border-box"});
-        $('#cmsConDescription').find("span").css("fontSize","14px");
+        // $('#cmsConDescription').find("span").css("fontSize","14px");
         $('#cmsConDescription').find("p").css("margin","0 0 8.4px");
         // reinitIframe("cmsConDescription");
         // var autoSet_description = window.setInterval('reinitIframe()',500);
