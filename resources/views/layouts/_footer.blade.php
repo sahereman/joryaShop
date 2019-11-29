@@ -45,7 +45,15 @@
                 <div class="popup-wrap">
                     <div class="the-popup">
                         <a class="close-popup" href="javascript:void(0)"><img src="{{ asset('img/close_btn.png') }}" alt="lyricalhair"></a>
-                        <h3>Contact For A FREE Quote</h3>
+                        <h3>Let's Connect Now ! </h3>
+                        <div class="Connect-tip">
+                            <img src="{{ asset("img/footer/connect-icon.png") }}" alt="lyricalhair">
+                            <div class="Connect-tip-text">
+                                <p>Do you have inquiries?</p>
+                                <p>Looking for a straightforward quotation?</p>
+                                <p>Leave us your email and send in your message below.</p>
+                            </div>
+                        </div>
                         <div class="wpcf7" role="form" id="wpcf7-f145-o1" lang="en-US" dir="ltr">
                             <div class="screen-reader-response"></div>
                             <form action="">
@@ -53,19 +61,19 @@
                                 <input type="hidden" name="type" id="feedback-type" value="subscription">
                                 <ul>
                                     <li>
-                                        <p>Name*</p>
+                                        <p>Name<span>*</span></p>
                                         <input type="text" name="name" id="footname" placeholder="Please enter your name" required autocomplete="off">
                                     </li>
                                     <li>
                                         <p>Phone & Whatsapp</p>
-                                        <input type="text" name="phone" id="footphone" required autocomplete="off">
+                                        <input type="text" name="phone" id="footphone" placeholder="Your phone or whatsapp" required autocomplete="off">
                                     </li>
                                     <li>
-                                        <p>Email*</p>
+                                        <p>Email<span>*</span></p>
                                         <input type="email" name="email" id="footemail" placeholder="Please enter your email" required autocomplete="off">
                                     </li>
                                     <li class="textarea-li">
-                                        <p>Your Message*</p>
+                                        <p>Your Message<span>*</span></p>
                                         <textarea name="content" cols="40" rows="10" aria-required="true" aria-invalid="false" placeholder="Your Message"></textarea>
                                     </li>
                                     <li>

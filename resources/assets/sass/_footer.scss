@@ -130,7 +130,7 @@ footer {
         width: 100%;
         margin: 0 auto;
         background-color: #fff;
-        padding: 60px 40px 40px;
+        padding: 40px 40px 40px;
         box-sizing: border-box;
         @media only screen and (max-width: 1440){
           padding: 40px 40px 20px;
@@ -145,20 +145,45 @@ footer {
           font-size: 20px;
         }
         h3 {
-          text-align: center;
-          font-size: 42px;
-          color: #666;
-          font-family: freight-big-pro,serif;
-          font-weight: 600;
+          margin-bottom: 20px;
+          margin-top: -10px;
+          text-align: left;
+          font-size: 30px;
+          color: #333;
+          font-family: AvenirNext;
+          // font-weight: 600;
           font-style: normal;
+          padding-bottom: 10px;
+          border-bottom: 4px solid #b42527;
+        }
+        .Connect-tip {
+          margin-bottom: 20px;
+          display: flex;
+          width: 100%;
+          padding: 15px 10px;
+          background-color: #f8f8f8;
+          border-radius: 8px;
+          p {
+            color: #333;
+            font-size: 12px;
+            font-family: AvenirNext;
+          }
+          img {
+            margin: auto 0;
+            margin-right: 10px;
+            width: 20%;
+          }
         }
         p {
           margin-bottom: 10px;
           font-size: 16px;
-          color: #666;
-          font-weight: 400;
+          color: #333;
+          font-weight: 600;
           font-style: normal;
           text-align: left;
+          span {
+            color: #b42527;
+          }
         }
         input {
           margin-bottom: 30px;
@@ -191,7 +216,7 @@ footer {
           }
         }
         .textarea-li {
-          margin-bottom: 40px;
+          margin-bottom: 20px;
         }
         button {
           position: relative;
