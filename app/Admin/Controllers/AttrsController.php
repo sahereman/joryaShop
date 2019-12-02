@@ -176,7 +176,7 @@ class AttrsController extends Controller
         $form->hasMany('values', 'SKU 属性值 - 列表', function (NestedForm $form) {
             $form->text('value', 'SKU 属性值');
             $form->text('abbr', 'SKU 属性值简称');
-            $form->image('photo', 'SKU 属性图片');
+            $form->image('photo', 'SKU 属性图片')->uniqueName()->move('attrs')->removable()->help('尺寸: 46 * 46');
         });
 
         $form->number('sort', '排序值')->default(9)->rules('required|integer|min:0')->help('默认倒序排列：数值越大越靠前');
