@@ -1929,6 +1929,10 @@
       width: 100%;
       max-height: 250px;
       overflow-y: auto;
+      &.chooseType-color {
+        display: flex;
+        flex-wrap: wrap;
+      }
     }
     li {
       display: flex;
@@ -1956,6 +1960,26 @@
       .price-span {
         display: inline-block;
         color: #E50012;
+      }
+      // 图片选项
+      &.color-img-choose {
+        position: relative;
+        padding: 3px;
+        margin-bottom: 8px;
+        width: 60px;
+        height: 60px;
+        background-color: #f6f6f6;
+        .color-name {
+          position: absolute;
+          left: 5px;
+          top: 3px;
+          color: #fff;
+          font-size: 12px;
+        }
+        img {
+          width: 100%;
+          height: 100%;
+        }
       }
     }
   }

@@ -192,13 +192,28 @@
                                                        photo-url="{{ isset($attr_values[0]['photo_url']) ? $attr_values[0]['photo_url'] : '' }}" delta-price="{{ $attr_values[0]['delta_price'] }}">
                                                 <span class="sku-select-value-show">{{ $attr_values[0]['value'] }}</span>
                                             </div>
-                                            <div class="sku-select-options" style="display: none;">
-                                                <ul data-paramid="undefined" data-name="undefined">
+                                            <div class="sku-select-options">
+                                                {{-- 
+                                                    chooseType-color：如果是图片格式选择下面的ul有这个class，如果不是图片格式选择则下面的ul没有个这个class
+                                                --}}
+                                                <ul class="{{ 1==1 ? 'chooseType-color' : '' }}" data-paramid="undefined" data-name="undefined">
                                                     @foreach($attr_values as $attr_value)
-                                                        <li data-paramid="{{ $attr_name }}" data-valueid="{{ $attr_value['value'] }}"
-                                                            photo-url="{{ isset($attr_value['photo_url']) ? $attr_value['photo_url'] : '' }}" delta-price="{{ $attr_value['delta_price'] }}">
-                                                            {{ $attr_value['value'] }}
-                                                        </li>
+                                                        @if(false)
+                                                        {{-- 非图片格式 --}}
+                                                            <li data-paramid="{{ $attr_name }}" data-valueid="{{ $attr_value['value'] }}"
+                                                                photo-url="{{ isset($attr_value['photo_url']) ? $attr_value['photo_url'] : '' }}" delta-price="{{ $attr_value['delta_price'] }}">
+                                                                {{ $attr_value['value'] }}
+                                                            </li>
+                                                        @else
+                                                            {{-- 图片格式 --}}
+                                                            <li class="color-img-choose" data-paramid="{{ $attr_name }}" data-valueid="{{ $attr_value['value'] }}"
+                                                                photo-url="{{ isset($attr_value['photo_url']) ? $attr_value['photo_url'] : '' }}" 
+                                                                delta-price="{{ $attr_value['delta_price'] }}">
+                                                                <img src="{{ asset('img/350hc-small.png') }}" alt="Lyricalhair.com">
+                                                                <span class="color-name">#350</span>
+                                                                <span class="color-name-text dis_ni">{{ $attr_value['value'] }}</span>
+                                                            </li>
+                                                        @endif
                                                     @endforeach
                                                 </ul>
                                             </div>
@@ -1417,7 +1432,11 @@
             var _that = $(this),
                 selected_val = _that.attr("data-valueId"),
                 _that_parent = _that.parent("ul");
-            _that.parents(".sku-select-module").find(".sku-select-value-show").html(_that.html());
+                if(_that.hasClass(".color-img-choose")){
+                    _that.parents(".sku-select-module").find(".sku-select-value-show").html(_that.html());
+                }else {
+                    _that.parents(".sku-select-module").find(".sku-select-value-show").html(_that.find(".color-name-text").html());
+                }
             _that.parents(".sku-select-module").find("input").val(selected_val);
             _that.parents(".sku-select-module").find("input").attr("delta-price",_that.attr("delta-price"));
             $("#sku-choose-store").find(".sku-select-value").removeClass("active");
