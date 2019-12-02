@@ -196,22 +196,24 @@
                                                 {{-- 
                                                     chooseType-color：如果是图片格式选择下面的ul有这个class，如果不是图片格式选择则下面的ul没有个这个class
                                                 --}}
-                                                <ul class="{{ 1==1 ? 'chooseType-color' : '' }}" data-paramid="undefined" data-name="undefined">
+                                                <ul class="{{ isset($attr_values[0]['photo_url']) ? 'chooseType-color' : '' }}" data-paramid="undefined" data-name="undefined">
                                                     @foreach($attr_values as $attr_value)
-                                                        @if(false)
-                                                        {{-- 非图片格式 --}}
+                                                        @if(isset($attr_value['photo_url']))
+                                                            {{-- 图片格式 --}}
+                                                            <li class="color-img-choose" data-paramid="{{ $attr_name }}" data-valueid="{{ $attr_value['value'] }}"
+                                                                photo-url="{{ isset($attr_value['photo_url']) ? $attr_value['photo_url'] : '' }}"
+                                                                delta-price="{{ $attr_value['delta_price'] }}">
+                                                                @if($attr_value['photo'])
+                                                                    <img src="{{ $attr_value['photo'] }}" alt="Lyricalhair.com">
+                                                                @endif
+                                                                <span class="color-name">{{ $attr_value['abbr'] ? : $attr_value['value'] }}</span>
+                                                                <span class="color-name-text dis_ni">{{ $attr_value['value'] }}</span>
+                                                            </li>
+                                                        @else
+                                                            {{-- 非图片格式 --}}
                                                             <li data-paramid="{{ $attr_name }}" data-valueid="{{ $attr_value['value'] }}"
                                                                 photo-url="{{ isset($attr_value['photo_url']) ? $attr_value['photo_url'] : '' }}" delta-price="{{ $attr_value['delta_price'] }}">
                                                                 {{ $attr_value['value'] }}
-                                                            </li>
-                                                        @else
-                                                            {{-- 图片格式 --}}
-                                                            <li class="color-img-choose" data-paramid="{{ $attr_name }}" data-valueid="{{ $attr_value['value'] }}"
-                                                                photo-url="{{ isset($attr_value['photo_url']) ? $attr_value['photo_url'] : '' }}" 
-                                                                delta-price="{{ $attr_value['delta_price'] }}">
-                                                                <img src="{{ asset('img/350hc-small.png') }}" alt="Lyricalhair.com">
-                                                                <span class="color-name">#350</span>
-                                                                <span class="color-name-text dis_ni">{{ $attr_value['value'] }}</span>
                                                             </li>
                                                         @endif
                                                     @endforeach

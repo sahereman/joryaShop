@@ -15,6 +15,8 @@ class ProductSkuAttrValue extends Model
         'product_sku_id',
         'product_attr_id',
         'value',
+        'abbr',
+        'photo',
         'sort'
     ];
 
@@ -24,7 +26,8 @@ class ProductSkuAttrValue extends Model
      * @var array
      */
     protected $appends = [
-        'name'
+        'name',
+        'photo_url'
     ];
 
     /* Accessors */
@@ -33,10 +36,28 @@ class ProductSkuAttrValue extends Model
         return $this->attr->name;
     }
 
+    public function getPhotoUrlAttribute()
+    {
+        if ($this->attributes['photo']) {
+            // 如果 photo 字段本身就已经是完整的 url 就直接返回
+            /*if (Str::startsWith($this->attributes['photo'], ['http://', 'https://'])) {
+                return $this->attributes['photo'];
+            }
+            return Storage::disk('public')->url($this->attributes['photo']);*/
+            return generate_image_url($this->attributes['photo'], 'public');
+        }
+        return '';
+    }
+
     /* Mutators */
     public function setNameAttribute($value)
     {
         unset($this->attributes['name']);
+    }
+
+    public function setPhotoUrlAttribute($value)
+    {
+        unset($this->attributes['photo_url']);
     }
 
     /* Eloquent Relationships */

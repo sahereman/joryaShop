@@ -259,6 +259,8 @@ class ProductsController extends Controller
                     // 'product_sku_id' => $productSkuAttrValue->product_sku_id,
                     'name' => $attr_name,
                     'value' => $attr_value,
+                    'abbr' => $productSkuAttrValue->abbr,
+                    'photo' => $productSkuAttrValue->photo_url,
                     // 'stock' => $productSkuAttrValue->sku->stock,
                     // 'price' => $productSkuAttrValue->sku->price,
                     'delta_price' => $productSkuAttrValue->sku->delta_price,

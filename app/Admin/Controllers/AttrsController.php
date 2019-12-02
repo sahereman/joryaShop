@@ -4,6 +4,7 @@ namespace App\Admin\Controllers;
 
 use App\Models\Attr;
 use App\Http\Controllers\Controller;
+use App\Models\AttrValue;
 use App\Models\ProductAttr;
 use App\Models\ProductSkuAttrValue;
 use Encore\Admin\Controllers\HasResourceActions;
@@ -174,6 +175,8 @@ class AttrsController extends Controller
 
         $form->hasMany('values', 'SKU 属性值 - 列表', function (NestedForm $form) {
             $form->text('value', 'SKU 属性值');
+            $form->text('abbr', 'SKU 属性值简称');
+            $form->image('photo', 'SKU 属性图片');
         });
 
         $form->number('sort', '排序值')->default(9)->rules('required|integer|min:0')->help('默认倒序排列：数值越大越靠前');
@@ -203,6 +206,13 @@ class AttrsController extends Controller
             $product_attr->update(['sort' => $attr->sort]);
             $product_attr->get()->each(function (ProductAttr $productAttr) use ($attr) {
                 $productAttr->values()->update(['sort' => $attr->sort]);
+            });
+
+            $attr->values->each(function (AttrValue $attrValue) {
+                ProductSkuAttrValue::where('value', $attrValue->value)->update([
+                    'abbr' => $attrValue->abbr,
+                    'photo' => $attrValue->photo
+                ]);
             });
 
         });

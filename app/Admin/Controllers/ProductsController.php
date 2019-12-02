@@ -15,6 +15,7 @@ use App\Http\Requests\Admin\SkuEditorRequest;
 use App\Http\Requests\Admin\SkuGeneratorRequest;
 use App\Http\Requests\Request;
 use App\Models\Attr;
+use App\Models\AttrValue;
 use App\Models\Param;
 use App\Models\ProductAttr;
 use App\Models\ProductCategory;
@@ -881,10 +882,22 @@ class ProductsController extends Controller
             unset($option['photo']);
             foreach ($option as $product_attr_id => $attr_value) {
                 $product_attr = ProductAttr::find($product_attr_id);
+                $abbr = '';
+                $photo = '';
+                $attr_model = $product_attr->basic_attr;
+                if ($attr_model) {
+                    $attr_value_model = AttrValue::where(['attr_id' => $attr_model->id, 'value' => $attr_value])->first();
+                    if ($attr_value_model) {
+                        $abbr = $attr_value_model->abbr;
+                        $photo = $attr_value_model->photo;
+                    }
+                }
                 ProductSkuAttrValue::create([
                     'product_sku_id' => $sku->id,
                     'product_attr_id' => $product_attr_id,
                     'value' => $attr_value,
+                    'abbr' => $abbr,
+                    'photo' => $photo,
                     'sort' => $product_attr->sort,
                 ]);
             }
