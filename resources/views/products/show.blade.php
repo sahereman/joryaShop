@@ -1436,10 +1436,10 @@
             var _that = $(this),
                 selected_val = _that.attr("data-valueId"),
                 _that_parent = _that.parent("ul");
-                if(_that.hasClass(".color-img-choose")){
-                    _that.parents(".sku-select-module").find(".sku-select-value-show").html(_that.html());
-                }else {
+                if(_that.hasClass("color-img-choose")){
                     _that.parents(".sku-select-module").find(".sku-select-value-show").html(_that.find(".color-name-text").html());
+                }else {
+                    _that.parents(".sku-select-module").find(".sku-select-value-show").html(_that.html());
                 }
             _that.parents(".sku-select-module").find("input").val(selected_val);
             _that.parents(".sku-select-module").find("input").attr("delta-price",_that.attr("delta-price"));
