@@ -26,10 +26,16 @@
       padding-left: 2%;
       font-size: 1.2em;
       color: #e50012;
+      @media only screen and (max-width: 767px){
+        display: none;
+      }
     }
     .custom-title-center {
       text-align: center;
       width: 32%;
+      @media only screen and (max-width: 767px){
+        width: 40%;
+      }
       ul {
         width: 100%;
         display: flex;
@@ -51,6 +57,9 @@
       padding-right: 2%;
       width: 25%;
       text-align: right;
+      @media only screen and (max-width: 767px){
+        width: 55%;
+      }
       button {
         background: none;
         border: 1px solid #e50012;
@@ -68,6 +77,9 @@
         white-space: nowrap;
         text-align: center;
         transition: color 300ms ease-in-out, background-color 300ms ease-in-out;
+        @media only screen and (max-width: 767px){
+          min-width: 70px;
+        }
         &:hover {
           background-color: #e50640;
           color: #fff;
@@ -89,12 +101,19 @@
     overflow: hidden;
     //background: url("../img/lordImg/fr1.jpg") right center no-repeat;
     min-height: 718px;
+    @media only screen and (max-width: 767px){
+      margin: 0;
+      width: 100%;
+    }
     .customizations-img {
       position: absolute;
       right: 15px;
       top: 15px;
       width: 40%;
       text-align: right;
+      @media only screen and (max-width: 767px){
+        display: none;
+      }
       img {
         max-width: 100%;
         max-height: 675px;
@@ -110,6 +129,12 @@
     .customizations-slide {
       width: 60%;
       padding: 20px;
+      @media only screen and (max-width: 767px){
+        padding: 20px 5px;
+      }
+      @media only screen and (max-width: 767px){
+        width: 100%;
+      }
       .product-title {
         position: relative;
         margin: 0 0 10px;
@@ -282,7 +307,8 @@
             }
           }
           // 颜色选择表
-          .Color-choose-table {
+          .Color-choose-table,
+          .hairColor-choose-table {
             display: none;
             margin-top: 6px;
             padding-left: 35px;
@@ -293,7 +319,19 @@
               li {
                 // margin: auto;
                 width: 25%;
+                img {
+                  width: 46px;
+                  height: 46px;
+                  border: 1px solid transparent;
+                }
               }
+            }
+          }
+          .hairColor-choose-table {
+            width: 100%;
+            overflow: hidden;
+            ul {
+              width: 100%;
             }
           }
           // Highlight Percentage

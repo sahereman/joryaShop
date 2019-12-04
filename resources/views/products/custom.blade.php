@@ -129,7 +129,7 @@
                                         <label>
                                             <input type="radio" class="block-list-level-input" value="90" name="Production Time">
                                             <span class="val-text">Rush service 4-5 weeks</span>
-                                            <span class="price red" data-price="50.00"><i>USD</i><i class="price_num">50.00</i></span>
+                                            <span class="price red" data-price="50.00">+<i>USD</i><i class="price_num">50.00</i></span>
                                         </label>
                                     </li>
                                     <li class="block-list-level">
@@ -160,7 +160,7 @@
                                         <label>
                                             <input type="radio" class="block-list-level-input" value="84" name="Hair Cut">
                                             <span class="val-text">Yes,have hair cut-in and styled</span>
-                                            <span class="price red" data-price="20.00"><i>USD</i><i class="price_num">20.00</i></span>
+                                            <span class="price red" data-price="20.00">+<i>USD</i><i class="price_num">20.00</i></span>
                                         </label>
                                     </li>
                                     <li class="block-list-level">
@@ -197,28 +197,28 @@
                                         <label>
                                             <input type="radio" class="block-list-level-input" value="4" name="Base Size">
                                             <span class="val-text" title='size ≥ 10"x10", or area ≥ 100 square inches'>size ≥ 10"x10", or area ≥ 100 square inches</span>
-                                            <span class="price red" data-price="14.00"><i>USD</i><i class="price_num">14.00</i></span>
+                                            <span class="price red" data-price="50.00">+<i>USD</i><i class="price_num">50.00</i></span>
                                         </label>
                                     </li>
                                     <li class="block-list-level">
                                         <label>
                                             <input type="radio" class="block-list-level-input" value="3" name="Base Size">
                                             <span class="val-text" title='8"x10"&lt; size &lt;10"x10", or 80 square inches&lt; area &lt;100 square inches'>8"x10"&lt; size &lt;10"x10", or 80 square inches&lt; area &lt;100 square inches</span>
-                                            <span class="price red" data-price="13.00"><i>USD</i><i class="price_num">13.00</i></span>
+                                            <span class="price red" data-price="30.00">+<i>USD</i><i class="price_num">30.00</i></span>
                                         </label>
                                     </li>
                                     <li class="block-list-level">
                                         <label>
                                             <input type="radio" class="block-list-level-input" value="2" name="Base Size">
                                             <span class="val-text">4"x4"≤ size ≤8"x10", or 16 square inches≤ area ≤80 square inches</span>
-                                            <span class="price red" data-price="12.00"><i>USD</i><i class="price_num">12.00</i></span>
+                                            <span class="price red" data-price="0"></span>
                                         </label>
                                     </li>
                                     <li class="block-list-level">
                                         <label>
                                             <input type="radio" class="block-list-level-input" value="1" name="Base Size">
                                             <span class="val-text">size &lt; 4"x4", or area &lt; 16 square inches</span>
-                                            <span class="price red" data-price="11.00"><i>USD</i><i class="price_num">11.00</i></span>
+                                            <span class="price red" data-price="-50.00">-<i>USD</i><i class="price_num">50.00</i></span>
                                         </label>
                                     </li>
                                 </ul>
@@ -240,78 +240,134 @@
                                     <li class="block-list-level">
                                         <label>
                                             <input type="radio" class="block-list-level-input" value="15" name="Base Design">
-                                            <span class="val-text">S7 French lace all over</span>
-                                            <span class="price red" data-price="15.00"><i>USD</i><i class="price_num">15.00</i></span>
+                                            <span class="val-text">D7-5: French lace with 1’’ poly coating perimeter</span>
+                                            <span class="price red" data-price="15.00">+<i>USD</i><i class="price_num">15.00</i></span>
                                         </label>
                                     </li>
                                     <li class="block-list-level">
                                         <label>
                                             <input type="radio" class="block-list-level-input" value="14" name="Base Design">
-                                            <span class="val-text">S4 Super fine mono with PU perimeter and 1/4" lace front</span>
-                                            <span class="price red" data-price="14.00"><i>USD</i><i class="price_num">14.00</i></span>
+                                            <span class="val-text">BX6: French lace,thread sewing,Zigzag PU side to side over the back</span>
+                                            <span class="price red" data-price="15.00">+<i>USD</i><i class="price_num">15.00</i></span>
                                         </label>
                                     </li>
                                     <li class="block-list-level">
                                         <label>
                                             <input type="radio" class="block-list-level-input" value="13" name="Base Design">
-                                            <span class="val-text">S3 Fine mono with PU perimeter</span>
-                                            <span class="price red" data-price="13.00"><i>USD</i><i class="price_num">13.00</i></span>
+                                            <span class="val-text">Ali2:Fine mono,with 1’’ poly coating perimeter, Zigzag thread sewing, 1/8’’ folded welded mono front</span>
+                                            <span class="price red" data-price="0"></span>
                                         </label>
                                     </li>
                                     <li class="block-list-level">
                                         <label>
                                             <input type="radio" class="block-list-level-input" value="12" name="Base Design">
-                                            <span class="val-text">S2 Fine welded mono lace all over</span>
-                                            <span class="price red" data-price="12.00"><i>USD</i><i class="price_num">12.00</i></span>
+                                            <span class="val-text">OCT: French lace,with poly coating around sides and back</span>
+                                            <span class="price red" data-price="15.00">+<i>USD</i><i class="price_num">15.00</i></span>
                                         </label>
                                     </li>
                                     <li class="block-list-level">
                                         <label>
                                             <input type="radio" class="block-list-level-input" value="11" name="Base Design">
-                                            <span class="val-text">S16 Integration base with skin perimeter</span>
-                                            <span class="price red" data-price="11.00"><i>USD</i><i class="price_num">11.00</i></span>
+                                            <span class="val-text">D7-3: Fine mono,with 1’’ poly coating perimeter</span>
+                                            <span class="price red" data-price="0"></span>
                                         </label>
                                     </li>
                                     <li class="block-list-level">
                                         <label>
                                             <input type="radio" class="block-list-level-input" value="10" name="Base Design">
-                                            <span class="val-text">S15 Thin skin with 1/4" French lace front</span>
-                                            <span class="price red" data-price="16.00"><i>USD</i><i class="price_num">16.00</i></span>
+                                            <span class="val-text">BX2: French lace,with 1’’ see-through poly around sides and back</span>
+                                            <span class="price red" data-price="15.00">+<i>USD</i><i class="price_num">15.00</i></span>
                                         </label>
                                     </li>
                                     <li class="block-list-level">
                                         <label>
                                             <input type="radio" class="block-list-level-input" value="9" name="Base Design">
-                                            <span class="val-text">S13 French lace with PU perimeter</span>
-                                            <span class="price red" data-price="15.00"><i>USD</i><i class="price_num">15.00</i></span>
+                                            <span class="val-text">P1-3-5: Fine mono,with 1’’ poly coating perimeter,1/2’’ welded mono as the front</span>
+                                            <span class="price red" data-price="0"></span>
                                         </label>
                                     </li>
                                     <li class="block-list-level">
                                         <label>
                                             <input type="radio" class="block-list-level-input" value="8" name="Base Design">
-                                            <span class="val-text">S12 Thin skin with mono lace front( zig zag connection)</span>
-                                            <span class="price red" data-price="14.00"><i>USD</i><i class="price_num">14.00</i></span>
+                                            <span class="val-text">OSCAR:Fine mono, with 1.5’’ clear poly in front, poly coating at the sides and back. </span>
+                                            <span class="price red" data-price="0"></span>
                                         </label>
                                     </li>
                                     <li class="block-list-level">
                                         <label>
                                             <input type="radio" class="block-list-level-input" value="7" name="Base Design">
-                                            <span class="val-text">S1 Thin skin all over</span>
-                                            <span class="price red" data-price="13.00"><i>USD</i><i class="price_num">13.00</i></span>
+                                            <span class="val-text">Cut-away size.</span>
+                                            <span class="price red" data-price="0"></span>
                                         </label>
                                     </li>
                                     <li class="block-list-level">
                                         <label>
                                             <input type="radio" class="block-list-level-input" value="6" name="Base Design">
-                                            <span class="val-text">L16 Fine welded mono with PU edge on sides &amp; back</span>
-                                            <span class="price red" data-price="12.00"><i>USD</i><i class="price_num">12.00</i></span>
+                                            <span class="val-text">TS-3: Fine mono, with large clear poly all over. Cut-away size</span>
+                                            <span class="price red" data-price="0"></span>
                                         </label>
                                     </li>
                                     <li class="block-list-level">
                                         <label>
                                             <input type="radio" class="block-list-level-input" value="5" name="Base Design">
-                                            <span class="val-text">L15 French lace with PU edge on sides &amp; back</span>
-                                            <span class="price red" data-price="11.00"><i>USD</i><i class="price_num">11.00</i></span>
+                                            <span class="val-text">Australia: French lace,with see-through poly all around</span>
+                                            <span class="price red" data-price="15.00">+<i>USD</i><i class="price_num">15.00</i></span>
+                                        </label>
+                                    </li>
+                                    <li class="block-list-level">
+                                        <label>
+                                            <input type="radio" class="block-list-level-input" value="5" name="Base Design">
+                                            <span class="val-text">Full Swiss Lace: Swiss lace all over</span>
+                                            <span class="price red" data-price="15.00">+<i>USD</i><i class="price_num">15.00</i></span>
+                                        </label>
+                                    </li>
+                                    <li class="block-list-level">
+                                        <label>
+                                            <input type="radio" class="block-list-level-input" value="5" name="Base Design">
+                                            <span class="val-text">Full French Lace: French lace all over</span>
+                                            <span class="price red" data-price="15.00">+<i>USD</i><i class="price_num">15.00</i></span>
+                                        </label>
+                                    </li>
+                                    <li class="block-list-level">
+                                        <label>
+                                            <input type="radio" class="block-list-level-input" value="5" name="Base Design">
+                                            <span class="val-text">FPM: Fine mono, with see-through poly perimeter,2’’ lace front,Cut away sizes</span>
+                                            <span class="price red" data-price="0"></span>
+                                        </label>
+                                    </li>
+                                    <li class="block-list-level">
+                                        <label>
+                                            <input type="radio" class="block-list-level-input" value="5" name="Base Design">
+                                            <span class="val-text">Q6: French lace, 2’’ scallope poly coating around the sides and back</span>
+                                            <span class="price red" data-price="15.00">+<i>USD</i><i class="price_num">15.00</i></span>
+                                        </label>
+                                    </li>
+                                    <li class="block-list-level">
+                                        <label>
+                                            <input type="radio" class="block-list-level-input" value="5" name="Base Design">
+                                            <span class="val-text">MXG: Half front base is French lace front,half back is See-through poly thin skin/span>
+                                            <span class="price red" data-price="15.00">+<i>USD</i><i class="price_num">15.00</i></span>
+                                        </label>
+                                    </li>
+                                    <li class="block-list-level">
+                                        <label>
+                                            <input type="radio" class="block-list-level-input" value="5" name="Base Design">
+                                            <span class="val-text">BIO: Thin skin,with French lace front</span>
+                                            <span class="price red" data-price="10.00">+<i>USD</i><i class="price_num">10.00</i></span>
+                                        </label>
+                                    </li>
+                                    <li class="block-list-level">
+                                        <label>
+                                            <input type="radio" class="block-list-level-input" value="5" name="Base Design">
+                                            <span class="val-text">Super Thin Skin V-Loop: Thin Skin,V-Loop</span>
+                                            <span class="price red" data-price="15.00">+<i>USD</i><i class="price_num">15.00</i></span>
+                                        </label>
+                                    </li>
+                                    <li class="block-list-level">
+                                        <label>
+                                            <input type="radio" class="block-list-level-input" value="5" name="Base Design">
+                                            <span class="val-text">PAPY: Thin skin, 0.12mm-0.14mm,ventilation</span>
+                                            <span class="price red" data-price="0"></span>
                                         </label>
                                     </li>
                                 </ul>
@@ -334,28 +390,28 @@
                                         <label>
                                             <input type="radio" class="block-list-level-input" value="19" name="Base Material Color">
                                             <span class="val-text">Black</span>
-                                            <span class="price red" data-price="14.00"><i>USD</i><i class="price_num">14.00</i></span>
+                                            <span class="price red" data-price="0"></span>
                                         </label>
                                     </li>
                                     <li class="block-list-level">
                                         <label>
                                             <input type="radio" class="block-list-level-input" value="18" name="Base Material Color">
                                             <span class="val-text">Brown</span>
-                                            <span class="price red" data-price="13.00"><i>USD</i><i class="price_num">13.00</i></span>
+                                            <span class="price red" data-price="0"></span>
                                         </label>
                                     </li>
                                     <li class="block-list-level">
                                         <label>
                                             <input type="radio" class="block-list-level-input" value="17" name="Base Material Color">
                                             <span class="val-text">Light Brown</span>
-                                            <span class="price red" data-price="12.00"><i>USD</i><i class="price_num">12.00</i></span>
+                                            <span class="price red" data-price="0"></span>
                                         </label>
                                     </li>
                                     <li class="block-list-level">
                                         <label>
                                             <input type="radio" class="block-list-level-input" value="16" name="Base Material Color">
                                             <span class="val-text">Flesh</span>
-                                            <span class="price red" data-price="11.00"><i>USD</i><i class="price_num">11.00</i></span>
+                                            <span class="price red" data-price="0"></span>
                                         </label>
                                     </li>
                                 </ul>
@@ -378,42 +434,42 @@
                                         <label>
                                             <input type="radio" class="block-list-level-input" value="29" name="Scallop Front">
                                             <span class="val-text">#6 scallop size</span>
-                                            <span class="price red" data-price="16.00"><i>USD</i><i class="price_num">16.00</i></span>
+                                            <span class="price red" data-price="0"></span>
                                         </label>
                                     </li>
                                     <li class="block-list-level">
                                         <label>
                                             <input type="radio" class="block-list-level-input" value="28" name="Scallop Front">
                                             <span class="val-text">#5 scallop size</span>
-                                            <span class="price red" data-price="15.00"><i>USD</i><i class="price_num">15.00</i></span>
+                                            <span class="price red" data-price="0"></span>
                                         </label>
                                     </li>
                                     <li class="block-list-level">
                                         <label>
                                             <input type="radio" class="block-list-level-input" value="27" name="Scallop Front">
                                             <span class="val-text">#4 scallop size</span>
-                                            <span class="price red" data-price="14.00"><i>USD</i><i class="price_num">14.00</i></span>
+                                            <span class="price red" data-price="0"></span>
                                         </label>
                                     </li>
                                     <li class="block-list-level">
                                         <label>
                                             <input type="radio" class="block-list-level-input" value="26" name="Scallop Front">
                                             <span class="val-text">#3 scallop size</span>
-                                            <span class="price red" data-price="13.00"><i>USD</i><i class="price_num">13.00</i></span>
+                                            <span class="price red" data-price="0"></span>
                                         </label>
                                     </li>
                                     <li class="block-list-level">
                                         <label>
                                             <input type="radio" class="block-list-level-input" value="25" name="Scallop Front">
                                             <span class="val-text">#2 scallop size</span>
-                                            <span class="price red" data-price="12.00"><i>USD</i><i class="price_num">12.00</i></span>
+                                            <span class="price red" data-price="0"></span>
                                         </label>
                                     </li>
                                     <li class="block-list-level">
                                         <label>
                                             <input type="radio" class="block-list-level-input" value="24" name="Scallop Front">
                                             <span class="val-text">#1 scallop size</span>
-                                            <span class="price red" data-price="11.00"><i>USD</i><i class="price_num">11.00</i></span>
+                                            <span class="price red" data-price="0"></span>
                                         </label>
                                     </li>
                                 </ul>
@@ -436,28 +492,28 @@
                                         <label>
                                             <input type="radio" class="block-list-level-input" value="23" name="Front Contour">
                                             <span class="val-text">C(nearly straight shape)</span>
-                                            <span class="price red" data-price="14.00"><i>USD</i><i class="price_num">14.00</i></span>
+                                            <span class="price red" data-price="0"></span>
                                         </label>
                                     </li>
                                     <li class="block-list-level">
                                         <label>
                                             <input type="radio" class="block-list-level-input" value="22" name="Front Contour">
                                             <span class="val-text">CC (round shape)</span>
-                                            <span class="price red" data-price="13.00"><i>USD</i><i class="price_num">13.00</i></span>
+                                            <span class="price red" data-price="0"></span>
                                         </label>
                                     </li>
                                     <li class="block-list-level">
                                         <label>
                                             <input type="radio" class="block-list-level-input" value="21" name="Front Contour">
                                             <span class="val-text">A (between AA and CC)</span>
-                                            <span class="price red" data-price="12.00"><i>USD</i><i class="price_num">12.00</i></span>
+                                            <span class="price red" data-price="0"></span>
                                         </label>
                                     </li>
                                     <li class="block-list-level">
                                         <label>
                                             <input type="radio" class="block-list-level-input" value="20" name="Front Contour">
                                             <span class="val-text">AA (V peak shape)</span>
-                                            <span class="price red" data-price="11.00"><i>USD</i><i class="price_num">11.00</i></span>
+                                            <span class="price red" data-price="0"></span>
                                         </label>
                                     </li>
                                 </ul>
@@ -698,14 +754,14 @@
                                         <label>
                                             <input type="radio" class="block-list-level-input" value="48" name="Hair Density">
                                             <span class="val-text">Medium Heavy--150%</span>
-                                            <span class="price red" data-price="15.00"><i>USD</i><i class="price_num">15.00</i></span>
+                                            <span class="price red" data-price="15.00">+<i>USD</i><i class="price_num">15.00</i></span>
                                         </label>
                                     </li>
                                     <li class="block-list-level">
                                         <label>
                                             <input type="radio" class="block-list-level-input" value="49" name="Hair Density">
                                             <span class="val-text">Heavy--180%</span>
-                                            <span class="price red" data-price="30.00"><i>USD</i><i class="price_num">30.00</i></span>
+                                            <span class="price red" data-price="30.00">+<i>USD</i><i class="price_num">30.00</i></span>
                                         </label>
                                     </li>
                                 </ul>
@@ -743,63 +799,63 @@
                                         <label>
                                             <input type="radio" class="block-list-level-input" value="32" name="Hair Length">
                                             <span class="val-text">8 Inch</span>
-                                            <span class="price red" data-price="80.00"><i>USD</i><i class="price_num">80.00</i></span>
+                                            <span class="price red" data-price="80.00">+<i>USD</i><i class="price_num">80.00</i></span>
                                         </label>
                                     </li>
                                     <li class="block-list-level">
                                         <label>
                                             <input type="radio" class="block-list-level-input" value="33" name="Hair Length">
                                             <span class="val-text">10 Inch</span>
-                                            <span class="price red" data-price="105.00"><i>USD</i><i class="price_num">105.00</i></span>
+                                            <span class="price red" data-price="105.00">+<i>USD</i><i class="price_num">105.00</i></span>
                                         </label>
                                     </li>
                                     <li class="block-list-level">
                                         <label>
                                             <input type="radio" class="block-list-level-input" value="34" name="Hair Length">
                                             <span class="val-text">12 Inch</span>
-                                            <span class="price red" data-price="130.00"><i>USD</i><i class="price_num">130.00</i></span>
+                                            <span class="price red" data-price="130.00">+<i>USD</i><i class="price_num">130.00</i></span>
                                         </label>
                                     </li>
                                     <li class="block-list-level">
                                         <label>
                                             <input type="radio" class="block-list-level-input" value="35" name="Hair Length">
                                             <span class="val-text">14 Inch</span>
-                                            <span class="price red" data-price="160.00"><i>USD</i><i class="price_num">160.00</i></span>
+                                            <span class="price red" data-price="160.00">+<i>USD</i><i class="price_num">160.00</i></span>
                                         </label>
                                     </li>
                                     <li class="block-list-level">
                                         <label>
                                             <input type="radio" class="block-list-level-input" value="103" name="Hair Length">
                                             <span class="val-text">16 inch</span>
-                                            <span class="price red" data-price="200.00"><i>USD</i><i class="price_num">200.00</i></span>
+                                            <span class="price red" data-price="200.00">+<i>USD</i><i class="price_num">200.00</i></span>
                                         </label>
                                     </li>
                                     <li class="block-list-level">
                                         <label>
                                             <input type="radio" class="block-list-level-input" value="104" name="Hair Length">
                                             <span class="val-text">18 inch</span>
-                                            <span class="price red" data-price="240.00"><i>USD</i><i class="price_num">240.00</i></span>
+                                            <span class="price red" data-price="240.00">+<i>USD</i><i class="price_num">240.00</i></span>
                                         </label>
                                     </li>
                                     <li class="block-list-level">
                                         <label>
                                             <input type="radio" class="block-list-level-input" value="105" name="Hair Length">
                                             <span class="val-text">20 inch</span>
-                                            <span class="price red" data-price="280.00"><i>USD</i><i class="price_num">280.00</i></span>
+                                            <span class="price red" data-price="280.00">+<i>USD</i><i class="price_num">280.00</i></span>
                                         </label>
                                     </li>
                                     <li class="block-list-level">
                                         <label>
                                             <input type="radio" class="block-list-level-input" value="106" name="Hair Length">
                                             <span class="val-text">22 inch</span>
-                                            <span class="price red" data-price="320.00"><i>USD</i><i class="price_num">320.00</i></span>
+                                            <span class="price red" data-price="320.00">+<i>USD</i><i class="price_num">320.00</i></span>
                                         </label>
                                     </li>
                                     <li class="block-list-level">
                                         <label>
                                             <input type="radio" class="block-list-level-input" value="107" name="Hair Length">
                                             <span class="val-text">24''</span>
-                                            <span class="price red" data-price="360.00"><i>USD</i><i class="price_num">360.00</i></span>
+                                            <span class="price red" data-price="360.00">+<i>USD</i><i class="price_num">360.00</i></span>
                                         </label>
                                     </li>
                                 </ul>
@@ -842,10 +898,506 @@
                                     </li>
                                     <li class="block-list-level">
                                         <label>
-                                            <input type="radio" class="block-list-level-input" value="62" name="Hair Color">
+                                            <input type="radio" class="block-list-level-input hasChildTwo" value="62" name="Hair Color">
                                             <span class="val-text">Use your color code</span>
                                             <span class="price red" data-price="0"></span>
                                         </label>
+                                        {{-- 颜色选择表 --}}
+                                        <div class="hairColor-choose-table block-list-level-2">
+                                            <ul>
+                                                <li>
+                                                    <label>
+                                                        <input type="radio" class="block-list-level4-input" value="1#" name="hairColorChartCode">
+                                                        <span class="val-text dis_ni">1#</span>
+                                                        <img src="{{ asset('img/palette/1.jpg') }}">
+                                                        <span class="price red" data-price="0"></span>
+                                                    </label>
+                                                </li>
+                                                <li>
+                                                    <label>
+                                                        <input type="radio" class="block-list-level4-input" value="1B#" name="hairColorChartCode">
+                                                        <span class="val-text dis_ni">1B#</span>
+                                                        <img src="{{ asset('img/palette/1B.jpg') }}">
+                                                        <span class="price red" data-price="0"></span>
+                                                    </label>
+                                                </li>
+                                                <li>
+                                                    <label>
+                                                        <input type="radio" class="block-list-level4-input" value="1B05#" name="hairColorChartCode">
+                                                        <span class="val-text dis_ni">1B05#</span>
+                                                        <img src="{{ asset('img/palette/1B05.jpg') }}">
+                                                        <span class="price red" data-price="0"></span>
+                                                    </label>
+                                                </li>
+                                                <li>
+                                                    <label>
+                                                        <input type="radio" class="block-list-level4-input" value="1B10#" name="hairColorChartCode">
+                                                        <span class="val-text dis_ni">1B10#</span>
+                                                        <img src="{{ asset('img/palette/1B10.jpg') }}">
+                                                        <span class="price red" data-price="0"></span>
+                                                    </label>
+                                                </li>
+                                                <li>
+                                                    <label>
+                                                        <input type="radio" class="block-list-level4-input" value="1B20#" name="hairColorChartCode">
+                                                        <span class="val-text dis_ni">1B20#</span>
+                                                        <img src="{{ asset('img/palette/1B20.jpg') }}">
+                                                        <span class="price red" data-price="0"></span>
+                                                    </label>
+                                                </li>
+                                                <li>
+                                                    <label>
+                                                        <input type="radio" class="block-list-level4-input" value="1B30#" name="hairColorChartCode">
+                                                        <span class="val-text dis_ni">1B30#</span>
+                                                        <img src="{{ asset('img/palette/1B30.jpg') }}">
+                                                        <span class="price red" data-price="0"></span>
+                                                    </label>
+                                                </li>
+                                                <li>
+                                                    <label>
+                                                        <input type="radio" class="block-list-level4-input" value="1B40#" name="hairColorChartCode">
+                                                        <span class="val-text dis_ni">1B40#</span>
+                                                        <img src="{{ asset('img/palette/1B40.jpg') }}">
+                                                        <span class="price red" data-price="0"></span>
+                                                    </label>
+                                                </li>
+                                                <li>
+                                                    <label>
+                                                        <input type="radio" class="block-list-level4-input" value="1B50#" name="hairColorChartCode">
+                                                        <span class="val-text dis_ni">1B50#</span>
+                                                        <img src="{{ asset('img/palette/1B50.jpg') }}">
+                                                        <span class="price red" data-price="0"></span>
+                                                    </label>
+                                                </li>
+                                                <li>
+                                                    <label>
+                                                        <input type="radio" class="block-list-level4-input" value="1B65#" name="hairColorChartCode">
+                                                        <span class="val-text dis_ni">1B65#</span>
+                                                        <img src="{{ asset('img/palette/1B65.jpg') }}">
+                                                        <span class="price red" data-price="0"></span>
+                                                    </label>
+                                                </li>
+                                                <li>
+                                                    <label>
+                                                        <input type="radio" class="block-list-level4-input" value="1B80#" name="hairColorChartCode">
+                                                        <span class="val-text dis_ni">1B80#</span>
+                                                        <img src="{{ asset('img/palette/1B80.jpg') }}">
+                                                        <span class="price red" data-price="0"></span>
+                                                    </label>
+                                                </li>
+                                                <li>
+                                                    <label>
+                                                        <input type="radio" class="block-list-level4-input" value="2#" name="hairColorChartCode">
+                                                        <span class="val-text dis_ni">2#</span>
+                                                        <img src="{{ asset('img/palette/2.jpg') }}">
+                                                        <span class="price red" data-price="0"></span>
+                                                    </label>
+                                                </li>
+                                                <li>
+                                                    <label>
+                                                        <input type="radio" class="block-list-level4-input" value="3#" name="hairColorChartCode">
+                                                        <span class="val-text dis_ni">3#</span>
+                                                        <img src="{{ asset('img/palette/3.jpg') }}">
+                                                        <span class="price red" data-price="0"></span>
+                                                    </label>
+                                                </li>
+                                                <li>
+                                                    <label>
+                                                        <input type="radio" class="block-list-level4-input" value="3ASH#" name="hairColorChartCode">
+                                                        <span class="val-text dis_ni">3ASH#</span>
+                                                        <img src="{{ asset('img/palette/3ASH.jpg') }}">
+                                                        <span class="price red" data-price="0"></span>
+                                                    </label>
+                                                </li>
+                                                <li>
+                                                    <label>
+                                                        <input type="radio" class="block-list-level4-input" value="4#" name="hairColorChartCode">
+                                                        <span class="val-text dis_ni">4#</span>
+                                                        <img src="{{ asset('img/palette/4.jpg') }}">
+                                                        <span class="price red" data-price="0"></span>
+                                                    </label>
+                                                </li>
+                                                <li>
+                                                    <label>
+                                                        <input type="radio" class="block-list-level4-input" value="4R#" name="hairColorChartCode">
+                                                        <span class="val-text dis_ni">4R#</span>
+                                                        <img src="{{ asset('img/palette/4R.jpg') }}">
+                                                        <span class="price red" data-price="0"></span>
+                                                    </label>
+                                                </li>
+                                                <li>
+                                                    <label>
+                                                        <input type="radio" class="block-list-level4-input" value="5#" name="hairColorChartCode">
+                                                        <span class="val-text dis_ni">5#</span>
+                                                        <img src="{{ asset('img/palette/5.jpg') }}">
+                                                        <span class="price red" data-price="0"></span>
+                                                    </label>
+                                                </li>
+                                                <li>
+                                                    <label>
+                                                        <input type="radio" class="block-list-level4-input" value="5R#" name="hairColorChartCode">
+                                                        <span class="val-text dis_ni">5R#</span>
+                                                        <img src="{{ asset('img/palette/5R.jpg') }}">
+                                                        <span class="price red" data-price="0"></span>
+                                                    </label>
+                                                </li>
+                                                <li>
+                                                    <label>
+                                                        <input type="radio" class="block-list-level4-input" value="6#" name="hairColorChartCode">
+                                                        <span class="val-text dis_ni">6#</span>
+                                                        <img src="{{ asset('img/palette/6.jpg') }}">
+                                                        <span class="price red" data-price="0"></span>
+                                                    </label>
+                                                </li>
+                                                <li>
+                                                    <label>
+                                                        <input type="radio" class="block-list-level4-input" value="6R#" name="hairColorChartCode">
+                                                        <span class="val-text dis_ni">6R#</span>
+                                                        <img src="{{ asset('img/palette/6R.jpg') }}">
+                                                        <span class="price red" data-price="0"></span>
+                                                    </label>
+                                                </li>
+                                                <li>
+                                                    <label>
+                                                        <input type="radio" class="block-list-level4-input" value="7#" name="hairColorChartCode">
+                                                        <span class="val-text dis_ni">7#</span>
+                                                        <img src="{{ asset('img/palette/7.jpg') }}">
+                                                        <span class="price red" data-price="0"></span>
+                                                    </label>
+                                                </li>
+                                                <li>
+                                                    <label>
+                                                        <input type="radio" class="block-list-level4-input" value="7ASH#" name="hairColorChartCode">
+                                                        <span class="val-text dis_ni">7ASH#</span>
+                                                        <img src="{{ asset('img/palette/7ASH.jpg') }}">
+                                                        <span class="price red" data-price="0"></span>
+                                                    </label>
+                                                </li>
+                                                <li>
+                                                    <label>
+                                                        <input type="radio" class="block-list-level4-input" value="10R#" name="hairColorChartCode">
+                                                        <span class="val-text dis_ni">10R#</span>
+                                                        <img src="{{ asset('img/palette/10R.jpg') }}">
+                                                        <span class="price red" data-price="0"></span>
+                                                    </label>
+                                                </li>
+                                                <li>
+                                                    <label>
+                                                        <input type="radio" class="block-list-level4-input" value="12R#" name="hairColorChartCode">
+                                                        <span class="val-text dis_ni">12R#</span>
+                                                        <img src="{{ asset('img/palette/12R.jpg') }}">
+                                                        <span class="price red" data-price="0"></span>
+                                                    </label>
+                                                </li>
+                                                <li>
+                                                    <label>
+                                                        <input type="radio" class="block-list-level4-input" value="17#" name="hairColorChartCode">
+                                                        <span class="val-text dis_ni">17#</span>
+                                                        <img src="{{ asset('img/palette/17.jpg') }}">
+                                                        <span class="price red" data-price="0"></span>
+                                                    </label>
+                                                </li>
+                                                <li>
+                                                    <label>
+                                                        <input type="radio" class="block-list-level4-input" value="17R#" name="hairColorChartCode">
+                                                        <span class="val-text dis_ni">17R#</span>
+                                                        <img src="{{ asset('img/palette/17R.jpg') }}">
+                                                        <span class="price red" data-price="0"></span>
+                                                    </label>
+                                                </li>
+                                                <li>
+                                                    <label>
+                                                        <input type="radio" class="block-list-level4-input" value="18#" name="hairColorChartCode">
+                                                        <span class="val-text dis_ni">18#</span>
+                                                        <img src="{{ asset('img/palette/17R.jpg') }}">
+                                                        <span class="price red" data-price="0"></span>
+                                                    </label>
+                                                </li>
+                                                <li>
+                                                    <label>
+                                                        <input type="radio" class="block-list-level4-input" value="20#" name="hairColorChartCode">
+                                                        <span class="val-text dis_ni">20#</span>
+                                                        <img src="{{ asset('img/palette/20.jpg') }}">
+                                                        <span class="price red" data-price="0"></span>
+                                                    </label>
+                                                </li>
+                                                <li>
+                                                    <label>
+                                                        <input type="radio" class="block-list-level4-input" value="20R#" name="hairColorChartCode">
+                                                        <span class="val-text dis_ni">20R#</span>
+                                                        <img src="{{ asset('img/palette/20R.jpg') }}">
+                                                        <span class="price red" data-price="0"></span>
+                                                    </label>
+                                                </li>
+                                                <li>
+                                                    <label>
+                                                        <input type="radio" class="block-list-level4-input" value="22R#" name="hairColorChartCode">
+                                                        <span class="val-text dis_ni">22R#</span>
+                                                        <img src="{{ asset('img/palette/22R.jpg') }}">
+                                                        <span class="price red" data-price="0"></span>
+                                                    </label>
+                                                </li>
+                                                <li>
+                                                    <label>
+                                                        <input type="radio" class="block-list-level4-input" value="60RY#" name="hairColorChartCode">
+                                                        <span class="val-text dis_ni">60RY#</span>
+                                                        <img src="{{ asset('img/palette/60RY.jpg') }}">
+                                                        <span class="price red" data-price="0"></span>
+                                                    </label>
+                                                </li>
+                                                <li>
+                                                    <label>
+                                                        <input type="radio" class="block-list-level4-input" value="210#" name="hairColorChartCode">
+                                                        <span class="val-text dis_ni">210#</span>
+                                                        <img src="{{ asset('img/palette/210.jpg') }}">
+                                                        <span class="price red" data-price="0"></span>
+                                                    </label>
+                                                </li>
+                                                <li>
+                                                    <label>
+                                                        <input type="radio" class="block-list-level4-input" value="220#" name="hairColorChartCode">
+                                                        <span class="val-text dis_ni">220#</span>
+                                                        <img src="{{ asset('img/palette/220.jpg') }}">
+                                                        <span class="price red" data-price="0"></span>
+                                                    </label>
+                                                </li>
+                                                <li>
+                                                    <label>
+                                                        <input type="radio" class="block-list-level4-input" value="230#" name="hairColorChartCode">
+                                                        <span class="val-text dis_ni">230#</span>
+                                                        <img src="{{ asset('img/palette/230.jpg') }}">
+                                                        <span class="price red" data-price="0"></span>
+                                                    </label>
+                                                </li>
+                                                <li>
+                                                    <label>
+                                                        <input type="radio" class="block-list-level4-input" value="240#" name="hairColorChartCode">
+                                                        <span class="val-text dis_ni">240#</span>
+                                                        <img src="{{ asset('img/palette/240.jpg') }}">
+                                                        <span class="price red" data-price="0"></span>
+                                                    </label>
+                                                </li>
+                                                <li>
+                                                    <label>
+                                                        <input type="radio" class="block-list-level4-input" value="250#" name="hairColorChartCode">
+                                                        <span class="val-text dis_ni">250#</span>
+                                                        <img src="{{ asset('img/palette/250.jpg') }}">
+                                                        <span class="price red" data-price="0"></span>
+                                                    </label>
+                                                </li>
+                                                <li>
+                                                    <label>
+                                                        <input type="radio" class="block-list-level4-input" value="305#" name="hairColorChartCode">
+                                                        <span class="val-text dis_ni">305#</span>
+                                                        <img src="{{ asset('img/palette/305.jpg') }}">
+                                                        <span class="price red" data-price="0"></span>
+                                                    </label>
+                                                </li>
+                                                <li>
+                                                    <label>
+                                                        <input type="radio" class="block-list-level4-input" value="310#" name="hairColorChartCode">
+                                                        <span class="val-text dis_ni">310#</span>
+                                                        <img src="{{ asset('img/palette/310.jpg') }}">
+                                                        <span class="price red" data-price="0"></span>
+                                                    </label>
+                                                </li>
+                                                <li>
+                                                    <label>
+                                                        <input type="radio" class="block-list-level4-input" value="320#" name="hairColorChartCode">
+                                                        <span class="val-text dis_ni">320#</span>
+                                                        <img src="{{ asset('img/palette/320.jpg') }}">
+                                                        <span class="price red" data-price="0"></span>
+                                                    </label>
+                                                </li>
+                                                <li>
+                                                    <label>
+                                                        <input type="radio" class="block-list-level4-input" value="330#" name="hairColorChartCode">
+                                                        <span class="val-text dis_ni">330#</span>
+                                                        <img src="{{ asset('img/palette/330.jpg') }}">
+                                                        <span class="price red" data-price="0"></span>
+                                                    </label>
+                                                </li>
+                                                <li>
+                                                    <label>
+                                                        <input type="radio" class="block-list-level4-input" value="340#" name="hairColorChartCode">
+                                                        <span class="val-text dis_ni">340#</span>
+                                                        <img src="{{ asset('img/palette/340.jpg') }}">
+                                                        <span class="price red" data-price="0"></span>
+                                                    </label>
+                                                </li>
+                                                <li>
+                                                    <label>
+                                                        <input type="radio" class="block-list-level4-input" value="350#" name="hairColorChartCode">
+                                                        <span class="val-text dis_ni">350#</span>
+                                                        <img src="{{ asset('img/palette/350.jpg') }}">
+                                                        <span class="price red" data-price="0"></span>
+                                                    </label>
+                                                </li>
+                                                <li>
+                                                    <label>
+                                                        <input type="radio" class="block-list-level4-input" value="380#" name="hairColorChartCode">
+                                                        <span class="val-text dis_ni">380#</span>
+                                                        <img src="{{ asset('img/palette/380.jpg') }}">
+                                                        <span class="price red" data-price="0"></span>
+                                                    </label>
+                                                </li>
+                                                <li>
+                                                    <label>
+                                                        <input type="radio" class="block-list-level4-input" value="420#" name="hairColorChartCode">
+                                                        <span class="val-text dis_ni">420#</span>
+                                                        <img src="{{ asset('img/palette/420.jpg') }}">
+                                                        <span class="price red" data-price="0"></span>
+                                                    </label>
+                                                </li>
+                                                <li>
+                                                    <label>
+                                                        <input type="radio" class="block-list-level4-input" value="430#" name="hairColorChartCode">
+                                                        <span class="val-text dis_ni">430#</span>
+                                                        <img src="{{ asset('img/palette/430.jpg') }}">
+                                                        <span class="price red" data-price="0"></span>
+                                                    </label>
+                                                </li>
+                                                <li>
+                                                    <label>
+                                                        <input type="radio" class="block-list-level4-input" value="440#" name="hairColorChartCode">
+                                                        <span class="val-text dis_ni">440#</span>
+                                                        <img src="{{ asset('img/palette/440.jpg') }}">
+                                                        <span class="price red" data-price="0"></span>
+                                                    </label>
+                                                </li>
+                                                <li>
+                                                    <label>
+                                                        <input type="radio" class="block-list-level4-input" value="450#" name="hairColorChartCode">
+                                                        <span class="val-text dis_ni">450#</span>
+                                                        <img src="{{ asset('img/palette/450.jpg') }}">
+                                                        <span class="price red" data-price="0"></span>
+                                                    </label>
+                                                </li>
+                                                <li>
+                                                    <label>
+                                                        <input type="radio" class="block-list-level4-input" value="520#" name="hairColorChartCode">
+                                                        <span class="val-text dis_ni">520#</span>
+                                                        <img src="{{ asset('img/palette/520.jpg') }}">
+                                                        <span class="price red" data-price="0"></span>
+                                                    </label>
+                                                </li>
+                                                <li>
+                                                    <label>
+                                                        <input type="radio" class="block-list-level4-input" value="530#" name="hairColorChartCode">
+                                                        <span class="val-text dis_ni">530#</span>
+                                                        <img src="{{ asset('img/palette/530.jpg') }}">
+                                                        <span class="price red" data-price="0"></span>
+                                                    </label>
+                                                </li>
+                                                <li>
+                                                    <label>
+                                                        <input type="radio" class="block-list-level4-input" value="540#" name="hairColorChartCode">
+                                                        <span class="val-text dis_ni">540#</span>
+                                                        <img src="{{ asset('img/palette/540.jpg') }}">
+                                                        <span class="price red" data-price="0"></span>
+                                                    </label>
+                                                </li>
+                                                <li>
+                                                    <label>
+                                                        <input type="radio" class="block-list-level4-input" value="550#" name="hairColorChartCode">
+                                                        <span class="val-text dis_ni">550#</span>
+                                                        <img src="{{ asset('img/palette/550.jpg') }}">
+                                                        <span class="price red" data-price="0"></span>
+                                                    </label>
+                                                </li>
+                                                <li>
+                                                    <label>
+                                                        <input type="radio" class="block-list-level4-input" value="560#" name="hairColorChartCode">
+                                                        <span class="val-text dis_ni">560#</span>
+                                                        <img src="{{ asset('img/palette/560.jpg') }}">
+                                                        <span class="price red" data-price="0"></span>
+                                                    </label>
+                                                </li>
+                                                <li>
+                                                    <label>
+                                                        <input type="radio" class="block-list-level4-input" value="580#" name="hairColorChartCode">
+                                                        <span class="val-text dis_ni">580#</span>
+                                                        <img src="{{ asset('img/palette/580.jpg') }}">
+                                                        <span class="price red" data-price="0"></span>
+                                                    </label>
+                                                </li>
+                                                
+                                                <li>
+                                                    <label>
+                                                        <input type="radio" class="block-list-level4-input" value="610#" name="hairColorChartCode">
+                                                        <span class="val-text dis_ni">610#</span>
+                                                        <img src="{{ asset('img/palette/610.jpg') }}">
+                                                        <span class="price red" data-price="0"></span>
+                                                    </label>
+                                                </li>
+                                                <li>
+                                                    <label>
+                                                        <input type="radio" class="block-list-level4-input" value="620#" name="hairColorChartCode">
+                                                        <span class="val-text dis_ni">620#</span>
+                                                        <img src="{{ asset('img/palette/620.jpg') }}">
+                                                        <span class="price red" data-price="0"></span>
+                                                    </label>
+                                                </li>
+                                                <li>
+                                                    <label>
+                                                        <input type="radio" class="block-list-level4-input" value="630#" name="hairColorChartCode">
+                                                        <span class="val-text dis_ni">630#</span>
+                                                        <img src="{{ asset('img/palette/630.jpg') }}">
+                                                        <span class="price red" data-price="0"></span>
+                                                    </label>
+                                                </li>
+                                                <li>
+                                                    <label>
+                                                        <input type="radio" class="block-list-level4-input" value="640#" name="hairColorChartCode">
+                                                        <span class="val-text dis_ni">640#</span>
+                                                        <img src="{{ asset('img/palette/640.jpg') }}">
+                                                        <span class="price red" data-price="0"></span>
+                                                    </label>
+                                                </li>
+                                                
+                                                <li>
+                                                    <label>
+                                                        <input type="radio" class="block-list-level4-input" value="710#" name="hairColorChartCode">
+                                                        <span class="val-text dis_ni">710#</span>
+                                                        <img src="{{ asset('img/palette/710.jpg') }}">
+                                                        <span class="price red" data-price="0"></span>
+                                                    </label>
+                                                </li>
+                                                <li>
+                                                    <label>
+                                                        <input type="radio" class="block-list-level4-input" value="720#" name="hairColorChartCode">
+                                                        <span class="val-text dis_ni">720#</span>
+                                                        <img src="{{ asset('img/palette/720.jpg') }}">
+                                                        <span class="price red" data-price="0"></span>
+                                                    </label>
+                                                </li>
+                                                <li>
+                                                    <label>
+                                                        <input type="radio" class="block-list-level4-input" value="740#" name="hairColorChartCode">
+                                                        <span class="val-text dis_ni">740#</span>
+                                                        <img src="{{ asset('img/palette/740.jpg') }}">
+                                                        <span class="price red" data-price="0"></span>
+                                                    </label>
+                                                </li>
+                                                <li>
+                                                    <label>
+                                                        <input type="radio" class="block-list-level4-input" value="1740#" name="hairColorChartCode">
+                                                        <span class="val-text dis_ni">1740#</span>
+                                                        <img src="{{ asset('img/palette/1740.jpg') }}">
+                                                        <span class="price red" data-price="0"></span>
+                                                    </label>
+                                                </li>
+                                                <li>
+                                                    <label>
+                                                        <input type="radio" class="block-list-level4-input" value="2020#" name="hairColorChartCode">
+                                                        <span class="val-text dis_ni">2020#</span>
+                                                        <img src="{{ asset('img/palette/2020.jpg') }}">
+                                                        <span class="price red" data-price="0"></span>
+                                                    </label>
+                                                </li>
+                                                
+                                            </ul>
+                                        </div>
                                     </li>
                                     <li class="block-list-level">
                                         <label>
@@ -896,7 +1448,7 @@
                                         <label>
                                             <input type="radio" class="block-list-level-input" value="80" name="Hair Type">
                                             <span class="val-text">European hair (fine, thin &amp; soft, 7" and up is not available)</span>
-                                            <span class="price red" data-price="70.00"><i>USD</i><i class="price_num">70.00</i></span>
+                                            <span class="price red" data-price="70.00">+<i>USD</i><i class="price_num">70.00</i></span>
                                         </label>
                                     </li>
                                     <li class="block-list-level">
@@ -910,7 +1462,7 @@
                                         <label>
                                             <input type="radio" class="block-list-level-input" value="78" name="Hair Type">
                                             <span class="val-text">Remy hair (best)</span>
-                                            <span class="price red" data-price="20.00"><i>USD</i><i class="price_num">20.00</i></span>
+                                            <span class="price red" data-price="20.00">+<i>USD</i><i class="price_num">20.00</i></span>
                                         </label>
                                     </li>
                                 </ul>
@@ -953,7 +1505,7 @@
                                                         <label>
                                                             <input type="radio" class="block-list-level2-input" value="69" name="Choose Grey Hair Type">
                                                             <span class="val-text">Human grey hair</span>
-                                                            <span class="price red" data-price="20.00"><i>USD</i><i class="price_num">20.00</i></span>
+                                                            <span class="price red" data-price="20.00">+<i>USD</i><i class="price_num">20.00</i></span>
                                                         </label>
                                                     </li>
                                                     <li>
@@ -1255,375 +1807,495 @@
                                                                     <ul>
                                                                         <li>
                                                                             <label>
-                                                                                <input type="radio" class="block-list-level4-input" value="#1" name="hairColorChart">
-                                                                                <span class="val-text">#1</span>
+                                                                                <input type="radio" class="block-list-level4-input" value="1#" name="hairColorChart">
+                                                                                <span class="val-text dis_ni">1#</span>
+                                                                                <img src="{{ asset('img/palette/1.jpg') }}">
                                                                                 <span class="price red" data-price="0"></span>
                                                                             </label>
                                                                         </li>
                                                                         <li>
                                                                             <label>
-                                                                                <input type="radio" class="block-list-level4-input" value="#1B" name="hairColorChart">
-                                                                                <span class="val-text">#1B</span>
+                                                                                <input type="radio" class="block-list-level4-input" value="1B#" name="hairColorChart">
+                                                                                <span class="val-text dis_ni">1B#</span>
+                                                                                <img src="{{ asset('img/palette/1B.jpg') }}">
                                                                                 <span class="price red" data-price="0"></span>
                                                                             </label>
                                                                         </li>
                                                                         <li>
                                                                             <label>
-                                                                                <input type="radio" class="block-list-level4-input" value="#1B05" name="hairColorChart">
-                                                                                <span class="val-text">#1B05</span>
+                                                                                <input type="radio" class="block-list-level4-input" value="1B05#" name="hairColorChart">
+                                                                                <span class="val-text dis_ni">1B05#</span>
+                                                                                <img src="{{ asset('img/palette/1B05.jpg') }}">
                                                                                 <span class="price red" data-price="0"></span>
                                                                             </label>
                                                                         </li>
                                                                         <li>
                                                                             <label>
-                                                                                <input type="radio" class="block-list-level4-input" value="#1B10" name="hairColorChart">
-                                                                                <span class="val-text">#1B10</span>
+                                                                                <input type="radio" class="block-list-level4-input" value="1B10#" name="hairColorChart">
+                                                                                <span class="val-text dis_ni">1B10#</span>
+                                                                                <img src="{{ asset('img/palette/1B10.jpg') }}">
                                                                                 <span class="price red" data-price="0"></span>
                                                                             </label>
                                                                         </li>
                                                                         <li>
                                                                             <label>
-                                                                                <input type="radio" class="block-list-level4-input" value="#1B20" name="hairColorChart">
-                                                                                <span class="val-text">#1B20</span>
+                                                                                <input type="radio" class="block-list-level4-input" value="1B20#" name="hairColorChart">
+                                                                                <span class="val-text dis_ni">1B20#</span>
+                                                                                <img src="{{ asset('img/palette/1B20.jpg') }}">
                                                                                 <span class="price red" data-price="0"></span>
                                                                             </label>
                                                                         </li>
                                                                         <li>
                                                                             <label>
-                                                                                <input type="radio" class="block-list-level4-input" value="#1B30" name="hairColorChart">
-                                                                                <span class="val-text">#1B40</span>
+                                                                                <input type="radio" class="block-list-level4-input" value="1B30#" name="hairColorChart">
+                                                                                <span class="val-text dis_ni">1B30#</span>
+                                                                                <img src="{{ asset('img/palette/1B30.jpg') }}">
                                                                                 <span class="price red" data-price="0"></span>
                                                                             </label>
                                                                         </li>
                                                                         <li>
                                                                             <label>
-                                                                                <input type="radio" class="block-list-level4-input" value="#1B50" name="hairColorChart">
-                                                                                <span class="val-text">#1B50</span>
+                                                                                <input type="radio" class="block-list-level4-input" value="1B40#" name="hairColorChart">
+                                                                                <span class="val-text dis_ni">1B40#</span>
+                                                                                <img src="{{ asset('img/palette/1B40.jpg') }}">
                                                                                 <span class="price red" data-price="0"></span>
                                                                             </label>
                                                                         </li>
                                                                         <li>
                                                                             <label>
-                                                                                <input type="radio" class="block-list-level4-input" value="#1B65" name="hairColorChart">
-                                                                                <span class="val-text">#1B65</span>
+                                                                                <input type="radio" class="block-list-level4-input" value="1B50#" name="hairColorChart">
+                                                                                <span class="val-text dis_ni">1B50#</span>
+                                                                                <img src="{{ asset('img/palette/1B50.jpg') }}">
                                                                                 <span class="price red" data-price="0"></span>
                                                                             </label>
                                                                         </li>
                                                                         <li>
                                                                             <label>
-                                                                                <input type="radio" class="block-list-level4-input" value="#1B80" name="hairColorChart">
-                                                                                <span class="val-text">#1B80</span>
+                                                                                <input type="radio" class="block-list-level4-input" value="1B65#" name="hairColorChart">
+                                                                                <span class="val-text dis_ni">1B65#</span>
+                                                                                <img src="{{ asset('img/palette/1B65.jpg') }}">
                                                                                 <span class="price red" data-price="0"></span>
                                                                             </label>
                                                                         </li>
                                                                         <li>
                                                                             <label>
-                                                                                <input type="radio" class="block-list-level4-input" value="#2" name="hairColorChart">
-                                                                                <span class="val-text">#2</span>
+                                                                                <input type="radio" class="block-list-level4-input" value="1B80#" name="hairColorChart">
+                                                                                <span class="val-text dis_ni">1B80#</span>
+                                                                                <img src="{{ asset('img/palette/1B80.jpg') }}">
                                                                                 <span class="price red" data-price="0"></span>
                                                                             </label>
                                                                         </li>
                                                                         <li>
                                                                             <label>
-                                                                                <input type="radio" class="block-list-level4-input" value="#210" name="hairColorChart">
-                                                                                <span class="val-text">#210</span>
+                                                                                <input type="radio" class="block-list-level4-input" value="2#" name="hairColorChart">
+                                                                                <span class="val-text dis_ni">2#</span>
+                                                                                <img src="{{ asset('img/palette/2.jpg') }}">
                                                                                 <span class="price red" data-price="0"></span>
                                                                             </label>
                                                                         </li>
                                                                         <li>
                                                                             <label>
-                                                                                <input type="radio" class="block-list-level4-input" value="#220" name="hairColorChart">
-                                                                                <span class="val-text">#220</span>
+                                                                                <input type="radio" class="block-list-level4-input" value="3#" name="hairColorChart">
+                                                                                <span class="val-text dis_ni">3#</span>
+                                                                                <img src="{{ asset('img/palette/3.jpg') }}">
                                                                                 <span class="price red" data-price="0"></span>
                                                                             </label>
                                                                         </li>
                                                                         <li>
                                                                             <label>
-                                                                                <input type="radio" class="block-list-level4-input" value="#230" name="hairColorChart">
-                                                                                <span class="val-text">#230</span>
+                                                                                <input type="radio" class="block-list-level4-input" value="3ASH#" name="hairColorChart">
+                                                                                <span class="val-text dis_ni">3ASH#</span>
+                                                                                <img src="{{ asset('img/palette/3ASH.jpg') }}">
                                                                                 <span class="price red" data-price="0"></span>
                                                                             </label>
                                                                         </li>
                                                                         <li>
                                                                             <label>
-                                                                                <input type="radio" class="block-list-level4-input" value="#240" name="hairColorChart">
-                                                                                <span class="val-text">#240</span>
+                                                                                <input type="radio" class="block-list-level4-input" value="4#" name="hairColorChart">
+                                                                                <span class="val-text dis_ni">4#</span>
+                                                                                <img src="{{ asset('img/palette/4.jpg') }}">
                                                                                 <span class="price red" data-price="0"></span>
                                                                             </label>
                                                                         </li>
                                                                         <li>
                                                                             <label>
-                                                                                <input type="radio" class="block-list-level4-input" value="#250" name="hairColorChart">
-                                                                                <span class="val-text">#250</span>
+                                                                                <input type="radio" class="block-list-level4-input" value="4R#" name="hairColorChart">
+                                                                                <span class="val-text dis_ni">4R#</span>
+                                                                                <img src="{{ asset('img/palette/4R.jpg') }}">
                                                                                 <span class="price red" data-price="0"></span>
                                                                             </label>
                                                                         </li>
                                                                         <li>
                                                                             <label>
-                                                                                <input type="radio" class="block-list-level4-input" value="#3" name="hairColorChart">
-                                                                                <span class="val-text">#3</span>
+                                                                                <input type="radio" class="block-list-level4-input" value="5#" name="hairColorChart">
+                                                                                <span class="val-text dis_ni">5#</span>
+                                                                                <img src="{{ asset('img/palette/5.jpg') }}">
                                                                                 <span class="price red" data-price="0"></span>
                                                                             </label>
                                                                         </li>
                                                                         <li>
                                                                             <label>
-                                                                                <input type="radio" class="block-list-level4-input" value="#310" name="hairColorChart">
-                                                                                <span class="val-text">#310</span>
+                                                                                <input type="radio" class="block-list-level4-input" value="5R#" name="hairColorChart">
+                                                                                <span class="val-text dis_ni">5R#</span>
+                                                                                <img src="{{ asset('img/palette/5R.jpg') }}">
                                                                                 <span class="price red" data-price="0"></span>
                                                                             </label>
                                                                         </li>
                                                                         <li>
                                                                             <label>
-                                                                                <input type="radio" class="block-list-level4-input" value="#320" name="hairColorChart">
-                                                                                <span class="val-text">#320</span>
+                                                                                <input type="radio" class="block-list-level4-input" value="6#" name="hairColorChart">
+                                                                                <span class="val-text dis_ni">6#</span>
+                                                                                <img src="{{ asset('img/palette/6.jpg') }}">
                                                                                 <span class="price red" data-price="0"></span>
                                                                             </label>
                                                                         </li>
                                                                         <li>
                                                                             <label>
-                                                                                <input type="radio" class="block-list-level4-input" value="#330" name="hairColorChart">
-                                                                                <span class="val-text">#330</span>
+                                                                                <input type="radio" class="block-list-level4-input" value="6R#" name="hairColorChart">
+                                                                                <span class="val-text dis_ni">6R#</span>
+                                                                                <img src="{{ asset('img/palette/6R.jpg') }}">
                                                                                 <span class="price red" data-price="0"></span>
                                                                             </label>
                                                                         </li>
                                                                         <li>
                                                                             <label>
-                                                                                <input type="radio" class="block-list-level4-input" value="#340" name="hairColorChart">
-                                                                                <span class="val-text">#340</span>
+                                                                                <input type="radio" class="block-list-level4-input" value="7#" name="hairColorChart">
+                                                                                <span class="val-text dis_ni">7#</span>
+                                                                                <img src="{{ asset('img/palette/7.jpg') }}">
                                                                                 <span class="price red" data-price="0"></span>
                                                                             </label>
                                                                         </li>
                                                                         <li>
                                                                             <label>
-                                                                                <input type="radio" class="block-list-level4-input" value="#350" name="hairColorChart">
-                                                                                <span class="val-text">#350</span>
+                                                                                <input type="radio" class="block-list-level4-input" value="7ASH#" name="hairColorChart">
+                                                                                <span class="val-text dis_ni">7ASH#</span>
+                                                                                <img src="{{ asset('img/palette/7ASH.jpg') }}">
                                                                                 <span class="price red" data-price="0"></span>
                                                                             </label>
                                                                         </li>
                                                                         <li>
                                                                             <label>
-                                                                                <input type="radio" class="block-list-level4-input" value="#4" name="hairColorChart">
-                                                                                <span class="val-text">#4</span>
+                                                                                <input type="radio" class="block-list-level4-input" value="10R#" name="hairColorChart">
+                                                                                <span class="val-text dis_ni">10R#</span>
+                                                                                <img src="{{ asset('img/palette/10R.jpg') }}">
                                                                                 <span class="price red" data-price="0"></span>
                                                                             </label>
                                                                         </li>
                                                                         <li>
                                                                             <label>
-                                                                                <input type="radio" class="block-list-level4-input" value="#410" name="hairColorChart">
-                                                                                <span class="val-text">#410</span>
+                                                                                <input type="radio" class="block-list-level4-input" value="12R#" name="hairColorChart">
+                                                                                <span class="val-text dis_ni">12R#</span>
+                                                                                <img src="{{ asset('img/palette/12R.jpg') }}">
                                                                                 <span class="price red" data-price="0"></span>
                                                                             </label>
                                                                         </li>
                                                                         <li>
                                                                             <label>
-                                                                                <input type="radio" class="block-list-level4-input" value="#420" name="hairColorChart">
-                                                                                <span class="val-text">#420</span>
+                                                                                <input type="radio" class="block-list-level4-input" value="17#" name="hairColorChart">
+                                                                                <span class="val-text dis_ni">17#</span>
+                                                                                <img src="{{ asset('img/palette/17.jpg') }}">
                                                                                 <span class="price red" data-price="0"></span>
                                                                             </label>
                                                                         </li>
                                                                         <li>
                                                                             <label>
-                                                                                <input type="radio" class="block-list-level4-input" value="#430" name="hairColorChart">
-                                                                                <span class="val-text">#430</span>
+                                                                                <input type="radio" class="block-list-level4-input" value="17R#" name="hairColorChart">
+                                                                                <span class="val-text dis_ni">17R#</span>
+                                                                                <img src="{{ asset('img/palette/17R.jpg') }}">
                                                                                 <span class="price red" data-price="0"></span>
                                                                             </label>
                                                                         </li>
                                                                         <li>
                                                                             <label>
-                                                                                <input type="radio" class="block-list-level4-input" value="#440" name="hairColorChart">
-                                                                                <span class="val-text">#440</span>
+                                                                                <input type="radio" class="block-list-level4-input" value="18#" name="hairColorChart">
+                                                                                <span class="val-text dis_ni">18#</span>
+                                                                                <img src="{{ asset('img/palette/17R.jpg') }}">
                                                                                 <span class="price red" data-price="0"></span>
                                                                             </label>
                                                                         </li>
                                                                         <li>
                                                                             <label>
-                                                                                <input type="radio" class="block-list-level4-input" value="#5" name="hairColorChart">
-                                                                                <span class="val-text">#5</span>
+                                                                                <input type="radio" class="block-list-level4-input" value="20#" name="hairColorChart">
+                                                                                <span class="val-text dis_ni">20#</span>
+                                                                                <img src="{{ asset('img/palette/20.jpg') }}">
                                                                                 <span class="price red" data-price="0"></span>
                                                                             </label>
                                                                         </li>
                                                                         <li>
                                                                             <label>
-                                                                                <input type="radio" class="block-list-level4-input" value="#510" name="hairColorChart">
-                                                                                <span class="val-text">#510</span>
+                                                                                <input type="radio" class="block-list-level4-input" value="20R#" name="hairColorChart">
+                                                                                <span class="val-text dis_ni">20R#</span>
+                                                                                <img src="{{ asset('img/palette/20R.jpg') }}">
                                                                                 <span class="price red" data-price="0"></span>
                                                                             </label>
                                                                         </li>
                                                                         <li>
                                                                             <label>
-                                                                                <input type="radio" class="block-list-level4-input" value="#520" name="hairColorChart">
-                                                                                <span class="val-text">#520</span>
+                                                                                <input type="radio" class="block-list-level4-input" value="22R#" name="hairColorChart">
+                                                                                <span class="val-text dis_ni">22R#</span>
+                                                                                <img src="{{ asset('img/palette/22R.jpg') }}">
                                                                                 <span class="price red" data-price="0"></span>
                                                                             </label>
                                                                         </li>
                                                                         <li>
                                                                             <label>
-                                                                                <input type="radio" class="block-list-level4-input" value="#540" name="hairColorChart">
-                                                                                <span class="val-text">#540</span>
+                                                                                <input type="radio" class="block-list-level4-input" value="60RY#" name="hairColorChart">
+                                                                                <span class="val-text dis_ni">60RY#</span>
+                                                                                <img src="{{ asset('img/palette/60RY.jpg') }}">
                                                                                 <span class="price red" data-price="0"></span>
                                                                             </label>
                                                                         </li>
                                                                         <li>
                                                                             <label>
-                                                                                <input type="radio" class="block-list-level4-input" value="#550" name="hairColorChart">
-                                                                                <span class="val-text">#550</span>
+                                                                                <input type="radio" class="block-list-level4-input" value="210#" name="hairColorChart">
+                                                                                <span class="val-text dis_ni">210#</span>
+                                                                                <img src="{{ asset('img/palette/210.jpg') }}">
                                                                                 <span class="price red" data-price="0"></span>
                                                                             </label>
                                                                         </li>
                                                                         <li>
                                                                             <label>
-                                                                                <input type="radio" class="block-list-level4-input" value="#560" name="hairColorChart">
-                                                                                <span class="val-text">#560</span>
+                                                                                <input type="radio" class="block-list-level4-input" value="220#" name="hairColorChart">
+                                                                                <span class="val-text dis_ni">220#</span>
+                                                                                <img src="{{ asset('img/palette/220.jpg') }}">
                                                                                 <span class="price red" data-price="0"></span>
                                                                             </label>
                                                                         </li>
                                                                         <li>
                                                                             <label>
-                                                                                <input type="radio" class="block-list-level4-input" value="#580" name="hairColorChart">
-                                                                                <span class="val-text">#580</span>
+                                                                                <input type="radio" class="block-list-level4-input" value="230#" name="hairColorChart">
+                                                                                <span class="val-text dis_ni">230#</span>
+                                                                                <img src="{{ asset('img/palette/230.jpg') }}">
                                                                                 <span class="price red" data-price="0"></span>
                                                                             </label>
                                                                         </li>
                                                                         <li>
                                                                             <label>
-                                                                                <input type="radio" class="block-list-level4-input" value="#6" name="hairColorChart">
-                                                                                <span class="val-text">#6</span>
+                                                                                <input type="radio" class="block-list-level4-input" value="240#" name="hairColorChart">
+                                                                                <span class="val-text dis_ni">240#</span>
+                                                                                <img src="{{ asset('img/palette/240.jpg') }}">
                                                                                 <span class="price red" data-price="0"></span>
                                                                             </label>
                                                                         </li>
                                                                         <li>
                                                                             <label>
-                                                                                <input type="radio" class="block-list-level4-input" value="#610" name="hairColorChart">
-                                                                                <span class="val-text">#610</span>
+                                                                                <input type="radio" class="block-list-level4-input" value="250#" name="hairColorChart">
+                                                                                <span class="val-text dis_ni">250#</span>
+                                                                                <img src="{{ asset('img/palette/250.jpg') }}">
                                                                                 <span class="price red" data-price="0"></span>
                                                                             </label>
                                                                         </li>
                                                                         <li>
                                                                             <label>
-                                                                                <input type="radio" class="block-list-level4-input" value="#620" name="hairColorChart">
-                                                                                <span class="val-text">#620</span>
+                                                                                <input type="radio" class="block-list-level4-input" value="305#" name="hairColorChart">
+                                                                                <span class="val-text dis_ni">305#</span>
+                                                                                <img src="{{ asset('img/palette/305.jpg') }}">
                                                                                 <span class="price red" data-price="0"></span>
                                                                             </label>
                                                                         </li>
                                                                         <li>
                                                                             <label>
-                                                                                <input type="radio" class="block-list-level4-input" value="#640" name="hairColorChart">
-                                                                                <span class="val-text">#640</span>
+                                                                                <input type="radio" class="block-list-level4-input" value="310#" name="hairColorChart">
+                                                                                <span class="val-text dis_ni">310#</span>
+                                                                                <img src="{{ asset('img/palette/310.jpg') }}">
                                                                                 <span class="price red" data-price="0"></span>
                                                                             </label>
                                                                         </li>
                                                                         <li>
                                                                             <label>
-                                                                                <input type="radio" class="block-list-level4-input" value="#7" name="hairColorChart">
-                                                                                <span class="val-text">#7</span>
+                                                                                <input type="radio" class="block-list-level4-input" value="320#" name="hairColorChart">
+                                                                                <span class="val-text dis_ni">320#</span>
+                                                                                <img src="{{ asset('img/palette/320.jpg') }}">
                                                                                 <span class="price red" data-price="0"></span>
                                                                             </label>
                                                                         </li>
                                                                         <li>
                                                                             <label>
-                                                                                <input type="radio" class="block-list-level4-input" value="#710" name="hairColorChart">
-                                                                                <span class="val-text">#710</span>
+                                                                                <input type="radio" class="block-list-level4-input" value="330#" name="hairColorChart">
+                                                                                <span class="val-text dis_ni">330#</span>
+                                                                                <img src="{{ asset('img/palette/330.jpg') }}">
                                                                                 <span class="price red" data-price="0"></span>
                                                                             </label>
                                                                         </li>
                                                                         <li>
                                                                             <label>
-                                                                                <input type="radio" class="block-list-level4-input" value="#720" name="hairColorChart">
-                                                                                <span class="val-text">#720</span>
+                                                                                <input type="radio" class="block-list-level4-input" value="340#" name="hairColorChart">
+                                                                                <span class="val-text dis_ni">340#</span>
+                                                                                <img src="{{ asset('img/palette/340.jpg') }}">
                                                                                 <span class="price red" data-price="0"></span>
                                                                             </label>
                                                                         </li>
                                                                         <li>
                                                                             <label>
-                                                                                <input type="radio" class="block-list-level4-input" value="#17" name="hairColorChart">
-                                                                                <span class="val-text">#17</span>
+                                                                                <input type="radio" class="block-list-level4-input" value="350#" name="hairColorChart">
+                                                                                <span class="val-text dis_ni">350#</span>
+                                                                                <img src="{{ asset('img/palette/350.jpg') }}">
                                                                                 <span class="price red" data-price="0"></span>
                                                                             </label>
                                                                         </li>
                                                                         <li>
                                                                             <label>
-                                                                                <input type="radio" class="block-list-level4-input" value="#18" name="hairColorChart">
-                                                                                <span class="val-text">#18</span>
+                                                                                <input type="radio" class="block-list-level4-input" value="380#" name="hairColorChart">
+                                                                                <span class="val-text dis_ni">380#</span>
+                                                                                <img src="{{ asset('img/palette/380.jpg') }}">
                                                                                 <span class="price red" data-price="0"></span>
                                                                             </label>
                                                                         </li>
                                                                         <li>
                                                                             <label>
-                                                                                <input type="radio" class="block-list-level4-input" value="#20" name="hairColorChart">
-                                                                                <span class="val-text">#20</span>
+                                                                                <input type="radio" class="block-list-level4-input" value="420#" name="hairColorChart">
+                                                                                <span class="val-text dis_ni">420#</span>
+                                                                                <img src="{{ asset('img/palette/420.jpg') }}">
                                                                                 <span class="price red" data-price="0"></span>
                                                                             </label>
                                                                         </li>
                                                                         <li>
                                                                             <label>
-                                                                                <input type="radio" class="block-list-level4-input" value="#2020" name="hairColorChart">
-                                                                                <span class="val-text">#2020</span>
+                                                                                <input type="radio" class="block-list-level4-input" value="430#" name="hairColorChart">
+                                                                                <span class="val-text dis_ni">430#</span>
+                                                                                <img src="{{ asset('img/palette/430.jpg') }}">
                                                                                 <span class="price red" data-price="0"></span>
                                                                             </label>
                                                                         </li>
                                                                         <li>
                                                                             <label>
-                                                                                <input type="radio" class="block-list-level4-input" value="#4ASH" name="hairColorChart">
-                                                                                <span class="val-text">#4ASH</span>
+                                                                                <input type="radio" class="block-list-level4-input" value="440#" name="hairColorChart">
+                                                                                <span class="val-text dis_ni">440#</span>
+                                                                                <img src="{{ asset('img/palette/440.jpg') }}">
                                                                                 <span class="price red" data-price="0"></span>
                                                                             </label>
                                                                         </li>
                                                                         <li>
                                                                             <label>
-                                                                                <input type="radio" class="block-list-level4-input" value="#7ASH" name="hairColorChart">
-                                                                                <span class="val-text">#7ASH</span>
+                                                                                <input type="radio" class="block-list-level4-input" value="450#" name="hairColorChart">
+                                                                                <span class="val-text dis_ni">450#</span>
+                                                                                <img src="{{ asset('img/palette/450.jpg') }}">
                                                                                 <span class="price red" data-price="0"></span>
                                                                             </label>
                                                                         </li>
                                                                         <li>
                                                                             <label>
-                                                                                <input type="radio" class="block-list-level4-input" value="#6R" name="hairColorChart">
-                                                                                <span class="val-text">#6R</span>
+                                                                                <input type="radio" class="block-list-level4-input" value="520#" name="hairColorChart">
+                                                                                <span class="val-text dis_ni">520#</span>
+                                                                                <img src="{{ asset('img/palette/520.jpg') }}">
                                                                                 <span class="price red" data-price="0"></span>
                                                                             </label>
                                                                         </li>
                                                                         <li>
                                                                             <label>
-                                                                                <input type="radio" class="block-list-level4-input" value="#12R" name="hairColorChart">
-                                                                                <span class="val-text">#12R</span>
+                                                                                <input type="radio" class="block-list-level4-input" value="530#" name="hairColorChart">
+                                                                                <span class="val-text dis_ni">530#</span>
+                                                                                <img src="{{ asset('img/palette/530.jpg') }}">
                                                                                 <span class="price red" data-price="0"></span>
                                                                             </label>
                                                                         </li>
                                                                         <li>
                                                                             <label>
-                                                                                <input type="radio" class="block-list-level4-input" value="#17R" name="hairColorChart">
-                                                                                <span class="val-text">#17R</span>
+                                                                                <input type="radio" class="block-list-level4-input" value="540#" name="hairColorChart">
+                                                                                <span class="val-text dis_ni">540#</span>
+                                                                                <img src="{{ asset('img/palette/540.jpg') }}">
                                                                                 <span class="price red" data-price="0"></span>
                                                                             </label>
                                                                         </li>
                                                                         <li>
                                                                             <label>
-                                                                                <input type="radio" class="block-list-level4-input" value="#20R" name="hairColorChart">
-                                                                                <span class="val-text">#20R</span>
+                                                                                <input type="radio" class="block-list-level4-input" value="550#" name="hairColorChart">
+                                                                                <span class="val-text dis_ni">550#</span>
+                                                                                <img src="{{ asset('img/palette/550.jpg') }}">
                                                                                 <span class="price red" data-price="0"></span>
                                                                             </label>
                                                                         </li>
                                                                         <li>
                                                                             <label>
-                                                                                <input type="radio" class="block-list-level4-input" value="#22R" name="hairColorChart">
-                                                                                <span class="val-text">#22R</span>
+                                                                                <input type="radio" class="block-list-level4-input" value="560#" name="hairColorChart">
+                                                                                <span class="val-text dis_ni">560#</span>
+                                                                                <img src="{{ asset('img/palette/560.jpg') }}">
                                                                                 <span class="price red" data-price="0"></span>
                                                                             </label>
                                                                         </li>
                                                                         <li>
                                                                             <label>
-                                                                                <input type="radio" class="block-list-level4-input" value="#30R" name="hairColorChart">
-                                                                                <span class="val-text">#30R</span>
+                                                                                <input type="radio" class="block-list-level4-input" value="580#" name="hairColorChart">
+                                                                                <span class="val-text dis_ni">580#</span>
+                                                                                <img src="{{ asset('img/palette/580.jpg') }}">
+                                                                                <span class="price red" data-price="0"></span>
+                                                                            </label>
+                                                                        </li>
+                                                                        
+                                                                        <li>
+                                                                            <label>
+                                                                                <input type="radio" class="block-list-level4-input" value="610#" name="hairColorChart">
+                                                                                <span class="val-text dis_ni">610#</span>
+                                                                                <img src="{{ asset('img/palette/610.jpg') }}">
                                                                                 <span class="price red" data-price="0"></span>
                                                                             </label>
                                                                         </li>
                                                                         <li>
                                                                             <label>
-                                                                                <input type="radio" class="block-list-level4-input" value="#60RY" name="hairColorChart">
-                                                                                <span class="val-text">#60RY</span>
+                                                                                <input type="radio" class="block-list-level4-input" value="620#" name="hairColorChart">
+                                                                                <span class="val-text dis_ni">620#</span>
+                                                                                <img src="{{ asset('img/palette/620.jpg') }}">
                                                                                 <span class="price red" data-price="0"></span>
                                                                             </label>
                                                                         </li>
+                                                                        <li>
+                                                                            <label>
+                                                                                <input type="radio" class="block-list-level4-input" value="630#" name="hairColorChart">
+                                                                                <span class="val-text dis_ni">630#</span>
+                                                                                <img src="{{ asset('img/palette/630.jpg') }}">
+                                                                                <span class="price red" data-price="0"></span>
+                                                                            </label>
+                                                                        </li>
+                                                                        <li>
+                                                                            <label>
+                                                                                <input type="radio" class="block-list-level4-input" value="640#" name="hairColorChart">
+                                                                                <span class="val-text dis_ni">640#</span>
+                                                                                <img src="{{ asset('img/palette/640.jpg') }}">
+                                                                                <span class="price red" data-price="0"></span>
+                                                                            </label>
+                                                                        </li>
+                                                                        
+                                                                        <li>
+                                                                            <label>
+                                                                                <input type="radio" class="block-list-level4-input" value="710#" name="hairColorChart">
+                                                                                <span class="val-text dis_ni">710#</span>
+                                                                                <img src="{{ asset('img/palette/710.jpg') }}">
+                                                                                <span class="price red" data-price="0"></span>
+                                                                            </label>
+                                                                        </li>
+                                                                        <li>
+                                                                            <label>
+                                                                                <input type="radio" class="block-list-level4-input" value="720#" name="hairColorChart">
+                                                                                <span class="val-text dis_ni">720#</span>
+                                                                                <img src="{{ asset('img/palette/720.jpg') }}">
+                                                                                <span class="price red" data-price="0"></span>
+                                                                            </label>
+                                                                        </li>
+                                                                        <li>
+                                                                            <label>
+                                                                                <input type="radio" class="block-list-level4-input" value="740#" name="hairColorChart">
+                                                                                <span class="val-text dis_ni">740#</span>
+                                                                                <img src="{{ asset('img/palette/740.jpg') }}">
+                                                                                <span class="price red" data-price="0"></span>
+                                                                            </label>
+                                                                        </li>
+                                                                        <li>
+                                                                            <label>
+                                                                                <input type="radio" class="block-list-level4-input" value="1740#" name="hairColorChart">
+                                                                                <span class="val-text dis_ni">1740#</span>
+                                                                                <img src="{{ asset('img/palette/1740.jpg') }}">
+                                                                                <span class="price red" data-price="0"></span>
+                                                                            </label>
+                                                                        </li>
+                                                                        <li>
+                                                                            <label>
+                                                                                <input type="radio" class="block-list-level4-input" value="2020#" name="hairColorChart">
+                                                                                <span class="val-text dis_ni">2020#</span>
+                                                                                <img src="{{ asset('img/palette/2020.jpg') }}">
+                                                                                <span class="price red" data-price="0"></span>
+                                                                            </label>
+                                                                        </li>
+                                                                        
                                                                     </ul>
                                                                 </div>
                                                             </li>
@@ -1671,21 +2343,21 @@
                                         <label>
                                             <input type="radio" class="block-list-level-input" value="75" name="Bleached Knot">
                                             <span class="val-text">Bleach knots all over the head</span>
-                                            <span class="price red" data-price="14.00"><i>USD</i><i class="price_num">14.00</i></span>
+                                            <span class="price red" data-price="10.00">+<i>USD</i><i class="price_num">10.00</i></span>
                                         </label>
                                     </li>
                                     <li class="block-list-level">
                                         <label>
                                             <input type="radio" class="block-list-level-input" value="74" name="Bleached Knot">
                                             <span class="val-text">Bleach knots 1" in front</span>
-                                            <span class="price red" data-price="13.00"><i>USD</i><i class="price_num">13.00</i></span>
+                                            <span class="price red" data-price="5.00">+<i>USD</i><i class="price_num">5.00</i></span>
                                         </label>
                                     </li>
                                     <li class="block-list-level">
                                         <label>
                                             <input type="radio" class="block-list-level-input" value="73" name="Bleached Knot">
                                             <span class="val-text">Bleach knots 1/2" in front</span>
-                                            <span class="price red" data-price="10.00"><i>USD</i><i class="price_num">10.00</i></span>
+                                            <span class="price red" data-price="10.00">+<i>USD</i><i class="price_num">5.00</i></span>
                                         </label>
                                     </li>
                                     <li class="block-list-level">
@@ -1920,6 +2592,26 @@
             // custom_attr_values_json = custom_attr_values_json.substring(0, custom_attr_values_json.length - 1);
             // 对特殊多选情况进行判断
             // Hair Color   Hair Color
+            var HairColorFirstChoose = $("input[name='Hair Color']:checked").hasClass("hasChildTwo");  // 判断是否有子菜单，如果有子菜单进行下一类判断
+            if(HairColorFirstChoose){
+                // 有子菜单，判断是输入框还是颜色选择
+                var HairColorIsNote = $("input[name='Hair Color']:checked").hasClass("hairColorNote");
+                if(! HairColorIsNote){
+                    var HairColorColorChoose = $("input[name='hairColorChartCode']:checked").length;
+                    if(HairColorColorChoose<=0) {
+                        layer.alert("Please select Hair Color code!!");
+                    } else {
+                        custom_attr_values_json.push({
+                            type: 'Hair',
+                            name: 'hairColorChartCode',
+                            value: $("input[name='hairColorChartCode']:checked").parents("label").find(".val-text").text(),
+                            delta_price: '0',
+                        });
+                    }
+                }
+            }else {
+
+            }
             // Grey Hair 判断选中的内容是否为Customize my grey distribution and percentage
             // 判断Grey Hair的选择结果
             var GHairFirstChLength = $("input[name='Grey Hair']:checked").length;
@@ -2172,8 +2864,10 @@
                 data: data,
                 success: function (data) {
                     window.location.href = $(".addToCartSuccess").val();
+                    custom_attr_values_json = {};
                 },
                 error: function (err) {
+                    custom_attr_values_json = {};
                     if (err.status == 422) {
                         var exception = err.responseJSON.exception;
                         if (exception) {
@@ -2274,6 +2968,9 @@
                 _this.parents(".block-list").find(".block-list-level-2").slideUp();
                 _this.parents(".block-list-level").find(".block-list-level-2").slideDown();
                 if (_this.prop("name") == "Grey Hair") {
+                    chooseText = _this.parent("label").find(".val-text").text();
+                }
+                if (_this.prop("name") == "Hair Color") {
                     chooseText = _this.parent("label").find(".val-text").text();
                 }
             } else {
