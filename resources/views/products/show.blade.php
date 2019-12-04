@@ -205,8 +205,10 @@
                                                                 delta-price="{{ $attr_value['delta_price'] }}">
                                                                 @if($attr_value['photo'])
                                                                     <img src="{{ $attr_value['photo'] }}" alt="Lyricalhair.com">
+                                                                @else
+                                                                    <span class="color-name">{{ $attr_value['value'] }}</span>
                                                                 @endif
-                                                                <span class="color-name dis_ni">{{ $attr_value['abbr'] ? : $attr_value['value'] }}</span>
+                                                                <span class="color-name dis_ni">{{ $attr_value['value'] }}</span>
                                                                 <span class="color-name-text dis_ni">{{ $attr_value['value'] }}</span>
                                                             </li>
                                                         @else

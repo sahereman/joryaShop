@@ -144,6 +144,7 @@ class AttrsController extends Controller
             $value->disablePagination();
 
             $value->value('SKU 属性值');
+            $value->photo('SKU 属性图片')->image('', 60);
             // $value->sort('排序值');
         });
 
@@ -175,8 +176,8 @@ class AttrsController extends Controller
 
         $form->hasMany('values', 'SKU 属性值 - 列表', function (NestedForm $form) {
             $form->text('value', 'SKU 属性值');
-            $form->text('abbr', 'SKU 属性值简称');
-            $form->image('photo', 'SKU 属性图片')->uniqueName()->move('attrs')->removable()->help('尺寸: 46 * 46');
+            // $form->text('abbr', 'SKU 属性值简称');
+            $form->image('photo', 'SKU 属性图片')->uniqueName()->move('attrs')->help('尺寸: 46 * 46');
         });
 
         $form->number('sort', '排序值')->default(9)->rules('required|integer|min:0')->help('默认倒序排列：数值越大越靠前');
@@ -185,6 +186,9 @@ class AttrsController extends Controller
 
         // 定义事件回调，当模型即将保存时会触发这个回调
         $form->saving(function (Form $form) {
+            if (request()->input('photo') == '_file_del_') {
+                return $form;
+            }
             $attr = $form->model();
             $attr_name = request()->input('name');
             if ($attr_name != $attr->name) {
@@ -193,6 +197,9 @@ class AttrsController extends Controller
         });
 
         $form->saved(function (Form $form) {
+            if (request()->input('photo') == '_file_del_') {
+                return $form;
+            }
             $attr = $form->model();
             $attr_id = $attr->id;
             // if ($form->input('has_photo') == 'on') {
