@@ -202,7 +202,7 @@
                                                             {{-- 图片格式 --}}
                                                             <li class="color-img-choose" data-paramid="{{ $attr_name }}" data-valueid="{{ $attr_value['value'] }}"
                                                                 photo-url="{{ isset($attr_value['photo_url']) ? $attr_value['photo_url'] : '' }}"
-                                                                delta-price="{{ $attr_value['delta_price'] }}">
+                                                                delta-price="{{ $attr_value['delta_price'] }}" title="{{ $attr_value['value'] }}">
                                                                 @if($attr_value['photo'])
                                                                     <img src="{{ $attr_value['photo'] }}" alt="Lyricalhair.com">
                                                                 @else
@@ -214,7 +214,7 @@
                                                         @else
                                                             {{-- 非图片格式 --}}
                                                             <li data-paramid="{{ $attr_name }}" data-valueid="{{ $attr_value['value'] }}"
-                                                                photo-url="{{ isset($attr_value['photo_url']) ? $attr_value['photo_url'] : '' }}" delta-price="{{ $attr_value['delta_price'] }}">
+                                                                photo-url="{{ isset($attr_value['photo_url']) ? $attr_value['photo_url'] : '' }}" delta-price="{{ $attr_value['delta_price'] }}" title="{{ $attr_value['value'] }}">
                                                                 {{ $attr_value['value'] }}
                                                             </li>
                                                         @endif
