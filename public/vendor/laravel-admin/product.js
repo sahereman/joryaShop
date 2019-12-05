@@ -149,12 +149,12 @@ $(document).ready(function () {
     });
 
 
-    $(".sku_photo_delete").on("click", function () {
-        var sku_id = $(this).parent().parent().parent().find('.skus.id').val();
+    $(".attr_value_photo_delete").on("click", function () {
+        var attr_value_id = $(this).parent().parent().parent().find('.values.id').val();
         var close_button = $(this).parent().parent().parent().find('.close.fileinput-remove');
         $.ajax({
             type: "post",
-            url: '/admin/product_skus/' + sku_id,
+            url: '/admin/attrs/' + attr_value_id + '/delete_value_photo',
             data: {
                 key: 0,
                 photo: '_file_del_',

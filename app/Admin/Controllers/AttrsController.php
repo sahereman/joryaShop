@@ -2,6 +2,7 @@
 
 namespace App\Admin\Controllers;
 
+use App\Http\Requests\Request;
 use App\Models\Attr;
 use App\Http\Controllers\Controller;
 use App\Models\AttrValue;
@@ -177,10 +178,19 @@ class AttrsController extends Controller
         $form->hasMany('values', 'SKU 属性值 - 列表', function (NestedForm $form) {
             $form->text('value', 'SKU 属性值');
             // $form->text('abbr', 'SKU 属性值简称');
-            $form->image('photo', 'SKU 属性图片')->uniqueName()->move('attrs')->help('尺寸: 46 * 46');
+            $form->image('photo', 'SKU 属性图片')
+                ->deletable(true)
+                // ->removable()
+                ->uniqueName()
+                ->move('attrs')
+                ->help('尺寸: 46 * 46');
+            $form->html('<a class="btn btn-primary attr_value_photo_delete">删除该图片</a>', '');
+            // $form->number('sort', '排序值')->default(9)->rules('required|integer|min:0')->help('默认倒序排列：数值越大越靠前');
         });
 
         $form->number('sort', '排序值')->default(9)->rules('required|integer|min:0')->help('默认倒序排列：数值越大越靠前');
+
+        $form->html('<script type="text/javascript" src="/vendor/laravel-admin/product.js"></script>');
 
         $form->ignore(['_from_']);
 
@@ -224,5 +234,20 @@ class AttrsController extends Controller
 
         });
         return $form;
+    }
+
+    public function deleteValuePhoto(Request $request, AttrValue $value)
+    {
+        $value->update([
+            'photo' => ''
+        ]);
+        ProductSkuAttrValue::where('value', $value->value)->update([
+            'photo' => ''
+        ]);
+
+        return response()->json([
+            'code' => 200,
+            'message' => 'success',
+        ]);
     }
 }

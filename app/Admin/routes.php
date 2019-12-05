@@ -52,6 +52,7 @@ Route::group([
 
     /*SKU 属性*/
     $router->resource('attrs', AttrsController::class)->names('admin.attrs');
+    $router->put('attrs/{value}/delete_value_photo', 'AttrsController@deleteValuePhoto')->name('admin.attrs.delete_value_photo');
 
     /*商品参数*/
     $router->resource('params', ParamsController::class)->names('admin.params');
