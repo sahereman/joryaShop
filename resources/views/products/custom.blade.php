@@ -474,9 +474,9 @@
                                     </li>
                                 </ul>
                                 {{-- 对应的图片的位置 --}}
-                                {{--<div class="block-img">
-                                    <img src="https://www.lyricalhair.com/storage/original/201909/HD-0.jpg" alt="lyricalhair.com">
-                                </div>--}}
+                                <div class="block-img">
+                                    <img src="{{ asset('img/customImgs/ScallopFront.jpeg') }}" alt="lyricalhair.com">
+                                </div>
                             </div>
                         </li>
                         <li class="top-level">
@@ -518,9 +518,9 @@
                                     </li>
                                 </ul>
                                 {{-- 对应的图片的位置 --}}
-                                {{--<div class="block-img">
-                                    <img src="https://www.lyricalhair.com/storage/original/201909/HD-0.jpg" alt="lyricalhair.com">
-                                </div>--}}
+                                <div class="block-img">
+                                    <img src="{{ asset('img/customImgs/FrontContour.jpeg') }}" alt="lyricalhair.com">
+                                </div>
                             </div>
                         </li>
                     </ul>
@@ -766,9 +766,9 @@
                                     </li>
                                 </ul>
                                 {{-- 对应的图片的位置 --}}
-                                {{--<div class="block-img">
-                                    <img src="https://www.lyricalhair.com/storage/original/201909/HD-0.jpg" alt="lyricalhair.com">
-                                </div>--}}
+                                <div class="block-img">
+                                    <img src="{{ asset('img/customImgs/HairDensity.jpeg') }}" alt="lyricalhair.com">
+                                </div>
                             </div>
                         </li>
                         <li class="top-level">
