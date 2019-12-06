@@ -70,10 +70,13 @@ class ProductCategoriesController extends Controller
             $query_data['is_by_param'] = $is_by_param;
             $product_ids = [];
             foreach ($query_param_values as $param => $value) {
-                if ($product_ids == []) {
-                    $product_ids = ProductParam::where(['name' => $param, 'value' => $value])->get()->pluck('product_id')->toArray();
-                } else {
-                    $product_ids = ProductParam::where(['name' => $param, 'value' => $value])->whereIn('product_id', $product_ids)->get()->pluck('product_id')->toArray();
+                $param_model = Param::where('name', $param)->first();
+                if ($param_model && $param_model->is_sorted_by) {
+                    if ($product_ids == []) {
+                        $product_ids = ProductParam::where(['name' => $param, 'value' => $value])->get()->pluck('product_id')->toArray();
+                    } else {
+                        $product_ids = ProductParam::where(['name' => $param, 'value' => $value])->whereIn('product_id', $product_ids)->get()->pluck('product_id')->toArray();
+                    }
                 }
             }
             $products = $products->whereIn('id', $product_ids);

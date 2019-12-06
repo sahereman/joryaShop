@@ -46,7 +46,7 @@
                             <span class="screening-results-title">All Results:</span>
                             <div class="screening-results-option">
                                 @foreach($query_param_values as $param => $value)
-                                    <a href="{{ preg_replace('/param\-' . str_replace(' ', '\_', $param) . '\=' . '.+(\&|$)/U', '', url(\Illuminate\Support\Facades\Request::getRequestUri())) }}">
+                                    <a href="{{ preg_replace('/param\-' . str_replace([' ', '\\', '/', '.', '*', '+', '-'], ['\_', '\\\\', '\/', '\.', '\*', '\+', '\-'], $param) . '\=' . '.+(\&|$)/U', '', url(\Illuminate\Support\Facades\Request::getRequestUri())) }}">
                                         <span class="broad-heading">{{ $param }}</span>
                                         <span>:</span>
                                         <span class="subclass">{{ $value }}</span>
