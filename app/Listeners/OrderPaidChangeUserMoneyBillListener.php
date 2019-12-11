@@ -4,6 +4,7 @@ namespace App\Listeners;
 
 use App\Events\OrderPaidEvent;
 use App\Models\Order;
+use App\Models\User;
 use App\Models\UserMoneyBill;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -20,11 +21,15 @@ class OrderPaidChangeUserMoneyBillListener
         $order = $event->getOrder();
 
         $umBill = new UserMoneyBill();
+        if($order->user instanceof User)
+        {
+            $umBill->change($order->user,
+                $umBill::TYPE_ORDER_PAYMENT,
+                $order->currency,
+                $order->total_amount,
+                $order);
+        }
 
-        $umBill->change($order->user,
-            $umBill::TYPE_ORDER_PAYMENT,
-            $order->currency,
-            $order->total_amount,
-            $order);
+
     }
 }
