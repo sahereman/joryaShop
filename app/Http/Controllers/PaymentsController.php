@@ -809,7 +809,8 @@ class PaymentsController extends Controller
             try {
                 $paypalPayment->execute($paymentExecution, $apiContext, $restCall);
                 if ($paypalPayment->getState() == 'approved') {
-                    try {
+                    // 订单状态修改以PayPal异步推送信息为准
+                    /*try {
                         DB::transaction(function () use ($localPayment, $paymentId) {
                             // MySQL InnoDB 默认行级锁。行级锁都是基于索引的，如果一条SQL语句用不到索引是不会使用行级锁的，会使用表级锁把整张表锁住，这点需要注意。
                             // where(['id' => $localPayment->id]) 意义在于：使用索引以触发行级锁
@@ -832,7 +833,7 @@ class PaymentsController extends Controller
                         });
                     } catch (\Exception $e) {
                         Log::error('MySQL lock-for-update of local payment is out of time - local payment id: ' . $localPayment->id);
-                    }
+                    }*/
                     Log::info("A New Paypal Payment Executed - Synchronously: " . $paypalPayment->toJSON());
                     return view('payments.success', [
                         'payment' => $localPayment
@@ -955,6 +956,7 @@ class PaymentsController extends Controller
                     'message' => 'Paypal Payment Paid Already - Asynchronously',
                 ]);
             }
+            // 订单状态修改以PayPal异步推送信息为准
             try {
                 DB::transaction(function () use ($localPayment) {
                     // MySQL InnoDB 默认行级锁。行级锁都是基于索引的，如果一条SQL语句用不到索引是不会使用行级锁的，会使用表级锁把整张表锁住，这点需要注意。
