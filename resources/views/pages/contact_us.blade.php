@@ -79,7 +79,7 @@
                         <div class="icon-masks">
                           <img src="{{ asset('img/articles/email-icon.png') }}" alt="Lyricalhair">
                         </div>
-                        <span>Email: support@lyricalhair.com</span>
+                        <span>Email: info@lyricalhair.com</span>
                       </li>
                       <li>
                         <div class="icon-masks">

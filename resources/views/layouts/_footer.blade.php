@@ -27,7 +27,7 @@
                 <img src="{{ asset("img/footer/email-us.png") }}" alt="lyricalhair">
                 <span class="part-title">Email Us</span>
                 <span>Tell Us How We can help</span>
-                <span>Email: support@lyricalhair.com</span>
+                <span>Email: info@lyricalhair.com</span>
             </li>
         </ul>
     </div>
