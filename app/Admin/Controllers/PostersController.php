@@ -148,7 +148,7 @@ class PostersController extends Controller
             'ladies_wig' => "Ladies' Wig (单图)",
             'wig_accessories' => "Wig Accessories (单图)",
             'why_lyricalhair' => 'Why LyricalHair (多图) (建议图片尺寸：250 * 310)',
-            'about_us' => 'About Us (多图)',
+            'about_us' => 'About Us (多图) (建议图片尺寸：280 * 360)',
         ];
 
         $form = new Form(new Poster);
