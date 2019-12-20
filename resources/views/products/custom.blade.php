@@ -432,29 +432,8 @@
                                 <ul class="block-list" data-url="https://lorempixel.com/640/480/">
                                     <li class="block-list-level">
                                         <label>
-                                            <input type="radio" class="block-list-level-input" value="29" name="Scallop Front">
-                                            <span class="val-text">#6 scallop size</span>
-                                            <span class="price red" data-price="0"></span>
-                                        </label>
-                                    </li>
-                                    <li class="block-list-level">
-                                        <label>
-                                            <input type="radio" class="block-list-level-input" value="28" name="Scallop Front">
-                                            <span class="val-text">#5 scallop size</span>
-                                            <span class="price red" data-price="0"></span>
-                                        </label>
-                                    </li>
-                                    <li class="block-list-level">
-                                        <label>
-                                            <input type="radio" class="block-list-level-input" value="27" name="Scallop Front">
-                                            <span class="val-text">#4 scallop size</span>
-                                            <span class="price red" data-price="0"></span>
-                                        </label>
-                                    </li>
-                                    <li class="block-list-level">
-                                        <label>
-                                            <input type="radio" class="block-list-level-input" value="26" name="Scallop Front">
-                                            <span class="val-text">#3 scallop size</span>
+                                            <input type="radio" class="block-list-level-input" value="24" name="Scallop Front">
+                                            <span class="val-text">#1 scallop size</span>
                                             <span class="price red" data-price="0"></span>
                                         </label>
                                     </li>
@@ -467,8 +446,29 @@
                                     </li>
                                     <li class="block-list-level">
                                         <label>
-                                            <input type="radio" class="block-list-level-input" value="24" name="Scallop Front">
-                                            <span class="val-text">#1 scallop size</span>
+                                            <input type="radio" class="block-list-level-input" value="26" name="Scallop Front">
+                                            <span class="val-text">#3 scallop size</span>
+                                            <span class="price red" data-price="0"></span>
+                                        </label>
+                                    </li>
+                                    <li class="block-list-level">
+                                        <label>
+                                            <input type="radio" class="block-list-level-input" value="27" name="Scallop Front">
+                                            <span class="val-text">#4 scallop size</span>
+                                            <span class="price red" data-price="0"></span>
+                                        </label>
+                                    </li>
+                                    <li class="block-list-level">
+                                        <label>
+                                            <input type="radio" class="block-list-level-input" value="28" name="Scallop Front">
+                                            <span class="val-text">#5 scallop size</span>
+                                            <span class="price red" data-price="0"></span>
+                                        </label>
+                                    </li>
+                                    <li class="block-list-level">
+                                        <label>
+                                            <input type="radio" class="block-list-level-input" value="29" name="Scallop Front">
+                                            <span class="val-text">#6 scallop size</span>
                                             <span class="price red" data-price="0"></span>
                                         </label>
                                     </li>
@@ -2930,12 +2930,15 @@
             if (isOpened) {
                 $(this).removeClass("opened");
                 $(".customizations-slide").find(".block-content").slideUp();
+                $(".customizations-slide").find(".opener").html('&#xe60f;');
                 // $(".customizations-img").find("img").prop("src", img_url_default);
             } else {
                 $(".customizations-slide").find(".block-title").removeClass("opened");
                 $(".customizations-slide").find(".block-content").slideUp();
+                $(".customizations-slide").find(".opener").html('&#xe60f;');
                 $(this).addClass("opened");
                 $(this).parents("li").find(".block-content").slideDown();
+                $(this).parents("li").find(".opener").html('&#xe6b3;');
                 /*if (img_url != "") {
                     $(".customizations-img").find("img").prop("src", img_url);
                 }*/
