@@ -21,7 +21,7 @@
                 <img src="{{ asset("img/footer/service.png") }}" alt="lyricalhair">
                 <span class="part-title">Skype Call Us</span>
                 <span>Office Phone: +86-532-85878587</span>
-                <span>WhatsApp: +86-15764271924</span>
+                <span>WhatsApp: +86-18661937606</span>
             </li>
             <li class="Start-subscribe">
                 <img src="{{ asset("img/footer/email-us.png") }}" alt="lyricalhair">
