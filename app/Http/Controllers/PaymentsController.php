@@ -810,7 +810,7 @@ class PaymentsController extends Controller
                 $paypalPayment->execute($paymentExecution, $apiContext, $restCall);
                 if ($paypalPayment->getState() == 'approved') {
                     // 订单状态修改以PayPal异步推送信息为准
-                    /*try {
+                    try {
                         DB::transaction(function () use ($localPayment, $paymentId) {
                             // MySQL InnoDB 默认行级锁。行级锁都是基于索引的，如果一条SQL语句用不到索引是不会使用行级锁的，会使用表级锁把整张表锁住，这点需要注意。
                             // where(['id' => $localPayment->id]) 意义在于：使用索引以触发行级锁
@@ -832,8 +832,10 @@ class PaymentsController extends Controller
                             }
                         });
                     } catch (\Exception $e) {
+                        // Log::error('MySQL lock-for-update of local payment is out of time - local payment id: ' . $localPayment->id);
+                        Log::error($e);
                         Log::error('MySQL lock-for-update of local payment is out of time - local payment id: ' . $localPayment->id);
-                    }*/
+                    }
                     Log::info("A New Paypal Payment Executed - Synchronously: " . $paypalPayment->toJSON());
                     return view('payments.success', [
                         'payment' => $localPayment
@@ -957,6 +959,8 @@ class PaymentsController extends Controller
                 ]);
             }
             // 订单状态修改以PayPal异步推送信息为准
+            sleep(1);
+            // usleep(500);
             try {
                 DB::transaction(function () use ($localPayment) {
                     // MySQL InnoDB 默认行级锁。行级锁都是基于索引的，如果一条SQL语句用不到索引是不会使用行级锁的，会使用表级锁把整张表锁住，这点需要注意。
@@ -979,6 +983,8 @@ class PaymentsController extends Controller
                     }
                 });
             } catch (\Exception $e) {
+                // Log::error('MySQL lock-for-update of local payment is out of time - local payment id: ' . $localPayment->id);
+                Log::error($e);
                 Log::error('MySQL lock-for-update of local payment is out of time - local payment id: ' . $localPayment->id);
             }
             Log::info("A New Paypal Payment Executed - Asynchronously: local payment id - " . $localPayment->id);

@@ -8,6 +8,7 @@ use App\Models\Order;
 use App\Models\User;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
 class OrderPaidEventListener
@@ -34,11 +35,15 @@ class OrderPaidEventListener
         $order->update([
             'status' => Order::ORDER_STATUS_SHIPPING
         ]);
-        if ($order->email) {
-            $user = new User();
-            $user->email = $order->email;
-            $subject = 'Thanks for shopping at LYRICALHAIR.com';
-            Mail::to($user)->queue(new SendOrderEmail($order, $subject));
+        try {
+            if ($order->email) {
+                $user = new User();
+                $user->email = $order->email;
+                $subject = 'Thanks for shopping at LYRICALHAIR.com';
+                Mail::to($user)->queue(new SendOrderEmail($order, $subject));
+            }
+        } catch (\Exception $e) {
+            Log::error($e);
         }
     }
 }

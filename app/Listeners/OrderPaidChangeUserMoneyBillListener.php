@@ -29,7 +29,5 @@ class OrderPaidChangeUserMoneyBillListener
                 $order->total_amount,
                 $order);
         }
-
-
     }
 }

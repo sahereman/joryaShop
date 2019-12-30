@@ -173,6 +173,7 @@ return [
         'log.LogLevel' => 'INFO',
 
         // MODE: sandbox or live
+        // 'mode' => 'sandbox',
         'mode' => 'live',
 
         // Scenarios: sandbox | live
