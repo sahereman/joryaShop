@@ -183,7 +183,7 @@ class AttrsController extends Controller
                 // ->removable()
                 ->uniqueName()
                 ->move('attrs')
-                ->help('尺寸: 46 * 46');
+                ->help('参考尺寸: 100 * 100');
             $form->html('<a class="btn btn-primary attr_value_photo_delete">删除该图片</a>', '');
             // $form->number('sort', '排序值')->default(9)->rules('required|integer|min:0')->help('默认倒序排列：数值越大越靠前');
         });
