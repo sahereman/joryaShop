@@ -192,7 +192,7 @@
                                                        photo-url="{{ isset($attr_values[0]['photo_url']) ? $attr_values[0]['photo_url'] : '' }}" delta-price="{{ $attr_values[0]['delta_price'] }}">
                                                 <span class="sku-select-value-show">{{ $attr_values[0]['value'] }}</span>
                                             </div>
-                                            <div class="sku-select-options">
+                                            <div class="sku-select-options {{ isset($attr_values[0]['photo_url']) ? 'option-img-width' : '' }}">
                                                 {{-- 
                                                     chooseType-color：如果是图片格式选择下面的ul有这个class，如果不是图片格式选择则下面的ul没有个这个class
                                                 --}}

@@ -1924,6 +1924,9 @@
     border-top: 0;
     overflow-x: hidden;
     z-index: 1;
+    &.option-img-width {
+      width: 117%;
+    }
     ul {
       padding: 5px 0;
       width: 100%;
