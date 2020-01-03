@@ -201,17 +201,29 @@ class AttrsController extends Controller
             }
             $attr = $form->model();
             $attr_name = request()->input('name');
+            $attr_values = request()->input('values');
             if ($attr_name != $attr->name) {
                 ProductAttr::where('name', $attr->name)->update(['name' => $attr_name]);
             }
+            $attr->values->each(function (AttrValue $attrValue) use ($attr_values) {
+                $attr_value_id = $attrValue->id;
+                if (isset($attr_values[$attr_value_id]) && $attr_values[$attr_value_id]['_remove_'] == 0) {
+                    ProductSkuAttrValue::where('value', $attrValue->value)->update([
+                        'value' => $attr_values[$attr_value_id]['value'],
+                        // 'abbr' => $attr_values[$attr_value_id]['abbr'],
+                        // 'sort' => $attr_values[$attr_value_id]['sort'],
+                    ]);
+                }
+            });
         });
 
         $form->saved(function (Form $form) {
             if (request()->input('photo') == '_file_del_') {
                 return $form;
             }
-            $attr = $form->model();
-            $attr_id = $attr->id;
+            $attr_model = $form->model();
+            $attr_id = $attr_model->id;
+            $attr = Attr::find($attr_id);
             // if ($form->input('has_photo') == 'on') {
             if ($attr->has_photo == true) {
                 Attr::where('id', '<>', $attr_id)->update(['has_photo' => false]);
@@ -221,17 +233,17 @@ class AttrsController extends Controller
 
             $product_attr = ProductAttr::where('name', $attr->name);
             $product_attr->update(['sort' => $attr->sort]);
-            $product_attr->get()->each(function (ProductAttr $productAttr) use ($attr) {
+            /*$product_attr->get()->each(function (ProductAttr $productAttr) use ($attr) {
                 $productAttr->values()->update(['sort' => $attr->sort]);
-            });
+            });*/
 
             $attr->values->each(function (AttrValue $attrValue) {
                 ProductSkuAttrValue::where('value', $attrValue->value)->update([
-                    'abbr' => $attrValue->abbr,
-                    'photo' => $attrValue->photo
+                    // 'abbr' => $attrValue->abbr,
+                    'photo' => $attrValue->photo,
+                    // 'sort' => $attrValue->sort,
                 ]);
             });
-
         });
         return $form;
     }
