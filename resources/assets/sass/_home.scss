@@ -477,6 +477,7 @@
           width: 100%;
           height: 100%;
           transition: all .3s;
+          z-index: 0;
           &::after {
             content: '';
             position: absolute;
@@ -486,6 +487,7 @@
             height: 100%;
             background-color: #000;
             opacity: .5;
+            z-index: -1;
           }
           a {
             display: flex;
@@ -502,7 +504,6 @@
             // white-space: nowrap;
             // text-overflow: ellipsis;
             color: #fff;
-            z-index: 1;
           }
         }
         .slide-price {
