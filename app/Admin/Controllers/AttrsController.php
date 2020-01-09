@@ -226,9 +226,9 @@ class AttrsController extends Controller
             $attr = Attr::find($attr_id);
             // if ($form->input('has_photo') == 'on') {
             if ($attr->has_photo == true) {
-                Attr::where('id', '<>', $attr_id)->update(['has_photo' => false]);
+                // Attr::where('id', '<>', $attr_id)->update(['has_photo' => false]);
                 ProductAttr::where('name', $attr->name)->update(['has_photo' => true]);
-                ProductAttr::where('name', '<>', $attr->name)->update(['has_photo' => false]);
+                // ProductAttr::where('name', '<>', $attr->name)->update(['has_photo' => false]);
             }
 
             $product_attr = ProductAttr::where('name', $attr->name);
