@@ -214,7 +214,7 @@
                                     <li class="dis_ni">
                                         <p class="default_address_set">
                                             <label>
-                                                <input type="checkbox" name="is_default" class="setas_default" value="1">
+                                                <input type="checkbox" name="is_default" class="setas_default" value="1" checked>
                                                 <span>@lang('basic.address.Set to the default')</span>
                                             </label>
                                         </p>
@@ -225,7 +225,7 @@
                             {{-- 按钮区 --}}
                             <div class="operating-space">
                                 <label>
-                                    <input type="checkbox" name="is_default" class="setas_default" value="1">
+                                    <input type="checkbox" name="is_default" class="setas_default" value="1" checked>
                                     <span>@lang('basic.address.Set to the default')</span>
                                 </label>
                                 <div class="operating-btns">
@@ -363,8 +363,12 @@
 @endsection
 
 @section('scriptsAfterJs')
+<script src="{{ asset('js/searchableSelect/jquery.searchableSelect.js') }}"></script>
     <script type="text/javascript">
         $(function () {
+            // 初始化搜索下拉菜单
+            $("#new_address_country").searchableSelect();
+            // $("#new_address_province").searchableSelect();
             // 点击展开和收起参数详情
             $('.products-part-items').on("click", ".order-detail-title", function () {
                 var clickDom = $(this);
@@ -521,7 +525,7 @@
                         city: $(".new_receipt_address .user_city").val(),
                         province: $(".new_receipt_address .user_province").val(),
                         zip: $(".new_receipt_address .user_zip").val(),
-                        is_default: "0"
+                        is_default: "1"
                     };
                     $.ajax({
                         type: "post",
@@ -696,7 +700,8 @@
                 var url = $(this).attr("data-url");
                 var sendWay = getUrlVars("sendWay");
                 if (address_name == "" || address_phone == "" || address_location == "") {
-                    layer.msg("@lang('order.Please fill in the address completely')");
+                    // layer.msg("@lang('order.Please fill in the address completely')");
+                    $(".save-new-address").trigger("click");
                 } else {
                     switch (sendWay) {
                         case "1":

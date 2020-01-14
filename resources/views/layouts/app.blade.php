@@ -21,6 +21,7 @@
     <link href="{{ asset('js/swiper/css/swiper.css') }}" rel="stylesheet">
     <link href="{{ asset('js/shareJS/css/share.min.css') }}" rel="stylesheet">
     <link href="{{ asset('js/slick/slick.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('js/searchableSelect/jquery.searchableSelect.css') }}" rel="stylesheet">
     {{--@if(App::isLocale('en'))--}}
     <link rel="stylesheet" href="{{ asset('js/lord/colorbox.css') }}">
     <link rel="stylesheet" href="{{ asset('js/lord/cloudzoom.css') }}">

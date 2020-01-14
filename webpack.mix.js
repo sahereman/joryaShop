@@ -29,6 +29,7 @@ mix.copyDirectory('resources/assets/js/scrollReveal', 'public/js/scrollReveal');
 mix.copyDirectory('resources/assets/js/slick', 'public/js/slick');
 mix.copyDirectory('resources/assets/js/jqueryCountup', 'public/js/jqueryCountup');
 mix.copyDirectory('resources/assets/js/3Dlbt', 'public/js/3Dlbt');
+mix.copyDirectory('resources/assets/js/searchableSelect', 'public/js/searchableSelect');
 
 //mix.copyDirectory('resources/assets/js/main.js', 'public/js/');
 
