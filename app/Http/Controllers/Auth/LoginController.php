@@ -163,11 +163,13 @@ class LoginController extends Controller
 
         $user = User::where(['email' => $email])->first();
         if ($user) {
-            if ($request->filled('remember')) {
+            // allow long-term login
+            /*if ($request->filled('remember')) {
                 Auth::login($user, true);
             } else {
                 Auth::login($user);
-            }
+            }*/
+            Auth::login($user, true);
 
             // user browsing history - initialization
             $this->initializeUserBrowsingHistoryCacheByUser($user);
@@ -250,11 +252,13 @@ class LoginController extends Controller
             'phone' => $phone_number,
         ])->first();
         if ($user) {
-            if ($request->filled('remember')) {
+            // allow long-term login
+            /*if ($request->filled('remember')) {
                 Auth::login($user, true);
             } else {
                 Auth::login($user);
-            }
+            }*/
+            Auth::login($user, true);
 
             // return $this->sendLoginResponse($request);
 
@@ -304,11 +308,14 @@ class LoginController extends Controller
         foreach ($users as $user) {
             $userData = $user->makeVisible('password')->toArray();
             if (Hash::check($request->input('password'), $userData['password'])) {
-                if ($request->filled('remember')) {
+                // allow long-term login
+                /*if ($request->filled('remember')) {
                     Auth::login($user, true);
                 } else {
                     Auth::login($user);
-                }
+                }*/
+                Auth::login($user, true);
+
                 // return $this->sendLoginResponse($request);
 
                 // user browsing history - initialization
