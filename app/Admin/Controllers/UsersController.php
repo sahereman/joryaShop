@@ -296,11 +296,23 @@ class UsersController extends Controller
         $users = User::whereIn('id', $data['user_ids'])->get();
         $coupon = Coupon::find($data['coupon_id']);
         $users->each(function ($user) use ($data, $coupon) {
-            UserCoupon::create([
+            if ($user_coupon = UserCoupon::where([
                 'user_id' => $user->id,
                 'coupon_id' => $data['coupon_id'],
-                'got_at' => Carbon::now()->toDateTimeString()
-            ]);
+                'used_at' => null, // 未用
+                'deleted_at' => null // 未删
+            ])->first()
+            ) {
+                $user_coupon->update([
+                    'got_at' => Carbon::now()->toDateTimeString()
+                ]);
+            } else {
+                UserCoupon::create([
+                    'user_id' => $user->id,
+                    'coupon_id' => $data['coupon_id'],
+                    'got_at' => Carbon::now()->toDateTimeString()
+                ]);
+            }
             $user->notify(new AdminCustomNotification([
                 'title' => 'You just received a new coupon: ' . $coupon->name,
                 'link' => ''
