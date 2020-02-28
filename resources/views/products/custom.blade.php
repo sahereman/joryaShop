@@ -475,7 +475,7 @@
                                     <li class="block-list-level">
                                         <label>
                                             <input type="radio" class="block-list-level-input" value="30" name="Scallop Front">
-                                            <span class="val-text">No, I don't</span>
+                                            <span class="val-text">No, I don't needed</span>
                                             <span class="price red" data-price="0"></span>
                                         </label>
                                     </li>
