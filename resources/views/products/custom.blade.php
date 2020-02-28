@@ -117,7 +117,7 @@
                     <ul>
                         <li class="top-level">
                             <h6 class="block-title required">
-                            <span class="red iconfont"></span>                                       
+                            <span class="red iconfont"></span>
                                 <span class="select-title" data-type="SERVICE" title="Production Time">Production Time</span>
                                 <span class="selected-option" title="Rush service 4-5 weeks" data-id="90"></span>
                                 <span class="opener iconfont"></span>
@@ -148,7 +148,7 @@
                         </li>
                         <li class="top-level">    
                             <h6 class="block-title required">
-                                <span class="red iconfont"></span>                                
+                                <span class="red iconfont"></span>
                                 <span class="select-title" data-type="SERVICE" title="Hair Cut">Hair Cut</span>
                                 <span class="selected-option" title="Yes,have hair cut-in and styled" data-id="84"></span>
                                 <span class="opener iconfont"></span>
@@ -159,14 +159,14 @@
                                     <li class="block-list-level">
                                         <label>
                                             <input type="radio" class="block-list-level-input" value="84" name="Hair Cut">
-                                            <span class="val-text">Yes,have hair cut-in and styled</span>
+                                            <span class="val-text">Yes, have hair cut-in and styled</span>
                                             <span class="price red" data-price="20.00">+<i>USD</i><i class="price_num">20.00</i></span>
                                         </label>
                                     </li>
                                     <li class="block-list-level">
                                         <label>
                                             <input type="radio" class="block-list-level-input" value="83" name="Hair Cut">
-                                            <span class="val-text">No,I will have my hair cut-in and styled by my stylist</span>
+                                            <span class="val-text">No, I will have my hair cut-in and styled by my stylist</span>
                                             <span class="price red" data-price="0"></span>
                                         </label>
                                     </li>
@@ -240,56 +240,56 @@
                                     <li class="block-list-level">
                                         <label>
                                             <input type="radio" class="block-list-level-input" value="15" name="Base Design">
-                                            <span class="val-text">D7-5: French lace with 1’’ poly coating perimeter</span>
+                                            <span class="val-text">D7-5: French lace with 1" poly coating perimeter</span>
                                             <span class="price red" data-price="15.00">+<i>USD</i><i class="price_num">15.00</i></span>
                                         </label>
                                     </li>
                                     <li class="block-list-level">
                                         <label>
                                             <input type="radio" class="block-list-level-input" value="14" name="Base Design">
-                                            <span class="val-text">BX6: French lace,thread sewing,Zigzag PU side to side over the back</span>
+                                            <span class="val-text">BX6: French lace, thread sewing,Zigzag PU side to side over the back</span>
                                             <span class="price red" data-price="15.00">+<i>USD</i><i class="price_num">15.00</i></span>
                                         </label>
                                     </li>
                                     <li class="block-list-level">
                                         <label>
                                             <input type="radio" class="block-list-level-input" value="13" name="Base Design">
-                                            <span class="val-text">Ali2:Fine mono,with 1’’ poly coating perimeter, Zigzag thread sewing, 1/8’’ folded welded mono front</span>
+                                            <span class="val-text">Ali2: Fine mono, with 1" poly coating perimeter, Zigzag thread sewing, 1/8" folded welded mono front</span>
                                             <span class="price red" data-price="0"></span>
                                         </label>
                                     </li>
                                     <li class="block-list-level">
                                         <label>
                                             <input type="radio" class="block-list-level-input" value="12" name="Base Design">
-                                            <span class="val-text">OCT: French lace,with poly coating around sides and back</span>
+                                            <span class="val-text">OCT: French lace, with poly coating around sides and back</span>
                                             <span class="price red" data-price="15.00">+<i>USD</i><i class="price_num">15.00</i></span>
                                         </label>
                                     </li>
                                     <li class="block-list-level">
                                         <label>
                                             <input type="radio" class="block-list-level-input" value="11" name="Base Design">
-                                            <span class="val-text">D7-3: Fine mono,with 1’’ poly coating perimeter</span>
+                                            <span class="val-text">D7-3: Fine mono, with 1" poly coating perimeter</span>
                                             <span class="price red" data-price="0"></span>
                                         </label>
                                     </li>
                                     <li class="block-list-level">
                                         <label>
                                             <input type="radio" class="block-list-level-input" value="10" name="Base Design">
-                                            <span class="val-text">BX2: French lace,with 1’’ see-through poly around sides and back</span>
+                                            <span class="val-text">BX2: French lace, with 1" see-through poly around sides and back</span>
                                             <span class="price red" data-price="15.00">+<i>USD</i><i class="price_num">15.00</i></span>
                                         </label>
                                     </li>
                                     <li class="block-list-level">
                                         <label>
                                             <input type="radio" class="block-list-level-input" value="9" name="Base Design">
-                                            <span class="val-text">P1-3-5: Fine mono,with 1’’ poly coating perimeter,1/2’’ welded mono as the front</span>
+                                            <span class="val-text">P1-3-5: Fine mono, with 1" poly coating perimeter, 1/2" welded mono as the front</span>
                                             <span class="price red" data-price="0"></span>
                                         </label>
                                     </li>
                                     <li class="block-list-level">
                                         <label>
                                             <input type="radio" class="block-list-level-input" value="8" name="Base Design">
-                                            <span class="val-text">OSCAR:Fine mono, with 1.5’’ clear poly in front, poly coating at the sides and back. </span>
+                                            <span class="val-text">OSCAR: Fine mono, with 1.5" clear poly in front, poly coating at the sides and back. </span>
                                             <span class="price red" data-price="0"></span>
                                         </label>
                                     </li>
@@ -310,7 +310,7 @@
                                     <li class="block-list-level">
                                         <label>
                                             <input type="radio" class="block-list-level-input" value="5" name="Base Design">
-                                            <span class="val-text">Australia: French lace,with see-through poly all around</span>
+                                            <span class="val-text">Australia: French lace, with see-through poly all around</span>
                                             <span class="price red" data-price="15.00">+<i>USD</i><i class="price_num">15.00</i></span>
                                         </label>
                                     </li>
@@ -331,42 +331,42 @@
                                     <li class="block-list-level">
                                         <label>
                                             <input type="radio" class="block-list-level-input" value="5" name="Base Design">
-                                            <span class="val-text">FPM: Fine mono, with see-through poly perimeter,2’’ lace front,Cut away sizes</span>
+                                            <span class="val-text">FPM: Fine mono, with see-through poly perimeter, 2" lace front, cut away sizes</span>
                                             <span class="price red" data-price="0"></span>
                                         </label>
                                     </li>
                                     <li class="block-list-level">
                                         <label>
                                             <input type="radio" class="block-list-level-input" value="5" name="Base Design">
-                                            <span class="val-text">Q6: French lace, 2’’ scallope poly coating around the sides and back</span>
+                                            <span class="val-text">Q6: French lace, 2" scallop poly coating around the sides and back</span>
                                             <span class="price red" data-price="15.00">+<i>USD</i><i class="price_num">15.00</i></span>
                                         </label>
                                     </li>
                                     <li class="block-list-level">
                                         <label>
                                             <input type="radio" class="block-list-level-input" value="5" name="Base Design">
-                                            <span class="val-text">MXG: Half front base is French lace front,half back is See-through poly thin skin/span>
+                                            <span class="val-text">MXG: Half front base is French lace front, half back is see-through poly thin skin</span>
                                             <span class="price red" data-price="15.00">+<i>USD</i><i class="price_num">15.00</i></span>
                                         </label>
                                     </li>
                                     <li class="block-list-level">
                                         <label>
                                             <input type="radio" class="block-list-level-input" value="5" name="Base Design">
-                                            <span class="val-text">BIO: Thin skin,with French lace front</span>
+                                            <span class="val-text">BIO: Thin skin, with French lace front</span>
                                             <span class="price red" data-price="10.00">+<i>USD</i><i class="price_num">10.00</i></span>
                                         </label>
                                     </li>
                                     <li class="block-list-level">
                                         <label>
                                             <input type="radio" class="block-list-level-input" value="5" name="Base Design">
-                                            <span class="val-text">Super Thin Skin V-Loop: Thin Skin,V-Loop</span>
+                                            <span class="val-text">Super Thin Skin V-Loop: Thin skin, V-Loop</span>
                                             <span class="price red" data-price="15.00">+<i>USD</i><i class="price_num">15.00</i></span>
                                         </label>
                                     </li>
                                     <li class="block-list-level">
                                         <label>
                                             <input type="radio" class="block-list-level-input" value="5" name="Base Design">
-                                            <span class="val-text">PAPY: Thin skin, 0.12mm-0.14mm,ventilation</span>
+                                            <span class="val-text">PAPY: Thin skin, 0.12mm-0.14mm, ventilation</span>
                                             <span class="price red" data-price="0"></span>
                                         </label>
                                     </li>
@@ -475,7 +475,7 @@
                                     <li class="block-list-level">
                                         <label>
                                             <input type="radio" class="block-list-level-input" value="30" name="Scallop Front">
-                                            <span class="val-text">No, I don't needed</span>
+                                            <span class="val-text">No, I don't need it</span>
                                             <span class="price red" data-price="0"></span>
                                         </label>
                                     </li>
@@ -498,7 +498,7 @@
                                     <li class="block-list-level">
                                         <label>
                                             <input type="radio" class="block-list-level-input" value="23" name="Front Contour">
-                                            <span class="val-text">C(nearly straight shape)</span>
+                                            <span class="val-text">C (nearly straight shape)</span>
                                             <span class="price red" data-price="0"></span>
                                         </label>
                                     </li>
@@ -2452,14 +2452,14 @@
                                     <li class="block-list-level">
                                         <label>
                                             <input type="radio" class="block-list-level-input" value="129" name="Under Knotting">
-                                            <span class="val-text">Yes,2 lines in front</span>
+                                            <span class="val-text">Yes, 2 lines in front</span>
                                             <span class="price red" data-price="0"></span>
                                         </label>
                                     </li>
                                     <li class="block-list-level">
                                         <label>
                                             <input type="radio" class="block-list-level-input" value="130" name="Under Knotting">
-                                            <span class="val-text">Yes,1 line all around</span>
+                                            <span class="val-text">Yes, 1 line all around</span>
                                             <span class="price red" data-price="0"></span>
                                         </label>
                                     </li>
