@@ -454,6 +454,7 @@ class OrdersController extends Controller
     public function prePayment(PostOrderRequest $request)
     {
         $user = $request->user();
+        $email = false;
         $saved_fee = 0;
         $total_fee = 0;
         $total_amount = 0;
@@ -466,6 +467,7 @@ class OrdersController extends Controller
 
         $address = false;
         if ($user) {
+            $email = $user->email;
             $addresses = $user->addresses()->latest('last_used_at')->latest('updated_at')->latest()->get();
             if ($addresses->isNotEmpty()) {
                 if ($addresses->where('is_default', 1)->isNotEmpty()) {
@@ -802,6 +804,7 @@ class OrdersController extends Controller
         $available_coupons = $available_coupons->sortByDesc('saved_fee');
 
         return view('orders.pre_payment', [
+            'email' => $email,
             'items' => $items,
             'address' => $address,
             'total_amount' => $total_amount,

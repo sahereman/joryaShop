@@ -300,12 +300,21 @@
                             <p class="inputBox">
                                 <label><input type="radio" name="emailChoose" value="0"><span>No, Thank you</span></label>
                             </p>
-                            <p class="inputBox">
-                                <label><input type="radio" name="emailChoose" value="1"><span>Yes, I do</span></label>
-                            </p>
-                            <p class="dis_n email-int">
-                                <input type="email" class="order-email-num" placeholder="Please enter the email address">
-                            </p>
+                            @if($email)
+                                <p class="inputBox">
+                                    <label><input type="radio" name="emailChoose" value="1" checked><span>Yes, I do</span></label>
+                                </p>
+                                <p class="dis_n email-int">
+                                    <input type="email" class="order-email-num" placeholder="Please enter the email address" value="{{ $email }}">
+                                </p>
+                            @else
+                                <p class="inputBox">
+                                    <label><input type="radio" name="emailChoose" value="1"><span>Yes, I do</span></label>
+                                </p>
+                                <p class="dis_n email-int">
+                                    <input type="email" class="order-email-num" placeholder="Please enter the email address">
+                                </p>
+                            @endif
                         </div>
                     </div>
                     {{-- 费用 --}}
