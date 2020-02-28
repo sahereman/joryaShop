@@ -46,8 +46,8 @@
                                             href="{{ $product->photo_urls[0] }}"
                                             title="">Zoom</a>
                                     </div>
-                                    <div id="slider1" class="dis_ni">
-                                        <div class="thumbelina-but horiz left">&#706;</div>
+                                    <div id="slider1" class="">
+                                        <div class="thumbelina-but horiz left dis_ni">&#8743;</div>
                                         <ul>
                                             @foreach($product->photo_urls as $key => $photo_url)
                                                 <li>
@@ -68,7 +68,7 @@
                                                 </a>
                                             </li>
                                         </ul>
-                                        <div class="thumbelina-but horiz right">&#707;</div>
+                                        <div class="thumbelina-but horiz right dis_ni">&#8744;</div>
                                     </div>
                                 </div>
                             @endif

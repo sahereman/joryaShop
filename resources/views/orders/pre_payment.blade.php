@@ -304,7 +304,7 @@
                                 <p class="inputBox">
                                     <label><input type="radio" name="emailChoose" value="1" checked><span>Yes, I do</span></label>
                                 </p>
-                                <p class="dis_n email-int">
+                                <p class="email-int">
                                     <input type="email" class="order-email-num" placeholder="Please enter the email address" value="{{ $email }}">
                                 </p>
                             @else
