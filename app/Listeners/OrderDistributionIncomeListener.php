@@ -33,7 +33,7 @@ class OrderDistributionIncomeListener
         $user = $order->user;
         $levels = DistributionLevel::orderBy('level', 'asc')->get();
 
-        if ($user) {
+        if ($user instanceof User) {
             $levels->each(function ($item) use ($order, $user) {
                 $income_user = null;
 

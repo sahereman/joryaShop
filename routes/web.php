@@ -259,9 +259,9 @@ Route::get('payments/{payment}/alipay/return', 'PaymentsController@alipayReturn'
 Route::get('payments/{payment}/success', 'PaymentsController@success')->name('payments.success'); // 通用 - 支付成功页面 [Wechat & Paypal]
 
 /*支付通知 [notify_url]*/
-Route::post('payments/{order}/alipay/notify', 'PaymentsController@alipayNotify')->name('payments.alipay.notify'); // Alipay 支付成功通知 [notify_url]
-Route::post('payments/{order}/wechat/notify', 'PaymentsController@wechatNotify')->name('payments.wechat.notify'); // Wechat 支付成功通知 [notify_url]
-Route::post('payments/{order}/paypal/notify', 'PaymentsController@paypalNotify')->name('payments.paypal.notify'); // PayPal 支付成功通知 [notify_url]
+Route::post('payments/{payment}/alipay/notify', 'PaymentsController@alipayNotify')->name('payments.alipay.notify'); // Alipay 支付成功通知 [notify_url]
+Route::post('payments/{payment}/wechat/notify', 'PaymentsController@wechatNotify')->name('payments.wechat.notify'); // Wechat 支付成功通知 [notify_url]
+Route::post('payments/{payment}/paypal/notify', 'PaymentsController@paypalNotify')->name('payments.paypal.notify'); // PayPal 支付成功通知 [notify_url]
 
 /*手机端 - 微信浏览器内获取用户 open id*/
 Route::get('payments/get_wechat_open_id', 'PaymentsController@getWechatOpenId')->name('payments.get_wechat_open_id'); // get wechat open_id
