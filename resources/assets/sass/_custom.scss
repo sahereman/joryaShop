@@ -282,6 +282,9 @@
             &.hair-color-textarea {
               width: 100%;
             }
+            &.hair-colors-choose {
+              width: 100%;
+            }
             // 存在多级菜单
             &.multilevel-menu {
               width: 100%;
@@ -318,10 +321,12 @@
               justify-content: flex-start;
               li {
                 // margin: auto;
-                width: 25%;
+                // width: 25%;
+                width: 16%;
+
                 img {
-                  width: 46px;
-                  height: 46px;
+                  width: 62px;
+                  height: 62px;
                   border: 1px solid transparent;
                 }
               }
