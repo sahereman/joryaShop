@@ -1166,6 +1166,7 @@
 // OUR PRICES
 .our-prices {
   padding: 80px 0;
+  padding-bottom: 20px;
   width: 100%;
   background: #f5f5f5;
   @media only screen and (max-width: 750px){
@@ -1246,6 +1247,24 @@
           border-color: #BF2A24;
         }
       }
+    }
+  }
+}
+// 合作伙伴图片区
+.partner-logo {
+  padding: 15px 0;
+  display: flex;
+  width: 100%;
+  background: #f5f5f5;
+  img {
+    margin: auto;
+    width: 140px;
+    height: 45px;
+    &:last-of-type {
+      height: 32px;
+    }
+    @media only screen and (max-width: 750px){
+      width: 30%;
     }
   }
 }
