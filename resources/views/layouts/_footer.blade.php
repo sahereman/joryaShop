@@ -1,6 +1,27 @@
 <footer class="footer">
     {{-- footer上部分 客服相关--}}
-    <div class="footer-top">
+    {{-- 合作logo --}}
+    <div class="partner-logo">
+        <div class="logo-img-words">
+            <a href="https://www.ebay.com/" target="_blank">
+                <img src="{{ asset("img/ebay.png") }}" alt="lyricalhair">
+                <span class="part-title">eBay</span>
+            </a>
+        </div>
+        <div class="logo-img-words">
+            <a href="https://www.amazon.com/s?k=LHC+HAIR&ref=bl_dp_s_web_0" target="_blank">
+                <img src="{{ asset("img/amazon.png") }}" alt="lyricalhair">
+                <span class="part-title">Amazon</span>
+            </a>
+        </div>
+        <div class="logo-img-words">
+            <a href="https://www.aliexpress.com/" target="_blank">
+                <img src="{{ asset("img/aliexpress.png") }}" alt="lyricalhair">
+                <span class="part-title">AliExpress</span>
+            </a>
+        </div>
+    </div>
+    <div class="footer-top dis_ni">
         <ul class="main-content">
             <li>
                 <a href="skype:live:info_1104672?call"></a>
@@ -157,26 +178,35 @@
                     <div class="footer-share-items">
                         <div class="footer-share-item">
                             <div class="social-share" data-initialized="true" data-url="{{ config('app.url') }}"
-                                    data-title="Lyrical莱瑞美业">
+                                    data-title="Lyricalhair">
                                 <a href="javascript:void(0);" class="social-share-icon icon-facebook"></a>
                             </div>
                         </div>
                         <div class="footer-share-item">
                             <div class="social-share" data-initialized="true" data-url="{{ config('app.url') }}"
-                                    data-title="Lyrical莱瑞美业">
+                                    data-title="Lyricalhair">
                                 <a href="javascript:void(0);" class="social-share-icon icon-linkedin"></a>
                             </div>
                         </div>
                         <div class="footer-share-item">
                             <div class="social-share" data-initialized="true" data-url="{{ config('app.url') }}"
-                                    data-title="Lyrical莱瑞美业">
+                                    data-title="Lyricalhair">
                                 <a href="javascript:void(0);" class="social-share-icon icon-twitter"></a>
                             </div>
                         </div>
                         <div class="footer-share-item">
                             <div class="social-share" data-initialized="true" data-url="{{ config('app.url') }}"
-                                    data-title="Lyrical莱瑞美业">
+                                    data-title="Lyricalhair">
                                 <a href="javascript:void(0);" class="social-share-icon icon-google"></a>
+                            </div>
+                        </div>
+                        {{-- 邮件 --}}
+                        <div class="footer-share-item Start-subscribe">
+                            <div class="social-share" data-initialized="true" data-url="{{ config('app.url') }}"
+                                    data-title="Lyricalhair">
+                                <a href="javascript:void(0);" class="social-share-icon icon-email">
+                                    <img src="{{ asset("img/footer/email.png") }}" alt="lyricalhair">
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -206,6 +236,38 @@
             <a href="skype:live:info_1104672?call">
                 <img src="{{ asset("img/footer/skype-fill.png") }}" alt="lyricalhair">
             </a>
+        </li>
+        <li class="share-right">
+            <div class="social-share" data-initialized="true" data-url="{{ config('app.url') }}"
+                    data-title="Lyricalhair">
+                <a href="javascript:void(0);" class="social-share-icon icon-facebook"></a>
+            </div>
+        </li>
+        <li class="share-right">
+            <div class="social-share" data-initialized="true" data-url="{{ config('app.url') }}"
+                    data-title="Lyricalhair">
+                <a href="javascript:void(0);" class="social-share-icon icon-linkedin"></a>
+            </div>
+        </li>
+        <li class="share-right">
+            <div class="social-share" data-initialized="true" data-url="{{ config('app.url') }}"
+                    data-title="Lyricalhair">
+                <a href="javascript:void(0);" class="social-share-icon icon-twitter"></a>
+            </div>
+        </li>
+        <li class="share-right">
+            <div class="social-share" data-initialized="true" data-url="{{ config('app.url') }}"
+                    data-title="Lyricalhair">
+                <a href="javascript:void(0);" class="social-share-icon icon-google"></a>
+            </div>
+        </li>
+        <li class="share-right Start-subscribe">
+            <div class="social-share" data-initialized="true" data-url="{{ config('app.url') }}"
+                    data-title="Lyricalhair">
+                <a href="javascript:void(0);" class="social-share-icon icon-email">
+                    <img src="{{ asset("img/footer/email.png") }}" alt="lyricalhair">
+                </a>
+            </div>
         </li>
         <li class="backtop" title="@lang('app.Click to return to the top')">
             <img src="{{ asset('img/footer/backtop.png') }}" alt="lyricalhair">

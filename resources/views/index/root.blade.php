@@ -460,12 +460,6 @@
             </ul>
         </div>
     </div>
-    {{-- 合作logo --}}
-    <div class="partner-logo">
-        <img src="{{ asset("img/ebay.png") }}" alt="lyricalhair">
-        <img src="{{ asset("img/amazon.png") }}" alt="lyricalhair">
-        <img src="{{ asset("img/aliexpress.png") }}" alt="lyricalhair">
-    </div>
 @endsection
 
 @section('scriptsAfterJs')

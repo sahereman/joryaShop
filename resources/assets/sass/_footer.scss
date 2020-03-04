@@ -358,6 +358,10 @@ footer {
               &:hover {
                 background: #BF2A24 !important;
               }
+              img {
+                width: 25px;
+                height: 25px;
+              }
             }
           }
         }
@@ -373,6 +377,39 @@ footer {
       }
     }
   }
+  // 合作伙伴图片区
+.partner-logo {
+  padding: 15px 0;
+  display: flex;
+  width: 100%;
+  background: #fff;
+  div {
+    margin: auto;
+    a {
+      display: flex;
+      flex-direction: column;
+      text-align: center;
+      span {
+        margin: auto;
+        // margin-bottom: 21px;
+        font-size: 16px;
+        color: #000;
+      }
+    }
+  }
+  img {
+    margin: auto;
+    margin-bottom: 10px;
+    width: 140px;
+    height: 45px;
+    &:last-of-type {
+      height: 32px;
+    }
+    @media only screen and (max-width: 750px){
+      width: 30%;
+    }
+  }
+}
 }
 // 右侧返回顶部
 //右侧导航
@@ -391,7 +428,7 @@ footer {
   }
   ul {
       margin: auto 0;
-      height: 104px;
+      // height: 104px;
       li {
         position: relative;
         margin-bottom: 2px;
@@ -437,6 +474,27 @@ footer {
             font-size: 12px;
             color: #999;
             text-align: center;
+        }
+      }
+      .social-share {
+        .social-share-icon {
+          width: 36px;
+          height: 36px;
+          line-height: 36px;
+          color: transparent !important;
+          border-color: transparent !important;
+          background: transparent !important;
+          transition: background 0.3s ease-out 0s;
+          &:before {
+            color: #fff !important;
+          }
+          &:hover {
+            background: transparent !important;
+          }
+          img {
+            width: 25px;
+            height: 25px;
+          }
         }
       }
   }

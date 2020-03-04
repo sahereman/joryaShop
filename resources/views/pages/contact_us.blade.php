@@ -56,47 +56,6 @@
             {{-- 模块二 --}}
             <div class="contact-information">
               <p class="contact-information-title"><span></span>Our contact information is as follows:</p>
-              <div class="lyrical-ch information-part">
-                <div class="information-part-name">LYRICALHAIR CHINA</div>
-                <div class="information-part-describe">
-                  <div class="local-info">
-                    <img src="{{ asset('img/articles/local-info.png') }}" alt="Lyricalhair">
-                  </div>
-                  <div>
-                    <p>Factory Add: Laixi Jianshan Industry Zone, Qingdao,China</p> 
-                    <p>Office Add: Apartment 1-2-201, NO. 9 Mai Dao Rd., Laoshan District, Qingdao, China, Zipcode: 266000</p>
-                  </div>
-                </div>
-                <div class="mapinfo">
-                    <ul class="information-part-way">
-                      <li>
-                        <div class="icon-masks">
-                          <img src="{{ asset('img/articles/dubai-icon.png') }}" alt="Lyricalhair">
-                        </div>
-                        <span>Office phone:+86-532-85878587</span>
-                      </li>
-                      <li>
-                        <div class="icon-masks">
-                          <img src="{{ asset('img/articles/email-icon.png') }}" alt="Lyricalhair">
-                        </div>
-                        <span>Email: info@lyricalhair.com</span>
-                      </li>
-                      <li>
-                        <div class="icon-masks">
-                          <img src="{{ asset('img/articles/skype-icon.png') }}" alt="Lyricalhair">
-                        </div>
-                        <span>Skype: Lyrical Hair</span>
-                      </li>
-                      <li>
-                        <div class="icon-masks">
-                          <img src="{{ asset('img/articles/wechat-icon.png') }}" alt="Lyricalhair">
-                        </div>
-                        <span>WhatsApp: +86-18661937606</span>
-                      </li>
-                    </ul>
-                    <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d1612.6017091807532!2d120.4228308!3d36.0641422!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x359610d9dce3cb4b%3A0x264f0b1586ab527a!2s9%20Maidao%20Rd%2C%20Laoshan%20Qu%2C%20Qingdao%20Shi%2C%20Shandong%20Sheng%2C%20China%2C%20266031!5e0!3m2!1sen!2shk!4v1573024999154!5m2!1sen!2shk" width="50%" height="450" frameborder="0" style="border:0;" allowfullscreen=""></iframe>
-                </div>
-              </div>
               <div class="lyrical-usa information-part">
                 <div class="information-part-name">LYRICALHAIR USA</div>
                 <div class="information-part-describe">
@@ -152,6 +111,47 @@
                     </li>
                   </ul>
                   <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d379.2461828320758!2d55.3182986215818!3d25.269977510519933!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e5f5cca0ba0500f%3A0x546c6920197a8ccc!2sLyrical%20Human%20Hair%20Wefts%20and%20Toupee!5e0!3m2!1sen!2shk!4v1573026167990!5m2!1sen!2shk" width="50%" height="450" frameborder="0" style="border:0;" allowfullscreen=""></iframe>
+                </div>
+              </div>
+              <div class="lyrical-ch information-part">
+                <div class="information-part-name">LYRICALHAIR CHINA</div>
+                <div class="information-part-describe">
+                  <div class="local-info">
+                    <img src="{{ asset('img/articles/local-info.png') }}" alt="Lyricalhair">
+                  </div>
+                  <div>
+                    <p>Factory Add: Laixi Jianshan Industry Zone, Qingdao,China</p> 
+                    <p>Office Add: Apartment 1-2-201, NO. 9 Mai Dao Rd., Laoshan District, Qingdao, China, Zipcode: 266000</p>
+                  </div>
+                </div>
+                <div class="mapinfo">
+                    <ul class="information-part-way">
+                      <li>
+                        <div class="icon-masks">
+                          <img src="{{ asset('img/articles/dubai-icon.png') }}" alt="Lyricalhair">
+                        </div>
+                        <span>Office phone:+86-532-85878587</span>
+                      </li>
+                      <li>
+                        <div class="icon-masks">
+                          <img src="{{ asset('img/articles/email-icon.png') }}" alt="Lyricalhair">
+                        </div>
+                        <span>Email: info@lyricalhair.com</span>
+                      </li>
+                      <li>
+                        <div class="icon-masks">
+                          <img src="{{ asset('img/articles/skype-icon.png') }}" alt="Lyricalhair">
+                        </div>
+                        <span>Skype: Lyrical Hair</span>
+                      </li>
+                      <li>
+                        <div class="icon-masks">
+                          <img src="{{ asset('img/articles/wechat-icon.png') }}" alt="Lyricalhair">
+                        </div>
+                        <span>WhatsApp: +86-18661937606</span>
+                      </li>
+                    </ul>
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d1612.6017091807532!2d120.4228308!3d36.0641422!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x359610d9dce3cb4b%3A0x264f0b1586ab527a!2s9%20Maidao%20Rd%2C%20Laoshan%20Qu%2C%20Qingdao%20Shi%2C%20Shandong%20Sheng%2C%20China%2C%20266031!5e0!3m2!1sen!2shk!4v1573024999154!5m2!1sen!2shk" width="50%" height="450" frameborder="0" style="border:0;" allowfullscreen=""></iframe>
                 </div>
               </div>
             </div>
