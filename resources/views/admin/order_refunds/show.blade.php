@@ -59,7 +59,11 @@
 
             <tr>
                 <td>收货地址</td>
-                <td colspan="4">地址: {{ $order->user_info['address'] }} 联系人: {{ $order->user_info['name'] }} 联系方式: {{ $order->user_info['phone'] }}</td>
+                <td colspan="4">
+                    Addr: {{ $order->user_info['address'] }} <br>
+                    Buyer: {{ $order->user_info['name'] }} <br>
+                    Phone number: {{ $order->user_info['phone'] }}
+                </td>
             </tr>
             <tr>
                 <td rowspan="{{ $order->items->count() + 1 }}">商品列表</td>
@@ -186,9 +190,9 @@
                     <tr>
                         <td>卖家收货地址：</td>
                         <td colspan="3">
-                            联系人: {{$refund->seller_info['name']}}
-                            联系方式: {{$refund->seller_info['phone']}}
-                            收货地址: {{$refund->seller_info['address']}}
+                            Addr: {{$refund->seller_info['address']}} <br>
+                            Buyer: {{$refund->seller_info['name']}} <br>
+                            Phone number: {{$refund->seller_info['phone']}}
                         </td>
                     </tr>
                 @endif

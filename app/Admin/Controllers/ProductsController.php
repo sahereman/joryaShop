@@ -514,7 +514,8 @@ class ProductsController extends Controller
 
         // $form->text('description_zh', '描述(中文)')->rules('required');
         $form->hidden('description_zh', '描述(中文)')->default('lyrical');
-        $form->textarea('description_en', '描述')->rules('required');
+        // $form->textarea('description_en', '描述')->rules('required');
+        $form->editor('description_en', '描述')->rules('required');
         $form->multipleImage('photos', '相册')
             ->deletable(true)
             ->uniqueName()->removable()

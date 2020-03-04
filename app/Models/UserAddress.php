@@ -57,11 +57,11 @@ class UserAddress extends Model
         // return "{$this->attributes['address']}, {$this->attributes['city']}, {$this->attributes['province']}, {$this->attributes['country']}";
         // full_address in chinese style
         // return "{$this->attributes['country']} {$this->attributes['province']} {$this->attributes['city']} {$this->attributes['address']}";
-        $full_address = $this->attributes['zip'] ? ' (Zip Code: ' . $this->attributes['zip'] . ')' : '';
-        $full_address = $this->attributes['address'] . $full_address;
-        $full_address = ($this->attributes['city'] ? $this->attributes['city'] . ', ' : '') . $full_address;
-        $full_address = ($this->attributes['province'] ? $this->attributes['province'] . ', ' : '') . $full_address;
+        $full_address = $this->attributes['zip'] ? ' Zip Code: ' . $this->attributes['zip'] : '';
         $full_address = ($this->attributes['country'] ? $this->attributes['country'] . ', ' : '') . $full_address;
+        $full_address = ($this->attributes['province'] ? $this->attributes['province'] . ', ' : '') . $full_address;
+        $full_address = ($this->attributes['city'] ? $this->attributes['city'] . ', ' : '') . $full_address;
+        $full_address = $this->attributes['address'] . $full_address;
         return $full_address;
     }
 

@@ -59,7 +59,10 @@
 
             <tr>
                 <td>收货地址</td>
-                <td colspan="4">地址: {{ $order->user_info['address'] }} 联系人: {{ $order->user_info['name'] }} 联系方式: {{ $order->user_info['phone'] }}</td>
+                <td colspan="4">
+                    Addr: {{ $order->user_info['address'] }} <br>
+                    Buyer: {{ $order->user_info['name'] }} <br>
+                    Phone number: {{ $order->user_info['phone'] }}</td>
             </tr>
             <tr>
                 <td rowspan="{{ $order->items->count() + 1 }}">商品列表</td>
