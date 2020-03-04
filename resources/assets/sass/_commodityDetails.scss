@@ -495,9 +495,10 @@
         }
         p {
           font-size: 1rem;
-          margin-bottom: 25px;
-          height: 35px;
+          // margin-bottom: 25px;
+          // height: 35px;
           overflow-y: hidden;
+          color: #8d8d8d;
           &.active {
             height: auto;
           }
