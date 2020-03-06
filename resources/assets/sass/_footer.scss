@@ -405,6 +405,9 @@ footer {
     &:last-of-type {
       height: 32px;
     }
+    &:first-of-type {
+      height: 50px;
+    }
     @media only screen and (max-width: 750px){
       width: 30%;
     }

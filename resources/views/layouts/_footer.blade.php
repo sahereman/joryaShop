@@ -3,15 +3,15 @@
     {{-- 合作logo --}}
     <div class="partner-logo">
         <div class="logo-img-words">
-            <a href="https://www.ebay.com/" target="_blank">
-                <img src="{{ asset("img/ebay.png") }}" alt="lyricalhair">
-                <span class="part-title">eBay</span>
-            </a>
-        </div>
-        <div class="logo-img-words">
             <a href="https://www.amazon.com/s?k=LHC+HAIR&ref=bl_dp_s_web_0" target="_blank">
                 <img src="{{ asset("img/amazon.png") }}" alt="lyricalhair">
                 <span class="part-title">Amazon</span>
+            </a>
+        </div>
+        <div class="logo-img-words">
+            <a href="https://www.ebay.com/" target="_blank">
+                <img src="{{ asset("img/ebay.png") }}" alt="lyricalhair">
+                <span class="part-title">eBay</span>
             </a>
         </div>
         <div class="logo-img-words">
