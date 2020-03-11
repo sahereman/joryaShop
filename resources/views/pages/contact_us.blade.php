@@ -47,7 +47,7 @@
                 <img src="{{ asset('img/articles/contact_us.png') }}" alt="Lyricalhair">
               </div>
               <div class="aboutus-part1-right">
-                <p><span>Welcome</span></p>
+                <p><span>Welcome !</span></p>
                 <p>Lyricalhair has a dedicated online customer service team, so we guarantee a fast and accurate response to your inquiry.</p>
                 <p>Lyricalhair is based in China with branches in the US and Dubai.Our contact hours are from Monday to Friday from 8:30 am to 5:30 pm. You will receive an immediate response at this local time.</p>
                 <p>During weekends and public holidays, email support continues, and we endeavor to answer all emails within 12 hours.</p>
