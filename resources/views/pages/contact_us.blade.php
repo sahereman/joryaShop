@@ -119,7 +119,7 @@
                       <div class="icon-masks">
                         <img src="{{ asset('img/articles/phone-icon.png') }}" alt="Lyricalhair">
                       </div>
-                      <span>Cell phone: +00971566647987(Mars Lin)</span>
+                      <span>Cell phone: +971566647987(Mars Lin)</span>
                     </li>
                   </ul>
                   <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d379.2461828320758!2d55.3182986215818!3d25.269977510519933!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e5f5cca0ba0500f%3A0x546c6920197a8ccc!2sLyrical%20Human%20Hair%20Wefts%20and%20Toupee!5e0!3m2!1sen!2shk!4v1573026167990!5m2!1sen!2shk" width="50%" height="450" frameborder="0" style="border:0;" allowfullscreen=""></iframe>

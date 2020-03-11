@@ -396,15 +396,17 @@ footer {
         color: #000;
       }
     }
+    &:last-of-type {
+      img {
+        height: 32px !important;
+      }
+    }
   }
   img {
     margin: auto;
     margin-bottom: 10px;
     width: 140px;
     height: 45px;
-    &:last-of-type {
-      height: 32px;
-    }
     &:first-of-type {
       height: 50px;
     }

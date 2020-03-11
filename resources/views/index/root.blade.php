@@ -64,9 +64,9 @@
             </div>
             <div class="qualification">
                 <div class="youtube-video">
-                    <div class="video-title">
+                    {{-- <div class="video-title">
                         <span>Lyricalhair Video introduction</span>
-                    </div>
+                    </div> --}}
                     {{-- 油管播放器的页面嵌入，非API式的iframe嵌套 --}}
                     <div class="dis_n" id="youtubeVideoID" data-video-id="PblMmV3O74U">存放youtube视频id的位置</div>
                     <iframe id="player" type="text/html"

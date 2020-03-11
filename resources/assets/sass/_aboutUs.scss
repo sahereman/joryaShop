@@ -65,8 +65,10 @@
           color: #fff;
           text-align: center;
           line-height: 35px;
+          // line-height: 25px;
           font-weight: bold;
           font-size: 24px;
+          // font-size: 14px;
         }
         img {
           margin-bottom: 27px;
@@ -155,16 +157,19 @@
     .our-services {
       margin-bottom: 94px;
       .services-title {
-        margin-bottom: 43px;
+        // margin-bottom: 43px;
+        margin-bottom: 25px;
         span {
           display: inline-block;
           padding: 5px 10px;
           background-color: #bf2a24;
           color: #fff;
           text-align: center;
-          line-height: 35px;
+          // line-height: 35px;
+          line-height: 25px;
           font-weight: bold;
-          font-size: 24px;
+          // font-size: 24px;
+          font-size: 14px;
         }
       }
       .services-nvarchar {
@@ -203,16 +208,19 @@
     .our-mission {
       margin-bottom: 80px;
       .mission-title {
-        margin-bottom: 50px;
+        // margin-bottom: 50px;
+        margin-bottom: 20px;
         span {
           display: inline-block;
           padding: 5px 10px;
           background-color: #bf2a24;
           color: #fff;
           text-align: center;
-          line-height: 35px;
+          // line-height: 35px;
+          line-height: 25px;
           font-weight: bold;
-          font-size: 24px;
+          // font-size: 24px;
+          font-size: 14px;
         }
       }
       .mission-types {
@@ -370,28 +378,28 @@
           color: #444;
         }
       }
-      &::after {
-        content: '';
-        position: absolute;
-        background-color: #c92324;
-        margin: auto;
-        display: none;
-        left: 0;
-        right: 0;
-        width: 0;
-        height: 0;
-        bottom: -20px;
-        border: 10px solid #c92324;
-        border-left-color: #f5f5f5;
-        border-right-color: #f5f5f5;
-        border-bottom-color: #f5f5f5;
-        transition: all .3s;
-      }
+      // &::after {
+      //   content: '';
+      //   position: absolute;
+      //   background-color: #c92324;
+      //   margin: auto;
+      //   display: none;
+      //   left: 0;
+      //   right: 0;
+      //   width: 0;
+      //   height: 0;
+      //   bottom: -20px;
+      //   border: 10px solid #c92324;
+      //   border-left-color: #f5f5f5;
+      //   border-right-color: #f5f5f5;
+      //   border-bottom-color: #f5f5f5;
+      //   transition: all .3s;
+      // }
       &:hover {
-        background-color: #c92324;
-        &::after {
-          display: block;
-        }
+        // background-color: #c92324;
+        // &::after {
+        //   display: block;
+        // }
         img {
           &.normal-logo {
             display: none;
@@ -401,7 +409,7 @@
           }
         }
         .link-button {
-          background-color: transparent;
+          background-color: #c92324;
           color: #fff;
         }
       }
