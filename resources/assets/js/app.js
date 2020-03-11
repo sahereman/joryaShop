@@ -897,3 +897,11 @@ $(".mobile-dropdown-menu").on("click",function () {
        $(this).parents("li").find(".footer-block-content").slideDown();
    }
 });
+// 文章也触摸效果
+$(".article-navigation .navigation-type").mouseenter(function(){
+    $(".article-navigation").find(".active").addClass("showActive");
+    $(".article-navigation").find(".navigation-type").removeClass("active");
+}).mouseleave(function () {
+    $(".article-navigation").find(".showActive").addClass("active");
+    $(".article-navigation").find(".navigation-type").removeClass("showActive");
+})
