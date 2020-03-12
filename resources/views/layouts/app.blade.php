@@ -13,6 +13,16 @@
     <meta name="twitter:image" content="@yield('twitter:image', '')" />
     {{--CSRF Token--}}
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-160276182-1"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-160276182-1');
+    </script>
+
     <title>@yield('title', \App\Models\Config::config('title'))</title>
     {{-- <link rel="icon" href="{{ asset('img/favicon.jpg') }}" type="image/x-icon"/> --}}
     {{-- <link rel="shortcut icon" href="{{ asset('img/favicon.png') }}" type="image/x-icon"/> --}}
