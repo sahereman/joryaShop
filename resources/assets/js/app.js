@@ -218,6 +218,11 @@ $(function () {
     }, function () {
         $(".qr_info").stop(true, true).fadeOut();
     });
+    $(".show_qr1").hover(function () {
+        $(".qr_info1").stop(true, true).fadeIn();
+    }, function () {
+        $(".qr_info1").stop(true, true).fadeOut();
+    });
     $('#backtop,.backtop').click(function () {
         $("html, body").animate({
             scrollTop: 0,

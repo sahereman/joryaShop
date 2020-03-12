@@ -269,6 +269,15 @@
                 </a>
             </div>
         </li>
+        <li class="qr-code show_qr1">
+            <a>
+                <img class="wechat" src="{{ asset('img/footer/wechat.png') }}">
+            </a>
+            <div class="qr_info1">
+                <img src="{{ \App\Models\Config::config('mobile_website_qr_code') ? : config('app.url') . '/defaults/mobile_website_qr_code.png' }}">
+                <p>Mobile quick access</p>
+            </div>
+        </li>
         <li class="backtop" title="@lang('app.Click to return to the top')">
             <img src="{{ asset('img/footer/backtop.png') }}" alt="lyricalhair">
         </li>

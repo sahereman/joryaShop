@@ -41,7 +41,8 @@
                                 <div id="surround">
                                     <div class="big-img-box">
                                         <img class="cloudzoom" alt ="Cloud Zoom small image" id ="zoom1" src="{{ $product->photo_urls[0] }}"
-                                             data-cloudzoom='zoomSizeMode:"zoom",zoomPosition: 3,startMagnification: 2,disableZoom:true'>
+                                             data-cloudzoom='zoomSizeMode:"zoom",zoomPosition: 3,startMagnification: 2,disableZoom:false'> 
+                                             {{-- disableZoom:false  是否显示放大镜 --}}
                                         <a id="zoom-btn" class="lightbox-group  zoomColorBoxs zoom-btn-small"
                                             href="{{ $product->photo_urls[0] }}"
                                             title="">Zoom</a>
@@ -690,6 +691,10 @@
             maxWidth: '95%',
             maxHeight: '95%'
         });
+        // $("#zoom-btn").on("click",function(){
+        //     var newUrl = $("#zoom1").attr("src");
+        //     $("#zoom-btn").prop("href",newUrl);
+        // })
         // 简介查看更多
         $("#down-more").on("click", function () {
             var _taht = $(this),

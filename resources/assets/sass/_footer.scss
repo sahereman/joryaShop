@@ -447,7 +447,12 @@ footer {
           background: #BF2A24;
         }
       }
-      .qr_info {
+      .wechat {
+        width: 25px;
+        height: 25px;
+      }
+      .qr_info,
+      .qr_info1 {
         display: none;
         width: 160px;
         min-height: 150px;
