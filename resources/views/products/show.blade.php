@@ -150,7 +150,10 @@
                     {{-- 新版价格存放位置 --}}
                     <div class="product-price">
                         <p class="special-price">
-                            <span class="price" id="product-price-695"><i>{{ get_global_symbol() }} </i><span id="product-price">{{ get_current_price($product->price) }}</span></span>
+                            <span class="price" id="product-price-695">
+                                <i>{{ get_global_symbol() }} </i>
+                                <span id="product-price" data-origin-price='{{ get_current_price($product->price) }}'>{{ get_current_price($product->price) }}</span>
+                            </span>
                         </p>
                         <p class="old-price">
                             <span class="price" id="old-price-695"><i>{{ get_global_symbol() }} </i>{{ bcmul(get_current_price($product->price), 1.2, 2) }}</span>
@@ -242,7 +245,8 @@
                             @foreach($product->discounts as $discount)
                                 <li class="tier-price tier-0" data-product-num="{{ $discount->number }}">
                                     <p>Buy {{ $discount->number }}</p>
-                                    <p class="benefit"><span class="price">{{ get_global_symbol() . ' ' . get_current_price($discount->price) }}</span> /ea</p>
+                                    <p class="benefit">
+                                        <span class="price" data-price='{{ get_current_price($discount->price) }}'>{{ get_global_symbol() . ' ' . get_current_price($discount->price) }}</span> /ea</p>
                                     <span class="msrp-price-hide-message"></span>
                                 </li>
                             @endforeach
@@ -793,6 +797,27 @@
             // if (parseInt($("#pro_num").val()) < sku_stock) {
                 var num = parseInt($("#pro_num").val()) + 1;
                 $("#pro_num").val(num);
+                // 判断单价显示
+                if($(".tier-prices").find("li").length!=0){
+                var allProductNum = [];
+                $.each($(".tier-prices").find("li"),function(i,n){
+                    allProductNum.push($(n).attr("data-product-num"))
+                })
+                if($("#pro_num").val()< Number(allProductNum[0])) {
+                    // 如果小于最小的优惠数量价格不变
+                    $("#product-price").text($("#product-price").attr("data-origin-price"));
+                } else if($("#pro_num").val()>=Number(allProductNum[allProductNum.length-1])) {
+                    var new_price = $($(".tier-prices").find("li")[allProductNum.length-1]).find(".price").attr('data-price');
+                    $("#product-price").text(new_price);
+                } else {
+                    for(var i = 0; i<=allProductNum.length-1; i++) {
+                        if(Number(allProductNum[i])<=$("#pro_num").val() && $("#pro_num").val()<Number(allProductNum[i+1])) {
+                            var new_price = $($(".tier-prices").find("li")[i]).find(".price").attr('data-price');
+                            $("#product-price").text(new_price);
+                        }
+                    }
+                }
+            }
             // } else {
             //     layer.msg("@lang('order.Cannot add more quantities')");
             // }
@@ -805,9 +830,55 @@
                     $(this).addClass('no_allow');
                 } else {
                     $("#pro_num").val(num);
+                     // 判断单价显示
+                    if($(".tier-prices").find("li").length!=0){
+                        var allProductNum = [];
+                        $.each($(".tier-prices").find("li"),function(i,n){
+                            allProductNum.push($(n).attr("data-product-num"))
+                        })
+                        if($("#pro_num").val()< Number(allProductNum[0])) {
+                            // 如果小于最小的优惠数量价格不变
+                            $("#product-price").text($("#product-price").attr("data-origin-price"));
+                        } else if($("#pro_num").val()>=Number(allProductNum[allProductNum.length-1])) {
+                            var new_price = $($(".tier-prices").find("li")[allProductNum.length-1]).find(".price").attr('data-price');
+                            $("#product-price").text(new_price);
+                        } else {
+                            for(var i = 0; i<=allProductNum.length-1; i++) {
+                                if(Number(allProductNum[i])<=$("#pro_num").val() && $("#pro_num").val()<Number(allProductNum[i+1])) {
+                                    var new_price = $($(".tier-prices").find("li")[i]).find(".price").attr('data-price');
+                                    $("#product-price").text(new_price);
+                                }
+                            }
+                        }
+                    }
                 }
             }
         });
+        // 商品数量变化判断单价展示是否需要根据优惠价格进行调整
+        $("#pro_num").on("change",function(){
+            if($(".tier-prices").find("li").length!=0){
+                var allProductNum = [];
+                $.each($(".tier-prices").find("li"),function(i,n){
+                    allProductNum.push($(n).attr("data-product-num"))
+                })
+                if($("#pro_num").val()< Number(allProductNum[0])) {
+                    // 如果小于最小的优惠数量价格不变
+                    $("#product-price").text($("#product-price").attr("data-origin-price"));
+                } else if($("#pro_num").val()>=Number(allProductNum[allProductNum.length-1])) {
+                    var new_price = $($(".tier-prices").find("li")[allProductNum.length-1]).find(".price").attr('data-price');
+                    $("#product-price").text(new_price);
+                } else {
+                    for(var i = 0; i<=allProductNum.length-1; i++) {
+                        if(Number(allProductNum[i])<=$("#pro_num").val() && $("#pro_num").val()<Number(allProductNum[i+1])) {
+                            var new_price = $($(".tier-prices").find("li")[i]).find(".price").attr('data-price');
+                            $("#product-price").text(new_price);
+                        }
+                    }
+                }
+            }else {
+                // 不存在优惠价格,不做处理
+            }
+        })
         // 点击添加收藏
         $(".add_favourites").on("click", function () {
             var clickDom = $(this), data, url;
@@ -1561,11 +1632,13 @@
             if($(this).hasClass("active")){
                 $(".tier-prices").find("li").removeClass("active");
                 $("#pro_num").val(1);
+                $("#product-price").text($("#product-price").attr("data-origin-price"));
             }else {
                 $(".tier-prices").find("li").removeClass("active");
                 $(this).addClass("active");
                 var tierNum = $(this).attr("data-product-num");
                 $("#pro_num").val(tierNum);
+                $("#product-price").text($(this).find(".price").attr("data-price"));
             }
         });
         // 价格合计函数 (修复商品和复制商品使用)

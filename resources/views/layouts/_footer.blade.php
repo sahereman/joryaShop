@@ -237,6 +237,11 @@
                 <img src="{{ asset("img/footer/skype-fill.png") }}" alt="lyricalhair">
             </a>
         </li>
+        <li class="" title="facetime">
+            <a href="facetime://callingallgeeks@gmail.com">
+                <img class="facetime" src="{{ asset("img/footer/facetime.png") }}" alt="lyricalhair">
+            </a>
+        </li>
         <li class="share-right">
             <div class="social-share" data-initialized="true" data-url="{{ config('app.url') }}"
                     data-title="Lyricalhair">
