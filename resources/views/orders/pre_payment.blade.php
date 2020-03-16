@@ -47,7 +47,7 @@
                                         <div class="product-Spec">
                                             <div class="amount-price">
                                                 <span>{{ get_global_symbol() }}</span>
-                                                <span class="single-price">{{ $item['sku']->price }}</span>
+                                                <span class="single-price">{{ $item['price'] }}</span>
                                             </div>
                                         </div>
                                         {{-- 商品数量 --}}

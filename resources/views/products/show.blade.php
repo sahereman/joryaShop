@@ -53,7 +53,7 @@
                                             @foreach($product->photo_urls as $key => $photo_url)
                                                 <li>
                                                     @if ($key == 0)
-                                                        <a class="firstzoomColorBoxs" href="{{ $photo_url }}">
+                                                        <a class="firstzoomColorBoxs zoomColorBoxs" href="{{ $photo_url }}">
                                                     @else
                                                         <a class="zoomColorBoxs" href="{{ $photo_url }}">
                                                     @endif
@@ -255,7 +255,7 @@
                             <div class="quantity_control">
                                 <span class="reduce no_allow"><i>-</i></span>
                                 <input type="number" name="number" id="pro_num" value="1" min="1" max="99">
-                                <span class="add"><i>+</i></span>
+                                <span class="add"><i style="font-size: 16px;">+</i></span>
                             </div>
                             {{-- 多件优惠 --}}
                             @if($product->discounts->isNotEmpty())
@@ -691,10 +691,6 @@
             maxWidth: '95%',
             maxHeight: '95%'
         });
-        // $("#zoom-btn").on("click",function(){
-        //     var newUrl = $("#zoom1").attr("src");
-        //     $("#zoom-btn").prop("href",newUrl);
-        // })
         // 简介查看更多
         $("#down-more").on("click", function () {
             var _taht = $(this),
